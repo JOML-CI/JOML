@@ -270,6 +270,17 @@ public interface Vector2dc {
     Vector2d normalize(Vector2d dest);
 
     /**
+     * Scale this vector to have the given length and store the result in <code>dest</code>.
+     * 
+     * @param length
+     *          the desired length
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d normalize(double length, Vector2d dest);
+
+    /**
      * Add <code>(x, y)</code> to this vector and store the result in <code>dest</code>.
      * 
      * @param x

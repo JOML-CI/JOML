@@ -118,6 +118,10 @@ public class Vector2f implements Externalizable, Vector2fc {
             return delegate.normalize(dest);
         }
 
+        public Vector2f normalize(float length, Vector2f dest) {
+            return delegate.normalize(length, dest);
+        }
+
         public Vector2f add(Vector2fc v, Vector2f dest) {
             return delegate.add(v, dest);
         }
@@ -638,6 +642,30 @@ public class Vector2f implements Externalizable, Vector2fc {
      */
     public Vector2f normalize(Vector2f dest) {
         float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        return dest;
+    }
+
+    /**
+     * Scale this vector to have the given length.
+     * 
+     * @param length
+     *          the desired length
+     * @return this
+     */
+    public Vector2f normalize(float length) {
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y)) * length;
+        x *= invLength;
+        y *= invLength;
+        return this;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#normalize(float, org.joml.Vector2f)
+     */
+    public Vector2f normalize(float length, Vector2f dest) {
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y)) * length;
         dest.x = x * invLength;
         dest.y = y * invLength;
         return dest;

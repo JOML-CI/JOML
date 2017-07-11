@@ -166,6 +166,10 @@ public class Vector4d implements Externalizable, Vector4dc {
             return delegate.normalize(dest);
         }
 
+        public Vector4d normalize(double length, Vector4d dest) {
+            return delegate.normalize(length, dest);
+        }
+
         public Vector4d normalize3(Vector4d dest) {
             return delegate.normalize3(dest);
         }
@@ -1402,6 +1406,34 @@ public class Vector4d implements Externalizable, Vector4dc {
      */
     public Vector4d normalize(Vector4d dest) {
         double invLength = 1.0 / length();
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        dest.z = z * invLength;
+        dest.w = w * invLength;
+        return dest;
+    }
+
+    /**
+     * Scale this vector to have the given length.
+     * 
+     * @param length
+     *          the desired length
+     * @return this
+     */
+    public Vector4d normalize(double length) {
+        double invLength = 1.0 / length() * length;
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
+        w *= invLength;
+        return this;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#normalize(double, org.joml.Vector4d)
+     */
+    public Vector4d normalize(double length, Vector4d dest) {
+        double invLength = 1.0 / length() * length;
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;

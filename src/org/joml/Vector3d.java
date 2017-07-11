@@ -279,6 +279,10 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.normalize(dest);
         }
 
+        public Vector3d normalize(double length, Vector3d dest) {
+            return delegate.normalize(length, dest);
+        }
+
         public Vector3d cross(Vector3dc v, Vector3d dest) {
             return delegate.cross(v, dest);
         }
@@ -1984,6 +1988,32 @@ public class Vector3d implements Externalizable, Vector3dc {
      */
     public Vector3d normalize(Vector3d dest) {
         double invLength = 1.0 / length();
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        dest.z = z * invLength;
+        return dest;
+    }
+
+    /**
+     * Scale this vector to have the given length.
+     * 
+     * @param length
+     *          the desired length
+     * @return this
+     */
+    public Vector3d normalize(double length) {
+        double invLength = 1.0 / length() * length;
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
+        return this;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#normalize(double, org.joml.Vector3d)
+     */
+    public Vector3d normalize(double length, Vector3d dest) {
+        double invLength = 1.0 / length() * length;
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;

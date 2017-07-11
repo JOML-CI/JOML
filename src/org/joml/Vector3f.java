@@ -215,6 +215,10 @@ public class Vector3f implements Externalizable, Vector3fc {
             return delegate.normalize(dest);
         }
 
+        public Vector3f normalize(float length, Vector3f dest) {
+            return delegate.normalize(length, dest);
+        }
+
         public Vector3f cross(Vector3fc v, Vector3f dest) {
             return delegate.cross(v, dest);
         }
@@ -1491,6 +1495,32 @@ public class Vector3f implements Externalizable, Vector3fc {
      */
     public Vector3f normalize(Vector3f dest) {
         float invLength = 1.0f / length();
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        dest.z = z * invLength;
+        return dest;
+    }
+
+    /**
+     * Scale this vector to have the given length.
+     * 
+     * @param length
+     *          the desired length
+     * @return this
+     */
+    public Vector3f normalize(float length) {
+        float invLength = 1.0f / length() * length;
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
+        return this;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#normalize(float, org.joml.Vector3f)
+     */
+    public Vector3f normalize(float length, Vector3f dest) {
+        float invLength = 1.0f / length() * length;
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;

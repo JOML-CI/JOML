@@ -175,6 +175,10 @@ public class Vector4f implements Externalizable, Vector4fc {
             return delegate.normalize(dest);
         }
 
+        public Vector4f normalize(float length, Vector4f dest) {
+            return delegate.normalize(length, dest);
+        }
+
         public float distance(Vector4fc v) {
             return delegate.distance(v);
         }
@@ -1337,6 +1341,34 @@ public class Vector4f implements Externalizable, Vector4fc {
      */
     public Vector4f normalize(Vector4f dest) {
         float invLength = 1.0f / length();
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        dest.z = z * invLength;
+        dest.w = w * invLength;
+        return dest;
+    }
+
+    /**
+     * Scale this vector to have the given length.
+     * 
+     * @param length
+     *          the desired length
+     * @return this
+     */
+    public Vector4f normalize(float length) {
+        float invLength = 1.0f / length() * length;
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
+        w *= invLength;
+        return this;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#normalize(float, org.joml.Vector4f)
+     */
+    public Vector4f normalize(float length, Vector4f dest) {
+        float invLength = 1.0f / length() * length;
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;

@@ -373,6 +373,17 @@ public interface Vector4dc {
     Vector4d normalize(Vector4d dest);
 
     /**
+     * Scale this vector to have the given length and store the result in <code>dest</code>.
+     * 
+     * @param length
+     *          the desired length
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d normalize(double length, Vector4d dest);
+
+    /**
      * Normalize this vector by computing only the norm of <tt>(x, y, z)</tt> and store the result in <code>dest</code>.
      * 
      * @param dest

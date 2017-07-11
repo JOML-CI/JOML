@@ -557,6 +557,17 @@ public interface Vector3fc {
     Vector3f normalize(Vector3f dest);
 
     /**
+     * Scale this vector to have the given length and store the result in <code>dest</code>.
+     * 
+     * @param length
+     *          the desired length
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f normalize(float length, Vector3f dest);
+
+    /**
      * Compute the cross product of this vector and <code>v</code> and store the result in <code>dest</code>.
      * 
      * @param v

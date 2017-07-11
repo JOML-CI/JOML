@@ -409,6 +409,17 @@ public interface Vector4fc {
     Vector4f normalize(Vector4f dest);
 
     /**
+     * Scale this vector to have the given length and store the result in <code>dest</code>.
+     * 
+     * @param length
+     *          the desired length
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f normalize(float length, Vector4f dest);
+
+    /**
      * Return the distance between <code>this</code> vector and <code>v</code>.
      * 
      * @param v

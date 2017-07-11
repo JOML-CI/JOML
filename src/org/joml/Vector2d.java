@@ -134,6 +134,10 @@ public class Vector2d implements Externalizable, Vector2dc {
             return delegate.normalize(dest);
         }
 
+        public Vector2d normalize(double length, Vector2d dest) {
+            return delegate.normalize(length, dest);
+        }
+
         public Vector2d add(double x, double y, Vector2d dest) {
             return delegate.add(x, y, dest);
         }
@@ -765,6 +769,30 @@ public class Vector2d implements Externalizable, Vector2dc {
      */
     public Vector2d normalize(Vector2d dest) {
         double invLength = 1.0 / Math.sqrt(x * x + y * y);
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        return dest;
+    }
+
+    /**
+     * Scale this vector to have the given length.
+     * 
+     * @param length
+     *          the desired length
+     * @return this
+     */
+    public Vector2d normalize(double length) {
+        double invLength = 1.0 / Math.sqrt(x * x + y * y) * length;
+        x *= invLength;
+        y *= invLength;
+        return this;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#normalize(double, org.joml.Vector2d)
+     */
+    public Vector2d normalize(double length, Vector2d dest) {
+        double invLength = 1.0 / Math.sqrt(x * x + y * y) * length;
         dest.x = x * invLength;
         dest.y = y * invLength;
         return dest;

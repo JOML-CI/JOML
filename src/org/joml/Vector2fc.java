@@ -214,6 +214,17 @@ public interface Vector2fc {
     Vector2f normalize(Vector2f dest);
 
     /**
+     * Scale this vector to have the given length and store the result in <code>dest</code>.
+     * 
+     * @param length
+     *          the desired length
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f normalize(float length, Vector2f dest);
+
+    /**
      * Add the supplied vector to this one and store the result in
      * <code>dest</code>.
      *

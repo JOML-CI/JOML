@@ -760,6 +760,17 @@ public interface Vector3dc {
     Vector3d normalize(Vector3d dest);
 
     /**
+     * Scale this vector to have the given length and store the result in <code>dest</code>.
+     * 
+     * @param length
+     *          the desired length
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d normalize(double length, Vector3d dest);
+
+    /**
      * Calculate the cross product of this and v2 and store the result in <code>dest</code>.
      * 
      * @param v
