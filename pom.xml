@@ -166,15 +166,34 @@
 			-->
 			<id>with-natives</id>
 			<activation>
-				<property>
-					<name>with-natives</name>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<build>
 				<resources>
 					<resource>
 						<directory>native/build</directory>
 						<filtering>false</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<!--
+				Exclude the natives from the JAR.
+			-->
+			<id>without-natives</id>
+			<activation>
+				<property>
+					<name>without-natives</name>
+				</property>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>native/build</directory>
+						<excludes>
+							<exclude>*</exclude>
+						</excludes>
 					</resource>
 				</resources>
 			</build>
