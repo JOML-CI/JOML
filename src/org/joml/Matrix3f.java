@@ -3225,9 +3225,9 @@ public class Matrix3f implements Externalizable, Matrix3fc {
                               float upX, float upY, float upZ, Matrix3f dest) {
         // Normalize direction
         float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
-        float dirnX = dirX * invDirLength;
-        float dirnY = dirY * invDirLength;
-        float dirnZ = dirZ * invDirLength;
+        float dirnX = -dirX * invDirLength;
+        float dirnY = -dirY * invDirLength;
+        float dirnZ = -dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
@@ -3356,9 +3356,9 @@ public class Matrix3f implements Externalizable, Matrix3fc {
                                  float upX, float upY, float upZ) {
         // Normalize direction
         float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
-        float dirnX = dirX * invDirLength;
-        float dirnY = dirY * invDirLength;
-        float dirnZ = dirZ * invDirLength;
+        float dirnX = -dirX * invDirLength;
+        float dirnY = -dirY * invDirLength;
+        float dirnZ = -dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;

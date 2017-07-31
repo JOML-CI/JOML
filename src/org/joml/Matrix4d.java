@@ -11417,9 +11417,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX * invDirLength;
-        double dirnY = dirY * invDirLength;
-        double dirnZ = dirZ * invDirLength;
+        double dirnX = -dirX * invDirLength;
+        double dirnY = -dirY * invDirLength;
+        double dirnZ = -dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
@@ -11571,9 +11571,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
                                  double upX, double upY, double upZ) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX * invDirLength;
-        double dirnY = dirY * invDirLength;
-        double dirnZ = dirZ * invDirLength;
+        double dirnX = -dirX * invDirLength;
+        double dirnY = -dirY * invDirLength;
+        double dirnZ = -dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;

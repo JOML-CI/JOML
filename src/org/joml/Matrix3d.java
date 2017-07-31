@@ -4097,9 +4097,9 @@ public class Matrix3d implements Externalizable, Matrix3dc {
                               double upX, double upY, double upZ, Matrix3d dest) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX * invDirLength;
-        double dirnY = dirY * invDirLength;
-        double dirnZ = dirZ * invDirLength;
+        double dirnX = -dirX * invDirLength;
+        double dirnY = -dirY * invDirLength;
+        double dirnZ = -dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
@@ -4228,9 +4228,9 @@ public class Matrix3d implements Externalizable, Matrix3dc {
                                  double upX, double upY, double upZ) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX * invDirLength;
-        double dirnY = dirY * invDirLength;
-        double dirnZ = dirZ * invDirLength;
+        double dirnX = -dirX * invDirLength;
+        double dirnY = -dirY * invDirLength;
+        double dirnZ = -dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;

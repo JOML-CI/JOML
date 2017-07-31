@@ -5934,9 +5934,9 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
 
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX * invDirLength;
-        float dirnY = dirY * invDirLength;
-        float dirnZ = dirZ * invDirLength;
+        float dirnX = -dirX * invDirLength;
+        float dirnY = -dirY * invDirLength;
+        float dirnZ = -dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
@@ -6080,9 +6080,9 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     public Matrix4x3f setLookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX * invDirLength;
-        float dirnY = dirY * invDirLength;
-        float dirnZ = dirZ * invDirLength;
+        float dirnX = -dirX * invDirLength;
+        float dirnY = -dirY * invDirLength;
+        float dirnZ = -dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;

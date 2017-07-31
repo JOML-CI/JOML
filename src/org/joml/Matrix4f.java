@@ -8844,9 +8844,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX * invDirLength;
-        float dirnY = dirY * invDirLength;
-        float dirnZ = dirZ * invDirLength;
+        float dirnX = -dirX * invDirLength;
+        float dirnY = -dirY * invDirLength;
+        float dirnZ = -dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
@@ -8998,9 +8998,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                                  float upX, float upY, float upZ) {
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX * invDirLength;
-        float dirnY = dirY * invDirLength;
-        float dirnZ = dirZ * invDirLength;
+        float dirnX = -dirX * invDirLength;
+        float dirnY = -dirY * invDirLength;
+        float dirnZ = -dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
