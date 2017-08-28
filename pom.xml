@@ -95,7 +95,7 @@
 					-->
 					<plugin>
 						<artifactId>maven-enforcer-plugin</artifactId>
-						<version>1.4.1</version>
+						<version>3.0.0-M1</version>
 						<executions>
 							<execution>
 								<id>enforce-versions</id>
@@ -268,7 +268,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>1.4.1</version>
+				<version>3.0.0-M1</version>
 				<executions>
 					<execution>
 						<id>enforce-versions</id>
@@ -340,7 +340,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
+				<version>3.6.2</version>
 				<configuration>
 					<excludes>
 						<exclude>org/joml/jre/**</exclude>
@@ -404,7 +404,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
+				<version>3.0.0-M1</version>
 				<configuration>
 					<!-- Exclude the Java 1.4 API classes from the javadoc jar -->
 					<excludePackageNames>org.joml.jre</excludePackageNames>
