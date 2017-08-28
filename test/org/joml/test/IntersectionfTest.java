@@ -7,6 +7,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.joml.Math;
+import org.joml.Matrix3f;
 
 /**
  * Tests for the {@link Intersectionf} class.
@@ -71,7 +72,8 @@ public class IntersectionfTest extends TestCase {
         assertTrue(Intersectionf.testSphereSphere(0, 0, 0, 1, 0.5f, 0, 0, 1));
         Vector4f res = new Vector4f();
         assertTrue(Intersectionf.intersectSphereSphere(0, 0, 0, 1, 0.5f, 0, 0, 1, res));
-        // intersection point is (0.25, 0, 0) <- middle between both spheres with equal radii
+        // intersection point is (0.25, 0, 0) <- middle between both spheres with equal
+        // radii
         TestUtil.assertVector3fEquals(new Vector3f(0.25f, 0, 0), new Vector3f(res.x, res.y, res.z), 1E-6f);
         // cos(a) = adjside/hyp
         // cos(a) * hyp = adjside
@@ -105,12 +107,12 @@ public class IntersectionfTest extends TestCase {
         assertFalse(Intersectionf.testLineSegmentSphere(-1, 1.01f, 0, 1, 1, 0, 0, 0, 0, 1));
         assertFalse(Intersectionf.testLineSegmentSphere(1.01f, 0, 0, 2, 0, 0, 0, 0, 0, 1));
         assertFalse(Intersectionf.testLineSegmentSphere(-2, 0, 0, -1.01f, 0, 0, 0, 0, 0, 1));
-        assertFalse(Intersectionf.testLineSegmentSphere(2.01f, 0, 0, 3, 0, 0, 0, 0, 0, 2*2));
-        assertFalse(Intersectionf.testLineSegmentSphere(-3, 0, 0, -2.01f, 0, 0, 0, 0, 0, 2*2));
+        assertFalse(Intersectionf.testLineSegmentSphere(2.01f, 0, 0, 3, 0, 0, 0, 0, 0, 2 * 2));
+        assertFalse(Intersectionf.testLineSegmentSphere(-3, 0, 0, -2.01f, 0, 0, 0, 0, 0, 2 * 2));
         assertTrue(Intersectionf.testLineSegmentSphere(-1, 0, 0, 1, 0, 0, -2, 0, 0, 1));
         assertTrue(Intersectionf.testLineSegmentSphere(-1, 0, 0, 1, 0, 0, 2, 0, 0, 1));
-        assertFalse(Intersectionf.testLineSegmentSphere(-1, 0, 0, 1, 0, 0, -4.01f, 0, 0, 3*3));
-        assertFalse(Intersectionf.testLineSegmentSphere(-1, 0, 0, 1, 0, 0, 4.01f, 0, 0, 3*3));
+        assertFalse(Intersectionf.testLineSegmentSphere(-1, 0, 0, 1, 0, 0, -4.01f, 0, 0, 3 * 3));
+        assertFalse(Intersectionf.testLineSegmentSphere(-1, 0, 0, 1, 0, 0, 4.01f, 0, 0, 3 * 3));
     }
 
     public static void testLineSegmentTriangle() {
@@ -159,7 +161,7 @@ public class IntersectionfTest extends TestCase {
 
     public static void testPolygonRay() {
         Vector2f p = new Vector2f();
-        float[] verticesXY = {0, 0, 1, 0, 1, 1, 0, 1};
+        float[] verticesXY = { 0, 0, 1, 0, 1, 1, 0, 1 };
         assertEquals(3, Intersectionf.intersectPolygonRay(verticesXY, -1, 0.5f, 1, 0, p));
         TestUtil.assertVector2fEquals(new Vector2f(0, 0.5f), p, 1E-6f);
         assertEquals(0, Intersectionf.intersectPolygonRay(verticesXY, 0.1f, -0.5f, 0, 1, p));
@@ -218,6 +220,74 @@ public class IntersectionfTest extends TestCase {
         TestUtil.assertVector2fEquals(new Vector2f(1, 1), p, 1E-6f);
         assertEquals(Intersectionf.TWO_INTERSECTION, Intersectionf.intersectLineSegmentAab(0, 0, -1, 0, 0, 0, 0, -1, -1, 1, 1, 0, p));
         TestUtil.assertVector2fEquals(new Vector2f(0, 1), p, 1E-6f);
+    }
+
+    public static void testObObTipToTip() {
+        Vector3f c0 = new Vector3f();
+        float EPSILON = 1E-5f;
+        /* Position the second box so that they "almost" intersect */
+        Vector3f c1 = new Vector3f((float) Math.sqrt(2) * 2 + EPSILON, 0, 0);
+        Matrix3f m = new Matrix3f().rotateXYZ(0, (float) Math.toRadians(45.0), 0);
+        Vector3f ux0 = m.getColumn(0, new Vector3f());
+        Vector3f uy0 = m.getColumn(1, new Vector3f());
+        Vector3f uz0 = m.getColumn(2, new Vector3f());
+        Vector3f ux1 = m.getColumn(0, new Vector3f());
+        Vector3f uy1 = m.getColumn(1, new Vector3f());
+        Vector3f uz1 = m.getColumn(2, new Vector3f());
+        Vector3f hs = new Vector3f(1);
+        boolean intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs, c1, ux1, uy1, uz1, hs);
+        assertFalse(intersects); // <- they do not intersect
+        /* Position the second box so that they do intersect */
+        c1 = new Vector3f((float) Math.sqrt(2) * 2 - EPSILON, 0, 0);
+        intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs, c1, ux1, uy1, uz1, hs);
+        assertTrue(intersects); // <- they do intersect
+    }
+
+    public static void testObOb45Slide() {
+        Vector3f c0 = new Vector3f();
+        float EPSILON = 1E-5f;
+        /*
+         * Position the second box right over the first one so that they "almost" intersect/slide
+         */
+        // 2a^2 = c^2 = (2+0.5)^2 <-- length of a (box A + box B) squared
+        // a^2 = (2+0.5)^2/2 -> a = 1.5/sqrt(2)
+        float a = (float) (2.5 / Math.sqrt(2));
+        Vector3f c1 = new Vector3f(a + EPSILON, a + EPSILON, 0);
+        Matrix3f m = new Matrix3f().rotateZ((float) Math.toRadians(45.0));
+        Vector3f ux0 = m.getColumn(0, new Vector3f());
+        Vector3f uy0 = m.getColumn(1, new Vector3f());
+        Vector3f uz0 = m.getColumn(2, new Vector3f());
+        Vector3f ux1 = m.getColumn(0, new Vector3f());
+        Vector3f uy1 = m.getColumn(1, new Vector3f());
+        Vector3f uz1 = m.getColumn(2, new Vector3f());
+        Vector3f hs0 = new Vector3f(2);
+        Vector3f hs1 = new Vector3f(0.5f);
+        boolean intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertFalse(intersects); // <- they do not intersect
+        c1 = new Vector3f(a - EPSILON, a - EPSILON, 0);
+        intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertTrue(intersects); // <- they do intersect
+    }
+
+    public static void testObOb() {
+        float a = (float) (Math.sqrt(2.0*2.0 + 2.0*2.0) + Math.sqrt(0.5*0.5 + 0.5*0.5));
+        float EPSILON = 1E-5f;
+        Vector3f c0 = new Vector3f(0, 0, a - EPSILON);
+        Vector3f hs0 = new Vector3f(0.5f, 0.5f, 0.5f);
+        Vector3f c1 = new Vector3f(0, 0, 0);
+        Vector3f hs1 = new Vector3f(2, 0.5f, 2);
+        Matrix3f m = new Matrix3f().rotateY((float) Math.toRadians(45));
+        Vector3f ux0 = m.getColumn(0, new Vector3f());
+        Vector3f uy0 = m.getColumn(1, new Vector3f());
+        Vector3f uz0 = m.getColumn(2, new Vector3f());
+        Vector3f ux1 = m.getColumn(0, new Vector3f());
+        Vector3f uy1 = m.getColumn(1, new Vector3f());
+        Vector3f uz1 = m.getColumn(2, new Vector3f());
+        boolean intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertTrue(intersects); // <- they DO intersect
+        c0 = new Vector3f(0, 0, a + EPSILON);
+        intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertFalse(intersects); // <- they do not intersect
     }
 
 }

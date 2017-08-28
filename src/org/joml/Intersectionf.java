@@ -645,21 +645,21 @@ public class Intersectionf {
         float rm00, rm01, rm02, rm10, rm11, rm12, rm20, rm21, rm22;
         float arm00, arm01, arm02, arm10, arm11, arm12, arm20, arm21, arm22;
         // Compute rotation matrix expressing b in a's coordinate frame
-        rm00 = b0uXx * b1uXx + b0uXy * b1uXy + b0uXz * b1uXz;
-        rm01 = b0uXx * b1uYx + b0uXy * b1uYy + b0uXz * b1uYz;
-        rm02 = b0uXx * b1uZx + b0uXy * b1uZy + b0uXz * b1uZz;
-        rm10 = b0uYx * b1uXx + b0uYy * b1uXy + b0uYz * b1uXz;
-        rm11 = b0uYx * b1uYx + b0uYy * b1uYy + b0uYz * b1uYz;
-        rm12 = b0uYx * b1uZx + b0uYy * b1uZy + b0uYz * b1uZz;
-        rm20 = b0uZx * b1uXx + b0uZy * b1uXy + b0uZz * b1uXz;
-        rm21 = b0uZx * b1uYx + b0uZy * b1uYy + b0uZz * b1uYz;
-        rm22 = b0uZx * b1uZx + b0uZy * b1uZy + b0uZz * b1uZz;
+        rm00 = b0uXx * b1uXx + b0uYx * b1uYx + b0uZx * b1uZx;
+        rm01 = b0uXx * b1uXy + b0uYx * b1uYy + b0uZx * b1uZy;
+        rm02 = b0uXx * b1uXz + b0uYx * b1uYz + b0uZx * b1uZz;
+        rm10 = b0uXy * b1uXx + b0uYy * b1uYx + b0uZy * b1uZx;
+        rm11 = b0uXy * b1uXy + b0uYy * b1uYy + b0uZy * b1uZy;
+        rm12 = b0uXy * b1uXz + b0uYy * b1uYz + b0uZy * b1uZz;
+        rm20 = b0uXz * b1uXx + b0uYz * b1uYx + b0uZz * b1uZx;
+        rm21 = b0uXz * b1uXy + b0uYz * b1uYy + b0uZz * b1uZy;
+        rm22 = b0uXz * b1uXz + b0uYz * b1uYz + b0uZz * b1uZz;
         // Compute translation vector t
         float tX = b1cX - b0cX, tY = b1cY - b0cY, tZ = b1cZ - b0cZ;
         // Bring translation into a's coordinate frame
-        tX = tX * b0uXx + tY * b0uXy + tZ * b0uXz;
-        tY = tY * b0uYx + tY * b0uYy + tZ * b0uYz;
-        tZ = tZ * b0uZx + tZ * b0uZy + tZ * b0uZz;
+        tX = tX * b0uXx + tY * b0uYx + tZ * b0uZx;
+        tY = tY * b0uXy + tY * b0uYy + tZ * b0uZy;
+        tZ = tZ * b0uXz + tZ * b0uYz + tZ * b0uZz;
         // Compute common subexpressions. Add in an epsilon term to
         // counteract arithmetic errors when two edges are parallel and
         // their cross product is (near) null (see text for details)
