@@ -642,94 +642,92 @@ public class Intersectionf {
             float b0cX, float b0cY, float b0cZ, float b0uXx, float b0uXy, float b0uXz, float b0uYx, float b0uYy, float b0uYz, float b0uZx, float b0uZy, float b0uZz, float b0hsX, float b0hsY, float b0hsZ,
             float b1cX, float b1cY, float b1cZ, float b1uXx, float b1uXy, float b1uXz, float b1uYx, float b1uYy, float b1uYz, float b1uZx, float b1uZy, float b1uZz, float b1hsX, float b1hsY, float b1hsZ) {
         float ra, rb;
-        float rm00, rm01, rm02, rm10, rm11, rm12, rm20, rm21, rm22;
-        float arm00, arm01, arm02, arm10, arm11, arm12, arm20, arm21, arm22;
         // Compute rotation matrix expressing b in a's coordinate frame
-        rm00 = b0uXx * b1uXx + b0uYx * b1uYx + b0uZx * b1uZx;
-        rm01 = b0uXx * b1uXy + b0uYx * b1uYy + b0uZx * b1uZy;
-        rm02 = b0uXx * b1uXz + b0uYx * b1uYz + b0uZx * b1uZz;
-        rm10 = b0uXy * b1uXx + b0uYy * b1uYx + b0uZy * b1uZx;
-        rm11 = b0uXy * b1uXy + b0uYy * b1uYy + b0uZy * b1uZy;
-        rm12 = b0uXy * b1uXz + b0uYy * b1uYz + b0uZy * b1uZz;
-        rm20 = b0uXz * b1uXx + b0uYz * b1uYx + b0uZz * b1uZx;
-        rm21 = b0uXz * b1uXy + b0uYz * b1uYy + b0uZz * b1uZy;
-        rm22 = b0uXz * b1uXz + b0uYz * b1uYz + b0uZz * b1uZz;
-        // Compute translation vector t
-        float tX = b1cX - b0cX, tY = b1cY - b0cY, tZ = b1cZ - b0cZ;
-        // Bring translation into a's coordinate frame
-        tX = tX * b0uXx + tY * b0uYx + tZ * b0uZx;
-        tY = tY * b0uXy + tY * b0uYy + tZ * b0uZy;
-        tZ = tZ * b0uXz + tZ * b0uYz + tZ * b0uZz;
+        float rm00 = b0uXx * b1uXx + b0uYx * b1uYx + b0uZx * b1uZx;
+        float rm10 = b0uXx * b1uXy + b0uYx * b1uYy + b0uZx * b1uZy;
+        float rm20 = b0uXx * b1uXz + b0uYx * b1uYz + b0uZx * b1uZz;
+        float rm01 = b0uXy * b1uXx + b0uYy * b1uYx + b0uZy * b1uZx;
+        float rm11 = b0uXy * b1uXy + b0uYy * b1uYy + b0uZy * b1uZy;
+        float rm21 = b0uXy * b1uXz + b0uYy * b1uYz + b0uZy * b1uZz;
+        float rm02 = b0uXz * b1uXx + b0uYz * b1uYx + b0uZz * b1uZx;
+        float rm12 = b0uXz * b1uXy + b0uYz * b1uYy + b0uZz * b1uZy;
+        float rm22 = b0uXz * b1uXz + b0uYz * b1uYz + b0uZz * b1uZz;
         // Compute common subexpressions. Add in an epsilon term to
         // counteract arithmetic errors when two edges are parallel and
         // their cross product is (near) null (see text for details)
-        float EPSILON = 1E-6f;
-        arm00 = Math.abs(rm00) + EPSILON;
-        arm01 = Math.abs(rm01) + EPSILON;
-        arm02 = Math.abs(rm02) + EPSILON;
-        arm10 = Math.abs(rm10) + EPSILON;
-        arm11 = Math.abs(rm11) + EPSILON;
-        arm12 = Math.abs(rm12) + EPSILON;
-        arm20 = Math.abs(rm20) + EPSILON;
-        arm21 = Math.abs(rm21) + EPSILON;
-        arm22 = Math.abs(rm22) + EPSILON;
+        float EPSILON = 1E-5f;
+        float arm00 = Math.abs(rm00) + EPSILON;
+        float arm01 = Math.abs(rm01) + EPSILON;
+        float arm02 = Math.abs(rm02) + EPSILON;
+        float arm10 = Math.abs(rm10) + EPSILON;
+        float arm11 = Math.abs(rm11) + EPSILON;
+        float arm12 = Math.abs(rm12) + EPSILON;
+        float arm20 = Math.abs(rm20) + EPSILON;
+        float arm21 = Math.abs(rm21) + EPSILON;
+        float arm22 = Math.abs(rm22) + EPSILON;
+        // Compute translation vector t
+        float tx = b1cX - b0cX, ty = b1cY - b0cY, tz = b1cZ - b0cZ;
+        // Bring translation into a's coordinate frame
+        float tax = tx * b0uXx + ty * b0uXy + tz * b0uXz;
+        float tay = tx * b0uYx + ty * b0uYy + tz * b0uYz;
+        float taz = tx * b0uZx + ty * b0uZy + tz * b0uZz;
         // Test axes L = A0, L = A1, L = A2
         ra = b0hsX;
         rb = b1hsX * arm00 + b1hsY * arm01 + b1hsZ * arm02;
-        if (Math.abs(tX) > ra + rb) return false;
+        if (Math.abs(tax) > ra + rb) return false;
         ra = b0hsY;
         rb = b1hsX * arm10 + b1hsY * arm11 + b1hsZ * arm12;
-        if (Math.abs(tY) > ra + rb) return false;
+        if (Math.abs(tay) > ra + rb) return false;
         ra = b0hsZ;
         rb = b1hsX * arm20 + b1hsY * arm21 + b1hsZ * arm22;
-        if (Math.abs(tZ) > ra + rb) return false;
+        if (Math.abs(taz) > ra + rb) return false;
         // Test axes L = B0, L = B1, L = B2
         ra = b0hsX * arm00 + b0hsY * arm10 + b0hsZ * arm20;
         rb = b1hsX;
-        if (Math.abs(tX * rm00 + tY * rm10 + tZ * rm20) > ra + rb) return false;
+        if (Math.abs(tax * rm00 + tay * rm10 + taz * rm20) > ra + rb) return false;
         ra = b0hsX * arm01 + b0hsY * arm11 + b0hsZ * arm21;
         rb = b1hsY;
-        if (Math.abs(tX * rm01 + tY * rm11 + tZ * rm21) > ra + rb) return false;
+        if (Math.abs(tax * rm01 + tay * rm11 + taz * rm21) > ra + rb) return false;
         ra = b0hsX * arm02 + b0hsY * arm12 + b0hsZ * arm22;
         rb = b1hsZ;
-        if (Math.abs(tX * rm02 + tY * rm12 + tZ * rm22) > ra + rb) return false;
+        if (Math.abs(tax * rm02 + tay * rm12 + taz * rm22) > ra + rb) return false;
         // Test axis L = A0 x B0
         ra = b0hsY * arm20 + b0hsZ * arm10;
         rb = b1hsY * arm02 + b1hsZ * arm01;
-        if (Math.abs(tZ * rm10 - tY * rm20) > ra + rb) return false;
+        if (Math.abs(taz * rm10 - tay * rm20) > ra + rb) return false;
         // Test axis L = A0 x B1
         ra = b0hsY * arm21 + b0hsZ * arm11;
         rb = b1hsX * arm02 + b1hsZ * arm00;
-        if (Math.abs(tZ * rm11 - tY * rm21) > ra + rb) return false;
+        if (Math.abs(taz * rm11 - tay * rm21) > ra + rb) return false;
         // Test axis L = A0 x B2
         ra = b0hsY * arm22 + b0hsZ * arm12;
         rb = b1hsX * arm01 + b1hsY * arm00;
-        if (Math.abs(tZ * rm12 - tY * rm22) > ra + rb) return false;
+        if (Math.abs(taz * rm12 - tay * rm22) > ra + rb) return false;
         // Test axis L = A1 x B0
         ra = b0hsX * arm20 + b0hsZ * arm00;
         rb = b1hsY * arm12 + b1hsZ * arm11;
-        if (Math.abs(tX * rm20 + tZ * rm00) > ra + rb) return false;
+        if (Math.abs(tax * rm20 - taz * rm00) > ra + rb) return false;
         // Test axis L = A1 x B1
         ra = b0hsX * arm21 + b0hsZ * arm01;
         rb = b1hsX * arm12 + b1hsZ * arm10;
-        if (Math.abs(tX * rm21 - tZ * rm01) > ra + rb) return false;
+        if (Math.abs(tax * rm21 - taz * rm01) > ra + rb) return false;
         // Test axis L = A1 x B2
         ra = b0hsX * arm22 + b0hsZ * arm02;
         rb = b1hsX * arm11 + b1hsY * arm10;
-        if (Math.abs(tX * rm22 - tZ * rm02) > ra + rb) return false;
+        if (Math.abs(tax * rm22 - taz * rm02) > ra + rb) return false;
         // Test axis L = A2 x B0
         ra = b0hsX * arm10 + b0hsY * arm00;
         rb = b1hsY * arm22 + b1hsZ * arm21;
-        if (Math.abs(tY * rm00 - tX * rm10) > ra + rb) return false;
+        if (Math.abs(tay * rm00 - tax * rm10) > ra + rb) return false;
         // Test axis L = A2 x B1
         ra = b0hsX * arm11 + b0hsY * arm01;
         rb = b1hsX * arm22 + b1hsZ * arm20;
-        if (Math.abs(tY * rm01 - tX * rm11) > ra + rb) return false;
+        if (Math.abs(tay * rm01 - tax * rm11) > ra + rb) return false;
         // Test axis L = A2 x B2
         ra = b0hsX * arm12 + b0hsY * arm02;
         rb = b1hsX * arm21 + b1hsY * arm20;
-        if (Math.abs(tY * rm02 - tX * rm12) > ra + rb) return false;
-        // both boxes do intersect
+        if (Math.abs(tay * rm02 - tax * rm12) > ra + rb) return false;
+        // Since no separating axis is found, the OBBs must be intersecting
         return true;
     }
 

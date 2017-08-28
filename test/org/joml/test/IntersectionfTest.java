@@ -224,9 +224,10 @@ public class IntersectionfTest extends TestCase {
 
     public static void testObObTipToTip() {
         Vector3f c0 = new Vector3f();
-        float EPSILON = 1E-5f;
+        float EPSILON = 1E-4f;
         /* Position the second box so that they "almost" intersect */
-        Vector3f c1 = new Vector3f((float) Math.sqrt(2) * 2 + EPSILON, 0, 0);
+        float a = (float) Math.sqrt(1 + 1) + (float) Math.sqrt(1 + 1);
+        Vector3f c1 = new Vector3f(a + EPSILON, 0, 0);
         Matrix3f m = new Matrix3f().rotateXYZ(0, (float) Math.toRadians(45.0), 0);
         Vector3f ux0 = m.getColumn(0, new Vector3f());
         Vector3f uy0 = m.getColumn(1, new Vector3f());
@@ -245,14 +246,14 @@ public class IntersectionfTest extends TestCase {
 
     public static void testObOb45Slide() {
         Vector3f c0 = new Vector3f();
-        float EPSILON = 1E-5f;
+        float EPSILON = 1E-4f;
         /*
          * Position the second box right over the first one so that they "almost" intersect/slide
          */
         // 2a^2 = c^2 = (2+0.5)^2 <-- length of a (box A + box B) squared
         // a^2 = (2+0.5)^2/2 -> a = 1.5/sqrt(2)
         float a = (float) (2.5 / Math.sqrt(2));
-        Vector3f c1 = new Vector3f(a + EPSILON, a + EPSILON, 0);
+        Vector3f c1 = new Vector3f(-a - EPSILON, a + EPSILON, 0);
         Matrix3f m = new Matrix3f().rotateZ((float) Math.toRadians(45.0));
         Vector3f ux0 = m.getColumn(0, new Vector3f());
         Vector3f uy0 = m.getColumn(1, new Vector3f());
@@ -264,6 +265,24 @@ public class IntersectionfTest extends TestCase {
         Vector3f hs1 = new Vector3f(0.5f);
         boolean intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
         assertFalse(intersects); // <- they do not intersect
+        c1 = new Vector3f(-a + EPSILON, a - EPSILON, 0);
+        intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertTrue(intersects); // <- they do intersect
+        c1 = new Vector3f(-a - EPSILON, -a - EPSILON, 0);
+        intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertFalse(intersects); // <- they do intersect
+        c1 = new Vector3f(-a + EPSILON, -a + EPSILON, 0);
+        intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertTrue(intersects); // <- they do intersect
+        c1 = new Vector3f(a + EPSILON, -a - EPSILON, 0);
+        intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertFalse(intersects); // <- they do intersect
+        c1 = new Vector3f(a - EPSILON, -a + EPSILON, 0);
+        intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertTrue(intersects); // <- they do intersect
+        c1 = new Vector3f(a + EPSILON, a + EPSILON, 0);
+        intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
+        assertFalse(intersects); // <- they do intersect
         c1 = new Vector3f(a - EPSILON, a - EPSILON, 0);
         intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
         assertTrue(intersects); // <- they do intersect
@@ -271,7 +290,7 @@ public class IntersectionfTest extends TestCase {
 
     public static void testObOb() {
         float a = (float) (Math.sqrt(2.0*2.0 + 2.0*2.0) + Math.sqrt(0.5*0.5 + 0.5*0.5));
-        float EPSILON = 1E-5f;
+        float EPSILON = 1E-4f;
         Vector3f c0 = new Vector3f(0, 0, a - EPSILON);
         Vector3f hs0 = new Vector3f(0.5f, 0.5f, 0.5f);
         Vector3f c1 = new Vector3f(0, 0, 0);
