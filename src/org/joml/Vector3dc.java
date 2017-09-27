@@ -28,7 +28,7 @@ import java.nio.DoubleBuffer;
 //#endif
 
 /**
- * Interface to an immutable 3-dimensional vector of double-precision floats.
+ * Interface to a read-only view of a 3-dimensional vector of double-precision floats.
  * 
  * @author Kai Burjack
  */

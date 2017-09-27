@@ -32,7 +32,7 @@ import com.google.gwt.typedarrays.shared.Float32Array;
 //#endif
 
 /**
- * Interface to an immutable 4x3 matrix of single-precision floats.
+ * Interface to a read-only view of a 4x3 matrix of single-precision floats.
  * 
  * @author Kai Burjack
  */

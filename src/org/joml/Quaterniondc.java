@@ -23,7 +23,7 @@
 package org.joml;
 
 /**
- * Interface to an immutable quaternion of double-precision floats.
+ * Interface to a read-only view of a quaternion of double-precision floats.
  * 
  * @author Kai Burjack
  */

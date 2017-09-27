@@ -28,7 +28,7 @@ import java.nio.IntBuffer;
 //#endif
 
 /**
- * Interface to an immutable 3-dimensional vector of integers.
+ * Interface to a read-only view of a 3-dimensional vector of integers.
  * 
  * @author Kai Burjack
  */

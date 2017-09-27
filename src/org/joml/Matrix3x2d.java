@@ -2411,16 +2411,17 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Create a new immutable view of this {@link Matrix3x2d}.
+     * Create a new read-only view of this {@link Matrix3x2d}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Matrix3x2d will not be possible.
+     * the returned object to Matrix3x2d will not be possible. This means that any modification of <code>this</code>
+     * will be observable throught the returned read-only view instance.
      * <p>
      * This method allocates a new instance of a class implementing Matrix3x2dc on every call.
      * 
-     * @return the immutable instance
+     * @return the read-only view of this matrix instance
      */
-    public Matrix3x2dc toImmutable() {
+    public Matrix3x2dc readOnlyView() {
         if (!Options.DEBUG)
             return this;
         return new Proxy(this);

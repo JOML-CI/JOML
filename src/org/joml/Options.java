@@ -38,7 +38,7 @@ class Options {
 
     /**
      * Whether certain debugging checks should be made, such as that only direct NIO Buffers are used when Unsafe is active,
-     * and a proxy should be created on calls to toImmutable().
+     * and a proxy should be created on calls to readOnlyView().
      */
     static final boolean DEBUG = hasOption(System.getProperty("joml.debug", "false"));
 

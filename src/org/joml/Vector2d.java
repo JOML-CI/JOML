@@ -1031,16 +1031,17 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     /**
-     * Create a new immutable view of this {@link Vector2d}.
+     * Create a new read-only view of this {@link Vector2d}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Vector2d will not be possible.
+     * the returned object to Vector2d will not be possible. This means that any modification of <code>this</code>
+     * will be observable throught the returned read-only view instance.
      * <p>
      * This method allocates a new instance of a class implementing Vector2dc on every call.
      * 
-     * @return the immutable instance
+     * @return the read-only view of this vector instance
      */
-    public Vector2dc toImmutable() {
+    public Vector2dc readOnlyView() {
         if (!Options.DEBUG)
             return this;
         return new Proxy(this);

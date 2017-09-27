@@ -28,7 +28,7 @@ import java.nio.FloatBuffer;
 //#endif
 
 /**
- * Interface to an immutable quaternion of single-precision floats.
+ * Interface to a read-only view of a quaternion of single-precision floats.
  * 
  * @author Kai Burjack
  */

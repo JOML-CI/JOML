@@ -32,11 +32,7 @@ import com.google.gwt.typedarrays.shared.Float32Array;
 //#endif
 
 /**
- * Contains the definition of a 3x2 matrix of floats, and associated functions to transform
- * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
- * <p>
- *      m00  m10  m20<br>
- *      m01  m11  m21<br>
+ * Interface to a read-only view of a 3x2 matrix of single-precision floats.
  * 
  * @author Kai Burjack
  */

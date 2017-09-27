@@ -2920,16 +2920,17 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     /**
-     * Create a new immutable view of this {@link Quaterniond}.
+     * Create a new read-only view of this {@link Quaterniond}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Quaterniond will not be possible.
+     * the returned object to Quaterniond will not be possible. This means that any modification of <code>this</code>
+     * will be observable throught the returned read-only view instance.
      * <p>
      * This method allocates a new instance of a class implementing Quaterniondc on every call.
      * 
-     * @return the immutable instance
+     * @return the read-only view of this quaternion instance
      */
-    public Quaterniondc toImmutable() {
+    public Quaterniondc readOnlyView() {
         if (!Options.DEBUG)
             return this;
         return new Proxy(this);

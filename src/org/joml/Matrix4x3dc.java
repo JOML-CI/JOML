@@ -29,7 +29,7 @@ import java.nio.FloatBuffer;
 //#endif
 
 /**
- * Interface to an immutable 4x3 matrix of double-precision floats.
+ * Interface to a read-only view of a 4x3 matrix of double-precision floats.
  * 
  * @author Kai Burjack
  */

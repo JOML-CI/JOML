@@ -10,7 +10,7 @@ import org.joml.*;
 public class Matrix4fcTest extends TestCase {
     public static void testProxy() {
         Matrix4f m = new Matrix4f();
-        Matrix4fc proxy = m.toImmutable();
+        Matrix4fc proxy = m.readOnlyView();
         m.m00(2.0f);
         Matrix4f m2 = new Matrix4f(proxy);
         assertEquals(m.m00(), proxy.m00(), 0);

@@ -1680,16 +1680,17 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /**
-     * Create a new immutable view of this {@link Vector4f}.
+     * Create a new read-only view of this {@link Vector4f}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Vector4f will not be possible.
+     * the returned object to Vector4f will not be possible. This means that any modification of <code>this</code>
+     * will be observable throught the returned read-only view instance.
      * <p>
      * This method allocates a new instance of a class implementing Vector4fc on every call.
      * 
-     * @return the immutable instance
+     * @return the read-only view of this vector instance
      */
-    public Vector4fc toImmutable() {
+    public Vector4fc readOnlyView() {
         if (!Options.DEBUG)
             return this;
         return new Proxy(this);
