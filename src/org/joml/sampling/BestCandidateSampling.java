@@ -603,7 +603,7 @@ public class BestCandidateSampling {
             });
         }
 
-// #ifdef __HAS_NIO__
+//#ifdef __HAS_NIO__
         /**
          * Generate 'best candidate' sample positions and store the coordinates of all generated samples into the given <code>xys</code> FloatBuffer.
          * <p>
@@ -627,7 +627,7 @@ public class BestCandidateSampling {
                 }
             });
         }
-// #endif
+//#endif
 
         /**
          * Generate 'best candidate' sample positions and call the given <code>callback</code> for each generated sample.
@@ -735,7 +735,7 @@ public class BestCandidateSampling {
             });
         }
 
-// #ifdef __HAS_NIO__
+//#ifdef __HAS_NIO__
         /**
          * Generate 'best candidate' sample positions and store the coordinates of all generated samples into the given <code>xys</code> FloatBuffer.
          * <p>
@@ -759,7 +759,7 @@ public class BestCandidateSampling {
                 }
             });
         }
-// #endif
+//#endif
 
         /**
          * Generate 'best candidate' sample positions and call the given <code>callback</code> for each generated sample.
