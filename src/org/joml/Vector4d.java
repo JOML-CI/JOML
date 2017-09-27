@@ -1703,6 +1703,35 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
+     * Set the specified component of this vector to the given value.
+     * 
+     * @param component
+     *          the component, within <tt>[0..3]</tt>
+     * @param value
+     *          the value
+     * @return this
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..3]</tt>
+     */
+    public Vector4d set(int component, double value) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            this.x = value;
+            return this;
+        case 1:
+            this.y = value;
+            return this;
+        case 2:
+            this.z = value;
+            return this;
+        case 3:
+            this.w = value;
+            return this;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
      * Create a new immutable view of this {@link Vector4d}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
