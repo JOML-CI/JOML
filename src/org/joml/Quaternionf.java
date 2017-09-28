@@ -3116,4 +3116,15 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return new Proxy(this);
     }
 
+    /**
+     * Create a new immutable copy of this {@link Quaternionf}.
+     * <p>
+     * This method allocates a new instance of a class implementing Quaternionfc on every call.
+     * 
+     * @return the read-only view of this vector instance
+     */
+    public Quaternionfc immutableCopy() {
+        return new Quaternionf(this).readOnlyView();
+    }
+
 }

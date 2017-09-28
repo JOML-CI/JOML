@@ -8875,4 +8875,15 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return new Proxy(this);
     }
 
+    /**
+     * Create a new immutable copy of this {@link Matrix4x3f}.
+     * <p>
+     * This method allocates a new instance of a class implementing Matrix4x3fc on every call.
+     * 
+     * @return the read-only view of this vector instance
+     */
+    public Matrix4x3fc immutableCopy() {
+        return new Matrix4x3f(this).readOnlyView();
+    }
+
 }

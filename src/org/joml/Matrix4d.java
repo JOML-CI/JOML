@@ -15580,4 +15580,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return new Proxy(this);
     }
 
+    /**
+     * Create a new immutable copy of this {@link Matrix4d}.
+     * <p>
+     * This method allocates a new instance of a class implementing Matrix4dc on every call.
+     * 
+     * @return the read-only view of this vector instance
+     */
+    public Matrix4dc immutableCopy() {
+        return new Matrix4d(this).readOnlyView();
+    }
+
 }

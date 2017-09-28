@@ -2493,4 +2493,15 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
         return new Proxy(this);
     }
 
+    /**
+     * Create a new immutable copy of this {@link Matrix3x2f}.
+     * <p>
+     * This method allocates a new instance of a class implementing Matrix3x2fc on every call.
+     * 
+     * @return the read-only view of this vector instance
+     */
+    public Matrix3x2fc immutableCopy() {
+        return new Matrix3x2f(this).readOnlyView();
+    }
+
 }

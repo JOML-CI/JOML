@@ -1020,4 +1020,15 @@ public class Vector4i implements Externalizable, Vector4ic {
         return new Proxy(this);
     }
 
+    /**
+     * Create a new immutable copy of this {@link Vector4i}.
+     * <p>
+     * This method allocates a new instance of a class implementing Vector4ic on every call.
+     * 
+     * @return the read-only view of this vector instance
+     */
+    public Vector4ic immutableCopy() {
+        return new Vector4i(this).readOnlyView();
+    }
+
 }

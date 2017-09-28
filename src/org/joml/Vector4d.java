@@ -1748,4 +1748,15 @@ public class Vector4d implements Externalizable, Vector4dc {
         return new Proxy(this);
     }
 
+    /**
+     * Create a new immutable copy of this {@link Vector4d}.
+     * <p>
+     * This method allocates a new instance of a class implementing Vector4dc on every call.
+     * 
+     * @return the read-only view of this vector instance
+     */
+    public Vector4dc immutableCopy() {
+        return new Vector4d(this).readOnlyView();
+    }
+
 }

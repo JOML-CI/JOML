@@ -2568,4 +2568,15 @@ public class Vector3d implements Externalizable, Vector3dc {
         return new Proxy(this);
     }
 
+    /**
+     * Create a new immutable copy of this {@link Vector3d}.
+     * <p>
+     * This method allocates a new instance of a class implementing Vector3dc on every call.
+     * 
+     * @return the read-only view of this vector instance
+     */
+    public Vector3dc immutableCopy() {
+        return new Vector3d(this).readOnlyView();
+    }
+
 }
