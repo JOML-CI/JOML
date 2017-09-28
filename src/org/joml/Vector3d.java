@@ -2573,7 +2573,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * <p>
      * This method allocates a new instance of a class implementing Vector3dc on every call.
      * 
-     * @return the read-only view of this vector instance
+     * @return the immutable copy of this vector instance
      */
     public Vector3dc immutableCopy() {
         return new Vector3d(this).readOnlyView();

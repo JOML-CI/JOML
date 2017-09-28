@@ -1753,7 +1753,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * <p>
      * This method allocates a new instance of a class implementing Vector4dc on every call.
      * 
-     * @return the read-only view of this vector instance
+     * @return the immutable copy of this vector instance
      */
     public Vector4dc immutableCopy() {
         return new Vector4d(this).readOnlyView();

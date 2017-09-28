@@ -1052,7 +1052,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * <p>
      * This method allocates a new instance of a class implementing Vector2dc on every call.
      * 
-     * @return the read-only view of this vector instance
+     * @return the immutable copy of this vector instance
      */
     public Vector2dc immutableCopy() {
         return new Vector2d(this).readOnlyView();

@@ -9861,7 +9861,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * <p>
      * This method allocates a new instance of a class implementing Matrix4x3dc on every call.
      * 
-     * @return the read-only view of this vector instance
+     * @return the immutable copy of this matrix instance
      */
     public Matrix4x3dc immutableCopy() {
         return new Matrix4x3d(this).readOnlyView();

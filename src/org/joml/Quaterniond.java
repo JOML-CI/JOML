@@ -2941,7 +2941,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * <p>
      * This method allocates a new instance of a class implementing Quaterniondc on every call.
      * 
-     * @return the read-only view of this vector instance
+     * @return the immutable copy of this quaternion instance
      */
     public Quaterniondc immutableCopy() {
         return new Quaterniond(this).readOnlyView();

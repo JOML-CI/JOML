@@ -1025,7 +1025,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * <p>
      * This method allocates a new instance of a class implementing Vector4ic on every call.
      * 
-     * @return the read-only view of this vector instance
+     * @return the immutable copy of this vector instance
      */
     public Vector4ic immutableCopy() {
         return new Vector4i(this).readOnlyView();

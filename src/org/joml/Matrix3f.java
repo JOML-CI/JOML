@@ -4288,7 +4288,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * <p>
      * This method allocates a new instance of a class implementing Matrix3fc on every call.
      * 
-     * @return the read-only view of this vector instance
+     * @return the immutable copy of this matrix instance
      */
     public Matrix3fc immutableCopy() {
         return new Matrix3f(this).readOnlyView();

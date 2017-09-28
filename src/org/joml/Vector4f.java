@@ -1701,7 +1701,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * <p>
      * This method allocates a new instance of a class implementing Vector4fc on every call.
      * 
-     * @return the read-only view of this vector instance
+     * @return the immutable copy of this vector instance
      */
     public Vector4fc immutableCopy() {
         return new Vector4f(this).readOnlyView();

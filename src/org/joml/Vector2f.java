@@ -1012,7 +1012,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * <p>
      * This method allocates a new instance of a class implementing Vector2fc on every call.
      * 
-     * @return the read-only view of this vector instance
+     * @return the immutable copy of this vector instance
      */
     public Vector2fc immutableCopy() {
         return new Vector2f(this).readOnlyView();
