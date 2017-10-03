@@ -42,96 +42,6 @@ import java.text.NumberFormat;
  */
 public class Vector2i implements Externalizable, Vector2ic {
 
-    private final class Proxy implements Vector2ic {
-        private final Vector2ic delegate;
-
-        Proxy(Vector2ic delegate) {
-            this.delegate = delegate;
-        }
-
-        public int x() {
-            return delegate.x();
-        }
-
-        public int y() {
-            return delegate.y();
-        }
-
-//#ifdef __HAS_NIO__
-        public ByteBuffer get(ByteBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public ByteBuffer get(int index, ByteBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public IntBuffer get(IntBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public IntBuffer get(int index, IntBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-//#endif
-
-        public Vector2i sub(Vector2ic v, Vector2i dest) {
-            return delegate.sub(v, dest);
-        }
-
-        public Vector2i sub(int x, int y, Vector2i dest) {
-            return delegate.sub(x, y, dest);
-        }
-
-        public long lengthSquared() {
-            return delegate.lengthSquared();
-        }
-
-        public double length() {
-            return delegate.length();
-        }
-
-        public double distance(Vector2ic v) {
-            return delegate.distance(v);
-        }
-
-        public double distance(int x, int y) {
-            return delegate.distance(x, y);
-        }
-
-        public long distanceSquared(Vector2ic v) {
-            return delegate.distanceSquared(v);
-        }
-
-        public long distanceSquared(int x, int y) {
-            return delegate.distanceSquared(x, y);
-        }
-
-        public Vector2i add(Vector2ic v, Vector2i dest) {
-            return delegate.add(v, dest);
-        }
-
-        public Vector2i add(int x, int y, Vector2i dest) {
-            return delegate.add(x, y, dest);
-        }
-
-        public Vector2i mul(int scalar, Vector2i dest) {
-            return delegate.mul(scalar, dest);
-        }
-
-        public Vector2i mul(Vector2ic v, Vector2i dest) {
-            return delegate.mul(v, dest);
-        }
-
-        public Vector2i mul(int x, int y, Vector2i dest) {
-            return delegate.mul(x, y, dest);
-        }
-
-        public Vector2i negate(Vector2i dest) {
-            return delegate.negate(dest);
-        }
-    }
-
     private static final long serialVersionUID = 1L;
 
     /**
@@ -760,34 +670,6 @@ public class Vector2i implements Externalizable, Vector2ic {
      */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
-    }
-
-    /**
-     * Create a new read-only view of this {@link Vector2i}.
-     * <p>
-     * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Vector2i will not be possible. This means that any modification of <code>this</code>
-     * will be observable throught the returned read-only view instance.
-     * <p>
-     * This method allocates a new instance of a class implementing Vector2ic on every call.
-     * 
-     * @return the read-only view of this vector instance
-     */
-    public Vector2ic readOnlyView() {
-        if (!Options.DEBUG)
-            return this;
-        return new Proxy(this);
-    }
-
-    /**
-     * Create a new immutable copy of this {@link Vector2i}.
-     * <p>
-     * This method allocates a new instance of a class implementing Vector2ic on every call.
-     * 
-     * @return the immutable copy of this vector instance
-     */
-    public Vector2ic immutableCopy() {
-        return new Vector2i(this).readOnlyView();
     }
 
 }

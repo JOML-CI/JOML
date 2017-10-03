@@ -43,100 +43,6 @@ import java.text.NumberFormat;
  */
 public class Vector3i implements Externalizable, Vector3ic {
 
-    private final class Proxy implements Vector3ic {
-        private final Vector3ic delegate;
-
-        Proxy(Vector3ic delegate) {
-            this.delegate = delegate;
-        }
-
-        public int x() {
-            return delegate.x();
-        }
-
-        public int y() {
-            return delegate.y();
-        }
-
-        public int z() {
-            return delegate.z();
-        }
-
-//#ifdef __HAS_NIO__
-        public IntBuffer get(IntBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public IntBuffer get(int index, IntBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public ByteBuffer get(ByteBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public ByteBuffer get(int index, ByteBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-//#endif
-
-        public Vector3i sub(Vector3ic v, Vector3i dest) {
-            return delegate.sub(v, dest);
-        }
-
-        public Vector3i sub(int x, int y, int z, Vector3i dest) {
-            return delegate.sub(x, y, z, dest);
-        }
-
-        public Vector3i add(Vector3ic v, Vector3i dest) {
-            return delegate.add(v, dest);
-        }
-
-        public Vector3i add(int x, int y, int z, Vector3i dest) {
-            return delegate.add(x, y, z, dest);
-        }
-
-        public Vector3i mul(int scalar, Vector3i dest) {
-            return delegate.mul(scalar, dest);
-        }
-
-        public Vector3i mul(Vector3ic v, Vector3i dest) {
-            return delegate.mul(v, dest);
-        }
-
-        public Vector3i mul(int x, int y, int z, Vector3i dest) {
-            return delegate.mul(x, y, z, dest);
-        }
-
-        public long lengthSquared() {
-            return delegate.lengthSquared();
-        }
-
-        public double length() {
-            return delegate.length();
-        }
-
-        public double distance(Vector3ic v) {
-            return delegate.distance(v);
-        }
-
-        public double distance(int x, int y, int z) {
-            return delegate.distance(x, y, z);
-        }
-
-        public long distanceSquared(Vector3ic v) {
-            return delegate.distanceSquared(v);
-        }
-
-        public long distanceSquared(int x, int y, int z) {
-            return delegate.distanceSquared(x, y, z);
-        }
-
-        public Vector3i negate(Vector3i dest) {
-            return delegate.negate(dest);
-        }
-    }
-
     private static final long serialVersionUID = 1L;
 
     /**
@@ -847,34 +753,6 @@ public class Vector3i implements Externalizable, Vector3ic {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Create a new read-only view of this {@link Vector3i}.
-     * <p>
-     * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Vector3i will not be possible. This means that any modification of <code>this</code>
-     * will be observable throught the returned read-only view instance.
-     * <p>
-     * This method allocates a new instance of a class implementing Vector3ic on every call.
-     * 
-     * @return the read-only view of this vector instance
-     */
-    public Vector3ic readOnlyView() {
-        if (!Options.DEBUG)
-            return this;
-        return new Proxy(this);
-    }
-
-    /**
-     * Create a new immutable copy of this {@link Vector3i}.
-     * <p>
-     * This method allocates a new instance of a class implementing Vector3ic on every call.
-     * 
-     * @return the immutable copy of this vector instance
-     */
-    public Vector3ic immutableCopy() {
-        return new Vector3i(this).readOnlyView();
     }
 
 }
