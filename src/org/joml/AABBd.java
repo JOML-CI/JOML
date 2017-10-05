@@ -169,7 +169,7 @@ public class AABBd {
      * @return this
      */
     public AABBd union(double x, double y, double z) {
-        return union(x, y, z);
+        return union(x, y, z, this);
     }
 
     /**
