@@ -556,16 +556,16 @@ public class Vector3i implements Externalizable, Vector3ic {
     }
 
     /**
-     * Add the supplied vector by this one.
+     * Multiply all components of this {@link Vector3i} by the given vector.
      *
      * @param v
      *          the vector to multiply
      * @return this
      */
     public Vector3i mul(Vector3ic v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
+        x *= v.x();
+        y *= v.y();
+        z *= v.z();
         return this;
     }
 
