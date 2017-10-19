@@ -1138,9 +1138,11 @@ public class Vector3f implements Externalizable, Vector3fc {
      */
     public Vector3f rotateX(float angle, Vector3f dest) {
         float sin = (float) Math.sin(angle * 0.5), cos = (float) Math.cosFromSin(sin, angle * 0.5);
-        dest.x = x;
-        dest.y = y * cos - z * sin;
-        dest.z = y * sin + z * cos;
+        float y = this.y * cos - this.z * sin;
+        float z = this.y * sin + this.z * cos;
+        dest.x = this.x;
+        dest.y = y;
+        dest.z = z;
         return dest;
     }
 
@@ -1160,9 +1162,11 @@ public class Vector3f implements Externalizable, Vector3fc {
      */
     public Vector3f rotateY(float angle, Vector3f dest) {
         float sin = (float) Math.sin(angle * 0.5), cos = (float) Math.cosFromSin(sin, angle * 0.5);
-        dest.x =  x * cos + z * sin;
-        dest.y =  y;
-        dest.z = -x * sin + z * cos;
+        float x =  this.x * cos + this.z * sin;
+        float z = -this.x * sin + this.z * cos;
+        dest.x = x;
+        dest.y = this.y;
+        dest.z = z;
         return dest;
     }
 
@@ -1182,9 +1186,11 @@ public class Vector3f implements Externalizable, Vector3fc {
      */
     public Vector3f rotateZ(float angle, Vector3f dest) {
         float sin = (float) Math.sin(angle * 0.5), cos = (float) Math.cosFromSin(sin, angle * 0.5);
-        dest.x = x * cos - y * sin;
-        dest.y = x * sin + y * cos;
-        dest.z = z;
+        float x = this.x * cos - this.y * sin;
+        float y = this.x * sin + this.y * cos;
+        dest.x = x;
+        dest.y = y;
+        dest.z = this.z;
         return dest;
     }
 

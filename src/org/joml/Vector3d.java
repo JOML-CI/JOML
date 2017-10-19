@@ -1514,9 +1514,11 @@ public class Vector3d implements Externalizable, Vector3dc {
      */
     public Vector3d rotateX(double angle, Vector3d dest) {
         double sin = Math.sin(angle * 0.5), cos = Math.cosFromSin(sin, angle * 0.5);
-        dest.x = x;
-        dest.y = y * cos - z * sin;
-        dest.z = y * sin + z * cos;
+        double y = this.y * cos - this.z * sin;
+        double z = this.y * sin + this.z * cos;
+        dest.x = this.x;
+        dest.y = y;
+        dest.z = z;
         return dest;
     }
 
@@ -1536,9 +1538,11 @@ public class Vector3d implements Externalizable, Vector3dc {
      */
     public Vector3d rotateY(double angle, Vector3d dest) {
         double sin = Math.sin(angle * 0.5), cos = Math.cosFromSin(sin, angle * 0.5);
-        dest.x =  x * cos + z * sin;
-        dest.y =  y;
-        dest.z = -x * sin + z * cos;
+        double x =  this.x * cos + this.z * sin;
+        double z = -this.x * sin + this.z * cos;
+        dest.x = x;
+        dest.y = this.y;
+        dest.z = z;
         return dest;
     }
 
@@ -1558,9 +1562,11 @@ public class Vector3d implements Externalizable, Vector3dc {
      */
     public Vector3d rotateZ(double angle, Vector3d dest) {
         double sin = Math.sin(angle * 0.5), cos = Math.cosFromSin(sin, angle * 0.5);
-        dest.x = x * cos - y * sin;
-        dest.y = x * sin + y * cos;
-        dest.z = z;
+        double x = this.x * cos - this.y * sin;
+        double y = this.x * sin + this.y * cos;
+        dest.x = x;
+        dest.y = y;
+        dest.z = this.z;
         return dest;
     }
 
