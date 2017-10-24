@@ -143,7 +143,7 @@ public class AABBd {
      * @return this
      */
     public AABBd setMin(Vector3dc min) {
-        return this.setMax(min.x(), min.y(), min.z());
+        return this.setMin(min.x(), min.y(), min.z());
     }
 
     /**
