@@ -186,7 +186,7 @@ public class BestCandidateSampling {
             /**
              * This is essentially a ray cast from the origin of the sphere to the point to test and then checking whether that ray goes through the triangle.
              * <p>
-             * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">Fast,
+             * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">Fast,
              * Minimum Storage Ray/Triangle Intersection</a>
              */
             private static boolean isPointOnSphericalTriangle(float x, float y, float z, float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y,

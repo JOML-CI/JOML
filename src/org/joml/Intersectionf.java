@@ -2723,7 +2723,7 @@ public class Intersectionf {
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
      * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
@@ -2802,7 +2802,7 @@ public class Intersectionf {
      * Test whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects the frontface of the triangle consisting of the three vertices
      * <code>v0</code>, <code>v1</code> and <code>v2</code>.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
      * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
@@ -2833,7 +2833,7 @@ public class Intersectionf {
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
      * This test does not take into account the winding order of the triangle, so a ray will intersect a front-facing triangle as well as a back-facing triangle.
@@ -2910,7 +2910,7 @@ public class Intersectionf {
      * Test whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects the frontface of the triangle consisting of the three vertices
      * <code>v0</code>, <code>v1</code> and <code>v2</code>.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
      * This test does not take into account the winding order of the triangle, so a ray will intersect a front-facing triangle as well as a back-facing triangle.
@@ -2940,7 +2940,7 @@ public class Intersectionf {
      * intersects the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>
      * and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
      * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
@@ -3020,7 +3020,7 @@ public class Intersectionf {
      * Determine whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects the frontface of the triangle consisting of the three vertices
      * <code>v0</code>, <code>v1</code> and <code>v2</code> and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
      * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
@@ -3053,7 +3053,7 @@ public class Intersectionf {
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>
      * and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
      * This test does not take into account the winding order of the triangle, so a ray will intersect a front-facing triangle as well as a back-facing triangle.
@@ -3131,7 +3131,7 @@ public class Intersectionf {
      * Determine whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects the triangle consisting of the three vertices
      * <code>v0</code>, <code>v1</code> and <code>v2</code> and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
      * This test does not take into account the winding order of the triangle, so a ray will intersect a front-facing triangle as well as a back-facing triangle.
@@ -3162,7 +3162,7 @@ public class Intersectionf {
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
-     * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a>
      * 
      * @see #testLineSegmentTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3fc, float)
@@ -3216,7 +3216,7 @@ public class Intersectionf {
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
-     * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a>
      * 
      * @see #testLineSegmentTriangle(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float)
@@ -3245,7 +3245,7 @@ public class Intersectionf {
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points,
      * and return the point of intersection.
      * <p>
-     * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a>
      * 
      * @see #intersectLineSegmentTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3fc, float, Vector3f)
@@ -3308,7 +3308,7 @@ public class Intersectionf {
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points,
      * and return the point of intersection.
      * <p>
-     * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a>
      * 
      * @see #intersectLineSegmentTriangle(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)
