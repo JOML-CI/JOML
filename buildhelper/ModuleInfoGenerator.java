@@ -1,3 +1,4 @@
+
 /*
  * (C) Copyright 2017 JOML
 
@@ -37,12 +38,10 @@ public class ModuleInfoGenerator implements Opcodes {
         File dest = new File(args[0]);
         ClassWriter cw = new ClassWriter(0);
         cw.visit(V9, Opcodes.ACC_MODULE, "module-info", null, null, null);
-        ModuleVisitor mv = cw.visitModule("org.joml", ACC_MODULE, args[1]);
+        ModuleVisitor mv = cw.visitModule("org.joml", 0, args[1]);
         mv.visitRequire("java.base", ACC_MANDATED, "9");
-        mv.visitPackage("org/joml");
-        mv.visitPackage("org/joml/sampling");
-        mv.visitExport("org/joml", ACC_MANDATED, (String[]) null);
-        mv.visitExport("org/joml/sampling", ACC_MANDATED, (String[]) null);
+        mv.visitExport("org/joml", 0, (String[]) null);
+        mv.visitExport("org/joml/sampling", 0, (String[]) null);
         mv.visitEnd();
         cw.visitEnd();
         FileOutputStream fos = new FileOutputStream(new File(dest, "module-info.class"));

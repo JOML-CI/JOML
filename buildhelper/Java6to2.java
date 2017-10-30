@@ -170,7 +170,7 @@ public class Java6to2 implements Opcodes {
         File[] list = root.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 File f = new File(dir, name);
-                return f.isDirectory() || name.endsWith(".class");
+                return f.isDirectory() || name.endsWith(".class") && !name.equals("module-info.class");
             }
         });
         if (list == null)

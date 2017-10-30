@@ -47,6 +47,7 @@
 		<platform>__JRE__</platform>
 		<hasNio>__HAS_NIO__</hasNio>
 		<javaExclude>org/joml/jre/**</javaExclude>
+		<moduleInfoExclude></moduleInfoExclude>
 		<variant>joml</variant>
 	</properties>
 	<distributionManagement>
@@ -282,6 +283,7 @@
 				<hasNio>__NHAS_NIO__</hasNio>
 				<variant>joml-gwt</variant>
 				<javaExclude></javaExclude>
+				<moduleInfoExclude>module-info.class</moduleInfoExclude>
 			</properties>
 			<build>
 				<!-- Add the sources to the jar artifact -->
@@ -442,10 +444,22 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.0.2</version>
 				<configuration>
-					<!-- Exclude the Java 1.4 API classes when javaExclude is set -->
 					<excludes>
+						<!-- Exclude the Java 1.4 API classes when javaExclude is set -->
 						<exclude>${javaExclude}</exclude>
+						<!-- Exclude the Java 9 module-info.class when moduleInfoExclude is set -->
+						<exclude>${moduleInfoExclude}</exclude>
 					</excludes>
+					<archive>
+						<!-- Add OSGi meta-information to MANIFEST.MF -->
+						<manifestEntries>
+							<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+							<Bundle-Name>${project.name}</Bundle-Name>
+							<Bundle-SymbolicName>${project.groupId}</Bundle-SymbolicName>
+							<Bundle-Version>${project.version}</Bundle-Version>
+							<Export-Package>org.joml org.joml.sampling</Export-Package>
+						</manifestEntries>
+					</archive>
 				</configuration>
 			</plugin>
 			<plugin>
