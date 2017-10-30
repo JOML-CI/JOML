@@ -625,7 +625,7 @@ public class FrustumIntersection {
      * @param mask
      *          contains as bitset all the planes that should be tested.
      *          This value can be any combination of 
-     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
+     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PX},
      *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
      *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
      * @return the index of the first plane that culled the box, if the box does not intersect the frustum,
@@ -667,7 +667,7 @@ public class FrustumIntersection {
      * @param mask
      *          contains as bitset all the planes that should be tested.
      *          This value can be any combination of 
-     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
+     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PX},
      *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
      *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
      * @return the index of the first plane that culled the box, if the box does not intersect the frustum,
@@ -735,7 +735,7 @@ public class FrustumIntersection {
      * @param mask
      *          contains as bitset all the planes that should be tested.
      *          This value can be any combination of 
-     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
+     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PX},
      *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
      *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
      * @param startPlane
@@ -785,7 +785,7 @@ public class FrustumIntersection {
      * @param mask
      *          contains as bitset all the planes that should be tested.
      *          This value can be any combination of 
-     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
+     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PX},
      *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
      *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
      * @param startPlane
