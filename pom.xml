@@ -74,6 +74,7 @@
 				<variant>joml-jdk3</variant>
 				<hasNio>__NHAS_NIO__</hasNio>
 				<javaExclude>org/joml/jre/**</javaExclude>
+				<moduleInfoExclude>module-info.class</moduleInfoExclude>
 			</properties>
 		</profile>
 		<profile>
