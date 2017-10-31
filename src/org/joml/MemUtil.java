@@ -2578,7 +2578,7 @@ abstract class MemUtil {
 //#ifdef __HAS_NIO__
         private static long findBufferAddress() {
             String javaVersion = System.getProperty("java.version");
-            if ("9".equals(javaVersion) || "1.9".equals(javaVersion))
+            if (javaVersion != null && javaVersion.startsWith("9") || javaVersion.startsWith("1.9"))
                 return findBufferAddressJDK9(null);
             else
                 return findBufferAddressJDK1();
