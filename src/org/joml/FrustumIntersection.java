@@ -408,7 +408,7 @@ public class FrustumIntersection {
      * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
      * @param minX
      *          the x-coordinate of the minimum corner
@@ -463,7 +463,7 @@ public class FrustumIntersection {
      * can occur, when the method returns <tt>-1</tt> for planes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
      * @param minX
      *          the x-coordinate of the minimum corner
@@ -496,7 +496,7 @@ public class FrustumIntersection {
      * can occur, when the method returns <tt>-1</tt> for planes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
      * @param minX
      *          the x-coordinate of the minimum corner
@@ -551,7 +551,7 @@ public class FrustumIntersection {
      * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
      * @param minX
      *          the x-coordinate of the minimum corner
@@ -650,7 +650,7 @@ public class FrustumIntersection {
      * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
      * @param minX
      *          the x-coordinate of the minimum corner
@@ -768,7 +768,7 @@ public class FrustumIntersection {
      * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
      * @param minX
      *          the x-coordinate of the minimum corner

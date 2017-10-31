@@ -304,7 +304,7 @@ public class AABBf {
     /**
      * Test whether the plane given via its plane equation <tt>a*x + b*y + c*z + d = 0</tt> intersects this AABB.
      * <p>
-     * Reference: <a href="http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html">http://zach.in.tu-clausthal.de</a> ("Geometric Approach - Testing Boxes II")
+     * Reference: <a href="http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-testing-boxes-ii/">http://www.lighthouse3d.com</a> ("Geometric Approach - Testing Boxes II")
      * 
      * @param a
      *          the x factor in the plane equation
@@ -323,7 +323,7 @@ public class AABBf {
     /**
      * Test whether the given plane intersects this AABB.
      * <p>
-     * Reference: <a href="http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html">http://zach.in.tu-clausthal.de</a> ("Geometric Approach - Testing Boxes II")
+     * Reference: <a href="http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-testing-boxes-ii/">http://www.lighthouse3d.com</a> ("Geometric Approach - Testing Boxes II")
      * 
      * @param plane
      *          the plane

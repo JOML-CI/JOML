@@ -101,6 +101,7 @@
 											srcdir="buildhelper"
 											destdir="${project.build.directory}/buildhelper"
 											includeantruntime="false">
+											<include name="ModuleInfoGenerator.java"/>
 											<classpath refid="maven.plugin.classpath" />
 										</javac>
 										<java classname="ModuleInfoGenerator" classpathref="maven.plugin.classpath">
@@ -125,11 +126,11 @@
 								<version>6.0</version>
 							</dependency>
 							<dependency>
-							  <groupId>com.sun</groupId>
-							  <artifactId>tools</artifactId>
-							  <version>1.8.0</version>
-							  <scope>system</scope>
-							  <systemPath>${java.home}/../lib/tools.jar</systemPath>
+								<groupId>com.sun</groupId>
+								<artifactId>tools</artifactId>
+								<version>1.8.0</version>
+								<scope>system</scope>
+								<systemPath>${java.home}/../lib/tools.jar</systemPath>
 							</dependency>
 						</dependencies>
 					</plugin>
@@ -192,6 +193,8 @@
 											srcdir="buildhelper"
 											destdir="${project.build.directory}/buildhelper"
 											includeantruntime="false">
+											<include name="Java6to2.java"/>
+											<include name="ModuleInfoGenerator.java"/>
 											<classpath refid="maven.plugin.classpath" />
 										</javac>
 										<java classname="Java6to2" classpathref="maven.plugin.classpath">
@@ -315,6 +318,42 @@
 			</activation>
 			<build>
 				<plugins>
+					<!-- Check for invalid URLs in sources -->
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<id>validate</id>
+								<phase>validate</phase>
+								<configuration>
+									<target>
+										<mkdir dir="${project.build.directory}/buildhelper" />
+										<javac srcdir="buildhelper" destdir="${project.build.directory}/buildhelper"
+											includeantruntime="false">
+											<classpath refid="maven.plugin.classpath" />
+											<include name="UrlChecker.java"/>
+										</javac>
+										<java classname="UrlChecker" classpathref="maven.plugin.classpath" failonerror="yes">
+											<classpath>
+												<pathelement location="${project.build.directory}/buildhelper" />
+											</classpath>
+										</java>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.apache.httpcomponents</groupId>
+								<artifactId>httpclient</artifactId>
+								<version>4.5.3</version>
+							</dependency>
+						</dependencies>
+					</plugin>
 					<plugin>
 						<artifactId>maven-gpg-plugin</artifactId>
 						<version>1.6</version>
