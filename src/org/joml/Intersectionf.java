@@ -3610,6 +3610,87 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether a given circle with center <tt>(aX, aY)</tt> and radius <code>aR</code> and travelled distance vector <tt>(maX, maY)</tt>
+     * intersects a given static circle with center <tt>(bX, bY)</tt> and radius <code>bR</code>.
+     * <p>
+     * Note that the case of two moving circles can always be reduced to this case by expressing the moved distance of one of the circles relative
+     * to the other.
+     * <p>
+     * Reference: <a href="https://www.gamasutra.com/view/feature/131424/pool_hall_lessons_fast_accurate_.php?page=2">https://www.gamasutra.com</a>
+     * 
+     * @param aX
+     *              the x coordinate of the first circle's center
+     * @param aY
+     *              the y coordinate of the first circle's center
+     * @param maX
+     *              the x coordinate of the first circle's travelled distance vector
+     * @param maY
+     *              the y coordinate of the first circle's travelled distance vector
+     * @param aR
+     *              the radius of the first circle
+     * @param bX
+     *              the x coordinate of the second circle's center
+     * @param bY
+     *              the y coordinate of the second circle's center
+     * @param bR
+     *              the radius of the second circle
+     * @return <code>true</code> if both circle intersect; <code>false</code> otherwise
+     */
+    public static boolean testMovingCircleCircle(float aX, float aY, float maX, float maY, float aR, float bX, float bY, float bR) {
+        float aRbR = aR + bR;
+        float dist = (float) Math.sqrt((aX - bX) * (aX - bX) + (aY - bY) * (aY - bY)) - aRbR;
+        float mLen = (float) Math.sqrt(maX * maX + maY * maY);
+        if (mLen < dist)
+            return false;
+        float invMLen = 1.0f / mLen;
+        float nX = maX * invMLen;
+        float nY = maY * invMLen;
+        float cX = bX - aX;
+        float cY = bY - aY;
+        float nDotC = nX * cX + nY * cY;
+        if (nDotC <= 0.0f)
+            return false;
+        float cLen = (float) Math.sqrt(cX * cX + cY * cY);
+        float cLenNdotC = cLen * cLen - nDotC * nDotC;
+        float aRbR2 = aRbR * aRbR;
+        if (cLenNdotC >= aRbR2)
+            return false;
+        float t = aRbR2 - cLenNdotC;
+        if (t < 0.0f)
+            return false;
+        float distance = nDotC - (float) Math.sqrt(t);
+        float mag = mLen;
+        if (mag < distance)
+            return false;
+        return true;
+    }
+
+    /**
+     * Test whether a given circle with center <code>centerA</code> and radius <code>aR</code> and travelled distance vector <code>moveA</code>
+     * intersects a given static circle with center <code>centerB</code> and radius <code>bR</code>.
+     * <p>
+     * Note that the case of two moving circles can always be reduced to this case by expressing the moved distance of one of the circles relative
+     * to the other.
+     * <p>
+     * Reference: <a href="https://www.gamasutra.com/view/feature/131424/pool_hall_lessons_fast_accurate_.php?page=2">https://www.gamasutra.com</a>
+     * 
+     * @param centerA
+     *              the coordinates of the first circle's center
+     * @param moveA
+     *              the coordinates of the first circle's travelled distance vector
+     * @param aR
+     *              the radius of the first circle
+     * @param centerB
+     *              the coordinates of the second circle's center
+     * @param bR
+     *              the radius of the second circle
+     * @return <code>true</code> if both circle intersect; <code>false</code> otherwise
+     */
+    public static boolean testMovingCircleCircle(Vector2f centerA, Vector2f moveA, float aR, Vector2f centerB, float bR) {
+        return testMovingCircleCircle(centerA.x, centerA.y, moveA.x, moveA.y, aR, centerB.x, centerB.y, bR);
+    }
+
+    /**
      * Test whether the one circle with center <tt>(aX, aY)</tt> and square radius <code>radiusSquaredA</code> intersects the other
      * circle with center <tt>(bX, bY)</tt> and square radius <code>radiusSquaredB</code>, and store the center of the line segment of
      * intersection in the <tt>(x, y)</tt> components of the supplied vector and the half-length of that line segment in the z component.
