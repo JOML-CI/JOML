@@ -5,8 +5,8 @@ apply plugin: "java"
 
 archivesBaseName = 'joml'
 
-sourceCompatibility = 1.2
-targetCompatibility = 1.2
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
 sourceSets {
   main {
     java {
