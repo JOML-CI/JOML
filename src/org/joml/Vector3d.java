@@ -1814,6 +1814,34 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
+     * Set the components of this vector to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector3d min(Vector3dc v) {
+        this.x = x < v.x() ? x : v.x();
+        this.y = y < v.y() ? y : v.y();
+        this.z = z < v.z() ? z : v.z();
+        return this;
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector3d max(Vector3dc v) {
+        this.x = x > v.x() ? x : v.x();
+        this.y = y > v.y() ? y : v.y();
+        this.z = z > v.z() ? z : v.z();
+        return this;
+    }
+
+    /**
      * Set all components to zero.
      * 
      * @return this
