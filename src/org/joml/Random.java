@@ -20,14 +20,14 @@
  THE SOFTWARE.
 
  */
-package org.joml.sampling;
+package org.joml;
 
 /**
- * Internal random number generator.
+ * Pseudo-random number generator.
  * 
  * @author Kai Burjack
  */
-class Random {
+public class Random {
 
     /**
      * Reference <a href="http://xoroshiro.di.unimi.it/xoroshiro128plus.c">http://xoroshiro.di.unimi.it/</a>
@@ -136,21 +136,21 @@ class Random {
      * @param seed
      *            the seed number
      */
-    Random(long seed) {
+    public Random(long seed) {
         this.rnd = new Xorshiro128(seed);
     }
 
     /**
      * @return a random float within [0..1)
      */
-    float nextFloat() {
+    public float nextFloat() {
         return rnd.nextFloat();
     }
 
     /**
      * @return a random integer in the range [0..n)
      */
-    int nextInt(int n) {
+    public int nextInt(int n) {
         return rnd.nextInt(n);
     }
 

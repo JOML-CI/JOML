@@ -22,6 +22,8 @@
  */
 package org.joml.sampling;
 
+import org.joml.Random;
+
 /**
  * Creates samples on a unit quad using an NxN strata grid.
  * 

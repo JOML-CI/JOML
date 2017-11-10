@@ -24,6 +24,7 @@ package org.joml.sampling;
 
 import java.util.ArrayList;
 
+import org.joml.Random;
 import org.joml.Vector2f;
 
 /**

@@ -22,6 +22,8 @@
  */
 package org.joml.sampling;
 
+import org.joml.Random;
+
 /**
  * Creates samples on a spiral around a center point.
  * 

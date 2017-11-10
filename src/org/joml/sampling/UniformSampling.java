@@ -22,6 +22,8 @@
  */
 package org.joml.sampling;
 
+import org.joml.Random;
+
 /**
  * Generates uniform samples.
  * 
