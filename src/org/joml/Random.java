@@ -141,13 +141,19 @@ public class Random {
     }
 
     /**
-     * @return a random float within [0..1)
+     * Generate a uniformly distributed floating-point number in the half-open range [0, 1).
+     * 
+     * @return a random float in the range [0..1)
      */
     public float nextFloat() {
         return rnd.nextFloat();
     }
 
     /**
+     * Generate a uniformly distributed integer in the half-open range [0, n).
+     * 
+     * @param n
+     *            the upper limit (exclusive) of the generated integer
      * @return a random integer in the range [0..n)
      */
     public int nextInt(int n) {
