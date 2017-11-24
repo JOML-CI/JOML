@@ -1513,7 +1513,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#rotateX(double, org.joml.Vector3d)
      */
     public Vector3d rotateX(double angle, Vector3d dest) {
-        double sin = Math.sin(angle * 0.5), cos = Math.cosFromSin(sin, angle * 0.5);
+        double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         double y = this.y * cos - this.z * sin;
         double z = this.y * sin + this.z * cos;
         dest.x = this.x;
@@ -1537,7 +1537,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#rotateY(double, org.joml.Vector3d)
      */
     public Vector3d rotateY(double angle, Vector3d dest) {
-        double sin = Math.sin(angle * 0.5), cos = Math.cosFromSin(sin, angle * 0.5);
+        double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         double x =  this.x * cos + this.z * sin;
         double z = -this.x * sin + this.z * cos;
         dest.x = x;
@@ -1561,7 +1561,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#rotateZ(double, org.joml.Vector3d)
      */
     public Vector3d rotateZ(double angle, Vector3d dest) {
-        double sin = Math.sin(angle * 0.5), cos = Math.cosFromSin(sin, angle * 0.5);
+        double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         double x = this.x * cos - this.y * sin;
         double y = this.x * sin + this.y * cos;
         dest.x = x;

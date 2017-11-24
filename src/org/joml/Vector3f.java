@@ -1137,7 +1137,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#rotateX(float, org.joml.Vector3f)
      */
     public Vector3f rotateX(float angle, Vector3f dest) {
-        float sin = (float) Math.sin(angle * 0.5), cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float sin = (float) Math.sin(angle), cos = (float) Math.cosFromSin(sin, angle);
         float y = this.y * cos - this.z * sin;
         float z = this.y * sin + this.z * cos;
         dest.x = this.x;
@@ -1161,7 +1161,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#rotateY(float, org.joml.Vector3f)
      */
     public Vector3f rotateY(float angle, Vector3f dest) {
-        float sin = (float) Math.sin(angle * 0.5), cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float sin = (float) Math.sin(angle), cos = (float) Math.cosFromSin(sin, angle);
         float x =  this.x * cos + this.z * sin;
         float z = -this.x * sin + this.z * cos;
         dest.x = x;
@@ -1185,7 +1185,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#rotateZ(float, org.joml.Vector3f)
      */
     public Vector3f rotateZ(float angle, Vector3f dest) {
-        float sin = (float) Math.sin(angle * 0.5), cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float sin = (float) Math.sin(angle), cos = (float) Math.cosFromSin(sin, angle);
         float x = this.x * cos - this.y * sin;
         float y = this.x * sin + this.y * cos;
         dest.x = x;
