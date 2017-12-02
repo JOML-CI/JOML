@@ -1078,7 +1078,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         dest.x = this.x;
         dest.y = y;
         dest.z = z;
-        dest.z = this.w;
+        dest.w = this.w;
         return dest;
     }
 
@@ -1103,6 +1103,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         dest.x = x;
         dest.y = this.y;
         dest.z = z;
+        dest.w = this.w;
         return dest;
     }
 

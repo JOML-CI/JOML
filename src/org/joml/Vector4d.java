@@ -1147,7 +1147,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         dest.x = this.x;
         dest.y = y;
         dest.z = z;
-        dest.z = this.w;
+        dest.w = this.w;
         return dest;
     }
 
