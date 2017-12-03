@@ -1134,10 +1134,8 @@ public abstract class Matrix3fc implements Externalizable, IMatrix3f {
      */
     public abstract Matrix3fc normal();
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

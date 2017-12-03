@@ -323,9 +323,7 @@ public abstract class AxisAngle4dc implements Externalizable {
      */
     public abstract String toString(NumberFormat formatter);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 }

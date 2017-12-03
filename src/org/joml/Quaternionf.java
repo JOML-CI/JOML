@@ -68,8 +68,8 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
     public float w;
 
     /**
-     * Create a new {@link Quaternionf} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>, 
-     * where <tt>(x, y, z)</tt> is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
+     * Create a new {@link Quaternionf} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>, where <tt>(x, y, z)</tt>
+     * is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
      */
     public Quaternionf() {
         this.w = 1.0f;
@@ -77,15 +77,11 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
 
     /**
      * Create a new {@link Quaternionf} and initialize its components to the given values.
-     * 
-     * @param x
-     *          the first component of the imaginary part
-     * @param y
-     *          the second component of the imaginary part
-     * @param z
-     *          the third component of the imaginary part
-     * @param w
-     *          the real part
+     *
+     * @param x the first component of the imaginary part
+     * @param y the second component of the imaginary part
+     * @param z the third component of the imaginary part
+     * @param w the real part
      */
     public Quaternionf(float x, float y, float z, float w) {
         this.x = x;
@@ -95,15 +91,12 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
     }
 
     /**
-     * Create a new {@link Quaternionf} and initialize its imaginary components to the given values,
-     * and its real part to <tt>1.0</tt>.
-     * 
-     * @param x
-     *          the first component of the imaginary part
-     * @param y
-     *          the second component of the imaginary part
-     * @param z
-     *          the third component of the imaginary part
+     * Create a new {@link Quaternionf} and initialize its imaginary components to the given values, and its real part
+     * to <tt>1.0</tt>.
+     *
+     * @param x the first component of the imaginary part
+     * @param y the second component of the imaginary part
+     * @param z the third component of the imaginary part
      */
     public Quaternionf(float x, float y, float z) {
         this.x = x;
@@ -113,10 +106,10 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
     }
 
     /**
-     * Create a new {@link Quaternionf} and initialize its components to the same values as the given {@link Quaternionf}.
-     * 
-     * @param source
-     *          the {@link Quaternionf} to take the component values from
+     * Create a new {@link Quaternionf} and initialize its components to the same values as the given {@link
+     * Quaternionf}.
+     *
+     * @param source the {@link Quaternionf} to take the component values from
      */
     public Quaternionf(Quaternionf source) {
         MemUtil.INSTANCE.copy(source, this);
@@ -124,9 +117,8 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
 
     /**
      * Create a new {@link Quaternionf} which represents the rotation of the given {@link AxisAngle4fc}.
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4fc}
+     *
+     * @param axisAngle the {@link AxisAngle4fc}
      */
     public Quaternionf(AxisAngle4fc axisAngle) {
         float sin = (float) Math.sin(axisAngle.angle() * 0.5);
@@ -137,27 +129,22 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         w = cos;
     }
 
-    @Override
     public float x() {
         return this.x;
     }
 
-    @Override
     public float y() {
         return this.y;
     }
 
-    @Override
     public float z() {
         return this.z;
     }
 
-    @Override
     public float w() {
         return this.w;
     }
 
-    @Override
     public Quaternionfc normalize() {
         float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
         x *= invNorm;
@@ -167,25 +154,21 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc normalize(Quaternionfc dest) {
         float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
         dest.set(x * invNorm, y * invNorm, z * invNorm, w * invNorm);
         return dest;
     }
 
-    @Override
     public Quaternionfc add(float x, float y, float z, float w) {
         return add(x, y, z, w, this);
     }
 
-    @Override
     public Quaternionfc add(float x, float y, float z, float w, Quaternionfc dest) {
         dest.set(this.x + x, this.y + y, this.z + z, this.w + w);
         return dest;
     }
 
-    @Override
     public Quaternionfc add(IQuaternionf q2) {
         x += q2.x();
         y += q2.y();
@@ -194,54 +177,44 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc add(IQuaternionf q2, Quaternionfc dest) {
         dest.set(x + q2.x(), y + q2.y(), z + q2.z(), w + q2.w());
         return dest;
     }
 
-    @Override
     public float dot(Quaternionfc otherQuat) {
         return this.x * otherQuat.x() + this.y * otherQuat.y() + this.z * otherQuat.z() + this.w * otherQuat.w();
     }
 
-    @Override
     public float angle() {
         float angle = (float) (2.0 * Math.acos(w));
         return (float) (angle <= Math.PI ? angle : Math.PI + Math.PI - angle);
     }
 
-    @Override
     public Matrix3fc get(Matrix3fc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Matrix3dc get(Matrix3dc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Matrix4fc get(Matrix4fc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Matrix4dc get(Matrix4dc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Matrix4x3fc get(Matrix4x3fc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Matrix4x3dc get(Matrix4x3dc dest) {
         return dest.set(this);
     }
 
-    @Override
     public AxisAngle4fc get(AxisAngle4fc dest) {
         float x = this.x;
         float y = this.y;
@@ -261,55 +234,47 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Quaterniondc get(Quaterniondc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Quaternionfc get(Quaternionfc dest) {
         return dest.set(this);
     }
 
-//#ifdef __HAS_NIO__
-    @Override
+    //#ifdef __HAS_NIO__
+
     public ByteBuffer getAsMatrix3f(ByteBuffer dest) {
         MemUtil.INSTANCE.putMatrix3f(this, dest.position(), dest);
         return dest;
     }
 
-    @Override
     public FloatBuffer getAsMatrix3f(FloatBuffer dest) {
         MemUtil.INSTANCE.putMatrix3f(this, dest.position(), dest);
         return dest;
     }
 
-    @Override
     public ByteBuffer getAsMatrix4f(ByteBuffer dest) {
         MemUtil.INSTANCE.putMatrix4f(this, dest.position(), dest);
         return dest;
     }
 
-    @Override
     public FloatBuffer getAsMatrix4f(FloatBuffer dest) {
         MemUtil.INSTANCE.putMatrix4f(this, dest.position(), dest);
         return dest;
     }
 
-    @Override
     public ByteBuffer getAsMatrix4x3f(ByteBuffer dest) {
         MemUtil.INSTANCE.putMatrix4x3f(this, dest.position(), dest);
         return dest;
     }
 
-    @Override
     public FloatBuffer getAsMatrix4x3f(FloatBuffer dest) {
         MemUtil.INSTANCE.putMatrix4x3f(this, dest.position(), dest);
         return dest;
     }
-//#endif
+    //#endif
 
-    @Override
     public Quaternionfc set(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
@@ -318,7 +283,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc set(float x, float y, float z) {
         this.x = x;
         this.y = y;
@@ -326,7 +290,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc set(IQuaternionf q) {
         if (q instanceof Quaternionf)
             MemUtil.INSTANCE.copy((Quaternionf) q, this);
@@ -339,17 +302,14 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc set(AxisAngle4fc axisAngle) {
         return setAngleAxis(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z());
     }
 
-    @Override
     public Quaternionfc set(AxisAngle4dc axisAngle) {
         return setAngleAxis(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z());
     }
 
-    @Override
     public Quaternionfc setAngleAxis(float angle, float x, float y, float z) {
         float s = (float) Math.sin(angle * 0.5);
         this.x = x * s;
@@ -359,7 +319,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc setAngleAxis(double angle, double x, double y, double z) {
         double s = Math.sin(angle * 0.5);
         this.x = (float) (x * s);
@@ -369,12 +328,10 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc rotationAxis(AxisAngle4fc axisAngle) {
         return rotationAxis(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z());
     }
 
-    @Override
     public Quaternionfc rotationAxis(float angle, float axisX, float axisY, float axisZ) {
         float hangle = angle / 2.0f;
         float sinAngle = (float) Math.sin(hangle);
@@ -388,12 +345,10 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc rotationAxis(float angle, IVector3f axis) {
         return rotationAxis(angle, axis.x(), axis.y(), axis.z());
     }
 
-    @Override
     public Quaternionfc rotation(float angleX, float angleY, float angleZ) {
         double thetaX = angleX * 0.5;
         double thetaY = angleY * 0.5;
@@ -415,7 +370,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc rotationX(float angle) {
         float sin = (float) Math.sin(angle * 0.5);
         float cos = (float) Math.cosFromSin(sin, angle * 0.5);
@@ -426,7 +380,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc rotationY(float angle) {
         float sin = (float) Math.sin(angle * 0.5);
         float cos = (float) Math.cosFromSin(sin, angle * 0.5);
@@ -437,7 +390,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc rotationZ(float angle) {
         float sin = (float) Math.sin(angle * 0.5);
         float cos = (float) Math.cosFromSin(sin, angle * 0.5);
@@ -455,9 +407,15 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         float lenX = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
         float lenY = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
         float lenZ = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
-        nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
-        nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
-        nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
+        nm00 *= lenX;
+        nm01 *= lenX;
+        nm02 *= lenX;
+        nm10 *= lenY;
+        nm11 *= lenY;
+        nm12 *= lenY;
+        nm20 *= lenZ;
+        nm21 *= lenZ;
+        nm22 *= lenZ;
         setFromNormalized(nm00, nm01, nm02, nm10, nm11, nm12, nm20, nm21, nm22);
     }
 
@@ -504,9 +462,15 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         double lenX = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
         double lenY = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
         double lenZ = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
-        nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
-        nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
+        nm00 *= lenX;
+        nm01 *= lenX;
+        nm02 *= lenX;
+        nm10 *= lenY;
+        nm11 *= lenY;
+        nm12 *= lenY;
+        nm20 *= lenZ;
+        nm21 *= lenZ;
+        nm22 *= lenZ;
         setFromNormalized(nm00, nm01, nm02, nm10, nm11, nm12, nm20, nm21, nm22);
     }
 
@@ -546,84 +510,70 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         }
     }
 
-    @Override
     public Quaternionfc setFromUnnormalized(IMatrix4f mat) {
         setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromUnnormalized(IMatrix4x3f mat) {
         setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromUnnormalized(IMatrix4x3d mat) {
         setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromNormalized(IMatrix4f mat) {
         setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromNormalized(IMatrix4x3f mat) {
         setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromNormalized(IMatrix4x3d mat) {
         setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromUnnormalized(IMatrix4d mat) {
         setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromNormalized(IMatrix4d mat) {
         setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromUnnormalized(IMatrix3f mat) {
         setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromNormalized(IMatrix3f mat) {
         setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromUnnormalized(IMatrix3d mat) {
         setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc setFromNormalized(IMatrix3d mat) {
         setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
-    @Override
     public Quaternionfc fromAxisAngleRad(IVector3f axis, float angle) {
         return fromAxisAngleRad(axis.x(), axis.y(), axis.z(), angle);
     }
 
-    @Override
     public Quaternionfc fromAxisAngleRad(float axisX, float axisY, float axisZ, float angle) {
         float hangle = angle / 2.0f;
         float sinAngle = (float) Math.sin(hangle);
@@ -635,97 +585,82 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc fromAxisAngleDeg(IVector3f axis, float angle) {
         return fromAxisAngleRad(axis.x(), axis.y(), axis.z(), (float) Math.toRadians(angle));
     }
 
-    @Override
     public Quaternionfc fromAxisAngleDeg(float axisX, float axisY, float axisZ, float angle) {
         return fromAxisAngleRad(axisX, axisY, axisZ, (float) Math.toRadians(angle));
     }
 
-    @Override
     public Quaternionfc mul(IQuaternionf q) {
         return mul(q, this);
     }
 
-    @Override
     public Quaternionfc mul(IQuaternionf q, Quaternionfc dest) {
         dest.set(w * q.x() + x * q.w() + y * q.z() - z * q.y(),
-                 w * q.y() - x * q.z() + y * q.w() + z * q.x(),
-                 w * q.z() + x * q.y() - y * q.x() + z * q.w(),
-                 w * q.w() - x * q.x() - y * q.y() - z * q.z());
+                w * q.y() - x * q.z() + y * q.w() + z * q.x(),
+                w * q.z() + x * q.y() - y * q.x() + z * q.w(),
+                w * q.w() - x * q.x() - y * q.y() - z * q.z());
         return dest;
     }
 
-    @Override
     public Quaternionfc mul(float qx, float qy, float qz, float qw) {
         set(w * qx + x * qw + y * qz - z * qy,
-            w * qy - x * qz + y * qw + z * qx,
-            w * qz + x * qy - y * qx + z * qw,
-            w * qw - x * qx - y * qy - z * qz);
+                w * qy - x * qz + y * qw + z * qx,
+                w * qz + x * qy - y * qx + z * qw,
+                w * qw - x * qx - y * qy - z * qz);
         return this;
     }
 
-    @Override
     public Quaternionfc mul(float qx, float qy, float qz, float qw, Quaternionfc dest) {
         dest.set(w * qx + x * qw + y * qz - z * qy,
-                 w * qy - x * qz + y * qw + z * qx,
-                 w * qz + x * qy - y * qx + z * qw,
-                 w * qw - x * qx - y * qy - z * qz);
+                w * qy - x * qz + y * qw + z * qx,
+                w * qz + x * qy - y * qx + z * qw,
+                w * qw - x * qx - y * qy - z * qz);
         return dest;
     }
 
-    @Override
     public Quaternionfc premul(IQuaternionf q) {
         return premul(q, this);
     }
 
-    @Override
     public Quaternionfc premul(IQuaternionf q, Quaternionfc dest) {
         dest.set(q.w() * x + q.x() * w + q.y() * z - q.z() * y,
-                 q.w() * y - q.x() * z + q.y() * w + q.z() * x,
-                 q.w() * z + q.x() * y - q.y() * x + q.z() * w,
-                 q.w() * w - q.x() * x - q.y() * y - q.z() * z);
+                q.w() * y - q.x() * z + q.y() * w + q.z() * x,
+                q.w() * z + q.x() * y - q.y() * x + q.z() * w,
+                q.w() * w - q.x() * x - q.y() * y - q.z() * z);
         return dest;
     }
 
-    @Override
     public Quaternionfc premul(float qx, float qy, float qz, float qw) {
         return premul(qx, qy, qz, qw, this);
     }
 
-    @Override
     public Quaternionfc premul(float qx, float qy, float qz, float qw, Quaternionfc dest) {
         dest.set(qw * x + qx * w + qy * z - qz * y,
-                 qw * y - qx * z + qy * w + qz * x,
-                 qw * z + qx * y - qy * x + qz * w,
-                 qw * w - qx * x - qy * y - qz * z);
+                qw * y - qx * z + qy * w + qz * x,
+                qw * z + qx * y - qy * x + qz * w,
+                qw * w - qx * x - qy * y - qz * z);
         return dest;
     }
 
-    @Override
-    public Vector3fc transform(Vector3fc vec){
+    public Vector3fc transform(Vector3fc vec) {
         return transform(vec.x(), vec.y(), vec.z(), vec);
     }
 
-    @Override
-    public Vector4fc transform(Vector4fc vec){
+    public Vector4fc transform(Vector4fc vec) {
         return transform(vec, vec);
     }
 
-    @Override
     public Vector3fc transform(IVector3f vec, Vector3fc dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
     }
 
-    @Override
     public Vector3dc transform(IVector3d vec, Vector3dc dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
     }
 
-    @Override
     public Vector3fc transform(float x, float y, float z, Vector3fc dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
@@ -752,7 +687,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Vector3dc transform(double x, double y, double z, Vector3dc dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
@@ -779,12 +713,10 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Vector4fc transform(IVector4f vec, Vector4fc dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
     }
 
-    @Override
     public Vector4fc transform(float x, float y, float z, Vector4fc dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
@@ -812,19 +744,16 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Quaternionfc invert(Quaternionfc dest) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
         dest.set(-x * invNorm, -y * invNorm, -z * invNorm, w * invNorm);
         return dest;
     }
 
-    @Override
     public Quaternionfc invert() {
         return invert(this);
     }
 
-    @Override
     public Quaternionfc div(IQuaternionf b, Quaternionfc dest) {
         float invNorm = 1.0f / (b.x() * b.x() + b.y() * b.y() + b.z() * b.z() + b.w() * b.w());
         float x = -b.x() * invNorm;
@@ -832,18 +761,16 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         float z = -b.z() * invNorm;
         float w = b.w() * invNorm;
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
-                 this.w * y - this.x * z + this.y * w + this.z * x,
-                 this.w * z + this.x * y - this.y * x + this.z * w,
-                 this.w * w - this.x * x - this.y * y - this.z * z);
+                this.w * y - this.x * z + this.y * w + this.z * x,
+                this.w * z + this.x * y - this.y * x + this.z * w,
+                this.w * w - this.x * x - this.y * y - this.z * z);
         return dest;
     }
 
-    @Override
     public Quaternionfc div(IQuaternionf b) {
         return div(b, this);
     }
 
-    @Override
     public Quaternionfc conjugate() {
         x = -x;
         y = -y;
@@ -851,24 +778,20 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc conjugate(Quaternionfc dest) {
         dest.set(-x, -y, -z, w);
         return dest;
     }
 
-    @Override
     public Quaternionfc identity() {
         MemUtil.INSTANCE.identity(this);
         return this;
     }
 
-    @Override
     public Quaternionfc rotateXYZ(float angleX, float angleY, float angleZ) {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    @Override
     public Quaternionfc rotateXYZ(float angleX, float angleY, float angleZ, Quaternionfc dest) {
         float sx = (float) Math.sin(angleX * 0.5);
         float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
@@ -881,24 +804,22 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         float sysz = sy * sz;
         float sycz = sy * cz;
         float cysz = cy * sz;
-        float w = cx*cycz - sx*sysz;
-        float x = sx*cycz + cx*sysz;
-        float y = cx*sycz - sx*cysz;
-        float z = cx*cysz + sx*sycz;
+        float w = cx * cycz - sx * sysz;
+        float x = sx * cycz + cx * sysz;
+        float y = cx * sycz - sx * cysz;
+        float z = cx * cysz + sx * sycz;
         // right-multiply
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
-                 this.w * y - this.x * z + this.y * w + this.z * x,
-                 this.w * z + this.x * y - this.y * x + this.z * w,
-                 this.w * w - this.x * x - this.y * y - this.z * z);
+                this.w * y - this.x * z + this.y * w + this.z * x,
+                this.w * z + this.x * y - this.y * x + this.z * w,
+                this.w * w - this.x * x - this.y * y - this.z * z);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateZYX(float angleZ, float angleY, float angleX) {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    @Override
     public Quaternionfc rotateZYX(float angleZ, float angleY, float angleX, Quaternionfc dest) {
         float sx = (float) Math.sin(angleX * 0.5);
         float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
@@ -911,24 +832,22 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         float sysz = sy * sz;
         float sycz = sy * cz;
         float cysz = cy * sz;
-        float w = cx*cycz + sx*sysz;
-        float x = sx*cycz - cx*sysz;
-        float y = cx*sycz + sx*cysz;
-        float z = cx*cysz - sx*sycz;
+        float w = cx * cycz + sx * sysz;
+        float x = sx * cycz - cx * sysz;
+        float y = cx * sycz + sx * cysz;
+        float z = cx * cysz - sx * sycz;
         // right-multiply
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
-                 this.w * y - this.x * z + this.y * w + this.z * x,
-                 this.w * z + this.x * y - this.y * x + this.z * w,
-                 this.w * w - this.x * x - this.y * y - this.z * z);
+                this.w * y - this.x * z + this.y * w + this.z * x,
+                this.w * z + this.x * y - this.y * x + this.z * w,
+                this.w * w - this.x * x - this.y * y - this.z * z);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateYXZ(float angleZ, float angleY, float angleX) {
         return rotateYXZ(angleZ, angleY, angleX, this);
     }
 
-    @Override
     public Quaternionfc rotateYXZ(float angleY, float angleX, float angleZ, Quaternionfc dest) {
         float sx = (float) Math.sin(angleX * 0.5);
         float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
@@ -947,26 +866,23 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         float w = yw * cz + yz * sz;
         // right-multiply
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
-                 this.w * y - this.x * z + this.y * w + this.z * x,
-                 this.w * z + this.x * y - this.y * x + this.z * w,
-                 this.w * w - this.x * x - this.y * y - this.z * z);
+                this.w * y - this.x * z + this.y * w + this.z * x,
+                this.w * z + this.x * y - this.y * x + this.z * w,
+                this.w * w - this.x * x - this.y * y - this.z * z);
         return dest;
     }
 
-    @Override
     public Vector3fc getEulerAnglesXYZ(Vector3fc eulerAngles) {
-        eulerAngles.set((float) Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y)),
-                (float) Math.asin(2.0 * (x*z + y*w)),
-                (float) Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z)));
+        eulerAngles.set((float) Math.atan2(2.0 * (x * w - y * z), 1.0 - 2.0 * (x * x + y * y)),
+                (float) Math.asin(2.0 * (x * z + y * w)),
+                (float) Math.atan2(2.0 * (z * w - x * y), 1.0 - 2.0 * (y * y + z * z)));
         return eulerAngles;
     }
 
-    @Override
     public float lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
 
-    @Override
     public Quaternionfc rotationXYZ(float angleX, float angleY, float angleZ) {
         float sx = (float) Math.sin(angleX * 0.5);
         float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
@@ -979,15 +895,14 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         float sysz = sy * sz;
         float sycz = sy * cz;
         float cysz = cy * sz;
-        w = cx*cycz - sx*sysz;
-        x = sx*cycz + cx*sysz;
-        y = cx*sycz - sx*cysz;
-        z = cx*cysz + sx*sycz;
+        w = cx * cycz - sx * sysz;
+        x = sx * cycz + cx * sysz;
+        y = cx * sycz - sx * cysz;
+        z = cx * cysz + sx * sycz;
 
         return this;
     }
 
-    @Override
     public Quaternionfc rotationZYX(float angleZ, float angleY, float angleX) {
         float sx = (float) Math.sin(angleX * 0.5);
         float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
@@ -1000,15 +915,14 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         float sysz = sy * sz;
         float sycz = sy * cz;
         float cysz = cy * sz;
-        w = cx*cycz + sx*sysz;
-        x = sx*cycz - cx*sysz;
-        y = cx*sycz + sx*cysz;
-        z = cx*cysz - sx*sycz;
+        w = cx * cycz + sx * sysz;
+        x = sx * cycz - cx * sysz;
+        y = cx * sycz + sx * cysz;
+        z = cx * cysz - sx * sycz;
 
         return this;
     }
 
-    @Override
     public Quaternionfc rotationYXZ(float angleY, float angleX, float angleZ) {
         float sx = (float) Math.sin(angleX * 0.5);
         float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
@@ -1029,12 +943,10 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc slerp(IQuaternionf target, float alpha) {
         return slerp(target, alpha, this);
     }
 
-    @Override
     public Quaternionfc slerp(IQuaternionf target, float alpha, Quaternionfc dest) {
         float cosom = x * target.x() + y * target.y() + z * target.z() + w * target.w();
         float absCosom = Math.abs(cosom);
@@ -1055,21 +967,20 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
     }
 
     /**
-     * Interpolate between all of the quaternions given in <code>qs</code> via spherical linear interpolation using the specified interpolation factors <code>weights</code>,
-     * and store the result in <code>dest</code>.
+     * Interpolate between all of the quaternions given in <code>qs</code> via spherical linear interpolation using the
+     * specified interpolation factors <code>weights</code>, and store the result in <code>dest</code>.
      * <p>
-     * This method will interpolate between each two successive quaternions via {@link #slerp(IQuaternionf, float)} using their relative interpolation weights.
+     * This method will interpolate between each two successive quaternions via {@link #slerp(IQuaternionf, float)}
+     * using their relative interpolation weights.
      * <p>
-     * This method resorts to non-spherical linear interpolation when the absolute dot product of any two interpolated quaternions is below <tt>1E-6f</tt>.
+     * This method resorts to non-spherical linear interpolation when the absolute dot product of any two interpolated
+     * quaternions is below <tt>1E-6f</tt>.
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/62354/method-for-interpolation-between-3-quaternions#answer-62356">http://gamedev.stackexchange.com/</a>
-     * 
-     * @param qs
-     *          the quaternions to interpolate over
-     * @param weights
-     *          the weights of each individual quaternion in <code>qs</code>
-     * @param dest
-     *          will hold the result
+     *
+     * @param qs      the quaternions to interpolate over
+     * @param weights the weights of each individual quaternion in <code>qs</code>
+     * @param dest    will hold the result
      * @return dest
      */
     public static Quaternionfc slerp(Quaternionf[] qs, float[] weights, Quaternionf dest) {
@@ -1085,19 +996,16 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Quaternionfc scale(float factor) {
         return scale(factor, this);
     }
 
-    @Override
     public Quaternionfc scale(float factor, Quaternionfc dest) {
         float sqrt = (float) Math.sqrt(factor);
         dest.set(sqrt * x, sqrt * y, sqrt * z, sqrt * w);
         return this;
     }
 
-    @Override
     public Quaternionfc scaling(float factor) {
         float sqrt = (float) Math.sqrt(factor);
         this.x = 0.0f;
@@ -1107,22 +1015,18 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc integrate(float dt, float vx, float vy, float vz) {
         return integrate(dt, vx, vy, vz, this);
     }
 
-    @Override
     public Quaternionfc integrate(float dt, float vx, float vy, float vz, Quaternionfc dest) {
         return rotateLocal(dt * vx, dt * vy, dt * vz, dest);
     }
 
-    @Override
     public Quaternionfc nlerp(IQuaternionf q, float factor) {
         return nlerp(q, factor, this);
     }
 
-    @Override
     public Quaternionfc nlerp(IQuaternionf q, float factor, Quaternionfc dest) {
         float cosom = x * q.x() + y * q.y() + z * q.z() + w * q.w();
         float scale0 = 1.0f - factor;
@@ -1134,20 +1038,17 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
     }
 
     /**
-     * Interpolate between all of the quaternions given in <code>qs</code> via non-spherical linear interpolation using the
-     * specified interpolation factors <code>weights</code>, and store the result in <code>dest</code>.
+     * Interpolate between all of the quaternions given in <code>qs</code> via non-spherical linear interpolation using
+     * the specified interpolation factors <code>weights</code>, and store the result in <code>dest</code>.
      * <p>
      * This method will interpolate between each two successive quaternions via {@link #nlerp(IQuaternionf, float)}
      * using their relative interpolation weights.
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/62354/method-for-interpolation-between-3-quaternions#answer-62356">http://gamedev.stackexchange.com/</a>
-     * 
-     * @param qs
-     *          the quaternions to interpolate over
-     * @param weights
-     *          the weights of each individual quaternion in <code>qs</code>
-     * @param dest
-     *          will hold the result
+     *
+     * @param qs      the quaternions to interpolate over
+     * @param weights the weights of each individual quaternion in <code>qs</code>
+     * @param dest    will hold the result
      * @return dest
      */
     public static Quaternionfc nlerp(Quaternionfc[] qs, float[] weights, Quaternionf dest) {
@@ -1163,7 +1064,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Quaternionfc nlerpIterative(IQuaternionf q, float alpha, float dotThreshold, Quaternionfc dest) {
         float q1x = x, q1y = y, q1z = z, q1w = w;
         float q2x = q.x(), q2y = q.y(), q2z = q.z(), q2w = q.w();
@@ -1213,29 +1113,26 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Quaternionfc nlerpIterative(IQuaternionf q, float alpha, float dotThreshold) {
         return nlerpIterative(q, alpha, dotThreshold, this);
     }
 
     /**
-     * Interpolate between all of the quaternions given in <code>qs</code> via iterative non-spherical linear interpolation using the
-     * specified interpolation factors <code>weights</code>, and store the result in <code>dest</code>.
+     * Interpolate between all of the quaternions given in <code>qs</code> via iterative non-spherical linear
+     * interpolation using the specified interpolation factors <code>weights</code>, and store the result in
+     * <code>dest</code>.
      * <p>
-     * This method will interpolate between each two successive quaternions via {@link #nlerpIterative(IQuaternionf, float, float)}
-     * using their relative interpolation weights.
+     * This method will interpolate between each two successive quaternions via {@link #nlerpIterative(IQuaternionf,
+     * float, float)} using their relative interpolation weights.
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/62354/method-for-interpolation-between-3-quaternions#answer-62356">http://gamedev.stackexchange.com/</a>
-     * 
-     * @param qs
-     *          the quaternions to interpolate over
-     * @param weights
-     *          the weights of each individual quaternion in <code>qs</code>
-     * @param dotThreshold
-     *          the threshold for the dot product of each two interpolated quaternions above which {@link #nlerpIterative(IQuaternionf, float, float)} performs another iteration
-     *          of a small-step linear interpolation
-     * @param dest
-     *          will hold the result
+     *
+     * @param qs           the quaternions to interpolate over
+     * @param weights      the weights of each individual quaternion in <code>qs</code>
+     * @param dotThreshold the threshold for the dot product of each two interpolated quaternions above which {@link
+     *                     #nlerpIterative(IQuaternionf, float, float)} performs another iteration of a small-step
+     *                     linear interpolation
+     * @param dest         will hold the result
      * @return dest
      */
     public static Quaternionfc nlerpIterative(Quaternionf[] qs, float[] weights, float dotThreshold, Quaternionf dest) {
@@ -1251,22 +1148,18 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Quaternionfc lookAlong(IVector3f dir, IVector3f up) {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
-    @Override
     public Quaternionfc lookAlong(IVector3f dir, IVector3f up, Quaternionfc dest) {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
 
-    @Override
     public Quaternionfc lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
-    @Override
     public Quaternionfc lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternionfc dest) {
         // Normalize direction
         float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
@@ -1325,28 +1218,33 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         }
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
-                 this.w * y - this.x * z + this.y * w + this.z * x,
-                 this.w * z + this.x * y - this.y * x + this.z * w,
-                 this.w * w - this.x * x - this.y * y - this.z * z);
+                this.w * y - this.x * z + this.y * w + this.z * x,
+                this.w * z + this.x * y - this.y * x + this.z * w,
+                this.w * w - this.x * x - this.y * y - this.z * z);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotationTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
         x = fromDirY * toDirZ - fromDirZ * toDirY;
         y = fromDirZ * toDirX - fromDirX * toDirZ;
         z = fromDirX * toDirY - fromDirY * toDirX;
         w = (float) Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
-                              (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
-                 (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
+                (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
+                (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
         float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
         if (Float.isInfinite(invNorm)) {
             // Rotation is ambiguous: Find appropriate rotation axis (1. try toDir x +Z)
-            x = toDirY; y = -toDirX; z = 0.0f; w = 0.0f;
+            x = toDirY;
+            y = -toDirX;
+            z = 0.0f;
+            w = 0.0f;
             invNorm = (float) (1.0 / Math.sqrt(x * x + y * y));
             if (Float.isInfinite(invNorm)) {
                 // 2. try toDir x +X
-                x = 0.0f; y = toDirZ; z = -toDirY; w = 0.0f;
+                x = 0.0f;
+                y = toDirZ;
+                z = -toDirY;
+                w = 0.0f;
                 invNorm = (float) (1.0 / Math.sqrt(y * y + z * z));
             }
         }
@@ -1357,27 +1255,31 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc rotationTo(IVector3f fromDir, IVector3f toDir) {
         return rotationTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z());
     }
 
-    @Override
     public Quaternionfc rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ, Quaternionfc dest) {
         float x = fromDirY * toDirZ - fromDirZ * toDirY;
         float y = fromDirZ * toDirX - fromDirX * toDirZ;
         float z = fromDirX * toDirY - fromDirY * toDirX;
         float w = (float) Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
-                                    (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
-                  (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
+                (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
+                (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
         float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
         if (Float.isInfinite(invNorm)) {
             // Rotation is ambiguous: Find appropriate rotation axis (1. try toDir x +Z)
-            x = toDirY; y = -toDirX; z = 0.0f; w = 0.0f;
+            x = toDirY;
+            y = -toDirX;
+            z = 0.0f;
+            w = 0.0f;
             invNorm = (float) (1.0 / Math.sqrt(x * x + y * y));
             if (Float.isInfinite(invNorm)) {
                 // 2. try toDir x +X
-                x = 0.0f; y = toDirZ; z = -toDirY; w = 0.0f;
+                x = 0.0f;
+                y = toDirZ;
+                z = -toDirY;
+                w = 0.0f;
                 invNorm = (float) (1.0 / Math.sqrt(y * y + z * z));
             }
         }
@@ -1387,33 +1289,28 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         w *= invNorm;
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
-                 this.w * y - this.x * z + this.y * w + this.z * x,
-                 this.w * z + this.x * y - this.y * x + this.z * w,
-                 this.w * w - this.x * x - this.y * y - this.z * z);
+                this.w * y - this.x * z + this.y * w + this.z * x,
+                this.w * z + this.x * y - this.y * x + this.z * w,
+                this.w * w - this.x * x - this.y * y - this.z * z);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
         return rotateTo(fromDirX, fromDirY, fromDirZ, toDirX, toDirY, toDirZ, this);
     }
 
-    @Override
     public Quaternionfc rotateTo(IVector3f fromDir, IVector3f toDir, Quaternionfc dest) {
         return rotateTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z(), dest);
     }
 
-    @Override
     public Quaternionfc rotateTo(IVector3f fromDir, IVector3f toDir) {
         return rotateTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z(), this);
     }
 
-    @Override
     public Quaternionfc rotate(float angleX, float angleY, float angleZ) {
         return rotate(angleX, angleY, angleZ, this);
     }
 
-    @Override
     public Quaternionfc rotate(float angleX, float angleY, float angleZ, Quaternionfc dest) {
         double thetaX = angleX * 0.5;
         double thetaY = angleY * 0.5;
@@ -1434,24 +1331,22 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         dqY = thetaY * s;
         dqZ = thetaZ * s;
         /* Pre-multiplication */
-//        dest.set((float) (dqW * x + dqX * w + dqY * z - dqZ * y),
-//                 (float) (dqW * y - dqX * z + dqY * w + dqZ * x),
-//                 (float) (dqW * z + dqX * y - dqY * x + dqZ * w),
-//                 (float) (dqW * w - dqX * x - dqY * y - dqZ * z));
+        //        dest.set((float) (dqW * x + dqX * w + dqY * z - dqZ * y),
+        //                 (float) (dqW * y - dqX * z + dqY * w + dqZ * x),
+        //                 (float) (dqW * z + dqX * y - dqY * x + dqZ * w),
+        //                 (float) (dqW * w - dqX * x - dqY * y - dqZ * z));
         /* Post-multiplication (like matrices multiply) */
         dest.set((float) (w * dqX + x * dqW + y * dqZ - z * dqY),
-                 (float) (w * dqY - x * dqZ + y * dqW + z * dqX),
-                 (float) (w * dqZ + x * dqY - y * dqX + z * dqW),
-                 (float) (w * dqW - x * dqX - y * dqY - z * dqZ));
+                (float) (w * dqY - x * dqZ + y * dqW + z * dqX),
+                (float) (w * dqZ + x * dqY - y * dqX + z * dqW),
+                (float) (w * dqW - x * dqX - y * dqY - z * dqZ));
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateLocal(float angleX, float angleY, float angleZ) {
         return rotateLocal(angleX, angleY, angleZ, this);
     }
 
-    @Override
     public Quaternionfc rotateLocal(float angleX, float angleY, float angleZ, Quaternionfc dest) {
         float thetaX = angleX * 0.5f;
         float thetaY = angleY * 0.5f;
@@ -1473,112 +1368,99 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         dqZ = thetaZ * s;
         /* Pre-multiplication */
         dest.set(dqW * x + dqX * w + dqY * z - dqZ * y,
-                 dqW * y - dqX * z + dqY * w + dqZ * x,
-                 dqW * z + dqX * y - dqY * x + dqZ * w,
-                 dqW * w - dqX * x - dqY * y - dqZ * z);
+                dqW * y - dqX * z + dqY * w + dqZ * x,
+                dqW * z + dqX * y - dqY * x + dqZ * w,
+                dqW * w - dqX * x - dqY * y - dqZ * z);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateX(float angle) {
         return rotateX(angle, this);
     }
 
-    @Override
     public Quaternionfc rotateX(float angle, Quaternionfc dest) {
         float sin = (float) Math.sin(angle * 0.5);
         float cos = (float) Math.cosFromSin(sin, angle * 0.5);
         dest.set(w * sin + x * cos,
-                 y * cos + z * sin,
-                 z * cos - y * sin,
-                 w * cos - x * sin);
+                y * cos + z * sin,
+                z * cos - y * sin,
+                w * cos - x * sin);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateY(float angle) {
         return rotateY(angle, this);
     }
 
-    @Override
     public Quaternionfc rotateY(float angle, Quaternionfc dest) {
         float sin = (float) Math.sin(angle * 0.5);
         float cos = (float) Math.cosFromSin(sin, angle * 0.5);
         dest.set(x * cos - z * sin,
-                 w * sin + y * cos,
-                 x * sin + z * cos,
-                 w * cos - y * sin);
+                w * sin + y * cos,
+                x * sin + z * cos,
+                w * cos - y * sin);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateZ(float angle) {
         return rotateZ(angle, this);
     }
 
-    @Override
     public Quaternionfc rotateZ(float angle, Quaternionfc dest) {
         float sin = (float) Math.sin(angle * 0.5);
         float cos = (float) Math.cosFromSin(sin, angle * 0.5);
         dest.set(x * cos + y * sin,
-                 y * cos - x * sin,
-                 w * sin + z * cos,
-                 w * cos - z * sin);
+                y * cos - x * sin,
+                w * sin + z * cos,
+                w * cos - z * sin);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateLocalX(float angle) {
         return rotateLocalX(angle, this);
     }
 
-    @Override
     public Quaternionfc rotateLocalX(float angle, Quaternionfc dest) {
         float hangle = angle * 0.5f;
         float s = (float) Math.sin(hangle);
         float c = (float) Math.cosFromSin(s, hangle);
         dest.set(c * x + s * w,
-                 c * y - s * z,
-                 c * z + s * y,
-                 c * w - s * x);
+                c * y - s * z,
+                c * z + s * y,
+                c * w - s * x);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateLocalY(float angle) {
         return rotateLocalY(angle, this);
     }
 
-    @Override
     public Quaternionfc rotateLocalY(float angle, Quaternionfc dest) {
         float hangle = angle * 0.5f;
         float s = (float) Math.sin(hangle);
         float c = (float) Math.cosFromSin(s, hangle);
         dest.set(c * x + s * z,
-                 c * y + s * w,
-                 c * z - s * x,
-                 c * w - s * y);
+                c * y + s * w,
+                c * z - s * x,
+                c * w - s * y);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateLocalZ(float angle) {
         return rotateLocalZ(angle, this);
     }
 
-    @Override
     public Quaternionfc rotateLocalZ(float angle, Quaternionfc dest) {
         float hangle = angle * 0.5f;
         float s = (float) Math.sin(hangle);
         float c = (float) Math.cosFromSin(s, hangle);
         dest.set(c * x - s * y,
-                 c * y + s * x,
-                 c * z + s * w,
-                 c * w - s * z);
+                c * y + s * x,
+                c * z + s * w,
+                c * w - s * z);
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateAxis(float angle, float axisX, float axisY, float axisZ, Quaternionfc dest) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
@@ -1590,38 +1472,32 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         double rw = Math.cosFromSin(sinAngle, hangle);
 
         dest.set((float) (w * rx + x * rw + y * rz - z * ry),
-                 (float) (w * ry - x * rz + y * rw + z * rx),
-                 (float) (w * rz + x * ry - y * rx + z * rw),
-                 (float) (w * rw - x * rx - y * ry - z * rz));
+                (float) (w * ry - x * rz + y * rw + z * rx),
+                (float) (w * rz + x * ry - y * rx + z * rw),
+                (float) (w * rw - x * rx - y * ry - z * rz));
         return dest;
     }
 
-    @Override
     public Quaternionfc rotateAxis(float angle, IVector3f axis, Quaternionfc dest) {
         return rotateAxis(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
-    @Override
     public Quaternionfc rotateAxis(float angle, IVector3f axis) {
         return rotateAxis(angle, axis.x(), axis.y(), axis.z(), this);
     }
 
-    @Override
     public Quaternionfc rotateAxis(float angle, float axisX, float axisY, float axisZ) {
         return rotateAxis(angle, axisX, axisY, axisZ, this);
     }
 
-    @Override
     public String toString() {
         return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
     }
 
-    @Override
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + " " + formatter.format(w) + ")";
     }
 
-    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeFloat(x);
         out.writeFloat(y);
@@ -1629,7 +1505,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         out.writeFloat(w);
     }
 
-    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         x = in.readFloat();
         y = in.readFloat();
@@ -1637,7 +1512,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         w = in.readFloat();
     }
 
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -1648,7 +1522,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return result;
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -1668,12 +1541,10 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return true;
     }
 
-    @Override
     public Quaternionfc difference(Quaternionfc other) {
         return difference(other, this);
     }
 
-    @Override
     public Quaternionfc difference(Quaternionfc other, Quaternionfc dest) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
         float x = -this.x * invNorm;
@@ -1681,19 +1552,18 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         float z = -this.z * invNorm;
         float w = this.w * invNorm;
         dest.set(w * other.x() + x * other.w() + y * other.z() - z * other.y(),
-                 w * other.y() - x * other.z() + y * other.w() + z * other.x(),
-                 w * other.z() + x * other.y() - y * other.x() + z * other.w(),
-                 w * other.w() - x * other.x() - y * other.y() - z * other.z());
+                w * other.y() - x * other.z() + y * other.w() + z * other.x(),
+                w * other.z() + x * other.y() - y * other.x() + z * other.w(),
+                w * other.w() - x * other.x() - y * other.y() - z * other.z());
         return dest;
     }
 
-    @Override
     public Vector3fc positiveX(Vector3fc dir) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
         float nx = -x * invNorm;
         float ny = -y * invNorm;
         float nz = -z * invNorm;
-        float nw =  w * invNorm;
+        float nw = w * invNorm;
         float dy = ny + ny;
         float dz = nz + nz;
         dir.set(-ny * dy - nz * dz + 1.0f,
@@ -1702,7 +1572,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dir;
     }
 
-    @Override
     public Vector3fc normalizedPositiveX(Vector3fc dir) {
         float dy = y + y;
         float dz = z + z;
@@ -1712,13 +1581,12 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dir;
     }
 
-    @Override
     public Vector3fc positiveY(Vector3fc dir) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
         float nx = -x * invNorm;
         float ny = -y * invNorm;
         float nz = -z * invNorm;
-        float nw =  w * invNorm;
+        float nw = w * invNorm;
         float dx = nx + nx;
         float dy = ny + ny;
         float dz = nz + nz;
@@ -1728,7 +1596,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dir;
     }
 
-    @Override
     public Vector3fc normalizedPositiveY(Vector3fc dir) {
         float dx = x + x;
         float dy = y + y;
@@ -1739,13 +1606,12 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dir;
     }
 
-    @Override
     public Vector3fc positiveZ(Vector3fc dir) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
         float nx = -x * invNorm;
         float ny = -y * invNorm;
         float nz = -z * invNorm;
-        float nw =  w * invNorm;
+        float nw = w * invNorm;
         float dx = nx + nx;
         float dy = ny + ny;
         float dz = nz + nz;
@@ -1755,7 +1621,6 @@ public class Quaternionf extends Quaternionfc implements Externalizable {
         return dir;
     }
 
-    @Override
     public Vector3fc normalizedPositiveZ(Vector3fc dir) {
         float dx = x + x;
         float dy = y + y;

@@ -293,10 +293,8 @@ public abstract class Vector2dc implements Externalizable, IVector2d {
      */
     public abstract Vector2dc lerp(IVector2d other, double t);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

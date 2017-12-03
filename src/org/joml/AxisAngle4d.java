@@ -178,27 +178,22 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
             return Math.acos(v);
     }
 
-    @Override
     public double x() {
         return x;
     }
 
-    @Override
     public double y() {
         return y;
     }
 
-    @Override
     public double z() {
         return z;
     }
 
-    @Override
     public double angle() {
         return angle;
     }
 
-    @Override
     public AxisAngle4dc set(AxisAngle4dc a) {
         x = a.x();
         y = a.y();
@@ -207,7 +202,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc set(AxisAngle4fc a) {
         x = a.x();
         y = a.y();
@@ -216,7 +210,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc set(double angle, double x, double y, double z) {
         this.x = x;
         this.y = y;
@@ -225,17 +218,14 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc set(double angle, IVector3d v) {
         return set(angle, v.x(), v.y(), v.z());
     }
 
-    @Override
     public AxisAngle4dc set(double angle, Vector3fc v) {
         return set(angle, v.x(), v.y(), v.z());
     }
 
-    @Override
     public AxisAngle4dc set(IQuaternionf q) {
         double acos = safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
@@ -246,7 +236,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc set(IQuaterniond q) {
         double acos = safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
@@ -257,7 +246,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc set(IMatrix3f m) {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
@@ -306,7 +294,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc set(IMatrix3d m) {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
@@ -355,7 +342,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc set(IMatrix4f m) {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
@@ -404,7 +390,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc set(IMatrix4x3f m) {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
@@ -453,7 +438,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc set(IMatrix4d m) {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
@@ -502,37 +486,30 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Quaternionfc get(Quaternionfc q) {
         return q.set(this);
     }
 
-    @Override
     public Quaterniondc get(Quaterniondc q) {
         return q.set(this);
     }
 
-    @Override
     public Matrix4fc get(Matrix4fc m) {
         return m.set(this);
     }
 
-    @Override
     public Matrix3fc get(Matrix3fc m) {
         return m.set(this);
     }
 
-    @Override
     public Matrix4dc get(Matrix4dc m) {
         return m.set(this);
     }
 
-    @Override
     public Matrix3dc get(Matrix3dc m) {
         return m.set(this);
     }
 
-    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeDouble(angle);
         out.writeDouble(x);
@@ -540,7 +517,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         out.writeDouble(z);
     }
 
-    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         angle = in.readDouble();
         x = in.readDouble();
@@ -548,7 +524,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         z = in.readDouble();
     }
 
-    @Override
     public AxisAngle4dc normalize() {
         double invLength = 1.0 / Math.sqrt(x * x + y * y + z * z);
         x *= invLength;
@@ -557,19 +532,16 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public AxisAngle4dc rotate(double ang) {
         angle += ang;
         angle = (angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI);
         return this;
     }
 
-    @Override
     public Vector3dc transform(Vector3dc v) {
         return transform(v, v);
     }
 
-    @Override
     public Vector3dc transform(IVector3d v, Vector3dc dest) {
         double sin = Math.sin(angle);
         double cos = Math.cosFromSin(sin, angle);
@@ -580,12 +552,10 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Vector3fc transform(Vector3fc v) {
         return transform(v, v);
     }
 
-    @Override
     public Vector3fc transform(IVector3f v, Vector3fc dest) {
         double sin = Math.sin(angle);
         double cos = Math.cosFromSin(sin, angle);
@@ -596,12 +566,10 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Vector4dc transform(Vector4dc v) {
         return transform(v, v);
     }
 
-    @Override
     public Vector4dc transform(IVector4d v, Vector4dc dest) {
         double sin = Math.sin(angle);
         double cos = Math.cosFromSin(sin, angle);
@@ -613,7 +581,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public String toString() {
         DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
         String str = toString(formatter);
@@ -635,12 +602,10 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return res.toString();
     }
 
-    @Override
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + formatter.format(y) + formatter.format(z) + " <|" + formatter.format(angle) + " )"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -656,7 +621,6 @@ public class AxisAngle4d extends AxisAngle4dc implements Externalizable {
         return result;
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;

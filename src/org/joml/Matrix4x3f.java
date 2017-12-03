@@ -26,6 +26,7 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
 import org.joml.api.AxisAngle4dc;
 import org.joml.api.AxisAngle4fc;
 import org.joml.api.Planefc;
@@ -53,10 +54,8 @@ import com.google.gwt.typedarrays.shared.Float32Array;
  * Contains the definition of an affine 4x3 matrix (4 columns, 3 rows) of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
- *      m00  m10  m20  m30<br>
- *      m01  m11  m21  m31<br>
- *      m02  m12  m22  m32<br>
- * 
+ * m00  m10  m20  m30<br> m01  m11  m21  m31<br> m02  m12  m22  m32<br>
+ *
  * @author Richard Greenlees
  * @author Kai Burjack
  */
@@ -84,9 +83,8 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
     /**
      * Create a new {@link Matrix4x3f} by setting its left 3x3 submatrix to the values of the given {@link IMatrix3f}
      * and the rest to identity.
-     * 
-     * @param mat
-     *          the {@link IMatrix3f}
+     *
+     * @param mat the {@link IMatrix3f}
      */
     public Matrix4x3f(IMatrix3f mat) {
         if (mat instanceof Matrix3f) {
@@ -98,9 +96,8 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
 
     /**
      * Create a new {@link Matrix4x3f} and make it a copy of the given matrix.
-     * 
-     * @param mat
-     *          the {@link IMatrix4x3f} to copy the values from
+     *
+     * @param mat the {@link IMatrix4x3f} to copy the values from
      */
     public Matrix4x3f(IMatrix4x3f mat) {
         if (mat instanceof Matrix4x3f) {
@@ -113,34 +110,22 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
 
     /**
      * Create a new 4x4 matrix using the supplied float values.
-     * 
-     * @param m00
-     *          the value of m00
-     * @param m01
-     *          the value of m01
-     * @param m02
-     *          the value of m02
-     * @param m10
-     *          the value of m10
-     * @param m11
-     *          the value of m11
-     * @param m12
-     *          the value of m12
-     * @param m20
-     *          the value of m20
-     * @param m21
-     *          the value of m21
-     * @param m22
-     *          the value of m22
-     * @param m30
-     *          the value of m30
-     * @param m31
-     *          the value of m31
-     * @param m32
-     *          the value of m32
+     *
+     * @param m00 the value of m00
+     * @param m01 the value of m01
+     * @param m02 the value of m02
+     * @param m10 the value of m10
+     * @param m11 the value of m11
+     * @param m12 the value of m12
+     * @param m20 the value of m20
+     * @param m21 the value of m21
+     * @param m22 the value of m22
+     * @param m30 the value of m30
+     * @param m31 the value of m31
+     * @param m32 the value of m32
      */
-    public Matrix4x3f(float m00, float m01, float m02, 
-                      float m10, float m11, float m12, 
+    public Matrix4x3f(float m00, float m01, float m02,
+                      float m10, float m11, float m12,
                       float m20, float m21, float m22,
                       float m30, float m31, float m32) {
         this.m00 = m00;
@@ -158,40 +143,36 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         properties = 0;
     }
 
-//#ifdef __HAS_NIO__
+    //#ifdef __HAS_NIO__
+
     /**
-     * Create a new {@link Matrix4x3f} by reading its 12 float components from the given {@link FloatBuffer}
-     * at the buffer's current position.
+     * Create a new {@link Matrix4x3f} by reading its 12 float components from the given {@link FloatBuffer} at the
+     * buffer's current position.
      * <p>
      * That FloatBuffer is expected to hold the values in column-major order.
      * <p>
      * The buffer's position will not be changed by this method.
-     * 
-     * @param buffer
-     *          the {@link FloatBuffer} to read the matrix values from
+     *
+     * @param buffer the {@link FloatBuffer} to read the matrix values from
      */
     public Matrix4x3f(FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
-//#endif
+    //#endif
 
     /**
      * Create a new {@link Matrix4x3f} and initialize its four columns using the supplied vectors.
-     * 
-     * @param col0
-     *          the first column
-     * @param col1
-     *          the second column
-     * @param col2
-     *          the third column
-     * @param col3
-     *          the fourth column
+     *
+     * @param col0 the first column
+     * @param col1 the second column
+     * @param col2 the third column
+     * @param col3 the fourth column
      */
     public Matrix4x3f(IVector3f col0, IVector3f col1, IVector3f col2, IVector3f col3) {
         if (col0 instanceof Vector3f &&
-            col1 instanceof Vector3f &&
-            col2 instanceof Vector3f &&
-            col3 instanceof Vector3f) {
+                col1 instanceof Vector3f &&
+                col2 instanceof Vector3f &&
+                col3 instanceof Vector3f) {
             MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2, (Vector3f) col3);
         } else {
             setVector3fc(col0, col1, col2, col3);
@@ -203,169 +184,141 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public byte properties() {
         return properties;
     }
 
-    @Override
     public float m00() {
         return m00;
     }
 
-    @Override
     public float m01() {
         return m01;
     }
 
-    @Override
     public float m02() {
         return m02;
     }
 
-    @Override
     public float m10() {
         return m10;
     }
 
-    @Override
     public float m11() {
         return m11;
     }
 
-    @Override
     public float m12() {
         return m12;
     }
 
-    @Override
     public float m20() {
         return m20;
     }
 
-    @Override
     public float m21() {
         return m21;
     }
 
-    @Override
     public float m22() {
         return m22;
     }
 
-    @Override
     public float m30() {
         return m30;
     }
 
-    @Override
     public float m31() {
         return m31;
     }
 
-    @Override
     public float m32() {
         return m32;
     }
 
-    @Override
     public Matrix4x3fc m00(float m00) {
         this.m00 = m00;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m01(float m01) {
         this.m01 = m01;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m02(float m02) {
         this.m02 = m02;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m10(float m10) {
         this.m10 = m10;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m11(float m11) {
         this.m11 = m11;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m12(float m12) {
         this.m12 = m12;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m20(float m20) {
         this.m20 = m20;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m21(float m21) {
         this.m21 = m21;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m22(float m22) {
         this.m22 = m22;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m30(float m30) {
         this.m30 = m30;
         properties &= ~(PROPERTY_IDENTITY);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m31(float m31) {
         this.m31 = m31;
         properties &= ~(PROPERTY_IDENTITY);
         return this;
     }
 
-    @Override
     public Matrix4x3fc m32(float m32) {
         this.m32 = m32;
         properties &= ~(PROPERTY_IDENTITY);
         return this;
     }
 
-    @Override
     public Matrix4x3fc properties(int properties) {
         this.properties = (byte) properties;
         return this;
     }
 
-    @Override
     public Matrix4x3fc identity() {
         MemUtil.INSTANCE.identity(this);
         properties = PROPERTY_IDENTITY | PROPERTY_TRANSLATION;
         return this;
     }
 
-    @Override
     public Matrix4x3fc set(IMatrix4x3f m) {
         if (m instanceof Matrix4x3f) {
             MemUtil.INSTANCE.copy((Matrix4x3f) m, this);
@@ -391,7 +344,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         m32 = mat.m32();
     }
 
-    @Override
     public Matrix4x3fc set(IMatrix4f m) {
         if (m instanceof Matrix4f) {
             MemUtil.INSTANCE.copy((Matrix4f) m, this);
@@ -417,17 +369,14 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         m32 = mat.m32();
     }
 
-    @Override
     public Matrix4fc get(Matrix4fc dest) {
         return dest.set4x3(this);
     }
 
-    @Override
     public Matrix4dc get(Matrix4dc dest) {
         return dest.set4x3(this);
     }
 
-    @Override
     public Matrix4x3fc set(IMatrix3f mat) {
         if (mat instanceof Matrix3f) {
             MemUtil.INSTANCE.copy((Matrix3f) mat, this);
@@ -453,35 +402,34 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         m32 = 0.0f;
     }
 
-    @Override
     public Matrix4x3fc set(AxisAngle4fc axisAngle) {
         float x = axisAngle.x();
         float y = axisAngle.y();
         float z = axisAngle.z();
         double angle = axisAngle.angle();
-        double n = Math.sqrt(x*x + y*y + z*z);
-        n = 1/n;
+        double n = Math.sqrt(x * x + y * y + z * z);
+        n = 1 / n;
         x *= n;
         y *= n;
         z *= n;
         double s = Math.sin(angle);
         double c = Math.cosFromSin(s, angle);
         double omc = 1.0 - c;
-        m00 = (float)(c + x*x*omc);
-        m11 = (float)(c + y*y*omc);
-        m22 = (float)(c + z*z*omc);
-        double tmp1 = x*y*omc;
-        double tmp2 = z*s;
-        m10 = (float)(tmp1 - tmp2);
-        m01 = (float)(tmp1 + tmp2);
-        tmp1 = x*z*omc;
-        tmp2 = y*s;
-        m20 = (float)(tmp1 + tmp2);
-        m02 = (float)(tmp1 - tmp2);
-        tmp1 = y*z*omc;
-        tmp2 = x*s;
-        m21 = (float)(tmp1 - tmp2);
-        m12 = (float)(tmp1 + tmp2);
+        m00 = (float) (c + x * x * omc);
+        m11 = (float) (c + y * y * omc);
+        m22 = (float) (c + z * z * omc);
+        double tmp1 = x * y * omc;
+        double tmp2 = z * s;
+        m10 = (float) (tmp1 - tmp2);
+        m01 = (float) (tmp1 + tmp2);
+        tmp1 = x * z * omc;
+        tmp2 = y * s;
+        m20 = (float) (tmp1 + tmp2);
+        m02 = (float) (tmp1 - tmp2);
+        tmp1 = y * z * omc;
+        tmp2 = x * s;
+        m21 = (float) (tmp1 - tmp2);
+        m12 = (float) (tmp1 + tmp2);
         m30 = 0.0f;
         m31 = 0.0f;
         m32 = 0.0f;
@@ -489,35 +437,34 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc set(AxisAngle4dc axisAngle) {
         double x = axisAngle.x();
         double y = axisAngle.y();
         double z = axisAngle.z();
         double angle = axisAngle.angle();
-        double n = Math.sqrt(x*x + y*y + z*z);
-        n = 1/n;
+        double n = Math.sqrt(x * x + y * y + z * z);
+        n = 1 / n;
         x *= n;
         y *= n;
         z *= n;
         double s = Math.sin(angle);
         double c = Math.cosFromSin(s, angle);
         double omc = 1.0 - c;
-        m00 = (float)(c + x*x*omc);
-        m11 = (float)(c + y*y*omc);
-        m22 = (float)(c + z*z*omc);
-        double tmp1 = x*y*omc;
-        double tmp2 = z*s;
-        m10 = (float)(tmp1 - tmp2);
-        m01 = (float)(tmp1 + tmp2);
-        tmp1 = x*z*omc;
-        tmp2 = y*s;
-        m20 = (float)(tmp1 + tmp2);
-        m02 = (float)(tmp1 - tmp2);
-        tmp1 = y*z*omc;
-        tmp2 = x*s;
-        m21 = (float)(tmp1 - tmp2);
-        m12 = (float)(tmp1 + tmp2);
+        m00 = (float) (c + x * x * omc);
+        m11 = (float) (c + y * y * omc);
+        m22 = (float) (c + z * z * omc);
+        double tmp1 = x * y * omc;
+        double tmp2 = z * s;
+        m10 = (float) (tmp1 - tmp2);
+        m01 = (float) (tmp1 + tmp2);
+        tmp1 = x * z * omc;
+        tmp2 = y * s;
+        m20 = (float) (tmp1 + tmp2);
+        m02 = (float) (tmp1 - tmp2);
+        tmp1 = y * z * omc;
+        tmp2 = x * s;
+        m21 = (float) (tmp1 - tmp2);
+        m12 = (float) (tmp1 + tmp2);
         m30 = 0.0f;
         m31 = 0.0f;
         m32 = 0.0f;
@@ -525,12 +472,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc set(IQuaternionf q) {
         return rotation(q);
     }
 
-    @Override
     public Matrix4x3fc set(IQuaterniond q) {
         double w2 = q.w() * q.w();
         double x2 = q.x() * q.x();
@@ -555,12 +500,11 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc set(IVector3f col0, IVector3f col1, IVector3f col2, IVector3f col3) {
         if (col0 instanceof Vector3f &&
-            col1 instanceof Vector3f &&
-            col2 instanceof Vector3f &&
-            col3 instanceof Vector3f) {
+                col1 instanceof Vector3f &&
+                col2 instanceof Vector3f &&
+                col3 instanceof Vector3f) {
             MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2, (Vector3f) col3);
         } else {
             setVector3fc(col0, col1, col2, col3);
@@ -584,7 +528,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         this.m32 = col3.z();
     }
 
-    @Override
     public Matrix4x3fc set3x3(IMatrix4x3f mat) {
         if (mat instanceof Matrix4x3f) {
             MemUtil.INSTANCE.copy3x3((Matrix4x3f) mat, this);
@@ -607,12 +550,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         m22 = mat.m22();
     }
 
-    @Override
     public Matrix4x3fc mul(IMatrix4x3f right) {
-       return mul(right, this);
+        return mul(right, this);
     }
 
-    @Override
     public Matrix4x3fc mul(IMatrix4x3f right, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
@@ -652,7 +593,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc mulTranslation(IMatrix4x3f right, Matrix4x3fc dest) {
         float nm00 = right.m00();
         float nm01 = right.m01();
@@ -682,12 +622,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc mulOrtho(IMatrix4x3f view) {
         return mulOrtho(view, this);
     }
 
-    @Override
     public Matrix4x3fc mulOrtho(IMatrix4x3f view, Matrix4x3fc dest) {
         float nm00 = m00 * view.m00();
         float nm01 = m11 * view.m01();
@@ -717,12 +655,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc fma(IMatrix4x3f other, float otherFactor) {
         return fma(other, otherFactor, this);
     }
 
-    @Override
     public Matrix4x3fc fma(IMatrix4x3f other, float otherFactor, Matrix4x3fc dest) {
         dest.m00(m00 + other.m00() * otherFactor);
         dest.m01(m01 + other.m01() * otherFactor);
@@ -740,12 +676,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc add(IMatrix4x3f other) {
         return add(other, this);
     }
 
-    @Override
     public Matrix4x3fc add(IMatrix4x3f other, Matrix4x3fc dest) {
         dest.m00(m00 + other.m00());
         dest.m01(m01 + other.m01());
@@ -763,12 +697,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc sub(IMatrix4x3f subtrahend) {
         return sub(subtrahend, this);
     }
 
-    @Override
     public Matrix4x3fc sub(IMatrix4x3f subtrahend, Matrix4x3fc dest) {
         dest.m00(m00 - subtrahend.m00());
         dest.m01(m01 - subtrahend.m01());
@@ -786,12 +718,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc mulComponentWise(IMatrix4x3f other) {
         return mulComponentWise(other, this);
     }
 
-    @Override
     public Matrix4x3fc mulComponentWise(IMatrix4x3f other, Matrix4x3fc dest) {
         dest.m00(m00 * other.m00());
         dest.m01(m01 * other.m01());
@@ -809,11 +739,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc set(float m00, float m01, float m02,
-                          float m10, float m11, float m12,
-                          float m20, float m21, float m22,
-                          float m30, float m31, float m32) {
+                           float m10, float m11, float m12,
+                           float m20, float m21, float m22,
+                           float m30, float m31, float m32) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
@@ -830,42 +759,37 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc set(float m[], int off) {
         MemUtil.INSTANCE.copy(m, off, this);
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4x3fc set(float m[]) {
         return set(m, 0);
     }
 
-//#ifdef __HAS_NIO__
-    @Override
+    //#ifdef __HAS_NIO__
+
     public Matrix4x3fc set(FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4x3fc set(ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         properties = 0;
         return this;
     }
-//#endif
+    //#endif
 
-    @Override
     public float determinant() {
         return (m00 * m11 - m01 * m10) * m22
-             + (m02 * m10 - m00 * m12) * m21
-             + (m01 * m12 - m02 * m11) * m20;
+                + (m02 * m10 - m00 * m12) * m21
+                + (m01 * m12 - m02 * m11) * m20;
     }
 
-    @Override
     public Matrix4x3fc invert(Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.identity();
@@ -908,52 +832,45 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc invert() {
         return invert(this);
     }
 
-    @Override
     public Matrix4x3fc invertOrtho(Matrix4x3fc dest) {
         float invM00 = 1.0f / m00;
         float invM11 = 1.0f / m11;
         float invM22 = 1.0f / m22;
         dest.set(invM00, 0, 0,
-                 0, invM11, 0,
-                 0, 0, invM22,
-                 -m30 * invM00, -m31 * invM11, -m32 * invM22);
+                0, invM11, 0,
+                0, 0, invM22,
+                -m30 * invM00, -m31 * invM11, -m32 * invM22);
         dest.properties(0);
         return dest;
     }
 
-    @Override
     public Matrix4x3fc invertOrtho() {
         return invertOrtho(this);
     }
 
-    @Override
     public Matrix4x3fc invertUnitScale(Matrix4x3fc dest) {
         dest.set(m00, m10, m20,
-                 m01, m11, m21,
-                 m02, m12, m22,
-                 -m00 * m30 - m01 * m31 - m02 * m32,
-                 -m10 * m30 - m11 * m31 - m12 * m32,
-                 -m20 * m30 - m21 * m31 - m22 * m32);
+                m01, m11, m21,
+                m02, m12, m22,
+                -m00 * m30 - m01 * m31 - m02 * m32,
+                -m10 * m30 - m11 * m31 - m12 * m32,
+                -m20 * m30 - m21 * m31 - m22 * m32);
         dest.properties(0);
         return dest;
     }
 
-    @Override
     public Matrix4x3fc invertUnitScale() {
         return invertUnitScale(this);
     }
 
-    @Override
     public Matrix4x3fc transpose3x3() {
         return transpose3x3(this);
     }
 
-    @Override
     public Matrix4x3fc transpose3x3(Matrix4x3fc dest) {
         float nm00 = m00;
         float nm01 = m10;
@@ -977,7 +894,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix3fc transpose3x3(Matrix3fc dest) {
         dest.m00(m00);
         dest.m01(m10);
@@ -991,7 +907,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc translation(float x, float y, float z) {
         MemUtil.INSTANCE.identity(this);
         m30 = x;
@@ -1001,12 +916,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc translation(IVector3f offset) {
         return translation(offset.x(), offset.y(), offset.z());
     }
 
-    @Override
     public Matrix4x3fc setTranslation(float x, float y, float z) {
         m30 = x;
         m31 = y;
@@ -1015,24 +928,20 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setTranslation(IVector3f xyz) {
         return setTranslation(xyz.x(), xyz.y(), xyz.z());
     }
 
-    @Override
     public Vector3fc getTranslation(Vector3fc dest) {
         dest.set(m30, m31, m32);
         return dest;
     }
 
-    @Override
     public Vector3fc getScale(Vector3fc dest) {
         dest.set((float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02), (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12), (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
         return dest;
     }
 
-    @Override
     public String toString() {
         DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
         String str = toString(formatter);
@@ -1056,213 +965,185 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
 
     public String toString(NumberFormat formatter) {
         return formatter.format(m00) + " " + formatter.format(m10) + " " + formatter.format(m20) + " " + formatter.format(m30) + "\n"
-             + formatter.format(m01) + " " + formatter.format(m11) + " " + formatter.format(m21) + " " + formatter.format(m31) + "\n"
-             + formatter.format(m02) + " " + formatter.format(m12) + " " + formatter.format(m22) + " " + formatter.format(m32) + "\n";
+                + formatter.format(m01) + " " + formatter.format(m11) + " " + formatter.format(m21) + " " + formatter.format(m31) + "\n"
+                + formatter.format(m02) + " " + formatter.format(m12) + " " + formatter.format(m22) + " " + formatter.format(m32) + "\n";
     }
 
-    @Override
     public Matrix4x3fc get(Matrix4x3fc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Matrix4x3dc get(Matrix4x3dc dest) {
         return dest.set(this);
     }
 
-    @Override
     public AxisAngle4fc getRotation(AxisAngle4fc dest) {
         return dest.set(this);
     }
 
-    @Override
     public AxisAngle4dc getRotation(AxisAngle4dc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Quaternionfc getUnnormalizedRotation(Quaternionfc dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    @Override
     public Quaternionfc getNormalizedRotation(Quaternionfc dest) {
         return dest.setFromNormalized(this);
     }
 
-    @Override
     public Quaterniondc getUnnormalizedRotation(Quaterniondc dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    @Override
     public Quaterniondc getNormalizedRotation(Quaterniondc dest) {
         return dest.setFromNormalized(this);
     }
 
-//#ifdef __GWT__
-    @Override
+    //#ifdef __GWT__
+
     public Float32Array get(Float32Array buffer) {
-        buffer.set(0,  m00);
-        buffer.set(1,  m01);
-        buffer.set(2,  m02);
-        buffer.set(3,  m10);
-        buffer.set(4,  m11);
-        buffer.set(5,  m12);
-        buffer.set(6,  m20);
-        buffer.set(7,  m21);
-        buffer.set(8,  m22);
-        buffer.set(9,  m30);
+        buffer.set(0, m00);
+        buffer.set(1, m01);
+        buffer.set(2, m02);
+        buffer.set(3, m10);
+        buffer.set(4, m11);
+        buffer.set(5, m12);
+        buffer.set(6, m20);
+        buffer.set(7, m21);
+        buffer.set(8, m22);
+        buffer.set(9, m30);
         buffer.set(10, m31);
         buffer.set(11, m32);
         return buffer;
     }
 
-    @Override
     public Float32Array get(int index, Float32Array buffer) {
-        buffer.set(index+0,  m00);
-        buffer.set(index+1,  m01);
-        buffer.set(index+2,  m02);
-        buffer.set(index+3,  m10);
-        buffer.set(index+4,  m11);
-        buffer.set(index+5,  m12);
-        buffer.set(index+6,  m20);
-        buffer.set(index+7,  m21);
-        buffer.set(index+8,  m22);
-        buffer.set(index+9,  m30);
-        buffer.set(index+10, m31);
-        buffer.set(index+11, m32);
+        buffer.set(index + 0, m00);
+        buffer.set(index + 1, m01);
+        buffer.set(index + 2, m02);
+        buffer.set(index + 3, m10);
+        buffer.set(index + 4, m11);
+        buffer.set(index + 5, m12);
+        buffer.set(index + 6, m20);
+        buffer.set(index + 7, m21);
+        buffer.set(index + 8, m22);
+        buffer.set(index + 9, m30);
+        buffer.set(index + 10, m31);
+        buffer.set(index + 11, m32);
         return buffer;
     }
-//#endif
+    //#endif
 
-//#ifdef __HAS_NIO__
-    @Override
+    //#ifdef __HAS_NIO__
+
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    @Override
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    @Override
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    @Override
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
-//#endif
+    //#endif
 
-    @Override
     public float[] get(float[] arr, int offset) {
         MemUtil.INSTANCE.copy(this, arr, offset);
         return arr;
     }
 
-    @Override
     public float[] get(float[] arr) {
         return get(arr, 0);
     }
 
-    @Override
     public float[] get4x4(float[] arr, int offset) {
         MemUtil.INSTANCE.copy4x4(this, arr, offset);
         return arr;
     }
 
-    @Override
     public float[] get4x4(float[] arr) {
         return get4x4(arr, 0);
     }
 
-//#ifdef __HAS_NIO__
-    @Override
+    //#ifdef __HAS_NIO__
+
     public FloatBuffer get4x4(FloatBuffer buffer) {
         return get4x4(buffer.position(), buffer);
     }
 
-    @Override
     public FloatBuffer get4x4(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put4x4(this, index, buffer);
         return buffer;
     }
 
-    @Override
     public ByteBuffer get4x4(ByteBuffer buffer) {
         return get4x4(buffer.position(), buffer);
     }
 
-    @Override
     public ByteBuffer get4x4(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x4(this, index, buffer);
         return buffer;
     }
 
-    @Override
     public FloatBuffer getTransposed(FloatBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
-    @Override
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
-    @Override
     public ByteBuffer getTransposed(ByteBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
-    @Override
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
-//#endif
+    //#endif
 
-    @Override
     public float[] getTransposed(float[] arr, int offset) {
-        arr[offset+0]  = m00;
-        arr[offset+1]  = m10;
-        arr[offset+2]  = m20;
-        arr[offset+3]  = m30;
-        arr[offset+4]  = m01;
-        arr[offset+5]  = m11;
-        arr[offset+6]  = m21;
-        arr[offset+7]  = m31;
-        arr[offset+8]  = m02;
-        arr[offset+9]  = m12;
-        arr[offset+10] = m22;
-        arr[offset+11] = m32;
+        arr[offset + 0] = m00;
+        arr[offset + 1] = m10;
+        arr[offset + 2] = m20;
+        arr[offset + 3] = m30;
+        arr[offset + 4] = m01;
+        arr[offset + 5] = m11;
+        arr[offset + 6] = m21;
+        arr[offset + 7] = m31;
+        arr[offset + 8] = m02;
+        arr[offset + 9] = m12;
+        arr[offset + 10] = m22;
+        arr[offset + 11] = m32;
         return arr;
     }
 
-    @Override
     public float[] getTransposed(float[] arr) {
         return getTransposed(arr, 0);
     }
 
-    @Override
     public Matrix4x3fc zero() {
         MemUtil.INSTANCE.zero(this);
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4x3fc scaling(float factor) {
         return scaling(factor, factor, factor);
     }
 
-    @Override
     public Matrix4x3fc scaling(float x, float y, float z) {
         MemUtil.INSTANCE.identity(this);
         m00 = x;
@@ -1272,22 +1153,18 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc scaling(IVector3f xyz) {
         return scaling(xyz.x(), xyz.y(), xyz.z());
     }
 
-    @Override
     public Matrix4x3fc rotation(float angle, IVector3f axis) {
         return rotation(angle, axis.x(), axis.y(), axis.z());
     }
 
-    @Override
     public Matrix4x3fc rotation(AxisAngle4fc axisAngle) {
         return rotation(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z());
     }
 
-    @Override
     public Matrix4x3fc rotation(float angle, float x, float y, float z) {
         float sin = (float) Math.sin(angle);
         float cos = (float) Math.cosFromSin(sin, angle);
@@ -1309,7 +1186,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc rotationX(float ang) {
         float sin, cos;
         if (ang == (float) Math.PI || ang == -(float) Math.PI) {
@@ -1341,7 +1217,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc rotationY(float ang) {
         float sin, cos;
         if (ang == (float) Math.PI || ang == -(float) Math.PI) {
@@ -1373,7 +1248,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc rotationZ(float ang) {
         float sin, cos;
         if (ang == (float) Math.PI || ang == -(float) Math.PI) {
@@ -1405,7 +1279,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc rotationXYZ(float angleX, float angleY, float angleZ) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
@@ -1444,7 +1317,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc rotationZYX(float angleZ, float angleY, float angleX) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
@@ -1483,7 +1355,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc rotationYXZ(float angleY, float angleX, float angleZ) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
@@ -1522,7 +1393,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setRotationXYZ(float angleX, float angleY, float angleZ) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
@@ -1557,7 +1427,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setRotationZYX(float angleZ, float angleY, float angleX) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
@@ -1592,7 +1461,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setRotationYXZ(float angleY, float angleX, float angleZ) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
@@ -1627,7 +1495,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc rotation(IQuaternionf quat) {
         float w2 = quat.w() * quat.w();
         float x2 = quat.x() * quat.x();
@@ -1652,10 +1519,9 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc translationRotateScale(float tx, float ty, float tz,
-                                             float qx, float qy, float qz, float qw,
-                                             float sx, float sy, float sz) {
+                                              float qx, float qy, float qz, float qw,
+                                              float sx, float sy, float sz) {
         float dqx = qx + qx;
         float dqy = qy + qy;
         float dqz = qz + qz;
@@ -1684,18 +1550,16 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc translationRotateScale(IVector3f translation,
-                                           IQuaternionf quat,
-                                           IVector3f scale) {
+                                              IQuaternionf quat,
+                                              IVector3f scale) {
         return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
     }
 
-    @Override
     public Matrix4x3fc translationRotateScaleMul(float tx, float ty, float tz,
-                                                float qx, float qy, float qz, float qw,
-                                                float sx, float sy, float sz,
-                                                Matrix4x3fc m) {
+                                                 float qx, float qy, float qz, float qw,
+                                                 float sx, float sy, float sz,
+                                                 Matrix4x3fc m) {
         float dqx = qx + qx;
         float dqy = qy + qy;
         float dqz = qz + qz;
@@ -1741,12 +1605,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc translationRotateScaleMul(IVector3f translation, IQuaternionf quat, IVector3f scale, Matrix4x3fc m) {
         return translationRotateScaleMul(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z(), m);
     }
 
-    @Override
     public Matrix4x3fc translationRotate(float tx, float ty, float tz, IQuaternionf quat) {
         float dqx = quat.x() + quat.x();
         float dqy = quat.y() + quat.y();
@@ -1776,12 +1638,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc translationRotateMul(float tx, float ty, float tz, IQuaternionf quat, IMatrix4x3f mat) {
         return translationRotateMul(tx, ty, tz, quat.x(), quat.y(), quat.z(), quat.w(), mat);
     }
 
-    @Override
     public Matrix4x3fc translationRotateMul(float tx, float ty, float tz, float qx, float qy, float qz, float qw, IMatrix4x3f mat) {
         float w2 = qw * qw;
         float x2 = qx * qx;
@@ -1818,7 +1678,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc set3x3(IMatrix3f mat) {
         if (mat instanceof Matrix3f) {
             MemUtil.INSTANCE.copy3x3((Matrix3f) mat, this);
@@ -1841,69 +1700,58 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         m22 = mat.m22();
     }
 
-    @Override
     public Vector4fc transform(Vector4fc v) {
         return v.mul(this);
     }
 
-    @Override
     public Vector4fc transform(IVector4f v, Vector4fc dest) {
         return v.mul(this, dest);
     }
 
-    @Override
     public Vector3fc transformPosition(Vector3fc v) {
         v.set(m00 * v.x() + m10 * v.y() + m20 * v.z() + m30,
-              m01 * v.x() + m11 * v.y() + m21 * v.z() + m31,
-              m02 * v.x() + m12 * v.y() + m22 * v.z() + m32);
+                m01 * v.x() + m11 * v.y() + m21 * v.z() + m31,
+                m02 * v.x() + m12 * v.y() + m22 * v.z() + m32);
         return v;
     }
 
-    @Override
     public Vector3fc transformPosition(IVector3f v, Vector3fc dest) {
         dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z() + m30,
-                 m01 * v.x() + m11 * v.y() + m21 * v.z() + m31,
-                 m02 * v.x() + m12 * v.y() + m22 * v.z() + m32);
+                m01 * v.x() + m11 * v.y() + m21 * v.z() + m31,
+                m02 * v.x() + m12 * v.y() + m22 * v.z() + m32);
         return dest;
     }
 
-    @Override
     public Vector3fc transformDirection(Vector3fc v) {
         v.set(m00 * v.x() + m10 * v.y() + m20 * v.z(),
-              m01 * v.x() + m11 * v.y() + m21 * v.z(),
-              m02 * v.x() + m12 * v.y() + m22 * v.z());
+                m01 * v.x() + m11 * v.y() + m21 * v.z(),
+                m02 * v.x() + m12 * v.y() + m22 * v.z());
         return v;
     }
 
-    @Override
     public Vector3fc transformDirection(IVector3f v, Vector3fc dest) {
         dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z(),
-                 m01 * v.x() + m11 * v.y() + m21 * v.z(),
-                 m02 * v.x() + m12 * v.y() + m22 * v.z());
+                m01 * v.x() + m11 * v.y() + m21 * v.z(),
+                m02 * v.x() + m12 * v.y() + m22 * v.z());
         return dest;
     }
 
-    @Override
     public Matrix4x3fc scale(IVector3f xyz, Matrix4x3fc dest) {
         return scale(xyz.x(), xyz.y(), xyz.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc scale(IVector3f xyz) {
         return scale(xyz.x(), xyz.y(), xyz.z(), this);
     }
 
-    @Override
     public Matrix4x3fc scale(float xyz, Matrix4x3fc dest) {
         return scale(xyz, xyz, xyz, dest);
     }
 
-    @Override
     public Matrix4x3fc scale(float xyz) {
         return scale(xyz, xyz, xyz);
     }
 
-    @Override
     public Matrix4x3fc scale(float x, float y, float z, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
@@ -1927,12 +1775,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc scale(float x, float y, float z) {
         return scale(x, y, z, this);
     }
 
-    @Override
     public Matrix4x3fc scaleLocal(float x, float y, float z, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
@@ -1964,12 +1810,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc scaleLocal(float x, float y, float z) {
         return scaleLocal(x, y, z, this);
     }
 
-    @Override
     public Matrix4x3fc rotateX(float ang, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationX(ang);
@@ -2015,12 +1859,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateX(float ang) {
         return rotateX(ang, this);
     }
 
-    @Override
     public Matrix4x3fc rotateY(float ang, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationY(ang);
@@ -2066,12 +1908,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateY(float ang) {
         return rotateY(ang, this);
     }
 
-    @Override
     public Matrix4x3fc rotateZ(float ang, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZ(ang);
@@ -2117,22 +1957,18 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateZ(float ang) {
         return rotateZ(ang, this);
     }
 
-    @Override
     public Matrix4x3fc rotateXYZ(Vector3fc angles) {
         return rotateXYZ(angles.x(), angles.y(), angles.z());
     }
 
-    @Override
     public Matrix4x3fc rotateXYZ(float angleX, float angleY, float angleZ) {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    @Override
     public Matrix4x3fc rotateXYZ(float angleX, float angleY, float angleZ, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
@@ -2176,17 +2012,14 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateZYX(Vector3fc angles) {
         return rotateZYX(angles.z(), angles.y(), angles.x());
     }
 
-    @Override
     public Matrix4x3fc rotateZYX(float angleZ, float angleY, float angleX) {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    @Override
     public Matrix4x3fc rotateZYX(float angleZ, float angleY, float angleX, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
@@ -2230,17 +2063,14 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateYXZ(Vector3fc angles) {
         return rotateYXZ(angles.y(), angles.x(), angles.z());
     }
 
-    @Override
     public Matrix4x3fc rotateYXZ(float angleY, float angleX, float angleZ) {
         return rotateYXZ(angleY, angleX, angleZ, this);
     }
 
-    @Override
     public Matrix4x3fc rotateYXZ(float angleY, float angleX, float angleZ, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
@@ -2284,7 +2114,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotate(float ang, float x, float y, float z, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(ang, x, y, z);
@@ -2331,12 +2160,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotate(float ang, float x, float y, float z) {
         return rotate(ang, x, y, z, this);
     }
 
-    @Override
     public Matrix4x3fc rotateTranslation(float ang, float x, float y, float z, Matrix4x3fc dest) {
         float s = (float) Math.sin(ang);
         float c = (float) Math.cosFromSin(s, ang);
@@ -2378,7 +2205,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateLocal(float ang, float x, float y, float z, Matrix4x3fc dest) {
         float s = (float) Math.sin(ang);
         float c = (float) Math.cosFromSin(s, ang);
@@ -2423,22 +2249,18 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateLocal(float ang, float x, float y, float z) {
         return rotateLocal(ang, x, y, z, this);
     }
 
-    @Override
     public Matrix4x3fc translate(IVector3f offset) {
         return translate(offset.x(), offset.y(), offset.z());
     }
 
-    @Override
     public Matrix4x3fc translate(IVector3f offset, Matrix4x3fc dest) {
         return translate(offset.x(), offset.y(), offset.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc translate(float x, float y, float z, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.translation(x, y, z);
@@ -2465,7 +2287,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc translate(float x, float y, float z) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return translation(x, y, z);
@@ -2477,17 +2298,14 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc translateLocal(IVector3f offset) {
         return translateLocal(offset.x(), offset.y(), offset.z());
     }
 
-    @Override
     public Matrix4x3fc translateLocal(IVector3f offset, Matrix4x3fc dest) {
         return translateLocal(offset.x(), offset.y(), offset.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc translateLocal(float x, float y, float z, Matrix4x3fc dest) {
         dest.m00(m00);
         dest.m01(m01);
@@ -2505,12 +2323,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc translateLocal(float x, float y, float z) {
         return translateLocal(x, y, z, this);
     }
 
-    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeFloat(m00);
         out.writeFloat(m01);
@@ -2526,7 +2342,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         out.writeFloat(m32);
     }
 
-    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         m00 = in.readFloat();
         m01 = in.readFloat();
@@ -2543,7 +2358,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         properties = 0;
     }
 
-    @Override
     public Matrix4x3fc ortho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4x3fc dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
@@ -2572,22 +2386,18 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc ortho(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4x3fc dest) {
         return ortho(left, right, bottom, top, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4x3fc ortho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
         return ortho(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4x3fc ortho(float left, float right, float bottom, float top, float zNear, float zFar) {
         return ortho(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4x3fc orthoLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4x3fc dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
@@ -2616,22 +2426,18 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc orthoLH(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4x3fc dest) {
         return orthoLH(left, right, bottom, top, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4x3fc orthoLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
         return orthoLH(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4x3fc orthoLH(float left, float right, float bottom, float top, float zNear, float zFar) {
         return orthoLH(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4x3fc setOrtho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
         MemUtil.INSTANCE.identity(this);
         m00 = 2.0f / (right - left);
@@ -2644,12 +2450,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setOrtho(float left, float right, float bottom, float top, float zNear, float zFar) {
         return setOrtho(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4x3fc setOrthoLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
         MemUtil.INSTANCE.identity(this);
         m00 = 2.0f / (right - left);
@@ -2662,12 +2466,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setOrthoLH(float left, float right, float bottom, float top, float zNear, float zFar) {
         return setOrthoLH(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4x3fc orthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4x3fc dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / width;
@@ -2694,22 +2496,18 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc orthoSymmetric(float width, float height, float zNear, float zFar, Matrix4x3fc dest) {
         return orthoSymmetric(width, height, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4x3fc orthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
         return orthoSymmetric(width, height, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4x3fc orthoSymmetric(float width, float height, float zNear, float zFar) {
         return orthoSymmetric(width, height, zNear, zFar, false, this);
     }
 
-    @Override
     public Matrix4x3fc orthoSymmetricLH(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4x3fc dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / width;
@@ -2736,22 +2534,18 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc orthoSymmetricLH(float width, float height, float zNear, float zFar, Matrix4x3fc dest) {
         return orthoSymmetricLH(width, height, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4x3fc orthoSymmetricLH(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
         return orthoSymmetricLH(width, height, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4x3fc orthoSymmetricLH(float width, float height, float zNear, float zFar) {
         return orthoSymmetricLH(width, height, zNear, zFar, false, this);
     }
 
-    @Override
     public Matrix4x3fc setOrthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
         MemUtil.INSTANCE.identity(this);
         m00 = 2.0f / width;
@@ -2762,12 +2556,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setOrthoSymmetric(float width, float height, float zNear, float zFar) {
         return setOrthoSymmetric(width, height, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4x3fc setOrthoSymmetricLH(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
         MemUtil.INSTANCE.identity(this);
         m00 = 2.0f / width;
@@ -2778,12 +2570,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setOrthoSymmetricLH(float width, float height, float zNear, float zFar) {
         return setOrthoSymmetricLH(width, height, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4x3fc ortho2D(float left, float right, float bottom, float top, Matrix4x3fc dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
@@ -2810,12 +2600,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc ortho2D(float left, float right, float bottom, float top) {
         return ortho2D(left, right, bottom, top, this);
     }
 
-    @Override
     public Matrix4x3fc ortho2DLH(float left, float right, float bottom, float top, Matrix4x3fc dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
@@ -2842,12 +2630,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc ortho2DLH(float left, float right, float bottom, float top) {
         return ortho2DLH(left, right, bottom, top, this);
     }
 
-    @Override
     public Matrix4x3fc setOrtho2D(float left, float right, float bottom, float top) {
         MemUtil.INSTANCE.identity(this);
         m00 = 2.0f / (right - left);
@@ -2859,7 +2645,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setOrtho2DLH(float left, float right, float bottom, float top) {
         MemUtil.INSTANCE.identity(this);
         m00 = 2.0f / (right - left);
@@ -2871,17 +2656,14 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc lookAlong(IVector3f dir, IVector3f up) {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
-    @Override
     public Matrix4x3fc lookAlong(IVector3f dir, IVector3f up, Matrix4x3fc dest) {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
@@ -2943,17 +2725,14 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
-    @Override
     public Matrix4x3fc setLookAlong(IVector3f dir, IVector3f up) {
         return setLookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4x3fc setLookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
@@ -2992,15 +2771,13 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc setLookAt(IVector3f eye, IVector3f center, IVector3f up) {
         return setLookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4x3fc setLookAt(float eyeX, float eyeY, float eyeZ,
-                                float centerX, float centerY, float centerZ,
-                                float upX, float upY, float upZ) {
+                                 float centerX, float centerY, float centerZ,
+                                 float upX, float upY, float upZ) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -3043,27 +2820,25 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc lookAt(IVector3f eye, IVector3f center, IVector3f up, Matrix4x3fc dest) {
         return lookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc lookAt(IVector3f eye, IVector3f center, IVector3f up) {
         return lookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), this);
     }
 
-    @Override
     public Matrix4x3fc lookAt(float eyeX, float eyeY, float eyeZ,
-                             float centerX, float centerY, float centerZ,
-                             float upX, float upY, float upZ, Matrix4x3fc dest) {
+                              float centerX, float centerY, float centerZ,
+                              float upX, float upY, float upZ, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         return lookAtGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
+
     private Matrix4x3fc lookAtGeneric(float eyeX, float eyeY, float eyeZ,
-                                     float centerX, float centerY, float centerZ,
-                                     float upX, float upY, float upZ, Matrix4x3fc dest) {
+                                      float centerX, float centerY, float centerZ,
+                                      float upX, float upY, float upZ, Matrix4x3fc dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -3129,22 +2904,19 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc lookAt(float eyeX, float eyeY, float eyeZ,
-                             float centerX, float centerY, float centerZ,
-                             float upX, float upY, float upZ) {
+                              float centerX, float centerY, float centerZ,
+                              float upX, float upY, float upZ) {
         return lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
     }
 
-    @Override
     public Matrix4x3fc setLookAtLH(IVector3f eye, IVector3f center, IVector3f up) {
         return setLookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4x3fc setLookAtLH(float eyeX, float eyeY, float eyeZ,
-                                  float centerX, float centerY, float centerZ,
-                                  float upX, float upY, float upZ) {
+                                   float centerX, float centerY, float centerZ,
+                                   float upX, float upY, float upZ) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -3187,27 +2959,25 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc lookAtLH(IVector3f eye, IVector3f center, IVector3f up, Matrix4x3fc dest) {
         return lookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc lookAtLH(IVector3f eye, IVector3f center, IVector3f up) {
         return lookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), this);
     }
 
-    @Override
     public Matrix4x3fc lookAtLH(float eyeX, float eyeY, float eyeZ,
-                               float centerX, float centerY, float centerZ,
-                               float upX, float upY, float upZ, Matrix4x3fc dest) {
+                                float centerX, float centerY, float centerZ,
+                                float upX, float upY, float upZ, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setLookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         return lookAtLHGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
+
     private Matrix4x3fc lookAtLHGeneric(float eyeX, float eyeY, float eyeZ,
-                                       float centerX, float centerY, float centerZ,
-                                       float upX, float upY, float upZ, Matrix4x3fc dest) {
+                                        float centerX, float centerY, float centerZ,
+                                        float upX, float upY, float upZ, Matrix4x3fc dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -3274,14 +3044,12 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc lookAtLH(float eyeX, float eyeY, float eyeZ,
-                               float centerX, float centerY, float centerZ,
-                               float upX, float upY, float upZ) {
+                                float centerX, float centerY, float centerZ,
+                                float upX, float upY, float upZ) {
         return lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
     }
 
-    @Override
     public Matrix4x3fc rotate(IQuaternionf quat, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(quat);
@@ -3332,12 +3100,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotate(IQuaternionf quat) {
         return rotate(quat, this);
     }
 
-    @Override
     public Matrix4x3fc rotateTranslation(IQuaternionf quat, Matrix4x3fc dest) {
         float w2 = quat.w() * quat.w();
         float x2 = quat.x() * quat.x();
@@ -3380,7 +3146,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateLocal(IQuaternionf quat, Matrix4x3fc dest) {
         float w2 = quat.w() * quat.w();
         float x2 = quat.x() * quat.x();
@@ -3429,32 +3194,26 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateLocal(IQuaternionf quat) {
         return rotateLocal(quat, this);
     }
 
-    @Override
     public Matrix4x3fc rotate(AxisAngle4fc axisAngle) {
         return rotate(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z());
     }
 
-    @Override
     public Matrix4x3fc rotate(AxisAngle4fc axisAngle, Matrix4x3fc dest) {
         return rotate(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc rotate(float angle, IVector3f axis) {
         return rotate(angle, axis.x(), axis.y(), axis.z());
     }
 
-    @Override
     public Matrix4x3fc rotate(float angle, IVector3f axis, Matrix4x3fc dest) {
         return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc reflect(float a, float b, float c, float d, Matrix4x3fc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.reflection(a, b, c, d);
@@ -3497,17 +3256,14 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc reflect(float a, float b, float c, float d) {
         return reflect(a, b, c, d, this);
     }
 
-    @Override
     public Matrix4x3fc reflect(float nx, float ny, float nz, float px, float py, float pz) {
         return reflect(nx, ny, nz, px, py, pz, this);
     }
 
-    @Override
     public Matrix4x3fc reflect(float nx, float ny, float nz, float px, float py, float pz, Matrix4x3fc dest) {
         float invLength = 1.0f / (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
         float nnx = nx * invLength;
@@ -3517,17 +3273,14 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return reflect(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz, dest);
     }
 
-    @Override
     public Matrix4x3fc reflect(IVector3f normal, IVector3f point) {
         return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z());
     }
 
-    @Override
     public Matrix4x3fc reflect(IQuaternionf orientation, IVector3f point) {
         return reflect(orientation, point, this);
     }
 
-    @Override
     public Matrix4x3fc reflect(IQuaternionf orientation, IVector3f point, Matrix4x3fc dest) {
         double num1 = orientation.x() + orientation.x();
         double num2 = orientation.y() + orientation.y();
@@ -3538,12 +3291,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return reflect(normalX, normalY, normalZ, point.x(), point.y(), point.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc reflect(IVector3f normal, IVector3f point, Matrix4x3fc dest) {
         return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc reflection(float a, float b, float c, float d) {
         float da = a + a, db = b + b, dc = c + c, dd = d + d;
         m00 = 1.0f - da * a;
@@ -3562,7 +3313,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc reflection(float nx, float ny, float nz, float px, float py, float pz) {
         float invLength = 1.0f / (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
         float nnx = nx * invLength;
@@ -3572,12 +3322,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return reflection(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz);
     }
 
-    @Override
     public Matrix4x3fc reflection(IVector3f normal, IVector3f point) {
         return reflection(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z());
     }
 
-    @Override
     public Matrix4x3fc reflection(IQuaternionf orientation, IVector3f point) {
         double num1 = orientation.x() + orientation.x();
         double num2 = orientation.y() + orientation.y();
@@ -3588,107 +3336,101 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return reflection(normalX, normalY, normalZ, point.x(), point.y(), point.z());
     }
 
-    @Override
     public Vector4fc getRow(int row, Vector4fc dest) throws IndexOutOfBoundsException {
         switch (row) {
-        case 0:
-            dest.set(m00, m10, m20, m30);
-            break;
-        case 1:
-            dest.set(m01, m11, m21, m31);
-            break;
-        case 2:
-            dest.set(m02, m12, m22, m32);
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
+            case 0:
+                dest.set(m00, m10, m20, m30);
+                break;
+            case 1:
+                dest.set(m01, m11, m21, m31);
+                break;
+            case 2:
+                dest.set(m02, m12, m22, m32);
+                break;
+            default:
+                throw new IndexOutOfBoundsException();
         }
         return dest;
     }
 
-    @Override
     public Matrix4x3fc setRow(int row, IVector4f src) throws IndexOutOfBoundsException {
         switch (row) {
-        case 0:
-            this.m00 = src.x();
-            this.m10 = src.y();
-            this.m20 = src.z();
-            this.m30 = src.w();
-            break;
-        case 1:
-            this.m01 = src.x();
-            this.m11 = src.y();
-            this.m21 = src.z();
-            this.m31 = src.w();
-            break;
-        case 2:
-            this.m02 = src.x();
-            this.m12 = src.y();
-            this.m22 = src.z();
-            this.m32 = src.w();
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
+            case 0:
+                this.m00 = src.x();
+                this.m10 = src.y();
+                this.m20 = src.z();
+                this.m30 = src.w();
+                break;
+            case 1:
+                this.m01 = src.x();
+                this.m11 = src.y();
+                this.m21 = src.z();
+                this.m31 = src.w();
+                break;
+            case 2:
+                this.m02 = src.x();
+                this.m12 = src.y();
+                this.m22 = src.z();
+                this.m32 = src.w();
+                break;
+            default:
+                throw new IndexOutOfBoundsException();
         }
         return this;
     }
 
-    @Override
     public Vector3fc getColumn(int column, Vector3fc dest) throws IndexOutOfBoundsException {
         switch (column) {
-        case 0:
-            dest.set(m00, m01, m02);
-            break;
-        case 1:
-            dest.set(m10, m11, m12);
-            break;
-        case 2:
-            dest.set(m20, m21, m22);
-            break;
-        case 3:
-            dest.set(m30, m31, m32);
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
+            case 0:
+                dest.set(m00, m01, m02);
+                break;
+            case 1:
+                dest.set(m10, m11, m12);
+                break;
+            case 2:
+                dest.set(m20, m21, m22);
+                break;
+            case 3:
+                dest.set(m30, m31, m32);
+                break;
+            default:
+                throw new IndexOutOfBoundsException();
         }
         return dest;
     }
 
-    @Override
     public Matrix4x3fc setColumn(int column, IVector3f src) throws IndexOutOfBoundsException {
         switch (column) {
-        case 0:
-            this.m00 = src.x();
-            this.m01 = src.y();
-            this.m02 = src.z();
-            break;
-        case 1:
-            this.m10 = src.x();
-            this.m11 = src.y();
-            this.m12 = src.z();
-            break;
-        case 2:
-            this.m20 = src.x();
-            this.m21 = src.y();
-            this.m22 = src.z();
-            break;
-        case 3:
-            this.m30 = src.x();
-            this.m31 = src.y();
-            this.m32 = src.z();
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
+            case 0:
+                this.m00 = src.x();
+                this.m01 = src.y();
+                this.m02 = src.z();
+                break;
+            case 1:
+                this.m10 = src.x();
+                this.m11 = src.y();
+                this.m12 = src.z();
+                break;
+            case 2:
+                this.m20 = src.x();
+                this.m21 = src.y();
+                this.m22 = src.z();
+                break;
+            case 3:
+                this.m30 = src.x();
+                this.m31 = src.y();
+                this.m32 = src.z();
+                break;
+            default:
+                throw new IndexOutOfBoundsException();
         }
         return this;
     }
 
-    @Override
     public Matrix4x3fc normal() {
         return normal(this);
     }
 
-    @Override
     public Matrix4x3fc normal(Matrix4x3fc dest) {
         float m00m11 = m00 * m11;
         float m01m10 = m01 * m10;
@@ -3724,7 +3466,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix3fc normal(Matrix3fc dest) {
         float m00m11 = m00 * m11;
         float m01m10 = m01 * m10;
@@ -3747,101 +3488,102 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc normalize3x3() {
         return normalize3x3(this);
     }
 
-    @Override
     public Matrix4x3fc normalize3x3(Matrix4x3fc dest) {
         float invXlen = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
         float invYlen = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
         float invZlen = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
-        dest.m00(m00 * invXlen); dest.m01(m01 * invXlen); dest.m02(m02 * invXlen);
-        dest.m10(m10 * invYlen); dest.m11(m11 * invYlen); dest.m12(m12 * invYlen);
-        dest.m20(m20 * invZlen); dest.m21(m21 * invZlen); dest.m22(m22 * invZlen);
+        dest.m00(m00 * invXlen);
+        dest.m01(m01 * invXlen);
+        dest.m02(m02 * invXlen);
+        dest.m10(m10 * invYlen);
+        dest.m11(m11 * invYlen);
+        dest.m12(m12 * invYlen);
+        dest.m20(m20 * invZlen);
+        dest.m21(m21 * invZlen);
+        dest.m22(m22 * invZlen);
         dest.properties(properties);
         return dest;
     }
 
-    @Override
     public Matrix3fc normalize3x3(Matrix3fc dest) {
         float invXlen = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
         float invYlen = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
         float invZlen = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
-        dest.m00(m00 * invXlen); dest.m01(m01 * invXlen); dest.m02(m02 * invXlen);
-        dest.m10(m10 * invYlen); dest.m11(m11 * invYlen); dest.m12(m12 * invYlen);
-        dest.m20(m20 * invZlen); dest.m21(m21 * invZlen); dest.m22(m22 * invZlen);
+        dest.m00(m00 * invXlen);
+        dest.m01(m01 * invXlen);
+        dest.m02(m02 * invXlen);
+        dest.m10(m10 * invYlen);
+        dest.m11(m11 * invYlen);
+        dest.m12(m12 * invYlen);
+        dest.m20(m20 * invZlen);
+        dest.m21(m21 * invZlen);
+        dest.m22(m22 * invZlen);
         return dest;
     }
 
-    @Override
     public Planefc frustumPlane(int which, Planefc plane) {
         switch (which) {
-        case PLANE_NX:
-            plane.set(m00, m10, m20, 1.0f + m30).normalize();
-            break;
-        case PLANE_PX:
-            plane.set(-m00, -m10, -m20, 1.0f - m30).normalize();
-            break;
-        case PLANE_NY:
-            plane.set(m01, m11, m21, 1.0f + m31).normalize();
-            break;
-        case PLANE_PY:
-            plane.set(-m01, -m11, -m21, 1.0f - m31).normalize();
-            break;
-        case PLANE_NZ:
-            plane.set(m02, m12, m22, 1.0f + m32).normalize();
-            break;
-        case PLANE_PZ:
-            plane.set(-m02, -m12, -m22, 1.0f - m32).normalize();
-            break;
-        default:
-            throw new IllegalArgumentException("which"); //$NON-NLS-1$
+            case PLANE_NX:
+                plane.set(m00, m10, m20, 1.0f + m30).normalize();
+                break;
+            case PLANE_PX:
+                plane.set(-m00, -m10, -m20, 1.0f - m30).normalize();
+                break;
+            case PLANE_NY:
+                plane.set(m01, m11, m21, 1.0f + m31).normalize();
+                break;
+            case PLANE_PY:
+                plane.set(-m01, -m11, -m21, 1.0f - m31).normalize();
+                break;
+            case PLANE_NZ:
+                plane.set(m02, m12, m22, 1.0f + m32).normalize();
+                break;
+            case PLANE_PZ:
+                plane.set(-m02, -m12, -m22, 1.0f - m32).normalize();
+                break;
+            default:
+                throw new IllegalArgumentException("which"); //$NON-NLS-1$
         }
         return plane;
     }
 
-    @Override
     public Vector3fc positiveZ(Vector3fc dir) {
         dir.set(m10 * m21 - m11 * m20, m20 * m01 - m21 * m00, m00 * m11 - m01 * m10);
         dir.normalize();
         return dir;
     }
 
-    @Override
     public Vector3fc normalizedPositiveZ(Vector3fc dir) {
         dir.set(m02, m12, m22);
         return dir;
     }
 
-    @Override
     public Vector3fc positiveX(Vector3fc dir) {
         dir.set(m11 * m22 - m12 * m21, m02 * m21 - m01 * m22, m01 * m12 - m02 * m11);
         dir.normalize();
         return dir;
     }
 
-    @Override
     public Vector3fc normalizedPositiveX(Vector3fc dir) {
         dir.set(m00, m10, m20);
         return dir;
     }
 
-    @Override
     public Vector3fc positiveY(Vector3fc dir) {
         dir.set(m12 * m20 - m10 * m22, m00 * m22 - m02 * m20, m02 * m10 - m00 * m12);
         dir.normalize();
         return dir;
     }
 
-    @Override
     public Vector3fc normalizedPositiveY(Vector3fc dir) {
         dir.set(m01, m11, m21);
         return dir;
     }
 
-    @Override
     public Vector3fc origin(Vector3fc origin) {
         float a = m00 * m11 - m01 * m10;
         float b = m00 * m12 - m02 * m10;
@@ -3855,25 +3597,21 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return origin;
     }
 
-    @Override
     public Matrix4x3fc shadow(IVector4f light, float a, float b, float c, float d) {
         return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, this);
     }
 
-    @Override
     public Matrix4x3fc shadow(IVector4f light, float a, float b, float c, float d, Matrix4x3fc dest) {
         return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
-    @Override
     public Matrix4x3fc shadow(float lightX, float lightY, float lightZ, float lightW, float a, float b, float c, float d) {
         return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, this);
     }
 
-    @Override
     public Matrix4x3fc shadow(float lightX, float lightY, float lightZ, float lightW, float a, float b, float c, float d, Matrix4x3fc dest) {
         // normalize plane
-        float invPlaneLen = (float) (1.0 / Math.sqrt(a*a + b*b + c*c));
+        float invPlaneLen = (float) (1.0 / Math.sqrt(a * a + b * b + c * c));
         float an = a * invPlaneLen;
         float bn = b * invPlaneLen;
         float cn = c * invPlaneLen;
@@ -3926,7 +3664,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc shadow(IVector4f light, IMatrix4x3f planeTransform, Matrix4x3fc dest) {
         // compute plane equation by transforming (y = 0)
         float a = planeTransform.m10();
@@ -3936,12 +3673,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
-    @Override
     public Matrix4x3fc shadow(IVector4f light, IMatrix4x3f planeTransform) {
         return shadow(light, planeTransform, this);
     }
 
-    @Override
     public Matrix4x3fc shadow(float lightX, float lightY, float lightZ, float lightW, IMatrix4x3f planeTransform, Matrix4x3fc dest) {
         // compute plane equation by transforming (y = 0)
         float a = planeTransform.m10();
@@ -3951,12 +3686,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, dest);
     }
 
-    @Override
     public Matrix4x3fc shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4x3fc planeTransform) {
         return shadow(lightX, lightY, lightZ, lightW, planeTransform, this);
     }
 
-    @Override
     public Matrix4x3fc billboardCylindrical(IVector3f objPos, IVector3f targetPos, IVector3f up) {
         float dirX = targetPos.x() - objPos.x();
         float dirY = targetPos.y() - objPos.y();
@@ -3997,7 +3730,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc billboardSpherical(IVector3f objPos, IVector3f targetPos, IVector3f up) {
         float dirX = targetPos.x() - objPos.x();
         float dirY = targetPos.y() - objPos.y();
@@ -4037,7 +3769,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc billboardSpherical(IVector3f objPos, IVector3f targetPos) {
         float toDirX = targetPos.x() - objPos.x();
         float toDirY = targetPos.y() - objPos.y();
@@ -4070,7 +3801,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -4089,7 +3819,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return result;
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -4125,7 +3854,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return true;
     }
 
-    @Override
     public Matrix4x3fc pick(float x, float y, float width, float height, int[] viewport, Matrix4x3fc dest) {
         float sx = viewport[2] / width;
         float sy = viewport[3] / height;
@@ -4144,33 +3872,54 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc pick(float x, float y, float width, float height, int[] viewport) {
         return pick(x, y, width, height, viewport, this);
     }
 
-    @Override
     public Matrix4x3fc swap(Matrix4x3fc other) {
         float tmp;
-        tmp = this.m00; this.m00 = other.m00(); other.m00(tmp);
-        tmp = this.m01; this.m01 = other.m01(); other.m01(tmp);
-        tmp = this.m02; this.m02 = other.m02(); other.m02(tmp);
-        tmp = this.m10; this.m10 = other.m10(); other.m10(tmp);
-        tmp = this.m11; this.m11 = other.m11(); other.m11(tmp);
-        tmp = this.m12; this.m12 = other.m12(); other.m12(tmp);
-        tmp = this.m20; this.m20 = other.m20(); other.m20(tmp);
-        tmp = this.m21; this.m21 = other.m21(); other.m21(tmp);
-        tmp = this.m22; this.m22 = other.m22(); other.m22(tmp);
-        tmp = this.m30; this.m30 = other.m30(); other.m30(tmp);
-        tmp = this.m31; this.m31 = other.m31(); other.m31(tmp);
-        tmp = this.m32; this.m32 = other.m32(); other.m32(tmp);
+        tmp = this.m00;
+        this.m00 = other.m00();
+        other.m00(tmp);
+        tmp = this.m01;
+        this.m01 = other.m01();
+        other.m01(tmp);
+        tmp = this.m02;
+        this.m02 = other.m02();
+        other.m02(tmp);
+        tmp = this.m10;
+        this.m10 = other.m10();
+        other.m10(tmp);
+        tmp = this.m11;
+        this.m11 = other.m11();
+        other.m11(tmp);
+        tmp = this.m12;
+        this.m12 = other.m12();
+        other.m12(tmp);
+        tmp = this.m20;
+        this.m20 = other.m20();
+        other.m20(tmp);
+        tmp = this.m21;
+        this.m21 = other.m21();
+        other.m21(tmp);
+        tmp = this.m22;
+        this.m22 = other.m22();
+        other.m22(tmp);
+        tmp = this.m30;
+        this.m30 = other.m30();
+        other.m30(tmp);
+        tmp = this.m31;
+        this.m31 = other.m31();
+        other.m31(tmp);
+        tmp = this.m32;
+        this.m32 = other.m32();
+        other.m32(tmp);
         byte props = properties;
         this.properties = other.properties();
         other.properties(props);
         return this;
     }
 
-    @Override
     public Matrix4x3fc arcball(float radius, float centerX, float centerY, float centerZ, float angleX, float angleY, Matrix4x3fc dest) {
         float m30 = m20 * -radius + this.m30;
         float m31 = m21 * -radius + this.m31;
@@ -4207,22 +3956,18 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc arcball(float radius, IVector3f center, float angleX, float angleY, Matrix4x3fc dest) {
         return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, dest);
     }
 
-    @Override
     public Matrix4x3fc arcball(float radius, float centerX, float centerY, float centerZ, float angleX, float angleY) {
         return arcball(radius, centerX, centerY, centerZ, angleX, angleY, this);
     }
 
-    @Override
     public Matrix4x3fc arcball(float radius, IVector3f center, float angleX, float angleY) {
         return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, this);
     }
 
-    @Override
     public Matrix4x3fc transformAab(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, Vector3fc outMin, Vector3fc outMax) {
         float xax = m00 * minX, xay = m01 * minX, xaz = m02 * minX;
         float xbx = m00 * maxX, xby = m01 * maxX, xbz = m02 * maxX;
@@ -4304,17 +4049,14 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc transformAab(IVector3f min, IVector3f max, Vector3fc outMin, Vector3fc outMax) {
         return transformAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), outMin, outMax);
     }
 
-    @Override
     public Matrix4x3fc lerp(IMatrix4x3f other, float t) {
         return lerp(other, t, this);
     }
 
-    @Override
     public Matrix4x3fc lerp(IMatrix4x3f other, float t, Matrix4x3fc dest) {
         dest.m00(m00 + (other.m00() - m00) * t);
         dest.m01(m01 + (other.m01() - m01) * t);
@@ -4331,22 +4073,18 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotateTowards(IVector3f dir, IVector3f up, Matrix4x3fc dest) {
         return rotateTowards(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
 
-    @Override
     public Matrix4x3fc rotateTowards(IVector3f dir, IVector3f up) {
         return rotateTowards(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
-    @Override
     public Matrix4x3fc rotateTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         return rotateTowards(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
-    @Override
     public Matrix4x3fc rotateTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix4x3fc dest) {
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
@@ -4398,12 +4136,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4x3fc rotationTowards(IVector3f dir, IVector3f up) {
         return rotationTowards(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4x3fc rotationTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
@@ -4440,12 +4176,10 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4x3fc translationRotateTowards(IVector3f pos, IVector3f dir, IVector3f up) {
         return translationRotateTowards(pos.x(), pos.y(), pos.z(), dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4x3fc translationRotateTowards(float posX, float posY, float posZ, float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
@@ -4482,7 +4216,6 @@ public class Matrix4x3f extends Matrix4x3fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3fc getEulerAnglesZYX(Vector3fc dest) {
         dest.set((float) Math.atan2(m12, m22),
                 (float) Math.atan2(-m02, (float) Math.sqrt(m12 * m12 + m22 * m22)),

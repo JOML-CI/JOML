@@ -446,10 +446,8 @@ public abstract class Vector4fc implements Externalizable, IVector4f {
      */
     public abstract Vector4fc max(IVector4f v);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

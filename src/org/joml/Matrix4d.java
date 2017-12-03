@@ -45,14 +45,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * Contains the definition of a 4x4 Matrix of doubles, and associated functions to transform
- * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
+ * Contains the definition of a 4x4 Matrix of doubles, and associated functions to transform it. The matrix is
+ * column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
- *      m00  m10  m20  m30<br>
- *      m01  m11  m21  m31<br>
- *      m02  m12  m22  m32<br>
- *      m03  m13  m23  m33<br>
- * 
+ * m00  m10  m20  m30<br> m01  m11  m21  m31<br> m02  m12  m22  m32<br> m03  m13  m23  m33<br>
+ *
  * @author Richard Greenlees
  * @author Kai Burjack
  */
@@ -80,9 +77,8 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
 
     /**
      * Create a new {@link Matrix4dc} and make it a copy of the given matrix.
-     * 
-     * @param mat
-     *          the {@link IMatrix4d} to copy the values from
+     *
+     * @param mat the {@link IMatrix4d} to copy the values from
      */
     public Matrix4d(IMatrix4d mat) {
         m00 = mat.m00();
@@ -106,9 +102,8 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
 
     /**
      * Create a new {@link Matrix4dc} and make it a copy of the given matrix.
-     * 
-     * @param mat
-     *          the {@link IMatrix4f} to copy the values from
+     *
+     * @param mat the {@link IMatrix4f} to copy the values from
      */
     public Matrix4d(IMatrix4f mat) {
         m00 = mat.m00();
@@ -131,11 +126,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix4dc} and set its upper 4x3 submatrix to the given matrix <code>mat</code>
-     * and all other elements to identity.
-     * 
-     * @param mat
-     *          the {@link IMatrix4x3d} to copy the values from
+     * Create a new {@link Matrix4dc} and set its upper 4x3 submatrix to the given matrix <code>mat</code> and all other
+     * elements to identity.
+     *
+     * @param mat the {@link IMatrix4x3d} to copy the values from
      */
     public Matrix4d(IMatrix4x3d mat) {
         m00 = mat.m00();
@@ -155,11 +149,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix4dc} and set its upper 4x3 submatrix to the given matrix <code>mat</code>
-     * and all other elements to identity.
-     * 
-     * @param mat
-     *          the {@link IMatrix4x3f} to copy the values from
+     * Create a new {@link Matrix4dc} and set its upper 4x3 submatrix to the given matrix <code>mat</code> and all other
+     * elements to identity.
+     *
+     * @param mat the {@link IMatrix4x3f} to copy the values from
      */
     public Matrix4d(IMatrix4x3f mat) {
         m00 = mat.m00();
@@ -179,11 +172,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix4dc} by setting its uppper left 3x3 submatrix to the values of the given {@link IMatrix3d}
-     * and the rest to identity.
-     * 
-     * @param mat
-     *          the {@link IMatrix3d}
+     * Create a new {@link Matrix4dc} by setting its uppper left 3x3 submatrix to the values of the given {@link
+     * IMatrix3d} and the rest to identity.
+     *
+     * @param mat the {@link IMatrix3d}
      */
     public Matrix4d(IMatrix3d mat) {
         m00 = mat.m00();
@@ -202,48 +194,29 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
     /**
      * Create a new 4x4 matrix using the supplied double values.
      * <p>
-     * The matrix layout will be:<br><br>
-     *   m00, m10, m20, m30<br>
-     *   m01, m11, m21, m31<br>
-     *   m02, m12, m22, m32<br>
-     *   m03, m13, m23, m33
-     * 
-     * @param m00
-     *          the value of m00
-     * @param m01
-     *          the value of m01
-     * @param m02
-     *          the value of m02
-     * @param m03
-     *          the value of m03
-     * @param m10
-     *          the value of m10
-     * @param m11
-     *          the value of m11
-     * @param m12
-     *          the value of m12
-     * @param m13
-     *          the value of m13
-     * @param m20
-     *          the value of m20
-     * @param m21
-     *          the value of m21
-     * @param m22
-     *          the value of m22
-     * @param m23
-     *          the value of m23
-     * @param m30
-     *          the value of m30
-     * @param m31
-     *          the value of m31
-     * @param m32
-     *          the value of m32
-     * @param m33
-     *          the value of m33
+     * The matrix layout will be:<br><br> m00, m10, m20, m30<br> m01, m11, m21, m31<br> m02, m12, m22, m32<br> m03, m13,
+     * m23, m33
+     *
+     * @param m00 the value of m00
+     * @param m01 the value of m01
+     * @param m02 the value of m02
+     * @param m03 the value of m03
+     * @param m10 the value of m10
+     * @param m11 the value of m11
+     * @param m12 the value of m12
+     * @param m13 the value of m13
+     * @param m20 the value of m20
+     * @param m21 the value of m21
+     * @param m22 the value of m22
+     * @param m23 the value of m23
+     * @param m30 the value of m30
+     * @param m31 the value of m31
+     * @param m32 the value of m32
+     * @param m33 the value of m33
      */
     public Matrix4d(double m00, double m01, double m02, double m03,
-                    double m10, double m11, double m12, double m13, 
-                    double m20, double m21, double m22, double m23, 
+                    double m10, double m11, double m12, double m13,
+                    double m20, double m21, double m22, double m23,
                     double m30, double m31, double m32, double m33) {
         this.m00 = m00;
         this.m01 = m01;
@@ -264,34 +237,30 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         properties = 0;
     }
 
-//#ifdef __HAS_NIO__
+    //#ifdef __HAS_NIO__
+
     /**
-     * Create a new {@link Matrix4dc} by reading its 16 double components from the given {@link DoubleBuffer}
-     * at the buffer's current position.
+     * Create a new {@link Matrix4dc} by reading its 16 double components from the given {@link DoubleBuffer} at the
+     * buffer's current position.
      * <p>
      * That DoubleBuffer is expected to hold the values in column-major order.
      * <p>
      * The buffer's position will not be changed by this method.
-     * 
-     * @param buffer
-     *          the {@link DoubleBuffer} to read the matrix values from
+     *
+     * @param buffer the {@link DoubleBuffer} to read the matrix values from
      */
     public Matrix4d(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
-//#endif
+    //#endif
 
     /**
      * Create a new {@link Matrix4dc} and initialize its four columns using the supplied vectors.
-     * 
-     * @param col0
-     *          the first column
-     * @param col1
-     *          the second column
-     * @param col2
-     *          the third column
-     * @param col3
-     *          the fourth column
+     *
+     * @param col0 the first column
+     * @param col1 the second column
+     * @param col2 the third column
+     * @param col3 the fourth column
      */
     public Matrix4d(IVector4d col0, IVector4d col1, IVector4d col2, IVector4d col3) {
         this.m00 = col0.x();
@@ -312,227 +281,190 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         this.m33 = col3.w();
     }
 
-    @Override
     public Matrix4dc assumeNothing() {
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc assumeAffine() {
         properties = PROPERTY_AFFINE;
         return this;
     }
 
-    @Override
     public Matrix4dc assumePerspective() {
         properties = PROPERTY_PERSPECTIVE;
         return this;
     }
 
-    @Override
     public Matrix4dc property(int property) {
         this.properties = (byte) property;
         return this;
     }
 
-    @Override
     public byte properties() {
         return properties;
     }
 
-    @Override
     public double m00() {
         return m00;
     }
 
-    @Override
     public double m01() {
         return m01;
     }
 
-    @Override
     public double m02() {
         return m02;
     }
 
-    @Override
     public double m03() {
         return m03;
     }
 
-    @Override
     public double m10() {
         return m10;
     }
 
-    @Override
     public double m11() {
         return m11;
     }
 
-    @Override
     public double m12() {
         return m12;
     }
 
-    @Override
     public double m13() {
         return m13;
     }
 
-    @Override
     public double m20() {
         return m20;
     }
 
-    @Override
     public double m21() {
         return m21;
     }
 
-    @Override
     public double m22() {
         return m22;
     }
 
-    @Override
     public double m23() {
         return m23;
     }
 
-    @Override
     public double m30() {
         return m30;
     }
 
-    @Override
     public double m31() {
         return m31;
     }
 
-    @Override
     public double m32() {
         return m32;
     }
 
-    @Override
     public double m33() {
         return m33;
     }
 
-    @Override
     public Matrix4dc m00(double m00) {
         this.m00 = m00;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
-    @Override
+
     public Matrix4dc m01(double m01) {
         this.m01 = m01;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4dc m02(double m02) {
         this.m02 = m02;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4dc m03(double m03) {
         this.m03 = m03;
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc m10(double m10) {
         this.m10 = m10;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4dc m11(double m11) {
         this.m11 = m11;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4dc m12(double m12) {
         this.m12 = m12;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4dc m13(double m13) {
         this.m13 = m13;
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc m20(double m20) {
         this.m20 = m20;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4dc m21(double m21) {
         this.m21 = m21;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4dc m22(double m22) {
         this.m22 = m22;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4dc m23(double m23) {
         this.m23 = m23;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_AFFINE | PROPERTY_TRANSLATION);
         return this;
     }
 
-    @Override
     public Matrix4dc m30(double m30) {
         this.m30 = m30;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE);
         return this;
     }
 
-    @Override
     public Matrix4dc m31(double m31) {
         this.m31 = m31;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE);
         return this;
     }
 
-    @Override
     public Matrix4dc m32(double m32) {
         this.m32 = m32;
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE);
         return this;
     }
 
-    @Override
     public Matrix4dc m33(double m33) {
         this.m33 = m33;
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc identity() {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return this;
@@ -556,7 +488,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set(IMatrix4d m) {
         m00 = m.m00();
         m01 = m.m01();
@@ -578,7 +509,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set(IMatrix4f m) {
         m00 = m.m00();
         m01 = m.m01();
@@ -600,7 +530,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set(IMatrix4x3d m) {
         m00 = m.m00();
         m01 = m.m01();
@@ -622,7 +551,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set(IMatrix4x3f m) {
         m00 = m.m00();
         m01 = m.m01();
@@ -644,7 +572,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set(IMatrix3d mat) {
         m00 = mat.m00();
         m01 = mat.m01();
@@ -666,7 +593,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set3x3(IMatrix4d mat) {
         m00 = mat.m00();
         m01 = mat.m01();
@@ -681,7 +607,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set4x3(IMatrix4x3d mat) {
         m00 = mat.m00();
         m01 = mat.m01();
@@ -699,7 +624,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set4x3(IMatrix4x3f mat) {
         m00 = mat.m00();
         m01 = mat.m01();
@@ -717,7 +641,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set4x3(IMatrix4d mat) {
         m00 = mat.m00();
         m01 = mat.m01();
@@ -735,32 +658,31 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set(AxisAngle4fc axisAngle) {
         double x = axisAngle.x();
         double y = axisAngle.y();
         double z = axisAngle.z();
         double angle = axisAngle.angle();
-        double invLength = 1.0 / Math.sqrt(x*x + y*y + z*z);
+        double invLength = 1.0 / Math.sqrt(x * x + y * y + z * z);
         x *= invLength;
         y *= invLength;
         z *= invLength;
         double s = Math.sin(angle);
         double c = Math.cosFromSin(s, angle);
         double omc = 1.0 - c;
-        m00 = c + x*x*omc;
-        m11 = c + y*y*omc;
-        m22 = c + z*z*omc;
-        double tmp1 = x*y*omc;
-        double tmp2 = z*s;
+        m00 = c + x * x * omc;
+        m11 = c + y * y * omc;
+        m22 = c + z * z * omc;
+        double tmp1 = x * y * omc;
+        double tmp2 = z * s;
         m10 = tmp1 - tmp2;
         m01 = tmp1 + tmp2;
-        tmp1 = x*z*omc;
-        tmp2 = y*s;
+        tmp1 = x * z * omc;
+        tmp2 = y * s;
         m20 = tmp1 + tmp2;
         m02 = tmp1 - tmp2;
-        tmp1 = y*z*omc;
-        tmp2 = x*s;
+        tmp1 = y * z * omc;
+        tmp2 = x * s;
         m21 = tmp1 - tmp2;
         m12 = tmp1 + tmp2;
         m03 = 0.0;
@@ -774,32 +696,31 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set(AxisAngle4dc axisAngle) {
         double x = axisAngle.x();
         double y = axisAngle.y();
         double z = axisAngle.z();
         double angle = axisAngle.angle();
-        double invLength = 1.0 / Math.sqrt(x*x + y*y + z*z);
+        double invLength = 1.0 / Math.sqrt(x * x + y * y + z * z);
         x *= invLength;
         y *= invLength;
         z *= invLength;
         double s = Math.sin(angle);
         double c = Math.cosFromSin(s, angle);
         double omc = 1.0 - c;
-        m00 = c + x*x*omc;
-        m11 = c + y*y*omc;
-        m22 = c + z*z*omc;
-        double tmp1 = x*y*omc;
-        double tmp2 = z*s;
+        m00 = c + x * x * omc;
+        m11 = c + y * y * omc;
+        m22 = c + z * z * omc;
+        double tmp1 = x * y * omc;
+        double tmp2 = z * s;
         m10 = tmp1 - tmp2;
         m01 = tmp1 + tmp2;
-        tmp1 = x*z*omc;
-        tmp2 = y*s;
+        tmp1 = x * z * omc;
+        tmp2 = y * s;
         m20 = tmp1 + tmp2;
         m02 = tmp1 - tmp2;
-        tmp1 = y*z*omc;
-        tmp2 = x*s;
+        tmp1 = y * z * omc;
+        tmp2 = x * s;
         m21 = tmp1 - tmp2;
         m12 = tmp1 + tmp2;
         m03 = 0.0;
@@ -813,22 +734,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set(IQuaternionf q) {
         return rotation(q);
     }
 
-    @Override
     public Matrix4dc set(IQuaterniond q) {
         return rotation(q);
     }
 
-    @Override
     public Matrix4dc mul(IMatrix4d right) {
         return mul(right, this);
     }
 
-    @Override
     public Matrix4dc mul(IMatrix4d right, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
@@ -882,12 +799,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mulLocal(IMatrix4d left) {
-       return mulLocal(left, this);
+        return mulLocal(left, this);
     }
 
-    @Override
     public Matrix4dc mulLocal(IMatrix4d left, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(left);
@@ -935,12 +850,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mulLocalAffine(IMatrix4d left) {
-       return mulLocalAffine(left, this);
+        return mulLocalAffine(left, this);
     }
 
-    @Override
     public Matrix4dc mulLocalAffine(IMatrix4d left, Matrix4dc dest) {
         double nm00 = left.m00() * m00 + left.m10() * m01 + left.m20() * m02;
         double nm01 = left.m01() * m00 + left.m11() * m01 + left.m21() * m02;
@@ -978,12 +891,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mul(IMatrix4x3d right) {
         return mul(right, this);
     }
 
-    @Override
     public Matrix4dc mul(IMatrix4x3d right, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
@@ -1029,7 +940,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mul(IMatrix4x3f right, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
@@ -1075,12 +985,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mul(IMatrix3x2d right) {
         return mul(right, this);
     }
 
-    @Override
     public Matrix4dc mul(IMatrix3x2d right, Matrix4dc dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01();
         double nm01 = m01 * right.m00() + m11 * right.m01();
@@ -1114,12 +1022,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mul(IMatrix3x2f right) {
         return mul(right, this);
     }
 
-    @Override
     public Matrix4dc mul(IMatrix3x2f right, Matrix4dc dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01();
         double nm01 = m01 * right.m00() + m11 * right.m01();
@@ -1153,12 +1059,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mul(Matrix4fc right) {
         return mul(right, this);
     }
 
-    @Override
     public Matrix4dc mul(IMatrix4f right, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
@@ -1201,12 +1105,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mulPerspectiveAffine(IMatrix4d view) {
-       return mulPerspectiveAffine(view, this);
+        return mulPerspectiveAffine(view, this);
     }
 
-    @Override
     public Matrix4dc mulPerspectiveAffine(IMatrix4d view, Matrix4dc dest) {
         double nm00 = m00 * view.m00();
         double nm01 = m11 * view.m01();
@@ -1244,12 +1146,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mulAffineR(IMatrix4d right) {
-       return mulAffineR(right, this);
+        return mulAffineR(right, this);
     }
 
-    @Override
     public Matrix4dc mulAffineR(IMatrix4d right, Matrix4dc dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
         double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
@@ -1287,12 +1187,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mulAffine(IMatrix4d right) {
-       return mulAffine(right, this);
+        return mulAffine(right, this);
     }
 
-    @Override
     public Matrix4dc mulAffine(IMatrix4d right, Matrix4dc dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
         double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
@@ -1330,7 +1228,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mulTranslationAffine(IMatrix4d right, Matrix4dc dest) {
         double nm00 = right.m00();
         double nm01 = right.m01();
@@ -1368,12 +1265,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mulOrthoAffine(IMatrix4d view) {
         return mulOrthoAffine(view, this);
     }
 
-    @Override
     public Matrix4dc mulOrthoAffine(IMatrix4d view, Matrix4dc dest) {
         double nm00 = m00 * view.m00();
         double nm01 = m11 * view.m01();
@@ -1411,12 +1306,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc fma4x3(IMatrix4d other, double otherFactor) {
         return fma4x3(other, otherFactor, this);
     }
 
-    @Override
     public Matrix4dc fma4x3(IMatrix4d other, double otherFactor, Matrix4dc dest) {
         dest.m00(m00 + other.m00() * otherFactor);
         dest.m01(m01 + other.m01() * otherFactor);
@@ -1438,12 +1331,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc add(IMatrix4d other) {
         return add(other, this);
     }
 
-    @Override
     public Matrix4dc add(IMatrix4d other, Matrix4dc dest) {
         dest.m00(m00 + other.m00());
         dest.m01(m01 + other.m01());
@@ -1465,12 +1356,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc sub(IMatrix4d subtrahend) {
         return sub(subtrahend, this);
     }
 
-    @Override
     public Matrix4dc sub(IMatrix4d subtrahend, Matrix4dc dest) {
         dest.m00(m00 - subtrahend.m00());
         dest.m01(m01 - subtrahend.m01());
@@ -1492,12 +1381,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mulComponentWise(IMatrix4d other) {
         return mulComponentWise(other, this);
     }
 
-    @Override
     public Matrix4dc mulComponentWise(IMatrix4d other, Matrix4dc dest) {
         dest.m00(m00 * other.m00());
         dest.m01(m01 * other.m01());
@@ -1519,12 +1406,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc add4x3(IMatrix4d other) {
         return add4x3(other, this);
     }
 
-    @Override
     public Matrix4dc add4x3(IMatrix4d other, Matrix4dc dest) {
         dest.m00(m00 + other.m00());
         dest.m01(m01 + other.m01());
@@ -1546,12 +1431,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc add4x3(IMatrix4f other) {
         return add4x3(other, this);
     }
 
-    @Override
     public Matrix4dc add4x3(IMatrix4f other, Matrix4dc dest) {
         dest.m00(m00 + other.m00());
         dest.m01(m01 + other.m01());
@@ -1573,12 +1456,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc sub4x3(IMatrix4d subtrahend) {
         return sub4x3(subtrahend, this);
     }
 
-    @Override
     public Matrix4dc sub4x3(IMatrix4d subtrahend, Matrix4dc dest) {
         dest.m00(m00 - subtrahend.m00());
         dest.m01(m01 - subtrahend.m01());
@@ -1600,12 +1481,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc mul4x3ComponentWise(IMatrix4d other) {
         return mul4x3ComponentWise(other, this);
     }
 
-    @Override
     public Matrix4dc mul4x3ComponentWise(IMatrix4d other, Matrix4dc dest) {
         dest.m00(m00 * other.m00());
         dest.m01(m01 * other.m01());
@@ -1627,11 +1506,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
-    public Matrix4dc set(double m00, double m01, double m02,double m03,
-                        double m10, double m11, double m12, double m13,
-                        double m20, double m21, double m22, double m23, 
-                        double m30, double m31, double m32, double m33) {
+    public Matrix4dc set(double m00, double m01, double m02, double m03,
+                         double m10, double m11, double m12, double m13,
+                         double m20, double m21, double m22, double m23,
+                         double m30, double m31, double m32, double m33) {
         this.m00 = m00;
         this.m10 = m10;
         this.m20 = m20;
@@ -1652,91 +1530,83 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc set(double m[], int off) {
-        m00 = m[off+0];
-        m01 = m[off+1];
-        m02 = m[off+2];
-        m03 = m[off+3];
-        m10 = m[off+4];
-        m11 = m[off+5];
-        m12 = m[off+6];
-        m13 = m[off+7];
-        m20 = m[off+8];
-        m21 = m[off+9];
-        m22 = m[off+10];
-        m23 = m[off+11];
-        m30 = m[off+12];
-        m31 = m[off+13];
-        m32 = m[off+14];
-        m33 = m[off+15];
+        m00 = m[off + 0];
+        m01 = m[off + 1];
+        m02 = m[off + 2];
+        m03 = m[off + 3];
+        m10 = m[off + 4];
+        m11 = m[off + 5];
+        m12 = m[off + 6];
+        m13 = m[off + 7];
+        m20 = m[off + 8];
+        m21 = m[off + 9];
+        m22 = m[off + 10];
+        m23 = m[off + 11];
+        m30 = m[off + 12];
+        m31 = m[off + 13];
+        m32 = m[off + 14];
+        m33 = m[off + 15];
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc set(double m[]) {
         return set(m, 0);
     }
 
-    @Override
     public Matrix4dc set(float m[], int off) {
-        m00 = m[off+0];
-        m01 = m[off+1];
-        m02 = m[off+2];
-        m03 = m[off+3];
-        m10 = m[off+4];
-        m11 = m[off+5];
-        m12 = m[off+6];
-        m13 = m[off+7];
-        m20 = m[off+8];
-        m21 = m[off+9];
-        m22 = m[off+10];
-        m23 = m[off+11];
-        m30 = m[off+12];
-        m31 = m[off+13];
-        m32 = m[off+14];
-        m33 = m[off+15];
+        m00 = m[off + 0];
+        m01 = m[off + 1];
+        m02 = m[off + 2];
+        m03 = m[off + 3];
+        m10 = m[off + 4];
+        m11 = m[off + 5];
+        m12 = m[off + 6];
+        m13 = m[off + 7];
+        m20 = m[off + 8];
+        m21 = m[off + 9];
+        m22 = m[off + 10];
+        m23 = m[off + 11];
+        m30 = m[off + 12];
+        m31 = m[off + 13];
+        m32 = m[off + 14];
+        m33 = m[off + 15];
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc set(float m[]) {
         return set(m, 0);
     }
 
-//#ifdef __HAS_NIO__
-    @Override
+    //#ifdef __HAS_NIO__
+
     public Matrix4dc set(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc set(FloatBuffer buffer) {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc set(ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc setFloats(ByteBuffer buffer) {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         properties = 0;
         return this;
     }
-//#endif
+    //#endif
 
-    @Override
     public Matrix4dc set(IVector4d col0, IVector4d col1, IVector4d col2, IVector4d col3) {
         this.m00 = col0.x();
         this.m01 = col0.y();
@@ -1758,38 +1628,33 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public double determinant() {
         if ((properties & PROPERTY_AFFINE) != 0)
             return determinantAffine();
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32)
-             + (m02 * m10 - m00 * m12) * (m21 * m33 - m23 * m31)
-             + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) 
-             + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
-             + (m03 * m11 - m01 * m13) * (m20 * m32 - m22 * m30) 
-             + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
+                + (m02 * m10 - m00 * m12) * (m21 * m33 - m23 * m31)
+                + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31)
+                + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
+                + (m03 * m11 - m01 * m13) * (m20 * m32 - m22 * m30)
+                + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
 
-    @Override
     public double determinant3x3() {
         return (m00 * m11 - m01 * m10) * m22
-             + (m02 * m10 - m00 * m12) * m21
-             + (m01 * m12 - m02 * m11) * m20;
+                + (m02 * m10 - m00 * m12) * m21
+                + (m01 * m12 - m02 * m11) * m20;
     }
 
-    @Override
     public double determinantAffine() {
         return (m00 * m11 - m01 * m10) * m22
-             + (m02 * m10 - m00 * m12) * m21
-             + (m01 * m12 - m02 * m11) * m20;
+                + (m02 * m10 - m00 * m12) * m21
+                + (m01 * m12 - m02 * m11) * m20;
     }
 
-    @Override
     public Matrix4dc invert() {
         return invert(this);
     }
 
-    @Override
     public Matrix4dc invert(Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.identity();
@@ -1815,22 +1680,22 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         double l = m22 * m33 - m23 * m32;
         double det = a * l - b * k + c * j + d * i - e * h + f * g;
         det = 1.0 / det;
-        double nm00 = ( m11 * l - m12 * k + m13 * j) * det;
+        double nm00 = (m11 * l - m12 * k + m13 * j) * det;
         double nm01 = (-m01 * l + m02 * k - m03 * j) * det;
-        double nm02 = ( m31 * f - m32 * e + m33 * d) * det;
+        double nm02 = (m31 * f - m32 * e + m33 * d) * det;
         double nm03 = (-m21 * f + m22 * e - m23 * d) * det;
         double nm10 = (-m10 * l + m12 * i - m13 * h) * det;
-        double nm11 = ( m00 * l - m02 * i + m03 * h) * det;
+        double nm11 = (m00 * l - m02 * i + m03 * h) * det;
         double nm12 = (-m30 * f + m32 * c - m33 * b) * det;
-        double nm13 = ( m20 * f - m22 * c + m23 * b) * det;
-        double nm20 = ( m10 * k - m11 * i + m13 * g) * det;
+        double nm13 = (m20 * f - m22 * c + m23 * b) * det;
+        double nm20 = (m10 * k - m11 * i + m13 * g) * det;
         double nm21 = (-m00 * k + m01 * i - m03 * g) * det;
-        double nm22 = ( m30 * e - m31 * c + m33 * a) * det;
+        double nm22 = (m30 * e - m31 * c + m33 * a) * det;
         double nm23 = (-m20 * e + m21 * c - m23 * a) * det;
         double nm30 = (-m10 * j + m11 * h - m12 * g) * det;
-        double nm31 = ( m00 * j - m01 * h + m02 * g) * det;
+        double nm31 = (m00 * j - m01 * h + m02 * g) * det;
         double nm32 = (-m30 * d + m31 * b - m32 * a) * det;
-        double nm33 = ( m20 * d - m21 * b + m22 * a) * det;
+        double nm33 = (m20 * d - m21 * b + m22 * a) * det;
         dest.m00(nm00);
         dest.m01(nm01);
         dest.m02(nm02);
@@ -1851,80 +1716,72 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc invertPerspective(Matrix4dc dest) {
-        double a =  1.0 / (m00 * m11);
+        double a = 1.0 / (m00 * m11);
         double l = -1.0 / (m23 * m32);
         dest.set(m11 * a, 0, 0, 0,
-                 0, m00 * a, 0, 0,
-                 0, 0, 0, -m23 * l,
-                 0, 0, -m32 * l, m22 * l);
+                0, m00 * a, 0, 0,
+                0, 0, 0, -m23 * l,
+                0, 0, -m32 * l, m22 * l);
         return dest;
     }
 
-    @Override
     public Matrix4dc invertPerspective() {
         return invertPerspective(this);
     }
 
-    @Override
     public Matrix4dc invertFrustum(Matrix4dc dest) {
         double invM00 = 1.0 / m00;
         double invM11 = 1.0 / m11;
         double invM23 = 1.0 / m23;
         double invM32 = 1.0 / m32;
         dest.set(invM00, 0, 0, 0,
-                 0, invM11, 0, 0,
-                 0, 0, 0, invM32,
-                 -m20 * invM00 * invM23, -m21 * invM11 * invM23, invM23, -m22 * invM23 * invM32);
+                0, invM11, 0, 0,
+                0, 0, 0, invM32,
+                -m20 * invM00 * invM23, -m21 * invM11 * invM23, invM23, -m22 * invM23 * invM32);
         dest.property(0);
         return dest;
     }
 
-    @Override
     public Matrix4dc invertFrustum() {
         return invertFrustum(this);
     }
 
-    @Override
     public Matrix4dc invertOrtho(Matrix4dc dest) {
         double invM00 = 1.0 / m00;
         double invM11 = 1.0 / m11;
         double invM22 = 1.0 / m22;
         dest.set(invM00, 0, 0, 0,
-                 0, invM11, 0, 0,
-                 0, 0, invM22, 0,
-                 -m30 * invM00, -m31 * invM11, -m32 * invM22, 1);
+                0, invM11, 0, 0,
+                0, 0, invM22, 0,
+                -m30 * invM00, -m31 * invM11, -m32 * invM22, 1);
         dest.property(PROPERTY_AFFINE);
         return dest;
     }
 
-    @Override
     public Matrix4dc invertOrtho() {
         return invertOrtho(this);
     }
 
-    @Override
     public Matrix4dc invertPerspectiveView(IMatrix4d view, Matrix4dc dest) {
-        double a =  1.0 / (m00 * m11);
+        double a = 1.0 / (m00 * m11);
         double l = -1.0 / (m23 * m32);
-        double pm00 =  m11 * a;
-        double pm11 =  m00 * a;
+        double pm00 = m11 * a;
+        double pm11 = m00 * a;
         double pm23 = -m23 * l;
         double pm32 = -m32 * l;
-        double pm33 =  m22 * l;
+        double pm33 = m22 * l;
         double vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
         double vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
         double vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
         dest.set(view.m00() * pm00, view.m10() * pm00, view.m20() * pm00, 0.0,
-                 view.m01() * pm11, view.m11() * pm11, view.m21() * pm11, 0.0,
-                 vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
-                 view.m02() * pm32 + vm30 * pm33, view.m12() * pm32 + vm31 * pm33, view.m22() * pm32 + vm32 * pm33, pm33);
+                view.m01() * pm11, view.m11() * pm11, view.m21() * pm11, 0.0,
+                vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
+                view.m02() * pm32 + vm30 * pm33, view.m12() * pm32 + vm31 * pm33, view.m22() * pm32 + vm32 * pm33, pm33);
         dest.property(0);
         return dest;
     }
 
-    @Override
     public Matrix4dc invertAffine(Matrix4dc dest) {
         double m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
         double m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
@@ -1965,45 +1822,38 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc invertAffine() {
         return invertAffine(this);
     }
 
-    @Override
     public Matrix4dc invertAffineUnitScale(Matrix4dc dest) {
         dest.set(m00, m10, m20, 0.0,
-                 m01, m11, m21, 0.0,
-                 m02, m12, m22, 0.0,
-                 -m00 * m30 - m01 * m31 - m02 * m32,
-                 -m10 * m30 - m11 * m31 - m12 * m32,
-                 -m20 * m30 - m21 * m31 - m22 * m32,
-                 1.0);
+                m01, m11, m21, 0.0,
+                m02, m12, m22, 0.0,
+                -m00 * m30 - m01 * m31 - m02 * m32,
+                -m10 * m30 - m11 * m31 - m12 * m32,
+                -m20 * m30 - m21 * m31 - m22 * m32,
+                1.0);
         dest.property(PROPERTY_AFFINE);
         return dest;
     }
 
-    @Override
     public Matrix4dc invertAffineUnitScale() {
         return invertAffineUnitScale(this);
     }
 
-    @Override
     public Matrix4dc invertLookAt(Matrix4dc dest) {
         return invertAffineUnitScale(dest);
     }
 
-    @Override
     public Matrix4dc invertLookAt() {
         return invertAffineUnitScale(this);
     }
 
-    @Override
     public Matrix4dc transpose() {
         return transpose(this);
     }
 
-    @Override
     public Matrix4dc transpose(Matrix4dc dest) {
         double nm00 = m00;
         double nm01 = m10;
@@ -2041,12 +1891,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc transpose3x3() {
         return transpose3x3(this);
     }
 
-    @Override
     public Matrix4dc transpose3x3(Matrix4dc dest) {
         double nm00 = m00;
         double nm01 = m10;
@@ -2070,7 +1918,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix3dc transpose3x3(Matrix3dc dest) {
         dest.m00(m00);
         dest.m01(m10);
@@ -2084,7 +1931,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc translation(double x, double y, double z) {
         m00 = 1.0;
         m01 = 0.0;
@@ -2106,17 +1952,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc translation(IVector3f offset) {
         return translation(offset.x(), offset.y(), offset.z());
     }
 
-    @Override
     public Matrix4dc translation(IVector3d offset) {
         return translation(offset.x(), offset.y(), offset.z());
     }
 
-    @Override
     public Matrix4dc setTranslation(double x, double y, double z) {
         m30 = x;
         m31 = y;
@@ -2125,24 +1968,20 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setTranslation(IVector3d xyz) {
         return setTranslation(xyz.x(), xyz.y(), xyz.z());
     }
 
-    @Override
     public Vector3dc getTranslation(Vector3dc dest) {
         dest.set(m30, m31, m32);
         return dest;
     }
 
-    @Override
     public Vector3dc getScale(Vector3dc dest) {
         dest.set(Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02), Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12), Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
         return dest;
     }
 
-    @Override
     public String toString() {
         DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
         String str = toString(formatter);
@@ -2164,194 +2003,167 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return res.toString();
     }
 
-    @Override
     public String toString(NumberFormat formatter) {
         return formatter.format(m00) + " " + formatter.format(m10) + " " + formatter.format(m20) + " " + formatter.format(m30) + "\n"
-             + formatter.format(m01) + " " + formatter.format(m11) + " " + formatter.format(m21) + " " + formatter.format(m31) + "\n"
-             + formatter.format(m02) + " " + formatter.format(m12) + " " + formatter.format(m22) + " " + formatter.format(m32) + "\n"
-             + formatter.format(m03) + " " + formatter.format(m13) + " " + formatter.format(m23) + " " + formatter.format(m33) + "\n";
+                + formatter.format(m01) + " " + formatter.format(m11) + " " + formatter.format(m21) + " " + formatter.format(m31) + "\n"
+                + formatter.format(m02) + " " + formatter.format(m12) + " " + formatter.format(m22) + " " + formatter.format(m32) + "\n"
+                + formatter.format(m03) + " " + formatter.format(m13) + " " + formatter.format(m23) + " " + formatter.format(m33) + "\n";
     }
 
-    @Override
     public Matrix4dc get(Matrix4dc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Matrix4x3dc get4x3(Matrix4x3dc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Matrix3dc get3x3(Matrix3dc dest) {
         return dest.set(this);
     }
 
-    @Override
     public Quaternionfc getUnnormalizedRotation(Quaternionfc dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    @Override
     public Quaternionfc getNormalizedRotation(Quaternionfc dest) {
         return dest.setFromNormalized(this);
     }
 
-    @Override
     public Quaterniondc getUnnormalizedRotation(Quaterniondc dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    @Override
     public Quaterniondc getNormalizedRotation(Quaterniondc dest) {
         return dest.setFromNormalized(this);
     }
 
-//#ifdef __HAS_NIO__
-    @Override
+    //#ifdef __HAS_NIO__
+
     public DoubleBuffer get(DoubleBuffer dest) {
         return get(dest.position(), dest);
     }
 
-    @Override
     public DoubleBuffer get(int index, DoubleBuffer dest) {
         MemUtil.INSTANCE.put(this, index, dest);
         return dest;
     }
 
-    @Override
     public FloatBuffer get(FloatBuffer dest) {
         return get(dest.position(), dest);
     }
 
-    @Override
     public FloatBuffer get(int index, FloatBuffer dest) {
         MemUtil.INSTANCE.putf(this, index, dest);
         return dest;
     }
 
-    @Override
     public ByteBuffer get(ByteBuffer dest) {
         return get(dest.position(), dest);
     }
 
-    @Override
     public ByteBuffer get(int index, ByteBuffer dest) {
         MemUtil.INSTANCE.put(this, index, dest);
         return dest;
     }
 
-    @Override
     public ByteBuffer getFloats(ByteBuffer dest) {
         return getFloats(dest.position(), dest);
     }
 
-    @Override
     public ByteBuffer getFloats(int index, ByteBuffer dest) {
         MemUtil.INSTANCE.putf(this, index, dest);
         return dest;
     }
-//#endif
+    //#endif
 
-    @Override
     public double[] get(double[] dest, int offset) {
-        dest[offset+0]  = m00;
-        dest[offset+1]  = m01;
-        dest[offset+2]  = m02;
-        dest[offset+3]  = m03;
-        dest[offset+4]  = m10;
-        dest[offset+5]  = m11;
-        dest[offset+6]  = m12;
-        dest[offset+7]  = m13;
-        dest[offset+8]  = m20;
-        dest[offset+9]  = m21;
-        dest[offset+10] = m22;
-        dest[offset+11] = m23;
-        dest[offset+12] = m30;
-        dest[offset+13] = m31;
-        dest[offset+14] = m32;
-        dest[offset+15] = m33;
+        dest[offset + 0] = m00;
+        dest[offset + 1] = m01;
+        dest[offset + 2] = m02;
+        dest[offset + 3] = m03;
+        dest[offset + 4] = m10;
+        dest[offset + 5] = m11;
+        dest[offset + 6] = m12;
+        dest[offset + 7] = m13;
+        dest[offset + 8] = m20;
+        dest[offset + 9] = m21;
+        dest[offset + 10] = m22;
+        dest[offset + 11] = m23;
+        dest[offset + 12] = m30;
+        dest[offset + 13] = m31;
+        dest[offset + 14] = m32;
+        dest[offset + 15] = m33;
         return dest;
     }
 
-    @Override
     public double[] get(double[] dest) {
         return get(dest, 0);
     }
 
-    @Override
     public float[] get(float[] dest, int offset) {
-        dest[offset+0]  = (float)m00;
-        dest[offset+1]  = (float)m01;
-        dest[offset+2]  = (float)m02;
-        dest[offset+3]  = (float)m03;
-        dest[offset+4]  = (float)m10;
-        dest[offset+5]  = (float)m11;
-        dest[offset+6]  = (float)m12;
-        dest[offset+7]  = (float)m13;
-        dest[offset+8]  = (float)m20;
-        dest[offset+9]  = (float)m21;
-        dest[offset+10] = (float)m22;
-        dest[offset+11] = (float)m23;
-        dest[offset+12] = (float)m30;
-        dest[offset+13] = (float)m31;
-        dest[offset+14] = (float)m32;
-        dest[offset+15] = (float)m33;
+        dest[offset + 0] = (float) m00;
+        dest[offset + 1] = (float) m01;
+        dest[offset + 2] = (float) m02;
+        dest[offset + 3] = (float) m03;
+        dest[offset + 4] = (float) m10;
+        dest[offset + 5] = (float) m11;
+        dest[offset + 6] = (float) m12;
+        dest[offset + 7] = (float) m13;
+        dest[offset + 8] = (float) m20;
+        dest[offset + 9] = (float) m21;
+        dest[offset + 10] = (float) m22;
+        dest[offset + 11] = (float) m23;
+        dest[offset + 12] = (float) m30;
+        dest[offset + 13] = (float) m31;
+        dest[offset + 14] = (float) m32;
+        dest[offset + 15] = (float) m33;
         return dest;
     }
 
-    @Override
     public float[] get(float[] dest) {
         return get(dest, 0);
     }
 
-//#ifdef __HAS_NIO__
-    @Override
+    //#ifdef __HAS_NIO__
+
     public DoubleBuffer getTransposed(DoubleBuffer dest) {
         return getTransposed(dest.position(), dest);
     }
 
-    @Override
     public DoubleBuffer getTransposed(int index, DoubleBuffer dest) {
         MemUtil.INSTANCE.putTransposed(this, index, dest);
         return dest;
     }
 
-    @Override
     public ByteBuffer getTransposed(ByteBuffer dest) {
         return getTransposed(dest.position(), dest);
     }
 
-    @Override
     public ByteBuffer getTransposed(int index, ByteBuffer dest) {
         MemUtil.INSTANCE.putTransposed(this, index, dest);
         return dest;
     }
 
-    @Override
     public DoubleBuffer get4x3Transposed(DoubleBuffer dest) {
         return get4x3Transposed(dest.position(), dest);
     }
 
-    @Override
     public DoubleBuffer get4x3Transposed(int index, DoubleBuffer dest) {
         MemUtil.INSTANCE.put4x3Transposed(this, index, dest);
         return dest;
     }
 
-    @Override
     public ByteBuffer get4x3Transposed(ByteBuffer dest) {
         return get4x3Transposed(dest.position(), dest);
     }
 
-    @Override
     public ByteBuffer get4x3Transposed(int index, ByteBuffer dest) {
         MemUtil.INSTANCE.put4x3Transposed(this, index, dest);
         return dest;
     }
-//#endif
+    //#endif
 
-    @Override
     public Matrix4dc zero() {
         m00 = 0.0;
         m01 = 0.0;
@@ -2373,12 +2185,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc scaling(double factor) {
         return scaling(factor, factor, factor);
     }
 
-    @Override
     public Matrix4dc scaling(double x, double y, double z) {
         m00 = x;
         m01 = 0.0;
@@ -2400,12 +2210,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc scaling(IVector3d xyz) {
         return scaling(xyz.x(), xyz.y(), xyz.z());
     }
 
-    @Override
     public Matrix4dc rotation(double angle, double x, double y, double z) {
         double sin = Math.sin(angle);
         double cos = Math.cosFromSin(sin, angle);
@@ -2431,7 +2239,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc rotationX(double ang) {
         double sin, cos;
         sin = Math.sin(ang);
@@ -2456,7 +2263,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc rotationY(double ang) {
         double sin, cos;
         sin = Math.sin(ang);
@@ -2481,7 +2287,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc rotationZ(double ang) {
         double sin, cos;
         sin = Math.sin(ang);
@@ -2506,7 +2311,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc rotationTowardsXY(double dirX, double dirY) {
         this.m00 = dirY;
         this.m01 = dirX;
@@ -2528,7 +2332,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc rotationXYZ(double angleX, double angleY, double angleZ) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -2571,7 +2374,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc rotationZYX(double angleZ, double angleY, double angleX) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -2614,7 +2416,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc rotationYXZ(double angleY, double angleX, double angleZ) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -2657,7 +2458,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setRotationXYZ(double angleX, double angleY, double angleZ) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -2692,7 +2492,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setRotationZYX(double angleZ, double angleY, double angleX) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -2727,7 +2526,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setRotationYXZ(double angleY, double angleX, double angleZ) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -2762,167 +2560,143 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc rotation(double angle, IVector3d axis) {
         return rotation(angle, axis.x(), axis.y(), axis.z());
     }
 
-    @Override
     public Matrix4dc rotation(double angle, IVector3f axis) {
         return rotation(angle, axis.x(), axis.y(), axis.z());
     }
 
-    @Override
     public Vector4dc transform(Vector4dc v) {
         return v.mul(this);
     }
 
-    @Override
     public Vector4dc transform(IVector4d v, Vector4dc dest) {
         return v.mul(this, dest);
     }
 
-    @Override
     public Vector4dc transform(double x, double y, double z, double w, Vector4dc dest) {
         dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
-                 m01 * x + m11 * y + m21 * z + m31 * w,
-                 m02 * x + m12 * y + m22 * z + m32 * w,
-                 m03 * x + m13 * y + m23 * z + m33 * w);
-       return dest;
+                m01 * x + m11 * y + m21 * z + m31 * w,
+                m02 * x + m12 * y + m22 * z + m32 * w,
+                m03 * x + m13 * y + m23 * z + m33 * w);
+        return dest;
     }
 
-    @Override
     public Vector4dc transformProject(Vector4dc v) {
         return v.mulProject(this);
     }
 
-    @Override
     public Vector4dc transformProject(IVector4d v, Vector4dc dest) {
         return v.mulProject(this, dest);
     }
 
-    @Override
     public Vector4dc transformProject(double x, double y, double z, double w, Vector4dc dest) {
         double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33 * w);
         dest.set((m00 * x + m10 * y + m20 * z + m30 * w) * invW,
-                 (m01 * x + m11 * y + m21 * z + m31 * w) * invW,
-                 (m02 * x + m12 * y + m22 * z + m32 * w) * invW,
-                 1.0);
+                (m01 * x + m11 * y + m21 * z + m31 * w) * invW,
+                (m02 * x + m12 * y + m22 * z + m32 * w) * invW,
+                1.0);
         return dest;
     }
 
-    @Override
     public Vector3dc transformProject(Vector3dc v) {
         return v.mulProject(this);
     }
 
-    @Override
     public Vector3dc transformProject(IVector3d v, Vector3dc dest) {
         return v.mulProject(this, dest);
     }
 
-    @Override
     public Vector3dc transformProject(double x, double y, double z, Vector3dc dest) {
         double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33);
         dest.set((m00 * x + m10 * y + m20 * z + m30) * invW,
-                 (m01 * x + m11 * y + m21 * z + m31) * invW,
-                 (m02 * x + m12 * y + m22 * z + m32) * invW);
+                (m01 * x + m11 * y + m21 * z + m31) * invW,
+                (m02 * x + m12 * y + m22 * z + m32) * invW);
         return dest;
     }
 
-    @Override
     public Vector3dc transformPosition(Vector3dc dest) {
         dest.set(m00 * dest.x() + m10 * dest.y() + m20 * dest.z() + m30,
-                 m01 * dest.x() + m11 * dest.y() + m21 * dest.z() + m31,
-                 m02 * dest.x() + m12 * dest.y() + m22 * dest.z() + m32);
+                m01 * dest.x() + m11 * dest.y() + m21 * dest.z() + m31,
+                m02 * dest.x() + m12 * dest.y() + m22 * dest.z() + m32);
         return dest;
     }
 
-    @Override
     public Vector3dc transformPosition(IVector3d v, Vector3dc dest) {
         return transformPosition(v.x(), v.y(), v.z(), dest);
     }
 
-    @Override
     public Vector3dc transformPosition(double x, double y, double z, Vector3dc dest) {
         dest.set(m00 * x + m10 * y + m20 * z + m30,
-                 m01 * x + m11 * y + m21 * z + m31,
-                 m02 * x + m12 * y + m22 * z + m32);
+                m01 * x + m11 * y + m21 * z + m31,
+                m02 * x + m12 * y + m22 * z + m32);
         return dest;
     }
 
-    @Override
     public Vector3dc transformDirection(Vector3dc dest) {
         dest.set(m00 * dest.x() + m10 * dest.y() + m20 * dest.z(),
-                 m01 * dest.x() + m11 * dest.y() + m21 * dest.z(),
-                 m02 * dest.x() + m12 * dest.y() + m22 * dest.z());
+                m01 * dest.x() + m11 * dest.y() + m21 * dest.z(),
+                m02 * dest.x() + m12 * dest.y() + m22 * dest.z());
         return dest;
     }
 
-    @Override
     public Vector3dc transformDirection(IVector3d v, Vector3dc dest) {
         dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z(),
-                 m01 * v.x() + m11 * v.y() + m21 * v.z(),
-                 m02 * v.x() + m12 * v.y() + m22 * v.z());
+                m01 * v.x() + m11 * v.y() + m21 * v.z(),
+                m02 * v.x() + m12 * v.y() + m22 * v.z());
         return dest;
     }
 
-    @Override
     public Vector3dc transformDirection(double x, double y, double z, Vector3dc dest) {
         dest.set(m00 * x + m10 * y + m20 * z,
-                 m01 * x + m11 * y + m21 * z,
-                 m02 * x + m12 * y + m22 * z);
+                m01 * x + m11 * y + m21 * z,
+                m02 * x + m12 * y + m22 * z);
         return dest;
     }
 
-    @Override
     public Vector3fc transformDirection(Vector3fc dest) {
-        dest.set((float)(m00 * dest.x() + m10 * dest.y() + m20 * dest.z()),
-                 (float)(m01 * dest.x() + m11 * dest.y() + m21 * dest.z()),
-                 (float)(m02 * dest.x() + m12 * dest.y() + m22 * dest.z()));
+        dest.set((float) (m00 * dest.x() + m10 * dest.y() + m20 * dest.z()),
+                (float) (m01 * dest.x() + m11 * dest.y() + m21 * dest.z()),
+                (float) (m02 * dest.x() + m12 * dest.y() + m22 * dest.z()));
         return dest;
     }
 
-    @Override
     public Vector3fc transformDirection(IVector3f v, Vector3fc dest) {
-        dest.set((float)(m00 * v.x() + m10 * v.y() + m20 * v.z()),
-                 (float)(m01 * v.x() + m11 * v.y() + m21 * v.z()),
-                 (float)(m02 * v.x() + m12 * v.y() + m22 * v.z()));
+        dest.set((float) (m00 * v.x() + m10 * v.y() + m20 * v.z()),
+                (float) (m01 * v.x() + m11 * v.y() + m21 * v.z()),
+                (float) (m02 * v.x() + m12 * v.y() + m22 * v.z()));
         return dest;
     }
 
-    @Override
     public Vector3fc transformDirection(double x, double y, double z, Vector3fc dest) {
-        dest.set((float)(m00 * x + m10 * y + m20 * z),
-                 (float)(m01 * x + m11 * y + m21 * z),
-                 (float)(m02 * x + m12 * y + m22 * z));
+        dest.set((float) (m00 * x + m10 * y + m20 * z),
+                (float) (m01 * x + m11 * y + m21 * z),
+                (float) (m02 * x + m12 * y + m22 * z));
         return dest;
     }
 
-    @Override
     public Vector4dc transformAffine(Vector4dc dest) {
         dest.set(m00 * dest.x() + m10 * dest.y() + m20 * dest.z() + m30 * dest.w(),
-                 m01 * dest.x() + m11 * dest.y() + m21 * dest.z() + m31 * dest.w(),
-                 m02 * dest.x() + m12 * dest.y() + m22 * dest.z() + m32 * dest.w(),
-                 dest.w());
+                m01 * dest.x() + m11 * dest.y() + m21 * dest.z() + m31 * dest.w(),
+                m02 * dest.x() + m12 * dest.y() + m22 * dest.z() + m32 * dest.w(),
+                dest.w());
         return dest;
     }
 
-    @Override
     public Vector4dc transformAffine(IVector4d v, Vector4dc dest) {
         return transformAffine(v.x(), v.y(), v.z(), v.w(), dest);
     }
 
-    @Override
     public Vector4dc transformAffine(double x, double y, double z, double w, Vector4dc dest) {
         dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
-                 m01 * x + m11 * y + m21 * z + m31 * w,
-                 m02 * x + m12 * y + m22 * z + m32 * w,
-                 w);
+                m01 * x + m11 * y + m21 * z + m31 * w,
+                m02 * x + m12 * y + m22 * z + m32 * w,
+                w);
         return dest;
     }
 
-    @Override
     public Matrix4dc set3x3(IMatrix3d mat) {
         m00 = mat.m00();
         m01 = mat.m01();
@@ -2937,17 +2711,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc scale(IVector3d xyz, Matrix4dc dest) {
         return scale(xyz.x(), xyz.y(), xyz.z(), dest);
     }
 
-    @Override
     public Matrix4dc scale(IVector3d xyz) {
         return scale(xyz.x(), xyz.y(), xyz.z(), this);
     }
 
-    @Override
     public Matrix4dc scale(double x, double y, double z, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
@@ -2975,22 +2746,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc scale(double x, double y, double z) {
         return scale(x, y, z, this);
     }
 
-    @Override
     public Matrix4dc scale(double xyz, Matrix4dc dest) {
         return scale(xyz, xyz, xyz, dest);
     }
 
-    @Override
     public Matrix4dc scale(double xyz) {
         return scale(xyz, xyz, xyz);
     }
 
-    @Override
     public Matrix4dc scaleAround(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4dc dest) {
         double nm30 = m00 * ox + m10 * oy + m20 * oz + m30;
         double nm31 = m01 * ox + m11 * oy + m21 * oz + m31;
@@ -3016,22 +2783,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc scaleAround(double sx, double sy, double sz, double ox, double oy, double oz) {
         return scaleAround(sx, sy, sz, ox, oy, oz, this);
     }
 
-    @Override
     public Matrix4dc scaleAround(double factor, double ox, double oy, double oz) {
         return scaleAround(factor, factor, factor, ox, oy, oz, this);
     }
 
-    @Override
     public Matrix4dc scaleAround(double factor, double ox, double oy, double oz, Matrix4dc dest) {
         return scaleAround(factor, factor, factor, ox, oy, oz, dest);
     }
 
-    @Override
     public Matrix4dc scaleLocal(double x, double y, double z, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
@@ -3072,22 +2835,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc scaleLocal(double xyz, Matrix4dc dest) {
         return scaleLocal(xyz, xyz, xyz, dest);
     }
 
-    @Override
     public Matrix4dc scaleLocal(double xyz) {
         return scaleLocal(xyz, this);
     }
 
-    @Override
     public Matrix4dc scaleLocal(double x, double y, double z) {
         return scaleLocal(x, y, z, this);
     }
 
-    @Override
     public Matrix4dc scaleAroundLocal(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4dc dest) {
         dest.m00(sx * (m00 - ox * m03) + ox * m03);
         dest.m01(sy * (m01 - oy * m03) + oy * m03);
@@ -3109,22 +2868,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc scaleAroundLocal(double sx, double sy, double sz, double ox, double oy, double oz) {
         return scaleAroundLocal(sx, sy, sz, ox, oy, oz, this);
     }
 
-    @Override
     public Matrix4dc scaleAroundLocal(double factor, double ox, double oy, double oz) {
         return scaleAroundLocal(factor, factor, factor, ox, oy, oz, this);
     }
 
-    @Override
     public Matrix4dc scaleAroundLocal(double factor, double ox, double oy, double oz, Matrix4dc dest) {
         return scaleAroundLocal(factor, factor, factor, ox, oy, oz, dest);
     }
 
-    @Override
     public Matrix4dc rotate(double ang, double x, double y, double z, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(ang, x, y, z);
@@ -3179,12 +2934,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotate(double ang, double x, double y, double z) {
         return rotate(ang, x, y, z, this);
     }
 
-    @Override
     public Matrix4dc rotateTranslation(double ang, double x, double y, double z, Matrix4dc dest) {
         double s = Math.sin(ang);
         double c = Math.cosFromSin(s, ang);
@@ -3229,7 +2982,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateAffine(double ang, double x, double y, double z, Matrix4dc dest) {
         double s = Math.sin(ang);
         double c = Math.cosFromSin(s, ang);
@@ -3275,17 +3027,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateAffine(double ang, double x, double y, double z) {
         return rotateAffine(ang, x, y, z, this);
     }
 
-    @Override
     public Matrix4dc rotateAround(IQuaterniond quat, double ox, double oy, double oz) {
         return rotateAround(quat, ox, oy, oz, this);
     }
 
-    @Override
     public Matrix4dc rotateAround(IQuaterniond quat, double ox, double oy, double oz, Matrix4dc dest) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -3337,7 +3086,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateLocal(double ang, double x, double y, double z, Matrix4dc dest) {
         double s = Math.sin(ang);
         double c = Math.cosFromSin(s, ang);
@@ -3390,12 +3138,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateLocal(double ang, double x, double y, double z) {
         return rotateLocal(ang, x, y, z, this);
     }
 
-    @Override
     public Matrix4dc rotateAroundLocal(IQuaterniond quat, double ox, double oy, double oz, Matrix4dc dest) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -3448,32 +3194,26 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateAroundLocal(IQuaterniond quat, double ox, double oy, double oz) {
         return rotateAroundLocal(quat, ox, oy, oz, this);
     }
 
-    @Override
     public Matrix4dc translate(IVector3d offset) {
         return translate(offset.x(), offset.y(), offset.z());
     }
 
-    @Override
     public Matrix4dc translate(IVector3d offset, Matrix4dc dest) {
         return translate(offset.x(), offset.y(), offset.z(), dest);
     }
 
-    @Override
     public Matrix4dc translate(IVector3f offset) {
         return translate(offset.x(), offset.y(), offset.z());
     }
 
-    @Override
     public Matrix4dc translate(IVector3f offset, Matrix4dc dest) {
         return translate(offset.x(), offset.y(), offset.z(), dest);
     }
 
-    @Override
     public Matrix4dc translate(double x, double y, double z, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.translation(x, y, z);
@@ -3501,7 +3241,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc translate(double x, double y, double z) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return translation(x, y, z);
@@ -3514,27 +3253,22 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc translateLocal(IVector3f offset) {
         return translateLocal(offset.x(), offset.y(), offset.z());
     }
 
-    @Override
     public Matrix4dc translateLocal(IVector3f offset, Matrix4dc dest) {
         return translateLocal(offset.x(), offset.y(), offset.z(), dest);
     }
 
-    @Override
     public Matrix4dc translateLocal(IVector3d offset) {
         return translateLocal(offset.x(), offset.y(), offset.z());
     }
 
-    @Override
     public Matrix4dc translateLocal(IVector3d offset, Matrix4dc dest) {
         return translateLocal(offset.x(), offset.y(), offset.z(), dest);
     }
 
-    @Override
     public Matrix4dc translateLocal(double x, double y, double z, Matrix4dc dest) {
         double nm00 = m00 + x * m03;
         double nm01 = m01 + y * m03;
@@ -3572,12 +3306,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc translateLocal(double x, double y, double z) {
         return translateLocal(x, y, z, this);
     }
 
-    @Override
     public Matrix4dc rotateLocalX(double ang, Matrix4dc dest) {
         double sin = Math.sin(ang);
         double cos = Math.cosFromSin(sin, ang);
@@ -3609,22 +3341,20 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateLocalX(double ang) {
         return rotateLocalX(ang, this);
     }
 
-    @Override
     public Matrix4dc rotateLocalY(double ang, Matrix4dc dest) {
         double sin = Math.sin(ang);
         double cos = Math.cosFromSin(sin, ang);
-        double nm00 =  cos * m00 + sin * m02;
+        double nm00 = cos * m00 + sin * m02;
         double nm02 = -sin * m00 + cos * m02;
-        double nm10 =  cos * m10 + sin * m12;
+        double nm10 = cos * m10 + sin * m12;
         double nm12 = -sin * m10 + cos * m12;
-        double nm20 =  cos * m20 + sin * m22;
+        double nm20 = cos * m20 + sin * m22;
         double nm22 = -sin * m20 + cos * m22;
-        double nm30 =  cos * m30 + sin * m32;
+        double nm30 = cos * m30 + sin * m32;
         double nm32 = -sin * m30 + cos * m32;
         dest.m00(nm00);
         dest.m01(m01);
@@ -3646,12 +3376,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateLocalY(double ang) {
         return rotateLocalY(ang, this);
     }
 
-    @Override
     public Matrix4dc rotateLocalZ(double ang, Matrix4dc dest) {
         double sin = Math.sin(ang);
         double cos = Math.cosFromSin(sin, ang);
@@ -3683,12 +3411,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateLocalZ(double ang) {
         return rotateLocalZ(ang, this);
     }
 
-    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeDouble(m00);
         out.writeDouble(m01);
@@ -3708,7 +3434,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         out.writeDouble(m33);
     }
 
-    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         m00 = in.readDouble();
         m01 = in.readDouble();
@@ -3728,7 +3453,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         m33 = in.readDouble();
     }
 
-    @Override
     public Matrix4dc rotateX(double ang, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationX(ang);
@@ -3767,12 +3491,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateX(double ang) {
         return rotateX(ang, this);
     }
 
-    @Override
     public Matrix4dc rotateY(double ang, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationY(ang);
@@ -3811,12 +3533,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateY(double ang) {
         return rotateY(ang, this);
     }
 
-    @Override
     public Matrix4dc rotateZ(double ang, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZ(ang);
@@ -3825,17 +3545,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return rotateTowardsXY(sin, cos, dest);
     }
 
-    @Override
     public Matrix4dc rotateZ(double ang) {
         return rotateZ(ang, this);
     }
 
-    @Override
     public Matrix4dc rotateTowardsXY(double dirX, double dirY) {
         return rotateTowardsXY(dirX, dirY, this);
     }
 
-    @Override
     public Matrix4dc rotateTowardsXY(double dirX, double dirY, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationTowardsXY(dirX, dirY);
@@ -3867,17 +3584,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateXYZ(Vector3dc angles) {
         return rotateXYZ(angles.x(), angles.y(), angles.z());
     }
 
-    @Override
     public Matrix4dc rotateXYZ(double angleX, double angleY, double angleZ) {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    @Override
     public Matrix4dc rotateXYZ(double angleX, double angleY, double angleZ, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
@@ -3930,12 +3644,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateAffineXYZ(double angleX, double angleY, double angleZ) {
         return rotateAffineXYZ(angleX, angleY, angleZ, this);
     }
 
-    @Override
     public Matrix4dc rotateAffineXYZ(double angleX, double angleY, double angleZ, Matrix4dc dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -3980,17 +3692,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateZYX(Vector3dc angles) {
         return rotateZYX(angles.z(), angles.y(), angles.x());
     }
 
-    @Override
     public Matrix4dc rotateZYX(double angleZ, double angleY, double angleX) {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    @Override
     public Matrix4dc rotateZYX(double angleZ, double angleY, double angleX, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
@@ -4043,12 +3752,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateAffineZYX(double angleZ, double angleY, double angleX) {
         return rotateAffineZYX(angleZ, angleY, angleX, this);
     }
 
-    @Override
     public Matrix4dc rotateAffineZYX(double angleZ, double angleY, double angleX, Matrix4dc dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -4093,17 +3800,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateYXZ(Vector3dc angles) {
         return rotateYXZ(angles.y(), angles.x(), angles.z());
     }
 
-    @Override
     public Matrix4dc rotateYXZ(double angleY, double angleX, double angleZ) {
         return rotateYXZ(angleY, angleX, angleZ, this);
     }
 
-    @Override
     public Matrix4dc rotateYXZ(double angleY, double angleX, double angleZ, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
@@ -4156,12 +3860,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateAffineYXZ(double angleY, double angleX, double angleZ) {
         return rotateAffineYXZ(angleY, angleX, angleZ, this);
     }
 
-    @Override
     public Matrix4dc rotateAffineYXZ(double angleY, double angleX, double angleZ, Matrix4dc dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -4206,17 +3908,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotation(AxisAngle4fc angleAxis) {
         return rotation(angleAxis.angle(), angleAxis.x(), angleAxis.y(), angleAxis.z());
     }
 
-    @Override
     public Matrix4dc rotation(AxisAngle4dc angleAxis) {
         return rotation(angleAxis.angle(), angleAxis.x(), angleAxis.y(), angleAxis.z());
     }
 
-    @Override
     public Matrix4dc rotation(IQuaterniond quat) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -4248,7 +3947,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc rotation(IQuaternionf quat) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -4280,10 +3978,9 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
-    public Matrix4dc translationRotateScale(double tx, double ty, double tz, 
-                                           double qx, double qy, double qz, double qw, 
-                                           double sx, double sy, double sz) {
+    public Matrix4dc translationRotateScale(double tx, double ty, double tz,
+                                            double qx, double qy, double qz, double qw,
+                                            double sx, double sy, double sz) {
         double dqx = qx + qx, dqy = qy + qy, dqz = qz + qz;
         double q00 = dqx * qx;
         double q11 = dqy * qy;
@@ -4314,45 +4011,39 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
-    public Matrix4dc translationRotateScale(IVector3f translation, 
-                                           IQuaternionf quat, 
-                                           IVector3f scale) {
+    public Matrix4dc translationRotateScale(IVector3f translation,
+                                            IQuaternionf quat,
+                                            IVector3f scale) {
         return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
     }
 
-    @Override
-    public Matrix4dc translationRotateScale(IVector3d translation, 
-                                           IQuaterniond quat, 
-                                           IVector3d scale) {
+    public Matrix4dc translationRotateScale(IVector3d translation,
+                                            IQuaterniond quat,
+                                            IVector3d scale) {
         return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
     }
 
-    @Override
-    public Matrix4dc translationRotateScale(double tx, double ty, double tz, 
-                                           double qx, double qy, double qz, double qw, 
-                                           double scale) {
+    public Matrix4dc translationRotateScale(double tx, double ty, double tz,
+                                            double qx, double qy, double qz, double qw,
+                                            double scale) {
         return translationRotateScale(tx, ty, tz, qx, qy, qz, qw, scale, scale, scale);
     }
 
-    @Override
-    public Matrix4dc translationRotateScale(IVector3d translation, 
-                                           IQuaterniond quat, 
-                                           double scale) {
+    public Matrix4dc translationRotateScale(IVector3d translation,
+                                            IQuaterniond quat,
+                                            double scale) {
         return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale, scale, scale);
     }
 
-    @Override
-    public Matrix4dc translationRotateScale(IVector3f translation, 
-                                           IQuaternionf quat, 
-                                           double scale) {
+    public Matrix4dc translationRotateScale(IVector3f translation,
+                                            IQuaternionf quat,
+                                            double scale) {
         return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale, scale, scale);
     }
 
-    @Override
-    public Matrix4dc translationRotateScaleInvert(double tx, double ty, double tz, 
-                                                 double qx, double qy, double qz, double qw, 
-                                                 double sx, double sy, double sz) {
+    public Matrix4dc translationRotateScaleInvert(double tx, double ty, double tz,
+                                                  double qx, double qy, double qz, double qw,
+                                                  double sx, double sy, double sz) {
         double nqx = -qx, nqy = -qy, nqz = -qz;
         double dqx = nqx + nqx;
         double dqy = nqy + nqy;
@@ -4366,7 +4057,7 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         double q12 = dqy * nqz;
         double q13 = dqy * qw;
         double q23 = dqz * qw;
-        double isx = 1/sx, isy = 1/sy, isz = 1/sz;
+        double isx = 1 / sx, isy = 1 / sy, isz = 1 / sz;
         m00 = isx * (1.0 - q11 - q22);
         m01 = isy * (q01 + q23);
         m02 = isz * (q02 - q13);
@@ -4387,39 +4078,34 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
-    public Matrix4dc translationRotateScaleInvert(IVector3d translation, 
-                                                 IQuaterniond quat, 
-                                                 IVector3d scale) {
+    public Matrix4dc translationRotateScaleInvert(IVector3d translation,
+                                                  IQuaterniond quat,
+                                                  IVector3d scale) {
         return translationRotateScaleInvert(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
     }
 
-    @Override
-    public Matrix4dc translationRotateScaleInvert(IVector3f translation, 
-                                                 IQuaternionf quat, 
-                                                 IVector3f scale) {
+    public Matrix4dc translationRotateScaleInvert(IVector3f translation,
+                                                  IQuaternionf quat,
+                                                  IVector3f scale) {
         return translationRotateScaleInvert(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
     }
 
-    @Override
-    public Matrix4dc translationRotateScaleInvert(IVector3d translation, 
-                                                 IQuaterniond quat, 
-                                                 double scale) {
+    public Matrix4dc translationRotateScaleInvert(IVector3d translation,
+                                                  IQuaterniond quat,
+                                                  double scale) {
         return translationRotateScaleInvert(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale, scale, scale);
     }
 
-    @Override
-    public Matrix4dc translationRotateScaleInvert(IVector3f translation, 
-                                                 IQuaternionf quat, 
-                                                 double scale) {
+    public Matrix4dc translationRotateScaleInvert(IVector3f translation,
+                                                  IQuaternionf quat,
+                                                  double scale) {
         return translationRotateScaleInvert(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale, scale, scale);
     }
 
-    @Override
-    public Matrix4dc translationRotateScaleMulAffine(double tx, double ty, double tz, 
-                                                    double qx, double qy, double qz, double qw, 
-                                                    double sx, double sy, double sz,
-                                                    Matrix4dc m) {
+    public Matrix4dc translationRotateScaleMulAffine(double tx, double ty, double tz,
+                                                     double qx, double qy, double qz, double qw,
+                                                     double sx, double sy, double sz,
+                                                     Matrix4dc m) {
         double w2 = qw * qw;
         double x2 = qx * qx;
         double y2 = qy * qy;
@@ -4467,15 +4153,13 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
-    public Matrix4dc translationRotateScaleMulAffine(IVector3f translation, 
-                                                    IQuaterniond quat, 
-                                                    IVector3f scale,
-                                                    Matrix4dc m) {
+    public Matrix4dc translationRotateScaleMulAffine(IVector3f translation,
+                                                     IQuaterniond quat,
+                                                     IVector3f scale,
+                                                     Matrix4dc m) {
         return translationRotateScaleMulAffine(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z(), m);
     }
 
-    @Override
     public Matrix4dc translationRotate(double tx, double ty, double tz, double qx, double qy, double qz, double qw) {
         double w2 = qw * qw;
         double x2 = qx * qx;
@@ -4504,12 +4188,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc translationRotate(double tx, double ty, double tz, IQuaterniond quat) {
         return translationRotate(tx, ty, tz, quat.x(), quat.y(), quat.z(), quat.w());
     }
 
-    @Override
     public Matrix4dc rotate(IQuaterniond quat, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(quat);
@@ -4568,7 +4250,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotate(IQuaternionf quat, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(quat);
@@ -4627,17 +4308,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotate(IQuaterniond quat) {
         return rotate(quat, this);
     }
 
-    @Override
     public Matrix4dc rotate(IQuaternionf quat) {
         return rotate(quat, this);
     }
 
-    @Override
     public Matrix4dc rotateAffine(IQuaterniond quat, Matrix4dc dest) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -4684,12 +4362,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateAffine(IQuaterniond quat) {
         return rotateAffine(quat, this);
     }
 
-    @Override
     public Matrix4dc rotateTranslation(IQuaterniond quat, Matrix4dc dest) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -4736,7 +4412,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateTranslation(IQuaternionf quat, Matrix4dc dest) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -4783,7 +4458,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateLocal(IQuaterniond quat, Matrix4dc dest) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -4840,12 +4514,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateLocal(IQuaterniond quat) {
         return rotateLocal(quat, this);
     }
 
-    @Override
     public Matrix4dc rotateAffine(IQuaternionf quat, Matrix4dc dest) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -4892,12 +4564,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateAffine(IQuaternionf quat) {
         return rotateAffine(quat, this);
     }
 
-    @Override
     public Matrix4dc rotateLocal(IQuaternionf quat, Matrix4dc dest) {
         double w2 = quat.w() * quat.w();
         double x2 = quat.x() * quat.x();
@@ -4954,165 +4624,150 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateLocal(IQuaternionf quat) {
         return rotateLocal(quat, this);
     }
 
-    @Override
     public Matrix4dc rotate(AxisAngle4fc axisAngle) {
         return rotate(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z());
     }
 
-    @Override
     public Matrix4dc rotate(AxisAngle4fc axisAngle, Matrix4dc dest) {
         return rotate(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z(), dest);
     }
 
-    @Override
     public Matrix4dc rotate(AxisAngle4dc axisAngle) {
         return rotate(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z());
     }
 
-    @Override
     public Matrix4dc rotate(AxisAngle4dc axisAngle, Matrix4dc dest) {
         return rotate(axisAngle.angle(), axisAngle.x(), axisAngle.y(), axisAngle.z(), dest);
     }
 
-    @Override
     public Matrix4dc rotate(double angle, IVector3d axis) {
         return rotate(angle, axis.x(), axis.y(), axis.z());
     }
 
-    @Override
     public Matrix4dc rotate(double angle, IVector3d axis, Matrix4dc dest) {
         return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
-    @Override
     public Matrix4dc rotate(double angle, IVector3f axis) {
         return rotate(angle, axis.x(), axis.y(), axis.z());
     }
 
-    @Override
     public Matrix4dc rotate(double angle, IVector3f axis, Matrix4dc dest) {
         return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
-    @Override
     public Vector4dc getRow(int row, Vector4dc dest) throws IndexOutOfBoundsException {
         switch (row) {
-        case 0:
-            dest.set(m00, m10, m20, m30);
-            break;
-        case 1:
-            dest.set(m01, m11, m21, m31);
-            break;
-        case 2:
-            dest.set(m02, m12, m22, m32);
-            break;
-        case 3:
-            dest.set(m03, m13, m23, m33);
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
+            case 0:
+                dest.set(m00, m10, m20, m30);
+                break;
+            case 1:
+                dest.set(m01, m11, m21, m31);
+                break;
+            case 2:
+                dest.set(m02, m12, m22, m32);
+                break;
+            case 3:
+                dest.set(m03, m13, m23, m33);
+                break;
+            default:
+                throw new IndexOutOfBoundsException();
         }
         return dest;
     }
 
-    @Override
     public Matrix4dc setRow(int row, IVector4d src) throws IndexOutOfBoundsException {
         switch (row) {
-        case 0:
-            this.m00 = src.x();
-            this.m10 = src.y();
-            this.m20 = src.z();
-            this.m30 = src.w();
-            break;
-        case 1:
-            this.m01 = src.x();
-            this.m11 = src.y();
-            this.m21 = src.z();
-            this.m31 = src.w();
-            break;
-        case 2:
-            this.m02 = src.x();
-            this.m12 = src.y();
-            this.m22 = src.z();
-            this.m32 = src.w();
-            break;
-        case 3:
-            this.m03 = src.x();
-            this.m13 = src.y();
-            this.m23 = src.z();
-            this.m33 = src.w();
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
+            case 0:
+                this.m00 = src.x();
+                this.m10 = src.y();
+                this.m20 = src.z();
+                this.m30 = src.w();
+                break;
+            case 1:
+                this.m01 = src.x();
+                this.m11 = src.y();
+                this.m21 = src.z();
+                this.m31 = src.w();
+                break;
+            case 2:
+                this.m02 = src.x();
+                this.m12 = src.y();
+                this.m22 = src.z();
+                this.m32 = src.w();
+                break;
+            case 3:
+                this.m03 = src.x();
+                this.m13 = src.y();
+                this.m23 = src.z();
+                this.m33 = src.w();
+                break;
+            default:
+                throw new IndexOutOfBoundsException();
         }
         return this;
     }
 
-    @Override
     public Vector4dc getColumn(int column, Vector4dc dest) throws IndexOutOfBoundsException {
         switch (column) {
-        case 0:
-            dest.set(m00, m01, m02, m03);
-            break;
-        case 1:
-            dest.set(m10, m11, m12, m13);
-            break;
-        case 2:
-            dest.set(m20, m21, m22, m23);
-            break;
-        case 3:
-            dest.set(m30, m31, m32, m33);
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
+            case 0:
+                dest.set(m00, m01, m02, m03);
+                break;
+            case 1:
+                dest.set(m10, m11, m12, m13);
+                break;
+            case 2:
+                dest.set(m20, m21, m22, m23);
+                break;
+            case 3:
+                dest.set(m30, m31, m32, m33);
+                break;
+            default:
+                throw new IndexOutOfBoundsException();
         }
         return dest;
     }
 
-    @Override
     public Matrix4dc setColumn(int column, IVector4d src) throws IndexOutOfBoundsException {
         switch (column) {
-        case 0:
-            this.m00 = src.x();
-            this.m01 = src.y();
-            this.m02 = src.z();
-            this.m03 = src.w();
-            break;
-        case 1:
-            this.m10 = src.x();
-            this.m11 = src.y();
-            this.m12 = src.z();
-            this.m13 = src.w();
-            break;
-        case 2:
-            this.m20 = src.x();
-            this.m21 = src.y();
-            this.m22 = src.z();
-            this.m23 = src.w();
-            break;
-        case 3:
-            this.m30 = src.x();
-            this.m31 = src.y();
-            this.m32 = src.z();
-            this.m33 = src.w();
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
+            case 0:
+                this.m00 = src.x();
+                this.m01 = src.y();
+                this.m02 = src.z();
+                this.m03 = src.w();
+                break;
+            case 1:
+                this.m10 = src.x();
+                this.m11 = src.y();
+                this.m12 = src.z();
+                this.m13 = src.w();
+                break;
+            case 2:
+                this.m20 = src.x();
+                this.m21 = src.y();
+                this.m22 = src.z();
+                this.m23 = src.w();
+                break;
+            case 3:
+                this.m30 = src.x();
+                this.m31 = src.y();
+                this.m32 = src.z();
+                this.m33 = src.w();
+                break;
+            default:
+                throw new IndexOutOfBoundsException();
         }
         return this;
     }
 
-    @Override
     public Matrix4dc normal() {
         return normal(this);
     }
 
-    @Override
     public Matrix4dc normal(Matrix4dc dest) {
         double m00m11 = m00 * m11;
         double m01m10 = m01 * m10;
@@ -5152,7 +4807,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix3dc normal(Matrix3dc dest) {
         double m00m11 = m00 * m11;
         double m01m10 = m01 * m10;
@@ -5175,34 +4829,42 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc normalize3x3() {
         return normalize3x3(this);
     }
 
-    @Override
     public Matrix4dc normalize3x3(Matrix4dc dest) {
         double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
         double invYlen = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
         double invZlen = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00(m00 * invXlen); dest.m01(m01 * invXlen); dest.m02(m02 * invXlen);
-        dest.m10(m10 * invYlen); dest.m11(m11 * invYlen); dest.m12(m12 * invYlen);
-        dest.m20(m20 * invZlen); dest.m21(m21 * invZlen); dest.m22(m22 * invZlen);
+        dest.m00(m00 * invXlen);
+        dest.m01(m01 * invXlen);
+        dest.m02(m02 * invXlen);
+        dest.m10(m10 * invYlen);
+        dest.m11(m11 * invYlen);
+        dest.m12(m12 * invYlen);
+        dest.m20(m20 * invZlen);
+        dest.m21(m21 * invZlen);
+        dest.m22(m22 * invZlen);
         return dest;
     }
 
-    @Override
     public Matrix3dc normalize3x3(Matrix3dc dest) {
         double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
         double invYlen = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
         double invZlen = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00(m00 * invXlen); dest.m01(m01 * invXlen); dest.m02(m02 * invXlen);
-        dest.m10(m10 * invYlen); dest.m11(m11 * invYlen); dest.m12(m12 * invYlen);
-        dest.m20(m20 * invZlen); dest.m21(m21 * invZlen); dest.m22(m22 * invZlen);
+        dest.m00(m00 * invXlen);
+        dest.m01(m01 * invXlen);
+        dest.m02(m02 * invXlen);
+        dest.m10(m10 * invYlen);
+        dest.m11(m11 * invYlen);
+        dest.m12(m12 * invYlen);
+        dest.m20(m20 * invZlen);
+        dest.m21(m21 * invZlen);
+        dest.m22(m22 * invZlen);
         return dest;
     }
 
-    @Override
     public Vector4dc unproject(double winX, double winY, double winZ, int[] viewport, Vector4dc dest) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
@@ -5218,25 +4880,25 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         double l = m22 * m33 - m23 * m32;
         double det = a * l - b * k + c * j + d * i - e * h + f * g;
         det = 1.0 / det;
-        double im00 = ( m11 * l - m12 * k + m13 * j) * det;
+        double im00 = (m11 * l - m12 * k + m13 * j) * det;
         double im01 = (-m01 * l + m02 * k - m03 * j) * det;
-        double im02 = ( m31 * f - m32 * e + m33 * d) * det;
+        double im02 = (m31 * f - m32 * e + m33 * d) * det;
         double im03 = (-m21 * f + m22 * e - m23 * d) * det;
         double im10 = (-m10 * l + m12 * i - m13 * h) * det;
-        double im11 = ( m00 * l - m02 * i + m03 * h) * det;
+        double im11 = (m00 * l - m02 * i + m03 * h) * det;
         double im12 = (-m30 * f + m32 * c - m33 * b) * det;
-        double im13 = ( m20 * f - m22 * c + m23 * b) * det;
-        double im20 = ( m10 * k - m11 * i + m13 * g) * det;
+        double im13 = (m20 * f - m22 * c + m23 * b) * det;
+        double im20 = (m10 * k - m11 * i + m13 * g) * det;
         double im21 = (-m00 * k + m01 * i - m03 * g) * det;
-        double im22 = ( m30 * e - m31 * c + m33 * a) * det;
+        double im22 = (m30 * e - m31 * c + m33 * a) * det;
         double im23 = (-m20 * e + m21 * c - m23 * a) * det;
         double im30 = (-m10 * j + m11 * h - m12 * g) * det;
-        double im31 = ( m00 * j - m01 * h + m02 * g) * det;
+        double im31 = (m00 * j - m01 * h + m02 * g) * det;
         double im32 = (-m30 * d + m31 * b - m32 * a) * det;
-        double im33 = ( m20 * d - m21 * b + m22 * a) * det;
-        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
-        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        double ndcZ = winZ+winZ-1.0;
+        double im33 = (m20 * d - m21 * b + m22 * a) * det;
+        double ndcX = (winX - viewport[0]) / viewport[2] * 2.0 - 1.0;
+        double ndcY = (winY - viewport[1]) / viewport[3] * 2.0 - 1.0;
+        double ndcZ = winZ + winZ - 1.0;
         dest.set(im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30,
                 im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31,
                 im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32,
@@ -5245,7 +4907,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Vector3dc unproject(double winX, double winY, double winZ, int[] viewport, Vector3dc dest) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
@@ -5261,25 +4922,25 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         double l = m22 * m33 - m23 * m32;
         double det = a * l - b * k + c * j + d * i - e * h + f * g;
         det = 1.0 / det;
-        double im00 = ( m11 * l - m12 * k + m13 * j) * det;
+        double im00 = (m11 * l - m12 * k + m13 * j) * det;
         double im01 = (-m01 * l + m02 * k - m03 * j) * det;
-        double im02 = ( m31 * f - m32 * e + m33 * d) * det;
+        double im02 = (m31 * f - m32 * e + m33 * d) * det;
         double im03 = (-m21 * f + m22 * e - m23 * d) * det;
         double im10 = (-m10 * l + m12 * i - m13 * h) * det;
-        double im11 = ( m00 * l - m02 * i + m03 * h) * det;
+        double im11 = (m00 * l - m02 * i + m03 * h) * det;
         double im12 = (-m30 * f + m32 * c - m33 * b) * det;
-        double im13 = ( m20 * f - m22 * c + m23 * b) * det;
-        double im20 = ( m10 * k - m11 * i + m13 * g) * det;
+        double im13 = (m20 * f - m22 * c + m23 * b) * det;
+        double im20 = (m10 * k - m11 * i + m13 * g) * det;
         double im21 = (-m00 * k + m01 * i - m03 * g) * det;
-        double im22 = ( m30 * e - m31 * c + m33 * a) * det;
+        double im22 = (m30 * e - m31 * c + m33 * a) * det;
         double im23 = (-m20 * e + m21 * c - m23 * a) * det;
         double im30 = (-m10 * j + m11 * h - m12 * g) * det;
-        double im31 = ( m00 * j - m01 * h + m02 * g) * det;
+        double im31 = (m00 * j - m01 * h + m02 * g) * det;
         double im32 = (-m30 * d + m31 * b - m32 * a) * det;
-        double im33 = ( m20 * d - m21 * b + m22 * a) * det;
-        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
-        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        double ndcZ = winZ+winZ-1.0;
+        double im33 = (m20 * d - m21 * b + m22 * a) * det;
+        double ndcX = (winX - viewport[0]) / viewport[2] * 2.0 - 1.0;
+        double ndcY = (winY - viewport[1]) / viewport[3] * 2.0 - 1.0;
+        double ndcZ = winZ + winZ - 1.0;
         dest.set(im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30,
                 im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31,
                 im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32);
@@ -5288,17 +4949,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Vector4dc unproject(IVector3d winCoords, int[] viewport, Vector4dc dest) {
         return unproject(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
-    @Override
     public Vector3dc unproject(IVector3d winCoords, int[] viewport, Vector3dc dest) {
         return unproject(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
-    @Override
     public Matrix4dc unprojectRay(double winX, double winY, int[] viewport, Vector3dc originDest, Vector3dc dirDest) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
@@ -5314,54 +4972,55 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         double l = m22 * m33 - m23 * m32;
         double det = a * l - b * k + c * j + d * i - e * h + f * g;
         det = 1.0 / det;
-        double im00 = ( m11 * l - m12 * k + m13 * j) * det;
+        double im00 = (m11 * l - m12 * k + m13 * j) * det;
         double im01 = (-m01 * l + m02 * k - m03 * j) * det;
-        double im02 = ( m31 * f - m32 * e + m33 * d) * det;
+        double im02 = (m31 * f - m32 * e + m33 * d) * det;
         double im03 = (-m21 * f + m22 * e - m23 * d) * det;
         double im10 = (-m10 * l + m12 * i - m13 * h) * det;
-        double im11 = ( m00 * l - m02 * i + m03 * h) * det;
+        double im11 = (m00 * l - m02 * i + m03 * h) * det;
         double im12 = (-m30 * f + m32 * c - m33 * b) * det;
-        double im13 = ( m20 * f - m22 * c + m23 * b) * det;
-        double im20 = ( m10 * k - m11 * i + m13 * g) * det;
+        double im13 = (m20 * f - m22 * c + m23 * b) * det;
+        double im20 = (m10 * k - m11 * i + m13 * g) * det;
         double im21 = (-m00 * k + m01 * i - m03 * g) * det;
-        double im22 = ( m30 * e - m31 * c + m33 * a) * det;
+        double im22 = (m30 * e - m31 * c + m33 * a) * det;
         double im23 = (-m20 * e + m21 * c - m23 * a) * det;
         double im30 = (-m10 * j + m11 * h - m12 * g) * det;
-        double im31 = ( m00 * j - m01 * h + m02 * g) * det;
+        double im31 = (m00 * j - m01 * h + m02 * g) * det;
         double im32 = (-m30 * d + m31 * b - m32 * a) * det;
-        double im33 = ( m20 * d - m21 * b + m22 * a) * det;
-        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
-        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
+        double im33 = (m20 * d - m21 * b + m22 * a) * det;
+        double ndcX = (winX - viewport[0]) / viewport[2] * 2.0 - 1.0;
+        double ndcY = (winY - viewport[1]) / viewport[3] * 2.0 - 1.0;
         double nearX = im00 * ndcX + im10 * ndcY - im20 + im30;
         double nearY = im01 * ndcX + im11 * ndcY - im21 + im31;
         double nearZ = im02 * ndcX + im12 * ndcY - im22 + im32;
         double invNearW = 1.0 / (im03 * ndcX + im13 * ndcY - im23 + im33);
-        nearX *= invNearW; nearY *= invNearW; nearZ *= invNearW;
+        nearX *= invNearW;
+        nearY *= invNearW;
+        nearZ *= invNearW;
         double farX = im00 * ndcX + im10 * ndcY + im20 + im30;
         double farY = im01 * ndcX + im11 * ndcY + im21 + im31;
         double farZ = im02 * ndcX + im12 * ndcY + im22 + im32;
         double invFarW = 1.0 / (im03 * ndcX + im13 * ndcY + im23 + im33);
-        farX *= invFarW; farY *= invFarW; farZ *= invFarW;
+        farX *= invFarW;
+        farY *= invFarW;
+        farZ *= invFarW;
         originDest.set(nearX, nearY, nearZ);
         dirDest.set(farX - nearX, farY - nearY, farZ - nearZ);
         return this;
     }
 
-    @Override
     public Matrix4dc unprojectRay(IVector2d winCoords, int[] viewport, Vector3dc originDest, Vector3dc dirDest) {
         return unprojectRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
     }
 
-    @Override
     public Vector4dc unprojectInv(IVector3d winCoords, int[] viewport, Vector4dc dest) {
         return unprojectInv(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
-    @Override
     public Vector4dc unprojectInv(double winX, double winY, double winZ, int[] viewport, Vector4dc dest) {
-        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
-        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        double ndcZ = winZ+winZ-1.0;
+        double ndcX = (winX - viewport[0]) / viewport[2] * 2.0 - 1.0;
+        double ndcY = (winY - viewport[1]) / viewport[3] * 2.0 - 1.0;
+        double ndcZ = winZ + winZ - 1.0;
         dest.set(m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30,
                 m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31,
                 m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32,
@@ -5370,16 +5029,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Vector3dc unprojectInv(IVector3d winCoords, int[] viewport, Vector3dc dest) {
         return unprojectInv(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
-    @Override
     public Vector3dc unprojectInv(double winX, double winY, double winZ, int[] viewport, Vector3dc dest) {
-        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
-        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        double ndcZ = winZ+winZ-1.0;
+        double ndcX = (winX - viewport[0]) / viewport[2] * 2.0 - 1.0;
+        double ndcY = (winY - viewport[1]) / viewport[3] * 2.0 - 1.0;
+        double ndcZ = winZ + winZ - 1.0;
         dest.set(m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30,
                 m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31,
                 m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32);
@@ -5388,63 +5045,60 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc unprojectInvRay(IVector2d winCoords, int[] viewport, Vector3dc originDest, Vector3dc dirDest) {
         return unprojectInvRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
     }
 
-    @Override
     public Matrix4dc unprojectInvRay(double winX, double winY, int[] viewport, Vector3dc originDest, Vector3dc dirDest) {
-        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
-        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
+        double ndcX = (winX - viewport[0]) / viewport[2] * 2.0 - 1.0;
+        double ndcY = (winY - viewport[1]) / viewport[3] * 2.0 - 1.0;
         double nearX = m00 * ndcX + m10 * ndcY - m20 + m30;
         double nearY = m01 * ndcX + m11 * ndcY - m21 + m31;
         double nearZ = m02 * ndcX + m12 * ndcY - m22 + m32;
         double invNearW = 1.0 / (m03 * ndcX + m13 * ndcY - m23 + m33);
-        nearX *= invNearW; nearY *= invNearW; nearZ *= invNearW;
+        nearX *= invNearW;
+        nearY *= invNearW;
+        nearZ *= invNearW;
         double farX = m00 * ndcX + m10 * ndcY + m20 + m30;
         double farY = m01 * ndcX + m11 * ndcY + m21 + m31;
         double farZ = m02 * ndcX + m12 * ndcY + m22 + m32;
         double invFarW = 1.0 / (m03 * ndcX + m13 * ndcY + m23 + m33);
-        farX *= invFarW; farY *= invFarW; farZ *= invFarW;
+        farX *= invFarW;
+        farY *= invFarW;
+        farZ *= invFarW;
         originDest.set(nearX, nearY, nearZ);
         dirDest.set(farX - nearX, farY - nearY, farZ - nearZ);
         return this;
     }
 
-    @Override
     public Vector4dc project(double x, double y, double z, int[] viewport, Vector4dc dest) {
         dest.set(m00 * x + m10 * y + m20 * z + m30, m01 * x + m11 * y + m21 * z + m31, m02 * x + m12 * y + m22 * z + m32, m03 * x + m13 * y + m23 * z + m33);
         dest.div(dest.w());
-        dest.set((dest.x()*0.5+0.5) * viewport[2] + viewport[0],
-                (dest.y()*0.5+0.5) * viewport[3] + viewport[1],
-                (1.0+dest.z())*0.5,
+        dest.set((dest.x() * 0.5 + 0.5) * viewport[2] + viewport[0],
+                (dest.y() * 0.5 + 0.5) * viewport[3] + viewport[1],
+                (1.0 + dest.z()) * 0.5,
                 dest.w());
         return dest;
     }
 
-    @Override
     public Vector3dc project(double x, double y, double z, int[] viewport, Vector3dc dest) {
         dest.set(m00 * x + m10 * y + m20 * z + m30, m01 * x + m11 * y + m21 * z + m31, m02 * x + m12 * y + m22 * z + m32);
         double w = m03 * x + m13 * y + m23 * z + m33;
         dest.div(w);
-        dest.set((dest.x()*0.5+0.5) * viewport[2] + viewport[0],
-                (dest.y()*0.5+0.5) * viewport[3] + viewport[1],
-                (1.0+dest.z())*0.5);
+        dest.set((dest.x() * 0.5 + 0.5) * viewport[2] + viewport[0],
+                (dest.y() * 0.5 + 0.5) * viewport[3] + viewport[1],
+                (1.0 + dest.z()) * 0.5);
         return dest;
     }
 
-    @Override
     public Vector4dc project(IVector3d position, int[] viewport, Vector4dc dest) {
         return project(position.x(), position.y(), position.z(), viewport, dest);
     }
 
-    @Override
     public Vector3dc project(IVector3d position, int[] viewport, Vector3dc dest) {
         return project(position.x(), position.y(), position.z(), viewport, dest);
     }
 
-    @Override
     public Matrix4dc reflect(double a, double b, double c, double d, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.reflection(a, b, c, d);
@@ -5493,17 +5147,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc reflect(double a, double b, double c, double d) {
         return reflect(a, b, c, d, this);
     }
 
-    @Override
     public Matrix4dc reflect(double nx, double ny, double nz, double px, double py, double pz) {
         return reflect(nx, ny, nz, px, py, pz, this);
     }
 
-    @Override
     public Matrix4dc reflect(double nx, double ny, double nz, double px, double py, double pz, Matrix4dc dest) {
         double invLength = 1.0 / Math.sqrt(nx * nx + ny * ny + nz * nz);
         double nnx = nx * invLength;
@@ -5513,17 +5164,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return reflect(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz, dest);
     }
 
-    @Override
     public Matrix4dc reflect(IVector3d normal, IVector3d point) {
         return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z());
     }
 
-    @Override
     public Matrix4dc reflect(IQuaterniond orientation, IVector3d point) {
         return reflect(orientation, point, this);
     }
 
-    @Override
     public Matrix4dc reflect(IQuaterniond orientation, IVector3d point, Matrix4dc dest) {
         double num1 = orientation.x() + orientation.x();
         double num2 = orientation.y() + orientation.y();
@@ -5534,12 +5182,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return reflect(normalX, normalY, normalZ, point.x(), point.y(), point.z(), dest);
     }
 
-    @Override
     public Matrix4dc reflect(IVector3d normal, IVector3d point, Matrix4dc dest) {
         return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z(), dest);
     }
 
-    @Override
     public Matrix4dc reflection(double a, double b, double c, double d) {
         double da = a + a, db = b + b, dc = c + c, dd = d + d;
         m00 = 1.0 - da * a;
@@ -5562,7 +5208,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc reflection(double nx, double ny, double nz, double px, double py, double pz) {
         double invLength = 1.0 / Math.sqrt(nx * nx + ny * ny + nz * nz);
         double nnx = nx * invLength;
@@ -5572,12 +5217,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return reflection(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz);
     }
 
-    @Override
     public Matrix4dc reflection(IVector3d normal, IVector3d point) {
         return reflection(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z());
     }
 
-    @Override
     public Matrix4dc reflection(IQuaterniond orientation, IVector3d point) {
         double num1 = orientation.x() + orientation.x();
         double num2 = orientation.y() + orientation.y();
@@ -5588,7 +5231,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return reflection(normalX, normalY, normalZ, point.x(), point.y(), point.z());
     }
 
-    @Override
     public Matrix4dc ortho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4dc dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
@@ -5621,22 +5263,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc ortho(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4dc dest) {
         return ortho(left, right, bottom, top, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4dc ortho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
         return ortho(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4dc ortho(double left, double right, double bottom, double top, double zNear, double zFar) {
         return ortho(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc orthoLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4dc dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
@@ -5669,22 +5307,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc orthoLH(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4dc dest) {
         return orthoLH(left, right, bottom, top, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4dc orthoLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
         return orthoLH(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4dc orthoLH(double left, double right, double bottom, double top, double zNear, double zFar) {
         return orthoLH(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc setOrtho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
         m00 = 2.0 / (right - left);
         m01 = 0.0;
@@ -5706,12 +5340,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setOrtho(double left, double right, double bottom, double top, double zNear, double zFar) {
         return setOrtho(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc setOrthoLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
         m00 = 2.0 / (right - left);
         m01 = 0.0;
@@ -5733,12 +5365,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setOrthoLH(double left, double right, double bottom, double top, double zNear, double zFar) {
         return setOrthoLH(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc orthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4dc dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / width;
@@ -5769,22 +5399,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc orthoSymmetric(double width, double height, double zNear, double zFar, Matrix4dc dest) {
         return orthoSymmetric(width, height, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4dc orthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
         return orthoSymmetric(width, height, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4dc orthoSymmetric(double width, double height, double zNear, double zFar) {
         return orthoSymmetric(width, height, zNear, zFar, false, this);
     }
 
-    @Override
     public Matrix4dc orthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4dc dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / width;
@@ -5815,22 +5441,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc orthoSymmetricLH(double width, double height, double zNear, double zFar, Matrix4dc dest) {
         return orthoSymmetricLH(width, height, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4dc orthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
         return orthoSymmetricLH(width, height, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4dc orthoSymmetricLH(double width, double height, double zNear, double zFar) {
         return orthoSymmetricLH(width, height, zNear, zFar, false, this);
     }
 
-    @Override
     public Matrix4dc setOrthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
         m00 = 2.0 / width;
         m01 = 0.0;
@@ -5852,12 +5474,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setOrthoSymmetric(double width, double height, double zNear, double zFar) {
         return setOrthoSymmetric(width, height, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc setOrthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
         m00 = 2.0 / width;
         m01 = 0.0;
@@ -5879,12 +5499,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setOrthoSymmetricLH(double width, double height, double zNear, double zFar) {
         return setOrthoSymmetricLH(width, height, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc ortho2D(double left, double right, double bottom, double top, Matrix4dc dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
@@ -5915,12 +5533,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc ortho2D(double left, double right, double bottom, double top) {
         return ortho2D(left, right, bottom, top, this);
     }
 
-    @Override
     public Matrix4dc ortho2DLH(double left, double right, double bottom, double top, Matrix4dc dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
@@ -5951,12 +5567,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc ortho2DLH(double left, double right, double bottom, double top) {
         return ortho2DLH(left, right, bottom, top, this);
     }
 
-    @Override
     public Matrix4dc setOrtho2D(double left, double right, double bottom, double top) {
         m00 = 2.0 / (right - left);
         m01 = 0.0;
@@ -5978,7 +5592,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setOrtho2DLH(double left, double right, double bottom, double top) {
         m00 = 2.0 / (right - left);
         m01 = 0.0;
@@ -6000,19 +5613,16 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc lookAlong(IVector3d dir, IVector3d up) {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
-    @Override
     public Matrix4dc lookAlong(IVector3d dir, IVector3d up, Matrix4dc dest) {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
 
-    @Override
     public Matrix4dc lookAlong(double dirX, double dirY, double dirZ,
-                              double upX, double upY, double upZ, Matrix4dc dest) {
+                               double upX, double upY, double upZ, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
 
@@ -6079,20 +5689,17 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc lookAlong(double dirX, double dirY, double dirZ,
-                              double upX, double upY, double upZ) {
+                               double upX, double upY, double upZ) {
         return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
-    @Override
     public Matrix4dc setLookAlong(IVector3d dir, IVector3d up) {
         return setLookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4dc setLookAlong(double dirX, double dirY, double dirZ,
-                                 double upX, double upY, double upZ) {
+                                  double upX, double upY, double upZ) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         double dirnX = -dirX * invDirLength;
@@ -6134,15 +5741,13 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setLookAt(IVector3d eye, IVector3d center, IVector3d up) {
         return setLookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4dc setLookAt(double eyeX, double eyeY, double eyeZ,
-                              double centerX, double centerY, double centerZ,
-                              double upX, double upY, double upZ) {
+                               double centerX, double centerY, double centerZ,
+                               double upX, double upY, double upZ) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -6189,29 +5794,27 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc lookAt(IVector3d eye, IVector3d center, IVector3d up, Matrix4dc dest) {
         return lookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), dest);
     }
 
-    @Override
     public Matrix4dc lookAt(IVector3d eye, IVector3d center, IVector3d up) {
         return lookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), this);
     }
 
-    @Override
     public Matrix4dc lookAt(double eyeX, double eyeY, double eyeZ,
-                           double centerX, double centerY, double centerZ,
-                           double upX, double upY, double upZ, Matrix4dc dest) {
+                            double centerX, double centerY, double centerZ,
+                            double upX, double upY, double upZ, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         else if ((properties & PROPERTY_PERSPECTIVE) != 0)
             return lookAtPerspective(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
         return lookAtGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
+
     private Matrix4dc lookAtGeneric(double eyeX, double eyeY, double eyeZ,
-                                   double centerX, double centerY, double centerZ,
-                                   double upX, double upY, double upZ, Matrix4dc dest) {
+                                    double centerX, double centerY, double centerZ,
+                                    double upX, double upY, double upZ, Matrix4dc dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -6284,17 +5887,15 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc lookAt(double eyeX, double eyeY, double eyeZ,
-                           double centerX, double centerY, double centerZ,
-                           double upX, double upY, double upZ) {
+                            double centerX, double centerY, double centerZ,
+                            double upX, double upY, double upZ) {
         return lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
     }
 
-    @Override
     public Matrix4dc lookAtPerspective(double eyeX, double eyeY, double eyeZ,
-            double centerX, double centerY, double centerZ,
-            double upX, double upY, double upZ, Matrix4dc dest) {
+                                       double centerX, double centerY, double centerZ,
+                                       double upX, double upY, double upZ, Matrix4dc dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -6371,15 +5972,13 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc setLookAtLH(IVector3d eye, IVector3d center, IVector3d up) {
         return setLookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4dc setLookAtLH(double eyeX, double eyeY, double eyeZ,
-                                double centerX, double centerY, double centerZ,
-                                double upX, double upY, double upZ) {
+                                 double centerX, double centerY, double centerZ,
+                                 double upX, double upY, double upZ) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -6426,20 +6025,17 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc lookAtLH(IVector3d eye, IVector3d center, IVector3d up, Matrix4dc dest) {
         return lookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), dest);
     }
 
-    @Override
     public Matrix4dc lookAtLH(IVector3d eye, IVector3d center, IVector3d up) {
         return lookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), this);
     }
 
-    @Override
     public Matrix4dc lookAtLH(double eyeX, double eyeY, double eyeZ,
-                             double centerX, double centerY, double centerZ,
-                             double upX, double upY, double upZ, Matrix4dc dest) {
+                              double centerX, double centerY, double centerZ,
+                              double upX, double upY, double upZ, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setLookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         else if ((properties & PROPERTY_PERSPECTIVE) != 0)
@@ -6448,8 +6044,8 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
     }
 
     private Matrix4dc lookAtLHGeneric(double eyeX, double eyeY, double eyeZ,
-                                     double centerX, double centerY, double centerZ,
-                                     double upX, double upY, double upZ, Matrix4dc dest) {
+                                      double centerX, double centerY, double centerZ,
+                                      double upX, double upY, double upZ, Matrix4dc dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -6522,17 +6118,15 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc lookAtLH(double eyeX, double eyeY, double eyeZ,
-                             double centerX, double centerY, double centerZ,
-                             double upX, double upY, double upZ) {
+                              double centerX, double centerY, double centerZ,
+                              double upX, double upY, double upZ) {
         return lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
     }
 
-    @Override
     public Matrix4dc lookAtPerspectiveLH(double eyeX, double eyeY, double eyeZ,
-            double centerX, double centerY, double centerZ,
-            double upX, double upY, double upZ, Matrix4dc dest) {
+                                         double centerX, double centerY, double centerZ,
+                                         double upX, double upY, double upZ, Matrix4dc dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -6609,7 +6203,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setPerspective(fovy, aspect, zNear, zFar, zZeroToOne);
@@ -6664,22 +6257,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc perspective(double fovy, double aspect, double zNear, double zFar, Matrix4dc dest) {
         return perspective(fovy, aspect, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4dc perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
         return perspective(fovy, aspect, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4dc perspective(double fovy, double aspect, double zNear, double zFar) {
         return perspective(fovy, aspect, zNear, zFar, this);
     }
 
-    @Override
     public Matrix4dc setPerspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
         double h = Math.tan(fovy * 0.5);
         m00 = 1.0 / (h * aspect);
@@ -6715,12 +6304,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setPerspective(double fovy, double aspect, double zNear, double zFar) {
         return setPerspective(fovy, aspect, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc perspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4dc dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setPerspectiveLH(fovy, aspect, zNear, zFar, zZeroToOne);
@@ -6774,22 +6361,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc perspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
         return perspectiveLH(fovy, aspect, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4dc perspectiveLH(double fovy, double aspect, double zNear, double zFar, Matrix4dc dest) {
         return perspectiveLH(fovy, aspect, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4dc perspectiveLH(double fovy, double aspect, double zNear, double zFar) {
         return perspectiveLH(fovy, aspect, zNear, zFar, this);
     }
 
-    @Override
     public Matrix4dc setPerspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
         double h = Math.tan(fovy * 0.5);
         m00 = 1.0 / (h * aspect);
@@ -6825,12 +6408,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setPerspectiveLH(double fovy, double aspect, double zNear, double zFar) {
         return setPerspectiveLH(fovy, aspect, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc frustum(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4dc dest) {
         // calculate right matrix elements
         double rm00 = (zNear + zNear) / (right - left);
@@ -6884,22 +6465,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc frustum(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4dc dest) {
         return frustum(left, right, bottom, top, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4dc frustum(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
         return frustum(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4dc frustum(double left, double right, double bottom, double top, double zNear, double zFar) {
         return frustum(left, right, bottom, top, zNear, zFar, this);
     }
 
-    @Override
     public Matrix4dc setFrustum(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
         m00 = (zNear + zNear) / (right - left);
         m01 = 0.0;
@@ -6934,12 +6511,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setFrustum(double left, double right, double bottom, double top, double zNear, double zFar) {
         return setFrustum(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4dc dest) {
         // calculate right matrix elements
         double rm00 = (zNear + zNear) / (right - left);
@@ -6992,22 +6567,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
         return frustumLH(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
     }
 
-    @Override
     public Matrix4dc frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4dc dest) {
         return frustumLH(left, right, bottom, top, zNear, zFar, false, dest);
     }
 
-    @Override
     public Matrix4dc frustumLH(double left, double right, double bottom, double top, double zNear, double zFar) {
         return frustumLH(left, right, bottom, top, zNear, zFar, this);
     }
 
-    @Override
     public Matrix4dc setFrustumLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
         m00 = (zNear + zNear) / (right - left);
         m01 = 0.0;
@@ -7042,12 +6613,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc setFrustumLH(double left, double right, double bottom, double top, double zNear, double zFar) {
         return setFrustumLH(left, right, bottom, top, zNear, zFar, false);
     }
 
-    @Override
     public Matrix4dc setFromIntrinsic(double alphaX, double alphaY, double gamma, double u0, double v0, int imgWidth, int imgHeight, double near, double far) {
         double l00 = 2.0 / imgWidth;
         double l11 = 2.0 / imgHeight;
@@ -7072,107 +6641,176 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector4dc frustumPlane(int plane, Vector4dc dest) {
         switch (plane) {
-        case PLANE_NX:
-            dest.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
-            break;
-        case PLANE_PX:
-            dest.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3();
-            break;
-        case PLANE_NY:
-            dest.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3();
-            break;
-        case PLANE_PY:
-            dest.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3();
-            break;
-        case PLANE_NZ:
-            dest.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3();
-            break;
-        case PLANE_PZ:
-            dest.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3();
-            break;
-        default:
-            throw new IllegalArgumentException("plane"); //$NON-NLS-1$
+            case PLANE_NX:
+                dest.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
+                break;
+            case PLANE_PX:
+                dest.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3();
+                break;
+            case PLANE_NY:
+                dest.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3();
+                break;
+            case PLANE_PY:
+                dest.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3();
+                break;
+            case PLANE_NZ:
+                dest.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3();
+                break;
+            case PLANE_PZ:
+                dest.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3();
+                break;
+            default:
+                throw new IllegalArgumentException("plane"); //$NON-NLS-1$
         }
         return dest;
     }
 
-    @Override
     public Planedc frustumPlane(int which, Planedc plane) {
         switch (which) {
-        case PLANE_NX:
-            plane.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize();
-            break;
-        case PLANE_PX:
-            plane.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize();
-            break;
-        case PLANE_NY:
-            plane.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize();
-            break;
-        case PLANE_PY:
-            plane.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize();
-            break;
-        case PLANE_NZ:
-            plane.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize();
-            break;
-        case PLANE_PZ:
-            plane.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize();
-            break;
-        default:
-            throw new IllegalArgumentException("which"); //$NON-NLS-1$
+            case PLANE_NX:
+                plane.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize();
+                break;
+            case PLANE_PX:
+                plane.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize();
+                break;
+            case PLANE_NY:
+                plane.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize();
+                break;
+            case PLANE_PY:
+                plane.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize();
+                break;
+            case PLANE_NZ:
+                plane.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize();
+                break;
+            case PLANE_PZ:
+                plane.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize();
+                break;
+            default:
+                throw new IllegalArgumentException("which"); //$NON-NLS-1$
         }
         return plane;
     }
 
-    @Override
     public Vector3dc frustumCorner(int corner, Vector3dc dest) {
         double d1, d2, d3;
         double n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
         switch (corner) {
-        case CORNER_NXNYNZ: // left, bottom, near
-            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
-            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
-            break;
-        case CORNER_PXNYNZ: // right, bottom, near
-            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
-            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
-            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
-            break;
-        case CORNER_PXPYNZ: // right, top, near
-            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
-            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
-            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
-            break;
-        case CORNER_NXPYNZ: // left, top, near
-            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
-            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
-            break;
-        case CORNER_PXNYPZ: // right, bottom, far
-            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
-            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
-            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
-            break;
-        case CORNER_NXNYPZ: // left, bottom, far
-            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
-            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
-            break;
-        case CORNER_NXPYPZ: // left, top, far
-            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
-            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
-            break;
-        case CORNER_PXPYPZ: // right, top, far
-            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
-            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
-            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
-            break;
-        default:
-            throw new IllegalArgumentException("corner"); //$NON-NLS-1$
+            case CORNER_NXNYNZ: // left, bottom, near
+                n1x = m03 + m00;
+                n1y = m13 + m10;
+                n1z = m23 + m20;
+                d1 = m33 + m30; // left
+                n2x = m03 + m01;
+                n2y = m13 + m11;
+                n2z = m23 + m21;
+                d2 = m33 + m31; // bottom
+                n3x = m03 + m02;
+                n3y = m13 + m12;
+                n3z = m23 + m22;
+                d3 = m33 + m32; // near
+                break;
+            case CORNER_PXNYNZ: // right, bottom, near
+                n1x = m03 - m00;
+                n1y = m13 - m10;
+                n1z = m23 - m20;
+                d1 = m33 - m30; // right
+                n2x = m03 + m01;
+                n2y = m13 + m11;
+                n2z = m23 + m21;
+                d2 = m33 + m31; // bottom
+                n3x = m03 + m02;
+                n3y = m13 + m12;
+                n3z = m23 + m22;
+                d3 = m33 + m32; // near
+                break;
+            case CORNER_PXPYNZ: // right, top, near
+                n1x = m03 - m00;
+                n1y = m13 - m10;
+                n1z = m23 - m20;
+                d1 = m33 - m30; // right
+                n2x = m03 - m01;
+                n2y = m13 - m11;
+                n2z = m23 - m21;
+                d2 = m33 - m31; // top
+                n3x = m03 + m02;
+                n3y = m13 + m12;
+                n3z = m23 + m22;
+                d3 = m33 + m32; // near
+                break;
+            case CORNER_NXPYNZ: // left, top, near
+                n1x = m03 + m00;
+                n1y = m13 + m10;
+                n1z = m23 + m20;
+                d1 = m33 + m30; // left
+                n2x = m03 - m01;
+                n2y = m13 - m11;
+                n2z = m23 - m21;
+                d2 = m33 - m31; // top
+                n3x = m03 + m02;
+                n3y = m13 + m12;
+                n3z = m23 + m22;
+                d3 = m33 + m32; // near
+                break;
+            case CORNER_PXNYPZ: // right, bottom, far
+                n1x = m03 - m00;
+                n1y = m13 - m10;
+                n1z = m23 - m20;
+                d1 = m33 - m30; // right
+                n2x = m03 + m01;
+                n2y = m13 + m11;
+                n2z = m23 + m21;
+                d2 = m33 + m31; // bottom
+                n3x = m03 - m02;
+                n3y = m13 - m12;
+                n3z = m23 - m22;
+                d3 = m33 - m32; // far
+                break;
+            case CORNER_NXNYPZ: // left, bottom, far
+                n1x = m03 + m00;
+                n1y = m13 + m10;
+                n1z = m23 + m20;
+                d1 = m33 + m30; // left
+                n2x = m03 + m01;
+                n2y = m13 + m11;
+                n2z = m23 + m21;
+                d2 = m33 + m31; // bottom
+                n3x = m03 - m02;
+                n3y = m13 - m12;
+                n3z = m23 - m22;
+                d3 = m33 - m32; // far
+                break;
+            case CORNER_NXPYPZ: // left, top, far
+                n1x = m03 + m00;
+                n1y = m13 + m10;
+                n1z = m23 + m20;
+                d1 = m33 + m30; // left
+                n2x = m03 - m01;
+                n2y = m13 - m11;
+                n2z = m23 - m21;
+                d2 = m33 - m31; // top
+                n3x = m03 - m02;
+                n3y = m13 - m12;
+                n3z = m23 - m22;
+                d3 = m33 - m32; // far
+                break;
+            case CORNER_PXPYPZ: // right, top, far
+                n1x = m03 - m00;
+                n1y = m13 - m10;
+                n1z = m23 - m20;
+                d1 = m33 - m30; // right
+                n2x = m03 - m01;
+                n2y = m13 - m11;
+                n2z = m23 - m21;
+                d2 = m33 - m31; // top
+                n3x = m03 - m02;
+                n3y = m13 - m12;
+                n3z = m23 - m22;
+                d3 = m33 - m32; // far
+                break;
+            default:
+                throw new IllegalArgumentException("corner"); //$NON-NLS-1$
         }
         double c23x, c23y, c23z;
         c23x = n2y * n3z - n2z * n3y;
@@ -7191,16 +6829,24 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Vector3dc perspectiveOrigin(Vector3dc dest) {
         /*
          * Simply compute the intersection point of the left, right and top frustum plane.
          */
         double d1, d2, d3;
         double n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
-        n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-        n2x = m03 - m00; n2y = m13 - m10; n2z = m23 - m20; d2 = m33 - m30; // right
-        n3x = m03 - m01; n3y = m13 - m11; n3z = m23 - m21; d3 = m33 - m31; // top
+        n1x = m03 + m00;
+        n1y = m13 + m10;
+        n1z = m23 + m20;
+        d1 = m33 + m30; // left
+        n2x = m03 - m00;
+        n2y = m13 - m10;
+        n2z = m23 - m20;
+        d2 = m33 - m30; // right
+        n3x = m03 - m01;
+        n3y = m13 - m11;
+        n3z = m23 - m21;
+        d3 = m33 - m31; // top
         double c23x, c23y, c23z;
         c23x = n2y * n3z - n2z * n3y;
         c23y = n2z * n3x - n2x * n3z;
@@ -7218,30 +6864,30 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public double perspectiveFov() {
         /*
          * Compute the angle between the bottom and top frustum plane normals.
          */
         double n1x, n1y, n1z, n2x, n2y, n2z;
-        n1x = m03 + m01; n1y = m13 + m11; n1z = m23 + m21; // bottom
-        n2x = m01 - m03; n2y = m11 - m13; n2z = m21 - m23; // top
+        n1x = m03 + m01;
+        n1y = m13 + m11;
+        n1z = m23 + m21; // bottom
+        n2x = m01 - m03;
+        n2y = m11 - m13;
+        n2z = m21 - m23; // top
         double n1len = Math.sqrt(n1x * n1x + n1y * n1y + n1z * n1z);
         double n2len = Math.sqrt(n2x * n2x + n2y * n2y + n2z * n2z);
         return Math.acos((n1x * n2x + n1y * n2y + n1z * n2z) / (n1len * n2len));
     }
 
-    @Override
     public double perspectiveNear() {
         return m32 / (m23 + m22);
     }
 
-    @Override
     public double perspectiveFar() {
         return m32 / (m22 - m23);
     }
 
-    @Override
     public Vector3dc frustumRayDir(double x, double y, Vector3dc dest) {
         /*
          * This method works by first obtaining the frustum plane normals,
@@ -7266,46 +6912,39 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Vector3dc positiveZ(Vector3dc dest) {
         dest.set(m10 * m21 - m11 * m20, m20 * m01 - m21 * m00, m00 * m11 - m01 * m10);
         dest.normalize();
         return dest;
     }
 
-    @Override
     public Vector3dc normalizedPositiveZ(Vector3dc dest) {
         dest.set(m02, m12, m22);
         return dest;
     }
 
-    @Override
     public Vector3dc positiveX(Vector3dc dest) {
         dest.set(m11 * m22 - m12 * m21, m02 * m21 - m01 * m22, m01 * m12 - m02 * m11);
         dest.normalize();
         return dest;
     }
 
-    @Override
     public Vector3dc normalizedPositiveX(Vector3dc dest) {
         dest.set(m00, m10, m20);
         return dest;
     }
 
-    @Override
     public Vector3dc positiveY(Vector3dc dest) {
         dest.set(m12 * m20 - m10 * m22, m00 * m22 - m02 * m20, m02 * m10 - m00 * m12);
         dest.normalize();
         return dest;
     }
 
-    @Override
     public Vector3dc normalizedPositiveY(Vector3dc dest) {
         dest.set(m01, m11, m21);
         return dest;
     }
 
-    @Override
     public Vector3dc originAffine(Vector3dc dest) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
@@ -7313,11 +6952,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         double g = m20 * m31 - m21 * m30;
         double h = m20 * m32 - m22 * m30;
         double j = m21 * m32 - m22 * m31;
-        dest.set(-m10 * j + m11 * h - m12 * g,  m00 * j - m01 * h + m02 * g, -m30 * d + m31 * b - m32 * a);
+        dest.set(-m10 * j + m11 * h - m12 * g, m00 * j - m01 * h + m02 * g, -m30 * d + m31 * b - m32 * a);
         return dest;
     }
 
-    @Override
     public Vector3dc origin(Vector3dc dest) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
@@ -7334,34 +6972,30 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         double det = a * l - b * k + c * j + d * i - e * h + f * g;
         double invDet = 1.0 / det;
         double nm30 = (-m10 * j + m11 * h - m12 * g) * invDet;
-        double nm31 = ( m00 * j - m01 * h + m02 * g) * invDet;
+        double nm31 = (m00 * j - m01 * h + m02 * g) * invDet;
         double nm32 = (-m30 * d + m31 * b - m32 * a) * invDet;
-        double nm33 = det / ( m20 * d - m21 * b + m22 * a);
+        double nm33 = det / (m20 * d - m21 * b + m22 * a);
         double x = nm30 * nm33;
         double y = nm31 * nm33;
         double z = nm32 * nm33;
         return dest.set(x, y, z);
     }
 
-    @Override
     public Matrix4dc shadow(IVector4d light, double a, double b, double c, double d) {
         return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, this);
     }
 
-    @Override
     public Matrix4dc shadow(IVector4d light, double a, double b, double c, double d, Matrix4dc dest) {
         return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
-    @Override
     public Matrix4dc shadow(double lightX, double lightY, double lightZ, double lightW, double a, double b, double c, double d) {
         return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, this);
     }
 
-    @Override
     public Matrix4dc shadow(double lightX, double lightY, double lightZ, double lightW, double a, double b, double c, double d, Matrix4dc dest) {
         // normalize plane
-        double invPlaneLen = 1.0 / Math.sqrt(a*a + b*b + c*c);
+        double invPlaneLen = 1.0 / Math.sqrt(a * a + b * b + c * c);
         double an = a * invPlaneLen;
         double bn = b * invPlaneLen;
         double cn = c * invPlaneLen;
@@ -7421,7 +7055,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc shadow(IVector4d light, IMatrix4d planeTransform, Matrix4dc dest) {
         // compute plane equation by transforming (y = 0)
         double a = planeTransform.m10();
@@ -7431,12 +7064,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
-    @Override
     public Matrix4dc shadow(Vector4dc light, Matrix4dc planeTransform) {
         return shadow(light, planeTransform, this);
     }
 
-    @Override
     public Matrix4dc shadow(double lightX, double lightY, double lightZ, double lightW, IMatrix4d planeTransform, Matrix4dc dest) {
         // compute plane equation by transforming (y = 0)
         double a = planeTransform.m10();
@@ -7446,12 +7077,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, dest);
     }
 
-    @Override
     public Matrix4dc shadow(double lightX, double lightY, double lightZ, double lightW, IMatrix4d planeTransform) {
         return shadow(lightX, lightY, lightZ, lightW, planeTransform, this);
     }
 
-    @Override
     public Matrix4dc billboardCylindrical(IVector3d objPos, IVector3d targetPos, IVector3d up) {
         double dirX = targetPos.x() - objPos.x();
         double dirY = targetPos.y() - objPos.y();
@@ -7496,7 +7125,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc billboardSpherical(IVector3d objPos, IVector3d targetPos, IVector3d up) {
         double dirX = targetPos.x() - objPos.x();
         double dirY = targetPos.y() - objPos.y();
@@ -7540,7 +7168,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc billboardSpherical(IVector3d objPos, IVector3d targetPos) {
         double toDirX = targetPos.x() - objPos.x();
         double toDirY = targetPos.y() - objPos.y();
@@ -7577,7 +7204,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -7617,7 +7243,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return result;
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -7661,7 +7286,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return true;
     }
 
-    @Override
     public Matrix4dc pick(double x, double y, double width, double height, int[] viewport, Matrix4dc dest) {
         double sx = viewport[2] / width;
         double sy = viewport[3] / height;
@@ -7683,42 +7307,70 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc pick(double x, double y, double width, double height, int[] viewport) {
         return pick(x, y, width, height, viewport, this);
     }
 
-    @Override
     public boolean isAffine() {
         return m03 == 0.0 && m13 == 0.0 && m23 == 0.0 && m33 == 1.0;
     }
 
-    @Override
     public Matrix4dc swap(Matrix4dc other) {
         double tmp;
-        tmp = m00; m00 = other.m00(); other.m00(tmp);
-        tmp = m01; m01 = other.m01(); other.m01(tmp);
-        tmp = m02; m02 = other.m02(); other.m02(tmp);
-        tmp = m03; m03 = other.m03(); other.m03(tmp);
-        tmp = m10; m10 = other.m10(); other.m10(tmp);
-        tmp = m11; m11 = other.m11(); other.m11(tmp);
-        tmp = m12; m12 = other.m12(); other.m12(tmp);
-        tmp = m13; m13 = other.m13(); other.m13(tmp);
-        tmp = m20; m20 = other.m20(); other.m20(tmp);
-        tmp = m21; m21 = other.m21(); other.m21(tmp);
-        tmp = m22; m22 = other.m22(); other.m22(tmp);
-        tmp = m23; m23 = other.m23(); other.m23(tmp);
-        tmp = m30; m30 = other.m30(); other.m30(tmp);
-        tmp = m31; m31 = other.m31(); other.m31(tmp);
-        tmp = m32; m32 = other.m32(); other.m32(tmp);
-        tmp = m33; m33 = other.m33(); other.m33(tmp);
+        tmp = m00;
+        m00 = other.m00();
+        other.m00(tmp);
+        tmp = m01;
+        m01 = other.m01();
+        other.m01(tmp);
+        tmp = m02;
+        m02 = other.m02();
+        other.m02(tmp);
+        tmp = m03;
+        m03 = other.m03();
+        other.m03(tmp);
+        tmp = m10;
+        m10 = other.m10();
+        other.m10(tmp);
+        tmp = m11;
+        m11 = other.m11();
+        other.m11(tmp);
+        tmp = m12;
+        m12 = other.m12();
+        other.m12(tmp);
+        tmp = m13;
+        m13 = other.m13();
+        other.m13(tmp);
+        tmp = m20;
+        m20 = other.m20();
+        other.m20(tmp);
+        tmp = m21;
+        m21 = other.m21();
+        other.m21(tmp);
+        tmp = m22;
+        m22 = other.m22();
+        other.m22(tmp);
+        tmp = m23;
+        m23 = other.m23();
+        other.m23(tmp);
+        tmp = m30;
+        m30 = other.m30();
+        other.m30(tmp);
+        tmp = m31;
+        m31 = other.m31();
+        other.m31(tmp);
+        tmp = m32;
+        m32 = other.m32();
+        other.m32(tmp);
+        tmp = m33;
+        m33 = other.m33();
+        other.m33(tmp);
         byte props = properties;
         this.properties = other.properties();
         other.property(props);
         return this;
     }
 
-    @Override
     public Matrix4dc arcball(double radius, double centerX, double centerY, double centerZ, double angleX, double angleY, Matrix4dc dest) {
         double m30 = m20 * -radius + this.m30;
         double m31 = m21 * -radius + this.m31;
@@ -7764,22 +7416,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc arcball(double radius, IVector3d center, double angleX, double angleY, Matrix4dc dest) {
         return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, dest);
     }
 
-    @Override
     public Matrix4dc arcball(double radius, double centerX, double centerY, double centerZ, double angleX, double angleY) {
         return arcball(radius, centerX, centerY, centerZ, angleX, angleY, this);
     }
 
-    @Override
     public Matrix4dc arcball(double radius, IVector3d center, double angleX, double angleY) {
         return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, this);
     }
 
-    @Override
     public Matrix4dc frustumAabb(Vector3dc min, Vector3dc max) {
         double minX = Double.POSITIVE_INFINITY;
         double minY = Double.POSITIVE_INFINITY;
@@ -7807,7 +7455,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc projectedGridRange(IMatrix4d projector, double sLower, double sUpper, Matrix4dc dest) {
         // Compute intersection with frustum edges and plane
         double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY;
@@ -7818,17 +7465,20 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
             double c1X, c1Y, c1Z;
             if (t < 4) {
                 // all x edges
-                c0X = -1; c1X = +1;
+                c0X = -1;
+                c1X = +1;
                 c0Y = c1Y = ((t & 1) << 1) - 1.0;
                 c0Z = c1Z = (((t >>> 1) & 1) << 1) - 1.0;
             } else if (t < 8) {
                 // all y edges
-                c0Y = -1; c1Y = +1;
+                c0Y = -1;
+                c1Y = +1;
                 c0X = c1X = ((t & 1) << 1) - 1.0;
                 c0Z = c1Z = (((t >>> 1) & 1) << 1) - 1.0;
             } else {
                 // all z edges
-                c0Z = -1; c1Z = +1;
+                c0Z = -1;
+                c1Z = +1;
                 c0X = c1X = ((t & 1) << 1) - 1.0;
                 c0Y = c1Y = (((t >>> 1) & 1) << 1) - 1.0;
             }
@@ -7870,7 +7520,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc perspectiveFrustumSlice(double near, double far, Matrix4dc dest) {
         double invOldNear = (m23 + m22) / m32;
         double invNearFar = 1.0 / (near - far);
@@ -7894,7 +7543,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc orthoCrop(IMatrix4d view, Matrix4dc dest) {
         // determine min/max world z and min/max orthographically view-projected x/y
         double minX = Double.POSITIVE_INFINITY, maxX = Double.NEGATIVE_INFINITY;
@@ -7923,7 +7571,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest.setOrtho(minX, maxX, minY, maxY, -maxZ, -minZ);
     }
 
-    @Override
     public Matrix4dc trapezoidCrop(double p0x, double p0y, double p1x, double p1y, double p2x, double p2y, double p3x, double p3y) {
         double aX = p1y - p0y, aY = p0x - p1x;
         double m00 = aY;
@@ -7955,14 +7602,13 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         m10 = sx * m10 - m13;
         m30 = sx * m30 - m33;
         set(m00, m01, 0, m03,
-            m10, m11, 0, m13,
-              0,   0, 1,   0,
-            m30, m31, 0, m33);
+                m10, m11, 0, m13,
+                0, 0, 1, 0,
+                m30, m31, 0, m33);
         properties = 0;
         return this;
     }
 
-    @Override
     public Matrix4dc transformAab(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, Vector3dc outMin, Vector3dc outMax) {
         double xax = m00 * minX, xay = m01 * minX, xaz = m02 * minX;
         double xbx = m00 * maxX, xby = m01 * maxX, xbz = m02 * maxX;
@@ -8044,17 +7690,14 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc transformAab(IVector3d min, IVector3d max, Vector3dc outMin, Vector3dc outMax) {
         return transformAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), outMin, outMax);
     }
 
-    @Override
     public Matrix4dc lerp(IMatrix4d other, double t) {
         return lerp(other, t, this);
     }
 
-    @Override
     public Matrix4dc lerp(IMatrix4d other, double t, Matrix4dc dest) {
         dest.m00(m00 + (other.m00() - m00) * t);
         dest.m01(m01 + (other.m01() - m01) * t);
@@ -8075,22 +7718,18 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotateTowards(IVector3d direction, IVector3d up, Matrix4dc dest) {
         return rotateTowards(direction.x(), direction.y(), direction.z(), up.x(), up.y(), up.z(), dest);
     }
 
-    @Override
     public Matrix4dc rotateTowards(IVector3d direction, IVector3d up) {
         return rotateTowards(direction.x(), direction.y(), direction.z(), up.x(), up.y(), up.z(), this);
     }
 
-    @Override
     public Matrix4dc rotateTowards(double dirX, double dirY, double dirZ, double upX, double upY, double upZ) {
         return rotateTowards(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
-    @Override
     public Matrix4dc rotateTowards(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix4dc dest) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
@@ -8148,12 +7787,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return dest;
     }
 
-    @Override
     public Matrix4dc rotationTowards(IVector3d dir, IVector3d up) {
         return rotationTowards(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4dc rotationTowards(double dirX, double dirY, double dirZ, double upX, double upY, double upZ) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
@@ -8194,12 +7831,10 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Matrix4dc translationRotateTowards(IVector3d pos, IVector3d dir, IVector3d up) {
         return translationRotateTowards(pos.x(), pos.y(), pos.z(), dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
-    @Override
     public Matrix4dc translationRotateTowards(double posX, double posY, double posZ, double dirX, double dirY, double dirZ, double upX, double upY, double upZ) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
@@ -8240,13 +7875,11 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3dc getEulerAnglesZYX(Vector3dc dest) {
         dest.set(Math.atan2(m12, m22), Math.atan2(-m02, Math.sqrt(m12 * m12 + m22 * m22)), Math.atan2(m01, m00));
         return dest;
     }
 
-    @Override
     public Matrix4dc affineSpan(Vector3dc corner, Vector3dc xDir, Vector3dc yDir, Vector3dc zDir) {
         double a = m10 * m22, b = m10 * m21, c = m10 * m02, d = m10 * m01;
         double e = m11 * m22, f = m11 * m20, g = m11 * m02, h = m11 * m00;
@@ -8266,7 +7899,6 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         return this;
     }
 
-    @Override
     public boolean testPoint(double x, double y, double z) {
         double nxX = m03 + m00, nxY = m13 + m10, nxZ = m23 + m20, nxW = m33 + m30;
         double pxX = m03 - m00, pxY = m13 - m10, pxZ = m23 - m20, pxW = m33 - m30;
@@ -8275,37 +7907,53 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
         double nzX = m03 + m02, nzY = m13 + m12, nzZ = m23 + m22, nzW = m33 + m32;
         double pzX = m03 - m02, pzY = m13 - m12, pzZ = m23 - m22, pzW = m33 - m32;
         return nxX * x + nxY * y + nxZ * z + nxW >= 0 && pxX * x + pxY * y + pxZ * z + pxW >= 0 &&
-               nyX * x + nyY * y + nyZ * z + nyW >= 0 && pyX * x + pyY * y + pyZ * z + pyW >= 0 &&
-               nzX * x + nzY * y + nzZ * z + nzW >= 0 && pzX * x + pzY * y + pzZ * z + pzW >= 0;
+                nyX * x + nyY * y + nyZ * z + nyW >= 0 && pyX * x + pyY * y + pyZ * z + pyW >= 0 &&
+                nzX * x + nzY * y + nzZ * z + nzW >= 0 && pzX * x + pzY * y + pzZ * z + pzW >= 0;
     }
 
-    @Override
     public boolean testSphere(double x, double y, double z, double r) {
         double invl;
         double nxX = m03 + m00, nxY = m13 + m10, nxZ = m23 + m20, nxW = m33 + m30;
         invl = 1.0 / Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ);
-        nxX *= invl; nxY *= invl; nxZ *= invl; nxW *= invl;
+        nxX *= invl;
+        nxY *= invl;
+        nxZ *= invl;
+        nxW *= invl;
         double pxX = m03 - m00, pxY = m13 - m10, pxZ = m23 - m20, pxW = m33 - m30;
         invl = 1.0 / Math.sqrt(pxX * pxX + pxY * pxY + pxZ * pxZ);
-        pxX *= invl; pxY *= invl; pxZ *= invl; pxW *= invl;
+        pxX *= invl;
+        pxY *= invl;
+        pxZ *= invl;
+        pxW *= invl;
         double nyX = m03 + m01, nyY = m13 + m11, nyZ = m23 + m21, nyW = m33 + m31;
         invl = 1.0 / Math.sqrt(nyX * nyX + nyY * nyY + nyZ * nyZ);
-        nyX *= invl; nyY *= invl; nyZ *= invl; nyW *= invl;
+        nyX *= invl;
+        nyY *= invl;
+        nyZ *= invl;
+        nyW *= invl;
         double pyX = m03 - m01, pyY = m13 - m11, pyZ = m23 - m21, pyW = m33 - m31;
         invl = 1.0 / Math.sqrt(pyX * pyX + pyY * pyY + pyZ * pyZ);
-        pyX *= invl; pyY *= invl; pyZ *= invl; pyW *= invl;
+        pyX *= invl;
+        pyY *= invl;
+        pyZ *= invl;
+        pyW *= invl;
         double nzX = m03 + m02, nzY = m13 + m12, nzZ = m23 + m22, nzW = m33 + m32;
         invl = 1.0 / Math.sqrt(nzX * nzX + nzY * nzY + nzZ * nzZ);
-        nzX *= invl; nzY *= invl; nzZ *= invl; nzW *= invl;
+        nzX *= invl;
+        nzY *= invl;
+        nzZ *= invl;
+        nzW *= invl;
         double pzX = m03 - m02, pzY = m13 - m12, pzZ = m23 - m22, pzW = m33 - m32;
         invl = 1.0 / Math.sqrt(pzX * pzX + pzY * pzY + pzZ * pzZ);
-        pzX *= invl; pzY *= invl; pzZ *= invl; pzW *= invl;
+        pzX *= invl;
+        pzY *= invl;
+        pzZ *= invl;
+        pzW *= invl;
         return nxX * x + nxY * y + nxZ * z + nxW >= -r && pxX * x + pxY * y + pxZ * z + pxW >= -r &&
-               nyX * x + nyY * y + nyZ * z + nyW >= -r && pyX * x + pyY * y + pyZ * z + pyW >= -r &&
-               nzX * x + nzY * y + nzZ * z + nzW >= -r && pzX * x + pzY * y + pzZ * z + pzW >= -r;
+                nyX * x + nyY * y + nyZ * z + nyW >= -r && pyX * x + pyY * y + pyZ * z + pyW >= -r &&
+                nzX * x + nzY * y + nzZ * z + nzW >= -r && pzX * x + pzY * y + pzZ * z + pzW >= -r;
     }
 
-    @Override
     public boolean testAab(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         double nxX = m03 + m00, nxY = m13 + m10, nxZ = m23 + m20, nxW = m33 + m30;
         double pxX = m03 - m00, pxY = m13 - m10, pxZ = m23 - m20, pxW = m33 - m30;
@@ -8318,11 +7966,11 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
          * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
          */
         return nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW &&
-               pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW &&
-               nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW &&
-               pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW &&
-               nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW &&
-               pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW;
+                pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW &&
+                nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW &&
+                pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW &&
+                nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW &&
+                pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW;
     }
 
     public static void projViewFromRectangle(
@@ -8330,7 +7978,11 @@ public class Matrix4d extends Matrix4dc implements Externalizable {
             Matrix4dc projDest, Matrix4dc viewDest) {
         double zx = y.y() * x.z() - y.z() * x.y(), zy = y.z() * x.x() - y.x() * x.z(), zz = y.x() * x.y() - y.y() * x.x();
         double zd = zx * (p.x() - eye.x()) + zy * (p.y() - eye.y()) + zz * (p.z() - eye.z());
-        double zs = zd >= 0 ? 1 : -1; zx *= zs; zy *= zs; zz *= zs; zd *= zs; 
+        double zs = zd >= 0 ? 1 : -1;
+        zx *= zs;
+        zy *= zs;
+        zz *= zs;
+        zd *= zs;
         viewDest.setLookAt(eye.x(), eye.y(), eye.z(), eye.x() + zx, eye.y() + zy, eye.z() + zz, y.x(), y.y(), y.z());
         double px = viewDest.m00() * p.x() + viewDest.m10() * p.y() + viewDest.m20() * p.z() + viewDest.m30();
         double py = viewDest.m01() * p.x() + viewDest.m11() * p.y() + viewDest.m21() * p.z() + viewDest.m31();

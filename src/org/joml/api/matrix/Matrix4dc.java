@@ -413,6 +413,7 @@ public abstract class Matrix4dc implements Externalizable, IMatrix4d {
      * <code>M * R * v</code>, the transformation of the right matrix will be applied first!
      *
      * @param right the right operand of the matrix multiplication
+     * @return this
      */
     public abstract Matrix4dc mul(IMatrix4x3d right);
 
@@ -4197,10 +4198,8 @@ public abstract class Matrix4dc implements Externalizable, IMatrix4d {
      */
     public abstract Matrix4dc billboardSpherical(IVector3d objPos, IVector3d targetPos);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

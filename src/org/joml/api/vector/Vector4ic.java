@@ -272,9 +272,7 @@ public abstract class Vector4ic implements Externalizable, IVector4i {
      */
     public abstract Vector4ic max(IVector4i v);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 }

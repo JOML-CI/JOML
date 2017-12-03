@@ -963,10 +963,8 @@ public abstract class Quaternionfc implements Externalizable, IQuaternionf {
      */
     public abstract String toString(NumberFormat formatter);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

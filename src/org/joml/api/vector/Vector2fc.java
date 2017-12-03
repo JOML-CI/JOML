@@ -279,10 +279,8 @@ public abstract class Vector2fc implements Externalizable, IVector2f {
      */
     public abstract Vector2fc lerp(IVector2f other, float t);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

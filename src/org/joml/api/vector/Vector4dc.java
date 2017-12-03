@@ -470,10 +470,8 @@ public abstract class Vector4dc implements Externalizable, IVector4d {
      */
     public abstract String toString(NumberFormat formatter);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

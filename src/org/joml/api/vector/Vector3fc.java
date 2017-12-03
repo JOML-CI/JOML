@@ -523,10 +523,8 @@ public abstract class Vector3fc implements Externalizable, IVector3f {
      */
     public abstract Vector3fc absolute();
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

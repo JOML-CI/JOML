@@ -688,10 +688,8 @@ public abstract class Vector3dc implements Externalizable, IVector3d {
      */
     public abstract Vector3dc absolute();
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

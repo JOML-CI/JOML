@@ -1329,10 +1329,8 @@ public abstract class Matrix3dc implements Externalizable, IMatrix3d {
      */
     public abstract Matrix3dc setLookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

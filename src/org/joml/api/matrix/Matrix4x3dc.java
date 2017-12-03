@@ -2878,10 +2878,8 @@ public abstract class Matrix4x3dc implements Externalizable, IMatrix4x3d {
      */
     public abstract Matrix4x3dc billboardSpherical(IVector3d objPos, IVector3d targetPos);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

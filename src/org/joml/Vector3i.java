@@ -38,8 +38,7 @@ import java.nio.IntBuffer;
 import java.text.NumberFormat;
 
 /**
- * Contains the definition of a Vector comprising 3 ints and associated
- * transformations.
+ * Contains the definition of a Vector comprising 3 ints and associated transformations.
  *
  * @author Richard Greenlees
  * @author Kai Burjack
@@ -69,11 +68,9 @@ public class Vector3i extends Vector3ic implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector3i} and initialize all three components with
-     * the given value.
+     * Create a new {@link Vector3i} and initialize all three components with the given value.
      *
-     * @param d
-     *          the value of all three components
+     * @param d the value of all three components
      */
     public Vector3i(int d) {
         this(d, d, d);
@@ -82,12 +79,9 @@ public class Vector3i extends Vector3ic implements Externalizable {
     /**
      * Create a new {@link Vector3i} with the given component values.
      *
-     * @param x
-     *          the value of x
-     * @param y
-     *          the value of y
-     * @param z
-     *          the value of z
+     * @param x the value of x
+     * @param y the value of y
+     * @param z the value of z
      */
     public Vector3i(int x, int y, int z) {
         this.x = x;
@@ -98,8 +92,7 @@ public class Vector3i extends Vector3ic implements Externalizable {
     /**
      * Create a new {@link Vector3i} with the same values as <code>v</code>.
      *
-     * @param v
-     *          the {@link IVector3i} to copy the values from
+     * @param v the {@link IVector3i} to copy the values from
      */
     public Vector3i(IVector3i v) {
         this.x = v.x();
@@ -108,13 +101,11 @@ public class Vector3i extends Vector3ic implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector3i} with the first two components from the
-     * given <code>v</code> and the given <code>z</code>
+     * Create a new {@link Vector3i} with the first two components from the given <code>v</code> and the given
+     * <code>z</code>
      *
-     * @param v
-     *          the {@link IVector2i} to copy the values from
-     * @param z
-     *          the z component
+     * @param v the {@link IVector2i} to copy the values from
+     * @param z the z component
      */
     public Vector3i(IVector2i v, int z) {
         this.x = v.x();
@@ -122,96 +113,79 @@ public class Vector3i extends Vector3ic implements Externalizable {
         this.z = z;
     }
 
-//#ifdef __HAS_NIO__
+    //#ifdef __HAS_NIO__
+
     /**
-     * Create a new {@link Vector3i} and read this vector from the supplied
-     * {@link ByteBuffer} at the current buffer
+     * Create a new {@link Vector3i} and read this vector from the supplied {@link ByteBuffer} at the current buffer
      * {@link ByteBuffer#position() position}.
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
-     * In order to specify the offset into the ByteBuffer at which the vector is
-     * read, use {@link #Vector3i(int, ByteBuffer)}, taking the absolute
-     * position as parameter.
-     * 
-     * @see #Vector3i(int, ByteBuffer)
+     * In order to specify the offset into the ByteBuffer at which the vector is read, use {@link #Vector3i(int,
+     * ByteBuffer)}, taking the absolute position as parameter.
      *
-     * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @see #Vector3i(int, ByteBuffer)
      */
     public Vector3i(ByteBuffer buffer) {
         this(buffer.position(), buffer);
     }
 
     /**
-     * Create a new {@link Vector3i} and read this vector from the supplied
-     * {@link ByteBuffer} starting at the specified absolute buffer
-     * position/index.
+     * Create a new {@link Vector3i} and read this vector from the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index
-     *          the absolute position into the ByteBuffer
-     * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y, z</tt> order
      */
     public Vector3i(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
-     * Create a new {@link Vector3i} and read this vector from the supplied
-     * {@link IntBuffer} at the current buffer
+     * Create a new {@link Vector3i} and read this vector from the supplied {@link IntBuffer} at the current buffer
      * {@link IntBuffer#position() position}.
      * <p>
      * This method will not increment the position of the given IntBuffer.
      * <p>
-     * In order to specify the offset into the IntBuffer at which the vector is
-     * read, use {@link #Vector3i(int, IntBuffer)}, taking the absolute position
-     * as parameter.
+     * In order to specify the offset into the IntBuffer at which the vector is read, use {@link #Vector3i(int,
+     * IntBuffer)}, taking the absolute position as parameter.
      *
+     * @param buffer values will be read in <tt>x, y, z</tt> order
      * @see #Vector3i(int, IntBuffer)
-     *
-     * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
      */
     public Vector3i(IntBuffer buffer) {
         this(buffer.position(), buffer);
     }
 
     /**
-     * Create a new {@link Vector3i} and read this vector from the supplied
-     * {@link IntBuffer} starting at the specified absolute buffer
-     * position/index.
+     * Create a new {@link Vector3i} and read this vector from the supplied {@link IntBuffer} starting at the specified
+     * absolute buffer position/index.
      * <p>
      * This method will not increment the position of the given IntBuffer.
      *
-     * @param index
-     *          the absolute position into the IntBuffer
-     * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     * @param index  the absolute position into the IntBuffer
+     * @param buffer values will be read in <tt>x, y, z</tt> order
      */
     public Vector3i(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
-//#endif
+    //#endif
 
-    @Override
     public int x() {
         return this.x;
     }
 
-    @Override
     public int y() {
         return this.y;
     }
 
-    @Override
     public int z() {
         return this.z;
     }
 
-    @Override
     public Vector3ic set(IVector3i v) {
         x = v.x();
         y = v.y();
@@ -219,7 +193,6 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic set(IVector3d v) {
         x = (int) v.x();
         y = (int) v.y();
@@ -227,7 +200,6 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic set(IVector2i v, int z) {
         this.x = v.x();
         this.y = v.y();
@@ -235,12 +207,10 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic set(int d) {
         return set(d, d, d);
     }
 
-    @Override
     public Vector3ic set(int x, int y, int z) {
         this.x = x;
         this.y = y;
@@ -248,31 +218,27 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-//#ifdef __HAS_NIO__
-    @Override
+    //#ifdef __HAS_NIO__
+
     public Vector3ic set(ByteBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    @Override
     public Vector3ic set(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
-    @Override
     public Vector3ic set(IntBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    @Override
     public Vector3ic set(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
-//#endif
+    //#endif
 
-    @Override
     public Vector3ic setComponent(int component, int value) throws IllegalArgumentException {
         switch (component) {
             case 0:
@@ -290,31 +256,27 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-//#ifdef __HAS_NIO__
-    @Override
+    //#ifdef __HAS_NIO__
+
     public IntBuffer get(IntBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    @Override
     public IntBuffer get(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    @Override
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    @Override
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
-//#endif
+    //#endif
 
-    @Override
     public Vector3ic sub(IVector3i v) {
         x -= v.x();
         y -= v.y();
@@ -322,13 +284,11 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic sub(IVector3i v, Vector3ic dest) {
         dest.set(x - v.x(), y - v.y(), z - v.z());
         return dest;
     }
 
-    @Override
     public Vector3ic sub(int x, int y, int z) {
         this.x -= x;
         this.y -= y;
@@ -336,13 +296,11 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic sub(int x, int y, int z, Vector3ic dest) {
         dest.set(this.x - x, this.y - y, this.z - z);
         return dest;
     }
 
-    @Override
     public Vector3ic add(IVector3i v) {
         x += v.x();
         y += v.y();
@@ -350,13 +308,11 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic add(IVector3i v, Vector3ic dest) {
         dest.set(x + v.x(), y + v.y(), z + v.z());
         return dest;
     }
 
-    @Override
     public Vector3ic add(int x, int y, int z) {
         this.x += x;
         this.y += y;
@@ -364,13 +320,11 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic add(int x, int y, int z, Vector3ic dest) {
         dest.set(this.x + x, this.y + y, this.z + z);
         return dest;
     }
 
-    @Override
     public Vector3ic mul(int scalar) {
         x *= scalar;
         y *= scalar;
@@ -378,13 +332,11 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic mul(int scalar, Vector3ic dest) {
         dest.set(x * scalar, y * scalar, z * scalar);
         return dest;
     }
 
-    @Override
     public Vector3ic mul(IVector3i v) {
         x *= v.x();
         y *= v.y();
@@ -392,13 +344,11 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic mul(IVector3i v, Vector3ic dest) {
         dest.set(x * v.x(), y * v.y(), z * v.z());
         return dest;
     }
 
-    @Override
     public Vector3ic mul(int x, int y, int z) {
         this.x *= x;
         this.y *= y;
@@ -406,33 +356,27 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic mul(int x, int y, int z, Vector3ic dest) {
         dest.set(this.x * x, this.y * y, this.z * z);
         return dest;
     }
 
-    @Override
     public long lengthSquared() {
         return x * x + y * y + z * z;
     }
 
-    @Override
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
-    @Override
     public double distance(IVector3i v) {
         return Math.sqrt(distanceSquared(v));
     }
 
-    @Override
     public double distance(int x, int y, int z) {
         return Math.sqrt(distanceSquared(x, y, z));
     }
 
-    @Override
     public long distanceSquared(IVector3i v) {
         int dx = this.x - v.x();
         int dy = this.y - v.y();
@@ -440,7 +384,6 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return dx * dx + dy * dy + dz * dz;
     }
 
-    @Override
     public long distanceSquared(int x, int y, int z) {
         int dx = this.x - x;
         int dy = this.y - y;
@@ -448,7 +391,6 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return dx * dx + dy * dy + dz * dz;
     }
 
-    @Override
     public Vector3ic zero() {
         this.x = 0;
         this.y = 0;
@@ -456,12 +398,10 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public String toString() {
         return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
     }
 
-    @Override
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + ")";
     }
@@ -478,7 +418,6 @@ public class Vector3i extends Vector3ic implements Externalizable {
         z = in.readInt();
     }
 
-    @Override
     public Vector3ic negate() {
         x = -x;
         y = -y;
@@ -486,13 +425,11 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector3ic negate(Vector3ic dest) {
         dest.set(-x, -y, -z);
         return dest;
     }
 
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -502,7 +439,6 @@ public class Vector3i extends Vector3ic implements Externalizable {
         return result;
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;

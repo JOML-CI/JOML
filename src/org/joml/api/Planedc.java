@@ -70,10 +70,8 @@ public abstract class Planedc {
      */
     public abstract Planedc normalize();
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

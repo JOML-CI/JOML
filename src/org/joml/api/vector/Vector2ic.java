@@ -215,10 +215,8 @@ public abstract class Vector2ic implements Externalizable, IVector2i {
      */
     public abstract Vector2ic negate();
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**

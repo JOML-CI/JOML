@@ -3631,7 +3631,7 @@ public interface IMatrix4d {
      * <p>
      * For optimal efficiency when building many ray directions over the whole frustum, it is recommended to use this
      * method only in order to compute the four corner rays at <tt>(0, 0)</tt>, <tt>(1, 0)</tt>, <tt>(0, 1)</tt> and
-     * <tt>(1, 1)</tt> and then bilinearly interpolating between them; or to use the {@link FrustumRayBuilder}.
+     * <tt>(1, 1)</tt> and then bilinearly interpolating between them.
      * <p>
      * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>

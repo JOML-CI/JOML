@@ -406,7 +406,6 @@ public abstract class Quaterniondc implements Externalizable, IQuaterniond {
      */
     public abstract Quaterniondc identity();
 
-
     /**
      * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
      * <p>
@@ -599,10 +598,8 @@ public abstract class Quaterniondc implements Externalizable, IQuaterniond {
      */
     public abstract String toString(NumberFormat formatter);
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 
     /**
@@ -622,7 +619,6 @@ public abstract class Quaterniondc implements Externalizable, IQuaterniond {
      * @return this
      */
     public abstract Quaterniondc difference(IQuaterniond other);
-
 
     /**
      * Set <code>this</code> quaternion to a rotation that rotates the <tt>fromDir</tt> vector to point along

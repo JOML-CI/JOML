@@ -247,9 +247,7 @@ public abstract class Vector3ic implements Externalizable, IVector3i {
      */
     public abstract Vector3ic negate();
 
-    @Override
     public abstract int hashCode();
 
-    @Override
     public abstract boolean equals(Object obj);
 }

@@ -67,8 +67,7 @@ public class Vector2f extends Vector2fc implements Externalizable {
     /**
      * Create a new {@link Vector2f} and initialize both of its components with the given value.
      *
-     * @param d
-     *        the value of both components
+     * @param d the value of both components
      */
     public Vector2f(float d) {
         this(d, d);
@@ -76,11 +75,9 @@ public class Vector2f extends Vector2fc implements Externalizable {
 
     /**
      * Create a new {@link Vector2f} and initialize its components to the given values.
-     * 
-     * @param x
-     *        the x component
-     * @param y
-     *        the y component
+     *
+     * @param x the x component
+     * @param y the y component
      */
     public Vector2f(float x, float y) {
         this.x = x;
@@ -89,9 +86,8 @@ public class Vector2f extends Vector2fc implements Externalizable {
 
     /**
      * Create a new {@link Vector2f} and initialize its components to the one of the given vector.
-     * 
-     * @param v
-     *        the {@link IVector2f} to copy the values from
+     *
+     * @param v the {@link IVector2f} to copy the values from
      */
     public Vector2f(IVector2f v) {
         x = v.x();
@@ -100,9 +96,8 @@ public class Vector2f extends Vector2fc implements Externalizable {
 
     /**
      * Create a new {@link Vector2f} and initialize its components to the one of the given vector.
-     * 
-     * @param v
-     *        the {@link IVector2i} to copy the values from
+     *
+     * @param v the {@link IVector2i} to copy the values from
      */
     public Vector2f(IVector2i v) {
         x = v.x();
@@ -110,18 +105,17 @@ public class Vector2f extends Vector2fc implements Externalizable {
     }
 
     //#ifdef __HAS_NIO__
+
     /**
-     * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
-     * at the current buffer {@link ByteBuffer#position() position}.
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer} at the current buffer
+     * {@link ByteBuffer#position() position}.
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the vector is read, use {@link #Vector2f(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
+     * In order to specify the offset into the ByteBuffer at which the vector is read, use {@link #Vector2f(int,
+     * ByteBuffer)}, taking the absolute position as parameter.
      *
-     * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     * @param buffer values will be read in <tt>x, y</tt> order
      * @see #Vector2f(int, ByteBuffer)
      */
     public Vector2f(ByteBuffer buffer) {
@@ -129,13 +123,12 @@ public class Vector2f extends Vector2fc implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
-     * starting at the specified absolute buffer position/index.
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index
-     *        the absolute position into the ByteBuffer
+     * @param index  the absolute position into the ByteBuffer
      * @param buffer values will be read in <tt>x, y</tt> order
      */
     public Vector2f(int index, ByteBuffer buffer) {
@@ -143,17 +136,15 @@ public class Vector2f extends Vector2fc implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector2f} and read this vector from the supplied {@link FloatBuffer}
-     * at the current buffer {@link FloatBuffer#position() position}.
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link FloatBuffer} at the current buffer
+     * {@link FloatBuffer#position() position}.
      * <p>
      * This method will not increment the position of the given FloatBuffer.
      * <p>
-     * In order to specify the offset into the FloatBuffer at which
-     * the vector is read, use {@link #Vector2f(int, FloatBuffer)}, taking
-     * the absolute position as parameter.
+     * In order to specify the offset into the FloatBuffer at which the vector is read, use {@link #Vector2f(int,
+     * FloatBuffer)}, taking the absolute position as parameter.
      *
-     * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     * @param buffer values will be read in <tt>x, y</tt> order
      * @see #Vector2f(int, FloatBuffer)
      */
     public Vector2f(FloatBuffer buffer) {
@@ -161,48 +152,41 @@ public class Vector2f extends Vector2fc implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector2f} and read this vector from the supplied {@link FloatBuffer}
-     * starting at the specified absolute buffer position/index.
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link FloatBuffer} starting at the
+     * specified absolute buffer position/index.
      * <p>
      * This method will not increment the position of the given FloatBuffer.
      *
-     * @param index 
-     *        the absolute position into the FloatBuffer
-     * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     * @param index  the absolute position into the FloatBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
      */
     public Vector2f(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
     //#endif
 
-    @Override
     public Vector2fc set(float d) {
         return set(d, d);
     }
 
-    @Override
     public Vector2fc set(float x, float y) {
         this.x = x;
         this.y = y;
         return this;
     }
 
-    @Override
     public Vector2fc set(IVector2f v) {
         x = v.x();
         y = v.y();
         return this;
     }
 
-    @Override
     public Vector2fc set(IVector2i v) {
         x = v.x();
         y = v.y();
         return this;
     }
 
-    @Override
     public Vector2fc set(IVector2d v) {
         x = (float) v.x();
         y = (float) v.y();
@@ -210,30 +194,26 @@ public class Vector2f extends Vector2fc implements Externalizable {
     }
 
     //#ifdef __HAS_NIO__
-    @Override
+
     public Vector2fc set(ByteBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    @Override
     public Vector2fc set(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
-    @Override
     public Vector2fc set(FloatBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    @Override
     public Vector2fc set(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
     //#endif
 
-    @Override
     public Vector2fc setComponent(int component, float value) throws IllegalArgumentException {
         switch (component) {
             case 0:
@@ -248,26 +228,22 @@ public class Vector2f extends Vector2fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector2fc perpendicular() {
         return set(y, x * -1);
     }
 
-    @Override
     public Vector2fc sub(IVector2f v) {
         x -= v.x();
         y -= v.y();
         return this;
     }
 
-    @Override
     public Vector2fc sub(float x, float y) {
         this.x -= x;
         this.y -= y;
         return this;
     }
 
-    @Override
     public Vector2fc normalize() {
         float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
         x *= invLength;
@@ -275,7 +251,6 @@ public class Vector2f extends Vector2fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector2fc normalize(float length) {
         float invLength = (float) (1.0 / Math.sqrt(x * x + y * y)) * length;
         x *= invLength;
@@ -283,71 +258,60 @@ public class Vector2f extends Vector2fc implements Externalizable {
         return this;
     }
 
-    @Override
     public Vector2fc add(IVector2f v) {
         x += v.x();
         y += v.y();
         return this;
     }
 
-    @Override
     public Vector2fc add(float x, float y) {
         this.x += x;
         this.y += y;
         return this;
     }
 
-    @Override
     public Vector2fc zero() {
         this.x = 0.0f;
         this.y = 0.0f;
         return this;
     }
 
-    @Override
     public Vector2fc negate() {
         x = -x;
         y = -y;
         return this;
     }
 
-    @Override
     public Vector2fc mul(float scalar) {
         this.x *= scalar;
         this.y *= scalar;
         return this;
     }
 
-    @Override
     public Vector2fc mul(float x, float y) {
         this.x *= x;
         this.y *= y;
         return this;
     }
 
-    @Override
     public Vector2fc mul(IVector2f v) {
         x *= v.x();
         y *= v.y();
         return this;
     }
 
-    @Override
     public Vector2fc mulPosition(IMatrix3x2f mat) {
         return mulPosition(mat, this);
     }
 
-    @Override
     public Vector2fc mulDirection(IMatrix3x2f mat) {
         return mulPosition(mat, this);
     }
 
-    @Override
     public Vector2fc lerp(IVector2f other, float t) {
         return lerp(other, t, this);
     }
 
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -356,7 +320,6 @@ public class Vector2f extends Vector2fc implements Externalizable {
         return result;
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -372,213 +335,179 @@ public class Vector2f extends Vector2fc implements Externalizable {
         return true;
     }
 
-    @Override
     public String toString() {
         return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
     }
 
-    @Override
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
     }
 
-    @Override
     public Vector2fc fma(IVector2f a, IVector2f b) {
         x += a.x() * b.x();
         y += a.y() * b.y();
         return this;
     }
 
-    @Override
     public Vector2fc fma(float a, IVector2f b) {
         x += a * b.x();
         y += a * b.y();
         return this;
     }
 
-    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeFloat(x);
         out.writeFloat(y);
     }
 
-    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         x = in.readFloat();
         y = in.readFloat();
     }
 
-    @Override
     public float x() {
         return this.x;
     }
 
-    @Override
     public float y() {
         return this.y;
     }
 
     //#ifdef __HAS_NIO__
-    @Override
+
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    @Override
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    @Override
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    @Override
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
     //#endif
 
-    @Override
     public Vector2fc sub(IVector2f v, Vector2fc dest) {
         dest.set(x - v.x(), y - v.y());
         return dest;
     }
 
-    @Override
     public Vector2fc sub(float x, float y, Vector2fc dest) {
         dest.set(this.x - x, this.y - y);
         return dest;
     }
 
-    @Override
     public float dot(IVector2f v) {
         return x * v.x() + y * v.y();
     }
 
-    @Override
     public float angle(IVector2f v) {
-        float dot = x*v.x() + y*v.y();
-        float det = x*v.y() - y*v.x();
+        float dot = x * v.x() + y * v.y();
+        float det = x * v.y() - y * v.x();
         return (float) Math.atan2(det, dot);
     }
 
-    @Override
     public float length() {
         return (float) Math.sqrt((x * x) + (y * y));
     }
 
-    @Override
     public float lengthSquared() {
         return x * x + y * y;
     }
 
-    @Override
     public float distance(IVector2f v) {
         return distance(v.x(), v.y());
     }
 
-    @Override
     public float distanceSquared(IVector2f v) {
         return distanceSquared(v.x(), v.y());
     }
 
-    @Override
     public float distance(float x, float y) {
         float dx = this.x - x;
         float dy = this.y - y;
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
-    @Override
     public float distanceSquared(float x, float y) {
         float dx = this.x - x;
         float dy = this.y - y;
         return dx * dx + dy * dy;
     }
 
-    @Override
     public Vector2fc normalize(Vector2fc dest) {
         float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
         dest.set(x * invLength, y * invLength);
         return dest;
     }
 
-    @Override
     public Vector2fc normalize(float length, Vector2fc dest) {
         float invLength = (float) (1.0 / Math.sqrt(x * x + y * y)) * length;
         dest.set(x * invLength, y * invLength);
         return dest;
     }
 
-    @Override
     public Vector2fc add(IVector2f v, Vector2fc dest) {
         dest.set(x + v.x(), y + v.y());
         return dest;
     }
 
-    @Override
     public Vector2fc add(float x, float y, Vector2fc dest) {
         dest.set(this.x + x, this.y + y);
         return dest;
     }
 
-    @Override
     public Vector2fc negate(Vector2fc dest) {
         dest.set(-x, -y);
         return dest;
     }
 
-    @Override
     public Vector2fc mul(float scalar, Vector2fc dest) {
         dest.set(x * scalar, y * scalar);
         return dest;
     }
 
-    @Override
     public Vector2fc mul(float x, float y, Vector2fc dest) {
         dest.set(this.x * x, this.y * y);
         return dest;
     }
 
-    @Override
     public Vector2fc mul(IVector2f v, Vector2fc dest) {
         dest.set(x * v.x(), y * v.y());
         return dest;
     }
 
-    @Override
     public Vector2fc mulPosition(IMatrix3x2f mat, Vector2fc dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20(),
                 mat.m01() * x + mat.m11() * y + mat.m21());
         return dest;
     }
 
-    @Override
     public Vector2fc mulDirection(IMatrix3x2f mat, Vector2fc dest) {
         dest.set(mat.m00() * x + mat.m10() * y,
                 mat.m01() * x + mat.m11() * y);
         return dest;
     }
 
-    @Override
     public Vector2fc lerp(IVector2f other, float t, Vector2fc dest) {
         dest.set(x + (other.x() - x) * t,
                 y + (other.y() - y) * t);
         return dest;
     }
 
-    @Override
     public Vector2fc fma(IVector2f a, IVector2f b, Vector2fc dest) {
         dest.set(x + a.x() * b.x(),
                 y + a.y() * b.y());
         return dest;
     }
 
-    @Override
     public Vector2fc fma(float a, IVector2f b, Vector2fc dest) {
         dest.set(x + a * b.x(),
                 y + a * b.y());
