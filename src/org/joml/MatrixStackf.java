@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.api.matrix.Matrix4fc;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -42,7 +44,7 @@ public class MatrixStackf extends Matrix4f {
     /**
      * The matrix stack as a non-growable array. The size of the stack must be specified in the {@link #MatrixStackf(int) constructor}.
      */
-    private Matrix4f[] mats;
+    private Matrix4fc[] mats;
 
     /**
      * The index of the "current" matrix within {@link #mats}.
@@ -129,15 +131,15 @@ public class MatrixStackf extends Matrix4f {
     }
 
     /*
-     * Contract between Matrix4f and MatrixStackf:
+     * Contract between Matrix4fc and MatrixStackf:
      * 
-     * - Matrix4f.equals(MatrixStackf) is true iff all the 16 matrix elements are equal
-     * - MatrixStackf.equals(Matrix4f) is true iff all the 16 matrix elements are equal
+     * - Matrix4fc.equals(MatrixStackf) is true iff all the 16 matrix elements are equal
+     * - MatrixStackf.equals(Matrix4fc) is true iff all the 16 matrix elements are equal
      * - MatrixStackf.equals(MatrixStackf) is true iff all 16 matrix elements are equal AND the matrix arrays as well as the stack pointer are equal
      * - everything else is inequal
      * 
      * (non-Javadoc)
-     * @see org.joml.Matrix4f#equals(java.lang.Object)
+     * @see org.joml.Matrix4fc#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
         if (this == obj)

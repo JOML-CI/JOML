@@ -3,6 +3,8 @@ package org.joml.test;
 import junit.framework.TestCase;
 
 import org.joml.*;
+import org.joml.api.matrix.Matrix4fc;
+import org.joml.api.quaternion.Quaterniondc;
 
 /**
  * Test class for {@link Quaterniond}.
@@ -13,7 +15,7 @@ public class QuaternionDTest extends TestCase {
     public static void testMulQuaternionDQuaternionDQuaternionD() {
         // Multiplication with the identity quaternion should change nothing
         Quaterniond testQuat = new Quaterniond(1, 23.3, -7.57, 2.1);
-        Quaterniond identityQuat = new Quaterniond().identity();
+        Quaterniondc identityQuat = new Quaterniond().identity();
         Quaterniond resultQuat = new Quaterniond();
         
         testQuat.mul(identityQuat, resultQuat);
@@ -32,44 +34,44 @@ public class QuaternionDTest extends TestCase {
     }
 
     public static void testRotationXYZ() {
-        Quaterniond v = new Quaterniond().rotationXYZ(0.12f, 0.521f, 0.951f);
-        Matrix4f m = new Matrix4f().rotateXYZ(0.12f, 0.521f, 0.951f);
-        Matrix4f n = new Matrix4f().set(v);
+        Quaterniondc v = new Quaterniond().rotationXYZ(0.12f, 0.521f, 0.951f);
+        Matrix4fc m = new Matrix4f().rotateXYZ(0.12f, 0.521f, 0.951f);
+        Matrix4fc n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     public static void testRotationZYX() {
-        Quaterniond v = new Quaterniond().rotationZYX(0.12f, 0.521f, 0.951f);
-        Matrix4f m = new Matrix4f().rotateZYX(0.12f, 0.521f, 0.951f);
-        Matrix4f n = new Matrix4f().set(v);
+        Quaterniondc v = new Quaterniond().rotationZYX(0.12f, 0.521f, 0.951f);
+        Matrix4fc m = new Matrix4f().rotateZYX(0.12f, 0.521f, 0.951f);
+        Matrix4fc n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     public static void testRotationYXZ() {
-        Quaterniond v = new Quaterniond().rotationYXZ(0.12f, 0.521f, 0.951f);
-        Matrix4f m = new Matrix4f().rotationYXZ(0.12f, 0.521f, 0.951f);
-        Matrix4f n = new Matrix4f().set(v);
+        Quaterniondc v = new Quaterniond().rotationYXZ(0.12f, 0.521f, 0.951f);
+        Matrix4fc m = new Matrix4f().rotationYXZ(0.12f, 0.521f, 0.951f);
+        Matrix4fc n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     public static void testRotateXYZ() {
-        Quaterniond v = new Quaterniond().rotateXYZ(0.12f, 0.521f, 0.951f);
-        Matrix4f m = new Matrix4f().rotateXYZ(0.12f, 0.521f, 0.951f);
-        Matrix4f n = new Matrix4f().set(v);
+        Quaterniondc v = new Quaterniond().rotateXYZ(0.12f, 0.521f, 0.951f);
+        Matrix4fc m = new Matrix4f().rotateXYZ(0.12f, 0.521f, 0.951f);
+        Matrix4fc n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     public static void testRotateZYX() {
-        Quaterniond v = new Quaterniond().rotateZYX(0.12f, 0.521f, 0.951f);
-        Matrix4f m = new Matrix4f().rotateZYX(0.12f, 0.521f, 0.951f);
-        Matrix4f n = new Matrix4f().set(v);
+        Quaterniondc v = new Quaterniond().rotateZYX(0.12f, 0.521f, 0.951f);
+        Matrix4fc m = new Matrix4f().rotateZYX(0.12f, 0.521f, 0.951f);
+        Matrix4fc n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     public static void testRotateYXZ() {
-        Quaterniond v = new Quaterniond().rotateYXZ(0.12f, 0.521f, 0.951f);
-        Matrix4f m = new Matrix4f().rotateYXZ(0.12f, 0.521f, 0.951f);
-        Matrix4f n = new Matrix4f().set(v);
+        Quaterniondc v = new Quaterniond().rotateYXZ(0.12f, 0.521f, 0.951f);
+        Matrix4fc m = new Matrix4f().rotateYXZ(0.12f, 0.521f, 0.951f);
+        Matrix4fc n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 

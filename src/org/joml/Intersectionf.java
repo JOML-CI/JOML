@@ -22,6 +22,9 @@
  */
 package org.joml;
 
+import org.joml.api.Planefc;
+import org.joml.api.vector.*;
+
 /**
  * Contains intersection and distance tests for some 2D and 3D geometric primitives.
  * 
@@ -31,30 +34,30 @@ public class Intersectionf {
 
     /**
      * Return value of
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
-     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(IVector3f, IVector3f, IVector3f, IVector3f, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #findClosestPointOnTriangle(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} or
      * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point is the first vertex of the triangle.
      */
     public static final int POINT_ON_TRIANGLE_VERTEX_0 = 1;
     /**
      * Return value of
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
-     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(IVector3f, IVector3f, IVector3f, IVector3f, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #findClosestPointOnTriangle(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} or
      * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point is the second vertex of the triangle.
      */
     public static final int POINT_ON_TRIANGLE_VERTEX_1 = 2;
     /**
      * Return value of
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
-     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(IVector3f, IVector3f, IVector3f, IVector3f, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #findClosestPointOnTriangle(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} or
      * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point is the third vertex of the triangle.
      */
@@ -62,30 +65,30 @@ public class Intersectionf {
 
     /**
      * Return value of
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
-     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(IVector3f, IVector3f, IVector3f, IVector3f, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #findClosestPointOnTriangle(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} or
      * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point lies on the edge between the first and second vertex of the triangle.
      */
     public static final int POINT_ON_TRIANGLE_EDGE_01 = 4;
     /**
      * Return value of
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
-     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(IVector3f, IVector3f, IVector3f, IVector3f, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #findClosestPointOnTriangle(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} or
      * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point lies on the edge between the second and third vertex of the triangle.
      */
     public static final int POINT_ON_TRIANGLE_EDGE_12 = 5;
     /**
      * Return value of
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
-     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(IVector3f, IVector3f, IVector3f, IVector3f, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #findClosestPointOnTriangle(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} or
      * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point lies on the edge between the third and first vertex of the triangle.
      */
@@ -93,68 +96,68 @@ public class Intersectionf {
 
     /**
      * Return value of
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
-     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
-     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or 
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(IVector3f, IVector3f, IVector3f, IVector3f, Vector3fc)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #findClosestPointOnTriangle(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} or 
      * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point lies on the face of the triangle.
      */
     public static final int POINT_ON_TRIANGLE_FACE = 2;
 
     /**
-     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectRayAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)}
+     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectRayAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)}
      * to indicate that the ray intersects the side of the axis-aligned rectangle with the minimum x coordinate.
      */
     public static final int AAR_SIDE_MINX = 0;
     /**
-     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectRayAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)}
+     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectRayAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)}
      * to indicate that the ray intersects the side of the axis-aligned rectangle with the minimum y coordinate.
      */
     public static final int AAR_SIDE_MINY = 1;
     /**
-     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectRayAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)}
+     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectRayAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)}
      * to indicate that the ray intersects the side of the axis-aligned rectangle with the maximum x coordinate.
      */
     public static final int AAR_SIDE_MAXX = 2;
     /**
-     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectRayAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)}
+     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectRayAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)}
      * to indicate that the ray intersects the side of the axis-aligned rectangle with the maximum y coordinate.
      */
     public static final int AAR_SIDE_MAXY = 3;
 
     /**
-     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectLineSegmentAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)} to indicate that the line segment does not intersect the axis-aligned box;
-     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectLineSegmentAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} to indicate that the line segment does not intersect the axis-aligned rectangle.
+     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectLineSegmentAab(IVector3f, IVector3f, IVector3f, IVector3f, Vector2fc)} to indicate that the line segment does not intersect the axis-aligned box;
+     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectLineSegmentAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} to indicate that the line segment does not intersect the axis-aligned rectangle.
      */
     public static final int OUTSIDE = -1;
     /**
-     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectLineSegmentAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)} to indicate that one end point of the line segment lies inside of the axis-aligned box;
-     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectLineSegmentAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} to indicate that one end point of the line segment lies inside of the axis-aligned rectangle.
+     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectLineSegmentAab(IVector3f, IVector3f, IVector3f, IVector3f, Vector2fc)} to indicate that one end point of the line segment lies inside of the axis-aligned box;
+     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectLineSegmentAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} to indicate that one end point of the line segment lies inside of the axis-aligned rectangle.
      */
     public static final int ONE_INTERSECTION = 1;
     /**
-     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectLineSegmentAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)} to indicate that the line segment intersects two sides of the axis-aligned box
+     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectLineSegmentAab(IVector3f, IVector3f, IVector3f, IVector3f, Vector2fc)} to indicate that the line segment intersects two sides of the axis-aligned box
      * or lies on an edge or a side of the box;
-     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectLineSegmentAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} to indicate that the line segment intersects two edges of the axis-aligned rectangle
+     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectLineSegmentAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} to indicate that the line segment intersects two edges of the axis-aligned rectangle
      * or lies on an edge of the rectangle.
      */
     public static final int TWO_INTERSECTION = 2;
     /**
-     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectLineSegmentAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)} to indicate that the line segment lies completely inside of the axis-aligned box;
-     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #intersectLineSegmentAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} to indicate that the line segment lies completely inside of the axis-aligned rectangle.
+     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectLineSegmentAab(IVector3f, IVector3f, IVector3f, IVector3f, Vector2fc)} to indicate that the line segment lies completely inside of the axis-aligned box;
+     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2fc)} and
+     * {@link #intersectLineSegmentAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)} to indicate that the line segment lies completely inside of the axis-aligned rectangle.
      */
     public static final int INSIDE = 3;
 
@@ -201,8 +204,8 @@ public class Intersectionf {
      *          the sphere
      * @return <code>true</code> iff the plane intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean testPlaneSphere(Planef plane, Spheref sphere) {
-        return testPlaneSphere(plane.a, plane.b, plane.c, plane.d, sphere.x, sphere.y, sphere.z, sphere.r);
+    public static boolean testPlaneSphere(Planefc plane, Spheref sphere) {
+        return testPlaneSphere(plane.a(), plane.b(), plane.c(), plane.d(), sphere.x, sphere.y, sphere.z, sphere.r);
     }
 
     /**
@@ -235,14 +238,14 @@ public class Intersectionf {
     public static boolean intersectPlaneSphere(
             float a, float b, float c, float d,
             float centerX, float centerY, float centerZ, float radius,
-            Vector4f intersectionCenterAndRadius) {
+            Vector4fc intersectionCenterAndRadius) {
         float invDenom = 1.0f / (float) Math.sqrt(a * a + b * b + c * c);
         float dist = (a * centerX + b * centerY + c * centerZ + d) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndRadius.x = centerX + dist * a * invDenom;
-            intersectionCenterAndRadius.y = centerY + dist * b * invDenom;
-            intersectionCenterAndRadius.z = centerZ + dist * c * invDenom;
-            intersectionCenterAndRadius.w = (float) Math.sqrt(radius * radius - dist * dist);
+            intersectionCenterAndRadius.set(centerX + dist * a * invDenom,
+                    centerY + dist * b * invDenom,
+                    centerZ + dist * c * invDenom,
+                    (float) Math.sqrt(radius * radius - dist * dist));
             return true;
         }
         return false;
@@ -287,7 +290,7 @@ public class Intersectionf {
             float a, float b, float c, float d,
             float cX, float cY, float cZ, float radius,
             float vX, float vY, float vZ,
-            Vector4f pointAndTime) {
+            Vector4fc pointAndTime) {
         // Compute distance of sphere center to plane
         float dist = a * cX + b * cY + c * cZ - d;
         if (Math.abs(dist) <= radius) {
@@ -430,8 +433,8 @@ public class Intersectionf {
      *          the plane
      * @return <code>true</code> iff the axis-aligned box intersects the plane; <code>false</code> otherwise
      */
-    public static boolean testAabPlane(AABBf aabb, Planef plane) {
-        return testAabPlane(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, plane.a, plane.b, plane.c, plane.d);
+    public static boolean testAabPlane(AABBf aabb, Planefc plane) {
+        return testAabPlane(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, plane.a(), plane.b(), plane.c(), plane.d());
     }
 
     /**
@@ -454,7 +457,7 @@ public class Intersectionf {
      *          the constant in the plane equation
      * @return <code>true</code> iff the axis-aligned box intersects the plane; <code>false</code> otherwise
      */
-    public static boolean testAabPlane(Vector3fc min, Vector3fc max, float a, float b, float c, float d) {
+    public static boolean testAabPlane(IVector3f min, IVector3f max, float a, float b, float c, float d) {
         return testAabPlane(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), a, b, c, d);
     }
 
@@ -511,7 +514,7 @@ public class Intersectionf {
      *              the maximum corner of the second axis-aligned box
      * @return <code>true</code> iff both axis-aligned boxes intersect; <code>false</code> otherwise
      */
-    public static boolean testAabAab(Vector3fc minA, Vector3fc maxA, Vector3fc minB, Vector3fc maxB) {
+    public static boolean testAabAab(IVector3f minA, IVector3f maxA, IVector3f minB, IVector3f maxB) {
         return testAabAab(minA.x(), minA.y(), minA.z(), maxA.x(), maxA.y(), maxA.z(), minB.x(), minB.y(), minB.z(), maxB.x(), maxB.y(), maxB.z());
     }
 
@@ -560,11 +563,11 @@ public class Intersectionf {
      * @return <code>true</code> if both boxes intersect; <code>false</code> otherwise
      */
     public static boolean testObOb(
-            Vector3f b0c, Vector3f b0uX, Vector3f b0uY, Vector3f b0uZ, Vector3f b0hs,
-            Vector3f b1c, Vector3f b1uX, Vector3f b1uY, Vector3f b1uZ, Vector3f b1hs) {
+            Vector3fc b0c, Vector3fc b0uX, Vector3fc b0uY, Vector3fc b0uZ, Vector3fc b0hs,
+            Vector3fc b1c, Vector3fc b1uX, Vector3fc b1uY, Vector3fc b1uZ, Vector3fc b1hs) {
         return testObOb(
-                b0c.x, b0c.y, b0c.z, b0uX.x, b0uX.y, b0uX.z, b0uY.x, b0uY.y, b0uY.z, b0uZ.x, b0uZ.y, b0uZ.z, b0hs.x, b0hs.y, b0hs.z,
-                b1c.x, b1c.y, b1c.z, b1uX.x, b1uX.y, b1uX.z, b1uY.x, b1uY.y, b1uY.z, b1uZ.x, b1uZ.y, b1uZ.z, b1hs.x, b1hs.y, b1hs.z);
+                b0c.x(), b0c.y(), b0c.z(), b0uX.x(), b0uX.y(), b0uX.z(), b0uY.x(), b0uY.y(), b0uY.z(), b0uZ.x(), b0uZ.y(), b0uZ.z(), b0hs.x(), b0hs.y(), b0hs.z(),
+                b1c.x(), b1c.y(), b1c.z(), b1uX.x(), b1uX.y(), b1uX.z(), b1uY.x(), b1uY.y(), b1uY.z(), b1uZ.x(), b1uZ.y(), b1uZ.z(), b1hs.x(), b1hs.y(), b1hs.z());
     }
 
     /**
@@ -763,16 +766,16 @@ public class Intersectionf {
     public static boolean intersectSphereSphere(
             float aX, float aY, float aZ, float radiusSquaredA,
             float bX, float bY, float bZ, float radiusSquaredB,
-            Vector4f centerAndRadiusOfIntersectionCircle) {
+            Vector4fc centerAndRadiusOfIntersectionCircle) {
         float dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
         float distSquared = dX * dX + dY * dY + dZ * dZ;
         float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
         float r_i = radiusSquaredA - h * h * distSquared;
         if (r_i >= 0.0f) {
-            centerAndRadiusOfIntersectionCircle.x = aX + h * dX;
-            centerAndRadiusOfIntersectionCircle.y = aY + h * dY;
-            centerAndRadiusOfIntersectionCircle.z = aZ + h * dZ;
-            centerAndRadiusOfIntersectionCircle.w = (float) Math.sqrt(r_i);
+            centerAndRadiusOfIntersectionCircle.set(aX + h * dX,
+                    aY + h * dY,
+                    aZ + h * dZ,
+                    (float) Math.sqrt(r_i));
             return true;
         }
         return false;
@@ -799,7 +802,7 @@ public class Intersectionf {
      *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
      * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
      */
-    public static boolean intersectSphereSphere(Vector3fc centerA, float radiusSquaredA, Vector3fc centerB, float radiusSquaredB, Vector4f centerAndRadiusOfIntersectionCircle) {
+    public static boolean intersectSphereSphere(IVector3f centerA, float radiusSquaredA, IVector3f centerB, float radiusSquaredB, Vector4fc centerAndRadiusOfIntersectionCircle) {
         return intersectSphereSphere(centerA.x(), centerA.y(), centerA.z(), radiusSquaredA, centerB.x(), centerB.y(), centerB.z(), radiusSquaredB, centerAndRadiusOfIntersectionCircle);
     }
 
@@ -819,7 +822,7 @@ public class Intersectionf {
      *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
      * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
      */
-    public static boolean intersectSphereSphere(Spheref sphereA, Spheref sphereB, Vector4f centerAndRadiusOfIntersectionCircle) {
+    public static boolean intersectSphereSphere(Spheref sphereA, Spheref sphereB, Vector4fc centerAndRadiusOfIntersectionCircle) {
         return intersectSphereSphere(sphereA.x, sphereA.y, sphereA.z, sphereA.r*sphereA.r, sphereB.x, sphereB.y, sphereB.z, sphereB.r*sphereB.r, centerAndRadiusOfIntersectionCircle);
     }
 
@@ -868,9 +871,9 @@ public class Intersectionf {
             float v0X, float v0Y, float v0Z,
             float v1X, float v1Y, float v1Z,
             float v2X, float v2Y, float v2Z,
-            Vector3f result) {
+            Vector3fc result) {
         int closest = findClosestPointOnTriangle(v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z, sX, sY, sZ, result);
-        float vX = result.x - sX, vY = result.y - sY, vZ = result.z - sZ;
+        float vX = result.x() - sX, vY = result.y() - sY, vZ = result.z() - sZ;
         float dot = vX * vX + vY * vY + vZ * vZ;
         if (dot <= sR * sR) {
             return closest;
@@ -928,7 +931,7 @@ public class Intersectionf {
      *              the square of the second sphere's radius
      * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
      */
-    public static boolean testSphereSphere(Vector3fc centerA, float radiusSquaredA, Vector3fc centerB, float radiusSquaredB) {
+    public static boolean testSphereSphere(IVector3f centerA, float radiusSquaredA, IVector3f centerB, float radiusSquaredB) {
         return testSphereSphere(centerA.x(), centerA.y(), centerA.z(), radiusSquaredA, centerB.x(), centerB.y(), centerB.z(), radiusSquaredB);
     }
 
@@ -1078,7 +1081,7 @@ public class Intersectionf {
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
      *         intersects the plane; <tt>-1.0</tt> otherwise
      */
-    public static float intersectRayPlane(Vector3fc origin, Vector3fc dir, Vector3fc point, Vector3fc normal, float epsilon) {
+    public static float intersectRayPlane(IVector3f origin, IVector3f dir, IVector3f point, IVector3f normal, float epsilon) {
         return intersectRayPlane(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), point.x(), point.y(), point.z(), normal.x(), normal.y(), normal.z(), epsilon);
     }
 
@@ -1100,8 +1103,8 @@ public class Intersectionf {
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
      *         intersects the plane; <tt>-1.0</tt> otherwise
      */
-    public static float intersectRayPlane(Rayf ray, Planef plane, float epsilon) {
-        return intersectRayPlane(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, plane.a, plane.b, plane.c, plane.d, epsilon);
+    public static float intersectRayPlane(Rayf ray, Planefc plane, float epsilon) {
+        return intersectRayPlane(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, plane.a(), plane.b(), plane.c(), plane.d(), epsilon);
     }
 
     /**
@@ -1223,7 +1226,7 @@ public class Intersectionf {
      *          the squared of the sphere's radius
      * @return <code>true</code> iff the axis-aligned box intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean testAabSphere(Vector3fc min, Vector3fc max, Vector3fc center, float radiusSquared) {
+    public static boolean testAabSphere(IVector3f min, IVector3f max, IVector3f center, float radiusSquared) {
         return testAabSphere(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), center.x(), center.y(), center.z(), radiusSquared);
     }
 
@@ -1267,12 +1270,12 @@ public class Intersectionf {
      *          will hold the result
      * @return result
      */
-    public static Vector3f findClosestPointOnPlane(float aX, float aY, float aZ, float nX, float nY, float nZ, float pX, float pY, float pZ, Vector3f result) {
+    public static Vector3fc findClosestPointOnPlane(float aX, float aY, float aZ, float nX, float nY, float nZ, float pX, float pY, float pZ, Vector3fc result) {
         float d = -(nX * aX + nY * aY + nZ * aZ);
         float t = nX * pX + nY * pY + nZ * pZ - d;
-        result.x = pX - t * nX;
-        result.y = pY - t * nY;
-        result.z = pZ - t * nZ;
+        result.set(pX - t * nX,
+                pY - t * nY,
+                pZ - t * nZ);
         return result;
     }
 
@@ -1301,14 +1304,14 @@ public class Intersectionf {
      *          will hold the result
      * @return result
      */
-    public static Vector3f findClosestPointOnLineSegment(float aX, float aY, float aZ, float bX, float bY, float bZ, float pX, float pY, float pZ, Vector3f result) {
+    public static Vector3fc findClosestPointOnLineSegment(float aX, float aY, float aZ, float bX, float bY, float bZ, float pX, float pY, float pZ, Vector3fc result) {
         float abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
         float t = ((pX - aX) * abX + (pY - aY) * abY + (pZ - aZ) * abZ) / (abX * abX + abY * abY + abZ * abZ);
         if (t < 0.0f) t = 0.0f;
         if (t > 1.0f) t = 1.0f;
-        result.x = aX + t * abX;
-        result.y = aY + t * abY;
-        result.z = aZ + t * abZ;
+        result.set(aX + t * abX,
+                aY + t * abY,
+                aZ + t * abZ);
         return result;
     }
 
@@ -1351,7 +1354,7 @@ public class Intersectionf {
     public static float findClosestPointsLineSegments(
             float a0X, float a0Y, float a0Z, float a1X, float a1Y, float a1Z,
             float b0X, float b0Y, float b0Z, float b1X, float b1Y, float b1Z,
-            Vector3f resultA, Vector3f resultB) {
+            Vector3fc resultA, Vector3fc resultB) {
         float d1x = a1X - a0X, d1y = a1Y - a0Y, d1z = a1Z - a0Z;
         float d2x = b1X - b0X, d2y = b1Y - b0Y, d2z = b1Z - b0Z;
         float rX = a0X - b0X, rY = a0Y - b0Y, rZ = a0Z - b0Z;
@@ -1404,7 +1407,7 @@ public class Intersectionf {
         }
         resultA.set(a0X + d1x * s, a0Y + d1y * s, a0Z + d1z * s);
         resultB.set(b0X + d2x * t, b0Y + d2y * t, b0Z + d2z * t);
-        float dX = resultA.x - resultB.x, dY = resultA.y - resultB.y, dZ = resultA.z - resultB.z;
+        float dX = resultA.x() - resultB.x(), dY = resultA.y() - resultB.y(), dZ = resultA.z() - resultB.z();
         return dX*dX + dY*dY + dZ*dZ;
     }
 
@@ -1452,27 +1455,27 @@ public class Intersectionf {
     public static float findClosestPointsLineSegmentTriangle(
             float aX, float aY, float aZ, float bX, float bY, float bZ,
             float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
-            Vector3f lineSegmentResult, Vector3f triangleResult) {
+            Vector3fc lineSegmentResult, Vector3fc triangleResult) {
         float min, d;
         float minlsX, minlsY, minlsZ, mintX, mintY, mintZ;
         // AB -> V0V1
         d = findClosestPointsLineSegments(aX, aY, aZ, bX, bY, bZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, lineSegmentResult, triangleResult);
         min = d;
-        minlsX = lineSegmentResult.x; minlsY = lineSegmentResult.y; minlsZ = lineSegmentResult.z;
-        mintX = triangleResult.x; mintY = triangleResult.y; mintZ = triangleResult.z;
+        minlsX = lineSegmentResult.x(); minlsY = lineSegmentResult.y(); minlsZ = lineSegmentResult.z();
+        mintX = triangleResult.x(); mintY = triangleResult.y(); mintZ = triangleResult.z();
         // AB -> V1V2
         d = findClosestPointsLineSegments(aX, aY, aZ, bX, bY, bZ, v1X, v1Y, v1Z, v2X, v2Y, v2Z, lineSegmentResult, triangleResult);
         if (d < min) {
             min = d;
-            minlsX = lineSegmentResult.x; minlsY = lineSegmentResult.y; minlsZ = lineSegmentResult.z;
-            mintX = triangleResult.x; mintY = triangleResult.y; mintZ = triangleResult.z;
+            minlsX = lineSegmentResult.x(); minlsY = lineSegmentResult.y(); minlsZ = lineSegmentResult.z();
+            mintX = triangleResult.x(); mintY = triangleResult.y(); mintZ = triangleResult.z();
         }
         // AB -> V2V0
         d = findClosestPointsLineSegments(aX, aY, aZ, bX, bY, bZ, v2X, v2Y, v2Z, v0X, v0Y, v0Z, lineSegmentResult, triangleResult);
         if (d < min) {
             min = d;
-            minlsX = lineSegmentResult.x; minlsY = lineSegmentResult.y; minlsZ = lineSegmentResult.z;
-            mintX = triangleResult.x; mintY = triangleResult.y; mintZ = triangleResult.z;
+            minlsX = lineSegmentResult.x(); minlsY = lineSegmentResult.y(); minlsZ = lineSegmentResult.z();
+            mintX = triangleResult.x(); mintY = triangleResult.y(); mintZ = triangleResult.z();
         }
         // segment endpoint A and plane of triangle (when A projects inside V0V1V2)
         boolean computed = false;
@@ -1575,66 +1578,66 @@ public class Intersectionf {
             float v1X, float v1Y, float v1Z,
             float v2X, float v2Y, float v2Z,
             float pX, float pY, float pZ,
-            Vector3f result) {
+            Vector3fc result) {
         float abX = v1X - v0X, abY = v1Y - v0Y, abZ = v1Z - v0Z;
         float acX = v2X - v0X, acY = v2Y - v0Y, acZ = v2Z - v0Z;
         float apX = pX - v0X, apY = pY - v0Y, apZ = pZ - v0Z;
         float d1 = abX * apX + abY * apY + abZ * apZ;
         float d2 = acX * apX + acY * apY + acZ * apZ;
         if (d1 <= 0.0f && d2 <= 0.0f) {
-            result.x = v0X;
-            result.y = v0Y;
-            result.z = v0Z;
+            result.set(v0X,
+                    v0Y,
+                    v0Z);
             return POINT_ON_TRIANGLE_VERTEX_0;
         }
         float bpX = pX - v1X, bpY = pY - v1Y, bpZ = pZ - v1Z;
         float d3 = abX * bpX + abY * bpY + abZ * bpZ;
         float d4 = acX * bpX + acY * bpY + acZ * bpZ;
         if (d3 >= 0.0f && d4 <= d3) {
-            result.x = v1X;
-            result.y = v1Y;
-            result.z = v1Z;
+            result.set(v1X,
+                    v1Y,
+                    v1Z);
             return POINT_ON_TRIANGLE_VERTEX_1;
         }
         float vc = d1 * d4 - d3 * d2;
         if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
             float v = d1 / (d1 - d3);
-            result.x = v0X + v * abX;
-            result.y = v0Y + v * abY;
-            result.z = v0Z + v * abZ;
+            result.set(v0X + v * abX,
+                    v0Y + v * abY,
+                    v0Z + v * abZ);
             return POINT_ON_TRIANGLE_EDGE_01;
         }
         float cpX = pX - v2X, cpY = pY - v2Y, cpZ = pZ - v2Z;
         float d5 = abX * cpX + abY * cpY + abZ * cpZ;
         float d6 = acX * cpX + acY * cpY + acZ * cpZ;
         if (d6 >= 0.0f && d5 <= d6) {
-            result.x = v2X;
-            result.y = v2Y;
-            result.z = v2Z;
+            result.set(v2X,
+                    v2Y,
+                    v2Z);
             return POINT_ON_TRIANGLE_VERTEX_2;
         }
         float vb = d5 * d2 - d1 * d6;
         if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
             float w = d2 / (d2 - d6);
-            result.x = v0X + w * acX;
-            result.y = v0Y + w * acY;
-            result.z = v0Z + w * acZ;
+            result.set(v0X + w * acX,
+                    v0Y + w * acY,
+                    v0Z + w * acZ);
             return POINT_ON_TRIANGLE_EDGE_20;
         }
         float va = d3 * d6 - d5 * d4;
         if (va <= 0.0f && d4 - d3 >= 0.0f && d5 - d6 >= 0.0f) {
             float w = (d4 - d3) / (d4 - d3 + d5 - d6);
-            result.x = v1X + w * (v2X - v1X);
-            result.y = v1Y + w * (v2Y - v1Y);
-            result.z = v1Z + w * (v2Z - v1Z);
+            result.set(v1X + w * (v2X - v1X),
+                    v1Y + w * (v2Y - v1Y),
+                    v1Z + w * (v2Z - v1Z));
             return POINT_ON_TRIANGLE_EDGE_12;
         }
         float denom = 1.0f / (va + vb + vc);
         float v = vb * denom;
         float w = vc * denom;
-        result.x = v0X + abX * v + acX * w;
-        result.y = v0Y + abY * v + acY * w;
-        result.z = v0Z + abZ * v + acZ * w;
+        result.set(v0X + abX * v + acX * w,
+                v0Y + abY * v + acY * w,
+                v0Z + abZ * v + acZ * w);
         return POINT_ON_TRIANGLE_FACE;
     }
 
@@ -1662,7 +1665,7 @@ public class Intersectionf {
      *                {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20} or
      *                {@link #POINT_ON_TRIANGLE_FACE}
      */
-    public static int findClosestPointOnTriangle(Vector3fc v0, Vector3fc v1, Vector3fc v2, Vector3fc p, Vector3f result) {
+    public static int findClosestPointOnTriangle(IVector3f v0, IVector3f v1, IVector3f v2, IVector3f p, Vector3fc result) {
         return findClosestPointOnTriangle(v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), p.x(), p.y(), p.z(), result);
     }
 
@@ -1700,11 +1703,11 @@ public class Intersectionf {
      *          will hold the result
      * @return res
      */
-    public static Vector3f findClosestPointOnRectangle(
+    public static Vector3fc findClosestPointOnRectangle(
             float aX, float aY, float aZ,
             float bX, float bY, float bZ,
             float cX, float cY, float cZ,
-            float pX, float pY, float pZ, Vector3f res) {
+            float pX, float pY, float pZ, Vector3fc res) {
         float abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
         float acX = cX - aX, acY = cY - aY, acZ = cZ - aZ;
         float dX = pX - aX, dY = pY - aY, dZ = pZ - aZ;
@@ -1731,9 +1734,9 @@ public class Intersectionf {
             qY += (dist / maxdist) * acY;
             qZ += (dist / maxdist) * acZ;
         }
-        res.x = qX;
-        res.y = qY;
-        res.z = qZ;
+        res.set(qX,
+                qY,
+                qZ);
         return res;
     }
 
@@ -1794,7 +1797,7 @@ public class Intersectionf {
     public static int intersectSweptSphereTriangle(
             float centerX, float centerY, float centerZ, float radius, float velX, float velY, float velZ,
             float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
-            float epsilon, float maxT, Vector4f pointAndTime) {
+            float epsilon, float maxT, Vector4fc pointAndTime) {
         float v10X = v1X - v0X;
         float v10Y = v1Y - v0Y;
         float v10Z = v1Z - v0Z;
@@ -1820,10 +1823,10 @@ public class Intersectionf {
         float p0Z = centerZ - radius * c * invLen + velZ * pt0;
         boolean insideTriangle = testPointInTriangle(p0X, p0Y, p0Z, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z);
         if (insideTriangle) {
-            pointAndTime.x = p0X;
-            pointAndTime.y = p0Y;
-            pointAndTime.z = p0Z;
-            pointAndTime.w = pt0;
+            pointAndTime.set(p0X,
+                    p0Y,
+                    p0Z,
+                    pt0);
             return POINT_ON_TRIANGLE_FACE;
         }
         int isect = 0;
@@ -1838,10 +1841,10 @@ public class Intersectionf {
         float C0 = centerV0X * centerV0X + centerV0Y * centerV0Y + centerV0Z * centerV0Z - radius2;
         float root0 = computeLowestRoot(A, B0, C0, t0);
         if (root0 < t0) {
-            pointAndTime.x = v0X;
-            pointAndTime.y = v0Y;
-            pointAndTime.z = v0Z;
-            pointAndTime.w = root0;
+            pointAndTime.set(v0X,
+                    v0Y,
+                    v0Z,
+                    root0);
             t0 = root0;
             isect = POINT_ON_TRIANGLE_VERTEX_0;
         }
@@ -1854,10 +1857,10 @@ public class Intersectionf {
         float C1 = centerV1Len - radius2;
         float root1 = computeLowestRoot(A, B1, C1, t0);
         if (root1 < t0) {
-            pointAndTime.x = v1X;
-            pointAndTime.y = v1Y;
-            pointAndTime.z = v1Z;
-            pointAndTime.w = root1;
+            pointAndTime.set(v1X,
+                    v1Y,
+                    v1Z,
+                    root1);
             t0 = root1;
             isect = POINT_ON_TRIANGLE_VERTEX_1;
         }
@@ -1869,10 +1872,10 @@ public class Intersectionf {
         float C2 = centerV2X * centerV2X + centerV2Y * centerV2Y + centerV2Z * centerV2Z - radius2;
         float root2 = computeLowestRoot(A, B2, C2, t0);
         if (root2 < t0) {
-            pointAndTime.x = v2X;
-            pointAndTime.y = v2Y;
-            pointAndTime.z = v2Z;
-            pointAndTime.w = root2;
+            pointAndTime.set(v2X,
+                    v2Y,
+                    v2Z,
+                    root2);
             t0 = root2;
             isect = POINT_ON_TRIANGLE_VERTEX_2;
         }
@@ -1889,10 +1892,10 @@ public class Intersectionf {
         float root10 = computeLowestRoot(A10, B10, C10, t0);
         float f10 = (v10Vel * root10 - v10BaseTo0) / len10;
         if (f10 >= 0.0f && f10 <= 1.0f && root10 < t0) {
-            pointAndTime.x = v0X + f10 * v10X;
-            pointAndTime.y = v0Y + f10 * v10Y;
-            pointAndTime.z = v0Z + f10 * v10Z;
-            pointAndTime.w = root10;
+            pointAndTime.set(v0X + f10 * v10X,
+                    v0Y + f10 * v10Y,
+                    v0Z + f10 * v10Z,
+                    root10);
             t0 = root10;
             isect = POINT_ON_TRIANGLE_EDGE_01;
         }
@@ -1906,10 +1909,10 @@ public class Intersectionf {
         float root20 = computeLowestRoot(A20, B20, C20, t0);
         float f20 = (v20Vel * root20 - v20BaseTo0) / len20;
         if (f20 >= 0.0f && f20 <= 1.0f && root20 < pt1) {
-            pointAndTime.x = v0X + f20 * v20X;
-            pointAndTime.y = v0Y + f20 * v20Y;
-            pointAndTime.z = v0Z + f20 * v20Z;
-            pointAndTime.w = root20;
+            pointAndTime.set(v0X + f20 * v20X,
+                    v0Y + f20 * v20Y,
+                    v0Z + f20 * v20Z,
+                    root20);
             t0 = root20;
             isect = POINT_ON_TRIANGLE_EDGE_20;
         }
@@ -1928,10 +1931,10 @@ public class Intersectionf {
         float root21 = computeLowestRoot(A21, B21, C21, t0);
         float f21 = (v21Vel * root21 - v21BaseTo1) / len21;
         if (f21 >= 0.0f && f21 <= 1.0f && root21 < t0) {
-            pointAndTime.x = v1X + f21 * v21X;
-            pointAndTime.y = v1Y + f21 * v21Y;
-            pointAndTime.z = v1Z + f21 * v21Z;
-            pointAndTime.w = root21;
+            pointAndTime.set(v1X + f21 * v21X,
+                    v1Y + f21 * v21Y,
+                    v1Z + f21 * v21Z,
+                    root21);
             t0 = root21;
             isect = POINT_ON_TRIANGLE_EDGE_12;
         }
@@ -2064,7 +2067,7 @@ public class Intersectionf {
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
     public static boolean intersectRaySphere(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
-            float centerX, float centerY, float centerZ, float radiusSquared, Vector2f result) {
+            float centerX, float centerY, float centerZ, float radiusSquared, Vector2fc result) {
         float Lx = centerX - originX;
         float Ly = centerY - originY;
         float Lz = centerZ - originZ;
@@ -2076,8 +2079,8 @@ public class Intersectionf {
         float t0 = tca - thc;
         float t1 = tca + thc;
         if (t0 < t1 && t1 >= 0.0f) {
-            result.x = t0;
-            result.y = t1;
+            result.set(t0,
+                    t1);
             return true;
         }
         return false;
@@ -2106,7 +2109,7 @@ public class Intersectionf {
      *              <i>p(t) = origin + t * dir</i> for both points (near, far) of intersections with the sphere
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean intersectRaySphere(Vector3fc origin, Vector3fc dir, Vector3fc center, float radiusSquared, Vector2f result) {
+    public static boolean intersectRaySphere(IVector3f origin, IVector3f dir, IVector3f center, float radiusSquared, Vector2fc result) {
         return intersectRaySphere(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), center.x(), center.y(), center.z(), radiusSquared, result);
     }
 
@@ -2128,7 +2131,7 @@ public class Intersectionf {
      *              <i>p(t) = origin + t * dir</i> for both points (near, far) of intersections with the sphere
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean intersectRaySphere(Rayf ray, Spheref sphere, Vector2f result) {
+    public static boolean intersectRaySphere(Rayf ray, Spheref sphere, Vector2fc result) {
         return intersectRaySphere(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, sphere.x, sphere.y, sphere.z, sphere.r*sphere.r, result);
     }
 
@@ -2195,7 +2198,7 @@ public class Intersectionf {
      *              the sphere radius squared
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean testRaySphere(Vector3fc origin, Vector3fc dir, Vector3fc center, float radiusSquared) {
+    public static boolean testRaySphere(IVector3f origin, IVector3f dir, IVector3f center, float radiusSquared) {
         return testRaySphere(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), center.x(), center.y(), center.z(), radiusSquared);
     }
 
@@ -2288,7 +2291,7 @@ public class Intersectionf {
      *              the sphere radius squared
      * @return <code>true</code> if the line segment intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean testLineSegmentSphere(Vector3fc p0, Vector3fc p1, Vector3fc center, float radiusSquared) {
+    public static boolean testLineSegmentSphere(IVector3f p0, IVector3f p1, IVector3f center, float radiusSquared) {
         return testLineSegmentSphere(p0.x(), p0.y(), p0.z(), p1.x(), p1.y(), p1.z(), center.x(), center.y(), center.z(), radiusSquared);
     }
 
@@ -2303,7 +2306,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #intersectRayAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)
+     * @see #intersectRayAab(IVector3f, IVector3f, IVector3f, IVector3f, Vector2fc)
      * @see RayAabIntersection
      * 
      * @param originX
@@ -2337,7 +2340,7 @@ public class Intersectionf {
      * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
      */
     public static boolean intersectRayAab(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
-            float minX, float minY, float minZ, float maxX, float maxY, float maxZ, Vector2f result) {
+            float minX, float minY, float minZ, float maxX, float maxY, float maxZ, Vector2fc result) {
         float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY, invDirZ = 1.0f / dirZ;
         float tNear, tFar, tymin, tymax, tzmin, tzmax;
         if (invDirX >= 0.0f) {
@@ -2370,8 +2373,8 @@ public class Intersectionf {
         tNear = tzmin > tNear ? tzmin : tNear;
         tFar = tzmax < tFar ? tzmax : tFar;
         if (tNear < tFar && tFar >= 0.0f) {
-            result.x = tNear;
-            result.y = tFar;
+            result.set(tNear,
+                    tFar);
             return true;
         }
         return false;
@@ -2388,7 +2391,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #intersectRayAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)
+     * @see #intersectRayAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2fc)
      * @see RayAabIntersection
      * 
      * @param origin
@@ -2405,7 +2408,7 @@ public class Intersectionf {
      *              iff the ray intersects the axis-aligned box
      * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
      */
-    public static boolean intersectRayAab(Vector3fc origin, Vector3fc dir, Vector3fc min, Vector3fc max, Vector2f result) {
+    public static boolean intersectRayAab(IVector3f origin, IVector3f dir, IVector3f min, IVector3f max, Vector2fc result) {
         return intersectRayAab(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), result);
     }
 
@@ -2419,7 +2422,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #intersectRayAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)
+     * @see #intersectRayAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2fc)
      * @see RayAabIntersection
      * 
      * @param ray
@@ -2432,7 +2435,7 @@ public class Intersectionf {
      *              iff the ray intersects the axis-aligned box
      * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
      */
-    public static boolean intersectRayAab(Rayf ray, AABBf aabb, Vector2f result) {
+    public static boolean intersectRayAab(Rayf ray, AABBf aabb, Vector2fc result) {
         return intersectRayAab(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, result);
     }
 
@@ -2445,7 +2448,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #intersectLineSegmentAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)
+     * @see #intersectLineSegmentAab(IVector3f, IVector3f, IVector3f, IVector3f, Vector2fc)
      * 
      * @param p0X
      *              the x coordinate of the line segment's first end point
@@ -2482,7 +2485,7 @@ public class Intersectionf {
      *         or lies on an edge or a side of the box
      */
     public static int intersectLineSegmentAab(float p0X, float p0Y, float p0Z, float p1X, float p1Y, float p1Z,
-            float minX, float minY, float minZ, float maxX, float maxY, float maxZ, Vector2f result) {
+            float minX, float minY, float minZ, float maxX, float maxY, float maxZ, Vector2fc result) {
         float dirX = p1X - p0X, dirY = p1Y - p0Y, dirZ = p1Z - p0Z;
         float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY, invDirZ = 1.0f / dirZ;
         float tNear, tFar, tymin, tymax, tzmin, tzmax;
@@ -2528,8 +2531,8 @@ public class Intersectionf {
             } else {
                 type = TWO_INTERSECTION;
             }
-            result.x = tNear;
-            result.y = tFar;
+            result.set(tNear,
+                    tFar);
         }
         return type;
     }
@@ -2543,7 +2546,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #intersectLineSegmentAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)
+     * @see #intersectLineSegmentAab(IVector3f, IVector3f, IVector3f, IVector3f, Vector2fc)
      * 
      * @param p0
      *              the line segment's first end point
@@ -2563,7 +2566,7 @@ public class Intersectionf {
      *         {@link #TWO_INTERSECTION} if the line segment intersects two sides of the axis-aligned box
      *         or lies on an edge or a side of the box
      */
-    public static int intersectLineSegmentAab(Vector3fc p0, Vector3fc p1, Vector3fc min, Vector3fc max, Vector2f result) {
+    public static int intersectLineSegmentAab(IVector3f p0, IVector3f p1, IVector3f min, IVector3f max, Vector2fc result) {
         return intersectLineSegmentAab(p0.x(), p0.y(), p0.z(), p1.x(), p1.y(), p1.z(), min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), result);
     }
 
@@ -2575,7 +2578,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #intersectLineSegmentAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)
+     * @see #intersectLineSegmentAab(IVector3f, IVector3f, IVector3f, IVector3f, Vector2fc)
      * 
      * @param lineSegment
      *              the line segment
@@ -2591,7 +2594,7 @@ public class Intersectionf {
      *         {@link #TWO_INTERSECTION} if the line segment intersects two sides of the axis-aligned box
      *         or lies on an edge or a side of the box
      */
-    public static int intersectLineSegmentAab(LineSegmentf lineSegment, AABBf aabb, Vector2f result) {
+    public static int intersectLineSegmentAab(LineSegmentf lineSegment, AABBf aabb, Vector2fc result) {
         return intersectLineSegmentAab(lineSegment.aX, lineSegment.aY, lineSegment.aZ, lineSegment.bX, lineSegment.bY, lineSegment.bZ, aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, result);
     }
 
@@ -2605,7 +2608,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #testRayAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc)
+     * @see #testRayAab(IVector3f, IVector3f, IVector3f, IVector3f)
      * @see RayAabIntersection
      * 
      * @param originX
@@ -2693,7 +2696,7 @@ public class Intersectionf {
      *              the maximum corner of the axis-aligned box
      * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
      */
-    public static boolean testRayAab(Vector3fc origin, Vector3fc dir, Vector3fc min, Vector3fc max) {
+    public static boolean testRayAab(IVector3f origin, IVector3f dir, IVector3f min, IVector3f max) {
         return testRayAab(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
     }
 
@@ -2730,7 +2733,7 @@ public class Intersectionf {
      * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
      * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
      * 
-     * @see #testRayTriangleFront(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3fc, float)
+     * @see #testRayTriangleFront(IVector3f, IVector3f, IVector3f, IVector3f, IVector3f, float)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -2825,7 +2828,7 @@ public class Intersectionf {
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return <code>true</code> if the given ray intersects the frontface of the triangle; <code>false</code> otherwise
      */
-    public static boolean testRayTriangleFront(Vector3fc origin, Vector3fc dir, Vector3fc v0, Vector3fc v1, Vector3fc v2, float epsilon) {
+    public static boolean testRayTriangleFront(IVector3f origin, IVector3f dir, IVector3f v0, IVector3f v1, IVector3f v2, float epsilon) {
         return testRayTriangleFront(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), epsilon);
     }
 
@@ -2838,7 +2841,7 @@ public class Intersectionf {
      * <p>
      * This test does not take into account the winding order of the triangle, so a ray will intersect a front-facing triangle as well as a back-facing triangle.
      * 
-     * @see #testRayTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3fc, float)
+     * @see #testRayTriangle(IVector3f, IVector3f, IVector3f, IVector3f, IVector3f, float)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -2931,7 +2934,7 @@ public class Intersectionf {
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return <code>true</code> if the given ray intersects the frontface of the triangle; <code>false</code> otherwise
      */
-    public static boolean testRayTriangle(Vector3fc origin, Vector3fc dir, Vector3fc v0, Vector3fc v1, Vector3fc v2, float epsilon) {
+    public static boolean testRayTriangle(IVector3f origin, IVector3f dir, IVector3f v0, IVector3f v1, IVector3f v2, float epsilon) {
         return testRayTriangle(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), epsilon);
     }
 
@@ -2947,7 +2950,7 @@ public class Intersectionf {
      * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
      * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
      * 
-     * @see #testRayTriangleFront(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3fc, float)
+     * @see #testRayTriangleFront(IVector3f, IVector3f, IVector3f, IVector3f, IVector3f, float)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -3044,7 +3047,7 @@ public class Intersectionf {
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
      *         if the ray intersects the frontface of the triangle; <tt>-1.0</tt> otherwise
      */
-    public static float intersectRayTriangleFront(Vector3fc origin, Vector3fc dir, Vector3fc v0, Vector3fc v1, Vector3fc v2, float epsilon) {
+    public static float intersectRayTriangleFront(IVector3f origin, IVector3f dir, IVector3f v0, IVector3f v1, IVector3f v2, float epsilon) {
         return intersectRayTriangleFront(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), epsilon);
     }
 
@@ -3058,7 +3061,7 @@ public class Intersectionf {
      * <p>
      * This test does not take into account the winding order of the triangle, so a ray will intersect a front-facing triangle as well as a back-facing triangle.
      * 
-     * @see #testRayTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3fc, float)
+     * @see #testRayTriangle(IVector3f, IVector3f, IVector3f, IVector3f, IVector3f, float)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -3153,7 +3156,7 @@ public class Intersectionf {
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
      *         if the ray intersects the triangle; <tt>-1.0</tt> otherwise
      */
-    public static float intersectRayTriangle(Vector3fc origin, Vector3fc dir, Vector3fc v0, Vector3fc v1, Vector3fc v2, float epsilon) {
+    public static float intersectRayTriangle(IVector3f origin, IVector3f dir, IVector3f v0, IVector3f v1, IVector3f v2, float epsilon) {
         return intersectRayTriangle(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), epsilon);
     }
 
@@ -3165,7 +3168,7 @@ public class Intersectionf {
      * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a>
      * 
-     * @see #testLineSegmentTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3fc, float)
+     * @see #testLineSegmentTriangle(IVector3f, IVector3f, IVector3f, IVector3f, IVector3f, float)
      * 
      * @param p0X
      *              the x coordinate of the line segment's first end point
@@ -3235,7 +3238,7 @@ public class Intersectionf {
      *              a small epsilon when testing line segments that are almost parallel to the triangle
      * @return <code>true</code> if the given line segment intersects the triangle; <code>false</code> otherwise
      */
-    public static boolean testLineSegmentTriangle(Vector3fc p0, Vector3fc p1, Vector3fc v0, Vector3fc v1, Vector3fc v2, float epsilon) {
+    public static boolean testLineSegmentTriangle(IVector3f p0, IVector3f p1, IVector3f v0, IVector3f v1, IVector3f v2, float epsilon) {
         return testLineSegmentTriangle(p0.x(), p0.y(), p0.z(), p1.x(), p1.y(), p1.z(), v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), epsilon);
     }
 
@@ -3248,7 +3251,7 @@ public class Intersectionf {
      * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a>
      * 
-     * @see #intersectLineSegmentTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3fc, float, Vector3f)
+     * @see #intersectLineSegmentTriangle(IVector3f, IVector3f, IVector3f, IVector3f, IVector3f, float, Vector3fc)
      * 
      * @param p0X
      *              the x coordinate of the line segment's first end point
@@ -3288,15 +3291,15 @@ public class Intersectionf {
      */
     public static boolean intersectLineSegmentTriangle(float p0X, float p0Y, float p0Z, float p1X, float p1Y, float p1Z,
             float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
-            float epsilon, Vector3f intersectionPoint) {
+            float epsilon, Vector3fc intersectionPoint) {
         float dirX = p1X - p0X;
         float dirY = p1Y - p0Y;
         float dirZ = p1Z - p0Z;
         float t = intersectRayTriangle(p0X, p0Y, p0Z, dirX, dirY, dirZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z, epsilon);
         if (t >= 0.0f && t <= 1.0f) {
-            intersectionPoint.x = p0X + dirX * t;
-            intersectionPoint.y = p0Y + dirY * t;
-            intersectionPoint.z = p0Z + dirZ * t;
+            intersectionPoint.set(p0X + dirX * t,
+                    p0Y + dirY * t,
+                    p0Z + dirZ * t);
             return true;
         }
         return false;
@@ -3311,7 +3314,7 @@ public class Intersectionf {
      * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a>
      * 
-     * @see #intersectLineSegmentTriangle(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)
+     * @see #intersectLineSegmentTriangle(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, Vector3fc)
      * 
      * @param p0
      *              the line segment's first end point
@@ -3329,7 +3332,7 @@ public class Intersectionf {
      *              the point of intersection
      * @return <code>true</code> if the given line segment intersects the triangle; <code>false</code> otherwise
      */
-    public static boolean intersectLineSegmentTriangle(Vector3fc p0, Vector3fc p1, Vector3fc v0, Vector3fc v1, Vector3fc v2, float epsilon, Vector3f intersectionPoint) {
+    public static boolean intersectLineSegmentTriangle(IVector3f p0, IVector3f p1, IVector3f v0, IVector3f v1, IVector3f v2, float epsilon, Vector3fc intersectionPoint) {
         return intersectLineSegmentTriangle(p0.x(), p0.y(), p0.z(), p1.x(), p1.y(), p1.z(), v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), epsilon, intersectionPoint);
     }
 
@@ -3363,16 +3366,16 @@ public class Intersectionf {
      * @return <code>true</code> if the given line segment intersects the plane; <code>false</code> otherwise
      */
     public static boolean intersectLineSegmentPlane(float p0X, float p0Y, float p0Z, float p1X, float p1Y, float p1Z,
-            float a, float b, float c, float d, Vector3f intersectionPoint) {
+            float a, float b, float c, float d, Vector3fc intersectionPoint) {
         float dirX = p1X - p0X;
         float dirY = p1Y - p0Y;
         float dirZ = p1Z - p0Z;
         float denom = a * dirX + b * dirY + c * dirZ;
         float t = -(a * p0X + b * p0Y + c * p0Z + d) / denom;
         if (t >= 0.0f && t <= 1.0f) {
-            intersectionPoint.x = p0X + t * dirX;
-            intersectionPoint.y = p0Y + t * dirY;
-            intersectionPoint.z = p0Z + t * dirZ;
+            intersectionPoint.set(p0X + t * dirX,
+                    p0Y + t * dirY,
+                    p0Z + t * dirZ);
             return true;
         }
         return false;
@@ -3427,13 +3430,13 @@ public class Intersectionf {
      *          will hold the center of the line segment of intersection in the <tt>(x, y)</tt> components and the half-length in the z component
      * @return <code>true</code> iff the line intersects the circle; <code>false</code> otherwise
      */
-    public static boolean intersectLineCircle(float a, float b, float c, float centerX, float centerY, float radius, Vector3f intersectionCenterAndHL) {
+    public static boolean intersectLineCircle(float a, float b, float c, float centerX, float centerY, float radius, Vector3fc intersectionCenterAndHL) {
         float invDenom = 1.0f / (float) Math.sqrt(a * a + b * b);
         float dist = (a * centerX + b * centerY + c) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndHL.x = centerX + dist * a * invDenom;
-            intersectionCenterAndHL.y = centerY + dist * b * invDenom;
-            intersectionCenterAndHL.z = (float) Math.sqrt(radius * radius - dist * dist);
+            intersectionCenterAndHL.set(centerX + dist * a * invDenom,
+                    centerY + dist * b * invDenom,
+                    (float) Math.sqrt(radius * radius - dist * dist));
             return true;
         }
         return false;
@@ -3464,7 +3467,7 @@ public class Intersectionf {
      *          will hold the center of the line segment of intersection in the <tt>(x, y)</tt> components and the half-length in the z component
      * @return <code>true</code> iff the line intersects the circle; <code>false</code> otherwise
      */
-    public static boolean intersectLineCircle(float x0, float y0, float x1, float y1, float centerX, float centerY, float radius, Vector3f intersectionCenterAndHL) {
+    public static boolean intersectLineCircle(float x0, float y0, float x1, float y1, float centerX, float centerY, float radius, Vector3fc intersectionCenterAndHL) {
         // Build general line equation from two points and use the other method
         return intersectLineCircle(y0 - y1, x1 - x0, (x0 - x1) * y0 + (y1 - y0) * x0, centerX, centerY, radius, intersectionCenterAndHL);
     }
@@ -3530,7 +3533,7 @@ public class Intersectionf {
      *          the constant in the line equation
      * @return <code>true</code> iff the axis-aligned rectangle intersects the line; <code>false</code> otherwise
      */
-    public static boolean testAarLine(Vector2fc min, Vector2fc max, float a, float b, float c) {
+    public static boolean testAarLine(IVector2f min, IVector2f max, float a, float b, float c) {
         return testAarLine(min.x(), min.y(), max.x(), max.y(), a, b, c);
     }
 
@@ -3605,7 +3608,7 @@ public class Intersectionf {
      *              the maximum corner of the second axis-aligned rectangle
      * @return <code>true</code> iff both axis-aligned rectangles intersect; <code>false</code> otherwise
      */
-    public static boolean testAarAar(Vector2fc minA, Vector2fc maxA, Vector2fc minB, Vector2fc maxB) {
+    public static boolean testAarAar(IVector2f minA, IVector2f maxA, IVector2f minB, IVector2f maxB) {
         return testAarAar(minA.x(), minA.y(), maxA.x(), maxA.y(), minB.x(), minB.y(), maxB.x(), maxB.y());
     }
 
@@ -3686,8 +3689,8 @@ public class Intersectionf {
      *              the radius of the second circle
      * @return <code>true</code> if both circle intersect; <code>false</code> otherwise
      */
-    public static boolean testMovingCircleCircle(Vector2f centerA, Vector2f moveA, float aR, Vector2f centerB, float bR) {
-        return testMovingCircleCircle(centerA.x, centerA.y, moveA.x, moveA.y, aR, centerB.x, centerB.y, bR);
+    public static boolean testMovingCircleCircle(Vector2fc centerA, Vector2fc moveA, float aR, Vector2fc centerB, float bR) {
+        return testMovingCircleCircle(centerA.x(), centerA.y(), moveA.x(), moveA.y(), aR, centerB.x(), centerB.y(), bR);
     }
 
     /**
@@ -3715,15 +3718,15 @@ public class Intersectionf {
      *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
      * @return <code>true</code> iff both circles intersect; <code>false</code> otherwise
      */
-    public static boolean intersectCircleCircle(float aX, float aY, float radiusSquaredA, float bX, float bY, float radiusSquaredB, Vector3f intersectionCenterAndHL) {
+    public static boolean intersectCircleCircle(float aX, float aY, float radiusSquaredA, float bX, float bY, float radiusSquaredB, Vector3fc intersectionCenterAndHL) {
         float dX = bX - aX, dY = bY - aY;
         float distSquared = dX * dX + dY * dY;
         float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
         float r_i = (float) Math.sqrt(radiusSquaredA - h * h * distSquared);
         if (r_i >= 0.0f) {
-            intersectionCenterAndHL.x = aX + h * dX;
-            intersectionCenterAndHL.y = aY + h * dY;
-            intersectionCenterAndHL.z = r_i;
+            intersectionCenterAndHL.set(aX + h * dX,
+                    aY + h * dY,
+                    r_i);
             return true;
         }
         return false;
@@ -3750,7 +3753,7 @@ public class Intersectionf {
      *              will hold the center of the line segment of intersection in the <tt>(x, y)</tt> components and the half-length in the z component
      * @return <code>true</code> iff both circles intersect; <code>false</code> otherwise
      */
-    public static boolean intersectCircleCircle(Vector2fc centerA, float radiusSquaredA, Vector2fc centerB, float radiusSquaredB, Vector3f intersectionCenterAndHL) {
+    public static boolean intersectCircleCircle(IVector2f centerA, float radiusSquaredA, IVector2f centerB, float radiusSquaredB, Vector3fc intersectionCenterAndHL) {
         return intersectCircleCircle(centerA.x(), centerA.y(), radiusSquaredA, centerB.x(), centerB.y(), radiusSquaredB, intersectionCenterAndHL);
     }
 
@@ -3798,7 +3801,7 @@ public class Intersectionf {
      *              the square of the second circle's radius
      * @return <code>true</code> iff both circles intersect; <code>false</code> otherwise
      */
-    public static boolean testCircleCircle(Vector2fc centerA, float radiusSquaredA, Vector2fc centerB, float radiusSquaredB) {
+    public static boolean testCircleCircle(IVector2f centerA, float radiusSquaredA, IVector2f centerB, float radiusSquaredB) {
         return testCircleCircle(centerA.x(), centerA.y(), radiusSquaredA, centerB.x(), centerB.y(), radiusSquaredB);
     }
 
@@ -3944,7 +3947,7 @@ public class Intersectionf {
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
      *         intersects the line; <tt>-1.0</tt> otherwise
      */
-    public static float intersectRayLine(Vector2fc origin, Vector2fc dir, Vector2fc point, Vector2fc normal, float epsilon) {
+    public static float intersectRayLine(IVector2f origin, IVector2f dir, IVector2f point, IVector2f normal, float epsilon) {
         return intersectRayLine(origin.x(), origin.y(), dir.x(), dir.y(), point.x(), point.y(), normal.x(), normal.y(), epsilon);
     }
 
@@ -3955,7 +3958,7 @@ public class Intersectionf {
      * <p>
      * This method returns <tt>-1.0</tt> if the ray does not intersect the line segment.
      * 
-     * @see #intersectRayLineSegment(Vector2fc, Vector2fc, Vector2fc, Vector2fc)
+     * @see #intersectRayLineSegment(IVector2f, IVector2f, IVector2f, IVector2f)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -4009,7 +4012,7 @@ public class Intersectionf {
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
      *         intersects the line segment; <tt>-1.0</tt> otherwise
      */
-    public static float intersectRayLineSegment(Vector2fc origin, Vector2fc dir, Vector2fc a, Vector2fc b) {
+    public static float intersectRayLineSegment(IVector2f origin, IVector2f dir, IVector2f a, IVector2f b) {
         return intersectRayLineSegment(origin.x(), origin.y(), dir.x(), dir.y(), a.x(), a.y(), b.x(), b.y());
     }
 
@@ -4070,7 +4073,7 @@ public class Intersectionf {
      *          the squared of the circle's radius
      * @return <code>true</code> iff the axis-aligned rectangle intersects the circle; <code>false</code> otherwise
      */
-    public static boolean testAarCircle(Vector2fc min, Vector2fc max, Vector2fc center, float radiusSquared) {
+    public static boolean testAarCircle(IVector2f min, IVector2f max, IVector2f center, float radiusSquared) {
         return testAarCircle(min.x(), min.y(), max.x(), max.y(), center.x(), center.y(), radiusSquared);
     }
 
@@ -4106,59 +4109,59 @@ public class Intersectionf {
      *                {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20} or
      *                {@link #POINT_ON_TRIANGLE_FACE}
      */
-    public static int findClosestPointOnTriangle(float v0X, float v0Y, float v1X, float v1Y, float v2X, float v2Y, float pX, float pY, Vector2f result) {
+    public static int findClosestPointOnTriangle(float v0X, float v0Y, float v1X, float v1Y, float v2X, float v2Y, float pX, float pY, Vector2fc result) {
         float abX = v1X - v0X, abY = v1Y - v0Y;
         float acX = v2X - v0X, acY = v2Y - v0Y;
         float apX = pX - v0X, apY = pY - v0Y;
         float d1 = abX * apX + abY * apY;
         float d2 = acX * apX + acY * apY;
         if (d1 <= 0.0f && d2 <= 0.0f) {
-            result.x = v0X;
-            result.y = v0Y;
+            result.set(v0X,
+                    v0Y);
             return POINT_ON_TRIANGLE_VERTEX_0;
         }
         float bpX = pX - v1X, bpY = pY - v1Y;
         float d3 = abX * bpX + abY * bpY;
         float d4 = acX * bpX + acY * bpY;
         if (d3 >= 0.0f && d4 <= d3) {
-            result.x = v1X;
-            result.y = v1Y;
+            result.set(v1X,
+                    v1Y);
             return POINT_ON_TRIANGLE_VERTEX_1;
         }
         float vc = d1 * d4 - d3 * d2;
         if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
             float v = d1 / (d1 - d3);
-            result.x = v0X + v * abX;
-            result.y = v0Y + v * abY;
+            result.set(v0X + v * abX,
+                    v0Y + v * abY);
             return POINT_ON_TRIANGLE_EDGE_01;
         }
         float cpX = pX - v2X, cpY = pY - v2Y;
         float d5 = abX * cpX + abY * cpY;
         float d6 = acX * cpX + acY * cpY;
         if (d6 >= 0.0f && d5 <= d6) {
-            result.x = v2X;
-            result.y = v2Y;
+            result.set(v2X,
+                    v2Y);
             return POINT_ON_TRIANGLE_VERTEX_2;
         }
         float vb = d5 * d2 - d1 * d6;
         if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
             float w = d2 / (d2 - d6);
-            result.x = v0X + w * acX;
-            result.y = v0Y + w * acY;
+            result.set(v0X + w * acX,
+                    v0Y + w * acY);
             return POINT_ON_TRIANGLE_EDGE_20;
         }
         float va = d3 * d6 - d5 * d4;
         if (va <= 0.0f && d4 - d3 >= 0.0f && d5 - d6 >= 0.0f) {
             float w = (d4 - d3) / (d4 - d3 + d5 - d6);
-            result.x = v1X + w * (v2X - v1X);
-            result.y = v1Y + w * (v2Y - v1Y);
+            result.set(v1X + w * (v2X - v1X),
+                    v1Y + w * (v2Y - v1Y));
             return POINT_ON_TRIANGLE_EDGE_12;
         }
         float denom = 1.0f / (va + vb + vc);
         float v = vb * denom;
         float w = vc * denom;
-        result.x = v0X + abX * v + acX * w;
-        result.y = v0Y + abY * v + acY * w;
+        result.set(v0X + abX * v + acX * w,
+                v0Y + abY * v + acY * w);
         return POINT_ON_TRIANGLE_FACE;
     }
 
@@ -4186,7 +4189,7 @@ public class Intersectionf {
      *                {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20} or
      *                {@link #POINT_ON_TRIANGLE_FACE}
      */
-    public static int findClosestPointOnTriangle(Vector2fc v0, Vector2fc v1, Vector2fc v2, Vector2fc p, Vector2f result) {
+    public static int findClosestPointOnTriangle(IVector2f v0, IVector2f v1, IVector2f v2, IVector2f p, Vector2fc result) {
         return findClosestPointOnTriangle(v0.x(), v0.y(), v1.x(), v1.y(), v2.x(), v2.y(), p.x(), p.y(), result);
     }
 
@@ -4220,7 +4223,7 @@ public class Intersectionf {
      * @return <code>true</code> if the ray intersects the circle; <code>false</code> otherwise
      */
     public static boolean intersectRayCircle(float originX, float originY, float dirX, float dirY, 
-            float centerX, float centerY, float radiusSquared, Vector2f result) {
+            float centerX, float centerY, float radiusSquared, Vector2fc result) {
         float Lx = centerX - originX;
         float Ly = centerY - originY;
         float tca = Lx * dirX + Ly * dirY;
@@ -4231,8 +4234,8 @@ public class Intersectionf {
         float t0 = tca - thc;
         float t1 = tca + thc;
         if (t0 < t1 && t1 >= 0.0f) {
-            result.x = t0;
-            result.y = t1;
+            result.set(t0,
+                    t1);
             return true;
         }
         return false;
@@ -4261,7 +4264,7 @@ public class Intersectionf {
      *              <i>p(t) = origin + t * dir</i> for both points (near, far) of intersections with the circle
      * @return <code>true</code> if the ray intersects the circle; <code>false</code> otherwise
      */
-    public static boolean intersectRayCircle(Vector2fc origin, Vector2fc dir, Vector2fc center, float radiusSquared, Vector2f result) {
+    public static boolean intersectRayCircle(IVector2f origin, IVector2f dir, IVector2f center, float radiusSquared, Vector2fc result) {
         return intersectRayCircle(origin.x(), origin.y(), dir.x(), dir.y(), center.x(), center.y(), radiusSquared, result);
     }
 
@@ -4321,7 +4324,7 @@ public class Intersectionf {
      *              the circle radius squared
      * @return <code>true</code> if the ray intersects the circle; <code>false</code> otherwise
      */
-    public static boolean testRayCircle(Vector2fc origin, Vector2fc dir, Vector2fc center, float radiusSquared) {
+    public static boolean testRayCircle(IVector2f origin, IVector2f dir, IVector2f center, float radiusSquared) {
         return testRayCircle(origin.x(), origin.y(), dir.x(), dir.y(), center.x(), center.y(), radiusSquared);
     }
 
@@ -4335,7 +4338,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #intersectRayAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)
+     * @see #intersectRayAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -4361,7 +4364,7 @@ public class Intersectionf {
      *         or <tt>-1</tt> if the ray does not intersect the axis-aligned rectangle;
      */
     public static int intersectRayAar(float originX, float originY, float dirX, float dirY, 
-            float minX, float minY, float maxX, float maxY, Vector2f result) {
+            float minX, float minY, float maxX, float maxY, Vector2fc result) {
         float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY;
         float tNear, tFar, tymin, tymax;
         if (invDirX >= 0.0f) {
@@ -4386,8 +4389,8 @@ public class Intersectionf {
         if (tNear < tFar && tFar >= 0.0f) {
             float px = originX + tNear * dirX;
             float py = originY + tNear * dirY;
-            result.x = tNear;
-            result.y = tFar;
+            result.set(tNear,
+                    tFar);
             float daX = Math.abs(px - minX);
             float daY = Math.abs(py - minY);
             float dbX = Math.abs(px - maxX);
@@ -4418,7 +4421,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)
+     * @see #intersectRayAar(float, float, float, float, float, float, float, float, Vector2fc)
      * 
      * @param origin
      *              the ray's origin
@@ -4435,7 +4438,7 @@ public class Intersectionf {
      *         {@link #AAR_SIDE_MINX}, {@link #AAR_SIDE_MINY}, {@link #AAR_SIDE_MAXX} or {@link #AAR_SIDE_MAXY};
      *         or <tt>-1</tt> if the ray does not intersect the axis-aligned rectangle;
      */
-    public static int intersectRayAar(Vector2fc origin, Vector2fc dir, Vector2fc min, Vector2fc max, Vector2f result) {
+    public static int intersectRayAar(IVector2f origin, IVector2f dir, IVector2f min, IVector2f max, Vector2fc result) {
         return intersectRayAar(origin.x(), origin.y(), dir.x(), dir.y(), min.x(), min.y(), max.x(), max.y(), result);
     }
 
@@ -4449,7 +4452,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      *
-     * @see #intersectLineSegmentAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)
+     * @see #intersectLineSegmentAar(IVector2f, IVector2f, IVector2f, IVector2f, Vector2fc)
      * 
      * @param p0X
      *              the x coordinate of the line segment's first end point
@@ -4476,7 +4479,7 @@ public class Intersectionf {
      *         {@link #TWO_INTERSECTION} if the line segment intersects two edges of the axis-aligned rectangle or lies on one edge of the rectangle
      */
     public static int intersectLineSegmentAar(float p0X, float p0Y, float p1X, float p1Y, 
-            float minX, float minY, float maxX, float maxY, Vector2f result) {
+            float minX, float minY, float maxX, float maxY, Vector2fc result) {
         float dirX = p1X - p0X, dirY = p1Y - p0Y;
         float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY;
         float tNear, tFar, tymin, tymax;
@@ -4511,8 +4514,8 @@ public class Intersectionf {
             } else {
                 type = TWO_INTERSECTION;
             }
-            result.x = tNear;
-            result.y = tFar;
+            result.set(tNear,
+                    tFar);
         }
         return type;
     }
@@ -4527,7 +4530,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      *
-     * #see {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)}
+     * #see {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2fc)}
      * 
      * @param p0
      *              the line segment's first end point
@@ -4545,7 +4548,7 @@ public class Intersectionf {
      *         {@link #ONE_INTERSECTION} if one of the end points of the line segment lies inside of the axis-aligned rectangle; or
      *         {@link #TWO_INTERSECTION} if the line segment intersects two edges of the axis-aligned rectangle
      */
-    public static int intersectLineSegmentAar(Vector2fc p0, Vector2fc p1, Vector2fc min, Vector2fc max, Vector2f result) {
+    public static int intersectLineSegmentAar(IVector2f p0, IVector2f p1, IVector2f min, IVector2f max, Vector2fc result) {
         return intersectLineSegmentAar(p0.x(), p0.y(), p1.x(), p1.y(), min.x(), min.y(), max.x(), max.y(), result);
     }
 
@@ -4557,7 +4560,7 @@ public class Intersectionf {
      * <p>
      * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      * 
-     * @see #testRayAar(Vector2fc, Vector2fc, Vector2fc, Vector2fc)
+     * @see #testRayAar(IVector2f, IVector2f, IVector2f, IVector2f)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -4621,7 +4624,7 @@ public class Intersectionf {
      *              the maximum corner of the axis-aligned rectangle
      * @return <code>true</code> if the given ray intersects the axis-aligned rectangle; <code>false</code> otherwise
      */
-    public static boolean testRayAar(Vector2fc origin, Vector2fc dir, Vector2fc min, Vector2fc max) {
+    public static boolean testRayAar(IVector2f origin, IVector2f dir, IVector2f min, IVector2f max) {
         return testRayAar(origin.x(), origin.y(), dir.x(), dir.y(), min.x(), min.y(), max.x(), max.y());
     }
 
@@ -4668,7 +4671,7 @@ public class Intersectionf {
      *          the point
      * @return <code>true</code> iff the point lies inside the triangle; <code>false</code> otherwise
      */
-    public static boolean testPointTriangle(Vector2fc point, Vector2fc v0, Vector2fc v1, Vector2fc v2) {
+    public static boolean testPointTriangle(IVector2f point, IVector2f v0, IVector2f v1, IVector2f v2) {
         return testPointTriangle(point.x(), point.y(), v0.x(), v0.y(), v1.x(), v1.y(), v2.x(), v2.y());
     }
 
@@ -4810,7 +4813,7 @@ public class Intersectionf {
      *          the third vertex of the triangle
      * @return <code>true</code> iff the circle intersects the triangle; <code>false</code> otherwise
      */
-    public static boolean testCircleTriangle(Vector2fc center, float radiusSquared, Vector2fc v0, Vector2fc v1, Vector2fc v2) {
+    public static boolean testCircleTriangle(IVector2f center, float radiusSquared, IVector2f v0, IVector2f v1, IVector2f v2) {
         return testCircleTriangle(center.x(), center.y(), radiusSquared, v0.x(), v0.y(), v1.x(), v1.y(), v2.x(), v2.y());
     }
 
@@ -4836,7 +4839,7 @@ public class Intersectionf {
      *          will hold the point of intersection
      * @return the index of the first vertex of the polygon edge that intersects the ray; or <tt>-1</tt> if the ray does not intersect the polygon
      */
-    public static int intersectPolygonRay(float[] verticesXY, float originX, float originY, float dirX, float dirY, Vector2f p) {
+    public static int intersectPolygonRay(float[] verticesXY, float originX, float originY, float dirX, float dirY, Vector2fc p) {
         float nearestT = Float.POSITIVE_INFINITY;
         int count = verticesXY.length >> 1;
         int edgeIndex = -1;
@@ -4852,8 +4855,8 @@ public class Intersectionf {
                 if (t2 >= 0.0f && t2 <= 1.0f) {
                     edgeIndex = (i - 1 + count) % count;
                     nearestT = t;
-                    p.x = originX + t * dirX;
-                    p.y = originY + t * dirY;
+                    p.set(originX + t * dirX,
+                            originY + t * dirY);
                 }
             }
             aX = bX;
@@ -4884,13 +4887,13 @@ public class Intersectionf {
      *          will hold the point of intersection
      * @return the index of the first vertex of the polygon edge that intersects the ray; or <tt>-1</tt> if the ray does not intersect the polygon
      */
-    public static int intersectPolygonRay(Vector2fc[] vertices, float originX, float originY, float dirX, float dirY, Vector2f p) {
+    public static int intersectPolygonRay(IVector2f[] vertices, float originX, float originY, float dirX, float dirY, Vector2fc p) {
         float nearestT = Float.POSITIVE_INFINITY;
         int count = vertices.length;
         int edgeIndex = -1;
         float aX = vertices[count-1].x(), aY = vertices[count-1].y();
         for (int i = 0; i < count; i++) {
-            Vector2fc b = vertices[i];
+            IVector2f b = vertices[i];
             float bX = b.x(), bY = b.y();
             float doaX = originX - aX, doaY = originY - aY;
             float dbaX = bX - aX, dbaY = bY - aY;
@@ -4901,8 +4904,8 @@ public class Intersectionf {
                 if (t2 >= 0.0f && t2 <= 1.0f) {
                     edgeIndex = (i - 1 + count) % count;
                     nearestT = t;
-                    p.x = originX + t * dirX;
-                    p.y = originY + t * dirY;
+                    p.set(originX + t * dirX,
+                            originY + t * dirY);
                 }
             }
             aX = bX;
@@ -4935,7 +4938,7 @@ public class Intersectionf {
      *          will hold the point of intersection
      * @return <code>true</code> iff the two lines intersect; <code>false</code> otherwise
      */
-    public static boolean intersectLineLine(float ps1x, float ps1y, float pe1x, float pe1y, float ps2x, float ps2y, float pe2x, float pe2y, Vector2f p) {
+    public static boolean intersectLineLine(float ps1x, float ps1y, float pe1x, float pe1y, float ps2x, float ps2y, float pe2x, float pe2y, Vector2fc p) {
         float d1x = ps1x - pe1x;
         float d1y = pe1y - ps1y;
         float d1ps1 = d1y * ps1x + d1x * ps1y;
@@ -4945,26 +4948,26 @@ public class Intersectionf {
         float det = d1y * d2x - d2y * d1x;
         if (det == 0.0f)
             return false;
-        p.x = (d2x * d1ps1 - d1x * d2ps2) / det;
-        p.y = (d1y * d2ps2 - d2y * d1ps1) / det;
+        p.set((d2x * d1ps1 - d1x * d2ps2) / det,
+                (d1y * d2ps2 - d2y * d1ps1) / det);
         return true;
     }
 
-    private static boolean separatingAxis(Vector2f[] v1s, Vector2f[] v2s, float aX, float aY) {
+    private static boolean separatingAxis(Vector2fc[] v1s, Vector2fc[] v2s, float aX, float aY) {
         float minA = Float.POSITIVE_INFINITY, maxA = Float.NEGATIVE_INFINITY;
         float minB = Float.POSITIVE_INFINITY, maxB = Float.NEGATIVE_INFINITY;
         int maxLen = Math.max(v1s.length, v2s.length);
         /* Project both polygons on axis */
         for (int k = 0; k < maxLen; k++) {
             if (k < v1s.length) {
-                Vector2f v1 = v1s[k];
-                float d = v1.x * aX + v1.y * aY;
+                Vector2fc v1 = v1s[k];
+                float d = v1.x() * aX + v1.y() * aY;
                 if (d < minA) minA = d;
                 if (d > maxA) maxA = d;
             }
             if (k < v2s.length) {
-                Vector2f v2 = v2s[k];
-                float d = v2.x * aX + v2.y * aY;
+                Vector2fc v2 = v2s[k];
+                float d = v2.x() * aX + v2.y() * aY;
                 if (d < minB) minB = d;
                 if (d > maxB) maxB = d;
             }
@@ -4985,17 +4988,17 @@ public class Intersectionf {
      *          the vertices of the second polygon
      * @return <code>true</code> if the polygons intersect; <code>false</code> otherwise
      */
-    public static boolean testPolygonPolygon(Vector2f[] v1s, Vector2f[] v2s) {
+    public static boolean testPolygonPolygon(Vector2fc[] v1s, Vector2fc[] v2s) {
         /* Try to find a separating axis using the first polygon's edges */
         for (int i = 0, j = v1s.length - 1; i < v1s.length; j = i, i++) {
-            Vector2f s = v1s[i], t = v1s[j];
-            if (separatingAxis(v1s, v2s, s.y - t.y, t.x - s.x))
+            Vector2fc s = v1s[i], t = v1s[j];
+            if (separatingAxis(v1s, v2s, s.y() - t.y(), t.x() - s.x()))
                 return false;
         }
         /* Try to find a separating axis using the second polygon's edges */
         for (int i = 0, j = v2s.length - 1; i < v2s.length; j = i, i++) {
-            Vector2f s = v2s[i], t = v2s[j];
-            if (separatingAxis(v1s, v2s, s.y - t.y, t.x - s.x))
+            Vector2fc s = v2s[i], t = v2s[j];
+            if (separatingAxis(v1s, v2s, s.y() - t.y(), t.x() - s.x()))
                 return false;
         }
         return true;

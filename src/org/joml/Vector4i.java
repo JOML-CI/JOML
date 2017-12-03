@@ -22,6 +22,11 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector2i;
+import org.joml.api.vector.IVector3i;
+import org.joml.api.vector.IVector4i;
+import org.joml.api.vector.Vector4ic;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -30,7 +35,6 @@ import java.io.ObjectOutput;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 //#endif
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
@@ -41,7 +45,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author Hans Uhlig
  */
-public class Vector4i implements Externalizable, Vector4ic {
+public class Vector4i extends Vector4ic implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -73,9 +77,9 @@ public class Vector4i implements Externalizable, Vector4ic {
      * Create a new {@link Vector4i} with the same values as <code>v</code>.
      *
      * @param v
-     *          the {@link Vector4ic} to copy the values from
+     *          the {@link IVector4i} to copy the values from
      */
-    public Vector4i(Vector4ic v) {
+    public Vector4i(IVector4i v) {
         if (v instanceof Vector4i) {
             MemUtil.INSTANCE.copy((Vector4i) v, this);            
         } else {
@@ -91,11 +95,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * given <code>v</code> and the given <code>w</code>.
      *
      * @param v
-     *          the {@link Vector3ic}
+     *          the {@link IVector3i}
      * @param w
      *          the w component
      */
-    public Vector4i(Vector3ic v, int w) {
+    public Vector4i(IVector3i v, int w) {
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();
@@ -107,13 +111,13 @@ public class Vector4i implements Externalizable, Vector4ic {
      * given <code>v</code> and the given <code>z</code>, and <code>w</code>.
      *
      * @param v
-     *          the {@link Vector2ic}
+     *          the {@link IVector2i}
      * @param z
      *          the z component
      * @param w
      *          the w component
      */
-    public Vector4i(Vector2ic v, int z, int w) {
+    public Vector4i(IVector2i v, int z, int w) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;
@@ -224,44 +228,30 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#x()
-     */
+    @Override
     public int x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#y()
-     */
+    @Override
     public int y() {
         return this.y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#z()
-     */
+    @Override
     public int z() {
         return this.z;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#w()
-     */
+    @Override
     public int w() {
         return this.w;
     }
 
-    /**
-     * Set this {@link Vector4i} to the values of the given <code>v</code>.
-     *
-     * @param v
-     *          the vector whose values will be copied into this
-     * @return this
-     */
-    public Vector4i set(Vector4ic v) {
+    @Override
+    public Vector4ic set(IVector4i v) {
         if (v instanceof Vector4i) {
-            MemUtil.INSTANCE.copy((Vector4i) v, this);            
+            MemUtil.INSTANCE.copy((Vector4i) v, this);
         } else {
             this.x = v.x();
             this.y = v.y();
@@ -271,17 +261,8 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /**
-     * Set the first three components of this to the components of
-     * <code>v</code> and the last component to <code>w</code>.
-     *
-     * @param v
-     *          the {@link Vector3ic} to copy
-     * @param w
-     *          the w component
-     * @return this
-     */
-    public Vector4i set(Vector3ic v, int w) {
+    @Override
+    public Vector4ic set(IVector3i v, int w) {
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();
@@ -289,20 +270,8 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /**
-     * Sets the first two components of this to the components of given
-     * <code>v</code> and last two components to the given <code>z</code>, and
-     * <code>w</code>.
-     *
-     * @param v
-     *          the {@link Vector2ic}
-     * @param z
-     *          the z component
-     * @param w
-     *          the w component
-     * @return this
-     */
-    public Vector4i set(Vector2ic v, int z, int w) {
+    @Override
+    public Vector4ic set(IVector2i v, int z, int w) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;
@@ -310,32 +279,14 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /**
-     * Set the x, y, z, and w components to the supplied value.
-     *
-     * @param s
-     *          the value of all four components
-     * @return this
-     */
-    public Vector4i set(int s) {
+    @Override
+    public Vector4ic set(int s) {
         MemUtil.INSTANCE.broadcast(s, this);
         return this;
     }
 
-    /**
-     * Set the x, y, z, and w components to the supplied values.
-     *
-     * @param x
-     *          the x component
-     * @param y
-     *          the y component
-     * @param z
-     *          the z component
-     * @param w
-     *          the w component
-     * @return this
-     */
-    public Vector4i set(int x, int y, int z, int w) {
+    @Override
+    public Vector4ic set(int x, int y, int z, int w) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -344,92 +295,31 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 
 //#ifdef __HAS_NIO__
-    /**
-     * Read this vector from the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which the vector is
-     * read, use {@link #set(int, ByteBuffer)}, taking the absolute position as
-     * parameter.
-     *
-     * @see #set(int, ByteBuffer)
-     *
-     * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
-     * @return this
-     */
-    public Vector4i set(ByteBuffer buffer) {
+    @Override
+    public Vector4ic set(ByteBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    /**
-     * Read this vector from the supplied {@link ByteBuffer} starting at the
-     * specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     *
-     * @param index
-     *          the absolute position into the ByteBuffer
-     * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
-     * @return this
-     */
-    public Vector4i set(int index, ByteBuffer buffer) {
+    @Override
+    public Vector4ic set(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
-    /**
-     * Read this vector from the supplied {@link IntBuffer} at the current
-     * buffer {@link IntBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given IntBuffer.
-     * <p>
-     * In order to specify the offset into the IntBuffer at which the vector is
-     * read, use {@link #set(int, IntBuffer)}, taking the absolute position as
-     * parameter.
-     *
-     * @see #set(int, IntBuffer)
-     *
-     * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
-     * @return this
-     */
-    public Vector4i set(IntBuffer buffer) {
+    @Override
+    public Vector4ic set(IntBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    /**
-     * Read this vector from the supplied {@link IntBuffer} starting at the
-     * specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given IntBuffer.
-     *
-     * @param index
-     *          the absolute position into the IntBuffer
-     * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
-     * @return this
-     */
-    public Vector4i set(int index, IntBuffer buffer) {
+    @Override
+    public Vector4ic set(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 //#endif
 
-    /**
-     * Set the value of the specified component of this vector.
-     *
-     * @param component
-     *          the component whose value to set, within <tt>[0..3]</tt>
-     * @param value
-     *          the value to set
-     * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..3]</tt>
-     */
-    public Vector4i setComponent(int component, int value) throws IllegalArgumentException {
+    @Override
+    public Vector4ic setComponent(int component, int value) throws IllegalArgumentException {
         switch (component) {
             case 0:
                 x = value;
@@ -450,45 +340,31 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#get(java.nio.IntBuffer)
-     */
+    @Override
     public IntBuffer get(IntBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#get(int, java.nio.IntBuffer)
-     */
+    @Override
     public IntBuffer get(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#get(java.nio.ByteBuffer)
-     */
+    @Override
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#get(int, java.nio.ByteBuffer)
-     */
+    @Override
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 //#endif
 
-    /**
-     * Subtract the supplied vector from this one.
-     *
-     * @param v
-     *          the vector to subtract
-     * @return this
-     */
-    public Vector4i sub(Vector4ic v) {
+    @Override
+    public Vector4ic sub(IVector4i v) {
         x -= v.x();
         y -= v.y();
         z -= v.z();
@@ -496,20 +372,8 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /**
-     * Subtract <tt>(x, y, z, w)</tt> from this.
-     *
-     * @param x
-     *          the x component to subtract
-     * @param y
-     *          the y component to subtract
-     * @param z
-     *          the z component to subtract
-     * @param w
-     *          the w component to subtract
-     * @return this
-     */
-    public Vector4i sub(int x, int y, int z, int w) {
+    @Override
+    public Vector4ic sub(int x, int y, int z, int w) {
         this.x -= x;
         this.y -= y;
         this.z -= z;
@@ -517,36 +381,20 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#sub(org.joml.Vector4ic, org.joml.Vector4i)
-     */
-    public Vector4i sub(Vector4ic v, Vector4i dest) {
-        dest.x = x - v.x();
-        dest.y = y - v.y();
-        dest.z = z - v.z();
-        dest.w = w - v.w();
+    @Override
+    public Vector4ic sub(IVector4i v, Vector4ic dest) {
+        dest.set(x - v.x(), y - v.y(), z - v.z(), w - v.w());
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#sub(int, int, int, int, org.joml.Vector4i)
-     */
-    public Vector4i sub(int x, int y, int z, int w, Vector4i dest) {
-        dest.x = this.x - x;
-        dest.y = this.y - y;
-        dest.z = this.z - z;
-        dest.w = this.w - w;
+    @Override
+    public Vector4ic sub(int x, int y, int z, int w, Vector4ic dest) {
+        dest.set(this.x - x, this.y - y, this.z - z, this.w - w);
         return dest;
     }
 
-    /**
-     * Add the supplied vector to this one.
-     *
-     * @param v
-     *          the vector to add
-     * @return this
-     */
-    public Vector4i add(Vector4ic v) {
+    @Override
+    public Vector4ic add(IVector4i v) {
         x += v.x();
         y += v.y();
         z += v.z();
@@ -554,31 +402,14 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#add(org.joml.Vector4ic, org.joml.Vector4i)
-     */
-    public Vector4i add(Vector4ic v, Vector4i dest) {
-        dest.x = x + v.x();
-        dest.y = y + v.y();
-        dest.z = z + v.z();
-        dest.w = w + v.w();
+    @Override
+    public Vector4ic add(IVector4i v, Vector4ic dest) {
+        dest.set(x + v.x(), y + v.y(), z + v.z(), w + v.w());
         return dest;
     }
 
-    /**
-     * Increment the components of this vector by the given values.
-     *
-     * @param x
-     *          the x component to add
-     * @param y
-     *          the y component to add
-     * @param z
-     *          the z component to add
-     * @param w
-     *          the w component to add
-     * @return this
-     */
-    public Vector4i add(int x, int y, int z, int w) {
+    @Override
+    public Vector4ic add(int x, int y, int z, int w) {
         this.x += x;
         this.y += y;
         this.z += z;
@@ -586,25 +417,14 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#add(int, int, int, int, org.joml.Vector4i)
-     */
-    public Vector4i add(int x, int y, int z, int w, Vector4i dest) {
-        dest.x = this.x + x;
-        dest.y = this.y + y;
-        dest.z = this.z + z;
-        dest.w = this.w + w;
+    @Override
+    public Vector4ic add(int x, int y, int z, int w, Vector4ic dest) {
+        dest.set(this.x + x, this.y + y, this.z + z, this.w + w);
         return dest;
     }
 
-    /**
-     * Multiply this Vector4i component-wise by another Vector4i.
-     *
-     * @param v
-     *          the other vector
-     * @return this
-     */
-    public Vector4i mul(Vector4ic v) {
+    @Override
+    public Vector4ic mul(IVector4i v) {
         x *= v.x();
         y *= v.y();
         z *= v.z();
@@ -612,25 +432,14 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#mul(org.joml.Vector4ic, org.joml.Vector4i)
-     */
-    public Vector4i mul(Vector4ic v, Vector4i dest) {
-        dest.x = x * v.x();
-        dest.y = y * v.y();
-        dest.z = z * v.z();
-        dest.w = w * v.w();
+    @Override
+    public Vector4ic mul(IVector4i v, Vector4ic dest) {
+        dest.set(x * v.x(), y * v.y(), z * v.z(), w * v.w());
         return dest;
     }
 
-    /**
-     * Divide this Vector4i component-wise by another Vector4i.
-     *
-     * @param v
-     *          the vector to divide by
-     * @return this
-     */
-    public Vector4i div(Vector4ic v) {
+    @Override
+    public Vector4ic div(IVector4i v) {
         x /= v.x();
         y /= v.y();
         z /= v.z();
@@ -638,26 +447,14 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#div(org.joml.Vector4ic, org.joml.Vector4i)
-     */
-    public Vector4i div(Vector4ic v, Vector4i dest) {
-        dest.x = x / v.x();
-        dest.y = y / v.y();
-        dest.z = z / v.z();
-        dest.w = w / v.w();
+    @Override
+    public Vector4ic div(IVector4i v, Vector4ic dest) {
+        dest.set(x / v.x(), y / v.y(), z / v.z(), w / v.w());
         return dest;
     }
 
-    /**
-     * Multiply all components of this {@link Vector4i} by the given scalar
-     * value.
-     *
-     * @param scalar
-     *          the scalar to multiply by
-     * @return this
-     */
-    public Vector4i mul(float scalar) {
+    @Override
+    public Vector4ic mul(float scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
@@ -665,25 +462,14 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#mul(float, org.joml.Vector4i)
-     */
-    public Vector4i mul(float scalar, Vector4i dest) {
-        dest.x = (int) (x * scalar);
-        dest.y = (int) (y * scalar);
-        dest.z = (int) (z * scalar);
-        dest.w = (int) (w * scalar);
+    @Override
+    public Vector4ic mul(float scalar, Vector4ic dest) {
+        dest.set((int) (x * scalar), (int) (y * scalar), (int) (z * scalar), (int) (w * scalar));
         return dest;
     }
 
-    /**
-     * Divide all components of this {@link Vector4i} by the given scalar value.
-     *
-     * @param scalar
-     *          the scalar to divide by
-     * @return this
-     */
-    public Vector4i div(int scalar) {
+    @Override
+    public Vector4ic div(int scalar) {
         x /= scalar;
         y /= scalar;
         z /= scalar;
@@ -691,49 +477,34 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#div(float, org.joml.Vector4i)
-     */
-    public Vector4i div(float scalar, Vector4i dest) {
-        dest.x = (int) (x / scalar);
-        dest.y = (int) (y / scalar);
-        dest.z = (int) (z / scalar);
-        dest.w = (int) (w / scalar);
+    @Override
+    public Vector4ic div(float scalar, Vector4ic dest) {
+        dest.set((int) (x / scalar), (int) (y / scalar), (int) (z / scalar), (int) (w / scalar));
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#lengthSquared()
-     */
+    @Override
     public long lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#length()
-     */
+    @Override
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distance(org.joml.Vector4i)
-     */
-    public double distance(Vector4ic v) {
+    @Override
+    public double distance(IVector4i v) {
         return Math.sqrt(distanceSquared(v));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distance(int, int, int, int)
-     */
+    @Override
     public double distance(int x, int y, int z, int w) {
         return Math.sqrt(distanceSquared(x, y, z, w));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distanceSquared(org.joml.Vector4ic)
-     */
-    public int distanceSquared(Vector4ic v) {
+    @Override
+    public int distanceSquared(IVector4i v) {
         int dx = this.x - v.x();
         int dy = this.y - v.y();
         int dz = this.z - v.z();
@@ -741,9 +512,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distanceSquared(int, int, int, int)
-     */
+    @Override
     public int distanceSquared(int x, int y, int z, int w) {
         int dx = this.x - x;
         int dy = this.y - y;
@@ -752,29 +521,19 @@ public class Vector4i implements Externalizable, Vector4ic {
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#dot(org.joml.Vector4ic)
-     */
-    public int dot(Vector4ic v) {
+    @Override
+    public int dot(IVector4i v) {
         return x * v.x() + y * v.y() + z * v.z() + w * v.w();
     }
 
-    /**
-     * Set all components to zero.
-     *
-     * @return this
-     */
-    public Vector4i zero() {
+    @Override
+    public Vector4ic zero() {
         MemUtil.INSTANCE.zero(this);
         return this;
     }
 
-    /**
-     * Negate this vector.
-     *
-     * @return this
-     */
-    public Vector4i negate() {
+    @Override
+    public Vector4ic negate() {
         x = -x;
         y = -y;
         z = -z;
@@ -782,39 +541,23 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#negate(org.joml.Vector4i)
-     */
-    public Vector4i negate(Vector4i dest) {
-        dest.x = -x;
-        dest.y = -y;
-        dest.z = -z;
-        dest.w = -w;
+    @Override
+    public Vector4ic negate(Vector4ic dest) {
+        dest.set(-x, -y, -z, -w);
         return dest;
     }
 
-    /**
-     * Return a string representation of this vector.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
-     * 
-     * @return the string representation
-     */
+    @Override
     public String toString() {
         return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
     }
 
-    /**
-     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
-     * 
-     * @param formatter
-     *          the {@link NumberFormat} used to format the vector components with
-     * @return the string representation
-     */
+    @Override
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + " " + formatter.format(w) + ")";
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeInt(x);
         out.writeInt(y);
@@ -822,6 +565,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         out.writeInt(w);
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         x = in.readInt();
         y = in.readInt();
@@ -829,15 +573,8 @@ public class Vector4i implements Externalizable, Vector4ic {
         w = in.readInt();
     }
 
-    /**
-     * Set the components of this vector to be the component-wise minimum of
-     * this and the other vector.
-     *
-     * @param v
-     *          the other vector
-     * @return this
-     */
-    public Vector4i min(Vector4ic v) {
+    @Override
+    public Vector4ic min(IVector4i v) {
         this.x = Math.min(x, v.x());
         this.y = Math.min(y, v.y());
         this.z = Math.min(z, v.z());
@@ -845,15 +582,8 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /**
-     * Set the components of this vector to be the component-wise maximum of
-     * this and the other vector.
-     *
-     * @param v
-     *          the other vector
-     * @return this
-     */
-    public Vector4i max(Vector4ic v) {
+    @Override
+    public Vector4ic max(IVector4i v) {
         this.x = Math.max(x, v.x());
         this.y = Math.max(y, v.y());
         this.z = Math.max(z, v.z());
@@ -861,6 +591,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -871,30 +602,23 @@ public class Vector4i implements Externalizable, Vector4ic {
         return result;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof Vector4ic))
             return false;
-        }
-        Vector4i other = (Vector4i) obj;
-        if (x != other.x) {
+        Vector4ic other = (Vector4ic) obj;
+        if (x != other.x())
             return false;
-        }
-        if (y != other.y) {
+        if (y != other.y())
             return false;
-        }
-        if (z != other.z) {
+        if (z != other.z())
             return false;
-        }
-        if (w != other.w) {
+        if (w != other.w())
             return false;
-        }
         return true;
     }
-
 }

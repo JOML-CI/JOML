@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector3f;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -56,7 +58,7 @@ public class Planef {
      * @param normal
      *          the normal of the plane
      */
-    public Planef(Vector3fc point, Vector3fc normal) {
+    public Planef(IVector3f point, IVector3f normal) {
         this.a = normal.x();
         this.b = normal.y();
         this.c = normal.z();

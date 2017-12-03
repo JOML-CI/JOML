@@ -22,6 +22,10 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector2d;
+import org.joml.api.vector.IVector2i;
+import org.joml.api.vector.Vector2ic;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -30,7 +34,6 @@ import java.io.ObjectOutput;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 //#endif
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
@@ -40,7 +43,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author Hans Uhlig
  */
-public class Vector2i implements Externalizable, Vector2ic {
+public class Vector2i extends Vector2ic implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -89,14 +92,14 @@ public class Vector2i implements Externalizable, Vector2ic {
      * the given vector.
      *
      * @param v
-     *          the {@link Vector2ic} to copy the values from
+     *          the {@link IVector2i} to copy the values from
      */
-    public Vector2i(Vector2ic v) {
+    public Vector2i(IVector2i v) {
         x = v.x();
         y = v.y();
     }
 
-//#ifdef __HAS_NIO__
+    //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2i} and read this vector from the supplied
      * {@link ByteBuffer} at the current buffer
@@ -168,166 +171,62 @@ public class Vector2i implements Externalizable, Vector2ic {
     public Vector2i(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
-//#endif
+    //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#x()
-     */
-    public int x() {
-        return this.x;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#y()
-     */
-    public int y() {
-        return this.y;
-    }
-
-    /**
-     * Set the x and y components to the supplied value.
-     *
-     * @param s
-     *          scalar value of both components
-     * @return this
-     */
-    public Vector2i set(int s) {
+    @Override
+    public Vector2ic set(int s) {
         this.x = s;
         this.y = s;
         return this;
     }
 
-    /**
-     * Set the x and y components to the supplied values.
-     *
-     * @param x
-     *          the x component
-     * @param y
-     *          the y component
-     * @return this
-     */
-    public Vector2i set(int x, int y) {
+    @Override
+    public Vector2ic set(int x, int y) {
         this.x = x;
         this.y = y;
         return this;
     }
 
-    /**
-     * Set this {@link Vector2i} to the values of v.
-     *
-     * @param v
-     *          the vector to copy from
-     * @return this
-     */
-    public Vector2i set(Vector2ic v) {
+    @Override
+    public Vector2ic set(IVector2i v) {
         x = v.x();
         y = v.y();
         return this;
     }
 
-    /**
-     * Set this {@link Vector2i} to the values of v.
-     * <p>
-     * Note that due to the given vector <code>v</code> storing the components
-     * in double-precision, there is the possibility to lose precision.
-     *
-     * @param v
-     *          the vector to copy from
-     * @return this
-     */
-    public Vector2i set(Vector2dc v) {
+    @Override
+    public Vector2ic set(IVector2d v) {
         x = (int) v.x();
         y = (int) v.y();
         return this;
     }
 
-//#ifdef __HAS_NIO__
-    /**
-     * Read this vector from the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which the vector is
-     * read, use {@link #set(int, ByteBuffer)}, taking the absolute position as
-     * parameter.
-     *
-     * @see #set(int, ByteBuffer)
-     *
-     * @param buffer
-     *          values will be read in <tt>x, y</tt> order
-     * @return this
-     */
-    public Vector2i set(ByteBuffer buffer) {
+    //#ifdef __HAS_NIO__
+    @Override
+    public Vector2ic set(ByteBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    /**
-     * Read this vector from the supplied {@link ByteBuffer} starting at the
-     * specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     *
-     * @param index
-     *          the absolute position into the ByteBuffer
-     * @param buffer
-     *          values will be read in <tt>x, y</tt> order
-     * @return this
-     */
-    public Vector2i set(int index, ByteBuffer buffer) {
+    @Override
+    public Vector2ic set(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
-    /**
-     * Read this vector from the supplied {@link IntBuffer} at the current
-     * buffer {@link IntBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given IntBuffer.
-     * <p>
-     * In order to specify the offset into the IntBuffer at which the vector is
-     * read, use {@link #set(int, IntBuffer)}, taking the absolute position as
-     * parameter.
-     *
-     * @see #set(int, IntBuffer)
-     *
-     * @param buffer
-     *          values will be read in <tt>x, y</tt> order
-     * @return this
-     */
-    public Vector2i set(IntBuffer buffer) {
+    @Override
+    public Vector2ic set(IntBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    /**
-     * Read this vector from the supplied {@link IntBuffer} starting at the
-     * specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given IntBuffer.
-     *
-     * @param index
-     *          the absolute position into the IntBuffer
-     * @param buffer
-     *          values will be read in <tt>x, y</tt> order
-     * @return this
-     */
-    public Vector2i set(int index, IntBuffer buffer) {
+    @Override
+    public Vector2ic set(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
-//#endif
+    //#endif
 
-    /**
-     * Set the value of the specified component of this vector.
-     *
-     * @param component
-     *          the component whose value to set, within <tt>[0..1]</tt>
-     * @param value
-     *          the value to set
-     * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
-     */
-    public Vector2i setComponent(int component, int value) throws IllegalArgumentException {
+    @Override
+    public Vector2ic setComponent(int component, int value) throws IllegalArgumentException {
         switch (component) {
             case 0:
                 x = value;
@@ -341,287 +240,70 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-//#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(java.nio.ByteBuffer)
-     */
-    public ByteBuffer get(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(int, java.nio.ByteBuffer)
-     */
-    public ByteBuffer get(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(java.nio.IntBuffer)
-     */
-    public IntBuffer get(IntBuffer buffer) {
-        return get(buffer.position(), buffer);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(int, java.nio.IntBuffer)
-     */
-    public IntBuffer get(int index, IntBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
-    }
-//#endif
-
-    /**
-     * Subtract the supplied vector from this one and store the result in
-     * <code>this</code>.
-     *
-     * @param v
-     *          the vector to subtract
-     * @return this
-     */
-    public Vector2i sub(Vector2ic v) {
+    @Override
+    public Vector2ic sub(IVector2i v) {
         x -= v.x();
         y -= v.y();
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#sub(org.joml.Vector2ic, org.joml.Vector2i)
-     */
-    public Vector2i sub(Vector2ic v, Vector2i dest) {
-        dest.x = x - v.x();
-        dest.y = y - v.y();
-        return dest;
-    }
-
-    /**
-     * Decrement the components of this vector by the given values.
-     *
-     * @param x
-     *          the x component to subtract
-     * @param y
-     *          the y component to subtract
-     * @return this
-     */
-    public Vector2i sub(int x, int y) {
+    @Override
+    public Vector2ic sub(int x, int y) {
         this.x -= x;
         this.y -= y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#sub(int, int, org.joml.Vector2i)
-     */
-    public Vector2i sub(int x, int y, Vector2i dest) {
-        dest.x = this.x - x;
-        dest.y = this.y - y;
-        return dest;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#lengthSquared()
-     */
-    public long lengthSquared() {
-        return x * x + y * y;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#length()
-     */
-    public double length() {
-        return Math.sqrt(lengthSquared());
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distance(org.joml.Vector2ic)
-     */
-    public double distance(Vector2ic v) {
-        return Math.sqrt(distanceSquared(v));
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distance(int, int)
-     */
-    public double distance(int x, int y) {
-        return Math.sqrt(distanceSquared(x, y));
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distanceSquared(org.joml.Vector2ic)
-     */
-    public long distanceSquared(Vector2ic v) {
-        int dx = this.x - v.x();
-        int dy = this.y - v.y();
-        return dx * dx + dy * dy;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distanceSquared(int, int)
-     */
-    public long distanceSquared(int x, int y) {
-        int dx = this.x - x;
-        int dy = this.y - y;
-        return dx * dx + dy * dy;
-    }
-    
-    /**
-     * Add <code>v</code> to this vector.
-     *
-     * @param v
-     *          the vector to add
-     * @return this
-     */
-    public Vector2i add(Vector2ic v) {
+    @Override
+    public Vector2ic add(IVector2i v) {
         x += v.x();
         y += v.y();
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#add(org.joml.Vector2ic, org.joml.Vector2i)
-     */
-    public Vector2i add(Vector2ic v, Vector2i dest) {
-        dest.x = x + v.x();
-        dest.y = y + v.y();
-        return dest;
-    }
-
-    /**
-     * Increment the components of this vector by the given values.
-     *
-     * @param x
-     *          the x component to add
-     * @param y
-     *          the y component to add
-     * @return this
-     */
-    public Vector2i add(int x, int y) {
+    @Override
+    public Vector2ic add(int x, int y) {
         this.x += x;
         this.y += y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#add(int, int, org.joml.Vector2i)
-     */
-    public Vector2i add(int x, int y, Vector2i dest) {
-        dest.x = this.x + x;
-        dest.y = this.y + y;
-        return dest;
-    }
-
-    /**
-     * Multiply all components of this {@link Vector2i} by the given scalar
-     * value.
-     * 
-     * @param scalar
-     *          the scalar to multiply this vector by
-     * @return this
-     */
-    public Vector2i mul(int scalar) {
+    @Override
+    public Vector2ic mul(int scalar) {
         x *= scalar;
         y *= scalar;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#mul(int, org.joml.Vector2i)
-     */
-    public Vector2i mul(int scalar, Vector2i dest) {
-        dest.x = x * scalar;
-        dest.y = y * scalar;
-        return dest;
-    }
-
-    /**
-     * Add the supplied vector by this one.
-     *
-     * @param v
-     *          the vector to multiply
-     * @return this
-     */
-    public Vector2i mul(Vector2ic v) {
+    @Override
+    public Vector2ic mul(IVector2i v) {
         x += v.x();
         y += v.y();
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#mul(org.joml.Vector2ic, org.joml.Vector2i)
-     */
-    public Vector2i mul(Vector2ic v, Vector2i dest) {
-        dest.x = x * v.x();
-        dest.y = y * v.y();
-        return dest;
-    }
-
-    /**
-     * Multiply the components of this vector by the given values.
-     *
-     * @param x
-     *          the x component to multiply
-     * @param y
-     *          the y component to multiply
-     * @return this
-     */
-    public Vector2i mul(int x, int y) {
+    @Override
+    public Vector2ic mul(int x, int y) {
         this.x *= x;
         this.y *= y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#mul(int, int, org.joml.Vector2i)
-     */
-    public Vector2i mul(int x, int y, Vector2i dest) {
-        dest.x = this.x * x;
-        dest.y = this.y * y;
-        return dest;
-    }
-
-    /**
-     * Set all components to zero.
-     *
-     * @return this
-     */
-    public Vector2i zero() {
+    @Override
+    public Vector2ic zero() {
         this.x = 0;
         this.y = 0;
         return this;
     }
 
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeInt(x);
-        out.writeInt(y);
-    }
-
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        x = in.readInt();
-        y = in.readInt();
-    }
-
-    /**
-     * Negate this vector.
-     *
-     * @return this
-     */
-    public Vector2i negate() {
+    @Override
+    public Vector2ic negate() {
         x = -x;
         y = -y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#negate(org.joml.Vector2i)
-     */
-    public Vector2i negate(Vector2i dest) {
-        dest.x = -x;
-        dest.y = -y;
-        return dest;
-    }
-
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -630,46 +312,157 @@ public class Vector2i implements Externalizable, Vector2ic {
         return result;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof Vector2ic))
             return false;
-        }
-        Vector2i other = (Vector2i) obj;
-        if (x != other.x) {
+        Vector2ic other = (Vector2ic) obj;
+        if (x != other.x())
             return false;
-        }
-        if (y != other.y) {
+        if (y != other.y())
             return false;
-        }
         return true;
     }
 
-    /**
-     * Return a string representation of this vector.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
-     * 
-     * @return the string representation
-     */
+    @Override
     public String toString() {
         return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
     }
 
-    /**
-     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
-     * 
-     * @param formatter
-     *          the {@link NumberFormat} used to format the vector components with
-     * @return the string representation
-     */
+    @Override
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
     }
 
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeInt(x);
+        out.writeInt(y);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        x = in.readInt();
+        y = in.readInt();
+    }
+
+    @Override
+    public int x() {
+        return this.x;
+    }
+
+    @Override
+    public int y() {
+        return this.y;
+    }
+
+    //#ifdef __HAS_NIO__
+    @Override
+    public ByteBuffer get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    @Override
+    public ByteBuffer get(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.put(this, index, buffer);
+        return buffer;
+    }
+
+    @Override
+    public IntBuffer get(IntBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    @Override
+    public IntBuffer get(int index, IntBuffer buffer) {
+        MemUtil.INSTANCE.put(this, index, buffer);
+        return buffer;
+    }
+    //#endif
+
+    @Override
+    public Vector2ic sub(IVector2i v, Vector2ic dest) {
+        dest.set(x - v.x(), y - v.y());
+        return dest;
+    }
+
+    @Override
+    public Vector2ic sub(int x, int y, Vector2ic dest) {
+        dest.set(this.x - x, this.y - y);
+        return dest;
+    }
+
+    @Override
+    public long lengthSquared() {
+        return x * x + y * y;
+    }
+
+    @Override
+    public double length() {
+        return Math.sqrt(lengthSquared());
+    }
+
+    @Override
+    public double distance(IVector2i v) {
+        return Math.sqrt(distanceSquared(v));
+    }
+
+    @Override
+    public double distance(int x, int y) {
+        return Math.sqrt(distanceSquared(x, y));
+    }
+
+    @Override
+    public long distanceSquared(IVector2i v) {
+        int dx = this.x - v.x();
+        int dy = this.y - v.y();
+        return dx * dx + dy * dy;
+    }
+
+    @Override
+    public long distanceSquared(int x, int y) {
+        int dx = this.x - x;
+        int dy = this.y - y;
+        return dx * dx + dy * dy;
+    }
+
+    @Override
+    public Vector2ic add(IVector2i v, Vector2ic dest) {
+        dest.set(x + v.x(), y + v.y());
+        return dest;
+    }
+
+    @Override
+    public Vector2ic add(int x, int y, Vector2ic dest) {
+        dest.set(this.x + x, this.y + y);
+        return dest;
+    }
+
+    @Override
+    public Vector2ic mul(int scalar, Vector2ic dest) {
+        dest.set(x * scalar, y * scalar);
+        return dest;
+    }
+
+    @Override
+    public Vector2ic mul(IVector2i v, Vector2ic dest) {
+        dest.set(x * v.x(), y * v.y());
+        return dest;
+    }
+
+    @Override
+    public Vector2ic mul(int x, int y, Vector2ic dest) {
+        dest.set(this.x * x, this.y * y);
+        return dest;
+    }
+
+    @Override
+    public Vector2ic negate(Vector2ic dest) {
+        dest.set(-x, -y);
+        return dest;
+    }
 }

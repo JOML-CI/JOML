@@ -22,6 +22,10 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector2f;
+import org.joml.api.vector.IVector3f;
+import org.joml.api.vector.Vector3fc;
+
 /**
  * Useful geometry methods.
  * 
@@ -48,34 +52,28 @@ public class GeometryUtils {
      * @param dest2
      *            will hold the second perpendicular vector
      */
-    public static void perpendicular(float x, float y, float z, Vector3f dest1, Vector3f dest2) {
+    public static void perpendicular(float x, float y, float z, Vector3fc dest1, Vector3fc dest2) {
         float magX = z * z + y * y;
         float magY = z * z + x * x;
         float magZ = y * y + x * x;
         float mag;
         if (magX > magY && magX > magZ) {
-            dest1.x = 0;
-            dest1.y = z;
-            dest1.z = -y;
+            dest1.set(0, z, -y);
             mag = magX;
         } else if (magY > magZ) {
-            dest1.x = z;
-            dest1.y = 0;
-            dest1.z = x;
+            dest1.set(z, 0, x);
             mag = magY;
         } else {
-            dest1.x = y;
-            dest1.y = -x;
-            dest1.z = 0;
+            dest1.set(y, -x, 0);
             mag = magZ;
         }
         float len = 1.0f / (float) Math.sqrt(mag);
-        dest1.x *= len;
-        dest1.y *= len;
-        dest1.z *= len;
-        dest2.x = y * dest1.z - z * dest1.y;
-        dest2.y = z * dest1.x - x * dest1.z;
-        dest2.z = x * dest1.y - y * dest1.x;
+        dest1.set(dest1.x()*len,
+                dest1.y()*len,
+                dest1.z()*len);
+        dest2.set(y * dest1.z() - z * dest1.y(),
+                z * dest1.x() - x * dest1.z(),
+                x * dest1.y() - y * dest1.x());
     }
 
     /**
@@ -86,13 +84,13 @@ public class GeometryUtils {
      * <code>dest2</code> form an orthonormal basis.
      * 
      * @param v
-     *            the {@link Vector3f#normalize() normalized} input vector
+     *            the {@link Vector3fc#normalize() normalized} input vector
      * @param dest1
      *            will hold the first perpendicular vector
      * @param dest2
      *            will hold the second perpendicular vector
      */
-    public static void perpendicular(Vector3fc v, Vector3f dest1, Vector3f dest2) {
+    public static void perpendicular(IVector3f v, Vector3fc dest1, Vector3fc dest2) {
         perpendicular(v.x(), v.y(), v.z(), dest1, dest2);
     }
 
@@ -108,7 +106,7 @@ public class GeometryUtils {
      * @param dest
      *            will hold the result
      */
-    public static void normal(Vector3fc v0, Vector3fc v1, Vector3fc v2, Vector3f dest) {
+    public static void normal(IVector3f v0, IVector3f v1, IVector3f v2, Vector3fc dest) {
         normal(v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), dest);
     }
 
@@ -137,10 +135,10 @@ public class GeometryUtils {
      * @param dest
      *            will hold the result
      */
-    public static void normal(float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z, Vector3f dest) {
-        dest.x = ((v1Y - v0Y) * (v2Z - v0Z)) - ((v1Z - v0Z) * (v2Y - v0Y));
-        dest.y = ((v1Z - v0Z) * (v2X - v0X)) - ((v1X - v0X) * (v2Z - v0Z));
-        dest.z = ((v1X - v0X) * (v2Y - v0Y)) - ((v1Y - v0Y) * (v2X - v0X));
+    public static void normal(float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z, Vector3fc dest) {
+        dest.set(((v1Y - v0Y) * (v2Z - v0Z)) - ((v1Z - v0Z) * (v2Y - v0Y)),
+                ((v1Z - v0Z) * (v2X - v0X)) - ((v1X - v0X) * (v2Z - v0Z)),
+                ((v1X - v0X) * (v2Y - v0Y)) - ((v1Y - v0Y) * (v2X - v0X)));
         dest.normalize();
     }
 
@@ -162,15 +160,15 @@ public class GeometryUtils {
      * @param dest
      *            the tangent will be stored here
      */
-    public static void tangent(Vector3fc v1, Vector2fc uv1, Vector3fc v2, Vector2fc uv2, Vector3fc v3, Vector2fc uv3, Vector3f dest) {
+    public static void tangent(IVector3f v1, IVector2f uv1, IVector3f v2, IVector2f uv2, IVector3f v3, IVector2f uv3, Vector3fc dest) {
         float DeltaV1 = uv2.y() - uv1.y();
         float DeltaV2 = uv3.y() - uv1.y();
 
         float f = 1.0f / ((uv2.x() - uv1.x()) * DeltaV2 - (uv3.x() - uv1.x()) * DeltaV1);
 
-        dest.x = f * (DeltaV2 * (v2.x() - v1.x()) - DeltaV1 * (v3.x() - v1.x()));
-        dest.y = f * (DeltaV2 * (v2.y() - v1.y()) - DeltaV1 * (v3.y() - v1.y()));
-        dest.z = f * (DeltaV2 * (v2.z() - v1.z()) - DeltaV1 * (v3.z() - v1.z()));
+        dest.set(f * (DeltaV2 * (v2.x() - v1.x()) - DeltaV1 * (v3.x() - v1.x())),
+                f * (DeltaV2 * (v2.y() - v1.y()) - DeltaV1 * (v3.y() - v1.y())),
+                f * (DeltaV2 * (v2.z() - v1.z()) - DeltaV1 * (v3.z() - v1.z())));
         dest.normalize();
     }
 
@@ -192,15 +190,15 @@ public class GeometryUtils {
      * @param dest
      *            the binormal will be stored here
      */
-    public static void bitangent(Vector3fc v1, Vector2fc uv1, Vector3fc v2, Vector2fc uv2, Vector3fc v3, Vector2fc uv3, Vector3f dest) {
+    public static void bitangent(IVector3f v1, IVector2f uv1, IVector3f v2, IVector2f uv2, IVector3f v3, IVector2f uv3, Vector3fc dest) {
         float DeltaU1 = uv2.x() - uv1.x();
         float DeltaU2 = uv3.x() - uv1.x();
 
         float f = 1.0f / (DeltaU1 * (uv3.y() - uv1.y()) - DeltaU2 * (uv2.y() - uv1.y()));
 
-        dest.x = f * (-DeltaU2 * (v2.x() - v1.x()) - DeltaU1 * (v3.x() - v1.x()));
-        dest.y = f * (-DeltaU2 * (v2.y() - v1.y()) - DeltaU1 * (v3.y() - v1.y()));
-        dest.z = f * (-DeltaU2 * (v2.z() - v1.z()) - DeltaU1 * (v3.z() - v1.z()));
+        dest.set(f * (-DeltaU2 * (v2.x() - v1.x()) - DeltaU1 * (v3.x() - v1.x())),
+                f * (-DeltaU2 * (v2.y() - v1.y()) - DeltaU1 * (v3.y() - v1.y())),
+                f * (-DeltaU2 * (v2.z() - v1.z()) - DeltaU1 * (v3.z() - v1.z())));
         dest.normalize();
     }
 
@@ -224,7 +222,7 @@ public class GeometryUtils {
      * @param destBitangent
      *            the bitangent will be stored here
      */
-    public static void tangentBitangent(Vector3fc v1, Vector2fc uv1, Vector3fc v2, Vector2fc uv2, Vector3fc v3, Vector2fc uv3, Vector3f destTangent, Vector3f destBitangent) {
+    public static void tangentBitangent(IVector3f v1, IVector2f uv1, IVector3f v2, IVector2f uv2, IVector3f v3, IVector2f uv3, Vector3fc destTangent, Vector3fc destBitangent) {
         float DeltaV1 = uv2.y() - uv1.y();
         float DeltaV2 = uv3.y() - uv1.y();
         float DeltaU1 = uv2.x() - uv1.x();
@@ -232,14 +230,14 @@ public class GeometryUtils {
 
         float f = 1.0f / (DeltaU1 * DeltaV2 - DeltaU2 * DeltaV1);
 
-        destTangent.x = f * (DeltaV2 * (v2.x() - v1.x()) - DeltaV1 * (v3.x() - v1.x()));
-        destTangent.y = f * (DeltaV2 * (v2.y() - v1.y()) - DeltaV1 * (v3.y() - v1.y()));
-        destTangent.z = f * (DeltaV2 * (v2.z() - v1.z()) - DeltaV1 * (v3.z() - v1.z()));
+        destTangent.set(f * (DeltaV2 * (v2.x() - v1.x()) - DeltaV1 * (v3.x() - v1.x())),
+                f * (DeltaV2 * (v2.y() - v1.y()) - DeltaV1 * (v3.y() - v1.y())),
+                f * (DeltaV2 * (v2.z() - v1.z()) - DeltaV1 * (v3.z() - v1.z())));
         destTangent.normalize();
 
-        destBitangent.x = f * (-DeltaU2 * (v2.x() - v1.x()) - DeltaU1 * (v3.x() - v1.x()));
-        destBitangent.y = f * (-DeltaU2 * (v2.y() - v1.y()) - DeltaU1 * (v3.y() - v1.y()));
-        destBitangent.z = f * (-DeltaU2 * (v2.z() - v1.z()) - DeltaU1 * (v3.z() - v1.z()));
+        destBitangent.set(f * (-DeltaU2 * (v2.x() - v1.x()) - DeltaU1 * (v3.x() - v1.x())),
+                f * (-DeltaU2 * (v2.y() - v1.y()) - DeltaU1 * (v3.y() - v1.y())),
+                f * (-DeltaU2 * (v2.z() - v1.z()) - DeltaU1 * (v3.z() - v1.z())));
         destBitangent.normalize();
     }
 

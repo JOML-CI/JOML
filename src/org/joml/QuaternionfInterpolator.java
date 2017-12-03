@@ -22,8 +22,11 @@
  */
 package org.joml;
 
+import org.joml.api.matrix.Matrix3fc;
+import org.joml.api.quaternion.Quaternionfc;
+
 /**
- * Computes the weighted average of multiple rotations represented as {@link Quaternionf} instances.
+ * Computes the weighted average of multiple rotations represented as {@link Quaternionfc} instances.
  * <p>
  * Instances of this class are <i>not</i> thread-safe.
  * <p>
@@ -34,7 +37,7 @@ package org.joml;
 public class QuaternionfInterpolator {
 
     /**
-     * Performs singular value decomposition on {@link Matrix3f}.
+     * Performs singular value decomposition on {@link Matrix3fc}.
      * <p>
      * This code was adapted from <a href="http://www.public.iastate.edu/~dicook/JSS/paper/code/svd.c">http://www.public.iastate.edu/</a>.
      * 
@@ -55,7 +58,7 @@ public class QuaternionfInterpolator {
             return ((b) >= 0.0 ? Math.abs(a) : -Math.abs(a));
         }
 
-        void svd(float[] a, int maxIterations, Matrix3f destU, Matrix3f destV) {
+        void svd(float[] a, int maxIterations, Matrix3fc destU, Matrix3fc destV) {
             int flag, i, its, j, jj, k, l = 0, nm = 0;
             float c, f, h, s, x, y, z;
             float anorm = 0.0f, g = 0.0f, scale = 0.0f;
@@ -308,7 +311,7 @@ public class QuaternionfInterpolator {
      *            will hold the result
      * @return dest
      */
-    public Quaternionf computeWeightedAverage(Quaternionfc[] qs, float[] weights, int maxSvdIterations, Quaternionf dest) {
+    public Quaternionfc computeWeightedAverage(Quaternionfc[] qs, float[] weights, int maxSvdIterations, Quaternionfc dest) {
         float m00 = 0.0f, m01 = 0.0f, m02 = 0.0f;
         float m10 = 0.0f, m11 = 0.0f, m12 = 0.0f;
         float m20 = 0.0f, m21 = 0.0f, m22 = 0.0f;

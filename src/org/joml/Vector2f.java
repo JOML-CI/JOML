@@ -22,6 +22,12 @@
  */
 package org.joml;
 
+import org.joml.api.matrix.IMatrix3x2f;
+import org.joml.api.vector.IVector2d;
+import org.joml.api.vector.IVector2f;
+import org.joml.api.vector.IVector2i;
+import org.joml.api.vector.Vector2fc;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -39,7 +45,7 @@ import java.text.NumberFormat;
  * @author RGreenlees
  * @author Kai Burjack
  */
-public class Vector2f implements Externalizable, Vector2fc {
+public class Vector2f extends Vector2fc implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -85,9 +91,9 @@ public class Vector2f implements Externalizable, Vector2fc {
      * Create a new {@link Vector2f} and initialize its components to the one of the given vector.
      * 
      * @param v
-     *        the {@link Vector2fc} to copy the values from
+     *        the {@link IVector2f} to copy the values from
      */
-    public Vector2f(Vector2fc v) {
+    public Vector2f(IVector2f v) {
         x = v.x();
         y = v.y();
     }
@@ -96,14 +102,14 @@ public class Vector2f implements Externalizable, Vector2fc {
      * Create a new {@link Vector2f} and initialize its components to the one of the given vector.
      * 
      * @param v
-     *        the {@link Vector2ic} to copy the values from
+     *        the {@link IVector2i} to copy the values from
      */
-    public Vector2f(Vector2ic v) {
+    public Vector2f(IVector2i v) {
         x = v.x();
         y = v.y();
     }
 
-//#ifdef __HAS_NIO__
+    //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
      * at the current buffer {@link ByteBuffer#position() position}.
@@ -168,175 +174,67 @@ public class Vector2f implements Externalizable, Vector2fc {
     public Vector2f(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
-//#endif
+    //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#x()
-     */
-    public float x() {
-        return this.x;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#y()
-     */
-    public float y() {
-        return this.y;
-    }
-
-    /**
-     * Set the x and y components to the supplied value.
-     *
-     * @param d
-     *        the value of both components
-     * @return this
-     */
-    public Vector2f set(float d) {
+    @Override
+    public Vector2fc set(float d) {
         return set(d, d);
     }
-    
-    /**
-     * Set the x and y components to the supplied values.
-     * 
-     * @param x
-     *        the x component
-     * @param y
-     *        the y component
-     * @return this
-     */
-    public Vector2f set(float x, float y) {
+
+    @Override
+    public Vector2fc set(float x, float y) {
         this.x = x;
         this.y = y;
         return this;
     }
 
-    /**
-     * Set this {@link Vector2f} to the values of v.
-     * 
-     * @param v
-     *        the vector to copy from
-     * @return this
-     */
-    public Vector2f set(Vector2fc v) {
+    @Override
+    public Vector2fc set(IVector2f v) {
         x = v.x();
         y = v.y();
         return this;
     }
 
-    /**
-     * Set this {@link Vector2f} to the values of v.
-     * 
-     * @param v
-     *        the vector to copy from
-     * @return this
-     */
-    public Vector2f set(Vector2ic v) {
+    @Override
+    public Vector2fc set(IVector2i v) {
         x = v.x();
         y = v.y();
         return this;
     }
 
-    /**
-     * Set this {@link Vector2f} to the values of v.
-     * <p>
-     * Note that due to the given vector <code>v</code> storing the components in double-precision,
-     * there is the possibility to lose precision.
-     * 
-     * @param v
-     *        the vector to copy from
-     * @return this
-     */
-    public Vector2f set(Vector2dc v) {
+    @Override
+    public Vector2fc set(IVector2d v) {
         x = (float) v.x();
         y = (float) v.y();
         return this;
     }
 
-//#ifdef __HAS_NIO__
-    /**
-     * Read this vector from the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the vector is read, use {@link #set(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer
-     *        values will be read in <tt>x, y</tt> order
-     * @return this
-     * @see #set(int, ByteBuffer)
-     */
-    public Vector2f set(ByteBuffer buffer) {
+    //#ifdef __HAS_NIO__
+    @Override
+    public Vector2fc set(ByteBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    /**
-     * Read this vector from the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     *
-     * @param index
-     *        the absolute position into the ByteBuffer
-     * @param buffer
-     *        values will be read in <tt>x, y</tt> order
-     * @return this
-     */
-    public Vector2f set(int index, ByteBuffer buffer) {
+    @Override
+    public Vector2fc set(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
-    /**
-     * Read this vector from the supplied {@link FloatBuffer} at the current
-     * buffer {@link FloatBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * In order to specify the offset into the FloatBuffer at which
-     * the vector is read, use {@link #set(int, FloatBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer
-     *        values will be read in <tt>x, y</tt> order
-     * @return this
-     * @see #set(int, FloatBuffer)
-     */
-    public Vector2f set(FloatBuffer buffer) {
+    @Override
+    public Vector2fc set(FloatBuffer buffer) {
         return set(buffer.position(), buffer);
     }
 
-    /**
-     * Read this vector from the supplied {@link FloatBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     *
-     * @param index 
-     *        the absolute position into the FloatBuffer
-     * @param buffer
-     *        values will be read in <tt>x, y</tt> order
-     * @return this
-     */
-    public Vector2f set(int index, FloatBuffer buffer) {
+    @Override
+    public Vector2fc set(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
-//#endif
+    //#endif
 
-    /**
-     * Set the value of the specified component of this vector.
-     *
-     * @param component
-     *          the component whose value to set, within <tt>[0..1]</tt>
-     * @param value
-     *          the value to set
-     * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
-     */
-    public Vector2f setComponent(int component, float value) throws IllegalArgumentException {
+    @Override
+    public Vector2fc setComponent(int component, float value) throws IllegalArgumentException {
         switch (component) {
             case 0:
                 x = value;
@@ -350,427 +248,106 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-//#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#get(java.nio.ByteBuffer)
-     */
-    public ByteBuffer get(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#get(int, java.nio.ByteBuffer)
-     */
-    public ByteBuffer get(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#get(java.nio.FloatBuffer)
-     */
-    public FloatBuffer get(FloatBuffer buffer) {
-        return get(buffer.position(), buffer);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#get(int, java.nio.FloatBuffer)
-     */
-    public FloatBuffer get(int index, FloatBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
-    }
-//#endif
-
-    /**
-     * Set this vector to be one of its perpendicular vectors.
-     * 
-     * @return this
-     */
-    public Vector2f perpendicular() {
+    @Override
+    public Vector2fc perpendicular() {
         return set(y, x * -1);
     }
 
-    /**
-     * Subtract <code>v</code> from this vector.
-     * 
-     * @param v
-     *          the vector to subtract
-     * @return this
-     */
-    public Vector2f sub(Vector2fc v) {
+    @Override
+    public Vector2fc sub(IVector2f v) {
         x -= v.x();
         y -= v.y();
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#sub(org.joml.Vector2fc, org.joml.Vector2f)
-     */
-    public Vector2f sub(Vector2fc v, Vector2f dest) {
-        dest.x = x - v.x();
-        dest.y = y - v.y();
-        return dest;
-    }
-
-    /**
-     * Subtract <tt>(x, y)</tt> from this vector.
-     * 
-     * @param x
-     *          the x component to subtract
-     * @param y
-     *          the y component to subtract
-     * @return this
-     */
-    public Vector2f sub(float x, float y) {
+    @Override
+    public Vector2fc sub(float x, float y) {
         this.x -= x;
         this.y -= y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#sub(float, float, org.joml.Vector2f)
-     */
-    public Vector2f sub(float x, float y, Vector2f dest) {
-        dest.x = this.x - x;
-        dest.y = this.y - y;
-        return dest;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#dot(org.joml.Vector2fc)
-     */
-    public float dot(Vector2fc v) {
-        return x * v.x() + y * v.y();
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#angle(org.joml.Vector2fc)
-     */
-    public float angle(Vector2fc v) {
-        float dot = x*v.x() + y*v.y();
-        float det = x*v.y() - y*v.x();
-        return (float) Math.atan2(det, dot);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#length()
-     */
-    public float length() {
-        return (float) Math.sqrt((x * x) + (y * y));
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#lengthSquared()
-     */
-    public float lengthSquared() {
-        return x * x + y * y;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#distance(org.joml.Vector2fc)
-     */
-    public float distance(Vector2fc v) {
-        return distance(v.x(), v.y());
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#distanceSquared(org.joml.Vector2fc)
-     */
-    public float distanceSquared(Vector2fc v) {
-        return distanceSquared(v.x(), v.y());
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#distance(float, float)
-     */
-    public float distance(float x, float y) {
-        float dx = this.x - x;
-        float dy = this.y - y;
-        return (float) Math.sqrt(dx * dx + dy * dy);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#distanceSquared(float, float)
-     */
-    public float distanceSquared(float x, float y) {
-        float dx = this.x - x;
-        float dy = this.y - y;
-        return dx * dx + dy * dy;
-    }
-
-    /**
-     * Normalize this vector.
-     * 
-     * @return this
-     */
-    public Vector2f normalize() {
+    @Override
+    public Vector2fc normalize() {
         float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
         x *= invLength;
         y *= invLength;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#normalize(org.joml.Vector2f)
-     */
-    public Vector2f normalize(Vector2f dest) {
-        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
-        dest.x = x * invLength;
-        dest.y = y * invLength;
-        return dest;
-    }
-
-    /**
-     * Scale this vector to have the given length.
-     * 
-     * @param length
-     *          the desired length
-     * @return this
-     */
-    public Vector2f normalize(float length) {
+    @Override
+    public Vector2fc normalize(float length) {
         float invLength = (float) (1.0 / Math.sqrt(x * x + y * y)) * length;
         x *= invLength;
         y *= invLength;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#normalize(float, org.joml.Vector2f)
-     */
-    public Vector2f normalize(float length, Vector2f dest) {
-        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y)) * length;
-        dest.x = x * invLength;
-        dest.y = y * invLength;
-        return dest;
-    }
-
-    /**
-     * Add <code>v</code> to this vector.
-     * 
-     * @param v
-     *        the vector to add
-     * @return this
-     */
-    public Vector2f add(Vector2fc v) {
+    @Override
+    public Vector2fc add(IVector2f v) {
         x += v.x();
         y += v.y();
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#add(org.joml.Vector2fc, org.joml.Vector2f)
-     */
-    public Vector2f add(Vector2fc v, Vector2f dest) {
-        dest.x = x + v.x();
-        dest.y = y + v.y();
-        return dest;
-    }
-
-    /**
-     * Increment the components of this vector by the given values.
-     * 
-     * @param x
-     *          the x component to add
-     * @param y
-     *          the y component to add
-     * @return this
-     */
-    public Vector2f add(float x, float y) {
+    @Override
+    public Vector2fc add(float x, float y) {
         this.x += x;
         this.y += y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#add(float, float, org.joml.Vector2f)
-     */
-    public Vector2f add(float x, float y, Vector2f dest) {
-        dest.x = this.x + x;
-        dest.y = this.y + y;
-        return dest;
-    }
-
-    /**
-     * Set all components to zero.
-     * 
-     * @return this
-     */
-    public Vector2f zero() {
+    @Override
+    public Vector2fc zero() {
         this.x = 0.0f;
         this.y = 0.0f;
         return this;
     }
 
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeFloat(x);
-        out.writeFloat(y);
-    }
-
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
-        x = in.readFloat();
-        y = in.readFloat();
-    }
-
-    /**
-     * Negate this vector.
-     * 
-     * @return this
-     */
-    public Vector2f negate() {
+    @Override
+    public Vector2fc negate() {
         x = -x;
         y = -y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#negate(org.joml.Vector2f)
-     */
-    public Vector2f negate(Vector2f dest) {
-        dest.x = -x;
-        dest.y = -y;
-        return dest;
-    }
-
-    /**
-     * Multiply the components of this vector by the given scalar.
-     * 
-     * @param scalar
-     *        the value to multiply this vector's components by
-     * @return this
-     */
-    public Vector2f mul(float scalar) {
+    @Override
+    public Vector2fc mul(float scalar) {
         this.x *= scalar;
         this.y *= scalar;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mul(float, org.joml.Vector2f)
-     */
-    public Vector2f mul(float scalar, Vector2f dest) {
-        dest.x = x * scalar;
-        dest.y = y * scalar;
-        return dest;
-    }
-
-    /**
-     * Multiply the components of this Vector2f by the given scalar values and store the result in <code>this</code>.
-     * 
-     * @param x
-     *          the x component to multiply this vector by
-     * @param y
-     *          the y component to multiply this vector by
-     * @return this
-     */
-    public Vector2f mul(float x, float y) {
+    @Override
+    public Vector2fc mul(float x, float y) {
         this.x *= x;
         this.y *= y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mul(float, float, org.joml.Vector2f)
-     */
-    public Vector2f mul(float x, float y, Vector2f dest) {
-        dest.x = this.x * x;
-        dest.y = this.y * y;
-        return dest;
-    }
-
-    /**
-     * Multiply this Vector2f component-wise by another Vector2f.
-     * 
-     * @param v
-     *          the vector to multiply by
-     * @return this
-     */
-    public Vector2f mul(Vector2fc v) {
+    @Override
+    public Vector2fc mul(IVector2f v) {
         x *= v.x();
         y *= v.y();
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mul(org.joml.Vector2fc, org.joml.Vector2f)
-     */
-    public Vector2f mul(Vector2fc v, Vector2f dest) {
-        dest.x = x * v.x();
-        dest.y = y * v.y();
-        return dest;
-    }
-
-    /**
-     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
-     * <p>
-     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>1.0</tt>.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @return this
-     */
-    public Vector2f mulPosition(Matrix3x2fc mat) {
+    @Override
+    public Vector2fc mulPosition(IMatrix3x2f mat) {
         return mulPosition(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mulPosition(org.joml.Matrix3x2fc, org.joml.Vector2f)
-     */
-    public Vector2f mulPosition(Matrix3x2fc mat, Vector2f dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20(),
-                 mat.m01() * x + mat.m11() * y + mat.m21());
-        return dest;
-    }
-
-    /**
-     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
-     * <p>
-     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>0.0</tt>.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @return this
-     */
-    public Vector2f mulDirection(Matrix3x2fc mat) {
+    @Override
+    public Vector2fc mulDirection(IMatrix3x2f mat) {
         return mulPosition(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mulDirection(org.joml.Matrix3x2fc, org.joml.Vector2f)
-     */
-    public Vector2f mulDirection(Matrix3x2fc mat, Vector2f dest) {
-        dest.set(mat.m00() * x + mat.m10() * y,
-                 mat.m01() * x + mat.m11() * y);
-        return dest;
-    }
-
-    /**
-     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
-     * and store the result in <code>this</code>.
-     * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
-     * then the result is <code>other</code>.
-     * 
-     * @param other
-     *          the other vector
-     * @param t
-     *          the interpolation factor between 0.0 and 1.0
-     * @return this
-     */
-    public Vector2f lerp(Vector2fc other, float t) {
+    @Override
+    public Vector2fc lerp(IVector2f other, float t) {
         return lerp(other, t, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#lerp(org.joml.Vector2fc, float, org.joml.Vector2f)
-     */
-    public Vector2f lerp(Vector2fc other, float t, Vector2f dest) {
-        dest.x = x + (other.x() - x) * t;
-        dest.y = y + (other.y() - y) * t;
-        return dest;
-    }
-
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -779,89 +356,232 @@ public class Vector2f implements Externalizable, Vector2fc {
         return result;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Vector2fc))
             return false;
-        Vector2f other = (Vector2f) obj;
-        if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
+        Vector2fc other = (Vector2fc) obj;
+        if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x()))
             return false;
-        if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
+        if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y()))
             return false;
         return true;
     }
 
-    /**
-     * Return a string representation of this vector.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
-     * 
-     * @return the string representation
-     */
+    @Override
     public String toString() {
         return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
     }
 
-    /**
-     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
-     * 
-     * @param formatter
-     *          the {@link NumberFormat} used to format the vector components with
-     * @return the string representation
-     */
+    @Override
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
     }
 
-    /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector.
-     * 
-     * @param a
-     *          the first multiplicand
-     * @param b
-     *          the second multiplicand
-     * @return this
-     */
-    public Vector2f fma(Vector2fc a, Vector2fc b) {
+    @Override
+    public Vector2fc fma(IVector2f a, IVector2f b) {
         x += a.x() * b.x();
         y += a.y() * b.y();
         return this;
     }
 
-    /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector.
-     * 
-     * @param a
-     *          the first multiplicand
-     * @param b
-     *          the second multiplicand
-     * @return this
-     */
-    public Vector2f fma(float a, Vector2fc b) {
+    @Override
+    public Vector2fc fma(float a, IVector2f b) {
         x += a * b.x();
         y += a * b.y();
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#fma(org.joml.Vector2fc, org.joml.Vector2fc, org.joml.Vector2f)
-     */
-    public Vector2f fma(Vector2fc a, Vector2fc b, Vector2f dest) {
-        dest.x = x + a.x() * b.x();
-        dest.y = y + a.y() * b.y();
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeFloat(x);
+        out.writeFloat(y);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        x = in.readFloat();
+        y = in.readFloat();
+    }
+
+    @Override
+    public float x() {
+        return this.x;
+    }
+
+    @Override
+    public float y() {
+        return this.y;
+    }
+
+    //#ifdef __HAS_NIO__
+    @Override
+    public ByteBuffer get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    @Override
+    public ByteBuffer get(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.put(this, index, buffer);
+        return buffer;
+    }
+
+    @Override
+    public FloatBuffer get(FloatBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    @Override
+    public FloatBuffer get(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.put(this, index, buffer);
+        return buffer;
+    }
+    //#endif
+
+    @Override
+    public Vector2fc sub(IVector2f v, Vector2fc dest) {
+        dest.set(x - v.x(), y - v.y());
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#fma(float, org.joml.Vector2fc, org.joml.Vector2f)
-     */
-    public Vector2f fma(float a, Vector2fc b, Vector2f dest) {
-        dest.x = x + a * b.x();
-        dest.y = y + a * b.y();
+    @Override
+    public Vector2fc sub(float x, float y, Vector2fc dest) {
+        dest.set(this.x - x, this.y - y);
         return dest;
     }
 
+    @Override
+    public float dot(IVector2f v) {
+        return x * v.x() + y * v.y();
+    }
+
+    @Override
+    public float angle(IVector2f v) {
+        float dot = x*v.x() + y*v.y();
+        float det = x*v.y() - y*v.x();
+        return (float) Math.atan2(det, dot);
+    }
+
+    @Override
+    public float length() {
+        return (float) Math.sqrt((x * x) + (y * y));
+    }
+
+    @Override
+    public float lengthSquared() {
+        return x * x + y * y;
+    }
+
+    @Override
+    public float distance(IVector2f v) {
+        return distance(v.x(), v.y());
+    }
+
+    @Override
+    public float distanceSquared(IVector2f v) {
+        return distanceSquared(v.x(), v.y());
+    }
+
+    @Override
+    public float distance(float x, float y) {
+        float dx = this.x - x;
+        float dy = this.y - y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
+    @Override
+    public float distanceSquared(float x, float y) {
+        float dx = this.x - x;
+        float dy = this.y - y;
+        return dx * dx + dy * dy;
+    }
+
+    @Override
+    public Vector2fc normalize(Vector2fc dest) {
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
+        dest.set(x * invLength, y * invLength);
+        return dest;
+    }
+
+    @Override
+    public Vector2fc normalize(float length, Vector2fc dest) {
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y)) * length;
+        dest.set(x * invLength, y * invLength);
+        return dest;
+    }
+
+    @Override
+    public Vector2fc add(IVector2f v, Vector2fc dest) {
+        dest.set(x + v.x(), y + v.y());
+        return dest;
+    }
+
+    @Override
+    public Vector2fc add(float x, float y, Vector2fc dest) {
+        dest.set(this.x + x, this.y + y);
+        return dest;
+    }
+
+    @Override
+    public Vector2fc negate(Vector2fc dest) {
+        dest.set(-x, -y);
+        return dest;
+    }
+
+    @Override
+    public Vector2fc mul(float scalar, Vector2fc dest) {
+        dest.set(x * scalar, y * scalar);
+        return dest;
+    }
+
+    @Override
+    public Vector2fc mul(float x, float y, Vector2fc dest) {
+        dest.set(this.x * x, this.y * y);
+        return dest;
+    }
+
+    @Override
+    public Vector2fc mul(IVector2f v, Vector2fc dest) {
+        dest.set(x * v.x(), y * v.y());
+        return dest;
+    }
+
+    @Override
+    public Vector2fc mulPosition(IMatrix3x2f mat, Vector2fc dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20(),
+                mat.m01() * x + mat.m11() * y + mat.m21());
+        return dest;
+    }
+
+    @Override
+    public Vector2fc mulDirection(IMatrix3x2f mat, Vector2fc dest) {
+        dest.set(mat.m00() * x + mat.m10() * y,
+                mat.m01() * x + mat.m11() * y);
+        return dest;
+    }
+
+    @Override
+    public Vector2fc lerp(IVector2f other, float t, Vector2fc dest) {
+        dest.set(x + (other.x() - x) * t,
+                y + (other.y() - y) * t);
+        return dest;
+    }
+
+    @Override
+    public Vector2fc fma(IVector2f a, IVector2f b, Vector2fc dest) {
+        dest.set(x + a.x() * b.x(),
+                y + a.y() * b.y());
+        return dest;
+    }
+
+    @Override
+    public Vector2fc fma(float a, IVector2f b, Vector2fc dest) {
+        dest.set(x + a * b.x(),
+                y + a * b.y());
+        return dest;
+    }
 }

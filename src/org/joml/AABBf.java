@@ -22,6 +22,10 @@
  */
 package org.joml;
 
+import org.joml.api.Planefc;
+import org.joml.api.vector.IVector3f;
+import org.joml.api.vector.Vector2fc;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -65,7 +69,7 @@ public class AABBf {
      * @param max
      *          the maximum coordinates
      */
-    public AABBf(Vector3fc min, Vector3fc max) {
+    public AABBf(IVector3f min, IVector3f max) {
         this.minX = min.x();
         this.minY = min.y();
         this.minZ = min.z();
@@ -142,7 +146,7 @@ public class AABBf {
      *          the minimum coordinates
      * @return this
      */
-    public AABBf setMin(Vector3fc min) {
+    public AABBf setMin(IVector3f min) {
         return this.setMin(min.x(), min.y(), min.z());
     }
 
@@ -153,7 +157,7 @@ public class AABBf {
      *          the maximum coordinates
      * @return this
      */
-    public AABBf setMax(Vector3fc max) {
+    public AABBf setMax(IVector3f max) {
         return this.setMax(max.x(), max.y(), max.z());
     }
 
@@ -179,7 +183,7 @@ public class AABBf {
      *          the point
      * @return this
      */
-    public AABBf union(Vector3fc p) {
+    public AABBf union(IVector3f p) {
         return union(p.x(), p.y(), p.z(), this);
     }
 
@@ -215,7 +219,7 @@ public class AABBf {
      *          will hold the result
      * @return dest
      */
-    public AABBf union(Vector3fc p, AABBf dest) {
+    public AABBf union(IVector3f p, AABBf dest) {
         return union(p.x(), p.y(), p.z(), dest);
     }
 
@@ -297,7 +301,7 @@ public class AABBf {
      *          the coordinates of the point
      * @return <code>true</code> iff the given point lies inside this AABB; <code>false</code> otherwise
      */
-    public boolean testPoint(Vector3fc point) {
+    public boolean testPoint(IVector3f point) {
         return testPoint(point.x(), point.y(), point.z());
     }
 
@@ -329,7 +333,7 @@ public class AABBf {
      *          the plane
      * @return <code>true</code> iff the plane intersects this AABB; <code>false</code> otherwise
      */
-    public boolean testPlane(Planef plane) {
+    public boolean testPlane(Planefc plane) {
         return Intersectionf.testAabPlane(this, plane);
     }
 
@@ -446,7 +450,7 @@ public class AABBf {
      *              iff the ray intersects this AABB
      * @return <code>true</code> if the given ray intersects this AABB; <code>false</code> otherwise
      */
-    public boolean intersectRay(float originX, float originY, float originZ, float dirX, float dirY, float dirZ, Vector2f result) {
+    public boolean intersectRay(float originX, float originY, float originZ, float dirX, float dirY, float dirZ, Vector2fc result) {
         return Intersectionf.intersectRayAab(originX, originY, originZ, dirX, dirY, dirZ, minX, minY, minZ, maxX, maxY, maxZ, result);
     }
 
@@ -466,7 +470,7 @@ public class AABBf {
      *              iff the ray intersects this AABB
      * @return <code>true</code> if the given ray intersects this AABB; <code>false</code> otherwise
      */
-    public boolean intersectRay(Rayf ray, Vector2f result) {
+    public boolean intersectRay(Rayf ray, Vector2fc result) {
         return Intersectionf.intersectRayAab(ray, this, result);
     }
 
@@ -500,7 +504,7 @@ public class AABBf {
      *         {@link Intersectionf#ONE_INTERSECTION} if one of the end points of the line segment lies inside of this AABB; or
      *         {@link Intersectionf#TWO_INTERSECTION} if the line segment intersects two sides of this AABB or lies on an edge or a side of this AABB
      */
-    public int intersectLineSegment(float p0X, float p0Y, float p0Z, float p1X, float p1Y, float p1Z, Vector2f result) {
+    public int intersectLineSegment(float p0X, float p0Y, float p0Z, float p1X, float p1Y, float p1Z, Vector2fc result) {
         return Intersectionf.intersectLineSegmentAab(p0X, p0Y, p0Z, p1X, p1Y, p1Z, minX, minY, minZ, maxX, maxY, maxZ, result);
     }
 
@@ -523,7 +527,7 @@ public class AABBf {
      *         {@link Intersectionf#ONE_INTERSECTION} if one of the end points of the line segment lies inside of this AABB; or
      *         {@link Intersectionf#TWO_INTERSECTION} if the line segment intersects two sides of this AABB or lies on an edge or a side of this AABB
      */
-    public int intersectLineSegment(LineSegmentf lineSegment, Vector2f result) {
+    public int intersectLineSegment(LineSegmentf lineSegment, Vector2fc result) {
         return Intersectionf.intersectLineSegmentAab(lineSegment, this, result);
     }
 

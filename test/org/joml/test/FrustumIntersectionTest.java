@@ -5,8 +5,8 @@ import junit.framework.TestCase;
 
 import org.joml.FrustumIntersection;
 import org.joml.Matrix4f;
-import org.joml.Matrix4fc;
 import org.joml.Math;
+import org.joml.api.matrix.Matrix4fc;
 
 /**
  * Tests for the {@link FrustumIntersection} class.
@@ -16,21 +16,21 @@ import org.joml.Math;
 public class FrustumIntersectionTest extends TestCase {
 
     public static void testIsSphereInFrustumOrtho() {
-        Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
+        Matrix4fc m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
         FrustumIntersection c = new FrustumIntersection(m);
         Assert.assertTrue(c.testSphere(1, 0, 0, 0.1f));
         Assert.assertFalse(c.testSphere(1.2f, 0, 0, 0.1f));
     }
 
     public static void testIsSphereInFrustumPerspective() {
-        Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
+        Matrix4fc m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
         FrustumIntersection c = new FrustumIntersection(m);
         Assert.assertTrue(c.testSphere(1, 0, -2, 0.1f));
         Assert.assertFalse(c.testSphere(4f, 0, -2, 1.0f));
     }
 
     public static void testIsAabInFrustumOrtho() {
-        Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
+        Matrix4fc m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
         FrustumIntersection c = new FrustumIntersection(m);
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(-20, -2, 0, 20, 2, 0));
         Assert.assertEquals(FrustumIntersection.INSIDE, c.intersectAab(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f));
@@ -46,7 +46,7 @@ public class FrustumIntersectionTest extends TestCase {
     }
 
     public static void testIsAabInPerspective() {
-        Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
+        Matrix4fc m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
         FrustumIntersection c = new FrustumIntersection(m);
         Assert.assertEquals(FrustumIntersection.INSIDE, c.intersectAab(0, 0, -7, 1, 1, -5));
         Assert.assertEquals(FrustumIntersection.PLANE_PX, c.intersectAab(1.1f, 0, 0, 2, 2, 2));
@@ -55,14 +55,14 @@ public class FrustumIntersectionTest extends TestCase {
     }
 
     public static void testIsPointInPerspective() {
-        Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
+        Matrix4fc m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
         FrustumIntersection c = new FrustumIntersection(m);
         Assert.assertTrue(c.testPoint(0, 0, -5));
         Assert.assertFalse(c.testPoint(0, 6, -5));
     }
 
     public static void testIsAabInPerspectiveMask() {
-        Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
+        Matrix4fc m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
         FrustumIntersection c = new FrustumIntersection(m);
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(5.1f, 0, -3, 8, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_PX));
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(-6.1f, 0, -3, -5, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_NX));

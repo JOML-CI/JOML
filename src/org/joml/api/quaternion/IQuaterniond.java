@@ -1,0 +1,859 @@
+/*
+ * (C) Copyright 2015-2017 JOML
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+
+ */
+package org.joml.api.quaternion;
+
+import org.joml.api.matrix.Matrix3dc;
+import org.joml.api.matrix.Matrix3fc;
+import org.joml.api.matrix.Matrix4dc;
+import org.joml.api.matrix.Matrix4fc;
+import org.joml.api.vector.IVector3d;
+import org.joml.api.vector.IVector4d;
+import org.joml.api.vector.Vector3dc;
+import org.joml.api.vector.Vector4dc;
+
+/**
+ * Interface to a read-only view of a quaternion of double-precision floats.
+ *
+ * @author Kai Burjack
+ */
+public interface IQuaterniond {
+
+    /**
+     * @return the first component of the vector part
+     */
+    double x();
+
+    /**
+     * @return the second component of the vector part
+     */
+    double y();
+
+    /**
+     * @return the third component of the vector part
+     */
+    double z();
+
+    /**
+     * @return the real/scalar part of the quaternion
+     */
+    double w();
+
+    /**
+     * Normalize this quaternion and store the result in <code>dest</code>.
+     *
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc normalize(Quaterniondc dest);
+
+    /**
+     * Add the quaternion <tt>(x, y, z, w)</tt> to this quaternion and store the result in <code>dest</code>.
+     *
+     * @param x    the x component of the vector part
+     * @param y    the y component of the vector part
+     * @param z    the z component of the vector part
+     * @param w    the real/scalar component
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc add(double x, double y, double z, double w, Quaterniondc dest);
+
+    /**
+     * Add <code>q2</code> to this quaternion and store the result in <code>dest</code>.
+     *
+     * @param q2   the quaternion to add to this
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc add(IQuaterniond q2, Quaterniondc dest);
+
+    /**
+     * Return the dot product of this {@link Quaterniondc} and <code>otherQuat</code>.
+     *
+     * @param otherQuat the other quaternion
+     * @return the dot product
+     */
+    double dot(IQuaterniond otherQuat);
+
+    /**
+     * Return the angle in radians represented by this quaternion rotation.
+     *
+     * @return the angle in radians
+     */
+    double angle();
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     *
+     * @param dest the matrix to write the rotation into
+     * @return the passed in destination
+     *
+     * @see Matrix3dc#set(IQuaterniond)
+     */
+    Matrix3dc get(Matrix3dc dest);
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     *
+     * @param dest the matrix to write the rotation into
+     * @return the passed in destination
+     *
+     * @see Matrix3fc#set(IQuaterniond)
+     */
+    Matrix3fc get(Matrix3fc dest);
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     *
+     * @param dest the matrix to write the rotation into
+     * @return the passed in destination
+     *
+     * @see Matrix4dc#set(IQuaterniond)
+     */
+    Matrix4dc get(Matrix4dc dest);
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     *
+     * @param dest the matrix to write the rotation into
+     * @return the passed in destination
+     *
+     * @see Matrix4fc#set(IQuaterniond)
+     */
+    Matrix4fc get(Matrix4fc dest);
+
+    /**
+     * Set the given {@link Quaterniondc} to the values of <code>this</code>.
+     *
+     * @param dest the {@link Quaterniondc} to set
+     * @return the passed in destination
+     */
+    Quaterniondc get(Quaterniondc dest);
+
+    /**
+     * Multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion
+     * <tt>R</tt> is:
+     * <p>
+     * <tt>R = T * Q</tt>
+     * <p>
+     * So, this method uses post-multiplication like the matrix classes, resulting in a vector to be transformed by
+     * <tt>Q</tt> first, and then by <tt>T</tt>.
+     *
+     * @param q    the quaternion to multiply <code>this</code> by
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc mul(IQuaterniond q, Quaterniondc dest);
+
+    /**
+     * Multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in
+     * <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion
+     * <tt>R</tt> is:
+     * <p>
+     * <tt>R = T * Q</tt>
+     * <p>
+     * So, this method uses post-multiplication like the matrix classes, resulting in a vector to be transformed by
+     * <tt>Q</tt> first, and then by <tt>T</tt>.
+     *
+     * @param qx   the x component of the quaternion to multiply <code>this</code> by
+     * @param qy   the y component of the quaternion to multiply <code>this</code> by
+     * @param qz   the z component of the quaternion to multiply <code>this</code> by
+     * @param qw   the w component of the quaternion to multiply <code>this</code> by
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc mul(double qx, double qy, double qz, double qw, Quaterniondc dest);
+
+    /**
+     * Pre-multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion
+     * <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by
+     * <tt>Q</tt>.
+     *
+     * @param q    the quaternion to pre-multiply <code>this</code> by
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc premul(IQuaterniond q, Quaterniondc dest);
+
+    /**
+     * Pre-multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in
+     * <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion
+     * <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by
+     * <tt>Q</tt>.
+     *
+     * @param qx   the x component of the quaternion to multiply <code>this</code> by
+     * @param qy   the y component of the quaternion to multiply <code>this</code> by
+     * @param qz   the z component of the quaternion to multiply <code>this</code> by
+     * @param qw   the w component of the quaternion to multiply <code>this</code> by
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc premul(double qx, double qy, double qz, double qw, Quaterniondc dest);
+
+    /**
+     * Transform the given vector by this quaternion. This will apply the rotation described by this quaternion to the
+     * given vector.
+     *
+     * @param vec the vector to transform
+     * @return vec
+     */
+    Vector3dc transform(Vector3dc vec);
+
+    /**
+     * Transform the given vector by this quaternion. This will apply the rotation described by this quaternion to the
+     * given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and modified.
+     *
+     * @param vec the vector to transform
+     * @return vec
+     */
+    Vector4dc transform(Vector4dc vec);
+
+    /**
+     * Transform the given vector by this quaternion and store the result in <code>dest</code>. This will apply the
+     * rotation described by this quaternion to the given vector.
+     *
+     * @param vec  the vector to transform
+     * @param dest will hold the result
+     * @return dest
+     */
+    Vector3dc transform(IVector3d vec, Vector3dc dest);
+
+    /**
+     * Transform the given vector <tt>(x, y, z)</tt> by this quaternion and store the result in <code>dest</code>. This
+     * will apply the rotation described by this quaternion to the given vector.
+     *
+     * @param x    the x coordinate of the vector to transform
+     * @param y    the y coordinate of the vector to transform
+     * @param z    the z coordinate of the vector to transform
+     * @param dest will hold the result
+     * @return dest
+     */
+    Vector3dc transform(double x, double y, double z, Vector3dc dest);
+
+    /**
+     * Transform the given vector by this quaternion and store the result in <code>dest</code>. This will apply the
+     * rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and set on the destination.
+     *
+     * @param vec  the vector to transform
+     * @param dest will hold the result
+     * @return dest
+     */
+    Vector4dc transform(IVector4d vec, Vector4dc dest);
+
+    /**
+     * Transform the given vector <tt>(x, y, z)</tt> by this quaternion and store the result in <code>dest</code>. This
+     * will apply the rotation described by this quaternion to the given vector.
+     *
+     * @param x    the x coordinate of the vector to transform
+     * @param y    the y coordinate of the vector to transform
+     * @param z    the z coordinate of the vector to transform
+     * @param dest will hold the result
+     * @return dest
+     */
+    Vector4dc transform(double x, double y, double z, Vector4dc dest);
+
+    /**
+     * Invert this quaternion and store the {@link #normalize(Quaterniondc) normalized} result in <code>dest</code>.
+     * <p>
+     * If this quaternion is already normalized, then {@link #conjugate(Quaterniondc)} should be used instead.
+     *
+     * @param dest will hold the result
+     * @return dest
+     *
+     * @see #conjugate(Quaterniondc)
+     */
+    Quaterniondc invert(Quaterniondc dest);
+
+    /**
+     * Divide <code>this</code> quaternion by <code>b</code> and store the result in <code>dest</code>.
+     * <p>
+     * The division expressed using the inverse is performed in the following way:
+     * <p>
+     * <tt>dest = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
+     *
+     * @param b    the {@link IQuaterniond} to divide this by
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc div(IQuaterniond b, Quaterniondc dest);
+
+    /**
+     * Conjugate this quaternion and store the result in <code>dest</code>.
+     *
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc conjugate(Quaterniondc dest);
+
+    /**
+     * Return the square of the length of this quaternion.
+     *
+     * @return the length
+     */
+    double lengthSquared();
+
+    /**
+     * Interpolate between <code>this</code> {@link #normalize(Quaterniondc) unit} quaternion and the specified
+     * <code>target</code> {@link #normalize(Quaterniondc) unit} quaternion using spherical linear interpolation using
+     * the specified interpolation factor <code>alpha</code>, and store the result in <code>dest</code>.
+     * <p>
+     * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code>
+     * and <code>target</code> is below <tt>1E-6</tt>.
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     *
+     * @param target the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
+     * @param alpha  the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest   will hold the result
+     * @return dest
+     */
+    Quaterniondc slerp(IQuaterniond target, double alpha, Quaterniondc dest);
+
+    /**
+     * Apply scaling to this quaternion, which results in any vector transformed by the quaternion to change its length
+     * by the given <code>factor</code>, and store the result in <code>dest</code>.
+     *
+     * @param factor the scaling factor
+     * @param dest   will hold the result
+     * @return dest
+     */
+    Quaterniondc scale(double factor, Quaterniondc dest);
+
+    /**
+     * Integrate the rotation given by the angular velocity <code>(vx, vy, vz)</code> around the x, y and z axis,
+     * respectively, with respect to the given elapsed time delta <code>dt</code> and add the differentiate rotation to
+     * the rotation represented by this quaternion and store the result into <code>dest</code>.
+     * <p>
+     * This method pre-multiplies the rotation given by <code>dt</code> and <code>(vx, vy, vz)</code> by
+     * <code>this</code>, so the angular velocities are always relative to the local coordinate system of the rotation
+     * represented by <code>this</code> quaternion.
+     * <p>
+     * This method is equivalent to calling: <code>rotateLocal(dt * vx, dt * vy, dt * vz, dest)</code>
+     * <p>
+     * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
+     *
+     * @param dt   the delta time
+     * @param vx   the angular velocity around the x axis
+     * @param vy   the angular velocity around the y axis
+     * @param vz   the angular velocity around the z axis
+     * @param dest will hold the result
+     * @return dest
+     *
+     * @see #rotateLocal(double, double, double, Quaterniondc)
+     */
+    Quaterniondc integrate(double dt, double vx, double vy, double vz, Quaterniondc dest);
+
+    /**
+     * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code> and
+     * store the result in <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     *
+     * @param q      the other quaternion
+     * @param factor the interpolation factor. It is between 0.0 and 1.0
+     * @param dest   will hold the result
+     * @return dest
+     */
+    Quaterniondc nlerp(IQuaterniond q, double factor, Quaterniondc dest);
+
+    /**
+     * Compute linear (non-spherical) interpolations of <code>this</code> and the given quaternion <code>q</code>
+     * iteratively and store the result in <code>dest</code>.
+     * <p>
+     * This method performs a series of small-step nlerp interpolations to avoid doing a costly spherical linear
+     * interpolation, like {@link #slerp(IQuaterniond, double, Quaterniondc) slerp}, by subdividing the rotation arc
+     * between <code>this</code> and <code>q</code> via non-spherical linear interpolations as long as the absolute dot
+     * product of <code>this</code> and <code>q</code> is greater than the given <code>dotThreshold</code> parameter.
+     * <p>
+     * Thanks to <tt>@theagentd</tt> at <a href="http://www.java-gaming.org/">http://www.java-gaming.org/</a> for
+     * providing the code.
+     *
+     * @param q            the other quaternion
+     * @param alpha        the interpolation factor, between 0.0 and 1.0
+     * @param dotThreshold the threshold for the dot product of <code>this</code> and <code>q</code> above which this
+     *                     method performs another iteration of a small-step linear interpolation
+     * @param dest         will hold the result
+     * @return dest
+     */
+    Quaterniondc nlerpIterative(IQuaterniond q, double alpha, double dotThreshold, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in
+     * <code>dest</code>.
+     * <p>
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the
+     * given up direction to remain parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     *
+     * @param dir  the direction to map to the positive Z axis
+     * @param up   the vector which will be mapped to a vector parallel to the plane spanned by the given
+     *             <code>dir</code> and <code>up</code>
+     * @param dest will hold the result
+     * @return dest
+     *
+     * @see #lookAlong(double, double, double, double, double, double, Quaterniondc)
+     */
+    Quaterniondc lookAlong(IVector3d dir, IVector3d up, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in
+     * <code>dest</code>.
+     * <p>
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the
+     * given up direction to remain parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     *
+     * @param dirX the x-coordinate of the direction to look along
+     * @param dirY the y-coordinate of the direction to look along
+     * @param dirZ the z-coordinate of the direction to look along
+     * @param upX  the x-coordinate of the up vector
+     * @param upY  the y-coordinate of the up vector
+     * @param upZ  the z-coordinate of the up vector
+     * @param dest will hold the result
+     * @return dest
+     */
+    Quaterniondc lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Quaterniondc dest);
+
+    /**
+     * Compute the difference between <code>this</code> and the <code>other</code> quaternion and store the result in
+     * <code>dest</code>.
+     * <p>
+     * The difference is the rotation that has to be applied to get from <code>this</code> rotation to
+     * <code>other</code>. If <tt>T</tt> is <code>this</code>, <tt>Q</tt> is <code>other</code> and <tt>D</tt> is the
+     * computed difference, then the following equation holds:
+     * <p>
+     * <tt>T * D = Q</tt>
+     * <p>
+     * It is defined as: <tt>D = T^-1 * Q</tt>, where <tt>T^-1</tt> denotes the {@link #invert(Quaterniondc) inverse} of
+     * <tt>T</tt>.
+     *
+     * @param other the other quaternion
+     * @param dest  will hold the result
+     * @return dest
+     */
+    Quaterniondc difference(IQuaterniond other, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt> and
+     * store the result in <code>dest</code>.
+     * <p>
+     * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another#answer-1171995">stackoverflow.com</a>
+     *
+     * @param fromDirX the x-coordinate of the direction to rotate into the destination direction
+     * @param fromDirY the y-coordinate of the direction to rotate into the destination direction
+     * @param fromDirZ the z-coordinate of the direction to rotate into the destination direction
+     * @param toDirX   the x-coordinate of the direction to rotate to
+     * @param toDirY   the y-coordinate of the direction to rotate to
+     * @param toDirZ   the z-coordinate of the direction to rotate to
+     * @param dest     will hold the result
+     * @return dest
+     */
+    Quaterniondc rotateTo(double fromDirX, double fromDirY, double fromDirZ, double toDirX, double toDirY, double toDirZ, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> that rotates the <code>fromDir</code> vector to point along
+     * <code>toDir</code> and store the result in <code>dest</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param fromDir the starting direction
+     * @param toDir   the destination direction
+     * @param dest    will hold the result
+     * @return dest
+     *
+     * @see #rotateTo(double, double, double, double, double, double, Quaterniondc)
+     */
+    Quaterniondc rotateTo(IVector3d fromDir, IVector3d toDir, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
+     * cartesian space and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param anglesXYZ the angles in radians to rotate about the x, y and z axes, respectively
+     * @param dest      will hold the result
+     * @return dest
+     *
+     * @see #rotate(double, double, double, Quaterniondc)
+     */
+    Quaterniondc rotate(IVector3d anglesXYZ, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
+     * cartesian space and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param angleX the angle in radians to rotate about the x axis
+     * @param angleY the angle in radians to rotate about the y axis
+     * @param angleZ the angle in radians to rotate about the z axis
+     * @param dest   will hold the result
+     * @return dest
+     */
+    Quaterniondc rotate(double angleX, double angleY, double angleZ, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
+     * local coordinate system represented by this quaternion and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>R * Q * v</code>, the rotation represented by <code>this</code> will be applied
+     * first!
+     *
+     * @param angleX the angle in radians to rotate about the local x axis
+     * @param angleY the angle in radians to rotate about the local y axis
+     * @param angleZ the angle in radians to rotate about the local z axis
+     * @param dest   will hold the result
+     * @return dest
+     */
+    Quaterniondc rotateLocal(double angleX, double angleY, double angleZ, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the x axis and store the result
+     * in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param angle the angle in radians to rotate about the x axis
+     * @param dest  will hold the result
+     * @return dest
+     *
+     * @see #rotate(double, double, double, Quaterniondc)
+     */
+    Quaterniondc rotateX(double angle, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the y axis and store the result
+     * in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param angle the angle in radians to rotate about the y axis
+     * @param dest  will hold the result
+     * @return dest
+     *
+     * @see #rotate(double, double, double, Quaterniondc)
+     */
+    Quaterniondc rotateY(double angle, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the z axis and store the result
+     * in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param angle the angle in radians to rotate about the z axis
+     * @param dest  will hold the result
+     * @return dest
+     *
+     * @see #rotate(double, double, double, Quaterniondc)
+     */
+    Quaterniondc rotateZ(double angle, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local x axis and store the
+     * result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>R * Q * v</code>, the rotation represented by <code>this</code> will be applied
+     * first!
+     *
+     * @param angle the angle in radians to rotate about the local x axis
+     * @param dest  will hold the result
+     * @return dest
+     */
+    Quaterniondc rotateLocalX(double angle, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local y axis and store the
+     * result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>R * Q * v</code>, the rotation represented by <code>this</code> will be applied
+     * first!
+     *
+     * @param angle the angle in radians to rotate about the local y axis
+     * @param dest  will hold the result
+     * @return dest
+     */
+    Quaterniondc rotateLocalY(double angle, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local z axis and store the
+     * result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>R * Q * v</code>, the rotation represented by <code>this</code> will be applied
+     * first!
+     *
+     * @param angle the angle in radians to rotate about the local z axis
+     * @param dest  will hold the result
+     * @return dest
+     */
+    Quaterniondc rotateLocalZ(double angle, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>XYZ</tt> and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param angleX the angle in radians to rotate about the x axis
+     * @param angleY the angle in radians to rotate about the y axis
+     * @param angleZ the angle in radians to rotate about the z axis
+     * @param dest   will hold the result
+     * @return dest
+     */
+    Quaterniondc rotateXYZ(double angleX, double angleY, double angleZ, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
+     * called the euler angles, using the rotation sequence <tt>ZYX</tt> and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param angleZ the angle in radians to rotate about the z axis
+     * @param angleY the angle in radians to rotate about the y axis
+     * @param angleX the angle in radians to rotate about the x axis
+     * @param dest   will hold the result
+     * @return dest
+     */
+    Quaterniondc rotateZYX(double angleZ, double angleY, double angleX, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
+     * called the euler angles, using the rotation sequence <tt>YXZ</tt> and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param angleY the angle in radians to rotate about the y axis
+     * @param angleX the angle in radians to rotate about the x axis
+     * @param angleZ the angle in radians to rotate about the z axis
+     * @param dest   will hold the result
+     * @return dest
+     */
+    Quaterniondc rotateYXZ(double angleY, double angleX, double angleZ, Quaterniondc dest);
+
+    /**
+     * Get the euler angles in radians in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the
+     * provided parameter <code>eulerAngles</code>.
+     *
+     * @param eulerAngles will hold the euler angles in radians
+     * @return the passed in vector
+     */
+    Vector3dc getEulerAnglesXYZ(Vector3dc eulerAngles);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis and store
+     * the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param angle the angle in radians to rotate about the specified axis
+     * @param axisX the x coordinate of the rotation axis
+     * @param axisY the y coordinate of the rotation axis
+     * @param axisZ the z coordinate of the rotation axis
+     * @param dest  will hold the result
+     * @return dest
+     */
+    Quaterniondc rotateAxis(double angle, double axisX, double axisY, double axisZ, Quaterniondc dest);
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis and store
+     * the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the specified
+     * rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a vector <code>v</code> with
+     * the new quaternion by using <code>Q * R * v</code>, the rotation added by this method will be applied first!
+     *
+     * @param angle the angle in radians to rotate about the specified axis
+     * @param axis  the rotation axis
+     * @param dest  will hold the result
+     * @return dest
+     *
+     * @see #rotateAxis(double, double, double, double, Quaterniondc)
+     */
+    Quaterniondc rotateAxis(double angle, IVector3d axis, Quaterniondc dest);
+
+    /**
+     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code>
+     * quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaterniondc inv = new Quaterniondc(this).invert();
+     * inv.transform(dir.set(1, 0, 0));
+     * </pre>
+     *
+     * @param dir will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    Vector3dc positiveX(Vector3dc dir);
+
+    /**
+     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code>
+     * <i>normalized</i> quaternion is applied. The quaternion <i>must</i> be {@link #normalize(Quaterniondc) normalized}
+     * for this method to work.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaterniondc inv = new Quaterniondc(this).conjugate();
+     * inv.transform(dir.set(1, 0, 0));
+     * </pre>
+     *
+     * @param dir will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    Vector3dc normalizedPositiveX(Vector3dc dir);
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code>
+     * quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaterniondc inv = new Quaterniondc(this).invert();
+     * inv.transform(dir.set(0, 1, 0));
+     * </pre>
+     *
+     * @param dir will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    Vector3dc positiveY(Vector3dc dir);
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code>
+     * <i>normalized</i> quaternion is applied. The quaternion <i>must</i> be {@link #normalize(Quaterniondc) normalized}
+     * for this method to work.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaterniondc inv = new Quaterniondc(this).conjugate();
+     * inv.transform(dir.set(0, 1, 0));
+     * </pre>
+     *
+     * @param dir will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    Vector3dc normalizedPositiveY(Vector3dc dir);
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code>
+     * quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaterniondc inv = new Quaterniondc(this).invert();
+     * inv.transform(dir.set(0, 0, 1));
+     * </pre>
+     *
+     * @param dir will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    Vector3dc positiveZ(Vector3dc dir);
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code>
+     * <i>normalized</i> quaternion is applied. The quaternion <i>must</i> be {@link #normalize(Quaterniondc) normalized}
+     * for this method to work.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaterniondc inv = new Quaterniondc(this).conjugate();
+     * inv.transform(dir.set(0, 0, 1));
+     * </pre>
+     *
+     * @param dir will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    Vector3dc normalizedPositiveZ(Vector3dc dir);
+}

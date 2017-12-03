@@ -2,6 +2,7 @@ group = 'org.joml'
 version = '1.9.7-SNAPSHOT'
 
 apply plugin: "java"
+apply plugin: "idea"
 
 archivesBaseName = 'joml'
 
