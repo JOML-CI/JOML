@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.joml.Matrix4f;
 import org.joml.MatrixStackf;
+import org.joml.api.matrix.Matrix4fc;
 
 /**
  * Tests for the {@link MatrixStackf} class.
@@ -60,7 +61,7 @@ public class MatrixStackfTest extends TestCase {
         s6.scale(2);
         s6.popMatrix();
         Matrix4f m1 = new Matrix4f();
-        Matrix4f m2 = new Matrix4f().scale(2);
+        Matrix4fc m2 = new Matrix4f().scale(2);
         
         // MatrixStackf.equals(Matrix4f) only compares the 16 matrix elements
         assertTrue(s1.equals(m1));

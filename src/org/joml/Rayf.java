@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector3f;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -59,7 +61,7 @@ public class Rayf {
      * @param direction
      *          the direction of the ray
      */
-    public Rayf(Vector3fc origin, Vector3fc direction) {
+    public Rayf(IVector3f origin, IVector3f direction) {
         this.oX = origin.x();
         this.oY = origin.y();
         this.oZ = origin.z();

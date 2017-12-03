@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector3d;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -61,7 +63,7 @@ public class Planed {
      * @param normal
      *          the normal of the plane
      */
-    public Planed(Vector3dc point, Vector3dc normal) {
+    public Planed(IVector3d point, IVector3d normal) {
         this.a = normal.x();
         this.b = normal.y();
         this.c = normal.z();

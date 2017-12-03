@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.api.matrix.Matrix4dc;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -42,7 +44,7 @@ public class MatrixStackd extends Matrix4d {
     /**
      * The matrix stack as a non-growable array. The size of the stack must be specified in the {@link #MatrixStackd(int) constructor}.
      */
-    private Matrix4d[] mats;
+    private Matrix4dc[] mats;
 
     /**
      * The index of the "current" matrix within {@link #mats}.
@@ -129,15 +131,15 @@ public class MatrixStackd extends Matrix4d {
     }
 
     /*
-     * Contract between Matrix4d and MatrixStackd:
+     * Contract between Matrix4dc and MatrixStackd:
      * 
-     * - Matrix4d.equals(MatrixStackd) is true iff all the 16 matrix elements are equal
-     * - MatrixStackd.equals(Matrix4d) is true iff all the 16 matrix elements are equal
+     * - Matrix4dc.equals(MatrixStackd) is true iff all the 16 matrix elements are equal
+     * - MatrixStackd.equals(Matrix4dc) is true iff all the 16 matrix elements are equal
      * - MatrixStackd.equals(MatrixStackd) is true iff all 16 matrix elements are equal AND the matrix arrays as well as the stack pointer are equal
      * - everything else is inequal
      * 
      * (non-Javadoc)
-     * @see org.joml.Matrix4f#equals(java.lang.Object)
+     * @see org.joml.Matrix4fc#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
         if (this == obj)

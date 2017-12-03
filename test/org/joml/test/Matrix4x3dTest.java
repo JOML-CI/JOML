@@ -3,9 +3,9 @@ package org.joml.test;
 import junit.framework.TestCase;
 
 import org.joml.Matrix4x3d;
-import org.joml.Matrix4x3dc;
 import org.joml.Vector3d;
 import org.joml.Math;
+import org.joml.api.matrix.Matrix4x3dc;
 
 /**
  * Tests for the {@link Matrix4x3d} class.
@@ -73,7 +73,7 @@ public class Matrix4x3dTest extends TestCase {
     public static void testPositiveXYZSameAsInvert() {
         Vector3d dir = new Vector3d();
         Vector3d dir2 = new Vector3d();
-        Matrix4x3d m = new Matrix4x3d().rotateXYZ(0.12f, 1.25f, -2.56f);
+        Matrix4x3dc m = new Matrix4x3d().rotateXYZ(0.12f, 1.25f, -2.56f);
         Matrix4x3dc inv = new Matrix4x3d(m).invert();
         m.positiveX(dir);
         inv.transformDirection(dir2.set(1, 0, 0));
@@ -87,7 +87,7 @@ public class Matrix4x3dTest extends TestCase {
     }
 
     public static void testNormal() {
-        Matrix4x3d r = new Matrix4x3d().rotateY((float) Math.PI / 2);
+        Matrix4x3dc r = new Matrix4x3d().rotateY((float) Math.PI / 2);
         Matrix4x3dc s = new Matrix4x3d(r).scale(0.2f);
         Matrix4x3d n = new Matrix4x3d();
         s.normal(n);

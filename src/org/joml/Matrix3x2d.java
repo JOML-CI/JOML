@@ -26,6 +26,13 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
+import org.joml.api.matrix.IMatrix3x2d;
+import org.joml.api.matrix.Matrix3x2dc;
+import org.joml.api.vector.IVector2d;
+import org.joml.api.vector.IVector3d;
+import org.joml.api.vector.Vector2dc;
+import org.joml.api.vector.Vector3dc;
 //#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
@@ -38,15 +45,14 @@ import com.google.gwt.typedarrays.shared.Float64Array;
 //#endif
 
 /**
- * Contains the definition of a 3x2 matrix of doubles, and associated functions to transform
- * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
+ * Contains the definition of a 3x2 matrix of doubles, and associated functions to transform it. The matrix is
+ * column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
- *      m00  m10  m20<br>
- *      m01  m11  m21<br>
- * 
+ * m00  m10  m20<br> m01  m11  m21<br>
+ *
  * @author Kai Burjack
  */
-public class Matrix3x2d implements Matrix3x2dc, Externalizable {
+public class Matrix3x2d extends Matrix3x2dc implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,11 +70,10 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Create a new {@link Matrix3x2d} and make it a copy of the given matrix.
-     * 
-     * @param mat
-     *          the {@link Matrix3x2dc} to copy the values from
+     *
+     * @param mat the {@link IMatrix3x2d} to copy the values from
      */
-    public Matrix3x2d(Matrix3x2dc mat) {
+    public Matrix3x2d(IMatrix3x2d mat) {
         if (mat instanceof Matrix3x2d) {
             MemUtil.INSTANCE.copy((Matrix3x2d) mat, this);
         } else {
@@ -77,21 +82,15 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Create a new 3x2 matrix using the supplied double values. The order of the parameter is column-major, 
-     * so the first two parameters specify the two elements of the first column.
-     * 
-     * @param m00
-     *          the value of m00
-     * @param m01
-     *          the value of m01
-     * @param m10
-     *          the value of m10
-     * @param m11
-     *          the value of m11
-     * @param m20
-     *          the value of m20
-     * @param m21
-     *          the value of m21
+     * Create a new 3x2 matrix using the supplied double values. The order of the parameter is column-major, so the
+     * first two parameters specify the two elements of the first column.
+     *
+     * @param m00 the value of m00
+     * @param m01 the value of m01
+     * @param m10 the value of m10
+     * @param m11 the value of m11
+     * @param m20 the value of m20
+     * @param m21 the value of m21
      */
     public Matrix3x2d(double m00, double m01,
                       double m10, double m11,
@@ -104,68 +103,78 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         this.m21 = m21;
     }
 
-//#ifdef __HAS_NIO__
+    //#ifdef __HAS_NIO__
+
     /**
-     * Create a new {@link Matrix3x2d} by reading its 6 double components from the given {@link DoubleBuffer}
-     * at the buffer's current position.
+     * Create a new {@link Matrix3x2d} by reading its 6 double components from the given {@link DoubleBuffer} at the
+     * buffer's current position.
      * <p>
      * That DoubleBuffer is expected to hold the values in column-major order.
      * <p>
      * The buffer's position will not be changed by this method.
-     * 
-     * @param buffer
-     *          the {@link DoubleBuffer} to read the matrix values from
+     *
+     * @param buffer the {@link DoubleBuffer} to read the matrix values from
      */
     public Matrix3x2d(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
-//#endif
+    //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m00()
-     */
     public double m00() {
         return m00;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m01()
-     */
+
     public double m01() {
         return m01;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m10()
-     */
+
     public double m10() {
         return m10;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m11()
-     */
+
     public double m11() {
         return m11;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m20()
-     */
+
     public double m20() {
         return m20;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m21()
-     */
+
     public double m21() {
         return m21;
     }
 
-    /**
-     * Set the elements of this matrix to the ones in <code>m</code>.
-     * 
-     * @param m
-     *          the matrix to copy the elements from
-     * @return this
-     */
-    public Matrix3x2d set(Matrix3x2dc m) {
+    public Matrix3x2dc m00(double m00) {
+        this.m00 = m00;
+        return this;
+    }
+
+    public Matrix3x2dc m01(double m01) {
+        this.m01 = m01;
+        return this;
+    }
+
+    public Matrix3x2dc m10(double m10) {
+        this.m10 = m10;
+        return this;
+    }
+
+    public Matrix3x2dc m11(double m11) {
+        this.m11 = m11;
+        return this;
+    }
+
+    public Matrix3x2dc m20(double m20) {
+        this.m20 = m20;
+        return this;
+    }
+
+    public Matrix3x2dc m21(double m21) {
+        this.m21 = m21;
+        return this;
+    }
+
+    public Matrix3x2dc set(IMatrix3x2d m) {
         if (m instanceof Matrix3x2d) {
             MemUtil.INSTANCE.copy((Matrix3x2d) m, this);
         } else {
@@ -173,7 +182,8 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         }
         return this;
     }
-    private void setMatrix3x2dc(Matrix3x2dc mat) {
+
+    private void setMatrix3x2dc(IMatrix3x2d mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m10 = mat.m10();
@@ -182,112 +192,49 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         m21 = mat.m21();
     }
 
-    /**
-     * Multiply this matrix by the supplied <code>right</code> matrix by assuming a third row in
-     * both matrices of <tt>(0, 0, 1)</tt>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     * 
-     * @param right
-     *          the right operand of the matrix multiplication
-     * @return this
-     */
-    public Matrix3x2d mul(Matrix3x2dc right) {
+    public Matrix3x2dc mul(IMatrix3x2d right) {
         return mul(right, this);
     }
 
-    /**
-     * Multiply this matrix by the supplied <code>right</code> matrix by assuming a third row in
-     * both matrices of <tt>(0, 0, 1)</tt> and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     * 
-     * @param right
-     *          the right operand of the matrix multiplication
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Matrix3x2d mul(Matrix3x2dc right, Matrix3x2d dest) {
+    public Matrix3x2dc mul(IMatrix3x2d right, Matrix3x2dc dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01();
         double nm01 = m01 * right.m00() + m11 * right.m01();
         double nm10 = m00 * right.m10() + m10 * right.m11();
         double nm11 = m01 * right.m10() + m11 * right.m11();
         double nm20 = m00 * right.m20() + m10 * right.m21() + m20;
         double nm21 = m01 * right.m20() + m11 * right.m21() + m21;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
+        dest.m00(nm00);
+        dest.m01(nm01);
+        dest.m10(nm10);
+        dest.m11(nm11);
+        dest.m20(nm20);
+        dest.m21(nm21);
         return dest;
     }
 
-    /**
-     * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>this</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
-     * then the new matrix will be <code>L * M</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
-     * transformation of <code>this</code> matrix will be applied first!
-     *
-     * @param left
-     *          the left operand of the matrix multiplication
-     * @return this
-     */
-    public Matrix3x2d mulLocal(Matrix3x2dc left) {
-       return mulLocal(left, this);
+    public Matrix3x2dc mulLocal(IMatrix3x2d left) {
+        return mulLocal(left, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#mulLocal(org.joml.Matrix3x2dc, org.joml.Matrix3x2d)
-     */
-    public Matrix3x2d mulLocal(Matrix3x2dc left, Matrix3x2d dest) {
+    public Matrix3x2dc mulLocal(IMatrix3x2d left, Matrix3x2dc dest) {
         double nm00 = left.m00() * m00 + left.m10() * m01;
         double nm01 = left.m01() * m00 + left.m11() * m01;
         double nm10 = left.m00() * m10 + left.m10() * m11;
         double nm11 = left.m01() * m10 + left.m11() * m11;
         double nm20 = left.m00() * m20 + left.m10() * m21 + left.m20();
         double nm21 = left.m01() * m20 + left.m11() * m21 + left.m21();
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
+        dest.m00(nm00);
+        dest.m01(nm01);
+        dest.m10(nm10);
+        dest.m11(nm11);
+        dest.m20(nm20);
+        dest.m21(nm21);
         return dest;
     }
 
-    /**
-     * Set the values within this matrix to the supplied double values. The result looks like this:
-     * <p>
-     * m00, m10, m20<br>
-     * m01, m11, m21<br>
-     * 
-     * @param m00
-     *          the new value of m00
-     * @param m01
-     *          the new value of m01
-     * @param m10
-     *          the new value of m10
-     * @param m11
-     *          the new value of m11
-     * @param m20
-     *          the new value of m20
-     * @param m21
-     *          the new value of m21
-     * @return this
-     */
-    public Matrix3x2d set(double m00, double m01, 
-                          double m10, double m11, 
-                          double m20, double m21) {
+    public Matrix3x2dc set(double m00, double m01,
+                           double m10, double m11,
+                           double m20, double m21) {
         this.m00 = m00;
         this.m01 = m01;
         this.m10 = m10;
@@ -297,85 +244,38 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return this;
     }
 
-    /**
-     * Set the values in this matrix based on the supplied double array. The result looks like this:
-     * <p>
-     * 0, 2, 4<br>
-     * 1, 3, 5<br>
-     * 
-     * This method only uses the first 6 values, all others are ignored.
-     * 
-     * @param m
-     *          the array to read the matrix values from
-     * @return this
-     */
-    public Matrix3x2d set(double m[]) {
+    public Matrix3x2dc set(double m[]) {
         MemUtil.INSTANCE.copy(m, 0, this);
         return this;
     }
 
-    /**
-     * Return the determinant of this matrix.
-     * 
-     * @return the determinant
-     */
     public double determinant() {
         return m00 * m11 - m01 * m10;
     }
 
-    /**
-     * Invert this matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>.
-     *
-     * @return this
-     */
-    public Matrix3x2d invert() {
+    public Matrix3x2dc invert() {
         return invert(this);
     }
 
-    /**
-     * Invert the <code>this</code> matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>
-     * and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *             will hold the result
-     * @return dest
-     */
-    public Matrix3x2d invert(Matrix3x2d dest) {
+    public Matrix3x2dc invert(Matrix3x2dc dest) {
         // client must make sure that matrix is invertible
         double s = 1.0 / (m00 * m11 - m01 * m10);
-        double nm00 =  m11 * s;
+        double nm00 = m11 * s;
         double nm01 = -m01 * s;
         double nm10 = -m10 * s;
-        double nm11 =  m00 * s;
+        double nm11 = m00 * s;
         double nm20 = (m10 * m21 - m20 * m11) * s;
         double nm21 = (m20 * m01 - m00 * m21) * s;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
+        dest.m00(nm00);
+        dest.m01(nm01);
+        dest.m10(nm10);
+        dest.m11(nm11);
+        dest.m20(nm20);
+        dest.m21(nm21);
         return dest;
     }
 
-    /**
-     * Set this matrix to be a simple translation matrix in a two-dimensional coordinate system.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional translation.
-     * <p>
-     * In order to apply a translation via to an already existing transformation
-     * matrix, use {@link #translate(double, double) translate()} instead.
-     * 
-     * @see #translate(double, double)
-     * 
-     * @param x
-     *          the units to translate in x
-     * @param y
-     *          the units to translate in y
-     * @return this
-     */
-    public Matrix3x2d translation(double x, double y) {
+    public Matrix3x2dc translation(double x, double y) {
         m00 = 1.0;
         m01 = 0.0;
         m10 = 0.0;
@@ -385,274 +285,66 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return this;
     }
 
-    /**
-     * Set this matrix to be a simple translation matrix in a two-dimensional coordinate system.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional translation.
-     * <p>
-     * In order to apply a translation via to an already existing transformation
-     * matrix, use {@link #translate(Vector2dc) translate()} instead.
-     * 
-     * @see #translate(Vector2dc)
-     * 
-     * @param offset
-     *          the translation
-     * @return this
-     */
-    public Matrix3x2d translation(Vector2dc offset) {
+    public Matrix3x2dc translation(IVector2d offset) {
         return translation(offset.x(), offset.y());
     }
 
-    /**
-     * Set only the translation components of this matrix <tt>(m20, m21)</tt> to the given values <tt>(x, y)</tt>.
-     * <p>
-     * To build a translation matrix instead, use {@link #translation(double, double)}.
-     * To apply a translation to another matrix, use {@link #translate(double, double)}.
-     * 
-     * @see #translation(double, double)
-     * @see #translate(double, double)
-     * 
-     * @param x
-     *          the offset to translate in x
-     * @param y
-     *          the offset to translate in y
-     * @return this
-     */
-    public Matrix3x2d setTranslation(double x, double y) {
+    public Matrix3x2dc setTranslation(double x, double y) {
         m20 = x;
         m21 = y;
         return this;
     }
 
-    /**
-     * Set only the translation components of this matrix <tt>(m20, m21)</tt> to the given values <tt>(offset.x, offset.y)</tt>.
-     * <p>
-     * To build a translation matrix instead, use {@link #translation(Vector2dc)}.
-     * To apply a translation to another matrix, use {@link #translate(Vector2dc)}.
-     * 
-     * @see #translation(Vector2dc)
-     * @see #translate(Vector2dc)
-     * 
-     * @param offset
-     *          the new translation to set
-     * @return this
-     */
-    public Matrix3x2d setTranslation(Vector2dc offset) {
+    public Matrix3x2dc setTranslation(IVector2d offset) {
         return setTranslation(offset.x(), offset.y());
     }
 
-    /**
-     * Apply a translation to this matrix by translating by the given number of units in x and y and store the result
-     * in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
-     * matrix, then the new matrix will be <code>M * T</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>M * T * v</code>, the translation will be applied first!
-     * <p>
-     * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(double, double)}.
-     * 
-     * @see #translation(double, double)
-     * 
-     * @param x
-     *          the offset to translate in x
-     * @param y
-     *          the offset to translate in y
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Matrix3x2d translate(double x, double y, Matrix3x2d dest) {
+    public Matrix3x2dc translate(double x, double y, Matrix3x2dc dest) {
         double rm20 = x;
         double rm21 = y;
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21;
-        dest.m00 = m00;
-        dest.m01 = m01;
-        dest.m10 = m10;
-        dest.m11 = m11;
+        dest.m20(m00 * rm20 + m10 * rm21 + m20);
+        dest.m21(m01 * rm20 + m11 * rm21 + m21);
+        dest.m00(m00);
+        dest.m01(m01);
+        dest.m10(m10);
+        dest.m11(m11);
         return dest;
     }
 
-    /**
-     * Apply a translation to this matrix by translating by the given number of units in x and y.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
-     * matrix, then the new matrix will be <code>M * T</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>M * T * v</code>, the translation will be applied first!
-     * <p>
-     * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(double, double)}.
-     * 
-     * @see #translation(double, double)
-     * 
-     * @param x
-     *          the offset to translate in x
-     * @param y
-     *          the offset to translate in y
-     * @return this
-     */
-    public Matrix3x2d translate(double x, double y) {
+    public Matrix3x2dc translate(double x, double y) {
         return translate(x, y, this);
     }
 
-    /**
-     * Apply a translation to this matrix by translating by the given number of units in x and y, and
-     * store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
-     * matrix, then the new matrix will be <code>M * T</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>M * T * v</code>, the translation will be applied first!
-     * <p>
-     * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector2dc)}.
-     * 
-     * @see #translation(Vector2dc)
-     * 
-     * @param offset
-     *          the offset to translate
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Matrix3x2d translate(Vector2dc offset, Matrix3x2d dest) {
+    public Matrix3x2dc translate(IVector2d offset, Matrix3x2dc dest) {
         return translate(offset.x(), offset.y(), dest);
     }
 
-    /**
-     * Apply a translation to this matrix by translating by the given number of units in x and y.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
-     * matrix, then the new matrix will be <code>M * T</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>M * T * v</code>, the translation will be applied first!
-     * <p>
-     * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector2dc)}.
-     * 
-     * @see #translation(Vector2dc)
-     * 
-     * @param offset
-     *          the offset to translate
-     * @return this
-     */
-    public Matrix3x2d translate(Vector2dc offset) {
+    public Matrix3x2dc translate(IVector2d offset) {
         return translate(offset.x(), offset.y(), this);
     }
 
-    /**
-     * Pre-multiply a translation to this matrix by translating by the given number of
-     * units in x and y.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
-     * matrix, then the new matrix will be <code>T * M</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>T * M * v</code>, the translation will be applied last!
-     * <p>
-     * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector2dc)}.
-     * 
-     * @see #translation(Vector2dc)
-     * 
-     * @param offset
-     *          the number of units in x and y by which to translate
-     * @return this
-     */
-    public Matrix3x2d translateLocal(Vector2dc offset) {
+    public Matrix3x2dc translateLocal(IVector2d offset) {
         return translateLocal(offset.x(), offset.y());
     }
 
-    /**
-     * Pre-multiply a translation to this matrix by translating by the given number of
-     * units in x and y and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
-     * matrix, then the new matrix will be <code>T * M</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>T * M * v</code>, the translation will be applied last!
-     * <p>
-     * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector2dc)}.
-     * 
-     * @see #translation(Vector2dc)
-     * 
-     * @param offset
-     *          the number of units in x and y by which to translate
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Matrix3x2d translateLocal(Vector2dc offset, Matrix3x2d dest) {
+    public Matrix3x2dc translateLocal(IVector2d offset, Matrix3x2dc dest) {
         return translateLocal(offset.x(), offset.y(), dest);
     }
 
-    /**
-     * Pre-multiply a translation to this matrix by translating by the given number of
-     * units in x and y and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
-     * matrix, then the new matrix will be <code>T * M</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>T * M * v</code>, the translation will be applied last!
-     * <p>
-     * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(double, double)}.
-     * 
-     * @see #translation(double, double)
-     * 
-     * @param x
-     *          the offset to translate in x
-     * @param y
-     *          the offset to translate in y
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Matrix3x2d translateLocal(double x, double y, Matrix3x2d dest) {
-        dest.m00 = m00;
-        dest.m01 = m01;
-        dest.m10 = m10;
-        dest.m11 = m11;
-        dest.m20 = m20 + x;
-        dest.m21 = m21 + y;
+    public Matrix3x2dc translateLocal(double x, double y, Matrix3x2dc dest) {
+        dest.m00(m00);
+        dest.m01(m01);
+        dest.m10(m10);
+        dest.m11(m11);
+        dest.m20(m20 + x);
+        dest.m21(m21 + y);
         return dest;
     }
 
-    /**
-     * Pre-multiply a translation to this matrix by translating by the given number of
-     * units in x and y.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
-     * matrix, then the new matrix will be <code>T * M</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>T * M * v</code>, the translation will be applied last!
-     * <p>
-     * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(double, double)}.
-     * 
-     * @see #translation(double, double)
-     * 
-     * @param x
-     *          the offset to translate in x
-     * @param y
-     *          the offset to translate in y
-     * @return this
-     */
-    public Matrix3x2d translateLocal(double x, double y) {
+    public Matrix3x2dc translateLocal(double x, double y) {
         return translateLocal(x, y, this);
     }
 
-    /**
-     * Return a string representation of this matrix.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
-     * 
-     * @return the string representation
-     */
     public String toString() {
         DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
         String str = toString(formatter);
@@ -674,672 +366,217 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return res.toString();
     }
 
-    /**
-     * Return a string representation of this matrix by formatting the matrix elements with the given {@link NumberFormat}.
-     * 
-     * @param formatter
-     *          the {@link NumberFormat} used to format the matrix values with
-     * @return the string representation
-     */
     public String toString(NumberFormat formatter) {
         return formatter.format(m00) + " " + formatter.format(m10) + " " + formatter.format(m20) + "\n"
-             + formatter.format(m01) + " " + formatter.format(m11) + " " + formatter.format(m21) + "\n";
+                + formatter.format(m01) + " " + formatter.format(m11) + " " + formatter.format(m21) + "\n";
     }
 
-    /**
-     * Get the current values of <code>this</code> matrix and store them into
-     * <code>dest</code>.
-     * <p>
-     * This is the reverse method of {@link #set(Matrix3x2dc)} and allows to obtain
-     * intermediate calculation results when chaining multiple transformations.
-     * 
-     * @see #set(Matrix3x2dc)
-     * 
-     * @param dest
-     *          the destination matrix
-     * @return dest
-     */
-    public Matrix3x2d get(Matrix3x2d dest) {
+    public Matrix3x2dc get(Matrix3x2dc dest) {
         return dest.set(this);
     }
 
-//#ifdef __GWT__
-      /* (non-Javadoc)
-       * @see org.joml.Matrix3x2dc#get(com.google.gwt.typedarrays.shared.Float64Array)
-       */
-      public Float64Array get(Float64Array buffer) {
-          buffer.set(0,  m00);
-          buffer.set(1,  m01);
-          buffer.set(2,  m10);
-          buffer.set(3,  m11);
-          buffer.set(4,  m20);
-          buffer.set(5,  m21);
-          return buffer;
-      }
-      /* (non-Javadoc)
-       * @see org.joml.Matrix3x2dc#get(int, com.google.gwt.typedarrays.shared.Float64Array)
-       */
-      public Float64Array get(int index, Float64Array buffer) {
-          buffer.set(index,    m00);
-          buffer.set(index+1,  m01);
-          buffer.set(index+2,  m10);
-          buffer.set(index+3,  m11);
-          buffer.set(index+4,  m20);
-          buffer.set(index+5,  m21);
-          return buffer;
-      }
-//#endif
+    //#ifdef __GWT__
 
-//#ifdef __HAS_NIO__
-    /**
-     * Store this matrix in column-major order into the supplied {@link DoubleBuffer} at the current
-     * buffer {@link DoubleBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * <p>
-     * In order to specify the offset into the DoubleBuffer at which
-     * the matrix is stored, use {@link #get(int, DoubleBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #get(int, DoubleBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
-     */
+    public Float64Array get(Float64Array buffer) {
+        buffer.set(0, m00);
+        buffer.set(1, m01);
+        buffer.set(2, m10);
+        buffer.set(3, m11);
+        buffer.set(4, m20);
+        buffer.set(5, m21);
+        return buffer;
+    }
+
+    public Float64Array get(int index, Float64Array buffer) {
+        buffer.set(index, m00);
+        buffer.set(index + 1, m01);
+        buffer.set(index + 2, m10);
+        buffer.set(index + 3, m11);
+        buffer.set(index + 4, m20);
+        buffer.set(index + 5, m21);
+        return buffer;
+    }
+    //#endif
+
+    //#ifdef __HAS_NIO__
+
     public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this matrix in column-major order into the supplied {@link DoubleBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * 
-     * @param index
-     *            the absolute position into the DoubleBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
-     */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #get(int, ByteBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * 
-     * @param index
-     *            the absolute position into the ByteBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store this matrix as an equivalent 4x4 matrix in column-major order into the supplied {@link DoubleBuffer} at the current
-     * buffer {@link DoubleBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * <p>
-     * In order to specify the offset into the DoubleBuffer at which
-     * the matrix is stored, use {@link #get4x4(int, DoubleBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #get4x4(int, DoubleBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
-     */
     public DoubleBuffer get4x4(DoubleBuffer buffer) {
         MemUtil.INSTANCE.put4x4(this, 0, buffer);
         return buffer;
     }
 
-    /**
-     * Store this matrix as an equivalent 4x4 matrix in column-major order into the supplied {@link DoubleBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * 
-     * @param index
-     *            the absolute position into the DoubleBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
-     */
     public DoubleBuffer get4x4(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put4x4(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store this matrix as an equivalent 4x4 matrix in column-major order into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the matrix is stored, use {@link #get4x4(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #get4x4(int, ByteBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
-     */
     public ByteBuffer get4x4(ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x4(this, 0, buffer);
         return buffer;
     }
 
-    /**
-     * Store this matrix as an equivalent 4x4 matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * 
-     * @param index
-     *            the absolute position into the ByteBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
-     */
     public ByteBuffer get4x4(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x4(this, index, buffer);
         return buffer;
     }
-//#endif
+    //#endif
 
-    /**
-     * Store this matrix into the supplied double array in column-major order at the given offset.
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @param offset
-     *          the offset into the array
-     * @return the passed in array
-     */
     public double[] get(double[] arr, int offset) {
         MemUtil.INSTANCE.copy(this, arr, offset);
         return arr;
     }
 
-    /**
-     * Store this matrix into the supplied double array in column-major order.
-     * <p>
-     * In order to specify an explicit offset into the array, use the method {@link #get(double[], int)}.
-     * 
-     * @see #get(double[], int)
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @return the passed in array
-     */
     public double[] get(double[] arr) {
         return get(arr, 0);
     }
 
-    /**
-     * Store this matrix into the supplied double array in column-major order at the given offset.
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @param offset
-     *          the offset into the array
-     * @return the passed in array
-     */
     public double[] get4x4(double[] arr, int offset) {
         MemUtil.INSTANCE.copy4x4(this, arr, offset);
         return arr;
     }
 
-    /**
-     * Store this matrix into the supplied double array in column-major order.
-     * <p>
-     * In order to specify an explicit offset into the array, use the method {@link #get4x4(double[], int)}.
-     * 
-     * @see #get4x4(double[], int)
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @return the passed in array
-     */
     public double[] get4x4(double[] arr) {
         return get4x4(arr, 0);
     }
 
-//#ifdef __HAS_NIO__
-    /**
-     * Set the values of this matrix by reading 6 double values from the given {@link DoubleBuffer} in column-major order,
-     * starting at its current position.
-     * <p>
-     * The DoubleBuffer is expected to contain the values in column-major order.
-     * <p>
-     * The position of the DoubleBuffer will not be changed by this method.
-     * 
-     * @param buffer
-     *              the DoubleBuffer to read the matrix values from in column-major order
-     * @return this
-     */
-    public Matrix3x2d set(DoubleBuffer buffer) {
+    //#ifdef __HAS_NIO__
+
+    public Matrix3x2dc set(DoubleBuffer buffer) {
         int pos = buffer.position();
         MemUtil.INSTANCE.get(this, pos, buffer);
         return this;
     }
 
-    /**
-     * Set the values of this matrix by reading 6 double values from the given {@link ByteBuffer} in column-major order,
-     * starting at its current position.
-     * <p>
-     * The ByteBuffer is expected to contain the values in column-major order.
-     * <p>
-     * The position of the ByteBuffer will not be changed by this method.
-     * 
-     * @param buffer
-     *              the ByteBuffer to read the matrix values from in column-major order
-     * @return this
-     */
-    public Matrix3x2d set(ByteBuffer buffer) {
+    public Matrix3x2dc set(ByteBuffer buffer) {
         int pos = buffer.position();
         MemUtil.INSTANCE.get(this, pos, buffer);
         return this;
     }
-//#endif
+    //#endif
 
-    /**
-     * Set all values within this matrix to zero.
-     * 
-     * @return this
-     */
-    public Matrix3x2d zero() {
+    public Matrix3x2dc zero() {
         MemUtil.INSTANCE.zero(this);
         return this;
     }
 
-    /**
-     * Set this matrix to the identity.
-     * 
-     * @return this
-     */
-    public Matrix3x2d identity() {
+    public Matrix3x2dc identity() {
         MemUtil.INSTANCE.identity(this);
         return this;
     }
 
-    /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x and y and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the scaling will be applied first!
-     * 
-     * @param x
-     *            the factor of the x component
-     * @param y
-     *            the factor of the y component
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3x2d scale(double x, double y, Matrix3x2d dest) {
-        dest.m00 = m00 * x;
-        dest.m01 = m01 * x;
-        dest.m10 = m10 * y;
-        dest.m11 = m11 * y;
-        dest.m20 = m20;
-        dest.m21 = m21;
+    public Matrix3x2dc scale(double x, double y, Matrix3x2dc dest) {
+        dest.m00(m00 * x);
+        dest.m01(m01 * x);
+        dest.m10(m10 * y);
+        dest.m11(m11 * y);
+        dest.m20(m20);
+        dest.m21(m21);
         return dest;
     }
 
-    /**
-     * Apply scaling to this matrix by scaling the base axes by the given x and y factors.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the scaling will be applied first!
-     * 
-     * @param x
-     *            the factor of the x component
-     * @param y
-     *            the factor of the y component
-     * @return this
-     */
-    public Matrix3x2d scale(double x, double y) {
+    public Matrix3x2dc scale(double x, double y) {
         return scale(x, y, this);
     }
 
-    /**
-     * Apply scaling to this matrix by uniformly scaling the two base axes by the given <code>xy</code> factor
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the scaling will be applied first!
-     * 
-     * @see #scale(double, double, Matrix3x2d)
-     * 
-     * @param xy
-     *            the factor for the two components
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3x2d scale(double xy, Matrix3x2d dest) {
+    public Matrix3x2dc scale(double xy, Matrix3x2dc dest) {
         return scale(xy, xy, dest);
     }
 
-    /**
-     * Apply scaling to this matrix by uniformly scaling the two base axes by the given <code>xyz</code> factor.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the scaling will be applied first!
-     * 
-     * @see #scale(double, double)
-     * 
-     * @param xy
-     *            the factor for the two components
-     * @return this
-     */
-    public Matrix3x2d scale(double xy) {
+    public Matrix3x2dc scale(double xy) {
         return scale(xy, xy);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#scaleLocal(double, double, org.joml.Matrix3x2d)
-     */
-    public Matrix3x2d scaleLocal(double x, double y, Matrix3x2d dest) {
-        dest.m00 = x * m00;
-        dest.m01 = y * m01;
-        dest.m10 = x * m10;
-        dest.m11 = y * m11;
-        dest.m20 = x * m20;
-        dest.m21 = y * m21;
+    public Matrix3x2dc scaleLocal(double x, double y, Matrix3x2dc dest) {
+        dest.m00(x * m00);
+        dest.m01(y * m01);
+        dest.m10(x * m10);
+        dest.m11(y * m11);
+        dest.m20(x * m20);
+        dest.m21(y * m21);
         return dest;
     }
 
-    /**
-     * Pre-multiply scaling to this matrix by scaling the base axes by the given x and y factors.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>S * M</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
-     * scaling will be applied last!
-     * 
-     * @param x
-     *            the factor of the x component
-     * @param y
-     *            the factor of the y component
-     * @return this
-     */
-    public Matrix3x2d scaleLocal(double x, double y) {
+    public Matrix3x2dc scaleLocal(double x, double y) {
         return scaleLocal(x, y, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#scaleLocal(double, org.joml.Matrix3x2d)
-     */
-    public Matrix3x2d scaleLocal(double xy, Matrix3x2d dest) {
+    public Matrix3x2dc scaleLocal(double xy, Matrix3x2dc dest) {
         return scaleLocal(xy, xy, dest);
     }
 
-    /**
-     * Pre-multiply scaling to this matrix by scaling the base axes by the given xy factor.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>S * M</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
-     * scaling will be applied last!
-     * 
-     * @param xy
-     *            the factor of the x and y component
-     * @return this
-     */
-    public Matrix3x2d scaleLocal(double xy) {
+    public Matrix3x2dc scaleLocal(double xy) {
         return scaleLocal(xy, xy, this);
     }
 
-    /**
-     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given sx and
-     * sy factors while using <tt>(ox, oy)</tt> as the scaling origin, and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy, dest).scale(sx, sy).translate(-ox, -oy)</tt>
-     * 
-     * @param sx
-     *            the scaling factor of the x component
-     * @param sy
-     *            the scaling factor of the y component
-     * @param ox
-     *            the x coordinate of the scaling origin
-     * @param oy
-     *            the y coordinate of the scaling origin
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3x2d scaleAround(double sx, double sy, double ox, double oy, Matrix3x2d dest) {
+    public Matrix3x2dc scaleAround(double sx, double sy, double ox, double oy, Matrix3x2dc dest) {
         double nm20 = m00 * ox + m10 * oy + m20;
         double nm21 = m01 * ox + m11 * oy + m21;
-        dest.m00 = m00 * sx;
-        dest.m01 = m01 * sx;
-        dest.m10 = m10 * sy;
-        dest.m11 = m11 * sy;
-        dest.m20 = -m00 * ox - m10 * oy + nm20;
-        dest.m21 = -m01 * ox - m11 * oy + nm21;
+        dest.m00(m00 * sx);
+        dest.m01(m01 * sx);
+        dest.m10(m10 * sy);
+        dest.m11(m11 * sy);
+        dest.m20(-m00 * ox - m10 * oy + nm20);
+        dest.m21(-m01 * ox - m11 * oy + nm21);
         return dest;
     }
 
-    /**
-     * Apply scaling to this matrix by scaling the base axes by the given sx and
-     * sy factors while using <tt>(ox, oy)</tt> as the scaling origin.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * scaling will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy).scale(sx, sy).translate(-ox, -oy)</tt>
-     * 
-     * @param sx
-     *            the scaling factor of the x component
-     * @param sy
-     *            the scaling factor of the y component
-     * @param ox
-     *            the x coordinate of the scaling origin
-     * @param oy
-     *            the y coordinate of the scaling origin
-     * @return this
-     */
-    public Matrix3x2d scaleAround(double sx, double sy, double ox, double oy) {
+    public Matrix3x2dc scaleAround(double sx, double sy, double ox, double oy) {
         return scaleAround(sx, sy, ox, oy, this);
     }
 
-    /**
-     * Apply scaling to this matrix by scaling the base axes by the given <code>factor</code>
-     * while using <tt>(ox, oy)</tt> as the scaling origin,
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * scaling will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy, dest).scale(factor).translate(-ox, -oy)</tt>
-     * 
-     * @param factor
-     *            the scaling factor for all three axes
-     * @param ox
-     *            the x coordinate of the scaling origin
-     * @param oy
-     *            the y coordinate of the scaling origin
-     * @param dest
-     *            will hold the result
-     * @return this
-     */
-    public Matrix3x2d scaleAround(double factor, double ox, double oy, Matrix3x2d dest) {
+    public Matrix3x2dc scaleAround(double factor, double ox, double oy, Matrix3x2dc dest) {
         return scaleAround(factor, factor, ox, oy, this);
     }
 
-    /**
-     * Apply scaling to this matrix by scaling the base axes by the given <code>factor</code>
-     * while using <tt>(ox, oy)</tt> as the scaling origin.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * scaling will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy).scale(factor).translate(-ox, -oy)</tt>
-     * 
-     * @param factor
-     *            the scaling factor for all axes
-     * @param ox
-     *            the x coordinate of the scaling origin
-     * @param oy
-     *            the y coordinate of the scaling origin
-     * @return this
-     */
-    public Matrix3x2d scaleAround(double factor, double ox, double oy) {
+    public Matrix3x2dc scaleAround(double factor, double ox, double oy) {
         return scaleAround(factor, factor, ox, oy, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#scaleAroundLocal(double, double, double, double, double, double, org.joml.Matrix3x2d)
-     */
-    public Matrix3x2d scaleAroundLocal(double sx, double sy, double ox, double oy, Matrix3x2d dest) {
-        dest.m00 = sx * m00;
-        dest.m01 = sy * m01;
-        dest.m10 = sx * m10;
-        dest.m11 = sy * m11;
-        dest.m20 = sx * m20 - sx * ox + ox;
-        dest.m21 = sy * m21 - sy * oy + oy;
+    public Matrix3x2dc scaleAroundLocal(double sx, double sy, double ox, double oy, Matrix3x2dc dest) {
+        dest.m00(sx * m00);
+        dest.m01(sy * m01);
+        dest.m10(sx * m10);
+        dest.m11(sy * m11);
+        dest.m20(sx * m20 - sx * ox + ox);
+        dest.m21(sy * m21 - sy * oy + oy);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#scaleAroundLocal(double, double, double, org.joml.Matrix3x2d)
-     */
-    public Matrix3x2d scaleAroundLocal(double factor, double ox, double oy, Matrix3x2d dest) {
+    public Matrix3x2dc scaleAroundLocal(double factor, double ox, double oy, Matrix3x2dc dest) {
         return scaleAroundLocal(factor, factor, ox, oy, dest);
     }
 
-    /**
-     * Pre-multiply scaling to this matrix by scaling the base axes by the given sx and
-     * sy factors while using <tt>(ox, oy)</tt> as the scaling origin.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>S * M</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
-     * scaling will be applied last!
-     * <p>
-     * This method is equivalent to calling: <tt>new Matrix3x2d().translate(ox, oy).scale(sx, sy).translate(-ox, -oy).mul(this, this)</tt>
-     * 
-     * @param sx
-     *            the scaling factor of the x component
-     * @param sy
-     *            the scaling factor of the y component
-     * @param sz
-     *            the scaling factor of the z component
-     * @param ox
-     *            the x coordinate of the scaling origin
-     * @param oy
-     *            the y coordinate of the scaling origin
-     * @param oz
-     *            the z coordinate of the scaling origin
-     * @return this
-     */
-    public Matrix3x2d scaleAroundLocal(double sx, double sy, double sz, double ox, double oy, double oz) {
+    public Matrix3x2dc scaleAroundLocal(double sx, double sy, double sz, double ox, double oy, double oz) {
         return scaleAroundLocal(sx, sy, ox, oy, this);
     }
 
-    /**
-     * Pre-multiply scaling to this matrix by scaling the base axes by the given <code>factor</code>
-     * while using <tt>(ox, oy)</tt> as the scaling origin.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>S * M</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
-     * scaling will be applied last!
-     * <p>
-     * This method is equivalent to calling: <tt>new Matrix3x2d().translate(ox, oy).scale(factor).translate(-ox, -oy).mul(this, this)</tt>
-     * 
-     * @param factor
-     *            the scaling factor for all three axes
-     * @param ox
-     *            the x coordinate of the scaling origin
-     * @param oy
-     *            the y coordinate of the scaling origin
-     * @return this
-     */
-    public Matrix3x2d scaleAroundLocal(double factor, double ox, double oy) {
+    public Matrix3x2dc scaleAroundLocal(double factor, double ox, double oy) {
         return scaleAroundLocal(factor, factor, ox, oy, this);
     }
 
-    /**
-     * Set this matrix to be a simple scale matrix, which scales the two base axes uniformly by the given factor.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional scaling.
-     * <p>
-     * In order to post-multiply a scaling transformation directly to a matrix, use {@link #scale(double) scale()} instead.
-     * 
-     * @see #scale(double)
-     * 
-     * @param factor
-     *             the scale factor in x and y
-     * @return this
-     */
-    public Matrix3x2d scaling(double factor) {
+    public Matrix3x2dc scaling(double factor) {
         return scaling(factor, factor);
     }
 
-    /**
-     * Set this matrix to be a simple scale matrix.
-     * 
-     * @param x
-     *             the scale in x
-     * @param y
-     *             the scale in y
-     * @return this
-     */
-    public Matrix3x2d scaling(double x, double y) {
+    public Matrix3x2dc scaling(double x, double y) {
         m00 = x;
         m01 = 0.0;
         m10 = 0.0;
@@ -1349,22 +586,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return this;
     }
 
-    /**
-     * Set this matrix to a rotation matrix which rotates the given radians.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional rotation.
-     * <p>
-     * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(double) rotate()} instead.
-     * 
-     * @see #rotate(double)
-     * 
-     * @param angle
-     *          the angle in radians
-     * @return this
-     */
-    public Matrix3x2d rotation(double angle) {
+    public Matrix3x2dc rotation(double angle) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
         m00 = cos;
@@ -1376,190 +598,47 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return this;
     }
 
-    /**
-     * Transform/multiply the given vector by this matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>
-     * and store the result in that vector.
-     * 
-     * @see Vector3d#mul(Matrix3x2dc)
-     * 
-     * @param v
-     *          the vector to transform and to hold the final result
-     * @return v
-     */
-    public Vector3d transform(Vector3d v) {
+    public Vector3dc transform(Vector3dc v) {
         return v.mul(this);
     }
 
-    /**
-     * Transform/multiply the given vector by this matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>
-     * and store the result in <code>dest</code>.
-     * 
-     * @see Vector3d#mul(Matrix3x2dc, Vector3d)
-     * 
-     * @param v
-     *          the vector to transform
-     * @param dest
-     *          will contain the result
-     * @return dest
-     */
-    public Vector3d transform(Vector3dc v, Vector3d dest) {
+    public Vector3dc transform(IVector3d v, Vector3dc dest) {
         return v.mul(this, dest);
     }
 
-    /**
-     * Transform/multiply the given vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x component of the vector to transform
-     * @param y
-     *          the y component of the vector to transform
-     * @param z
-     *          the z component of the vector to transform
-     * @param dest
-     *          will contain the result
-     * @return dest
-     */
-    public Vector3d transform(double x, double y, double z, Vector3d dest) {
-       return dest.set(m00 * x + m10 * y + m20 * z, m01 * x + m11 * y + m21 * z, z);
+    public Vector3dc transform(double x, double y, double z, Vector3dc dest) {
+        return dest.set(m00 * x + m10 * y + m20 * z, m01 * x + m11 * y + m21 * z, z);
     }
 
-    /**
-     * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=1, by
-     * this matrix and store the result in that vector.
-     * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
-     * will represent a position/location in 2D-space rather than a direction.
-     * <p>
-     * In order to store the result in another vector, use {@link #transformPosition(Vector2dc, Vector2d)}.
-     * 
-     * @see #transformPosition(Vector2dc, Vector2d)
-     * @see #transform(Vector3d)
-     * 
-     * @param v
-     *          the vector to transform and to hold the final result
-     * @return v
-     */
-    public Vector2d transformPosition(Vector2d v) {
-        v.set(m00 * v.x + m10 * v.y + m20,
-              m01 * v.x + m11 * v.y + m21);
+    public Vector2dc transformPosition(Vector2dc v) {
+        v.set(m00 * v.x() + m10 * v.y() + m20,
+                m01 * v.x() + m11 * v.y() + m21);
         return v;
     }
 
-    /**
-     * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=1, by
-     * this matrix and store the result in <code>dest</code>.
-     * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
-     * will represent a position/location in 2D-space rather than a direction.
-     * <p>
-     * In order to store the result in the same vector, use {@link #transformPosition(Vector2d)}.
-     * 
-     * @see #transformPosition(Vector2d)
-     * @see #transform(Vector3dc, Vector3d)
-     * 
-     * @param v
-     *          the vector to transform
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector2d transformPosition(Vector2dc v, Vector2d dest) {
+    public Vector2dc transformPosition(IVector2d v, Vector2dc dest) {
         dest.set(m00 * v.x() + m10 * v.y() + m20,
-                 m01 * v.x() + m11 * v.y() + m21);
+                m01 * v.x() + m11 * v.y() + m21);
         return dest;
     }
 
-    /**
-     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=1, by
-     * this matrix and store the result in <code>dest</code>.
-     * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
-     * will represent a position/location in 2D-space rather than a direction.
-     * <p>
-     * In order to store the result in the same vector, use {@link #transformPosition(Vector2d)}.
-     * 
-     * @see #transformPosition(Vector2d)
-     * @see #transform(Vector3dc, Vector3d)
-     * 
-     * @param x
-     *          the x component of the vector to transform
-     * @param y
-     *          the y component of the vector to transform
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector2d transformPosition(double x, double y, Vector2d dest) {
+    public Vector2dc transformPosition(double x, double y, Vector2dc dest) {
         return dest.set(m00 * x + m10 * y + m20, m01 * x + m11 * y + m21);
     }
 
-    /**
-     * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
-     * this matrix and store the result in that vector.
-     * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
-     * will represent a direction in 2D-space rather than a position. This method will therefore
-     * not take the translation part of the matrix into account.
-     * <p>
-     * In order to store the result in another vector, use {@link #transformDirection(Vector2dc, Vector2d)}.
-     * 
-     * @see #transformDirection(Vector2dc, Vector2d)
-     * 
-     * @param v
-     *          the vector to transform and to hold the final result
-     * @return v
-     */
-    public Vector2d transformDirection(Vector2d v) {
-        v.set(m00 * v.x + m10 * v.y,
-              m01 * v.x + m11 * v.y);
+    public Vector2dc transformDirection(Vector2dc v) {
+        v.set(m00 * v.x() + m10 * v.y(),
+                m01 * v.x() + m11 * v.y());
         return v;
     }
 
-    /**
-     * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
-     * this matrix and store the result in <code>dest</code>.
-     * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
-     * will represent a direction in 2D-space rather than a position. This method will therefore
-     * not take the translation part of the matrix into account.
-     * <p>
-     * In order to store the result in the same vector, use {@link #transformDirection(Vector2d)}.
-     * 
-     * @see #transformDirection(Vector2d)
-     * 
-     * @param v
-     *          the vector to transform and to hold the final result
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector2d transformDirection(Vector2dc v, Vector2d dest) {
+    public Vector2dc transformDirection(IVector2d v, Vector2dc dest) {
         dest.set(m00 * v.x() + m10 * v.y(),
-                 m01 * v.x() + m11 * v.y());
+                m01 * v.x() + m11 * v.y());
         return dest;
     }
 
-    /**
-     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=0, by
-     * this matrix and store the result in <code>dest</code>.
-     * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
-     * will represent a direction in 2D-space rather than a position. This method will therefore
-     * not take the translation part of the matrix into account.
-     * <p>
-     * In order to store the result in the same vector, use {@link #transformDirection(Vector2d)}.
-     * 
-     * @see #transformDirection(Vector2d)
-     * 
-     * @param x
-     *          the x component of the vector to transform
-     * @param y
-     *          the y component of the vector to transform
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector2d transformDirection(double x, double y, Vector2d dest) {
+    public Vector2dc transformDirection(double x, double y, Vector2dc dest) {
         return dest.set(m00 * x + m10 * y, m01 * x + m11 * y);
     }
 
@@ -1572,8 +651,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         out.writeDouble(m21);
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         m00 = in.readDouble();
         m01 = in.readDouble();
         m10 = in.readDouble();
@@ -1582,36 +660,11 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         m21 = in.readDouble();
     }
 
-    /**
-     * Apply a rotation transformation to this matrix by rotating the given amount of radians.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * 
-     * @param ang
-     *            the angle in radians
-     * @return this
-     */
-    public Matrix3x2d rotate(double ang) {
+    public Matrix3x2dc rotate(double ang) {
         return rotate(ang, this);
     }
 
-    /**
-     * Apply a rotation transformation to this matrix by rotating the given amount of radians and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3x2d rotate(double ang, Matrix3x2d dest) {
+    public Matrix3x2dc rotate(double ang, Matrix3x2dc dest) {
         double cos = Math.cos(ang);
         double sin = Math.sin(ang);
         double rm00 = cos;
@@ -1620,37 +673,16 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         double rm11 = cos;
         double nm00 = m00 * rm00 + m10 * rm01;
         double nm01 = m01 * rm00 + m11 * rm01;
-        dest.m10 = m00 * rm10 + m10 * rm11;
-        dest.m11 = m01 * rm10 + m11 * rm11;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m20 = m20;
-        dest.m21 = m21;
+        dest.m10(m00 * rm10 + m10 * rm11);
+        dest.m11(m01 * rm10 + m11 * rm11);
+        dest.m00(nm00);
+        dest.m01(nm01);
+        dest.m20(m20);
+        dest.m21(m21);
         return dest;
     }
 
-    /**
-     * Pre-multiply a rotation to this matrix by rotating the given amount of radians and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>R * M</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
-     * rotation will be applied last!
-     * <p>
-     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
-     * transformation, use {@link #rotation(double) rotation()}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @see #rotation(double)
-     * 
-     * @param ang
-     *            the angle in radians to rotate
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3x2d rotateLocal(double ang, Matrix3x2d dest) {
+    public Matrix3x2dc rotateLocal(double ang, Matrix3x2dc dest) {
         double sin = Math.sin(ang);
         double cos = Math.cosFromSin(sin, ang);
         double nm00 = cos * m00 - sin * m01;
@@ -1659,119 +691,40 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         double nm11 = sin * m10 + cos * m11;
         double nm20 = cos * m20 - sin * m21;
         double nm21 = sin * m20 + cos * m21;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
+        dest.m00(nm00);
+        dest.m01(nm01);
+        dest.m10(nm10);
+        dest.m11(nm11);
+        dest.m20(nm20);
+        dest.m21(nm21);
         return dest;
     }
 
-    /**
-     * Pre-multiply a rotation to this matrix by rotating the given amount of radians.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>R * M</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
-     * rotation will be applied last!
-     * <p>
-     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
-     * transformation, use {@link #rotation(double) rotation()}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @see #rotation(double)
-     * 
-     * @param ang
-     *            the angle in radians to rotate
-     * @return this
-     */
-    public Matrix3x2d rotateLocal(double ang) {
+    public Matrix3x2dc rotateLocal(double ang) {
         return rotateLocal(ang, this);
     }
 
-    /**
-     * Apply a rotation transformation to this matrix by rotating the given amount of radians about
-     * the specified rotation center <tt>(x, y)</tt>.
-     * <p>
-     * This method is equivalent to calling: <tt>translate(x, y).rotate(ang).translate(-x, -y)</tt>
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
-     * 
-     * @see #translate(double, double)
-     * @see #rotate(double)
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param x
-     *            the x component of the rotation center
-     * @param y
-     *            the y component of the rotation center
-     * @return dest
-     */
-    public Matrix3x2d rotateAbout(double ang, double x, double y) {
+    public Matrix3x2dc rotateAbout(double ang, double x, double y) {
         return rotateAbout(ang, x, y, this);
     }
 
-    /**
-     * Apply a rotation transformation to this matrix by rotating the given amount of radians about
-     * the specified rotation center <tt>(x, y)</tt> and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>translate(x, y, dest).rotate(ang).translate(-x, -y)</tt>
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
-     * 
-     * @see #translate(double, double, Matrix3x2d)
-     * @see #rotate(double, Matrix3x2d)
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param x
-     *            the x component of the rotation center
-     * @param y
-     *            the y component of the rotation center
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3x2d rotateAbout(double ang, double x, double y, Matrix3x2d dest) {
+    public Matrix3x2dc rotateAbout(double ang, double x, double y, Matrix3x2dc dest) {
         double tm20 = m00 * x + m10 * y + m20;
         double tm21 = m01 * x + m11 * y + m21;
         double cos = Math.cos(ang);
         double sin = Math.sin(ang);
         double nm00 = m00 * cos + m10 * sin;
         double nm01 = m01 * cos + m11 * sin;
-        dest.m10 = m00 * -sin + m10 * cos;
-        dest.m11 = m01 * -sin + m11 * cos;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m20 = dest.m00 * -x + dest.m10 * -y + tm20;
-        dest.m21 = dest.m01 * -x + dest.m11 * -y + tm21;
+        dest.m10(m00 * -sin + m10 * cos);
+        dest.m11(m01 * -sin + m11 * cos);
+        dest.m00(nm00);
+        dest.m01(nm01);
+        dest.m20(dest.m00() * -x + dest.m10() * -y + tm20);
+        dest.m21(dest.m01() * -x + dest.m11() * -y + tm21);
         return dest;
     }
 
-    /**
-     * Apply a rotation transformation to this matrix that rotates the given normalized <code>fromDir</code> direction vector
-     * to point along the normalized <code>toDir</code>, and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
-     * 
-     * @param fromDir
-     *            the normalized direction which should be rotate to point along <code>toDir</code>
-     * @param toDir
-     *            the normalized destination direction
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3x2d rotateTo(Vector2dc fromDir, Vector2dc toDir, Matrix3x2d dest) {
+    public Matrix3x2dc rotateTo(IVector2d fromDir, IVector2d toDir, Matrix3x2dc dest) {
         double dot = fromDir.x() * toDir.x() + fromDir.y() * toDir.y();
         double det = fromDir.x() * toDir.y() - fromDir.y() * toDir.x();
         double rm00 = dot;
@@ -1780,112 +733,38 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         double rm11 = dot;
         double nm00 = m00 * rm00 + m10 * rm01;
         double nm01 = m01 * rm00 + m11 * rm01;
-        dest.m10 = m00 * rm10 + m10 * rm11;
-        dest.m11 = m01 * rm10 + m11 * rm11;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m20 = m20;
-        dest.m21 = m21;
+        dest.m10(m00 * rm10 + m10 * rm11);
+        dest.m11(m01 * rm10 + m11 * rm11);
+        dest.m00(nm00);
+        dest.m01(nm01);
+        dest.m20(m20);
+        dest.m21(m21);
         return dest;
     }
 
-    /**
-     * Apply a rotation transformation to this matrix that rotates the given normalized <code>fromDir</code> direction vector
-     * to point along the normalized <code>toDir</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
-     * 
-     * @param fromDir
-     *            the normalized direction which should be rotate to point along <code>toDir</code>
-     * @param toDir
-     *            the normalized destination direction
-     * @return this
-     */
-    public Matrix3x2d rotateTo(Vector2dc fromDir, Vector2dc toDir) {
+    public Matrix3x2dc rotateTo(IVector2d fromDir, IVector2d toDir) {
         return rotateTo(fromDir, toDir, this);
     }
 
-    /**
-     * Apply a "view" transformation to this matrix that maps the given <tt>(left, bottom)</tt> and
-     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
-     * then the new matrix will be <code>M * O</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
-     * orthographic projection transformation will be applied first!
-     * 
-     * @see #setView(double, double, double, double)
-     * 
-     * @param left
-     *            the distance from the center to the left view edge
-     * @param right
-     *            the distance from the center to the right view edge
-     * @param bottom
-     *            the distance from the center to the bottom view edge
-     * @param top
-     *            the distance from the center to the top view edge
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3x2d view(double left, double right, double bottom, double top, Matrix3x2d dest) {
+    public Matrix3x2dc view(double left, double right, double bottom, double top, Matrix3x2dc dest) {
         double rm00 = 2.0 / (right - left);
         double rm11 = 2.0 / (top - bottom);
         double rm20 = (left + right) / (left - right);
         double rm21 = (bottom + top) / (bottom - top);
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
+        dest.m20(m00 * rm20 + m10 * rm21 + m20);
+        dest.m21(m01 * rm20 + m11 * rm21 + m21);
+        dest.m00(m00 * rm00);
+        dest.m01(m01 * rm00);
+        dest.m10(m10 * rm11);
+        dest.m11(m11 * rm11);
         return dest;
     }
 
-    /**
-     * Apply a "view" transformation to this matrix that maps the given <tt>(left, bottom)</tt> and
-     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
-     * then the new matrix will be <code>M * O</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
-     * orthographic projection transformation will be applied first!
-     * 
-     * @see #setView(double, double, double, double)
-     * 
-     * @param left
-     *            the distance from the center to the left view edge
-     * @param right
-     *            the distance from the center to the right view edge
-     * @param bottom
-     *            the distance from the center to the bottom view edge
-     * @param top
-     *            the distance from the center to the top view edge
-     * @return this
-     */
-    public Matrix3x2d view(double left, double right, double bottom, double top) {
+    public Matrix3x2dc view(double left, double right, double bottom, double top) {
         return view(left, right, bottom, top, this);
     }
 
-    /**
-     * Set this matrix to define a "view" transformation that maps the given <tt>(left, bottom)</tt> and
-     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively.
-     * 
-     * @see #view(double, double, double, double)
-     * 
-     * @param left
-     *            the distance from the center to the left view edge
-     * @param right
-     *            the distance from the center to the right view edge
-     * @param bottom
-     *            the distance from the center to the bottom view edge
-     * @param top
-     *            the distance from the center to the top view edge
-     * @return this
-     */
-    public Matrix3x2d setView(double left, double right, double bottom, double top) {
+    public Matrix3x2dc setView(double left, double right, double bottom, double top) {
         m00 = 2.0 / (right - left);
         m01 = 0.0;
         m10 = 0.0;
@@ -1895,51 +774,28 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return this;
     }
 
-    /**
-     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
-     * This can be used to get the position of the "camera" from a given <i>view</i> transformation matrix.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Matrix3x2d inv = new Matrix3x2d(this).invert();
-     * inv.transform(origin.set(0, 0));
-     * </pre>
-     * 
-     * @param origin
-     *          will hold the position transformed to the origin
-     * @return origin
-     */
-    public Vector2d origin(Vector2d origin) {
+    public Vector2dc origin(Vector2dc origin) {
         double s = 1.0 / (m00 * m11 - m01 * m10);
-        origin.x = (m10 * m21 - m20 * m11) * s;
-        origin.y = (m20 * m01 - m00 * m21) * s;
+        origin.set((m10 * m21 - m20 * m11) * s, (m20 * m01 - m00 * m21) * s);
         return origin;
     }
 
-    /**
-     * Obtain the extents of the view transformation of <code>this</code> matrix and store it in <code>area</code>.
-     * This can be used to determine which region of the screen (i.e. the NDC space) is covered by the view.
-     * 
-     * @param area
-     *          will hold the view area as <tt>[minX, minY, maxX, maxY]</tt>
-     * @return area
-     */
     public double[] viewArea(double[] area) {
         double s = 1.0 / (m00 * m11 - m01 * m10);
-        double rm00 =  m11 * s;
+        double rm00 = m11 * s;
         double rm01 = -m01 * s;
         double rm10 = -m10 * s;
-        double rm11 =  m00 * s;
+        double rm11 = m00 * s;
         double rm20 = (m10 * m21 - m20 * m11) * s;
         double rm21 = (m20 * m01 - m00 * m21) * s;
         double nxnyX = -rm00 - rm10;
         double nxnyY = -rm01 - rm11;
-        double pxnyX =  rm00 - rm10;
-        double pxnyY =  rm01 - rm11;
+        double pxnyX = rm00 - rm10;
+        double pxnyY = rm01 - rm11;
         double nxpyX = -rm00 + rm10;
         double nxpyY = -rm01 + rm11;
-        double pxpyX =  rm00 + rm10;
-        double pxpyY =  rm01 + rm11;
+        double pxpyX = rm00 + rm10;
+        double pxpyY = rm01 + rm11;
         double minX = nxnyX;
         minX = minX < nxpyX ? minX : nxpyX;
         minX = minX < pxnyX ? minX : pxnyX;
@@ -1963,178 +819,100 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return area;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#positiveX(org.joml.Vector2d)
-     */
-    public Vector2d positiveX(Vector2d dir) {
+    public Vector2dc positiveX(Vector2dc dir) {
         double s = m00 * m11 - m01 * m10;
         s = 1.0 / s;
-        dir.x =  m11 * s;
-        dir.y = -m01 * s;
+        dir.set(m11 * s, -m01 * s);
         dir.normalize();
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#normalizedPositiveX(org.joml.Vector2d)
-     */
-    public Vector2d normalizedPositiveX(Vector2d dir) {
-        dir.x =  m11;
-        dir.y = -m01;
+    public Vector2dc normalizedPositiveX(Vector2dc dir) {
+        dir.set(m11, -m01);
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#positiveY(org.joml.Vector2d)
-     */
-    public Vector2d positiveY(Vector2d dir) {
+    public Vector2dc positiveY(Vector2dc dir) {
         double s = m00 * m11 - m01 * m10;
         s = 1.0 / s;
-        dir.x = -m10 * s;
-        dir.y =  m00 * s;
+        dir.set(-m10 * s, m00 * s);
         dir.normalize();
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#normalizedPositiveY(org.joml.Vector2d)
-     */
-    public Vector2d normalizedPositiveY(Vector2d dir) {
-        dir.x = -m10;
-        dir.y =  m00;
+    public Vector2dc normalizedPositiveY(Vector2dc dir) {
+        dir.set(-m10, m00);
         return dir;
     }
 
-    /**
-     * Unproject the given window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport.
-     * <p>
-     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
-     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
-     * <p>
-     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
-     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
-     * once outside using {@link #invert(Matrix3x2d)} and then the method {@link #unprojectInv(double, double, int[], Vector2d) unprojectInv()} can be invoked on it.
-     * 
-     * @see #unprojectInv(double, double, int[], Vector2d)
-     * @see #invert(Matrix3x2d)
-     * 
-     * @param winX
-     *          the x-coordinate in window coordinates (pixels)
-     * @param winY
-     *          the y-coordinate in window coordinates (pixels)
-     * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param dest
-     *          will hold the unprojected position
-     * @return dest
-     */
-    public Vector2d unproject(double winX, double winY, int[] viewport, Vector2d dest) {
+    public Vector2dc unproject(double winX, double winY, int[] viewport, Vector2dc dest) {
         double s = 1.0 / (m00 * m11 - m01 * m10);
-        double im00 =  m11 * s;
+        double im00 = m11 * s;
         double im01 = -m01 * s;
         double im10 = -m10 * s;
-        double im11 =  m00 * s;
+        double im11 = m00 * s;
         double im20 = (m10 * m21 - m20 * m11) * s;
         double im21 = (m20 * m01 - m00 * m21) * s;
-        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
-        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        dest.x = im00 * ndcX + im10 * ndcY + im20;
-        dest.y = im01 * ndcX + im11 * ndcY + im21;
+        double ndcX = (winX - viewport[0]) / viewport[2] * 2.0 - 1.0;
+        double ndcY = (winY - viewport[1]) / viewport[3] * 2.0 - 1.0;
+        dest.set(im00 * ndcX + im10 * ndcY + im20,
+                im01 * ndcX + im11 * ndcY + im21);
         return dest;
     }
 
-    /**
-     * Unproject the given window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport.
-     * <p>
-     * This method differs from {@link #unproject(double, double, int[], Vector2d) unproject()} 
-     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
-     * It exists to avoid recomputing the matrix inverse with every invocation.
-     * 
-     * @see #unproject(double, double, int[], Vector2d)
-     * 
-     * @param winX
-     *          the x-coordinate in window coordinates (pixels)
-     * @param winY
-     *          the y-coordinate in window coordinates (pixels)
-     * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param dest
-     *          will hold the unprojected position
-     * @return dest
-     */
-    public Vector2d unprojectInv(double winX, double winY, int[] viewport, Vector2d dest) {
-        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
-        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        dest.x = m00 * ndcX + m10 * ndcY + m20;
-        dest.y = m01 * ndcX + m11 * ndcY + m21;
+    public Vector2dc unprojectInv(double winX, double winY, int[] viewport, Vector2dc dest) {
+        double ndcX = (winX - viewport[0]) / viewport[2] * 2.0 - 1.0;
+        double ndcY = (winY - viewport[1]) / viewport[3] * 2.0 - 1.0;
+        dest.set(m00 * ndcX + m10 * ndcY + m20,
+                m01 * ndcX + m11 * ndcY + m21);
         return dest;
     }
 
-    /**
-     * Compute the extents of the coordinate system before this transformation was applied and store the resulting
-     * corner coordinates in <code>corner</code> and the span vectors in <code>xDir</code> and <code>yDir</code>.
-     * <p>
-     * That means, given the maximum extents of the coordinate system between <tt>[-1..+1]</tt> in all dimensions,
-     * this method returns one corner and the length and direction of the two base axis vectors in the coordinate
-     * system before this transformation is applied, which transforms into the corner coordinates <tt>[-1, +1]</tt>.
-     * 
-     * @param corner
-     *          will hold one corner of the span
-     * @param xDir
-     *          will hold the direction and length of the span along the positive X axis
-     * @param yDir
-     *          will hold the direction and length of the span along the positive Y axis
-     * @return this
-     */
-    public Matrix3x2d span(Vector2d corner, Vector2d xDir, Vector2d yDir) {
+    public Matrix3x2dc span(Vector2dc corner, Vector2dc xDir, Vector2dc yDir) {
         double s = 1.0 / (m00 * m11 - m01 * m10);
-        double nm00 =  m11 * s, nm01 = -m01 * s, nm10 = -m10 * s, nm11 =  m00 * s;
-        corner.x = -nm00 - nm10 + (m10 * m21 - m20 * m11) * s;
-        corner.y = -nm01 - nm11 + (m20 * m01 - m00 * m21) * s;
-        xDir.x = 2.0 * nm00; xDir.y = 2.0 * nm01;
-        yDir.x = 2.0 * nm10; yDir.y = 2.0 * nm11;
+        double nm00 = m11 * s, nm01 = -m01 * s, nm10 = -m10 * s, nm11 = m00 * s;
+        corner.set(-nm00 - nm10 + (m10 * m21 - m20 * m11) * s,
+                -nm01 - nm11 + (m20 * m01 - m00 * m21) * s);
+        xDir.set(2.0 * nm00, 2.0 * nm01);
+        yDir.set(2.0 * nm10, 2.0 * nm11);
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix3x2fc#testPoint(double, double)
-     */
     public boolean testPoint(double x, double y) {
         double nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
         double pxX = -m00, pxY = -m10, pxW = 1.0f - m20;
         double nyX = +m01, nyY = +m11, nyW = 1.0f + m21;
         double pyX = -m01, pyY = -m11, pyW = 1.0f - m21;
         return nxX * x + nxY * y + nxW >= 0 && pxX * x + pxY * y + pxW >= 0 &&
-               nyX * x + nyY * y + nyW >= 0 && pyX * x + pyY * y + pyW >= 0;
+                nyX * x + nyY * y + nyW >= 0 && pyX * x + pyY * y + pyW >= 0;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix3x2fc#testCircle(double, double, double)
-     */
     public boolean testCircle(double x, double y, double r) {
         double invl;
         double nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
         invl = 1.0 / Math.sqrt(nxX * nxX + nxY * nxY);
-        nxX *= invl; nxY *= invl; nxW *= invl;
+        nxX *= invl;
+        nxY *= invl;
+        nxW *= invl;
         double pxX = -m00, pxY = -m10, pxW = 1.0f - m20;
         invl = 1.0 / Math.sqrt(pxX * pxX + pxY * pxY);
-        pxX *= invl; pxY *= invl; pxW *= invl;
+        pxX *= invl;
+        pxY *= invl;
+        pxW *= invl;
         double nyX = +m01, nyY = +m11, nyW = 1.0f + m21;
         invl = 1.0 / Math.sqrt(nyX * nyX + nyY * nyY);
-        nyX *= invl; nyY *= invl; nyW *= invl;
+        nyX *= invl;
+        nyY *= invl;
+        nyW *= invl;
         double pyX = -m01, pyY = -m11, pyW = 1.0f - m21;
         invl = 1.0 / Math.sqrt(pyX * pyX + pyY * pyY);
-        pyX *= invl; pyY *= invl; pyW *= invl;
+        pyX *= invl;
+        pyY *= invl;
+        pyW *= invl;
         return nxX * x + nxY * y + nxW >= -r && pxX * x + pxY * y + pxW >= -r &&
-               nyX * x + nyY * y + nyW >= -r && pyX * x + pyY * y + pyW >= -r;
+                nyX * x + nyY * y + nyW >= -r && pyX * x + pyY * y + pyW >= -r;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix3x2fc#testAar(double, double, double, double)
-     */
     public boolean testAar(double minX, double minY, double maxX, double maxY) {
         double nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
         double pxX = -m00, pxY = -m10, pxW = 1.0f - m20;
@@ -2145,9 +923,8 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
          * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
          */
         return nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) >= -nxW &&
-               pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) >= -pxW &&
-               nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) >= -nyW &&
-               pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) >= -pyW;
+                pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) >= -pxW &&
+                nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) >= -nyW &&
+                pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) >= -pyW;
     }
-
 }

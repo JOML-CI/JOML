@@ -2,7 +2,15 @@ package org.joml.test;
 
 import junit.framework.Assert;
 
-import org.joml.*;
+import org.joml.api.matrix.IMatrix4f;
+import org.joml.api.matrix.IMatrix4x3d;
+import org.joml.api.matrix.IMatrix4x3f;
+import org.joml.api.quaternion.IQuaterniond;
+import org.joml.api.quaternion.IQuaternionf;
+import org.joml.api.vector.IVector2f;
+import org.joml.api.vector.IVector3d;
+import org.joml.api.vector.IVector3f;
+import org.joml.api.vector.IVector4f;
 
 /**
  * Utilities for testing.
@@ -63,7 +71,7 @@ public class TestUtil {
      * @param b the second number
      * @param precision if abs(a - b) <= precision, a and b are considered equal
      * @return whether a and b are equal
-     * @see #floatCompare(double, double, double)
+     * @see #floatCompare(float, float, float)
      */
     public static boolean doubleEqual(double a, double b, double precision) {
         return java.lang.Math.abs(a - b) <= precision;
@@ -76,7 +84,7 @@ public class TestUtil {
      * @param b the second number
      * @param precision if abs(a - b) <= precision, a and b are considered equal
      * @return 0 if a == b, 1 if a > b, -1 if a < b
-     * @see #floatEqual(double, double, double)
+     * @see #floatEqual(float, float, float)
      */
     public static int doubleCompare(double a, double b, double precision) {
         if (java.lang.Math.abs(a - b) <= precision)
@@ -95,11 +103,11 @@ public class TestUtil {
      * @param precision if abs(a.[comp] - b.[comp]) <= precision for every component comp (x, y, z, w), a and b are considered equal
      * @return whether a and b are equal
      */
-    public static boolean quatEqual(Quaternionf a, Quaternionf b, float precision) {
-        return floatEqual(a.x, b.x, precision)
-            && floatEqual(a.y, b.y, precision)
-            && floatEqual(a.z, b.z, precision)
-            && floatEqual(a.w, b.w, precision);
+    public static boolean quatEqual(IQuaternionf a, IQuaternionf b, float precision) {
+        return floatEqual(a.x(), b.x(), precision)
+            && floatEqual(a.y(), b.y(), precision)
+            && floatEqual(a.z(), b.z(), precision)
+            && floatEqual(a.w(), b.w(), precision);
     }
 
     /**
@@ -110,11 +118,11 @@ public class TestUtil {
      * @param precision if abs(a.[comp] - b.[comp]) <= precision for every component comp (x, y, z, w), a and b are considered equal
      * @return whether a and b are equal
      */
-    public static boolean quatEqual(Quaterniond a, Quaterniond b, double precision) {
-        return doubleEqual(a.x, b.x, precision)
-            && doubleEqual(a.y, b.y, precision)
-            && doubleEqual(a.z, b.z, precision)
-            && doubleEqual(a.w, b.w, precision);
+    public static boolean quatEqual(IQuaterniond a, IQuaterniond b, double precision) {
+        return doubleEqual(a.x(), b.x(), precision)
+            && doubleEqual(a.y(), b.y(), precision)
+            && doubleEqual(a.z(), b.z(), precision)
+            && doubleEqual(a.w(), b.w(), precision);
     }
 
     /**
@@ -124,7 +132,7 @@ public class TestUtil {
      * @param m2
      * @param delta
      */
-    public static void assertMatrix4fEquals(Matrix4f m1, Matrix4f m2, float delta) {
+    public static void assertMatrix4fEquals(IMatrix4f m1, IMatrix4f m2, float delta) {
         Assert.assertEquals(m1.m00(), m2.m00(), delta);
         Assert.assertEquals(m1.m01(), m2.m01(), delta);
         Assert.assertEquals(m1.m02(), m2.m02(), delta);
@@ -150,7 +158,7 @@ public class TestUtil {
      * @param m2
      * @param delta
      */
-    public static void assertMatrix4x3fEquals(Matrix4x3fc m1, Matrix4x3fc m2, float delta) {
+    public static void assertMatrix4x3fEquals(IMatrix4x3f m1, IMatrix4x3f m2, float delta) {
         Assert.assertEquals(m1.m00(), m2.m00(), delta);
         Assert.assertEquals(m1.m01(), m2.m01(), delta);
         Assert.assertEquals(m1.m02(), m2.m02(), delta);
@@ -172,7 +180,7 @@ public class TestUtil {
      * @param m2
      * @param delta
      */
-    public static void assertMatrix4x3dEquals(Matrix4x3dc m1, Matrix4x3dc m2, double delta) {
+    public static void assertMatrix4x3dEquals(IMatrix4x3d m1, IMatrix4x3d m2, double delta) {
         Assert.assertEquals(m1.m00(), m2.m00(), delta);
         Assert.assertEquals(m1.m01(), m2.m01(), delta);
         Assert.assertEquals(m1.m02(), m2.m02(), delta);
@@ -194,11 +202,11 @@ public class TestUtil {
      * @param actual
      * @param delta
      */
-    public static void assertVector4fEquals(Vector4f expected, Vector4f actual, float delta) {
-        Assert.assertEquals(expected.x, actual.x, delta);
-        Assert.assertEquals(expected.y, actual.y, delta);
-        Assert.assertEquals(expected.z, actual.z, delta);
-        Assert.assertEquals(expected.w, actual.w, delta);
+    public static void assertVector4fEquals(IVector4f expected, IVector4f actual, float delta) {
+        Assert.assertEquals(expected.x(), actual.x(), delta);
+        Assert.assertEquals(expected.y(), actual.y(), delta);
+        Assert.assertEquals(expected.z(), actual.z(), delta);
+        Assert.assertEquals(expected.w(), actual.w(), delta);
     }
 
     /**
@@ -208,10 +216,10 @@ public class TestUtil {
      * @param actual
      * @param delta
      */
-    public static void assertVector3fEquals(Vector3f expected, Vector3f actual, float delta) {
-        Assert.assertEquals(expected.x, actual.x, delta);
-        Assert.assertEquals(expected.y, actual.y, delta);
-        Assert.assertEquals(expected.z, actual.z, delta);
+    public static void assertVector3fEquals(IVector3f expected, IVector3f actual, float delta) {
+        Assert.assertEquals(expected.x(), actual.x(), delta);
+        Assert.assertEquals(expected.y(), actual.y(), delta);
+        Assert.assertEquals(expected.z(), actual.z(), delta);
     }
 
     /**
@@ -221,10 +229,10 @@ public class TestUtil {
      * @param actual
      * @param delta
      */
-    public static void assertVector3dEquals(Vector3d expected, Vector3d actual, double delta) {
-        Assert.assertEquals(expected.x, actual.x, delta);
-        Assert.assertEquals(expected.y, actual.y, delta);
-        Assert.assertEquals(expected.z, actual.z, delta);
+    public static void assertVector3dEquals(IVector3d expected, IVector3d actual, double delta) {
+        Assert.assertEquals(expected.x(), actual.x(), delta);
+        Assert.assertEquals(expected.y(), actual.y(), delta);
+        Assert.assertEquals(expected.z(), actual.z(), delta);
     }
 
     /**
@@ -234,9 +242,9 @@ public class TestUtil {
      * @param actual
      * @param delta
      */
-    public static void assertVector2fEquals(Vector2f expected, Vector2f actual, float delta) {
-        Assert.assertEquals(expected.x, actual.x, delta);
-        Assert.assertEquals(expected.y, actual.y, delta);
+    public static void assertVector2fEquals(IVector2f expected, IVector2f actual, float delta) {
+        Assert.assertEquals(expected.x(), actual.x(), delta);
+        Assert.assertEquals(expected.y(), actual.y(), delta);
     }
 
 }

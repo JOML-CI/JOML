@@ -22,6 +22,9 @@
  */
 package org.joml;
 
+import org.joml.api.vector.Vector2dc;
+import org.joml.api.vector.Vector3dc;
+
 /**
  * Contains various interpolation functions.
  * 
@@ -112,11 +115,11 @@ public class Interpolationd {
      *            will hold the interpolation result
      * @return dest
      */
-    public static Vector2d interpolateTriangle(
+    public static Vector2dc interpolateTriangle(
             double v0X, double v0Y, double f0X, double f0Y,
             double v1X, double v1Y, double f1X, double f1Y,
             double v2X, double v2Y, double f2X, double f2Y,
-            double x, double y, Vector2d dest) {
+            double x, double y, Vector2dc dest) {
         double v12Y = v1Y - v2Y;
         double v21X = v2X - v1X;
         double v02X = v0X - v2X;
@@ -127,8 +130,8 @@ public class Interpolationd {
         double l1 = (v12Y * xv2X + v21X * yv2Y) * invDen;
         double l2 = (v02X * yv2Y - v02Y * xv2X) * invDen;
         double l3 = 1.0 - l1 - l2;
-        dest.x = l1 * f0X + l2 * f1X + l3 * f2X;
-        dest.y = l1 * f0Y + l2 * f1Y + l3 * f2Y;
+        dest.set(l1 * f0X + l2 * f1X + l3 * f2X,
+                l1 * f0Y + l2 * f1Y + l3 * f2Y);
         return dest;
     }
 
@@ -167,17 +170,17 @@ public class Interpolationd {
      *            will hold the result
      * @return dest
      */
-    public static Vector2d dFdxLinear(
+    public static Vector2dc dFdxLinear(
             double v0X, double v0Y, double f0X, double f0Y,
             double v1X, double v1Y, double f1X, double f1Y,
-            double v2X, double v2Y, double f2X, double f2Y, Vector2d dest) {
+            double v2X, double v2Y, double f2X, double f2Y, Vector2dc dest) {
         double v12Y = v1Y - v2Y;
         double v02Y = v0Y - v2Y;
         double den = v12Y * (v0X - v2X) + (v2X - v1X) * v02Y;
         double l3_1 = den - v12Y + v02Y;
         double invDen = 1.0f / den;
-        dest.x = invDen * (v12Y * f0X - v02Y * f1X + l3_1 * f2X) - f2X;
-        dest.y = invDen * (v12Y * f0Y - v02Y * f1Y + l3_1 * f2Y) - f2Y;
+        dest.set(invDen * (v12Y * f0X - v02Y * f1X + l3_1 * f2X) - f2X,
+                invDen * (v12Y * f0Y - v02Y * f1Y + l3_1 * f2Y) - f2Y);
         return dest;
     }
 
@@ -216,18 +219,18 @@ public class Interpolationd {
      *            will hold the result
      * @return dest
      */
-    public static Vector2d dFdyLinear(
+    public static Vector2dc dFdyLinear(
             double v0X, double v0Y, double f0X, double f0Y,
             double v1X, double v1Y, double f1X, double f1Y,
             double v2X, double v2Y, double f2X, double f2Y,
-            Vector2d dest) {
+            Vector2dc dest) {
         double v21X = v2X - v1X;
         double v02X = v0X - v2X;
         double den = (v1Y - v2Y) * v02X + v21X * (v0Y - v2Y);
         double l3_1 = den - v21X - v02X;
         double invDen = 1.0f / den;
-        dest.x = invDen * (v21X * f0X + v02X * f1X + l3_1 * f2X) - f2X;
-        dest.y = invDen * (v21X * f0Y + v02X * f1Y + l3_1 * f2Y) - f2Y;
+        dest.set(invDen * (v21X * f0X + v02X * f1X + l3_1 * f2X) - f2X,
+                invDen * (v21X * f0Y + v02X * f1Y + l3_1 * f2Y) - f2Y);
         return dest;
     }
 
@@ -274,18 +277,18 @@ public class Interpolationd {
      *            will hold the interpolation result
      * @return dest
      */
-    public static Vector3d interpolateTriangle(
+    public static Vector3dc interpolateTriangle(
             double v0X, double v0Y, double f0X, double f0Y, double f0Z,
             double v1X, double v1Y, double f1X, double f1Y, double f1Z,
             double v2X, double v2Y, double f2X, double f2Y, double f2Z,
-            double x, double y, Vector3d dest) {
+            double x, double y, Vector3dc dest) {
         // compute interpolation factors
-        Vector3d t = dest;
+        Vector3dc t = dest;
         interpolationFactorsTriangle(v0X, v0Y, v1X, v1Y, v2X, v2Y, x, y, t);
         // interpolate using these factors
-        return dest.set(t.x * f0X + t.y * f1X + t.z * f2X,
-                        t.x * f0Y + t.y * f1Y + t.z * f2Y,
-                        t.x * f0Z + t.y * f1Z + t.z * f2Z);
+        return dest.set(t.x() * f0X + t.y() * f1X + t.z() * f2X,
+                        t.x() * f0Y + t.y() * f1Y + t.z() * f2Y,
+                        t.x ()* f0Z + t.y() * f1Z + t.z() * f2Z);
     }
 
     /**
@@ -317,9 +320,9 @@ public class Interpolationd {
      *            will hold the interpolation factors <tt>(t0, t1, t2)</tt>
      * @return dest
      */
-    public static Vector3d interpolationFactorsTriangle(
+    public static Vector3dc interpolationFactorsTriangle(
             double v0X, double v0Y, double v1X, double v1Y, double v2X, double v2Y,
-            double x, double y, Vector3d dest) {
+            double x, double y, Vector3dc dest) {
         double v12Y = v1Y - v2Y;
         double v21X = v2X - v1X;
         double v02X = v0X - v2X;
@@ -327,9 +330,9 @@ public class Interpolationd {
         double xv2X = x - v2X;
         double v02Y = v0Y - v2Y;
         double invDen = 1.0 / (v12Y * v02X + v21X * v02Y);
-        dest.x = (v12Y * xv2X + v21X * yv2Y) * invDen;
-        dest.y = (v02X * yv2Y - v02Y * xv2X) * invDen;
-        dest.z = 1.0 - dest.x - dest.y;
+        dest.set((v12Y * xv2X + v21X * yv2Y) * invDen,
+                (v02X * yv2Y - v02Y * xv2X) * invDen,
+                1.0 - dest.x() - dest.y());
         return dest;
     }
 

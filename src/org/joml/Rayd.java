@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector3d;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -64,7 +66,7 @@ public class Rayd {
      * @param direction
      *          the direction of the ray
      */
-    public Rayd(Vector3dc origin, Vector3dc direction) {
+    public Rayd(IVector3d origin, IVector3d direction) {
         this.oX = origin.x();
         this.oY = origin.y();
         this.oZ = origin.z();

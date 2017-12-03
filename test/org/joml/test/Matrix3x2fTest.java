@@ -4,6 +4,7 @@ import org.joml.Matrix3x2f;
 import org.joml.Vector2f;
 
 import junit.framework.TestCase;
+import org.joml.api.matrix.Matrix3x2fc;
 
 /**
  * Tests for the {@link Matrix3x2f} class.
@@ -23,7 +24,7 @@ public class Matrix3x2fTest extends TestCase {
     }
 
     public static void testView() {
-        Matrix3x2f m = new Matrix3x2f().view(-4, 0.5f, -2, 3);
+        Matrix3x2fc m = new Matrix3x2f().view(-4, 0.5f, -2, 3);
         Vector2f v = new Vector2f(-4, -2);
         m.transformPosition(v);
         TestUtil.assertVector2fEquals(new Vector2f(-1, -1), v, 0f);
@@ -33,13 +34,13 @@ public class Matrix3x2fTest extends TestCase {
     }
 
     public static void testUnproject() {
-        Matrix3x2f m = new Matrix3x2f().view(-3, 2, -4, 1);
+        Matrix3x2fc m = new Matrix3x2f().view(-3, 2, -4, 1);
         TestUtil.assertVector2fEquals(new Vector2f(-3, -4), m.unproject(0, 0, new int[] {0, 0, 800, 600}, new Vector2f()), 1E-6f);
         TestUtil.assertVector2fEquals(new Vector2f(2, 1), m.unproject(800, 600, new int[] {0, 0, 800, 600}, new Vector2f()), 1E-6f);
     }
 
     public static void testTestPoint() {
-        Matrix3x2f m = new Matrix3x2f().view(-4, 2, -3, 10);
+        Matrix3x2fc m = new Matrix3x2f().view(-4, 2, -3, 10);
         assertTrue(m.testPoint(0, 0));
         assertTrue(m.testPoint(-4, -2.9f));
         assertFalse(m.testPoint(-4.01f, -2.9f));

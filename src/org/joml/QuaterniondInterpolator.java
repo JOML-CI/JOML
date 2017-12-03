@@ -22,8 +22,11 @@
  */
 package org.joml;
 
+import org.joml.api.matrix.Matrix3dc;
+import org.joml.api.quaternion.Quaterniondc;
+
 /**
- * Computes the weighted average of multiple rotations represented as {@link Quaterniond} instances.
+ * Computes the weighted average of multiple rotations represented as {@link Quaterniondc} instances.
  * <p>
  * Instances of this class are <i>not</i> thread-safe.
  * <p>
@@ -34,7 +37,7 @@ package org.joml;
 public class QuaterniondInterpolator {
 
     /**
-     * Performs singular value decomposition on {@link Matrix3d}.
+     * Performs singular value decomposition on {@link Matrix3dc}.
      * <p>
      * This code was adapted from <a href="http://www.public.iastate.edu/~dicook/JSS/paper/code/svd.c">http://www.public.iastate.edu/</a>.
      * 
@@ -55,7 +58,7 @@ public class QuaterniondInterpolator {
             return (b) >= 0.0 ? Math.abs(a) : -Math.abs(a);
         }
 
-        void svd(double[] a, int maxIterations, Matrix3d destU, Matrix3d destV) {
+        void svd(double[] a, int maxIterations, Matrix3dc destU, Matrix3dc destV) {
             int flag, i, its, j, jj, k, l = 0, nm = 0;
             double c, f, h, s, x, y, z;
             double anorm = 0.0, g = 0.0, scale = 0.0;
@@ -308,25 +311,25 @@ public class QuaterniondInterpolator {
      *            will hold the result
      * @return dest
      */
-    public Quaterniond computeWeightedAverage(Quaterniond[] qs, double[] weights, int maxSvdIterations, Quaterniond dest) {
+    public Quaterniondc computeWeightedAverage(Quaterniondc[] qs, double[] weights, int maxSvdIterations, Quaterniondc dest) {
         double m00 = 0.0, m01 = 0.0, m02 = 0.0;
         double m10 = 0.0, m11 = 0.0, m12 = 0.0;
         double m20 = 0.0, m21 = 0.0, m22 = 0.0;
         // Sum the rotation matrices of qs
         for (int i = 0; i < qs.length; i++) {
-            Quaterniond q = qs[i];
-            double dx = q.x + q.x;
-            double dy = q.y + q.y;
-            double dz = q.z + q.z;
-            double q00 = dx * q.x;
-            double q11 = dy * q.y;
-            double q22 = dz * q.z;
-            double q01 = dx * q.y;
-            double q02 = dx * q.z;
-            double q03 = dx * q.w;
-            double q12 = dy * q.z;
-            double q13 = dy * q.w;
-            double q23 = dz * q.w;
+            Quaterniondc q = qs[i];
+            double dx = q.x() + q.x();
+            double dy = q.y() + q.y();
+            double dz = q.z() + q.z();
+            double q00 = dx * q.x();
+            double q11 = dy * q.y();
+            double q22 = dz * q.z();
+            double q01 = dx * q.y();
+            double q02 = dx * q.z();
+            double q03 = dx * q.w();
+            double q12 = dy * q.z();
+            double q13 = dy * q.w();
+            double q23 = dz * q.w();
             m00 += weights[i] * (1.0 - q11 - q22);
             m01 += weights[i] * (q01 + q23);
             m02 += weights[i] * (q02 - q13);

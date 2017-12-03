@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector3f;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -64,7 +66,7 @@ public class LineSegmentf {
      * @param b
      *          the second point
      */
-    public LineSegmentf(Vector3fc a, Vector3fc b) {
+    public LineSegmentf(IVector3f a, IVector3f b) {
         this.aX = a.x();
         this.aY = a.y();
         this.aZ = a.z();

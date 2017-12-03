@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector2d;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -62,7 +64,7 @@ public class Rectangled {
      * @param max
      *          the maximum coordinates
      */
-    public Rectangled(Vector2dc min, Vector2dc max) {
+    public Rectangled(IVector2d min, IVector2d max) {
         this.minX = min.x();
         this.minY = min.y();
         this.maxX = max.x();

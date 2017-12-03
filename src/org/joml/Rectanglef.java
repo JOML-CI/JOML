@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.api.vector.IVector2f;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -62,7 +64,7 @@ public class Rectanglef {
      * @param max
      *          the maximum coordinates
      */
-    public Rectanglef(Vector2fc min, Vector2fc max) {
+    public Rectanglef(IVector2f min, IVector2f max) {
         this.minX = min.x();
         this.minY = min.y();
         this.maxX = max.x();
