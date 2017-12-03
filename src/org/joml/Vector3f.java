@@ -1750,14 +1750,19 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#orthogonalize(org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3f orthogonalize(Vector3fc v, Vector3f dest) {
-        float invLenV = 1.0f / (float) Math.sqrt(v.x() * v.x() + v.y() * v.y() + v.z() * v.z());
-        float vx = v.x() * invLenV;
-        float vy = v.y() * invLenV;
-        float vz = v.z() * invLenV;
-        float dot = (vx * x + vy * y + vz * z);
-        float rx = x - dot * vx;
-        float ry = y - dot * vy;
-        float rz = z - dot * vz;
+        /*
+         * http://lolengine.net/blog/2013/09/21/picking-orthogonal-vector-combing-coconuts
+         */
+        float rx, ry, rz;
+        if (Math.abs(v.x()) > Math.abs(v.z())) {
+            rx = -v.y();
+            ry = v.x();
+            rz = 0.0f;
+        } else {
+            rx = 0.0f;
+            ry = -v.z();
+            rz = v.y();
+        }
         float invLen = 1.0f / (float) Math.sqrt(rx * rx + ry * ry + rz * rz);
         dest.x = rx * invLen;
         dest.y = ry * invLen;
@@ -1782,18 +1787,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#orthogonalizeUnit(org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3f orthogonalizeUnit(Vector3fc v, Vector3f dest) {
-        float vx = v.x();
-        float vy = v.y();
-        float vz = v.z();
-        float dot = (vx * x + vy * y + vz * z);
-        float rx = x - dot * vx;
-        float ry = y - dot * vy;
-        float rz = z - dot * vz;
-        float invLen = 1.0f / (float) Math.sqrt(rx * rx + ry * ry + rz * rz);
-        dest.x = rx * invLen;
-        dest.y = ry * invLen;
-        dest.z = rz * invLen;
-        return dest;
+        return orthogonalize(v, dest);
     }
 
     /**

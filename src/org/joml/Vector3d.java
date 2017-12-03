@@ -2186,14 +2186,19 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#orthogonalize(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d orthogonalize(Vector3dc v, Vector3d dest) {
-        double invLenV = 1.0 / Math.sqrt(v.x() * v.x() + v.y() * v.y() + v.z() * v.z());
-        double vx = v.x() * invLenV;
-        double vy = v.y() * invLenV;
-        double vz = v.z() * invLenV;
-        double dot = (vx * x + vy * y + vz * z);
-        double rx = x - dot * vx;
-        double ry = y - dot * vy;
-        double rz = z - dot * vz;
+        /*
+         * http://lolengine.net/blog/2013/09/21/picking-orthogonal-vector-combing-coconuts
+         */
+        double rx, ry, rz;
+        if (Math.abs(v.x()) > Math.abs(v.z())) {
+            rx = -v.y();
+            ry = v.x();
+            rz = 0.0;
+        } else {
+            rx = 0.0;
+            ry = -v.z();
+            rz = v.y();
+        }
         double invLen = 1.0 / Math.sqrt(rx * rx + ry * ry + rz * rz);
         dest.x = rx * invLen;
         dest.y = ry * invLen;
@@ -2218,18 +2223,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#orthogonalizeUnit(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d orthogonalizeUnit(Vector3dc v, Vector3d dest) {
-        double vx = v.x();
-        double vy = v.y();
-        double vz = v.z();
-        double dot = (vx * x + vy * y + vz * z);
-        double rx = x - dot * vx;
-        double ry = y - dot * vy;
-        double rz = z - dot * vz;
-        double invLen = 1.0 / Math.sqrt(rx * rx + ry * ry + rz * rz);
-        dest.x = rx * invLen;
-        dest.y = ry * invLen;
-        dest.z = rz * invLen;
-        return dest;
+        return orthogonalize(v, dest);
     }
 
     /**
