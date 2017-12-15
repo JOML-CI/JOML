@@ -7,9 +7,4 @@ matrix:
     - os: osx
       osx_image: xcode8
 language: java
-before_install:
-    - wget http://services.gradle.org/distributions/gradle-4.4-bin.zip
-    - unzip gradle-4.4-bin.zip
-    - export GRADLE_HOME=$PWD/gradle-4.4
-    - export PATH=$PATH:$GRADLE_HOME/bin
 script: mvn clean install -Dmaven.javadoc.skip=false
