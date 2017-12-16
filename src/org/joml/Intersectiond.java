@@ -2301,7 +2301,7 @@ public class Intersectiond {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #intersectRayAab(Vector3dc, Vector3dc, Vector3dc, Vector3dc, Vector2d)
      * @see RayAabIntersection
@@ -2386,7 +2386,7 @@ public class Intersectiond {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #intersectRayAab(double, double, double, double, double, double, double, double, double, double, double, double, Vector2d)
      * @see RayAabIntersection
@@ -2417,7 +2417,7 @@ public class Intersectiond {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #intersectRayAab(double, double, double, double, double, double, double, double, double, double, double, double, Vector2d)
      * @see RayAabIntersection
@@ -2443,7 +2443,7 @@ public class Intersectiond {
      * <p>
      * This method returns <code>true</code> for a line segment whose either end point lies inside the axis-aligned box.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #intersectLineSegmentAab(Vector3dc, Vector3dc, Vector3dc, Vector3dc, Vector2d)
      * 
@@ -2541,7 +2541,7 @@ public class Intersectiond {
      * <p>
      * This method returns <code>true</code> for a line segment whose either end point lies inside the axis-aligned box.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #intersectLineSegmentAab(Vector3dc, Vector3dc, Vector3dc, Vector3dc, Vector2d)
      * 
@@ -2573,7 +2573,7 @@ public class Intersectiond {
      * <p>
      * This method returns <code>true</code> for a line segment whose either end point lies inside the axis-aligned box.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #intersectLineSegmentAab(Vector3dc, Vector3dc, Vector3dc, Vector3dc, Vector2d)
      * 
@@ -2603,7 +2603,7 @@ public class Intersectiond {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #testRayAab(Vector3dc, Vector3dc, Vector3dc, Vector3dc)
      * @see RayAabIntersection
@@ -2678,7 +2678,7 @@ public class Intersectiond {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      *  
      * @see #testRayAab(double, double, double, double, double, double, double, double, double, double, double, double)
      * @see RayAabIntersection
@@ -2704,7 +2704,7 @@ public class Intersectiond {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      *  
      * @see #testRayAab(double, double, double, double, double, double, double, double, double, double, double, double)
      * @see RayAabIntersection
@@ -4333,7 +4333,7 @@ public class Intersectiond {
      * <p>
      * This method also detects an intersection for a ray whose origin lies inside the axis-aligned rectangle.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #intersectRayAar(Vector2dc, Vector2dc, Vector2dc, Vector2dc, Vector2d)
      * 
@@ -4416,7 +4416,7 @@ public class Intersectiond {
      * <p>
      * This method also detects an intersection for a ray whose origin lies inside the axis-aligned rectangle.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #intersectRayAar(double, double, double, double, double, double, double, double, Vector2d)
      * 
@@ -4447,7 +4447,7 @@ public class Intersectiond {
      * <p>
      * This method also detects an intersection of a line segment whose either end point lies inside the axis-aligned rectangle.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      *
      * @see #intersectLineSegmentAar(Vector2dc, Vector2dc, Vector2dc, Vector2dc, Vector2d)
      * 
@@ -4525,7 +4525,7 @@ public class Intersectiond {
      * <p>
      * This method also detects an intersection of a line segment whose either end point lies inside the axis-aligned rectangle.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      *
      * #see {@link #intersectLineSegmentAar(double, double, double, double, double, double, double, double, Vector2d)}
      * 
@@ -4555,7 +4555,7 @@ public class Intersectiond {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned rectangle.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #testRayAar(Vector2dc, Vector2dc, Vector2dc, Vector2dc)
      * 
@@ -4607,7 +4607,7 @@ public class Intersectiond {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned rectangle.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @see #testRayAar(double, double, double, double, double, double, double, double)
      * 

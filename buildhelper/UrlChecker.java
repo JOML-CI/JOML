@@ -1,3 +1,4 @@
+
 /*
  * (C) Copyright 2017 JOML
 
@@ -31,9 +32,11 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
@@ -87,12 +90,17 @@ public class UrlChecker {
             if (alreadyCheckedUrls.contains(url))
                 continue;
             int statusCode;
+            HttpUriRequest request = RequestBuilder.get().setUri(url).setHeader(
+                    HttpHeaders.USER_AGENT,
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36")
+                    .build();
             try {
-                HttpResponse response = client.execute(new HttpGet((String) urls.get(i)));
+                HttpResponse response = client.execute(request);
                 statusCode = response.getStatusLine().getStatusCode();
                 EntityUtils.consume(response.getEntity());
             } catch (Exception e) {
-                System.err.println("Found invalid URL (" + e.getClass().getSimpleName() + ": " + e.getMessage() + "): " + url);
+                System.err.println(
+                        "Found invalid URL (" + e.getClass().getSimpleName() + ": " + e.getMessage() + "): " + url);
                 throw new AssertionError();
             }
             if (statusCode != 200) {

@@ -384,7 +384,7 @@ public class AABBd {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside this AABB.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @param originX
      *          the x coordinate of the ray's origin
@@ -409,7 +409,7 @@ public class AABBd {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside this AABB.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @param ray
      *          the ray
@@ -426,7 +426,7 @@ public class AABBd {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside this AABB.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -456,7 +456,7 @@ public class AABBd {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside this AABB.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @param ray
      *              the ray
@@ -477,7 +477,7 @@ public class AABBd {
      * <p>
      * This method returns <code>true</code> for a line segment whose either end point lies inside this AABB.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @param p0X
      *              the x coordinate of the line segment's first end point
@@ -510,7 +510,7 @@ public class AABBd {
      * <p>
      * This method returns <code>true</code> for a line segment whose either end point lies inside this AABB.
      * <p>
-     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
      * 
      * @param lineSegment
      *              the line segment
