@@ -3179,39 +3179,47 @@ abstract class MemUtil {
         }
 
         public final void put(Vector4d src, long destAddr) {
-            for (int i = 0; i < 4; i++) {
-                putLong(null, destAddr + (i << 3), UNSAFE.getLong(src, Vector4d_x + (i << 3)));
-            }
+            UNSAFE.putDouble(null, destAddr,    src.x);
+            UNSAFE.putDouble(null, destAddr+8,  src.y);
+            UNSAFE.putDouble(null, destAddr+16, src.z);
+            UNSAFE.putDouble(null, destAddr+24, src.w);
         }
 
         public final void put(Vector4f src, long destAddr) {
-            putLong(null, destAddr,   UNSAFE.getLong(src, Vector4f_x));
-            putLong(null, destAddr+8, UNSAFE.getLong(src, Vector4f_x+8));
+            UNSAFE.putFloat(null, destAddr,    src.x);
+            UNSAFE.putFloat(null, destAddr+4,  src.y);
+            UNSAFE.putFloat(null, destAddr+8,  src.z);
+            UNSAFE.putFloat(null, destAddr+12, src.w);
         }
 
         public final void put(Vector4i src, long destAddr) {
-            putLong(null, destAddr,   UNSAFE.getLong(src, Vector4i_x));
-            putLong(null, destAddr+8, UNSAFE.getLong(src, Vector4i_x+8));
+            UNSAFE.putInt(null, destAddr,    src.x);
+            UNSAFE.putInt(null, destAddr+4,  src.y);
+            UNSAFE.putInt(null, destAddr+8,  src.z);
+            UNSAFE.putInt(null, destAddr+12, src.w);
         }
 
         public final void put(Vector3f src, long destAddr) {
-            putLong(null, destAddr, UNSAFE.getLong(src, Vector3f_x));
-            UNSAFE.putFloat(null, destAddr+8, UNSAFE.getFloat(src, Vector3f_x+8));
+            UNSAFE.putFloat(null, destAddr,   src.x);
+            UNSAFE.putFloat(null, destAddr+4, src.y);
+            UNSAFE.putFloat(null, destAddr+8, src.z);
         }
 
         public final void put(Vector3d src, long destAddr) {
-            UNSAFE.putDouble(null, destAddr,    UNSAFE.getDouble(src, Vector3d_x));
-            UNSAFE.putDouble(null, destAddr+8,  UNSAFE.getDouble(src, Vector3d_x+8));
-            UNSAFE.putDouble(null, destAddr+16, UNSAFE.getDouble(src, Vector3d_x+16));
+            UNSAFE.putDouble(null, destAddr,    src.x);
+            UNSAFE.putDouble(null, destAddr+8,  src.y);
+            UNSAFE.putDouble(null, destAddr+16, src.z);
         }
 
         public final void put(Vector3i src, long destAddr) {
-            putLong(null, destAddr, UNSAFE.getLong(src, Vector3i_x));
-            UNSAFE.putInt(null, destAddr+8, UNSAFE.getInt(src, Vector3i_x+8));
+            UNSAFE.putInt(null, destAddr,   src.x);
+            UNSAFE.putInt(null, destAddr+4, src.y);
+            UNSAFE.putInt(null, destAddr+8, src.z);
         }
 
         public final void put(Vector2f src, long destAddr) {
-            putLong(null, destAddr, UNSAFE.getLong(src, Vector2f_x));
+            UNSAFE.putFloat(null, destAddr,   src.x);
+            UNSAFE.putFloat(null, destAddr+4, src.y);
         }
 
         public final void put(Vector2d src, long destAddr) {
@@ -3220,7 +3228,8 @@ abstract class MemUtil {
         }
 
         public final void put(Vector2i src, long destAddr) {
-            putLong(null, destAddr, UNSAFE.getLong(src, Vector2i_x));
+            UNSAFE.putInt(null, destAddr,   src.x);
+            UNSAFE.putInt(null, destAddr+4, src.y);
         }
 
         public final void get(Matrix4f m, long srcAddr) {
@@ -3350,48 +3359,57 @@ abstract class MemUtil {
         }
 
         public final void get(Vector4d dst, long srcAddr) {
-            for (int i = 0; i < 4; i++) {
-                putLong(dst, Vector4d_x + (i << 3), UNSAFE.getLong(null, srcAddr + (i << 3)));
-            }
+            dst.x = UNSAFE.getLong(null, srcAddr);
+            dst.y = UNSAFE.getLong(null, srcAddr+8);
+            dst.z = UNSAFE.getLong(null, srcAddr+16);
+            dst.w = UNSAFE.getLong(null, srcAddr+24);
         }
 
         public final void get(Vector4f dst, long srcAddr) {
-            putLong(dst, Vector4f_x,   UNSAFE.getLong(null, srcAddr));
-            putLong(dst, Vector4f_x+8, UNSAFE.getLong(null, srcAddr+8));
+            dst.x = UNSAFE.getFloat(null, srcAddr);
+            dst.y = UNSAFE.getFloat(null, srcAddr+4);
+            dst.z = UNSAFE.getFloat(null, srcAddr+8);
+            dst.w = UNSAFE.getFloat(null, srcAddr+12);
         }
 
         public final void get(Vector4i dst, long srcAddr) {
-            putLong(dst, Vector4i_x,   UNSAFE.getLong(null, srcAddr));
-            putLong(dst, Vector4i_x+8, UNSAFE.getLong(null, srcAddr+8));
+            dst.x = UNSAFE.getInt(null, srcAddr);
+            dst.y = UNSAFE.getInt(null, srcAddr+4);
+            dst.z = UNSAFE.getInt(null, srcAddr+8);
+            dst.w = UNSAFE.getInt(null, srcAddr+12);
         }
 
         public final void get(Vector3f dst, long srcAddr) {
-            putLong(dst, Vector3f_x, UNSAFE.getLong(null, srcAddr));
-            UNSAFE.putFloat(dst, Vector3f_x+8, UNSAFE.getFloat(null, srcAddr+8));
+            dst.x = UNSAFE.getFloat(null, srcAddr);
+            dst.y = UNSAFE.getFloat(null, srcAddr+4);
+            dst.z = UNSAFE.getFloat(null, srcAddr+8);
         }
 
         public final void get(Vector3d dst, long srcAddr) {
-            UNSAFE.putDouble(dst, Vector3d_x,    UNSAFE.getDouble(null, srcAddr));
-            UNSAFE.putDouble(dst, Vector3d_x+8,  UNSAFE.getDouble(null, srcAddr+8));
-            UNSAFE.putDouble(dst, Vector3d_x+16, UNSAFE.getDouble(null, srcAddr+16));
+            dst.x = UNSAFE.getDouble(null, srcAddr);
+            dst.y = UNSAFE.getDouble(null, srcAddr+8);
+            dst.z = UNSAFE.getDouble(null, srcAddr+16);
         }
 
         public final void get(Vector3i dst, long srcAddr) {
-            putLong(dst, Vector3i_x,   UNSAFE.getLong(null, srcAddr));
-            UNSAFE.putInt(dst, Vector3i_x+8, UNSAFE.getInt(null, srcAddr+8));
+            dst.x = UNSAFE.getInt(null, srcAddr);
+            dst.y = UNSAFE.getInt(null, srcAddr+4);
+            dst.z = UNSAFE.getInt(null, srcAddr+8);
         }
 
         public final void get(Vector2f dst, long srcAddr) {
-            putLong(dst, Vector2f_x, UNSAFE.getLong(null, srcAddr));
+            dst.x = UNSAFE.getFloat(null, srcAddr);
+            dst.y = UNSAFE.getFloat(null, srcAddr+4);
         }
 
         public final void get(Vector2d dst, long srcAddr) {
-            UNSAFE.putDouble(dst, Vector2d_x,   UNSAFE.getDouble(null, srcAddr));
-            UNSAFE.putDouble(dst, Vector2d_x+8, UNSAFE.getDouble(null, srcAddr+8));
+            dst.x = UNSAFE.getDouble(null, srcAddr);
+            dst.y = UNSAFE.getDouble(null, srcAddr+8);
         }
 
         public final void get(Vector2i dst, long srcAddr) {
-            putLong(dst, Vector2i_x, UNSAFE.getLong(null, srcAddr));
+            dst.x = UNSAFE.getInt(null, srcAddr);
+            dst.y = UNSAFE.getInt(null, srcAddr+4);
         }
 
         private void putMatrix3f(Quaternionf q, long addr) {
