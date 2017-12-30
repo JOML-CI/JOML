@@ -2901,35 +2901,35 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     public Matrix3f lookAlong(float dirX, float dirY, float dirZ,
                               float upX, float upY, float upZ, Matrix3f dest) {
         // Normalize direction
-        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
-        float dirnX = -dirX * invDirLength;
-        float dirnY = -dirY * invDirLength;
-        float dirnZ = -dirZ * invDirLength;
-        // right = direction x up
-        float rightX, rightY, rightZ;
-        rightX = dirnY * upZ - dirnZ * upY;
-        rightY = dirnZ * upX - dirnX * upZ;
-        rightZ = dirnX * upY - dirnY * upX;
-        // normalize right
-        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = right x direction
-        float upnX = rightY * dirnZ - rightZ * dirnY;
-        float upnY = rightZ * dirnX - rightX * dirnZ;
-        float upnZ = rightX * dirnY - rightY * dirnX;
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= -invDirLength;
+        dirY *= -invDirLength;
+        dirZ *= -invDirLength;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = dirY * leftZ - dirZ * leftY;
+        float upnY = dirZ * leftX - dirX * leftZ;
+        float upnZ = dirX * leftY - dirY * leftX;
 
         // calculate right matrix elements
-        float rm00 = rightX;
+        float rm00 = leftX;
         float rm01 = upnX;
-        float rm02 = -dirnX;
-        float rm10 = rightY;
+        float rm02 = dirX;
+        float rm10 = leftY;
         float rm11 = upnY;
-        float rm12 = -dirnY;
-        float rm20 = rightZ;
+        float rm12 = dirY;
+        float rm20 = leftZ;
         float rm21 = upnZ;
-        float rm22 = -dirnZ;
+        float rm22 = dirZ;
 
         // perform optimized matrix multiplication
         // introduce temporaries for dependent results
@@ -3032,34 +3032,34 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     public Matrix3f setLookAlong(float dirX, float dirY, float dirZ,
                                  float upX, float upY, float upZ) {
         // Normalize direction
-        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
-        float dirnX = -dirX * invDirLength;
-        float dirnY = -dirY * invDirLength;
-        float dirnZ = -dirZ * invDirLength;
-        // right = direction x up
-        float rightX, rightY, rightZ;
-        rightX = dirnY * upZ - dirnZ * upY;
-        rightY = dirnZ * upX - dirnX * upZ;
-        rightZ = dirnX * upY - dirnY * upX;
-        // normalize right
-        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = right x direction
-        float upnX = rightY * dirnZ - rightZ * dirnY;
-        float upnY = rightZ * dirnX - rightX * dirnZ;
-        float upnZ = rightX * dirnY - rightY * dirnX;
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= -invDirLength;
+        dirY *= -invDirLength;
+        dirZ *= -invDirLength;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = dirY * leftZ - dirZ * leftY;
+        float upnY = dirZ * leftX - dirX * leftZ;
+        float upnZ = dirX * leftY - dirY * leftX;
 
-        m00 = rightX;
+        m00 = leftX;
         m01 = upnX;
-        m02 = -dirnX;
-        m10 = rightY;
+        m02 = dirX;
+        m10 = leftY;
         m11 = upnY;
-        m12 = -dirnY;
-        m20 = rightZ;
+        m12 = dirY;
+        m20 = leftZ;
         m21 = upnZ;
-        m22 = -dirnZ;
+        m22 = dirZ;
 
         return this;
     }

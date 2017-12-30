@@ -1555,9 +1555,9 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     public Quaterniond lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Quaterniond dest) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX * invDirLength;
-        double dirnY = dirY * invDirLength;
-        double dirnZ = dirZ * invDirLength;
+        double dirnX = -dirX * invDirLength;
+        double dirnY = -dirY * invDirLength;
+        double dirnZ = -dirZ * invDirLength;
         // left = up x dir
         double leftX, leftY, leftZ;
         leftX = upY * dirnZ - upZ * dirnY;

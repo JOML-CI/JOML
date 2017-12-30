@@ -3751,34 +3751,34 @@ public class Matrix3d implements Externalizable, Matrix3dc {
                               double upX, double upY, double upZ, Matrix3d dest) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = -dirX * invDirLength;
-        double dirnY = -dirY * invDirLength;
-        double dirnZ = -dirZ * invDirLength;
-        // right = direction x up
-        double rightX, rightY, rightZ;
-        rightX = dirnY * upZ - dirnZ * upY;
-        rightY = dirnZ * upX - dirnX * upZ;
-        rightZ = dirnX * upY - dirnY * upX;
-        // normalize right
-        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = right x direction
-        double upnX = rightY * dirnZ - rightZ * dirnY;
-        double upnY = rightZ * dirnX - rightX * dirnZ;
-        double upnZ = rightX * dirnY - rightY * dirnX;
+        dirX *= -invDirLength;
+        dirY *= -invDirLength;
+        dirZ *= -invDirLength;
+        // left = up x direction
+        double leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        double invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        double upnX = dirY * leftZ - dirZ * leftY;
+        double upnY = dirZ * leftX - dirX * leftZ;
+        double upnZ = dirX * leftY - dirY * leftX;
 
         // calculate right matrix elements
-        double rm00 = rightX;
+        double rm00 = leftX;
         double rm01 = upnX;
-        double rm02 = -dirnX;
-        double rm10 = rightY;
+        double rm02 = dirX;
+        double rm10 = leftY;
         double rm11 = upnY;
-        double rm12 = -dirnY;
-        double rm20 = rightZ;
+        double rm12 = dirY;
+        double rm20 = leftZ;
         double rm21 = upnZ;
-        double rm22 = -dirnZ;
+        double rm22 = dirZ;
 
         // perform optimized matrix multiplication
         // introduce temporaries for dependent results
@@ -3882,33 +3882,33 @@ public class Matrix3d implements Externalizable, Matrix3dc {
                                  double upX, double upY, double upZ) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = -dirX * invDirLength;
-        double dirnY = -dirY * invDirLength;
-        double dirnZ = -dirZ * invDirLength;
-        // right = direction x up
-        double rightX, rightY, rightZ;
-        rightX = dirnY * upZ - dirnZ * upY;
-        rightY = dirnZ * upX - dirnX * upZ;
-        rightZ = dirnX * upY - dirnY * upX;
-        // normalize right
-        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = right x direction
-        double upnX = rightY * dirnZ - rightZ * dirnY;
-        double upnY = rightZ * dirnX - rightX * dirnZ;
-        double upnZ = rightX * dirnY - rightY * dirnX;
+        dirX *= -invDirLength;
+        dirY *= -invDirLength;
+        dirZ *= -invDirLength;
+        // left = up x direction
+        double leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        double invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        double upnX = dirY * leftZ - dirZ * leftY;
+        double upnY = dirZ * leftX - dirX * leftZ;
+        double upnZ = dirX * leftY - dirY * leftX;
 
-        m00 = rightX;
+        m00 = leftX;
         m01 = upnX;
-        m02 = -dirnX;
-        m10 = rightY;
+        m02 = dirX;
+        m10 = leftY;
         m11 = upnY;
-        m12 = -dirnY;
-        m20 = rightZ;
+        m12 = dirY;
+        m20 = leftZ;
         m21 = upnZ;
-        m22 = -dirnZ;
+        m22 = dirZ;
 
         return this;
     }

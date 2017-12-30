@@ -2012,9 +2012,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternionf dest) {
         // Normalize direction
         float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
-        float dirnX = dirX * invDirLength;
-        float dirnY = dirY * invDirLength;
-        float dirnZ = dirZ * invDirLength;
+        float dirnX = -dirX * invDirLength;
+        float dirnY = -dirY * invDirLength;
+        float dirnZ = -dirZ * invDirLength;
         // left = up x dir
         float leftX, leftY, leftZ;
         leftX = upY * dirnZ - upZ * dirnY;

@@ -7937,34 +7937,34 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = -dirX * invDirLength;
-        float dirnY = -dirY * invDirLength;
-        float dirnZ = -dirZ * invDirLength;
-        // right = direction x up
-        float rightX, rightY, rightZ;
-        rightX = dirnY * upZ - dirnZ * upY;
-        rightY = dirnZ * upX - dirnX * upZ;
-        rightZ = dirnX * upY - dirnY * upX;
-        // normalize right
-        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = right x direction
-        float upnX = rightY * dirnZ - rightZ * dirnY;
-        float upnY = rightZ * dirnX - rightX * dirnZ;
-        float upnZ = rightX * dirnY - rightY * dirnX;
+        dirX *= -invDirLength;
+        dirY *= -invDirLength;
+        dirZ *= -invDirLength;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = dirY * leftZ - dirZ * leftY;
+        float upnY = dirZ * leftX - dirX * leftZ;
+        float upnZ = dirX * leftY - dirY * leftX;
 
         // calculate right matrix elements
-        float rm00 = rightX;
+        float rm00 = leftX;
         float rm01 = upnX;
-        float rm02 = -dirnX;
-        float rm10 = rightY;
+        float rm02 = dirX;
+        float rm10 = leftY;
         float rm11 = upnY;
-        float rm12 = -dirnY;
-        float rm20 = rightZ;
+        float rm12 = dirY;
+        float rm20 = leftZ;
         float rm21 = upnZ;
-        float rm22 = -dirnZ;
+        float rm22 = dirZ;
 
         // perform optimized matrix multiplication
         // introduce temporaries for dependent results
@@ -8091,35 +8091,35 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                                  float upX, float upY, float upZ) {
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = -dirX * invDirLength;
-        float dirnY = -dirY * invDirLength;
-        float dirnZ = -dirZ * invDirLength;
-        // right = direction x up
-        float rightX, rightY, rightZ;
-        rightX = dirnY * upZ - dirnZ * upY;
-        rightY = dirnZ * upX - dirnX * upZ;
-        rightZ = dirnX * upY - dirnY * upX;
-        // normalize right
-        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = right x direction
-        float upnX = rightY * dirnZ - rightZ * dirnY;
-        float upnY = rightZ * dirnX - rightX * dirnZ;
-        float upnZ = rightX * dirnY - rightY * dirnX;
+        dirX *= -invDirLength;
+        dirY *= -invDirLength;
+        dirZ *= -invDirLength;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = dirY * leftZ - dirZ * leftY;
+        float upnY = dirZ * leftX - dirX * leftZ;
+        float upnZ = dirX * leftY - dirY * leftX;
 
-        this._m00(rightX);
+        this._m00(leftX);
         this._m01(upnX);
-        this._m02(-dirnX);
+        this._m02(dirX);
         this._m03(0.0f);
-        this._m10(rightY);
+        this._m10(leftY);
         this._m11(upnY);
-        this._m12(-dirnY);
+        this._m12(dirY);
         this._m13(0.0f);
-        this._m20(rightZ);
+        this._m20(leftZ);
         this._m21(upnZ);
-        this._m22(-dirnZ);
+        this._m22(dirZ);
         this._m23(0.0f);
         this._m30(0.0f);
         this._m31(0.0f);
