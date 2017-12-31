@@ -10458,11 +10458,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *              will hold the result
      * @return dest
      */
-    public Matrix4d lookAlong(double dirX, double dirY, double dirZ,
-                              double upX, double upY, double upZ, Matrix4d dest) {
+    public Matrix4d lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
+        return lookAlongGeneric(dirX, dirY, dirZ, upX, upY, upZ, dest);
+    }
 
+    private Matrix4d lookAlongGeneric(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix4d dest) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= -invDirLength;
@@ -10482,7 +10484,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double upnX = dirY * leftZ - dirZ * leftY;
         double upnY = dirZ * leftX - dirX * leftZ;
         double upnZ = dirX * leftY - dirY * leftX;
-
         // calculate right matrix elements
         double rm00 = leftX;
         double rm01 = upnX;
@@ -10493,7 +10494,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double rm20 = leftZ;
         double rm21 = upnZ;
         double rm22 = dirZ;
-
         // perform optimized matrix multiplication
         // introduce temporaries for dependent results
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
@@ -10522,7 +10522,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m32 = m32;
         dest.m33 = m33;
         dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
-
         return dest;
     }
 
