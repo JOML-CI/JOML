@@ -10460,7 +10460,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
-            return setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
+            return dest.setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
         return lookAlongGeneric(dirX, dirY, dirZ, upX, upY, upZ, dest);
     }
 

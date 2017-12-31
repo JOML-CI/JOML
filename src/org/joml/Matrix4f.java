@@ -7932,7 +7932,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
-            return setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
+            return dest.setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
         return lookAlongGeneric(dirX, dirY, dirZ, upX, upY, upZ, dest);
     }
 
