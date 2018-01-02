@@ -2193,6 +2193,29 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 //#endif
 
+//#ifndef __GWT__
+    /**
+     * Set the values of this matrix by reading 16 float values from off-heap memory in column-major order,
+     * starting at the given address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     * 
+     * @param address
+     *              the off-heap memory address to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix4f setFromAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe unsafe = (MemUtil.MemUtilUnsafe) MemUtil.INSTANCE;
+        unsafe.get(this, address);
+        _properties(0);
+        return this;
+    }
+//#endif
+
     /**
      * Set the four columns of this matrix to the supplied vectors, respectively.
      * 
@@ -3150,6 +3173,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public ByteBuffer get4x3Transposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
         return buffer;
+    }
+//#endif
+
+//#ifndef __GWT__
+    public Matrix4fc getToAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe unsafe = (MemUtil.MemUtilUnsafe) MemUtil.INSTANCE;
+        unsafe.put(this, address);
+        return this;
     }
 //#endif
 

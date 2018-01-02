@@ -108,6 +108,21 @@ public interface Vector2dc {
     DoubleBuffer get(int index, DoubleBuffer buffer);
 //#endif
 
+//#ifndef __GWT__
+    /**
+     * Store this vector at the given off-heap memory address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     * 
+     * @param address
+     *            the off-heap address where to store this vector
+     * @return this
+     */
+    Vector2dc getToAddress(long address);
+//#endif
+
     /**
      * Subtract <tt>(x, y)</tt> from this vector and store the result in <code>dest</code>.
      * 

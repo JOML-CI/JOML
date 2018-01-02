@@ -108,6 +108,21 @@ public interface Vector2fc {
     FloatBuffer get(int index, FloatBuffer buffer);
 //#endif
 
+//#ifndef __GWT__
+    /**
+     * Store this vector at the given off-heap memory address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     * 
+     * @param address
+     *            the off-heap address where to store this vector
+     * @return this
+     */
+    Vector2fc getToAddress(long address);
+//#endif
+
     /**
      * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
      * 

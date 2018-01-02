@@ -928,6 +928,16 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 //#endif
 
+//#ifndef __GWT__
+    public Matrix3fc getToAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe unsafe = (MemUtil.MemUtilUnsafe) MemUtil.INSTANCE;
+        unsafe.put(this, address);
+        return this;
+    }
+//#endif
+
     /* (non-Javadoc)
      * @see org.joml.Matrix3fc#get(float[], int)
      */
@@ -975,6 +985,28 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      */
     public Matrix3f set(ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        return this;
+    }
+//#endif
+
+//#ifndef __GWT__
+    /**
+     * Set the values of this matrix by reading 9 float values from off-heap memory in column-major order,
+     * starting at the given address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     * 
+     * @param address
+     *              the off-heap memory address to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3f setFromAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe unsafe = (MemUtil.MemUtilUnsafe) MemUtil.INSTANCE;
+        unsafe.get(this, address);
         return this;
     }
 //#endif

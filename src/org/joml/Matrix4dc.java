@@ -979,6 +979,19 @@ public interface Matrix4dc {
     ByteBuffer get(int index, ByteBuffer buffer);
 
     /**
+     * Store this matrix in column-major order at the given off-heap address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     * 
+     * @param address
+     *            the off-heap address where to store this matrix
+     * @return this
+     */
+    Matrix4dc getToAddress(long address);
+
+    /**
      * Store the elements of this matrix as float values in column-major order into the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
      * <p>

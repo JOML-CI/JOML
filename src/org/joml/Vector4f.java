@@ -526,6 +526,28 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 //#endif
 
+//#ifndef __GWT__
+    /**
+     * Set the values of this vector by reading 4 float values from off-heap memory,
+     * starting at the given address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     * 
+     * @param address
+     *              the off-heap memory address to read the vector values from
+     * @return this
+     */
+    public Vector4f setFromAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe unsafe = (MemUtil.MemUtilUnsafe) MemUtil.INSTANCE;
+        unsafe.get(this, address);
+        return this;
+    }
+//#endif
+
     /**
      * Set the value of the specified component of this vector.
      *
@@ -585,6 +607,16 @@ public class Vector4f implements Externalizable, Vector4fc {
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
+    }
+//#endif
+
+//#ifndef __GWT__
+    public Vector4fc getToAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe unsafe = (MemUtil.MemUtilUnsafe) MemUtil.INSTANCE;
+        unsafe.put(this, address);
+        return this;
     }
 //#endif
 
