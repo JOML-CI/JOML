@@ -313,6 +313,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
+     * Assume that this matrix is the identity matrix.
+     * 
+     * @return this
+     */
+    public Matrix4d assumeIdentity() {
+        properties = PROPERTY_IDENTITY;
+        return this;
+    }
+
+    /**
      * Assume that this matrix is {@link #isAffine() affine}.
      * 
      * @return this
@@ -677,6 +687,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m33 = 1.0;
         properties = PROPERTY_IDENTITY | PROPERTY_AFFINE | PROPERTY_TRANSLATION;
         return this;
+    }
+    private void _identity() {
+        m00 = 1.0;
+        m10 = 0.0;
+        m20 = 0.0;
+        m30 = 0.0;
+        m01 = 0.0;
+        m11 = 1.0;
+        m21 = 0.0;
+        m31 = 0.0;
+        m02 = 0.0;
+        m12 = 0.0;
+        m22 = 1.0;
+        m32 = 0.0;
+        m03 = 0.0;
+        m13 = 0.0;
+        m23 = 0.0;
+        m33 = 1.0;
     }
 
     /**
@@ -2816,18 +2844,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d translation(double x, double y, double z) {
-        m00 = 1.0;
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
-        m11 = 1.0;
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = 1.0;
-        m23 = 0.0;
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
         m30 = x;
         m31 = y;
         m32 = z;
@@ -3258,22 +3276,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d scaling(double x, double y, double z) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            identity();
         m00 = x;
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
         m11 = y;
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
         m22 = z;
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -3322,22 +3329,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double cos = Math.cosFromSin(sin, angle);
         double C = 1.0 - cos;
         double xy = x * y, xz = x * z, yz = y * z;
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
         m00 = cos + x * x * C;
         m10 = xy * C - z * sin;
         m20 = xz * C + y * sin;
-        m30 = 0.0;
         m01 = xy * C + z * sin;
         m11 = cos + y * y * C;
         m21 = yz * C - x * sin;
-        m31 = 0.0;
         m02 = xz * C - y * sin;
         m12 = yz * C + x * sin;
         m22 = cos + z * z * C;
-        m32 = 0.0;
-        m03 = 0.0;
-        m13 = 0.0;
-        m23 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -3359,22 +3361,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double sin, cos;
         sin = Math.sin(ang);
         cos = Math.cosFromSin(sin, ang);
-        m00 = 1.0;
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
         m11 = cos;
         m12 = sin;
-        m13 = 0.0;
-        m20 = 0.0;
         m21 = -sin;
         m22 = cos;
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -3396,22 +3388,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double sin, cos;
         sin = Math.sin(ang);
         cos = Math.cosFromSin(sin, ang);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
         m00 = cos;
-        m01 = 0.0;
         m02 = -sin;
-        m03 = 0.0;
-        m10 = 0.0;
-        m11 = 1.0;
-        m12 = 0.0;
-        m13 = 0.0;
         m20 = sin;
-        m21 = 0.0;
         m22 = cos;
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -3433,22 +3415,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double sin, cos;
         sin = Math.sin(ang);
         cos = Math.cosFromSin(sin, ang);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
         m00 = cos;
         m01 = sin;
-        m02 = 0.0;
-        m03 = 0.0;
         m10 = -sin;
         m11 = cos;
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = 1.0;
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -3465,22 +3437,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d rotationTowardsXY(double dirX, double dirY) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
         this.m00 = dirY;
         this.m01 = dirX;
-        this.m02 = 0.0;
-        this.m03 = 0.0;
         this.m10 = -dirX;
         this.m11 = dirY;
-        this.m12 = 0.0;
-        this.m13 = 0.0;
-        this.m20 = 0.0;
-        this.m21 = 0.0;
-        this.m22 = 1.0;
-        this.m23 = 0.0;
-        this.m30 = 0.0;
-        this.m31 = 0.0;
-        this.m32 = 0.0;
-        this.m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -6488,22 +6450,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double yw = quat.y() * quat.w();
         double yz = quat.y() * quat.z();
         double xw = quat.x() * quat.w();
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
         m00 = w2 + x2 - z2 - y2;
         m01 = xy + zw + zw + xy;
         m02 = xz - yw + xz - yw;
-        m03 = 0.0;
         m10 = -zw + xy - zw + xy;
         m11 = y2 - z2 + w2 - x2;
         m12 = yz + yz + xw + xw;
-        m13 = 0.0;
         m20 = yw + xz + xz + yw;
         m21 = yz + yz - xw - xw;
         m22 = z2 - y2 - x2 + w2;
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -6540,22 +6497,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double yw = quat.y() * quat.w();
         double yz = quat.y() * quat.z();
         double xw = quat.x() * quat.w();
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
         m00 = w2 + x2 - z2 - y2;
         m01 = xy + zw + zw + xy;
         m02 = xz - yw + xz - yw;
-        m03 = 0.0;
         m10 = -zw + xy - zw + xy;
         m11 = y2 - z2 + w2 - x2;
         m12 = yz + yz + xw + xw;
-        m13 = 0.0;
         m20 = yw + xz + xz + yw;
         m21 = yz + yz - xw - xw;
         m22 = z2 - y2 - x2 + w2;
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }

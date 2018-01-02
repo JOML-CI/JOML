@@ -269,6 +269,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
+     * Assume that this matrix is the identity matrix.
+     * 
+     * @return this
+     */
+    public Matrix4f assumeIdentity() {
+        this._properties(PROPERTY_IDENTITY);
+        return this;
+    }
+
+    /**
      * Assume that this matrix is {@link #isAffine() affine}.
      * 
      * @return this
@@ -2771,7 +2781,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f translation(float x, float y, float z) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m30(x);
         this._m31(y);
         this._m32(z);
@@ -3207,7 +3218,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f scaling(float x, float y, float z) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(x);
         this._m11(y);
         this._m22(z);
@@ -3357,7 +3369,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float sin, cos;
         sin = (float) Math.sin(ang);
         cos = (float) Math.cosFromSin(sin, ang);
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m11(cos);
         this._m12(sin);
         this._m21(-sin);
@@ -3383,7 +3396,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float sin, cos;
         sin = (float) Math.sin(ang);
         cos = (float) Math.cosFromSin(sin, ang);
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(cos);
         this._m02(-sin);
         this._m20(sin);
@@ -3409,7 +3423,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float sin, cos;
         sin = (float) Math.sin(ang);
         cos = (float) Math.cosFromSin(sin, ang);
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(cos);
         this._m01(sin);
         this._m10(-sin);
@@ -3430,7 +3445,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f rotationTowardsXY(float dirX, float dirY) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(dirY);
         this._m01(dirX);
         this._m10(-dirX);
@@ -3801,21 +3817,17 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float yw = quat.y() * quat.w();
         float yz = quat.y() * quat.z();
         float xw = quat.x() * quat.w();
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         _m00(w2 + x2 - z2 - y2);
         _m01(xy + zw + zw + xy);
         _m02(xz - yw + xz - yw);
-        _m03(0.0f);
         _m10(-zw + xy - zw + xy);
         _m11(y2 - z2 + w2 - x2);
         _m12(yz + yz + xw + xw);
-        _m13(0.0f);
         _m20(yw + xz + xz + yw);
         _m21(yz + yz - xw - xw);
         _m22(z2 - y2 - x2 + w2);
-        _m30(0.0f);
-        _m31(0.0f);
-        _m32(0.0f);
-        _m33(1.0f);
         _properties(PROPERTY_AFFINE);
         return this;
     }
@@ -7002,7 +7014,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f setOrtho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(2.0f / (right - left));
         this._m11(2.0f / (top - bottom));
         this._m22((zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar));
@@ -7071,7 +7084,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f setOrthoLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(2.0f / (right - left));
         this._m11(2.0f / (top - bottom));
         this._m22((zZeroToOne ? 1.0f : 2.0f) / (zFar - zNear));
@@ -7474,7 +7488,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f setOrthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(2.0f / width);
         this._m11(2.0f / height);
         this._m22((zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar));
@@ -7538,7 +7553,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f setOrthoSymmetricLH(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(2.0f / width);
         this._m11(2.0f / height);
         this._m22((zZeroToOne ? 1.0f : 2.0f) / (zFar - zNear));
@@ -7789,7 +7805,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f setOrtho2D(float left, float right, float bottom, float top) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(2.0f / (right - left));
         this._m11(2.0f / (top - bottom));
         this._m22(-1.0f);
@@ -7824,7 +7841,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f setOrtho2DLH(float left, float right, float bottom, float top) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00(2.0f / (right - left));
         this._m11(2.0f / (top - bottom));
         this._m22(1.0f);

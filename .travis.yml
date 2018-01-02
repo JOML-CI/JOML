@@ -5,6 +5,6 @@ matrix:
     - os: linux
       jdk: oraclejdk9
     - os: osx
-      osx_image: xcode8
+      osx_image: xcode8.3
 language: java
 script: mvn clean install -Dmaven.javadoc.skip=false
