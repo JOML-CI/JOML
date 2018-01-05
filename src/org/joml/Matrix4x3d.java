@@ -63,7 +63,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m00 = 1.0;
         m11 = 1.0;
         m22 = 1.0;
-        properties = PROPERTY_IDENTITY | PROPERTY_TRANSLATION;
+        properties = PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
     }
 
     /**
@@ -293,7 +293,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m00(double m00) {
         this.m00 = m00;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
     /**
@@ -305,7 +305,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m01(double m01) {
         this.m01 = m01;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
     /**
@@ -317,7 +317,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m02(double m02) {
         this.m02 = m02;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
     /**
@@ -329,7 +329,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m10(double m10) {
         this.m10 = m10;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
     /**
@@ -341,7 +341,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m11(double m11) {
         this.m11 = m11;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
     /**
@@ -353,7 +353,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m12(double m12) {
         this.m12 = m12;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
     /**
@@ -365,7 +365,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m20(double m20) {
         this.m20 = m20;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
     /**
@@ -377,7 +377,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m21(double m21) {
         this.m21 = m21;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
     /**
@@ -389,7 +389,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m22(double m22) {
         this.m22 = m22;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
     /**
@@ -465,7 +465,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = PROPERTY_IDENTITY | PROPERTY_TRANSLATION;
+        properties = PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -539,7 +539,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = m.m30();
         m31 = m.m31();
         m32 = m.m32();
-        properties = (byte) (m.properties() & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        properties = (byte) (m.properties() & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
         return this;
     }
 
@@ -669,7 +669,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -710,7 +710,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -795,7 +795,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties = 0;
+        dest.properties = (byte) (this.properties & right.properties() & PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -852,7 +852,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties = 0;
+        dest.properties = (byte) (this.properties & right.properties() & PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -884,7 +884,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties = 0;
+        dest.properties = (byte) (right.properties() & PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -916,7 +916,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties = 0;
+        dest.properties = (byte) (right.properties() & PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -1476,40 +1476,30 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d invert(Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.identity();
+        else if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return invertOrthonormal(dest);
         return invertGeneric(dest);
     }
     private Matrix4x3d invertGeneric(Matrix4x3d dest) {
         double m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
         double m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
-        double det = (m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20;
-        if (Math.abs(det - 1.0) < 1E-12)
-            invertOrthonormal(det, dest);
-        else
-            invertGeneric(det, dest);
-        dest.properties = 0;
-        return dest;
-    }
-    private void invertGeneric(double det, Matrix4x3d dest) {
-        double s = 1.0 / det;
-        double nm00, nm01, nm02, nm10, nm11, nm12, nm20, nm21, nm22, nm30, nm31, nm32;
+        double s = 1.0f / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
         double m10m22 = m10 * m22, m10m21 = m10 * m21, m11m22 = m11 * m22;
         double m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
         double m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
         double m21m00 = m21 * m00, m22m01 = m22 * m01, m22m00 = m22 * m00;
-        double m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
-        double m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
-        nm00 = (m11m22 - m12m21) * s;
-        nm01 = (m21m02 - m22m01) * s;
-        nm02 = (m12m01 - m11m02) * s;
-        nm10 = (m12m20 - m10m22) * s;
-        nm11 = (m22m00 - m20m02) * s;
-        nm12 = (m10m02 - m12m00) * s;
-        nm20 = (m10m21 - m11m20) * s;
-        nm21 = (m20m01 - m21m00) * s;
-        nm22 = (m11m00 - m10m01) * s;
-        nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
-        nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
-        nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
+        double nm00 = (m11m22 - m12m21) * s;
+        double nm01 = (m21m02 - m22m01) * s;
+        double nm02 = (m12m01 - m11m02) * s;
+        double nm10 = (m12m20 - m10m22) * s;
+        double nm11 = (m22m00 - m20m02) * s;
+        double nm12 = (m10m02 - m12m00) * s;
+        double nm20 = (m10m21 - m11m20) * s;
+        double nm21 = (m20m01 - m21m00) * s;
+        double nm22 = (m11m00 - m10m01) * s;
+        double nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
+        double nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
+        double nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -1522,8 +1512,10 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
+        dest.properties = 0;
+        return dest;
     }
-    private void invertOrthonormal(double det, Matrix4x3d dest) {
+    private Matrix4x3d invertOrthonormal(Matrix4x3d dest) {
         double nm30 = -(m00 * m30 + m01 * m31 + m02 * m32);
         double nm31 = -(m10 * m30 + m11 * m31 + m12 * m32);
         double nm32 = -(m20 * m30 + m21 * m31 + m22 * m32);
@@ -1542,6 +1534,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
+        dest.properties = PROPERTY_ORTHONORMAL;
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -1580,7 +1574,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
                  -m00 * m30 - m01 * m31 - m02 * m32,
                  -m10 * m30 - m11 * m31 - m12 * m32,
                  -m20 * m30 - m21 * m31 - m22 * m32);
-        dest.properties = 0;
+        dest.properties = PROPERTY_ORTHONORMAL;
         return dest;
     }
 
@@ -1674,7 +1668,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = x;
         m31 = y;
         m32 = z;
-        properties = PROPERTY_TRANSLATION;
+        properties = PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -1727,7 +1721,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = x;
         m31 = y;
         m32 = z;
-        properties = 0;
+        properties &= ~(PROPERTY_IDENTITY);
         return this;
     }
 
@@ -2221,7 +2215,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m12 = yz * C + x * sin;
         m22 = cos + z * z * C;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -2265,7 +2259,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -2309,7 +2303,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -2353,7 +2347,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -2409,7 +2403,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -2465,7 +2459,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -2521,7 +2515,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -2784,7 +2778,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m20 = mat.m20();
         m21 = mat.m21();
         m22 = mat.m22();
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
 
@@ -2805,7 +2799,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m20 = mat.m20();
         m21 = mat.m21();
         m22 = mat.m22();
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties = 0;
         return this;
     }
 
@@ -2854,7 +2848,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
         return dest;
     }
 
@@ -2935,7 +2929,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
         return dest;
     }
 
@@ -3593,6 +3587,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = in.readDouble();
         m31 = in.readDouble();
         m32 = in.readDouble();
+        properties = 0;
     }
 
     /* (non-Javadoc)
@@ -4187,7 +4182,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0f;
         m31 = 0.0f;
         m32 = 0.0f;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -4235,7 +4230,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0f;
         m31 = 0.0f;
         m32 = 0.0f;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -4543,7 +4538,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = tx;
         m31 = ty;
         m32 = tz;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -5503,6 +5498,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         default:
             throw new IndexOutOfBoundsException();
         }
+        properties = 0;
         return this;
     }
 
@@ -5572,6 +5568,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         default:
             throw new IndexOutOfBoundsException();
         }
+        properties = 0;
         return this;
     }
 
@@ -5644,7 +5641,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m30 = 0.0;
         dest.m31 = 0.0;
         dest.m32 = 0.0;
-        dest.properties = 0;
+        dest.properties = PROPERTY_ORTHONORMAL;
         return dest;
     }
 
@@ -5917,7 +5914,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = -dd * a;
         m31 = -dd * b;
         m32 = -dd * c;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -6044,7 +6041,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m20 = m20 * rm22;
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
 
         return dest;
     }
@@ -6214,7 +6211,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m20 = m20 * rm22;
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
 
         return dest;
     }
@@ -6529,7 +6526,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m20 = m20 * rm22;
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
 
         return dest;
     }
@@ -6693,7 +6690,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m20 = m20 * rm22;
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
 
         return dest;
     }
@@ -6998,7 +6995,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m20 = -m20;
         dest.m21 = -m21;
         dest.m22 = -m22;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
 
         return dest;
     }
@@ -7088,7 +7085,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m20 = m20;
         dest.m21 = m21;
         dest.m22 = m22;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
 
         return dest;
     }
@@ -7489,7 +7486,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
 
         return this;
     }
@@ -7590,7 +7587,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
         m31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
         m32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
 
         return this;
     }
@@ -7901,7 +7898,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
         m31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
         m32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
 
         return this;
     }
@@ -8346,7 +8343,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
 
         return dest;
     }
@@ -8478,7 +8475,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = objPos.x();
         m31 = objPos.y();
         m32 = objPos.z();
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -8537,7 +8534,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = objPos.x();
         m31 = objPos.y();
         m32 = objPos.z();
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -8587,7 +8584,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = objPos.x();
         m31 = objPos.y();
         m32 = objPos.z();
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -9199,7 +9196,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         this.m30 = 0.0;
         this.m31 = 0.0;
         this.m32 = 0.0;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 
@@ -9287,7 +9284,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         this.m30 = posX;
         this.m31 = posY;
         this.m32 = posZ;
-        properties = 0;
+        properties = PROPERTY_ORTHONORMAL;
         return this;
     }
 

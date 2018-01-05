@@ -128,6 +128,10 @@ public interface Matrix4dc {
      * Bit returned by {@link #properties()} to indicate that the matrix represents a pure translation transformation.
      */
     byte PROPERTY_TRANSLATION = 1<<3;
+    /**
+     * Bit returned by {@link #properties()} to indicate that the matrix represents an orthogonal matrix (i.e. orthonormal basis).
+     */
+    byte PROPERTY_ORTHONORMAL = 1<<4;
 
     /**
      * Return the assumed properties of this matrix. This is a bit-combination of
