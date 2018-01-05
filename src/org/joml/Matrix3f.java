@@ -690,9 +690,15 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @see org.joml.Matrix3fc#invert(org.joml.Matrix3f)
      */
     public Matrix3f invert(Matrix3f dest) {
-        float s = determinant();
-        // client must make sure that matrix is invertible
-        s = 1.0f / s;
+        float det = determinant();
+        if (Math.abs(det - 1.0f) < 1E-6f)
+            transpose(dest);
+        else
+            invertAffine(det, dest);
+        return dest;
+    }
+    private void invertAffine(float det, Matrix3f dest) {
+        float s = 1.0f / det;
         float nm00 = (m11 * m22 - m21 * m12) * s;
         float nm01 = (m21 * m02 - m01 * m22) * s;
         float nm02 = (m01 * m12 - m11 * m02) * s;
@@ -711,7 +717,6 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        return dest;
     }
 
     /**

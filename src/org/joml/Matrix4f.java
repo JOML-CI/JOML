@@ -2334,23 +2334,24 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float k = m21 * m33 - m23 * m31;
         float l = m22 * m33 - m23 * m32;
         float det = a * l - b * k + c * j + d * i - e * h + f * g;
+        float nm00, nm01, nm02, nm03, nm10, nm11, nm12, nm13, nm20, nm21, nm22, nm23, nm30, nm31, nm32, nm33;
         det = 1.0f / det;
-        float nm00 = ( m11 * l - m12 * k + m13 * j) * det;
-        float nm01 = (-m01 * l + m02 * k - m03 * j) * det;
-        float nm02 = ( m31 * f - m32 * e + m33 * d) * det;
-        float nm03 = (-m21 * f + m22 * e - m23 * d) * det;
-        float nm10 = (-m10 * l + m12 * i - m13 * h) * det;
-        float nm11 = ( m00 * l - m02 * i + m03 * h) * det;
-        float nm12 = (-m30 * f + m32 * c - m33 * b) * det;
-        float nm13 = ( m20 * f - m22 * c + m23 * b) * det;
-        float nm20 = ( m10 * k - m11 * i + m13 * g) * det;
-        float nm21 = (-m00 * k + m01 * i - m03 * g) * det;
-        float nm22 = ( m30 * e - m31 * c + m33 * a) * det;
-        float nm23 = (-m20 * e + m21 * c - m23 * a) * det;
-        float nm30 = (-m10 * j + m11 * h - m12 * g) * det;
-        float nm31 = ( m00 * j - m01 * h + m02 * g) * det;
-        float nm32 = (-m30 * d + m31 * b - m32 * a) * det;
-        float nm33 = ( m20 * d - m21 * b + m22 * a) * det;
+        nm00 = ( m11 * l - m12 * k + m13 * j) * det;
+        nm01 = (-m01 * l + m02 * k - m03 * j) * det;
+        nm02 = ( m31 * f - m32 * e + m33 * d) * det;
+        nm03 = (-m21 * f + m22 * e - m23 * d) * det;
+        nm10 = (-m10 * l + m12 * i - m13 * h) * det;
+        nm11 = ( m00 * l - m02 * i + m03 * h) * det;
+        nm12 = (-m30 * f + m32 * c - m33 * b) * det;
+        nm13 = ( m20 * f - m22 * c + m23 * b) * det;
+        nm20 = ( m10 * k - m11 * i + m13 * g) * det;
+        nm21 = (-m00 * k + m01 * i - m03 * g) * det;
+        nm22 = ( m30 * e - m31 * c + m33 * a) * det;
+        nm23 = (-m20 * e + m21 * c - m23 * a) * det;
+        nm30 = (-m10 * j + m11 * h - m12 * g) * det;
+        nm31 = ( m00 * j - m01 * h + m02 * g) * det;
+        nm32 = (-m30 * d + m31 * b - m32 * a) * det;
+        nm33 = ( m20 * d - m21 * b + m22 * a) * det;
         dest._m00(nm00);
         dest._m01(nm01);
         dest._m02(nm02);
@@ -2585,23 +2586,35 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f invertAffine(Matrix4f dest) {
         float m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
         float m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
-        float s = 1.0f / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
+        float det = (m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20;
+        if (Math.abs(det - 1.0f) < 1E-6f)
+            invertAffineOrthonormal(det, dest);
+        else
+            invertAffine(det, dest);
+        dest._properties(PROPERTY_AFFINE);
+        return dest;
+    }
+    private void invertAffine(float det, Matrix4f dest) {
+        float s = 1.0f / det;
+        float nm00, nm01, nm02, nm10, nm11, nm12, nm20, nm21, nm22, nm30, nm31, nm32;
         float m10m22 = m10 * m22, m10m21 = m10 * m21, m11m22 = m11 * m22;
         float m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
         float m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
         float m21m00 = m21 * m00, m22m01 = m22 * m01, m22m00 = m22 * m00;
-        float nm00 = (m11m22 - m12m21) * s;
-        float nm01 = (m21m02 - m22m01) * s;
-        float nm02 = (m12m01 - m11m02) * s;
-        float nm10 = (m12m20 - m10m22) * s;
-        float nm11 = (m22m00 - m20m02) * s;
-        float nm12 = (m10m02 - m12m00) * s;
-        float nm20 = (m10m21 - m11m20) * s;
-        float nm21 = (m20m01 - m21m00) * s;
-        float nm22 = (m11m00 - m10m01) * s;
-        float nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
-        float nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
-        float nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
+        float m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
+        float m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
+        nm00 = (m11m22 - m12m21) * s;
+        nm01 = (m21m02 - m22m01) * s;
+        nm02 = (m12m01 - m11m02) * s;
+        nm10 = (m12m20 - m10m22) * s;
+        nm11 = (m22m00 - m20m02) * s;
+        nm12 = (m10m02 - m12m00) * s;
+        nm20 = (m10m21 - m11m20) * s;
+        nm21 = (m20m01 - m21m00) * s;
+        nm22 = (m11m00 - m10m01) * s;
+        nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
+        nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
+        nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
         dest._m00(nm00);
         dest._m01(nm01);
         dest._m02(nm02);
@@ -2618,8 +2631,30 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m31(nm31);
         dest._m32(nm32);
         dest._m33(1.0f);
-        dest._properties(PROPERTY_AFFINE);
-        return dest;
+    }
+    private void invertAffineOrthonormal(float det, Matrix4f dest) {
+        float nm30 = -(m00 * m30 + m01 * m31 + m02 * m32);
+        float nm31 = -(m10 * m30 + m11 * m31 + m12 * m32);
+        float nm32 = -(m20 * m30 + m21 * m31 + m22 * m32);
+        float m01 = this.m01;
+        float m02 = this.m02;
+        float m12 = this.m12;
+        dest._m00(m00);
+        dest._m01(m10);
+        dest._m02(m20);
+        dest._m03(0.0f);
+        dest._m10(m01);
+        dest._m11(m11);
+        dest._m12(m21);
+        dest._m13(0.0f);
+        dest._m20(m02);
+        dest._m21(m12);
+        dest._m22(m22);
+        dest._m23(0.0f);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(1.0f);
     }
 
     /**

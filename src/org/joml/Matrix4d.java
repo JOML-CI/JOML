@@ -2665,23 +2665,35 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d invertAffine(Matrix4d dest) {
         double m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
         double m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
-        double s = 1.0f / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
+        double det = (m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20;
+        if (Math.abs(det - 1.0) < 1E-12)
+            invertAffineOrthonormal(det, dest);
+        else
+            invertAffine(det, dest);
+        dest.properties = PROPERTY_AFFINE;
+        return dest;
+    }
+    private void invertAffine(double det, Matrix4d dest) {
+        double s = 1.0 / det;
+        double nm00, nm01, nm02, nm10, nm11, nm12, nm20, nm21, nm22, nm30, nm31, nm32;
         double m10m22 = m10 * m22, m10m21 = m10 * m21, m11m22 = m11 * m22;
         double m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
         double m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
         double m21m00 = m21 * m00, m22m01 = m22 * m01, m22m00 = m22 * m00;
-        double nm00 = (m11m22 - m12m21) * s;
-        double nm01 = (m21m02 - m22m01) * s;
-        double nm02 = (m12m01 - m11m02) * s;
-        double nm10 = (m12m20 - m10m22) * s;
-        double nm11 = (m22m00 - m20m02) * s;
-        double nm12 = (m10m02 - m12m00) * s;
-        double nm20 = (m10m21 - m11m20) * s;
-        double nm21 = (m20m01 - m21m00) * s;
-        double nm22 = (m11m00 - m10m01) * s;
-        double nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
-        double nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
-        double nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
+        double m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
+        double m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
+        nm00 = (m11m22 - m12m21) * s;
+        nm01 = (m21m02 - m22m01) * s;
+        nm02 = (m12m01 - m11m02) * s;
+        nm10 = (m12m20 - m10m22) * s;
+        nm11 = (m22m00 - m20m02) * s;
+        nm12 = (m10m02 - m12m00) * s;
+        nm20 = (m10m21 - m11m20) * s;
+        nm21 = (m20m01 - m21m00) * s;
+        nm22 = (m11m00 - m10m01) * s;
+        nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
+        nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
+        nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -2698,8 +2710,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = 1.0;
-        dest.properties = PROPERTY_AFFINE;
-        return dest;
+    }
+    private void invertAffineOrthonormal(double det, Matrix4d dest) {
+        double nm30 = -(m00 * m30 + m01 * m31 + m02 * m32);
+        double nm31 = -(m10 * m30 + m11 * m31 + m12 * m32);
+        double nm32 = -(m20 * m30 + m21 * m31 + m22 * m32);
+        double m01 = this.m01;
+        double m02 = this.m02;
+        double m12 = this.m12;
+        dest.m00 = m00;
+        dest.m01 = m10;
+        dest.m02 = m20;
+        dest.m03 = 0.0;
+        dest.m10 = m01;
+        dest.m11 = m11;
+        dest.m12 = m21;
+        dest.m13 = 0.0;
+        dest.m20 = m02;
+        dest.m21 = m12;
+        dest.m22 = m22;
+        dest.m23 = 0.0;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = 1.0;
     }
 
     /**

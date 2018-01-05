@@ -787,9 +787,15 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      * @see org.joml.Matrix3dc#invert(org.joml.Matrix3d)
      */
     public Matrix3d invert(Matrix3d dest) {
-        double s = determinant();
-        // client must make sure that matrix is invertible
-        s = 1.0 / s;
+        double det = determinant();
+        if (Math.abs(det - 1.0) < 1E-12)
+            transpose(dest);
+        else
+            invertAffine(det, dest);
+        return dest;
+    }
+    private void invertAffine(double det, Matrix3d dest) {
+        double s = 1.0 / det;
         double nm00 = (m11 * m22 - m21 * m12) * s;
         double nm01 = (m21 * m02 - m01 * m22) * s;
         double nm02 = (m01 * m12 - m11 * m02) * s;
@@ -808,7 +814,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        return dest;
     }
 
     /**
