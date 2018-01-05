@@ -684,10 +684,6 @@ public interface Matrix4fc {
     /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and write the result into <code>dest</code>.
-     * <p>
-     * Note that if <code>this</code> matrix also has unit scaling, then the method {@link #invertAffineUnitScale(Matrix4f)} should be used instead.
-     * 
-     * @see #invertAffineUnitScale(Matrix4f)
      * 
      * @param dest
      *          will hold the result

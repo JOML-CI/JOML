@@ -2716,10 +2716,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
     /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>).
-     * <p>
-     * Note that if <code>this</code> matrix also has unit scaling, then the method {@link #invertAffineUnitScale()} should be used instead.
-     * 
-     * @see #invertAffineUnitScale()
      * 
      * @return this
      */
@@ -11605,7 +11601,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m22 = nm22;
         dest.m23 = nm23;
         dest.properties = (byte) (properties & ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
-
         return dest;
     }
 
@@ -12136,7 +12131,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m32 = m32;
         dest.m33 = m33;
         dest.properties = 0;
-
         return dest;
     }
 
@@ -12313,7 +12307,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m30 = 0.0;
         m31 = 0.0;
         m33 = 0.0;
-        properties = 0;
+        properties = this.m20 == 0.0 && this.m21 == 0.0 ? PROPERTY_PERSPECTIVE : 0;
         return this;
     }
 
@@ -12610,7 +12604,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m30 = 0.0;
         m31 = 0.0;
         m33 = 0.0;
-        properties = 0;
+        properties = this.m20 == 0.0 && this.m21 == 0.0 ? PROPERTY_PERSPECTIVE : 0;
         return this;
     }
 
