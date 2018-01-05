@@ -350,6 +350,26 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 
     /**
+     * Set the elements of this matrix to the left 3x3 submatrix of <code>m</code>.
+     * 
+     * @param m
+     *          the matrix to copy the elements from
+     * @return this
+     */
+    public Matrix3f set(Matrix4x3fc m) {
+        m00 = m.m00();
+        m01 = m.m01();
+        m02 = m.m02();
+        m10 = m.m10();
+        m11 = m.m11();
+        m12 = m.m12();
+        m20 = m.m20();
+        m21 = m.m21();
+        m22 = m.m22();
+        return this;
+    }
+
+    /**
      * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4fc}.
      *
      * @param mat

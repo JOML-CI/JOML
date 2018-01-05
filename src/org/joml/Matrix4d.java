@@ -8429,6 +8429,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d normal(Matrix4d dest) {
+        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return normalOrthonormal(dest);
+        return normalGeneric(dest);
+    }
+    private Matrix4d normalOrthonormal(Matrix4d dest) {
+        if (dest != this)
+            dest.set(this);
+        dest.properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
+        return dest;
+    }
+    private Matrix4d normalGeneric(Matrix4d dest) {
         double m00m11 = m00 * m11;
         double m01m10 = m01 * m10;
         double m02m10 = m02 * m10;
@@ -8486,6 +8497,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix3d normal(Matrix3d dest) {
+        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return normalOrthonormal(dest);
+        return normalGeneric(dest);
+    }
+    private Matrix3d normalOrthonormal(Matrix3d dest) {
+        dest.set(this);
+        return dest;
+    }
+    private Matrix3d normalGeneric(Matrix3d dest) {
         double m00m11 = m00 * m11;
         double m01m10 = m01 * m10;
         double m02m10 = m02 * m10;

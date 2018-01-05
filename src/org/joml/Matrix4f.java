@@ -11696,6 +11696,17 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f normal(Matrix4f dest) {
+        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return normalOrthonormal(dest);
+        return normalGeneric(dest);
+    }
+    private Matrix4f normalOrthonormal(Matrix4f dest) {
+        if (dest != this)
+            dest.set(this);
+        dest._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
+        return dest;
+    }
+    private Matrix4f normalGeneric(Matrix4f dest) {
         float m00m11 = m00 * m11;
         float m01m10 = m01 * m10;
         float m02m10 = m02 * m10;
@@ -11753,6 +11764,15 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix3f normal(Matrix3f dest) {
+        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return normalOrthonormal(dest);
+        return normalGeneric(dest);
+    }
+    private Matrix3f normalOrthonormal(Matrix3f dest) {
+        dest.set(this);
+        return dest;
+    }
+    private Matrix3f normalGeneric(Matrix3f dest) {
         float m00m11 = m00 * m11;
         float m01m10 = m01 * m10;
         float m02m10 = m02 * m10;

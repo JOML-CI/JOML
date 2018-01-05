@@ -5611,6 +5611,17 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return dest
      */
     public Matrix4x3d normal(Matrix4x3d dest) {
+        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return normalOrthonormal(dest);
+        return normalGeneric(dest);
+    }
+    private Matrix4x3d normalOrthonormal(Matrix4x3d dest) {
+        if (dest != this)
+            dest.set(this);
+        dest.properties = PROPERTY_ORTHONORMAL;
+        return dest;
+    }
+    private Matrix4x3d normalGeneric(Matrix4x3d dest) {
         double m00m11 = m00 * m11;
         double m01m10 = m01 * m10;
         double m02m10 = m02 * m10;
@@ -5649,6 +5660,15 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @see org.joml.Matrix4x3dc#normal(org.joml.Matrix3d)
      */
     public Matrix3d normal(Matrix3d dest) {
+        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return normalOrthonormal(dest);
+        return normalGeneric(dest);
+    }
+    private Matrix3d normalOrthonormal(Matrix3d dest) {
+        dest.set(this);
+        return dest;
+    }
+    private Matrix3d normalGeneric(Matrix3d dest) {
         double m00m11 = m00 * m11;
         double m01m10 = m01 * m10;
         double m02m10 = m02 * m10;
