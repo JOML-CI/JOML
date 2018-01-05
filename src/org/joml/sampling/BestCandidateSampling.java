@@ -47,7 +47,7 @@ public class BestCandidateSampling {
      * <p>
      * References:
      * <ul>
-     * <li><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2005/09/tr-2005-123.pdf">Indexing the Sphere with the Hierarchical Triangular Mesh</a>
+     * <li><a href="https://arxiv.org/ftp/cs/papers/0701/0701164.pdf">Indexing the Sphere with the Hierarchical Triangular Mesh</a>
      * <li><a href="http://math.stackexchange.com/questions/1244512/point-in-a-spherical-triangle-test">Point in a spherical triangle test</a>
      * </ul>
      * 
@@ -76,7 +76,7 @@ public class BestCandidateSampling {
                 float s = 1f;
                 this.arc = 2.0f * (float) Math.PI;
                 /*
-                 * See: https://www.microsoft.com/en-us/research/wp-content/uploads/2005/09/tr-2005-123.pdf
+                 * See: https://arxiv.org/ftp/cs/papers/0701/0701164.pdf
                  */
                 this.children[0] = new Node(-s, 0, 0, 0, 0, s, 0, s, 0);
                 this.children[1] = new Node(0, 0, s, s, 0, 0, 0, s, 0);
@@ -143,7 +143,7 @@ public class BestCandidateSampling {
                 w2z *= len2;
                 children = new Node[4];
                 /*
-                 * See: https://www.microsoft.com/en-us/research/wp-content/uploads/2005/09/tr-2005-123.pdf
+                 * See: https://arxiv.org/ftp/cs/papers/0701/0701164.pdf
                  */
                 children[0] = new Node(v0x, v0y, v0z, w2x, w2y, w2z, w1x, w1y, w1z);
                 children[1] = new Node(v1x, v1y, v1z, w0x, w0y, w0z, w2x, w2y, w2z);
