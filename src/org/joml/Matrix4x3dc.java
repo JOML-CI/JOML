@@ -391,18 +391,6 @@ public interface Matrix4x3dc {
     Matrix4x3d invertOrtho(Matrix4x3d dest);
 
     /**
-     * Invert this matrix by assuming that it has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection}
-     * does not change the {@link Vector3dc#length() length} of the vector) and write the result into <code>dest</code>.
-     * <p>
-     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    Matrix4x3d invertUnitScale(Matrix4x3d dest);
-
-    /**
      * Transpose only the left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
      * All other matrix elements are left unchanged.

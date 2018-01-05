@@ -1300,32 +1300,6 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return invertOrtho(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3fc#invertUnitScale(org.joml.Matrix4x3f)
-     */
-    public Matrix4x3f invertUnitScale(Matrix4x3f dest) {
-        dest.set(m00, m10, m20,
-                 m01, m11, m21,
-                 m02, m12, m22,
-                 -m00 * m30 - m01 * m31 - m02 * m32,
-                 -m10 * m30 - m11 * m31 - m12 * m32,
-                 -m20 * m30 - m21 * m31 - m22 * m32);
-        dest.properties = PROPERTY_ORTHONORMAL;
-        return dest;
-    }
-
-    /**
-     * Invert this matrix by assuming that it has unit scaling (i.e. {@link #transformDirection(Vector3f) transformDirection}
-     * does not change the {@link Vector3f#length() length} of the vector).
-     * <p>
-     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
-     * 
-     * @return this
-     */
-    public Matrix4x3f invertUnitScale() {
-        return invertUnitScale(this);
-    }
-
     /**
      * Transpose only the left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
      * 

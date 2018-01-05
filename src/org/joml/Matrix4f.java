@@ -2666,69 +2666,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#invertAffineUnitScale(org.joml.Matrix4f)
-     */
-    public Matrix4f invertAffineUnitScale(Matrix4f dest) {
-        dest.set(m00, m10, m20, 0.0f,
-                 m01, m11, m21, 0.0f,
-                 m02, m12, m22, 0.0f,
-                 -m00 * m30 - m01 * m31 - m02 * m32,
-                 -m10 * m30 - m11 * m31 - m12 * m32,
-                 -m20 * m30 - m21 * m31 - m22 * m32,
-                 1.0f);
-        dest._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
-        return dest;
-    }
-
-    /**
-     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
-     * and has unit scaling (i.e. {@link #transformDirection(Vector3f) transformDirection} does not change the {@link Vector3f#length() length} of the vector).
-     * <p>
-     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
-     * 
-     * @return this
-     */
-    public Matrix4f invertAffineUnitScale() {
-        return invertAffineUnitScale(this);
-    }
-
-    /**
-     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
-     * and has unit scaling (i.e. {@link #transformDirection(Vector3f) transformDirection} does not change the {@link Vector3f#length() length} of the vector),
-     * as is the case for matrices built via {@link #lookAt(Vector3fc, Vector3fc, Vector3fc)} and their overloads, and write the result into <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling {@link #invertAffineUnitScale(Matrix4f)}
-     * <p>
-     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
-     * 
-     * @see #invertAffineUnitScale(Matrix4f)
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Matrix4f invertLookAt(Matrix4f dest) {
-        return invertAffineUnitScale(dest);
-    }
-
-    /**
-     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
-     * and has unit scaling (i.e. {@link #transformDirection(Vector3f) transformDirection} does not change the {@link Vector3f#length() length} of the vector),
-     * as is the case for matrices built via {@link #lookAt(Vector3fc, Vector3fc, Vector3fc)} and their overloads.
-     * <p>
-     * This method is equivalent to calling {@link #invertAffineUnitScale()}
-     * <p>
-     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
-     * 
-     * @see #invertAffineUnitScale()
-     * 
-     * @return this
-     */
-    public Matrix4f invertLookAt() {
-        return invertAffineUnitScale(this);
-    }
-
-    /* (non-Javadoc)
      * @see org.joml.Matrix4fc#transpose(org.joml.Matrix4f)
      */
     public Matrix4f transpose(Matrix4f dest) {

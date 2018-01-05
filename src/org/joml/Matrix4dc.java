@@ -718,36 +718,6 @@ public interface Matrix4dc {
     Matrix4d invertAffine(Matrix4d dest);
 
     /**
-     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
-     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3dc#length() length} of the vector)
-     * and write the result into <code>dest</code>.
-     * <p>
-     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    Matrix4d invertAffineUnitScale(Matrix4d dest);
-
-    /**
-     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
-     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3dc#length() length} of the vector),
-     * as is the case for matrices built via {@link #lookAt(Vector3dc, Vector3dc, Vector3dc, Matrix4d)} and their overloads, and write the result into <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling {@link #invertAffineUnitScale(Matrix4d)}
-     * <p>
-     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
-     * 
-     * @see #invertAffineUnitScale(Matrix4d)
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    Matrix4d invertLookAt(Matrix4d dest);
-
-    /**
      * Transpose <code>this</code> matrix and store the result into <code>dest</code>.
      * 
      * @param dest

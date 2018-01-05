@@ -2727,57 +2727,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return invertAffine(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invertAffineUnitScale(org.joml.Matrix4d)
-     */
-    public Matrix4d invertAffineUnitScale(Matrix4d dest) {
-        dest.set(m00, m10, m20, 0.0,
-                 m01, m11, m21, 0.0,
-                 m02, m12, m22, 0.0,
-                 -m00 * m30 - m01 * m31 - m02 * m32,
-                 -m10 * m30 - m11 * m31 - m12 * m32,
-                 -m20 * m30 - m21 * m31 - m22 * m32,
-                 1.0);
-        dest.properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
-        return dest;
-    }
-
-    /**
-     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
-     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3dc#length() length} of the vector).
-     * <p>
-     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
-     * 
-     * @return this
-     */
-    public Matrix4d invertAffineUnitScale() {
-        return invertAffineUnitScale(this);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invertLookAt(org.joml.Matrix4d)
-     */
-    public Matrix4d invertLookAt(Matrix4d dest) {
-        return invertAffineUnitScale(dest);
-    }
-
-    /**
-     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
-     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3dc#length() length} of the vector),
-     * as is the case for matrices built via {@link #lookAt(Vector3dc, Vector3dc, Vector3dc)} and their overloads.
-     * <p>
-     * This method is equivalent to calling {@link #invertAffineUnitScale()}
-     * <p>
-     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
-     * 
-     * @see #invertAffineUnitScale()
-     * 
-     * @return this
-     */
-    public Matrix4d invertLookAt() {
-        return invertAffineUnitScale(this);
-    }
-
     /**
      * Transpose this matrix.
      * 
