@@ -303,6 +303,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
+     * Assume the given properties about this matrix.
+     * <p>
+     * Use one or multiple of 0, {@link Matrix4dc#PROPERTY_IDENTITY},
+     * {@link Matrix4dc#PROPERTY_TRANSLATION}, {@link Matrix4dc#PROPERTY_AFFINE},
+     * {@link Matrix4dc#PROPERTY_PERSPECTIVE}
+     * 
+     * @param properties
+     *          bitset of the properties to assume about this matrix
+     * @return this
+     */
+    public Matrix4d assume(int properties) {
+        this.properties = (byte) properties;
+        return this;
+    }
+
+    /**
      * Assume no properties of the matrix.
      * 
      * @return this

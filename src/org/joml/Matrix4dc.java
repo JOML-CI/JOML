@@ -130,6 +130,10 @@ public interface Matrix4dc {
     byte PROPERTY_TRANSLATION = 1<<3;
 
     /**
+     * Return the assumed properties of this matrix. This is a bit-combination of
+     * {@link #PROPERTY_IDENTITY}, {@link #PROPERTY_AFFINE},
+     * {@link #PROPERTY_TRANSLATION} and {@link #PROPERTY_PERSPECTIVE}.
+     * 
      * @return the properties of the matrix
      */
     byte properties();

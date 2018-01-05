@@ -259,6 +259,22 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
+     * Assume the given properties about this matrix.
+     * <p>
+     * Use one or multiple of 0, {@link Matrix4fc#PROPERTY_IDENTITY},
+     * {@link Matrix4fc#PROPERTY_TRANSLATION}, {@link Matrix4fc#PROPERTY_AFFINE},
+     * {@link Matrix4fc#PROPERTY_PERSPECTIVE}
+     * 
+     * @param properties
+     *          bitset of the properties to assume about this matrix
+     * @return this
+     */
+    public Matrix4f assume(int properties) {
+        this._properties(properties);
+        return this;
+    }
+
+    /**
      * Assume no properties of the matrix.
      * 
      * @return this
