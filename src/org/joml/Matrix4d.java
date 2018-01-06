@@ -471,7 +471,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m00(double m00) {
         this.m00 = m00;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m00 != 1.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -483,7 +485,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m01(double m01) {
         this.m01 = m01;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m01 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -495,7 +499,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m02(double m02) {
         this.m02 = m02;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m02 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -507,7 +513,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m03(double m03) {
         this.m03 = m03;
-        properties = 0;
+        if (m03 != 0.0)
+            properties = 0;
         return this;
     }
     /**
@@ -519,7 +526,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m10(double m10) {
         this.m10 = m10;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m10 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -531,7 +540,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m11(double m11) {
         this.m11 = m11;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m11 != 1.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -543,7 +554,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m12(double m12) {
         this.m12 = m12;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m12 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -555,7 +568,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m13(double m13) {
         this.m13 = m13;
-        properties = 0;
+        if (m03 != 0.0)
+            properties = 0;
         return this;
     }
     /**
@@ -567,7 +581,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m20(double m20) {
         this.m20 = m20;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m20 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -579,7 +595,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m21(double m21) {
         this.m21 = m21;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m21 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -591,7 +609,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m22(double m22) {
         this.m22 = m22;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m22 != 1.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -603,7 +623,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m23(double m23) {
         this.m23 = m23;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_AFFINE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        if (m23 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_AFFINE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return this;
     }
     /**
@@ -615,7 +636,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m30(double m30) {
         this.m30 = m30;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_ORTHONORMAL);
+        if (m30 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE);
         return this;
     }
     /**
@@ -627,7 +649,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m31(double m31) {
         this.m31 = m31;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_ORTHONORMAL);
+        if (m31 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE);
         return this;
     }
     /**
@@ -639,7 +662,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m32(double m32) {
         this.m32 = m32;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_ORTHONORMAL);
+        if (m32 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE);
         return this;
     }
     /**
@@ -651,7 +675,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d m33(double m33) {
         this.m33 = m33;
-        properties = 0;
+        if (m33 != 0.0)
+            properties &= ~(PROPERTY_PERSPECTIVE);
+        if (m33 != 1.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL | PROPERTY_AFFINE);
         return this;
     }
 
