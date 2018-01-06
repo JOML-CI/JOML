@@ -293,7 +293,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m00(double m00) {
         this.m00 = m00;
-        properties = 0;
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m00 != 1.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -305,7 +307,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m01(double m01) {
         this.m01 = m01;
-        properties = 0;
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m01 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -317,7 +321,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m02(double m02) {
         this.m02 = m02;
-        properties = 0;
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m02 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -329,7 +335,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m10(double m10) {
         this.m10 = m10;
-        properties = 0;
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m10 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -341,7 +349,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m11(double m11) {
         this.m11 = m11;
-        properties = 0;
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m11 != 1.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -353,7 +363,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m12(double m12) {
         this.m12 = m12;
-        properties = 0;
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m12 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -365,7 +377,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m20(double m20) {
         this.m20 = m20;
-        properties = 0;
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m20 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -377,7 +391,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m21(double m21) {
         this.m21 = m21;
-        properties = 0;
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m21 != 0.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -389,7 +405,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m22(double m22) {
         this.m22 = m22;
-        properties = 0;
+        properties &= ~PROPERTY_ORTHONORMAL;
+        if (m22 != 1.0)
+            properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -401,7 +419,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m30(double m30) {
         this.m30 = m30;
-        properties &= ~(PROPERTY_IDENTITY);
+        if (m30 != 0.0)
+            properties &= ~PROPERTY_IDENTITY;
         return this;
     }
     /**
@@ -413,7 +432,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m31(double m31) {
         this.m31 = m31;
-        properties &= ~(PROPERTY_IDENTITY);
+        if (m31 != 0.0)
+            properties &= ~PROPERTY_IDENTITY;
         return this;
     }
     /**
@@ -425,7 +445,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d m32(double m32) {
         this.m32 = m32;
-        properties &= ~(PROPERTY_IDENTITY);
+        if (m32 != 0.0)
+            properties &= ~PROPERTY_IDENTITY;
         return this;
     }
 
