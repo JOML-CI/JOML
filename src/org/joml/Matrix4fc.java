@@ -143,7 +143,7 @@ public interface Matrix4fc {
      * 
      * @return the properties of the matrix
      */
-    byte properties();
+    int properties();
 
     /**
      * Return the value of the matrix element at column 0 and row 0.

@@ -55,7 +55,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     double m20, m21, m22, m23;
     double m30, m31, m32, m33;
 
-    byte properties;
+    int properties;
 
     /**
      * Create a new {@link Matrix4d} and set it to {@link #identity() identity}.
@@ -141,7 +141,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = mat.m31();
         m32 = mat.m32();
         m33 = 1.0;
-        properties = (byte) (mat.properties() | PROPERTY_AFFINE);
+        properties = mat.properties() | PROPERTY_AFFINE;
     }
 
     /**
@@ -165,7 +165,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = mat.m31();
         m32 = mat.m32();
         m33 = 1.0;
-        properties = (byte) (mat.properties() | PROPERTY_AFFINE);
+        properties = mat.properties() | PROPERTY_AFFINE;
     }
 
     /**
@@ -361,7 +361,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#properties()
      */
-    public byte properties() {
+    public int properties() {
         return properties;
     }
 
@@ -823,7 +823,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = m.m31();
         m32 = m.m32();
         m33 = 1.0;
-        properties = (byte) (m.properties() | PROPERTY_AFFINE);
+        properties = m.properties() | PROPERTY_AFFINE;
         return this;
     }
 
@@ -854,7 +854,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = m.m31();
         m32 = m.m32();
         m33 = 1.0;
-        properties = (byte) (m.properties() | PROPERTY_AFFINE);
+        properties = m.properties() | PROPERTY_AFFINE;
         return this;
     }
 
@@ -1362,7 +1362,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -1409,7 +1409,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -1461,7 +1461,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -1513,7 +1513,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -1689,7 +1689,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -1751,7 +1751,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (PROPERTY_AFFINE | (this.properties & right.properties() & PROPERTY_ORTHONORMAL));
+        dest.properties = PROPERTY_AFFINE | (this.properties & right.properties() & PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -1791,7 +1791,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (PROPERTY_AFFINE | (right.properties() & PROPERTY_ORTHONORMAL));
+        dest.properties = PROPERTY_AFFINE | (right.properties() & PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -2661,7 +2661,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
                  0, invM11, 0, 0,
                  0, 0, invM22, 0,
                  -m30 * invM00, -m31 * invM11, -m32 * invM22, 1);
-        dest.properties = (byte) (PROPERTY_AFFINE | (this.properties & PROPERTY_ORTHONORMAL));
+        dest.properties = PROPERTY_AFFINE | (this.properties & PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -2795,7 +2795,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE);
         return dest;
     }
 
@@ -2832,7 +2832,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.properties = (byte) (this.properties & PROPERTY_ORTHONORMAL);
+        dest.properties = this.properties & PROPERTY_ORTHONORMAL;
         return dest;
     }
 
@@ -3315,7 +3315,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m11 = y;
         m22 = z;
         boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
-        properties = (byte) (PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0));
+        properties = PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0);
         return this;
     }
 
@@ -4112,8 +4112,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m32 = m32;
         dest.m33 = m33;
         boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
-                | (one ? 0 : PROPERTY_ORTHONORMAL)));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL));
         return dest;
     }
 
@@ -4188,8 +4188,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m32 = -m02 * ox - m12 * oy - m22 * oz + nm32;
         dest.m33 = -m03 * ox - m13 * oy - m23 * oz + nm33;
         boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
-                | (one ? 0 : PROPERTY_ORTHONORMAL)));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL));
         return dest;
     }
 
@@ -4294,8 +4294,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m32 = nm32;
         dest.m33 = nm33;
         boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
-                | (one ? 0 : PROPERTY_ORTHONORMAL)));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL));
         return dest;
     }
 
@@ -4364,8 +4364,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m32 = sz * (m32 - oz * m33) + oz * m33;
         dest.m33 = m33;
         boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
-                | (one ? 0 : PROPERTY_ORTHONORMAL)));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL));
         return dest;
     }
 
@@ -4482,7 +4482,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4593,7 +4593,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -4675,7 +4675,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4797,7 +4797,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = -nm01 * ox - nm11 * oy - m21 * oz + tm31;
         dest.m32 = -nm02 * ox - nm12 * oy - m22 * oz + tm32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4883,7 +4883,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4974,7 +4974,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = lm01 * tm30 + lm11 * tm31 + lm21 * tm32 + oy * m33;
         dest.m32 = lm02 * tm30 + lm12 * tm31 + lm22 * tm32 + oz * m33;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5147,7 +5147,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m01 * x + m11 * y + m21 * z + m31;
         dest.m32 = m02 * x + m12 * y + m22 * z + m32;
         dest.m33 = m03 * x + m13 * y + m23 * z + m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
         return dest;
     }
 
@@ -5334,7 +5334,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
         return dest;
     }
 
@@ -5417,7 +5417,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5501,7 +5501,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = nm32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5585,7 +5585,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5693,7 +5693,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5756,7 +5756,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5865,7 +5865,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5970,7 +5970,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -6047,7 +6047,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -6152,7 +6152,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -6227,7 +6227,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -6332,7 +6332,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -6407,7 +6407,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -6625,7 +6625,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m32 = tz;
         m33 = 1.0;
         boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
-        properties = (byte) (PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0));
+        properties = PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0);
         return this;
     }
 
@@ -7057,7 +7057,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         this.m31 = m31;
         this.m33 = 1.0;
         boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
-        properties = (byte) (PROPERTY_AFFINE | (one && (m.properties & PROPERTY_ORTHONORMAL) != 0 ? PROPERTY_ORTHONORMAL : 0));
+        properties = PROPERTY_AFFINE | (one && (m.properties & PROPERTY_ORTHONORMAL) != 0 ? PROPERTY_ORTHONORMAL : 0);
         return this;
     }
 
@@ -7263,7 +7263,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -7346,7 +7346,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -7474,7 +7474,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -7577,7 +7577,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = 1.0;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -7651,7 +7651,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = 1.0;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -7733,7 +7733,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -7834,7 +7834,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -7945,7 +7945,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -8876,7 +8876,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -9176,7 +9176,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
 
         return dest;
     }
@@ -9350,7 +9350,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
 
         return dest;
     }
@@ -9677,7 +9677,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
 
         return dest;
     }
@@ -9845,7 +9845,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
 
         return dest;
     }
@@ -10162,7 +10162,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = -m21;
         dest.m22 = -m22;
         dest.m23 = -m23;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
 
         return dest;
     }
@@ -10256,7 +10256,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = m21;
         dest.m22 = m22;
         dest.m23 = m23;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
 
         return dest;
     }
@@ -10543,7 +10543,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -10956,7 +10956,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -11397,7 +11397,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -11641,7 +11641,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = nm21;
         dest.m22 = nm22;
         dest.m23 = nm23;
-        dest.properties = (byte) (properties & ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -11903,7 +11903,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = nm21;
         dest.m22 = nm22;
         dest.m23 = nm23;
-        dest.properties = (byte) (properties & ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -13186,7 +13186,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = nm21;
         dest.m22 = nm22;
         dest.m23 = nm23;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
 
         return dest;
     }
@@ -13601,7 +13601,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         tmp = m31; m31 = other.m31; other.m31 = tmp;
         tmp = m32; m32 = other.m32; other.m32 = tmp;
         tmp = m33; m33 = other.m33; other.m33 = tmp;
-        byte props = properties;
+        int props = properties;
         this.properties = other.properties;
         other.properties = props;
         return this;
@@ -13651,7 +13651,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m01 = nm01;
         dest.m02 = nm02;
         dest.m03 = nm03;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -13839,7 +13839,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = (far + far) * near * invNearFar;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return dest;
     }
 
@@ -14249,7 +14249,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
