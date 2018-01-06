@@ -3235,7 +3235,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         this._m00(x);
         this._m11(y);
         this._m22(z);
-        _properties(PROPERTY_AFFINE);
+        boolean one = Math.abs(x) == 1.0f && Math.abs(y) == 1.0f && Math.abs(z) == 1.0f;
+        _properties(PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0));
         return this;
     }
     
@@ -3915,7 +3916,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         this._m31(ty);
         this._m32(tz);
         this._m33(1.0f);
-        _properties(PROPERTY_AFFINE);
+        boolean one = Math.abs(sx) == 1.0f && Math.abs(sy) == 1.0f && Math.abs(sz) == 1.0f;
+        _properties(PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0));
         return this;
     }
 
@@ -4060,6 +4062,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f translationRotateScaleInvert(float tx, float ty, float tz, 
                                                  float qx, float qy, float qz, float qw, 
                                                  float sx, float sy, float sz) {
+        boolean one = Math.abs(sx) == 1.0f && Math.abs(sy) == 1.0f && Math.abs(sz) == 1.0f;
+        if (one)
+            return translationRotateScale(tx, ty, tz, qx, qy, qz, qw, sx, sy, sz).invertOrthonormal(this);
         float nqx = -qx, nqy = -qy, nqz = -qz;
         float dqx = nqx + nqx;
         float dqy = nqy + nqy;
@@ -4232,7 +4237,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         this._m30(m30);
         this._m31(m31);
         this._m33(1.0f);
-        _properties(PROPERTY_AFFINE);
+        boolean one = Math.abs(sx) == 1.0f && Math.abs(sy) == 1.0f && Math.abs(sz) == 1.0f;
+        _properties(PROPERTY_AFFINE | (one && (m.properties & PROPERTY_ORTHONORMAL) != 0 ? PROPERTY_ORTHONORMAL : 0));
         return this;
     }
 
@@ -4622,7 +4628,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m31(m31);
         dest._m32(m32);
         dest._m33(m33);
-        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL)));
+        boolean one = Math.abs(x) == 1.0f && Math.abs(y) == 1.0f && Math.abs(z) == 1.0f;
+        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL))));
         return dest;
     }
 
@@ -4671,7 +4679,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m31(-m01 * ox - m11 * oy - m21 * oz + nm31);
         dest._m32(-m02 * ox - m12 * oy - m22 * oz + nm32);
         dest._m33(-m03 * ox - m13 * oy - m23 * oz + nm33);
-        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL)));
+        boolean one = Math.abs(sx) == 1.0f && Math.abs(sy) == 1.0f && Math.abs(sz) == 1.0f;
+        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL))));
         return dest;
     }
 
@@ -4742,7 +4752,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f scaleLocal(float x, float y, float z, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
-
         float nm00 = x * m00;
         float nm01 = y * m01;
         float nm02 = z * m02;
@@ -4775,7 +4784,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m31(nm31);
         dest._m32(nm32);
         dest._m33(nm33);
-        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL)));
+        boolean one = Math.abs(x) == 1.0f && Math.abs(y) == 1.0f && Math.abs(z) == 1.0f;
+        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL))));
         return dest;
     }
 
@@ -4843,7 +4854,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m31(sy * (m31 - oy * m33) + oy * m33);
         dest._m32(sz * (m32 - oz * m33) + oz * m33);
         dest._m33(m33);
-        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL)));
+        boolean one = Math.abs(sx) == 1.0f && Math.abs(sy) == 1.0f && Math.abs(sz) == 1.0f;
+        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL))));
         return dest;
     }
 

@@ -3287,7 +3287,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m00 = x;
         m11 = y;
         m22 = z;
-        properties = PROPERTY_AFFINE;
+        boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
+        properties = (byte) (PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0));
         return this;
     }
 
@@ -4083,7 +4084,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL)));
         return dest;
     }
 
@@ -4157,7 +4160,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = -m01 * ox - m11 * oy - m21 * oz + nm31;
         dest.m32 = -m02 * ox - m12 * oy - m22 * oz + nm32;
         dest.m33 = -m03 * ox - m13 * oy - m23 * oz + nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL)));
         return dest;
     }
 
@@ -4261,7 +4266,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL)));
         return dest;
     }
 
@@ -4329,7 +4336,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = sy * (m31 - oy * m33) + oy * m33;
         dest.m32 = sz * (m32 - oz * m33) + oz * m33;
         dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | (one ? 0 : PROPERTY_ORTHONORMAL)));
         return dest;
     }
 
@@ -6588,7 +6597,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = ty;
         m32 = tz;
         m33 = 1.0;
-        properties = PROPERTY_AFFINE;
+        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        properties = (byte) (PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0));
         return this;
     }
 
@@ -6796,6 +6806,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d translationRotateScaleInvert(double tx, double ty, double tz, 
                                                  double qx, double qy, double qz, double qw, 
                                                  double sx, double sy, double sz) {
+        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        if (one)
+            return translationRotateScale(tx, ty, tz, qx, qy, qz, qw, sx, sy, sz).invertOrthonormal(this);
         double nqx = -qx, nqy = -qy, nqz = -qz;
         double dqx = nqx + nqx;
         double dqy = nqy + nqy;
@@ -7016,7 +7029,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         this.m30 = m30;
         this.m31 = m31;
         this.m33 = 1.0;
-        this.properties = PROPERTY_AFFINE;
+        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        properties = (byte) (PROPERTY_AFFINE | (one && (m.properties & PROPERTY_ORTHONORMAL) != 0 ? PROPERTY_ORTHONORMAL : 0));
         return this;
     }
 
