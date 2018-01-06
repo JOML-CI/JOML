@@ -195,12 +195,39 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 //#endif
 
     /**
-     * Assume no properties of the matrix.
+     * Assume the given properties about this matrix.
+     * <p>
+     * Use one or multiple of 0, {@link Matrix4x3dc#PROPERTY_IDENTITY},
+     * {@link Matrix4x3dc#PROPERTY_TRANSLATION}, {@link Matrix4x3dc#PROPERTY_ORTHONORMAL}.
+     * 
+     * @param properties
+     *          bitset of the properties to assume about this matrix
+     * @return this
+     */
+    public Matrix4x3d assume(int properties) {
+        this.properties = properties;
+        return this;
+    }
+
+    /**
+     * Compute and set the matrix properties returned by {@link #properties()} based
+     * on the current matrix element values.
      * 
      * @return this
      */
-    public Matrix4x3d assumeNothing() {
-        properties = 0;
+    public Matrix4x3d determineProperties() {
+        int properties = 0;
+        if (m00 == 1.0 && m01 == 0.0 && m02 == 0.0 && m10 == 0.0 && m11 == 1.0 && m12 == 0.0
+                && m20 == 0.0 && m21 == 0.0 && m22 == 1.0) {
+            properties |= PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
+            if (m30 == 0.0 && m31 == 0.0 && m32 == 0.0)
+                properties |= PROPERTY_IDENTITY;
+        }
+        /* 
+         * We do not determine orthogonality, since it would require arbitrary epsilons
+         * and is rather expensive (6 dot products) in the worst case.
+         */
+        this.properties = properties;
         return this;
     }
 
@@ -1504,7 +1531,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     private Matrix4x3d invertGeneric(Matrix4x3d dest) {
         double m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
         double m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
-        double s = 1.0f / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
+        double s = 1.0 / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
         double m10m22 = m10 * m22, m10m21 = m10 * m21, m11m22 = m11 * m22;
         double m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
         double m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
@@ -4174,9 +4201,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m20 = yw + xz + xz + yw;
         m21 = yz + yz - xw - xw;
         m22 = z2 - y2 - x2 + w2;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
         properties = PROPERTY_ORTHONORMAL;
         return this;
     }
@@ -4222,9 +4249,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m20 = yw + xz + xz + yw;
         m21 = yz + yz - xw - xw;
         m22 = z2 - y2 - x2 + w2;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
         properties = PROPERTY_ORTHONORMAL;
         return this;
     }
@@ -6686,9 +6713,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d orthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4x3d dest) {
         // calculate right matrix elements
-        double rm00 = 2.0f / width;
-        double rm11 = 2.0f / height;
-        double rm22 = (zZeroToOne ? 1.0f : 2.0f) / (zFar - zNear);
+        double rm00 = 2.0 / width;
+        double rm11 = 2.0 / height;
+        double rm22 = (zZeroToOne ? 1.0 : 2.0) / (zFar - zNear);
         double rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
 
         // perform optimized multiplication
@@ -8132,22 +8159,22 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Planed frustumPlane(int which, Planed plane) {
         switch (which) {
         case PLANE_NX:
-            plane.set(m00, m10, m20, 1.0f + m30).normalize();
+            plane.set(m00, m10, m20, 1.0 + m30).normalize();
             break;
         case PLANE_PX:
-            plane.set(-m00, -m10, -m20, 1.0f - m30).normalize();
+            plane.set(-m00, -m10, -m20, 1.0 - m30).normalize();
             break;
         case PLANE_NY:
-            plane.set(m01, m11, m21, 1.0f + m31).normalize();
+            plane.set(m01, m11, m21, 1.0 + m31).normalize();
             break;
         case PLANE_PY:
-            plane.set(-m01, -m11, -m21, 1.0f - m31).normalize();
+            plane.set(-m01, -m11, -m21, 1.0 - m31).normalize();
             break;
         case PLANE_NZ:
-            plane.set(m02, m12, m22, 1.0f + m32).normalize();
+            plane.set(m02, m12, m22, 1.0 + m32).normalize();
             break;
         case PLANE_PZ:
-            plane.set(-m02, -m12, -m22, 1.0f - m32).normalize();
+            plane.set(-m02, -m12, -m22, 1.0 - m32).normalize();
             break;
         default:
             throw new IllegalArgumentException("which"); //$NON-NLS-1$
@@ -9269,7 +9296,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d translationRotateTowards(double posX, double posY, double posZ, double dirX, double dirY, double dirZ, double upX, double upY, double upZ) {
         // Normalize direction
-        double invDirLength = 1.0f / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         double ndirX = dirX * invDirLength;
         double ndirY = dirY * invDirLength;
         double ndirZ = dirZ * invDirLength;
@@ -9279,7 +9306,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         leftY = upZ * ndirX - upX * ndirZ;
         leftZ = upX * ndirY - upY * ndirX;
         // normalize left
-        double invLeftLength = 1.0f / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        double invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;

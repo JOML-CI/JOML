@@ -307,7 +307,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * Use one or multiple of 0, {@link Matrix4dc#PROPERTY_IDENTITY},
      * {@link Matrix4dc#PROPERTY_TRANSLATION}, {@link Matrix4dc#PROPERTY_AFFINE},
-     * {@link Matrix4dc#PROPERTY_PERSPECTIVE}
+     * {@link Matrix4dc#PROPERTY_PERSPECTIVE}, {@link Matrix4fc#PROPERTY_ORTHONORMAL}.
      * 
      * @param properties
      *          bitset of the properties to assume about this matrix
@@ -319,42 +319,32 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Assume no properties of the matrix.
+     * Compute and set the matrix properties returned by {@link #properties()} based
+     * on the current matrix element values.
      * 
      * @return this
      */
-    public Matrix4d assumeNothing() {
-        properties = 0;
-        return this;
-    }
-
-    /**
-     * Assume that this matrix is the identity matrix.
-     * 
-     * @return this
-     */
-    public Matrix4d assumeIdentity() {
-        properties = PROPERTY_IDENTITY;
-        return this;
-    }
-
-    /**
-     * Assume that this matrix is {@link #isAffine() affine}.
-     * 
-     * @return this
-     */
-    public Matrix4d assumeAffine() {
-        properties = PROPERTY_AFFINE;
-        return this;
-    }
-
-    /**
-     * Assume that this matrix is a perspective transformation.
-     * 
-     * @return this
-     */
-    public Matrix4d assumePerspective() {
-        properties = PROPERTY_PERSPECTIVE;
+    public Matrix4d determineProperties() {
+        int properties = 0;
+        if (m03 == 0.0 && m13 == 0.0) {
+            if (m23 == 0.0 && m33 == 1.0) {
+                properties |= PROPERTY_AFFINE;
+                if (m00 == 1.0 && m01 == 0.0 && m02 == 0.0 && m10 == 0.0 && m11 == 1.0 && m12 == 0.0 && m20 == 0.0
+                        && m21 == 0.0 && m22 == 1.0) {
+                    properties |= PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
+                    if (m30 == 0.0 && m31 == 0.0 && m32 == 0.0)
+                        properties |= PROPERTY_IDENTITY;
+                }
+                /* 
+                 * We do not determine orthogonality, since it would require arbitrary epsilons
+                 * and is rather expensive (6 dot products) in the worst case.
+                 */
+            } else if (m01 == 0.0 && m02 == 0.0 && m10 == 0.0 && m12 == 0.0 && m20 == 0.0 && m21 == 0.0 && m30 == 0.0
+                    && m31 == 0.0 && m33 == 0.0) {
+                properties |= PROPERTY_PERSPECTIVE;
+            }
+        }
+        this.properties = properties;
         return this;
     }
 
@@ -2704,7 +2694,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d invertAffine(Matrix4d dest) {
         double m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
         double m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
-        double s = 1.0f / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
+        double s = 1.0 / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
         double m10m22 = m10 * m22, m10m21 = m10 * m21, m11m22 = m11 * m22;
         double m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
         double m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
@@ -10661,19 +10651,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m00 = leftX;
         m01 = upnX;
         m02 = dirX;
-        m03 = 0.0f;
+        m03 = 0.0;
         m10 = leftY;
         m11 = upnY;
         m12 = dirY;
-        m13 = 0.0f;
+        m13 = 0.0;
         m20 = leftZ;
         m21 = upnZ;
         m22 = dirZ;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
         properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
 
         return this;

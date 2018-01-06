@@ -263,7 +263,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * <p>
      * Use one or multiple of 0, {@link Matrix4fc#PROPERTY_IDENTITY},
      * {@link Matrix4fc#PROPERTY_TRANSLATION}, {@link Matrix4fc#PROPERTY_AFFINE},
-     * {@link Matrix4fc#PROPERTY_PERSPECTIVE}
+     * {@link Matrix4fc#PROPERTY_PERSPECTIVE}, {@link Matrix4fc#PROPERTY_ORTHONORMAL}.
      * 
      * @param properties
      *          bitset of the properties to assume about this matrix
@@ -275,42 +275,32 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
-     * Assume no properties of the matrix.
+     * Compute and set the matrix properties returned by {@link #properties()} based
+     * on the current matrix element values.
      * 
      * @return this
      */
-    public Matrix4f assumeNothing() {
-        this._properties(0);
-        return this;
-    }
-
-    /**
-     * Assume that this matrix is the identity matrix.
-     * 
-     * @return this
-     */
-    public Matrix4f assumeIdentity() {
-        this._properties(PROPERTY_IDENTITY);
-        return this;
-    }
-
-    /**
-     * Assume that this matrix is {@link #isAffine() affine}.
-     * 
-     * @return this
-     */
-    public Matrix4f assumeAffine() {
-        this._properties(PROPERTY_AFFINE);
-        return this;
-    }
-
-    /**
-     * Assume that this matrix is a perspective transformation.
-     * 
-     * @return this
-     */
-    public Matrix4f assumePerspective() {
-        this._properties(PROPERTY_PERSPECTIVE);
+    public Matrix4f determineProperties() {
+        int properties = 0;
+        if (m03 == 0.0f && m13 == 0.0f) {
+            if (m23 == 0.0f && m33 == 1.0f) {
+                properties |= PROPERTY_AFFINE;
+                if (m00 == 1.0f && m01 == 0.0f && m02 == 0.0f && m10 == 0.0f && m11 == 1.0f && m12 == 0.0f
+                        && m20 == 0.0f && m21 == 0.0f && m22 == 1.0f) {
+                    properties |= PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
+                    if (m30 == 0.0f && m31 == 0.0f && m32 == 0.0f)
+                        properties |= PROPERTY_IDENTITY;
+                }
+                /* 
+                 * We do not determine orthogonality, since it would require arbitrary epsilons
+                 * and is rather expensive (6 dot products) in the worst case.
+                 */
+            } else if (m01 == 0.0f && m02 == 0.0f && m10 == 0.0f && m12 == 0.0f && m20 == 0.0f && m21 == 0.0f
+                    && m30 == 0.0f && m31 == 0.0f && m33 == 0.0f) {
+                properties |= PROPERTY_PERSPECTIVE;
+            }
+        }
+        this.properties = properties;
         return this;
     }
 
@@ -2281,7 +2271,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         } else {
             setVector4fc(col0, col1, col2, col3);
         }
-        this.properties = 0;
+        _properties(0);
         return this;
     }
     private void setVector4fc(Vector4fc col0, Vector4fc col1, Vector4fc col2, Vector4fc col3) {

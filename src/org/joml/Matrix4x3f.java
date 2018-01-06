@@ -187,12 +187,39 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     }
 
     /**
-     * Assume no properties of the matrix.
+     * Assume the given properties about this matrix.
+     * <p>
+     * Use one or multiple of 0, {@link Matrix4x3fc#PROPERTY_IDENTITY},
+     * {@link Matrix4x3fc#PROPERTY_TRANSLATION}, {@link Matrix4x3fc#PROPERTY_ORTHONORMAL}.
+     * 
+     * @param properties
+     *          bitset of the properties to assume about this matrix
+     * @return this
+     */
+    public Matrix4x3f assume(int properties) {
+        this.properties = properties;
+        return this;
+    }
+
+    /**
+     * Compute and set the matrix properties returned by {@link #properties()} based
+     * on the current matrix element values.
      * 
      * @return this
      */
-    public Matrix4x3f assumeNothing() {
-        properties = 0;
+    public Matrix4x3f determineProperties() {
+        int properties = 0;
+        if (m00 == 1.0f && m01 == 0.0f && m02 == 0.0f && m10 == 0.0f && m11 == 1.0f && m12 == 0.0f
+                && m20 == 0.0f && m21 == 0.0f && m22 == 1.0f) {
+            properties |= PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
+            if (m30 == 0.0f && m31 == 0.0f && m32 == 0.0f)
+                properties |= PROPERTY_IDENTITY;
+        }
+        /* 
+         * We do not determine orthogonality, since it would require arbitrary epsilons
+         * and is rather expensive (6 dot products) in the worst case.
+         */
+        this.properties = properties;
         return this;
     }
 
