@@ -1249,9 +1249,11 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @see org.joml.Matrix4x3fc#invert(org.joml.Matrix4x3f)
      */
     public Matrix4x3f invert(Matrix4x3f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.identity();
-        else if ((properties & PROPERTY_ORTHONORMAL) != 0)
+        if ((properties & PROPERTY_IDENTITY) != 0) {
+            if (dest != this)
+                dest.identity();
+            return this;
+        } else if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return invertOrthonormal(dest);
         return invertGeneric(dest);
     }
@@ -7113,7 +7115,11 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return dest
      */
     public Matrix4x3f normal(Matrix4x3f dest) {
-        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+        if ((properties & PROPERTY_IDENTITY) != 0) {
+            if (dest != this)
+                dest.identity();
+            return dest;
+        } else if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return normalOrthonormal(dest);
         return normalGeneric(dest);
     }
