@@ -2766,7 +2766,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m20(nm20);
         dest._m21(nm21);
         dest._m22(nm22);
-        dest._properties(this.properties & PROPERTY_ORTHONORMAL);
+        dest._properties(this.properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 

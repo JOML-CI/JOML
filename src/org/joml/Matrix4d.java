@@ -2837,7 +2837,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.properties = this.properties & PROPERTY_ORTHONORMAL;
+        dest.properties = this.properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4117,8 +4117,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m32 = m32;
         dest.m33 = m33;
         boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
-        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
-                | (one ? 0 : PROPERTY_ORTHONORMAL));
+        dest.properties = properties
+                & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | (one ? 0 : PROPERTY_ORTHONORMAL));
         return dest;
     }
 
