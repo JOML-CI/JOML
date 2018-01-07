@@ -493,6 +493,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f identity() {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return this;
         MemUtil.INSTANCE.identity(this);
         properties = PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
         return this;
@@ -1419,7 +1421,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f translation(float x, float y, float z) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         m30 = x;
         m31 = y;
         m32 = z;
@@ -1874,11 +1877,13 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f scaling(float x, float y, float z) {
-        MemUtil.INSTANCE.identity(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         m00 = x;
         m11 = y;
         m22 = z;
-        properties = 0;
+        boolean one = Math.abs(x) == 1.0f && Math.abs(y) == 1.0f && Math.abs(z) == 1.0f;
+        properties = one ? PROPERTY_ORTHONORMAL : 0;
         return this;
     }
     

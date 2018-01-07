@@ -501,6 +501,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return this
      */
     public Matrix4x3d identity() {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return this;
         m00 = 1.0;
         m01 = 0.0;
         m02 = 0.0;
@@ -1678,15 +1680,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return this
      */
     public Matrix4x3d translation(double x, double y, double z) {
-        m00 = 1.0;
-        m01 = 0.0;
-        m02 = 0.0;
-        m10 = 0.0;
-        m11 = 1.0;
-        m12 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = 1.0;
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this.identity();
         m30 = x;
         m31 = y;
         m32 = z;
@@ -2165,19 +2160,13 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return this
      */
     public Matrix4x3d scaling(double x, double y, double z) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this.identity();
         m00 = x;
-        m01 = 0.0;
-        m02 = 0.0;
-        m10 = 0.0;
         m11 = y;
-        m12 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
         m22 = z;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        properties = 0;
+        boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
+        properties = one ? PROPERTY_ORTHONORMAL : 0;
         return this;
     }
 
