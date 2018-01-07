@@ -2330,9 +2330,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f invert(Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0) {
-            if (dest != this)
-                dest.identity();
-            return dest;
+            return dest.identity();
         } else if ((properties & PROPERTY_TRANSLATION) != 0)
             return invertTranslation(dest);
         else if ((properties & PROPERTY_ORTHONORMAL) != 0)
@@ -2694,11 +2692,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#transpose(org.joml.Matrix4f)
      */
     public Matrix4f transpose(Matrix4f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0) {
-            if (dest != this)
-                dest.identity();
-            return dest;
-        }
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.identity();
         return transposeGeneric(dest);
     }
     private Matrix4f transposeGeneric(Matrix4f dest) {
@@ -11676,11 +11671,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f normal(Matrix4f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0) {
-            if (dest != this)
-                dest.identity();
-            return dest;
-        } else if ((properties & PROPERTY_ORTHONORMAL) != 0)
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.identity();
+        else if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return normalOrthonormal(dest);
         return normalGeneric(dest);
     }

@@ -2491,11 +2491,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#invert(org.joml.Matrix4d)
      */
     public Matrix4d invert(Matrix4d dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0) {
-            if (dest != this)
-                dest.identity();
-            return dest;
-        } else if ((properties & PROPERTY_TRANSLATION) != 0)
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.identity();
+        else if ((properties & PROPERTY_TRANSLATION) != 0)
             return invertTranslation(dest);
         else if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return invertOrthonormal(dest);
@@ -2765,11 +2763,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#transpose(org.joml.Matrix4d)
      */
     public Matrix4d transpose(Matrix4d dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0) {
-            if (dest != this)
-                dest.identity();
-            return dest;
-        }
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.identity();
         return transposeGeneric(dest);
     }
     private Matrix4d transposeGeneric(Matrix4d dest) {
@@ -8425,11 +8420,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d normal(Matrix4d dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0) {
-            if (dest != this)
-                dest.identity();
-            return dest;
-        } else if ((properties & PROPERTY_ORTHONORMAL) != 0)
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.identity();
+        else if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return normalOrthonormal(dest);
         return normalGeneric(dest);
     }
