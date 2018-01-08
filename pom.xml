@@ -313,7 +313,7 @@
 							<dependency>
 								<groupId>org.apache.httpcomponents</groupId>
 								<artifactId>httpclient</artifactId>
-								<version>4.5.3</version>
+								<version>4.5.4</version>
 							</dependency>
 						</dependencies>
 					</plugin>
@@ -498,7 +498,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.0-M1</version>
+				<version>3.0.0</version>
 				<configuration>
 					<!-- Exclude the Java 1.4 API classes from the javadoc jar -->
 					<excludePackageNames>org.joml.jre</excludePackageNames>
