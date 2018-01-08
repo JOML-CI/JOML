@@ -1604,8 +1604,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         out.writeDouble(m21);
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException {
         m00 = in.readDouble();
         m01 = in.readDouble();
         m10 = in.readDouble();

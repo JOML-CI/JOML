@@ -4169,8 +4169,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         out.writeFloat(m32);
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException {
         m00 = in.readFloat();
         m01 = in.readFloat();
         m02 = in.readFloat();

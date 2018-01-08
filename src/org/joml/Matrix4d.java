@@ -5640,8 +5640,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         out.writeDouble(m33);
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException {
         m00 = in.readDouble();
         m01 = in.readDouble();
         m02 = in.readDouble();
