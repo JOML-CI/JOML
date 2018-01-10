@@ -2347,6 +2347,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest.m30 = -m30;
         dest.m31 = -m31;
         dest.m32 = -m32;
+        dest._properties(PROPERTY_AFFINE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return dest;
     }
     private Matrix4f invertOrthonormal(Matrix4f dest) {
