@@ -441,6 +441,24 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 //#endif
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#get(int)
+     */
+    public int get(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        case 2:
+            return z;
+        case 3:
+            return w;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
     /**
      * Set the value of the specified component of this vector.
      *

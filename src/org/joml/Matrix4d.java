@@ -3992,29 +3992,26 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#transformDirection(org.joml.Vector3f)
      */
     public Vector3f transformDirection(Vector3f dest) {
-        dest.set((float)(m00 * dest.x + m10 * dest.y + m20 * dest.z),
-                 (float)(m01 * dest.x + m11 * dest.y + m21 * dest.z),
-                 (float)(m02 * dest.x + m12 * dest.y + m22 * dest.z));
-        return dest;
+        return dest.mulDirection(this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformDirection(org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3f transformDirection(Vector3fc v, Vector3f dest) {
-        dest.set((float)(m00 * v.x() + m10 * v.y() + m20 * v.z()),
-                 (float)(m01 * v.x() + m11 * v.y() + m21 * v.z()),
-                 (float)(m02 * v.x() + m12 * v.y() + m22 * v.z()));
-        return dest;
+        return v.mulDirection(this, dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformDirection(double, double, double, org.joml.Vector3f)
      */
     public Vector3f transformDirection(double x, double y, double z, Vector3f dest) {
-        dest.set((float)(m00 * x + m10 * y + m20 * z),
-                 (float)(m01 * x + m11 * y + m21 * z),
-                 (float)(m02 * x + m12 * y + m22 * z));
+        float rx = (float)(m00 * x + m10 * y + m20 * z);
+        float ry = (float)(m01 * x + m11 * y + m21 * z);
+        float rz = (float)(m02 * x + m12 * y + m22 * z);
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
         return dest;
     }
 
@@ -4022,11 +4019,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#transformAffine(org.joml.Vector4d)
      */
     public Vector4d transformAffine(Vector4d dest) {
-        dest.set(m00 * dest.x + m10 * dest.y + m20 * dest.z + m30 * dest.w,
-                 m01 * dest.x + m11 * dest.y + m21 * dest.z + m31 * dest.w,
-                 m02 * dest.x + m12 * dest.y + m22 * dest.z + m32 * dest.w,
-                 dest.w);
-        return dest;
+        return dest.mulAffine(this, dest);
     }
 
     /* (non-Javadoc)
@@ -4040,10 +4033,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#transformAffine(double, double, double, double, org.joml.Vector4d)
      */
     public Vector4d transformAffine(double x, double y, double z, double w, Vector4d dest) {
-        dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
-                 m01 * x + m11 * y + m21 * z + m31 * w,
-                 m02 * x + m12 * y + m22 * z + m32 * w,
-                 w);
+        double rx = m00 * x + m10 * y + m20 * z + m30 * w;
+        double ry = m01 * x + m11 * y + m21 * z + m31 * w;
+        double rz = m02 * x + m12 * y + m22 * z + m32 * w;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = w;
         return dest;
     }
 
@@ -4266,7 +4262,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d scaleLocal(double x, double y, double z, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
-
+        return scaleLocalGeneric(x, y, z, dest);
+    }
+    private Matrix4d scaleLocalGeneric(double x, double y, double z, Matrix4d dest) {
         double nm00 = x * m00;
         double nm01 = y * m01;
         double nm02 = z * m02;
@@ -4842,6 +4840,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d rotateLocal(double ang, double x, double y, double z, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotation(ang, x, y, z);
+        return rotateLocalGeneric(ang, x, y, z, dest);
+    }
+    private Matrix4d rotateLocalGeneric(double ang, double x, double y, double z, Matrix4d dest) {
         double s = Math.sin(ang);
         double c = Math.cosFromSin(s, ang);
         double C = 1.0 - c;
@@ -5308,6 +5311,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d translateLocal(double x, double y, double z, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.translation(x, y, z);
+        return translateLocalGeneric(x, y, z, dest);
+    }
+    private Matrix4d translateLocalGeneric(double x, double y, double z, Matrix4d dest) {
         double nm00 = m00 + x * m03;
         double nm01 = m01 + y * m03;
         double nm02 = m02 + z * m03;
@@ -8843,7 +8851,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d reflect(double a, double b, double c, double d, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.reflection(a, b, c, d);
-
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.reflection(a, b, c, d);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return reflectAffine(a, b, c, d, dest);
+        return reflectGeneric(a, b, c, d, dest);
+    }
+    private Matrix4d reflectAffine(double a, double b, double c, double d, Matrix4d dest) {
         double da = a + a, db = b + b, dc = c + c, dd = d + d;
         double rm00 = 1.0 - da * a;
         double rm01 = -da * b;
@@ -8857,7 +8871,46 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double rm30 = -dd * a;
         double rm31 = -dd * b;
         double rm32 = -dd * c;
-
+        // matrix multiplication
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        dest.m33 = m33;
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = 0.0;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = 0.0;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = 0.0;
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        return dest;
+    }
+    private Matrix4d reflectGeneric(double a, double b, double c, double d, Matrix4d dest) {
+        double da = a + a, db = b + b, dc = c + c, dd = d + d;
+        double rm00 = 1.0 - da * a;
+        double rm01 = -da * b;
+        double rm02 = -da * c;
+        double rm10 = -db * a;
+        double rm11 = 1.0 - db * b;
+        double rm12 = -db * c;
+        double rm20 = -dc * a;
+        double rm21 = -dc * b;
+        double rm22 = 1.0 - dc * c;
+        double rm30 = -dd * a;
+        double rm31 = -dd * b;
+        double rm32 = -dd * c;
         // matrix multiplication
         dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
         dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
@@ -8884,7 +8937,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m12 = nm12;
         dest.m13 = nm13;
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
-
         return dest;
     }
 
@@ -13038,6 +13090,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#origin(org.joml.Vector3d)
      */
     public Vector3d origin(Vector3d dest) {
+        if ((properties & PROPERTY_AFFINE) != 0)
+            return originAffine(dest);
+        return originGeneric(dest);
+    }
+    private Vector3d originGeneric(Vector3d dest) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
         double c = m00 * m13 - m03 * m10;

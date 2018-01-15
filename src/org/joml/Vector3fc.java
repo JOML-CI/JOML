@@ -361,6 +361,20 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
+    Vector3f mulDirection(Matrix4dc mat, Vector3f dest);
+
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
     Vector3f mulDirection(Matrix4fc mat, Vector3f dest);
 
     /**

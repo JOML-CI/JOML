@@ -339,6 +339,20 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 //#endif
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector2ic#get(int)
+     */
+    public int get(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
     /**
      * Set the value of the specified component of this vector.
      *

@@ -384,4 +384,14 @@ public interface Vector2dc {
      */
     Vector2d fma(double a, Vector2dc b, Vector2d dest);
 
+    /**
+     * Get the value of the specified component of this vector.
+     * 
+     * @param component
+     *          the component, within <tt>[0..1]</tt>
+     * @return the value
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
+     */
+    double get(int component) throws IllegalArgumentException;
+
 }

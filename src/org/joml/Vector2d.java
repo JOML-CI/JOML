@@ -357,6 +357,20 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 //#endif
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#get(int)
+     */
+    public double get(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
     /**
      * Set the value of the specified component of this vector.
      *
@@ -585,8 +599,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#mulPosition(org.joml.Matrix3x2dc, org.joml.Vector2d)
      */
     public Vector2d mulPosition(Matrix3x2dc mat, Vector2d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20(),
-                 mat.m01() * x + mat.m11() * y + mat.m21());
+        double rx = mat.m00() * x + mat.m10() * y + mat.m20();
+        double ry = mat.m01() * x + mat.m11() * y + mat.m21();
+        dest.x = rx;
+        dest.y = ry;
         return dest;
     }
 
@@ -607,8 +623,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#mulDirection(org.joml.Matrix3x2dc, org.joml.Vector2d)
      */
     public Vector2d mulDirection(Matrix3x2dc mat, Vector2d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y,
-                 mat.m01() * x + mat.m11() * y);
+        double rx = mat.m00() * x + mat.m10() * y;
+        double ry = mat.m01() * x + mat.m11() * y;
+        dest.x = rx;
+        dest.y = ry;
         return dest;
     }
 

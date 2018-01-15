@@ -292,4 +292,14 @@ public interface Vector3ic {
      */
     Vector3i negate(Vector3i dest);
 
+    /**
+     * Get the value of the specified component of this vector.
+     * 
+     * @param component
+     *          the component, within <tt>[0..2]</tt>
+     * @return the value
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
+     */
+    int get(int component) throws IllegalArgumentException;
+
 }

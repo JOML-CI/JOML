@@ -949,10 +949,34 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#mul(org.joml.Matrix4dc, org.joml.Vector4d)
      */
     public Vector4d mul(Matrix4dc mat, Vector4d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w, 
-                 mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
+        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
+            return mulAffine(mat, dest);
+        return mulGeneric(mat, dest);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#mulAffine(org.joml.Matrix4dc, org.joml.Vector4d)
+     */
+    public Vector4d mulAffine(Matrix4dc mat, Vector4d dest) {
+        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
+        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
+        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = w;
+        return dest;
+    }
+
+    private Vector4d mulGeneric(Matrix4dc mat, Vector4d dest) {
+        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
+        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
+        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        double rw = mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = rw;
         return dest;
     }
 
@@ -972,10 +996,13 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#mul(org.joml.Matrix4x3dc, org.joml.Vector4d)
      */
     public Vector4d mul(Matrix4x3dc mat, Vector4d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w,
-                 w);
+        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
+        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
+        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = w;
         return dest;
     }
 
@@ -995,10 +1022,13 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#mul(org.joml.Matrix4x3fc, org.joml.Vector4d)
      */
     public Vector4d mul(Matrix4x3fc mat, Vector4d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w,
-                 w);
+        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
+        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
+        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = w;
         return dest;
     }
 
@@ -1017,10 +1047,29 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#mul(org.joml.Matrix4fc, org.joml.Vector4d)
      */
     public Vector4d mul(Matrix4fc mat, Vector4d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w, 
-                 mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
+        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
+            return mulAffine(mat, dest);
+        return mulGeneric(mat, dest);
+    }
+    private Vector4d mulAffine(Matrix4fc mat, Vector4d dest) {
+        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
+        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
+        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = w;
+        return dest;
+    }
+    private Vector4d mulGeneric(Matrix4fc mat, Vector4d dest) {
+        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
+        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
+        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        double rw = mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = rw;
         return dest;
     }
 
@@ -1029,10 +1078,13 @@ public class Vector4d implements Externalizable, Vector4dc {
      */
     public Vector4d mulProject(Matrix4dc mat, Vector4d dest) {
         double invW = 1.0 / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
-        dest.set((mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW,
-                 (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW,
-                 (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW,
-                 1.0);
+        double rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30()) * invW;
+        double ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31()) * invW;
+        double rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32()) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = 1.0;
         return dest;
     }
 
@@ -1557,35 +1609,6 @@ public class Vector4d implements Externalizable, Vector4dc {
             return z;
         case 3:
             return w;
-        default:
-            throw new IllegalArgumentException();
-        }
-    }
-
-    /**
-     * Set the specified component of this vector to the given value.
-     * 
-     * @param component
-     *          the component, within <tt>[0..3]</tt>
-     * @param value
-     *          the value
-     * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..3]</tt>
-     */
-    public Vector4d set(int component, double value) throws IllegalArgumentException {
-        switch (component) {
-        case 0:
-            this.x = value;
-            return this;
-        case 1:
-            this.y = value;
-            return this;
-        case 2:
-            this.z = value;
-            return this;
-        case 3:
-            this.w = value;
-            return this;
         default:
             throw new IllegalArgumentException();
         }

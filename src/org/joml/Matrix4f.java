@@ -4444,11 +4444,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#transform(float, float, float, float, org.joml.Vector4f)
      */
     public Vector4f transform(float x, float y, float z, float w, Vector4f dest) {
-        dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
-                 m01 * x + m11 * y + m21 * z + m31 * w,
-                 m02 * x + m12 * y + m22 * z + m32 * w,
-                 m03 * x + m13 * y + m23 * z + m33 * w);
-       return dest;
+       dest.x = x;
+       dest.y = y;
+       dest.z = z;
+       dest.w = w;
+       return dest.mul(this);
     }
 
     /* (non-Javadoc)
@@ -4469,12 +4469,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#transformProject(float, float, float, float, org.joml.Vector4f)
      */
     public Vector4f transformProject(float x, float y, float z, float w, Vector4f dest) {
-        float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33 * w);
-        dest.set((m00 * x + m10 * y + m20 * z + m30 * w) * invW,
-                 (m01 * x + m11 * y + m21 * z + m31 * w) * invW,
-                 (m02 * x + m12 * y + m22 * z + m32 * w) * invW,
-                 1.0f);
-        return dest;
+        dest.x = x;
+        dest.y = y;
+        dest.z = z;
+        dest.w = w;
+        return dest.mulProject(this);
     }
 
     /* (non-Javadoc)
@@ -4495,21 +4494,17 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#transformProject(float, float, float, org.joml.Vector3f)
      */
     public Vector3f transformProject(float x, float y, float z, Vector3f dest) {
-        float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
-        dest.set((m00 * x + m10 * y + m20 * z + m30) * invW,
-                 (m01 * x + m11 * y + m21 * z + m31) * invW,
-                 (m02 * x + m12 * y + m22 * z + m32) * invW);
-        return dest;
+        dest.x = x;
+        dest.y = y;
+        dest.z = z;
+        return dest.mulProject(this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4fc#transformPosition(org.joml.Vector3f)
      */
     public Vector3f transformPosition(Vector3f v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
-              m01 * v.x + m11 * v.y + m21 * v.z + m31,
-              m02 * v.x + m12 * v.y + m22 * v.z + m32);
-        return v;
+        return v.mulPosition(this);
     }
 
     /* (non-Javadoc)
@@ -4523,20 +4518,17 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#transformPosition(float, float, float, org.joml.Vector3f)
      */
     public Vector3f transformPosition(float x, float y, float z, Vector3f dest) {
-        dest.set(m00 * x + m10 * y + m20 * z + m30,
-                 m01 * x + m11 * y + m21 * z + m31,
-                 m02 * x + m12 * y + m22 * z + m32);
-        return dest;
+        dest.x = x;
+        dest.y = y;
+        dest.z = z;
+        return dest.mulPosition(this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4fc#transformDirection(org.joml.Vector3f)
      */
     public Vector3f transformDirection(Vector3f v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z,
-              m01 * v.x + m11 * v.y + m21 * v.z,
-              m02 * v.x + m12 * v.y + m22 * v.z);
-        return v;
+        return transformDirection(v.x, v.y, v.z, v);
     }
 
     /* (non-Javadoc)
@@ -4550,21 +4542,17 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#transformDirection(float, float, float, org.joml.Vector3f)
      */
     public Vector3f transformDirection(float x, float y, float z, Vector3f dest) {
-        dest.set(m00 * x + m10 * y + m20 * z,
-                 m01 * x + m11 * y + m21 * z,
-                 m02 * x + m12 * y + m22 * z);
-        return dest;
+        dest.x = x;
+        dest.y = y;
+        dest.z = z;
+        return dest.mulDirection(this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4fc#transformAffine(org.joml.Vector4f)
      */
     public Vector4f transformAffine(Vector4f v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30 * v.w,
-              m01 * v.x + m11 * v.y + m21 * v.z + m31 * v.w,
-              m02 * v.x + m12 * v.y + m22 * v.z + m32 * v.w,
-              v.w);
-        return v;
+        return v.mulAffine(this, v);
     }
 
     /* (non-Javadoc)
@@ -4578,11 +4566,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#transformAffine(float, float, float, float, org.joml.Vector4f)
      */
     public Vector4f transformAffine(float x, float y, float z, float w, Vector4f dest) {
-        dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
-                 m01 * x + m11 * y + m21 * z + m31 * w,
-                 m02 * x + m12 * y + m22 * z + m32 * w,
-                 w);
-        return dest;
+        dest.x = x;
+        dest.y = y;
+        dest.z = z;
+        dest.w = w;
+        return dest.mulAffine(this, dest);
     }
 
     /* (non-Javadoc)
@@ -4785,6 +4773,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f scaleLocal(float x, float y, float z, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
+        return scaleLocalGeneric(x, y, z, dest);
+    }
+    private Matrix4f scaleLocalGeneric(float x, float y, float z, Matrix4f dest) {
         float nm00 = x * m00;
         float nm01 = y * m01;
         float nm02 = z * m02;
@@ -6065,6 +6056,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f rotateLocal(float ang, float x, float y, float z, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotation(ang, x, y, z);
+        return rotateLocalGeneric(ang, x, y, z, dest);
+    }
+    private Matrix4f rotateLocalGeneric(float ang, float x, float y, float z, Matrix4f dest) {
         float s = (float) Math.sin(ang);
         float c = (float) Math.cosFromSin(s, ang);
         float C = 1.0f - c;
@@ -6593,6 +6589,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f translateLocal(float x, float y, float z, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.translation(x, y, z);
+        return translateLocalGeneric(x, y, z, dest);
+    }
+    private Matrix4f translateLocalGeneric(float x, float y, float z, Matrix4f dest) {
         float nm00 = m00 + x * m03;
         float nm01 = m01 + y * m03;
         float nm02 = m02 + z * m03;
@@ -11194,7 +11195,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f reflect(float a, float b, float c, float d, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.reflection(a, b, c, d);
-
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return reflectAffine(a, b, c, d, dest);
+        return reflectGeneric(a, b, c, d, dest);
+    }
+    private Matrix4f reflectAffine(float a, float b, float c, float d, Matrix4f dest) {
         float da = a + a, db = b + b, dc = c + c, dd = d + d;
         float rm00 = 1.0f - da * a;
         float rm01 = -da * b;
@@ -11208,7 +11213,46 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float rm30 = -dd * a;
         float rm31 = -dd * b;
         float rm32 = -dd * c;
-
+        // matrix multiplication
+        dest._m30(m00 * rm30 + m10 * rm31 + m20 * rm32 + m30);
+        dest._m31(m01 * rm30 + m11 * rm31 + m21 * rm32 + m31);
+        dest._m32(m02 * rm30 + m12 * rm31 + m22 * rm32 + m32);
+        dest._m33(m33);
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        dest._m20(m00 * rm20 + m10 * rm21 + m20 * rm22);
+        dest._m21(m01 * rm20 + m11 * rm21 + m21 * rm22);
+        dest._m22(m02 * rm20 + m12 * rm21 + m22 * rm22);
+        dest._m23(0.0f);
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(0.0f);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(0.0f);
+        dest._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        return dest;
+    }
+    private Matrix4f reflectGeneric(float a, float b, float c, float d, Matrix4f dest) {
+        float da = a + a, db = b + b, dc = c + c, dd = d + d;
+        float rm00 = 1.0f - da * a;
+        float rm01 = -da * b;
+        float rm02 = -da * c;
+        float rm10 = -db * a;
+        float rm11 = 1.0f - db * b;
+        float rm12 = -db * c;
+        float rm20 = -dc * a;
+        float rm21 = -dc * b;
+        float rm22 = 1.0f - dc * c;
+        float rm30 = -dd * a;
+        float rm31 = -dd * b;
+        float rm32 = -dd * c;
         // matrix multiplication
         dest._m30(m00 * rm30 + m10 * rm31 + m20 * rm32 + m30);
         dest._m31(m01 * rm30 + m11 * rm31 + m21 * rm32 + m31);
@@ -11235,7 +11279,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m12(nm12);
         dest._m13(nm13);
         dest._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
-
         return dest;
     }
 
@@ -12148,7 +12191,12 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4fc#origin(org.joml.Vector3f)
      */
-    public Vector3f origin(Vector3f origin) {
+    public Vector3f origin(Vector3f dest) {
+        if ((properties & PROPERTY_AFFINE) != 0)
+            return originAffine(dest);
+        return originGeneric(dest);
+    }
+    private Vector3f originGeneric(Vector3f dest) {
         float a = m00 * m11 - m01 * m10;
         float b = m00 * m12 - m02 * m10;
         float c = m00 * m13 - m03 * m10;
@@ -12170,7 +12218,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float x = nm30 * nm33;
         float y = nm31 * nm33;
         float z = nm32 * nm33;
-        return origin.set(x, y, z);
+        return dest.set(x, y, z);
     }
 
     /**

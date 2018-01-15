@@ -348,6 +348,20 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 //#endif
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#get(int)
+     */
+    public float get(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
     /**
      * Set the value of the specified component of this vector.
      *
