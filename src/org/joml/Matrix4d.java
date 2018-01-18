@@ -2700,6 +2700,28 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#invertPerspectiveView(org.joml.Matrix4x3dc, org.joml.Matrix4d)
+     */
+    public Matrix4d invertPerspectiveView(Matrix4x3dc view, Matrix4d dest) {
+        double a =  1.0 / (m00 * m11);
+        double l = -1.0 / (m23 * m32);
+        double pm00 =  m11 * a;
+        double pm11 =  m00 * a;
+        double pm23 = -m23 * l;
+        double pm32 = -m32 * l;
+        double pm33 =  m22 * l;
+        double vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
+        double vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
+        double vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
+        dest.set(view.m00() * pm00, view.m10() * pm00, view.m20() * pm00, 0.0,
+                 view.m01() * pm11, view.m11() * pm11, view.m21() * pm11, 0.0,
+                 vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
+                 view.m02() * pm32 + vm30 * pm33, view.m12() * pm32 + vm31 * pm33, view.m22() * pm32 + vm32 * pm33, pm33);
+        dest.properties = 0;
+        return dest;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4dc#invertAffine(org.joml.Matrix4d)
      */
     public Matrix4d invertAffine(Matrix4d dest) {

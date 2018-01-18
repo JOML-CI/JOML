@@ -647,7 +647,7 @@ public interface Matrix4fc {
      * via the common methods {@link #perspective(float, float, float, float, Matrix4f) perspective()} and {@link #lookAt(float, float, float, float, float, float, float, float, float, Matrix4f) lookAt()} or
      * other methods, that build affine matrices, such as {@link #translate(float, float, float, Matrix4f) translate} and {@link #rotate(float, float, float, float, Matrix4f)}, except for {@link #scale(float, float, float, Matrix4f) scale()}.
      * <p>
-     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above this method, this method is equivalent to the following code:
+     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above, this method is equivalent to the following code:
      * <pre>
      * dest.set(this).mul(view).invert();
      * </pre>
@@ -670,7 +670,7 @@ public interface Matrix4fc {
      * via the common methods {@link #perspective(float, float, float, float, Matrix4f) perspective()} and {@link #lookAt(float, float, float, float, float, float, float, float, float, Matrix4f) lookAt()} or
      * other methods, that build affine matrices, such as {@link #translate(float, float, float, Matrix4f) translate} and {@link #rotate(float, float, float, float, Matrix4f)}, except for {@link #scale(float, float, float, Matrix4f) scale()}.
      * <p>
-     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above this method, this method is equivalent to the following code:
+     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above, this method is equivalent to the following code:
      * <pre>
      * dest.set(this).mul(view).invert();
      * </pre>

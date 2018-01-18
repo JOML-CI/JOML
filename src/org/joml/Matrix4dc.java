@@ -692,7 +692,7 @@ public interface Matrix4dc {
      * via the common methods {@link #perspective(double, double, double, double, Matrix4d) perspective()} and {@link #lookAt(double, double, double, double, double, double, double, double, double, Matrix4d) lookAt()} or
      * other methods, that build affine matrices, such as {@link #translate(double, double, double, Matrix4d) translate} and {@link #rotate(double, double, double, double, Matrix4d)}, except for {@link #scale(double, double, double, Matrix4d) scale()}.
      * <p>
-     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above this method, this method is equivalent to the following code:
+     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above, this method is equivalent to the following code:
      * <pre>
      * dest.set(this).mul(view).invert();
      * </pre>
@@ -704,6 +704,29 @@ public interface Matrix4dc {
      * @return dest
      */
     Matrix4d invertPerspectiveView(Matrix4dc view, Matrix4d dest);
+
+    /**
+     * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(double, double, double, double, Matrix4d) perspective()} methods,
+     * that is, if <code>this</code> is a symmetrical perspective frustum transformation
+     * and the given <code>view</code> matrix has unit scaling,
+     * then this method builds the inverse of <tt>this * view</tt> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of the combination of the view and projection matrices, when both were obtained
+     * via the common methods {@link #perspective(double, double, double, double, Matrix4d) perspective()} and {@link #lookAt(double, double, double, double, double, double, double, double, double, Matrix4d) lookAt()} or
+     * other methods, that build affine matrices, such as {@link #translate(double, double, double, Matrix4d) translate} and {@link #rotate(double, double, double, double, Matrix4d)}, except for {@link #scale(double, double, double, Matrix4d) scale()}.
+     * <p>
+     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above, this method is equivalent to the following code:
+     * <pre>
+     * dest.set(this).mul(view).invert();
+     * </pre>
+     * 
+     * @param view
+     *          the view transformation (must have unit scaling)
+     * @param dest
+     *          will hold the inverse of <tt>this * view</tt>
+     * @return dest
+     */
+    Matrix4d invertPerspectiveView(Matrix4x3dc view, Matrix4d dest);
 
     /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
