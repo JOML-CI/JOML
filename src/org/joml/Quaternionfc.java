@@ -377,6 +377,34 @@ public interface Quaternionfc {
     Vector4f transformPositiveX(Vector4f dest);
 
     /**
+     * Transform the vector <tt>(1, 0, 0)</tt> by this unit quaternion.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformUnitPositiveX(Vector3f dest);
+
+    /**
+     * Transform the vector <tt>(1, 0, 0)</tt> by this unit quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformUnitPositiveX(Vector4f dest);
+
+    /**
      * Transform the vector <tt>(0, 1, 0)</tt> by this quaternion.
      * 
      * @param dest
@@ -397,6 +425,34 @@ public interface Quaternionfc {
     Vector4f transformPositiveY(Vector4f dest);
 
     /**
+     * Transform the vector <tt>(0, 1, 0)</tt> by this unit quaternion.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformUnitPositiveY(Vector3f dest);
+
+    /**
+     * Transform the vector <tt>(0, 1, 0)</tt> by this unit quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformUnitPositiveY(Vector4f dest);
+
+    /**
      * Transform the vector <tt>(0, 0, 1)</tt> by this quaternion.
      * 
      * @param dest
@@ -415,6 +471,34 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector4f transformPositiveZ(Vector4f dest);
+
+    /**
+     * Transform the vector <tt>(0, 0, 1)</tt> by this unit quaternion.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformUnitPositiveZ(Vector3f dest);
+
+    /**
+     * Transform the vector <tt>(0, 0, 1)</tt> by this unit quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformUnitPositiveZ(Vector4f dest);
 
     /**
      * Transform the given vector by this quaternion.

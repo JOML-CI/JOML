@@ -1141,9 +1141,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return transform(vec.x, vec.y, vec.z, vec);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#transformPositiveX(org.joml.Vector3f)
-     */
     public Vector3f transformPositiveX(Vector3f dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
@@ -1159,9 +1156,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#transformPositiveX(org.joml.Vector4f)
-     */
     public Vector4f transformPositiveX(Vector4f dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
@@ -1177,9 +1171,32 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#transformPositiveY(org.joml.Vector3f)
-     */
+    public Vector3f transformUnitPositiveX(Vector3f dest) {
+        float y2 = y * y;
+        float z2 = z * z;
+        float xy = x * y;
+        float xz = x * z;
+        float yw = y * w;
+        float zw = z * w;
+        dest.x = 1.0f - y2 - y2 - z2 - z2;
+        dest.y = xy + zw + xy + zw;
+        dest.z = xz - yw + xz - yw;
+        return dest;
+    }
+
+    public Vector4f transformUnitPositiveX(Vector4f dest) {
+        float y2 = y * y;
+        float z2 = z * z;
+        float xy = x * y;
+        float xz = x * z;
+        float yw = y * w;
+        float zw = z * w;
+        dest.x = 1.0f - y2 - y2 - z2 - z2;
+        dest.y = xy + zw + xy + zw;
+        dest.z = xz - yw + xz - yw;
+        return dest;
+    }
+
     public Vector3f transformPositiveY(Vector3f dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
@@ -1195,9 +1212,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#transformPositiveY(org.joml.Vector4f)
-     */
     public Vector4f transformPositiveY(Vector4f dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
@@ -1213,9 +1227,32 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#transformPositiveZ(org.joml.Vector3f)
-     */
+    public Vector4f transformUnitPositiveY(Vector4f dest) {
+        float x2 = x * x;
+        float z2 = z * z;
+        float xy = x * y;
+        float yz = y * z;
+        float xw = x * w;
+        float zw = z * w;
+        dest.x = xy - zw + xy - zw;
+        dest.y = 1.0f - x2 - x2 - z2 - z2;
+        dest.z = yz + yz + xw + xw;
+        return dest;
+    }
+
+    public Vector3f transformUnitPositiveY(Vector3f dest) {
+        float x2 = x * x;
+        float z2 = z * z;
+        float xy = x * y;
+        float yz = y * z;
+        float xw = x * w;
+        float zw = z * w;
+        dest.x = xy - zw + xy - zw;
+        dest.y = 1.0f - x2 - x2 - z2 - z2;
+        dest.z = yz + yz + xw + xw;
+        return dest;
+    }
+
     public Vector3f transformPositiveZ(Vector3f dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
@@ -1231,9 +1268,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#transformPositiveZ(org.joml.Vector4f)
-     */
     public Vector4f transformPositiveZ(Vector4f dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
@@ -1246,6 +1280,32 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         dest.x = yw + xz + xz + yw;
         dest.y = yz + yz - xw - xw;
         dest.z = z2 - y2 - x2 + w2;
+        return dest;
+    }
+
+    public Vector4f transformUnitPositiveZ(Vector4f dest) {
+        float x2 = x * x;
+        float y2 = y * y;
+        float xz = x * z;
+        float yz = y * z;
+        float xw = x * w;
+        float yw = y * w;
+        dest.x = xz + yw + xz + yw;
+        dest.y = yz + yz - xw - xw;
+        dest.z = 1.0f - x2 - x2 - y2 - y2;
+        return dest;
+    }
+
+    public Vector3f transformUnitPositiveZ(Vector3f dest) {
+        float x2 = x * x;
+        float y2 = y * y;
+        float xz = x * z;
+        float yz = y * z;
+        float xw = x * w;
+        float yw = y * w;
+        dest.x = xz + yw + xz + yw;
+        dest.y = yz + yz - xw - xw;
+        dest.z = 1.0f - x2 - x2 - y2 - y2;
         return dest;
     }
 

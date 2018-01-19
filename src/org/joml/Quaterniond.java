@@ -876,111 +876,171 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return transform(vec.x, vec.y, vec.z, vec);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transformPositiveX(org.joml.Vector3d)
-     */
     public Vector3d transformPositiveX(Vector3d dest) {
-        double w2 = this.w * this.w;
-        double x2 = this.x * this.x;
-        double y2 = this.y * this.y;
-        double z2 = this.z * this.z;
-        double zw = this.z * this.w;
-        double xy = this.x * this.y;
-        double xz = this.x * this.z;
-        double yw = this.y * this.w;
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double xz = x * z;
+        double yw = y * w;
         dest.x = w2 + x2 - z2 - y2;
         dest.y = xy + zw + zw + xy;
         dest.z = xz - yw + xz - yw;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transformPositiveX(org.joml.Vector4d)
-     */
     public Vector4d transformPositiveX(Vector4d dest) {
-        double w2 = this.w * this.w;
-        double x2 = this.x * this.x;
-        double y2 = this.y * this.y;
-        double z2 = this.z * this.z;
-        double zw = this.z * this.w;
-        double xy = this.x * this.y;
-        double xz = this.x * this.z;
-        double yw = this.y * this.w;
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double xz = x * z;
+        double yw = y * w;
         dest.x = w2 + x2 - z2 - y2;
         dest.y = xy + zw + zw + xy;
         dest.z = xz - yw + xz - yw;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transformPositiveY(org.joml.Vector3d)
-     */
+    public Vector3d transformUnitPositiveX(Vector3d dest) {
+        double y2 = y * y;
+        double z2 = z * z;
+        double xy = x * y;
+        double xz = x * z;
+        double yw = y * w;
+        double zw = z * w;
+        dest.x = 1.0 - y2 - y2 - z2 - z2;
+        dest.y = xy + zw + xy + zw;
+        dest.z = xz - yw + xz - yw;
+        return dest;
+    }
+
+    public Vector4d transformUnitPositiveX(Vector4d dest) {
+        double y2 = y * y;
+        double z2 = z * z;
+        double xy = x * y;
+        double xz = x * z;
+        double yw = y * w;
+        double zw = z * w;
+        dest.x = 1.0 - y2 - y2 - z2 - z2;
+        dest.y = xy + zw + xy + zw;
+        dest.z = xz - yw + xz - yw;
+        return dest;
+    }
+
     public Vector3d transformPositiveY(Vector3d dest) {
-        double w2 = this.w * this.w;
-        double x2 = this.x * this.x;
-        double y2 = this.y * this.y;
-        double z2 = this.z * this.z;
-        double zw = this.z * this.w;
-        double xy = this.x * this.y;
-        double yz = this.y * this.z;
-        double xw = this.x * this.w;
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double yz = y * z;
+        double xw = x * w;
         dest.x = -zw + xy - zw + xy;
         dest.y = y2 - z2 + w2 - x2;
         dest.z = yz + yz + xw + xw;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transformPositiveY(org.joml.Vector4d)
-     */
     public Vector4d transformPositiveY(Vector4d dest) {
-        double w2 = this.w * this.w;
-        double x2 = this.x * this.x;
-        double y2 = this.y * this.y;
-        double z2 = this.z * this.z;
-        double zw = this.z * this.w;
-        double xy = this.x * this.y;
-        double yz = this.y * this.z;
-        double xw = this.x * this.w;
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double yz = y * z;
+        double xw = x * w;
         dest.x = -zw + xy - zw + xy;
         dest.y = y2 - z2 + w2 - x2;
         dest.z = yz + yz + xw + xw;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transformPositiveZ(org.joml.Vector3d)
-     */
+    public Vector4d transformUnitPositiveY(Vector4d dest) {
+        double x2 = x * x;
+        double z2 = z * z;
+        double xy = x * y;
+        double yz = y * z;
+        double xw = x * w;
+        double zw = z * w;
+        dest.x = xy - zw + xy - zw;
+        dest.y = 1.0 - x2 - x2 - z2 - z2;
+        dest.z = yz + yz + xw + xw;
+        return dest;
+    }
+
+    public Vector3d transformUnitPositiveY(Vector3d dest) {
+        double x2 = x * x;
+        double z2 = z * z;
+        double xy = x * y;
+        double yz = y * z;
+        double xw = x * w;
+        double zw = z * w;
+        dest.x = xy - zw + xy - zw;
+        dest.y = 1.0 - x2 - x2 - z2 - z2;
+        dest.z = yz + yz + xw + xw;
+        return dest;
+    }
+
     public Vector3d transformPositiveZ(Vector3d dest) {
-        double w2 = this.w * this.w;
-        double x2 = this.x * this.x;
-        double y2 = this.y * this.y;
-        double z2 = this.z * this.z;
-        double xz = this.x * this.z;
-        double yw = this.y * this.w;
-        double yz = this.y * this.z;
-        double xw = this.x * this.w;
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double xz = x * z;
+        double yw = y * w;
+        double yz = y * z;
+        double xw = x * w;
         dest.x = yw + xz + xz + yw;
         dest.y = yz + yz - xw - xw;
         dest.z = z2 - y2 - x2 + w2;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transformPositiveZ(org.joml.Vector4d)
-     */
     public Vector4d transformPositiveZ(Vector4d dest) {
-        double w2 = this.w * this.w;
-        double x2 = this.x * this.x;
-        double y2 = this.y * this.y;
-        double z2 = this.z * this.z;
-        double xz = this.x * this.z;
-        double yw = this.y * this.w;
-        double yz = this.y * this.z;
-        double xw = this.x * this.w;
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double xz = x * z;
+        double yw = y * w;
+        double yz = y * z;
+        double xw = x * w;
         dest.x = yw + xz + xz + yw;
         dest.y = yz + yz - xw - xw;
         dest.z = z2 - y2 - x2 + w2;
+        return dest;
+    }
+
+    public Vector4d transformUnitPositiveZ(Vector4d dest) {
+        double x2 = x * x;
+        double y2 = y * y;
+        double xz = x * z;
+        double yz = y * z;
+        double xw = x * w;
+        double yw = y * w;
+        dest.x = xz + yw + xz + yw;
+        dest.y = yz + yz - xw - xw;
+        dest.z = 1.0 - x2 - x2 - y2 - y2;
+        return dest;
+    }
+
+    public Vector3d transformUnitPositiveZ(Vector3d dest) {
+        double x2 = x * x;
+        double y2 = y * y;
+        double xz = x * z;
+        double yz = y * z;
+        double xw = x * w;
+        double yw = y * w;
+        dest.x = xz + yw + xz + yw;
+        dest.y = yz + yz - xw - xw;
+        dest.z = 1.0 - x2 - x2 - y2 - y2;
         return dest;
     }
 
@@ -1373,7 +1433,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      *          the scaling factor
      * @return this
      */
-    public Quaterniond scaling(float factor) {
+    public Quaterniond scaling(double factor) {
         double sqrt = Math.sqrt(factor);
         this.x = 0.0;
         this.y = 0.0;
@@ -1986,7 +2046,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         double thetaZ = angleZ * 0.5;
         double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
         double s;
-        if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
+        if (thetaMagSq * thetaMagSq / 24.0 < 1E-8) {
             w = 1.0 - thetaMagSq / 2.0;
             s = 1.0 - thetaMagSq / 6.0;
         } else {
@@ -2696,7 +2756,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#positiveX(org.joml.Vector3d)
      */
     public Vector3d positiveX(Vector3d dir) {
-        double invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        double invNorm = 1.0 / (x * x + y * y + z * z + w * w);
         double nx = -x * invNorm;
         double ny = -y * invNorm;
         double nz = -z * invNorm;
@@ -2725,7 +2785,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#positiveY(org.joml.Vector3d)
      */
     public Vector3d positiveY(Vector3d dir) {
-        double invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        double invNorm = 1.0 / (x * x + y * y + z * z + w * w);
         double nx = -x * invNorm;
         double ny = -y * invNorm;
         double nz = -z * invNorm;
@@ -2756,7 +2816,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#positiveZ(org.joml.Vector3d)
      */
     public Vector3d positiveZ(Vector3d dir) {
-        double invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        double invNorm = 1.0 / (x * x + y * y + z * z + w * w);
         double nx = -x * invNorm;
         double ny = -y * invNorm;
         double nz = -z * invNorm;
