@@ -9267,6 +9267,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrtho(left, right, bottom, top, zNear, zFar, zZeroToOne);
+        return orthoGeneric(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4d orthoGeneric(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
         double rm11 = 2.0 / (top - bottom);
@@ -9274,7 +9279,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double rm30 = (left + right) / (left - right);
         double rm31 = (top + bottom) / (bottom - top);
         double rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
@@ -9294,7 +9298,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
-
         return dest;
     }
 
@@ -9441,6 +9444,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d orthoLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrthoLH(left, right, bottom, top, zNear, zFar, zZeroToOne);
+        return orthoLHGeneric(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4d orthoLHGeneric(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
         double rm11 = 2.0 / (top - bottom);
@@ -9448,7 +9456,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double rm30 = (left + right) / (left - right);
         double rm31 = (top + bottom) / (bottom - top);
         double rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
@@ -9468,7 +9475,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
-
         return dest;
     }
 
@@ -9608,22 +9614,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setOrtho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            _identity();
         m00 = 2.0 / (right - left);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
         m11 = 2.0 / (top - bottom);
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
         m22 = (zZeroToOne ? 1.0 : 2.0) / (zNear - zFar);
-        m23 = 0.0;
         m30 = (right + left) / (left - right);
         m31 = (top + bottom) / (bottom - top);
         m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -9686,22 +9684,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setOrthoLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            _identity();
         m00 = 2.0 / (right - left);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
         m11 = 2.0 / (top - bottom);
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
         m22 = (zZeroToOne ? 1.0 : 2.0) / (zFar - zNear);
-        m23 = 0.0;
         m30 = (right + left) / (left - right);
         m31 = (top + bottom) / (bottom - top);
         m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -9770,12 +9760,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d orthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrthoSymmetric(width, height, zNear, zFar, zZeroToOne);
+        return orthoSymmetricGeneric(width, height, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4d orthoSymmetricGeneric(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / width;
         double rm11 = 2.0 / height;
         double rm22 = (zZeroToOne ? 1.0 : 2.0) / (zNear - zFar);
         double rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest.m30 = m20 * rm32 + m30;
@@ -9795,7 +9789,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
-
         return dest;
     }
 
@@ -9938,12 +9931,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d orthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrthoSymmetricLH(width, height, zNear, zFar, zZeroToOne);
+        return orthoSymmetricLHGeneric(width, height, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4d orthoSymmetricLHGeneric(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / width;
         double rm11 = 2.0 / height;
         double rm22 = (zZeroToOne ? 1.0 : 2.0) / (zFar - zNear);
         double rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest.m30 = m20 * rm32 + m30;
@@ -9963,7 +9960,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
-
         return dest;
     }
 
@@ -10099,22 +10095,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setOrthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            _identity();
         m00 = 2.0 / width;
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
         m11 = 2.0 / height;
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
         m22 = (zZeroToOne ? 1.0 : 2.0) / (zNear - zFar);
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
         m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -10174,22 +10160,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setOrthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            _identity();
         m00 = 2.0 / width;
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
         m11 = 2.0 / height;
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
         m22 = (zZeroToOne ? 1.0 : 2.0) / (zFar - zNear);
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
         m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -10255,12 +10231,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d ortho2D(double left, double right, double bottom, double top, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrtho2D(left, right, bottom, top);
+        return ortho2DGeneric(left, right, bottom, top, dest);
+    }
+    private Matrix4d ortho2DGeneric(double left, double right, double bottom, double top, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
         double rm11 = 2.0 / (top - bottom);
         double rm30 = -(right + left) / (right - left);
         double rm31 = -(top + bottom) / (top - bottom);
-
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest.m30 = m00 * rm30 + m10 * rm31 + m30;
@@ -10280,7 +10260,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m22 = -m22;
         dest.m23 = -m23;
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
-
         return dest;
     }
 
@@ -10349,6 +10328,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d ortho2DLH(double left, double right, double bottom, double top, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrtho2DLH(left, right, bottom, top);
+        return ortho2DLHGeneric(left, right, bottom, top, dest);
+    }
+    private Matrix4d ortho2DLHGeneric(double left, double right, double bottom, double top, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
         double rm11 = 2.0 / (top - bottom);
@@ -10436,22 +10420,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setOrtho2D(double left, double right, double bottom, double top) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            _identity();
         m00 = 2.0 / (right - left);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
         m11 = 2.0 / (top - bottom);
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
         m22 = -1.0;
-        m23 = 0.0;
         m30 = -(right + left) / (right - left);
         m31 = -(top + bottom) / (top - bottom);
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -10481,22 +10456,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setOrtho2DLH(double left, double right, double bottom, double top) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            _identity();
         m00 = 2.0 / (right - left);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
         m11 = 2.0 / (top - bottom);
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = 1.0;
-        m23 = 0.0;
         m30 = -(right + left) / (right - left);
         m31 = -(top + bottom) / (top - bottom);
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -12241,6 +12206,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setFrustum(left, right, bottom, top, zNear, zFar, zZeroToOne);
+        return frustumGeneric(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4d frustumGeneric(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = (zNear + zNear) / (right - left);
         double rm11 = (zNear + zNear) / (top - bottom);
@@ -12436,14 +12406,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setFrustum(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            _identity();
         m00 = (zNear + zNear) / (right - left);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
         m11 = (zNear + zNear) / (top - bottom);
-        m12 = 0.0;
-        m13 = 0.0;
         m20 = (right + left) / (right - left);
         m21 = (top + bottom) / (top - bottom);
         boolean farInf = zFar > 0 && Double.isInfinite(zFar);
@@ -12462,8 +12428,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
         m23 = -1.0;
-        m30 = 0.0;
-        m31 = 0.0;
         m33 = 0.0;
         properties = this.m20 == 0.0 && this.m21 == 0.0 ? PROPERTY_PERSPECTIVE : 0;
         return this;
@@ -12538,6 +12502,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setFrustumLH(left, right, bottom, top, zNear, zFar, zZeroToOne);
+        return frustumLHGeneric(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4d frustumLHGeneric(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = (zNear + zNear) / (right - left);
         double rm11 = (zNear + zNear) / (top - bottom);
@@ -12733,14 +12702,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setFrustumLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            _identity();
         m00 = (zNear + zNear) / (right - left);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
         m11 = (zNear + zNear) / (top - bottom);
-        m12 = 0.0;
-        m13 = 0.0;
         m20 = (right + left) / (right - left);
         m21 = (top + bottom) / (top - bottom);
         boolean farInf = zFar > 0 && Double.isInfinite(zFar);
@@ -12759,8 +12724,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
         m23 = 1.0;
-        m30 = 0.0;
-        m31 = 0.0;
         m33 = 0.0;
         properties = this.m20 == 0.0 && this.m21 == 0.0 ? PROPERTY_PERSPECTIVE : 0;
         return this;

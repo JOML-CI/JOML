@@ -6767,6 +6767,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrtho(left, right, bottom, top, zNear, zFar, zZeroToOne);
+        return orthoGeneric(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4f orthoGeneric(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
@@ -6774,7 +6779,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float rm30 = (left + right) / (left - right);
         float rm31 = (top + bottom) / (bottom - top);
         float rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest._m30(m00 * rm30 + m10 * rm31 + m20 * rm32 + m30);
@@ -6794,7 +6798,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m22(m22 * rm22);
         dest._m23(m23 * rm22);
         dest._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
-
         return dest;
     }
 
@@ -6940,6 +6943,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f orthoLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrthoLH(left, right, bottom, top, zNear, zFar, zZeroToOne);
+        return orthoLHGeneric(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4f orthoLHGeneric(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
@@ -7253,12 +7261,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f orthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrthoSymmetric(width, height, zNear, zFar, zZeroToOne);
+        return orthoSymmetricGeneric(width, height, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4f orthoSymmetricGeneric(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / width;
         float rm11 = 2.0f / height;
         float rm22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
         float rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest._m30(m20 * rm32 + m30);
@@ -7278,7 +7290,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m22(m22 * rm22);
         dest._m23(m23 * rm22);
         dest._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
-
         return dest;
     }
 
@@ -7421,12 +7432,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f orthoSymmetricLH(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrthoSymmetricLH(width, height, zNear, zFar, zZeroToOne);
+        return orthoSymmetricLHGeneric(width, height, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4f orthoSymmetricLHGeneric(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / width;
         float rm11 = 2.0f / height;
         float rm22 = (zZeroToOne ? 1.0f : 2.0f) / (zFar - zNear);
         float rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest._m30(m20 * rm32 + m30);
@@ -7446,7 +7461,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m22(m22 * rm22);
         dest._m23(m23 * rm22);
         dest._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
-
         return dest;
     }
 
@@ -7717,12 +7731,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f ortho2D(float left, float right, float bottom, float top, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrtho2D(left, right, bottom, top);
+        return ortho2DGeneric(left, right, bottom, top, dest);
+    }
+    private Matrix4f ortho2DGeneric(float left, float right, float bottom, float top, Matrix4f dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
         float rm30 = -(right + left) / (right - left);
         float rm31 = -(top + bottom) / (top - bottom);
-
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest._m30(m00 * rm30 + m10 * rm31 + m30);
@@ -7742,7 +7760,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m22(-m22);
         dest._m23(-m23);
         dest._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
-
         return dest;
     }
 
@@ -7811,6 +7828,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f ortho2DLH(float left, float right, float bottom, float top, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setOrtho2DLH(left, right, bottom, top);
+        return ortho2DLHGeneric(left, right, bottom, top, dest);
+    }
+    private Matrix4f ortho2DLHGeneric(float left, float right, float bottom, float top, Matrix4f dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
@@ -7938,7 +7960,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             MemUtil.INSTANCE.identity(this);
         this._m00(2.0f / (right - left));
         this._m11(2.0f / (top - bottom));
-        this._m22(1.0f);
         this._m30(-(right + left) / (right - left));
         this._m31(-(top + bottom) / (top - bottom));
         _properties(PROPERTY_AFFINE);
@@ -9663,6 +9684,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setFrustum(left, right, bottom, top, zNear, zFar, zZeroToOne);
+        return frustumGeneric(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4f frustumGeneric(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
         float rm00 = (zNear + zNear) / (right - left);
         float rm11 = (zNear + zNear) / (top - bottom);
@@ -9858,7 +9884,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.zero(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00((zNear + zNear) / (right - left));
         this._m11((zNear + zNear) / (top - bottom));
         this._m20((right + left) / (right - left));
@@ -9879,6 +9906,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             this._m32((zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar));
         }
         this._m23(-1.0f);
+        this._m33(0.0f);
         _properties(this.m20 == 0.0f && this.m21 == 0.0f ? PROPERTY_PERSPECTIVE : 0);
         return this;
     }
@@ -9952,6 +9980,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f frustumLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setFrustumLH(left, right, bottom, top, zNear, zFar, zZeroToOne);
+        return frustumLHGeneric(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4f frustumLHGeneric(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
         float rm00 = (zNear + zNear) / (right - left);
         float rm11 = (zNear + zNear) / (top - bottom);
@@ -10147,7 +10180,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f setFrustumLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.zero(this);
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            MemUtil.INSTANCE.identity(this);
         this._m00((zNear + zNear) / (right - left));
         this._m11((zNear + zNear) / (top - bottom));
         this._m20((right + left) / (right - left));
@@ -10168,6 +10202,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             this._m32((zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar));
         }
         this._m23(1.0f);
+        this._m33(0.0f);
         _properties(0);
         return this;
     }
