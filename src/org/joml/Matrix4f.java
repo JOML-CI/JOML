@@ -2587,10 +2587,28 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
         float vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
         float vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
-        dest.set(view.m00() * pm00, view.m10() * pm00, view.m20() * pm00, 0.0f,
-                 view.m01() * pm11, view.m11() * pm11, view.m21() * pm11, 0.0f,
-                 vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
-                 view.m02() * pm32 + vm30 * pm33, view.m12() * pm32 + vm31 * pm33, view.m22() * pm32 + vm32 * pm33, pm33);
+        float nm00 = view.m00() * pm00, nm01 = view.m10() * pm00, nm02 = view.m20() * pm00;
+        float nm10 = view.m01() * pm11, nm11 = view.m11() * pm11, nm12 = view.m21() * pm11;
+        float nm20 = vm30 * pm23, nm21 = vm31 * pm23, nm22 = vm32 * pm23;
+        float nm30 = view.m02() * pm32 + vm30 * pm33;
+        float nm31 = view.m12() * pm32 + vm31 * pm33;
+        float nm32 = view.m22() * pm32 + vm32 * pm33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = 0.0f;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = 0.0f;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = pm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = pm33;
         dest._properties(0);
         return dest;
     }
@@ -2627,10 +2645,28 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
         float vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
         float vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
-        dest.set(view.m00() * pm00, view.m10() * pm00, view.m20() * pm00, 0.0f,
-                 view.m01() * pm11, view.m11() * pm11, view.m21() * pm11, 0.0f,
-                 vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
-                 view.m02() * pm32 + vm30 * pm33, view.m12() * pm32 + vm31 * pm33, view.m22() * pm32 + vm32 * pm33, pm33);
+        float nm00 = view.m00() * pm00, nm01 = view.m10() * pm00, nm02 = view.m20() * pm00;
+        float nm10 = view.m01() * pm11, nm11 = view.m11() * pm11, nm12 = view.m21() * pm11;
+        float nm20 = vm30 * pm23, nm21 = vm31 * pm23, nm22 = vm32 * pm23;
+        float nm30 = view.m02() * pm32 + vm30 * pm33;
+        float nm31 = view.m12() * pm32 + vm31 * pm33;
+        float nm32 = view.m22() * pm32 + vm32 * pm33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = 0.0f;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = 0.0f;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = pm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = pm33;
         dest._properties(0);
         return dest;
     }
