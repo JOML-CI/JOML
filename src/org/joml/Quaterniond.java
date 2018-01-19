@@ -877,6 +877,114 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transformPositiveX(org.joml.Vector3d)
+     */
+    public Vector3d transformPositiveX(Vector3d dest) {
+        double w2 = this.w * this.w;
+        double x2 = this.x * this.x;
+        double y2 = this.y * this.y;
+        double z2 = this.z * this.z;
+        double zw = this.z * this.w;
+        double xy = this.x * this.y;
+        double xz = this.x * this.z;
+        double yw = this.y * this.w;
+        dest.x = w2 + x2 - z2 - y2;
+        dest.y = xy + zw + zw + xy;
+        dest.z = xz - yw + xz - yw;
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transformPositiveX(org.joml.Vector4d)
+     */
+    public Vector4d transformPositiveX(Vector4d dest) {
+        double w2 = this.w * this.w;
+        double x2 = this.x * this.x;
+        double y2 = this.y * this.y;
+        double z2 = this.z * this.z;
+        double zw = this.z * this.w;
+        double xy = this.x * this.y;
+        double xz = this.x * this.z;
+        double yw = this.y * this.w;
+        dest.x = w2 + x2 - z2 - y2;
+        dest.y = xy + zw + zw + xy;
+        dest.z = xz - yw + xz - yw;
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transformPositiveY(org.joml.Vector3d)
+     */
+    public Vector3d transformPositiveY(Vector3d dest) {
+        double w2 = this.w * this.w;
+        double x2 = this.x * this.x;
+        double y2 = this.y * this.y;
+        double z2 = this.z * this.z;
+        double zw = this.z * this.w;
+        double xy = this.x * this.y;
+        double yz = this.y * this.z;
+        double xw = this.x * this.w;
+        dest.x = -zw + xy - zw + xy;
+        dest.y = y2 - z2 + w2 - x2;
+        dest.z = yz + yz + xw + xw;
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transformPositiveY(org.joml.Vector4d)
+     */
+    public Vector4d transformPositiveY(Vector4d dest) {
+        double w2 = this.w * this.w;
+        double x2 = this.x * this.x;
+        double y2 = this.y * this.y;
+        double z2 = this.z * this.z;
+        double zw = this.z * this.w;
+        double xy = this.x * this.y;
+        double yz = this.y * this.z;
+        double xw = this.x * this.w;
+        dest.x = -zw + xy - zw + xy;
+        dest.y = y2 - z2 + w2 - x2;
+        dest.z = yz + yz + xw + xw;
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transformPositiveZ(org.joml.Vector3d)
+     */
+    public Vector3d transformPositiveZ(Vector3d dest) {
+        double w2 = this.w * this.w;
+        double x2 = this.x * this.x;
+        double y2 = this.y * this.y;
+        double z2 = this.z * this.z;
+        double xz = this.x * this.z;
+        double yw = this.y * this.w;
+        double yz = this.y * this.z;
+        double xw = this.x * this.w;
+        dest.x = yw + xz + xz + yw;
+        dest.y = yz + yz - xw - xw;
+        dest.z = z2 - y2 - x2 + w2;
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transformPositiveZ(org.joml.Vector4d)
+     */
+    public Vector4d transformPositiveZ(Vector4d dest) {
+        double w2 = this.w * this.w;
+        double x2 = this.x * this.x;
+        double y2 = this.y * this.y;
+        double z2 = this.z * this.z;
+        double xz = this.x * this.z;
+        double yw = this.y * this.w;
+        double yz = this.y * this.z;
+        double xw = this.x * this.w;
+        dest.x = yw + xz + xz + yw;
+        dest.y = yz + yz - xw - xw;
+        dest.z = z2 - y2 - x2 + w2;
+        return dest;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Quaterniondc#transform(org.joml.Vector4d)
      */
     public Vector4d transform(Vector4d vec){

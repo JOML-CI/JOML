@@ -357,6 +357,66 @@ public interface Quaternionfc {
     Vector3f transform(Vector3f vec);
 
     /**
+     * Transform the vector <tt>(1, 0, 0)</tt> by this quaternion.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformPositiveX(Vector3f dest);
+
+    /**
+     * Transform the vector <tt>(1, 0, 0)</tt> by this quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformPositiveX(Vector4f dest);
+
+    /**
+     * Transform the vector <tt>(0, 1, 0)</tt> by this quaternion.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformPositiveY(Vector3f dest);
+
+    /**
+     * Transform the vector <tt>(0, 1, 0)</tt> by this quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformPositiveY(Vector4f dest);
+
+    /**
+     * Transform the vector <tt>(0, 0, 1)</tt> by this quaternion.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformPositiveZ(Vector3f dest);
+
+    /**
+     * Transform the vector <tt>(0, 0, 1)</tt> by this quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformPositiveZ(Vector4f dest);
+
+    /**
      * Transform the given vector by this quaternion.
      * This will apply the rotation described by this quaternion to the given vector.
      * <p>
