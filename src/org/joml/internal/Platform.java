@@ -20,7 +20,7 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.internal;
 
 //#ifndef __GWT__
 

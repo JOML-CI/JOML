@@ -33,6 +33,9 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.internal.MemUtil;
+import org.joml.internal.Options;
+
 //#ifdef __GWT__
 import com.google.gwt.typedarrays.shared.Float32Array;
 //#endif
@@ -156,6 +159,73 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      */
     public float m21() {
         return m21;
+    }
+
+    /**
+     * Set the value of the matrix element at column 0 and row 0.
+     * 
+     * @param m00
+     *          the new value
+     * @return this
+     */
+    public Matrix3x2f _m00(float m00) {
+        this.m00 = m00;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 1.
+     * 
+     * @param m01
+     *          the new value
+     * @return this
+     */
+    public Matrix3x2f _m01(float m01) {
+        this.m01 = m01;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 0.
+     * 
+     * @param m10
+     *          the new value
+     * @return this
+     */
+    public Matrix3x2f _m10(float m10) {
+        this.m10 = m10;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 1.
+     * 
+     * @param m11
+     *          the new value
+     * @return this
+     */
+    public Matrix3x2f _m11(float m11) {
+        this.m11 = m11;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 0.
+     * 
+     * @param m20
+     *          the new value
+     * @return this
+     */
+    public Matrix3x2f _m20(float m20) {
+        this.m20 = m20;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 1.
+     * 
+     * @param m21
+     *          the new value
+     * @return this
+     */
+    public Matrix3x2f _m21(float m21) {
+        this.m21 = m21;
+        return this;
     }
 
     /**

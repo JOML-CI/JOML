@@ -20,13 +20,16 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.internal;
 
-class Runtime {
+public final class Runtime {
 
 //#ifndef __GWT__
-    private static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();
-    private static final boolean HAS_doubleToRawLongBits = hasDoubleToRawLongBits();
+    public static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();
+    public static final boolean HAS_doubleToRawLongBits = hasDoubleToRawLongBits();
+
+    private Runtime() {
+    }
 
     private static boolean hasFloatToRawIntBits() {
         try {
@@ -47,7 +50,7 @@ class Runtime {
     }
 //#endif
 
-    static int floatToIntBits(float flt) {
+    public static int floatToIntBits(float flt) {
 //#ifndef __GWT__
         if (HAS_floatToRawIntBits)
             return floatToIntBits1_3(flt);
@@ -63,7 +66,7 @@ class Runtime {
         return Float.floatToIntBits(flt);
     }
 
-    static long doubleToLongBits(double dbl) {
+    public static long doubleToLongBits(double dbl) {
 //#ifndef __GWT__
         if (HAS_doubleToRawLongBits)
             return doubleToLongBits1_3(dbl);
@@ -79,7 +82,7 @@ class Runtime {
         return Double.doubleToLongBits(dbl);
     }
 
-    static String formatNumbers(String str) {
+    public static String formatNumbers(String str) {
         StringBuffer res = new StringBuffer();
         int eIndex = Integer.MIN_VALUE;
         for (int i = 0; i < str.length(); i++) {

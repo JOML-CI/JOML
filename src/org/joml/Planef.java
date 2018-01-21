@@ -25,6 +25,9 @@ package org.joml;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.internal.Options;
+import org.joml.internal.Runtime;
+
 public class Planef {
 
     public float a, b, c, d;

@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import org.joml.internal.Options;
+
 /**
  * Contains fast approximations of some {@link java.lang.Math} operations.
  * <p>

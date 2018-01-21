@@ -20,7 +20,7 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.internal;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -34,56 +34,65 @@ import java.util.Locale;
  * 
  * @author Kai Burjack
  */
-class Options {
+public final class Options {
 
     /**
      * Whether certain debugging checks should be made, such as that only direct NIO Buffers are used when Unsafe is active,
      * and a proxy should be created on calls to readOnlyView().
      */
-    static final boolean DEBUG = hasOption(System.getProperty("joml.debug", "false"));
+    public static final boolean DEBUG = hasOption(System.getProperty("joml.debug", "false"));
 
 //#ifdef __JRE__
     /**
      * Whether <i>not</i> to use sun.misc.Unsafe when copying memory with MemUtil.
      */
-    static final boolean NO_UNSAFE = hasOption(System.getProperty("joml.nounsafe", "false"));
+    public static final boolean NO_UNSAFE = hasOption(System.getProperty("joml.nounsafe", "false"));
 //#endif
 
     /**
      * Whether fast approximations of some java.lang.Math operations should be used.
      */
-    static final boolean FASTMATH = hasOption(System.getProperty("joml.fastmath", "false"));
+    public static final boolean FASTMATH = hasOption(System.getProperty("joml.fastmath", "false"));
 
     /**
      * When {@link #FASTMATH} is <code>true</code>, whether to use a lookup table for sin/cos.
      */
-    static final boolean SIN_LOOKUP = hasOption(System.getProperty("joml.sinLookup", "false"));
+    public static final boolean SIN_LOOKUP = hasOption(System.getProperty("joml.sinLookup", "false"));
 
     /**
      * When {@link #SIN_LOOKUP} is <code>true</code>, this determines the table size.
      */
-    static final int SIN_LOOKUP_BITS = Integer.parseInt(System.getProperty("joml.sinLookup.bits", "14"));
+    public static final int SIN_LOOKUP_BITS = Integer.parseInt(System.getProperty("joml.sinLookup.bits", "14"));
 
 //#ifndef __GWT__
     /**
      * Whether to use a {@link NumberFormat} producing scientific notation output when formatting matrix,
      * vector and quaternion components to strings.
      */
-    static final boolean useNumberFormat = hasOption(System.getProperty("joml.format", "true"));
+    public static final boolean useNumberFormat = hasOption(System.getProperty("joml.format", "true"));
 //#endif
 
+//#ifndef __GWT__
     /**
      * When {@link #useNumberFormat} is <code>true</code> then this determines the number of decimal digits
      * produced in the formatted numbers.
      */
-    static final int numberFormatDecimals = Integer.parseInt(System.getProperty("joml.format.decimals", "3"));
+//#else
+    /**
+     * Determines the number of decimal digits produced in the formatted numbers.
+     */
+//#endif
+    public static final int numberFormatDecimals = Integer.parseInt(System.getProperty("joml.format.decimals", "3"));
 
     /**
      * The {@link NumberFormat} used to format all numbers throughout all JOML classes.
      */
-    static final NumberFormat NUMBER_FORMAT = decimalFormat();
+    public static final NumberFormat NUMBER_FORMAT = decimalFormat();
 
-    static NumberFormat decimalFormat() {
+    private Options() {
+    }
+
+    private static NumberFormat decimalFormat() {
         NumberFormat df;
 //#ifndef __GWT__
         if (useNumberFormat) {
@@ -100,7 +109,7 @@ class Options {
         return df;
     }
 
-    static boolean hasOption(String v) {
+    private static boolean hasOption(String v) {
         if (v == null)
             return false;
         if (v.trim().length() == 0)

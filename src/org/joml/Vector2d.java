@@ -33,6 +33,10 @@ import java.nio.DoubleBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.internal.MemUtil;
+import org.joml.internal.Options;
+import org.joml.internal.Runtime;
+
 /**
  * Represents a 2D vector with double-precision.
  *

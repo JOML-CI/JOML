@@ -34,6 +34,9 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.internal.MemUtil;
+import org.joml.internal.Options;
+
 /**
  * Contains the definition of an affine 4x3 matrix (4 columns, 3 rows) of doubles, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
@@ -312,11 +315,144 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set the value of the matrix element at column 0 and row 0
+     * Set the value of the matrix element at column 0 and row 0 without updating the properties of the matrix.
      * 
      * @param m00
      *          the new value
-     * @return the value of the matrix element
+     * @return this
+     */
+    public Matrix4x3d _m00(double m00) {
+        this.m00 = m00;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 1 without updating the properties of the matrix.
+     * 
+     * @param m01
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m01(double m01) {
+        this.m01 = m01;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 2 without updating the properties of the matrix.
+     * 
+     * @param m02
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m02(double m02) {
+        this.m02 = m02;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 0 without updating the properties of the matrix.
+     * 
+     * @param m10
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m10(double m10) {
+        this.m10 = m10;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 1 without updating the properties of the matrix.
+     * 
+     * @param m11
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m11(double m11) {
+        this.m11 = m11;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 2 without updating the properties of the matrix.
+     * 
+     * @param m12
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m12(double m12) {
+        this.m12 = m12;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 0 without updating the properties of the matrix.
+     * 
+     * @param m20
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m20(double m20) {
+        this.m20 = m20;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 1 without updating the properties of the matrix.
+     * 
+     * @param m21
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m21(double m21) {
+        this.m21 = m21;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 2 without updating the properties of the matrix.
+     * 
+     * @param m22
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m22(double m22) {
+        this.m22 = m22;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 3 and row 0 without updating the properties of the matrix.
+     * 
+     * @param m30
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m30(double m30) {
+        this.m30 = m30;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 3 and row 1 without updating the properties of the matrix.
+     * 
+     * @param m31
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m31(double m31) {
+        this.m31 = m31;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 3 and row 2 without updating the properties of the matrix.
+     * 
+     * @param m32
+     *          the new value
+     * @return this
+     */
+    public Matrix4x3d _m32(double m32) {
+        this.m32 = m32;
+        return this;
+    }
+
+    /**
+     * Set the value of the matrix element at column 0 and row 0.
+     * 
+     * @param m00
+     *          the new value
+     * @return this
      */
     public Matrix4x3d m00(double m00) {
         this.m00 = m00;
@@ -326,11 +462,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 0 and row 1
+     * Set the value of the matrix element at column 0 and row 1.
      * 
      * @param m01
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m01(double m01) {
         this.m01 = m01;
@@ -340,11 +476,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 0 and row 2
+     * Set the value of the matrix element at column 0 and row 2.
      * 
      * @param m02
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m02(double m02) {
         this.m02 = m02;
@@ -354,11 +490,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 1 and row 0
+     * Set the value of the matrix element at column 1 and row 0.
      * 
      * @param m10
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m10(double m10) {
         this.m10 = m10;
@@ -368,11 +504,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 1 and row 1
+     * Set the value of the matrix element at column 1 and row 1.
      * 
      * @param m11
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m11(double m11) {
         this.m11 = m11;
@@ -382,11 +518,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 1 and row 2
+     * Set the value of the matrix element at column 1 and row 2.
      * 
      * @param m12
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m12(double m12) {
         this.m12 = m12;
@@ -396,11 +532,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 2 and row 0
+     * Set the value of the matrix element at column 2 and row 0.
      * 
      * @param m20
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m20(double m20) {
         this.m20 = m20;
@@ -410,11 +546,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 2 and row 1
+     * Set the value of the matrix element at column 2 and row 1.
      * 
      * @param m21
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m21(double m21) {
         this.m21 = m21;
@@ -424,11 +560,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 2 and row 2
+     * Set the value of the matrix element at column 2 and row 2.
      * 
      * @param m22
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m22(double m22) {
         this.m22 = m22;
@@ -438,11 +574,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 3 and row 0
+     * Set the value of the matrix element at column 3 and row 0.
      * 
      * @param m30
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m30(double m30) {
         this.m30 = m30;
@@ -451,11 +587,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 3 and row 1
+     * Set the value of the matrix element at column 3 and row 1.
      * 
      * @param m31
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m31(double m31) {
         this.m31 = m31;
@@ -464,11 +600,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
     /**
-     * Set the value of the matrix element at column 3 and row 2
+     * Set the value of the matrix element at column 3 and row 2.
      * 
      * @param m32
      *          the new value
-     * @return the value of the matrix element
+     * @return this
      */
     public Matrix4x3d m32(double m32) {
         this.m32 = m32;
