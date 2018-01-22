@@ -593,9 +593,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i mul(Vector2ic v) {
-        x += v.x();
-        y += v.y();
-        return this;
+        return mul(v, this);
     }
 
     /* (non-Javadoc)
