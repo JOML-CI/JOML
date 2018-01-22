@@ -1503,6 +1503,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         out.writeDouble(x);
         out.writeDouble(y);
         out.writeDouble(z);
+        out.writeDouble(w);
     }
 
     public void readExternal(ObjectInput in) throws IOException,
@@ -1510,6 +1511,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         x = in.readDouble();
         y = in.readDouble();
         z = in.readDouble();
+        w = in.readDouble();
     }
 
     public int hashCode() {
