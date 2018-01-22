@@ -620,7 +620,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d mulDirection(Matrix3x2dc mat) {
-        return mulPosition(mat, this);
+        return mulDirection(mat, this);
     }
 
     /* (non-Javadoc)

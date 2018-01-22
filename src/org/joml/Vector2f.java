@@ -783,7 +783,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return this
      */
     public Vector2f mulDirection(Matrix3x2fc mat) {
-        return mulPosition(mat, this);
+        return mulDirection(mat, this);
     }
 
     /* (non-Javadoc)
