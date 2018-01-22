@@ -879,11 +879,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d mul(Vector4dc v) {
-        x *= v.x();
-        y *= v.y();
-        z *= v.z();
-        z *= v.w();
-        return this;
+        return mul(v, this);
     }
 
     /* (non-Javadoc)
@@ -905,11 +901,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d div(Vector4dc v) {
-        x /= v.x();
-        y /= v.y();
-        z /= v.z();
-        z /= v.w();
-        return this;
+        return div(v, this);
     }
 
     /* (non-Javadoc)
@@ -931,11 +923,18 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d mul(Vector4fc v) {
-        x *= v.x();
-        y *= v.y();
-        z *= v.z();
-        z *= v.w();
-        return this;
+        return mul(v, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#div(org.joml.Vector4fc, org.joml.Vector4d)
+     */
+    public Vector4d mul(Vector4fc v, Vector4d dest) {
+        dest.x = x * v.x();
+        dest.y = y * v.y();
+        dest.z = z * v.z();
+        dest.w = w * v.w();
+        return dest;
     }
 
     /**

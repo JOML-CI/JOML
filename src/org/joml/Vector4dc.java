@@ -207,6 +207,17 @@ public interface Vector4dc {
     Vector4d mul(Vector4dc v, Vector4d dest);
 
     /**
+     * Multiply this {@link Vector4d} component-wise by the given {@link Vector4fc} and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *             the vector to multiply this by
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Vector4d mul(Vector4fc v, Vector4d dest);
+
+    /**
      * Divide this {@link Vector4d} component-wise by the given {@link Vector4dc} and store the result in <code>dest</code>.
      * 
      * @param v
