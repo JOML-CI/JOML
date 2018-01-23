@@ -222,6 +222,20 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 //#endif
 
+    /**
+     * Will be called by methods that do not take an explicit <code>dest</code>
+     * parameter to return the object to write the result into. By default this is
+     * <code>this</code>. When <tt>-Djoml.immutable</tt> is <code>true</code> then
+     * this method returns a new vector instance on every invocation.
+     * 
+     * @return <code>this</code> or a new vector instance
+     */
+    protected Vector4i thisOrNew() {
+        if (Options.IMMUTABLE)
+            return new Vector4i();
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#x()
      */
@@ -526,10 +540,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the vector to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i sub(Vector4ic v) {
-        return sub(v, this);
+        return sub(v, thisOrNew());
     }
 
     /**
@@ -543,14 +557,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the z component to subtract
      * @param w
      *          the w component to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i sub(int x, int y, int z, int w) {
-        this.x -= x;
-        this.y -= y;
-        this.z -= z;
-        this.w -= w;
-        return this;
+        return sub(x, y, z, w, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -576,10 +586,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the vector to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i add(Vector4ic v) {
-        return add(v, this);
+        return add(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -600,10 +610,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the z component to add
      * @param w
      *          the w component to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i add(int x, int y, int z, int w) {
-        return add(x, y, z, w, this);
+        return add(x, y, z, w, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -622,10 +632,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i mul(Vector4ic v) {
-        return mul(v, this);
+        return mul(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -644,10 +654,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the vector to divide by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i div(Vector4ic v) {
-        return div(v, this);
+        return div(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -667,10 +677,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param scalar
      *          the scalar to multiply by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i mul(float scalar) {
-        return mul(scalar, this);
+        return mul(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -689,10 +699,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param scalar
      *          the scalar to divide by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i div(int scalar) {
-        return div(scalar, this);
+        return div(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -762,20 +772,21 @@ public class Vector4i implements Externalizable, Vector4ic {
     /**
      * Set all components to zero.
      *
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i zero() {
-        MemUtil.INSTANCE.zero(this);
-        return this;
+        Vector4i dest = thisOrNew();
+        MemUtil.INSTANCE.zero(dest);
+        return dest;
     }
 
     /**
      * Negate this vector.
      *
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i negate() {
-        return negate(this);
+        return negate(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -830,10 +841,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i min(Vector4ic v) {
-        return min(v, this);
+        return min(v, thisOrNew());
     }
 
     public Vector4i min(Vector4ic v, Vector4i dest) {
@@ -849,10 +860,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector4i max(Vector4ic v) {
-        return max(v, this);
+        return max(v, thisOrNew());
     }
 
     public Vector4i max(Vector4ic v, Vector4i dest) {

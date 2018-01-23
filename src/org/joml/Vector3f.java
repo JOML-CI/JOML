@@ -209,7 +209,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @return <code>this</code> or a new vector instance
      */
-    protected Vector3f orNew() {
+    protected Vector3f thisOrNew() {
         if (Options.IMMUTABLE)
             return new Vector3f();
         return this;
@@ -502,7 +502,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f sub(Vector3fc v) {
-        return sub(v, this.orNew());
+        return sub(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -527,7 +527,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f sub(float x, float y, float z) {
-        return sub(x, y, z, this.orNew());
+        return sub(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -548,7 +548,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f add(Vector3fc v) {
-        return add(v, this.orNew());
+        return add(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -573,7 +573,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f add(float x, float y, float z) {
-        return add(x, y, z, this.orNew());
+        return add(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -596,7 +596,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f fma(Vector3fc a, Vector3fc b) {
-        return fma(a, b, this.orNew());
+        return fma(a, b, thisOrNew());
     }
 
     /**
@@ -609,7 +609,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f fma(float a, Vector3fc b) {
-        return fma(a, b, this.orNew());
+        return fma(a, b, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -640,7 +640,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mul(Vector3fc v) {
-        return mul(v, this.orNew());
+        return mul(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -661,7 +661,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f div(Vector3fc v) {
-        return div(v.x(), v.y(), v.z(), this.orNew());
+        return div(v.x(), v.y(), v.z(), thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -698,7 +698,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mulProject(Matrix4fc mat) {
-        return mulProject(mat, this.orNew());
+        return mulProject(mat, thisOrNew());
     }
 
     /**
@@ -709,7 +709,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mul(Matrix3fc mat) {
-        return mul(mat, this.orNew());
+        return mul(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -733,7 +733,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mul(Matrix3dc mat) {
-        return mul(mat, this.orNew());
+        return mul(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -757,7 +757,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mul(Matrix3x2fc mat) {
-        return mul(mat, this.orNew());
+        return mul(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -780,7 +780,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mulTranspose(Matrix3fc mat) {
-        return mulTranspose(mat, this.orNew());
+        return mulTranspose(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -806,7 +806,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mulPosition(Matrix4fc mat) {
-        return mulPosition(mat, this.orNew());
+        return mulPosition(mat, thisOrNew());
     }
 
     /**
@@ -819,7 +819,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mulPosition(Matrix4x3fc mat) {
-        return mulPosition(mat, this.orNew());
+        return mulPosition(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -858,7 +858,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mulTransposePosition(Matrix4fc mat) {
-        return mulTransposePosition(mat, this.orNew());
+        return mulTransposePosition(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -885,7 +885,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
     public float mulPositionW(Matrix4fc mat) {
-        return mulPositionW(mat, this.orNew());
+        return mulPositionW(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -912,7 +912,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mulDirection(Matrix4dc mat) {
-        return mulDirection(mat, this.orNew());
+        return mulDirection(mat, thisOrNew());
     }
 
     /**
@@ -925,7 +925,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mulDirection(Matrix4fc mat) {
-        return mulDirection(mat, this.orNew());
+        return mulDirection(mat, thisOrNew());
     }
 
     /**
@@ -938,7 +938,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mulDirection(Matrix4x3fc mat) {
-        return mulDirection(mat, this.orNew());
+        return mulDirection(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -990,7 +990,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mulTransposeDirection(Matrix4fc mat) {
-        return mulTransposeDirection(mat, this.orNew());
+        return mulTransposeDirection(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1015,7 +1015,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mul(float scalar) {
-        return mul(scalar, this.orNew());
+        return mul(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1040,7 +1040,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f mul(float x, float y, float z) {
-        return mul(x, y, z, this.orNew());
+        return mul(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1062,7 +1062,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f div(float scalar) {
-        return div(scalar, this.orNew());
+        return div(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1088,7 +1088,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f div(float x, float y, float z) {
-        return div(x, y, z, this.orNew());
+        return div(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1111,7 +1111,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f rotate(Quaternionfc quat) {
-        return rotate(quat, this.orNew());
+        return rotate(quat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1149,7 +1149,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f rotateAxis(float angle, float x, float y, float z) {
-        return rotateAxis(angle, x, y, z, this.orNew());
+        return rotateAxis(angle, x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1179,7 +1179,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f rotateX(float angle) {
-        return rotateX(angle, this.orNew());
+        return rotateX(angle, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1203,7 +1203,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f rotateY(float angle) {
-        return rotateY(angle, this.orNew());
+        return rotateY(angle, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1227,7 +1227,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f rotateZ(float angle) {
-        return rotateZ(angle, this.orNew());
+        return rotateZ(angle, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1263,7 +1263,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f normalize() {
-        return normalize(this.orNew());
+        return normalize(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1285,7 +1285,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f normalize(float length) {
-        return normalize(length, this.orNew());
+        return normalize(length, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1307,7 +1307,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f cross(Vector3fc v) {
-        return cross(v, this.orNew());
+        return cross(v, thisOrNew());
     }
 
     /**
@@ -1322,7 +1322,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f cross(float x, float y, float z) {
-        return cross(x, y, z, this.orNew());
+        return cross(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1428,7 +1428,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f min(Vector3fc v) {
-        return min(v, this.orNew());
+        return min(v, thisOrNew());
     }
 
     public Vector3f min(Vector3fc v, Vector3f dest) {
@@ -1446,7 +1446,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f max(Vector3fc v) {
-        return max(v, this.orNew());
+        return max(v, thisOrNew());
     }
 
     public Vector3f max(Vector3fc v, Vector3f dest) {
@@ -1462,7 +1462,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f zero() {
-        return this.orNew().set(0, 0, 0);
+        return thisOrNew().set(0, 0, 0);
     }
 
     /**
@@ -1506,7 +1506,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f negate() {
-        return negate(this.orNew());
+        return negate(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1525,7 +1525,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f absolute() {
-        return absolute(this.orNew());
+        return absolute(thisOrNew());
     }
 
     /*
@@ -1573,7 +1573,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f reflect(Vector3fc normal) {
-        return reflect(normal, this.orNew());
+        return reflect(normal, thisOrNew());
     }
 
     /**
@@ -1588,7 +1588,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f reflect(float x, float y, float z) {
-        return reflect(x, y, z, this.orNew());
+        return reflect(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1617,7 +1617,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f half(Vector3fc other) {
-        return half(other, this.orNew());
+        return half(other, thisOrNew());
     }
 
     /**
@@ -1632,7 +1632,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f half(float x, float y, float z) {
-        return half(x, y, z, this.orNew());
+        return half(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1687,7 +1687,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f lerp(Vector3fc other, float t) {
-        return lerp(other, t, this.orNew());
+        return lerp(other, t, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1780,7 +1780,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f orthogonalize(Vector3fc v) {
-        return orthogonalize(v, this.orNew());
+        return orthogonalize(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1802,7 +1802,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return a vector holding the result
      */
     public Vector3f orthogonalizeUnit(Vector3fc v) {
-        return orthogonalizeUnit(v, this.orNew());
+        return orthogonalizeUnit(v, thisOrNew());
     }
 
 }

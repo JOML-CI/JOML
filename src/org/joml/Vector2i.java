@@ -182,7 +182,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * 
      * @return <code>this</code> or a new vector instance
      */
-    protected Vector2i orNew() {
+    protected Vector2i thisOrNew() {
         if (Options.IMMUTABLE)
             return new Vector2i();
         return this;
@@ -440,7 +440,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i sub(Vector2ic v) {
-        return sub(v, this.orNew());
+        return sub(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -462,7 +462,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i sub(int x, int y) {
-        return sub(x, y, this.orNew());
+        return sub(x, y, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -528,7 +528,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i add(Vector2ic v) {
-        return add(v, this.orNew());
+        return add(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -550,7 +550,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i add(int x, int y) {
-        return add(x, y, this.orNew());
+        return add(x, y, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -571,7 +571,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i mul(int scalar) {
-        return mul(scalar, this.orNew());
+        return mul(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -591,7 +591,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i mul(Vector2ic v) {
-        return mul(v, this.orNew());
+        return mul(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -613,7 +613,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i mul(int x, int y) {
-        return mul(x, y, this.orNew());
+        return mul(x, y, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -631,7 +631,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i zero() {
-        return this.orNew().set(0, 0);
+        return thisOrNew().set(0, 0);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -650,7 +650,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i negate() {
-        return negate(this.orNew());
+        return negate(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -670,7 +670,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i min(Vector2ic v) {
-        return min(v, this.orNew());
+        return min(v, thisOrNew());
     }
 
     public Vector2i min(Vector2ic v, Vector2i dest) {
@@ -687,7 +687,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i max(Vector2ic v) {
-        return max(v, this.orNew());
+        return max(v, thisOrNew());
     }
 
     public Vector2i max(Vector2ic v, Vector2i dest) {

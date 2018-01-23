@@ -285,7 +285,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @return <code>this</code> or a new vector instance
      */
-    protected Vector4d orNew() {
+    protected Vector4d thisOrNew() {
         if (Options.IMMUTABLE)
             return new Vector4d();
         return this;
@@ -650,7 +650,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d sub(Vector4dc v) {
-        return sub(v, this.orNew());
+        return sub(v, thisOrNew());
     }
 
     /**
@@ -678,7 +678,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d sub(Vector4fc v) {
-        return sub(v, this.orNew());
+        return sub(v, thisOrNew());
     }
 
     /**
@@ -712,7 +712,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d sub(double x, double y, double z, double w) {
-        return sub(x, y, z, w, this.orNew());
+        return sub(x, y, z, w, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -734,7 +734,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d add(Vector4dc v) {
-        return add(v, this.orNew());
+        return add(v, thisOrNew());
     }
 
     public Vector4d add(Vector4dc v, Vector4d dest) {
@@ -767,7 +767,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d add(double x, double y, double z, double w) {
-        return add(x, y, z, w, this.orNew());
+        return add(x, y, z, w, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -789,7 +789,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d add(Vector4fc v) {
-        return add(v, this.orNew());
+        return add(v, thisOrNew());
     }
 
     /**
@@ -802,7 +802,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d fma(Vector4dc a, Vector4dc b) {
-        return fma(a, b, this.orNew());
+        return fma(a, b, thisOrNew());
     }
 
     /**
@@ -815,7 +815,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d fma(double a, Vector4dc b) {
-        return fma(a, b, this.orNew());
+        return fma(a, b, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -848,7 +848,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d mul(Vector4dc v) {
-        return mul(v, this.orNew());
+        return mul(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -870,7 +870,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d div(Vector4dc v) {
-        return div(v, this.orNew());
+        return div(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -892,7 +892,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d mul(Vector4fc v) {
-        return mul(v, this.orNew());
+        return mul(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -914,7 +914,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d mul(Matrix4dc mat) {
-        return mul(mat, this.orNew());
+        return mul(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -961,7 +961,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d mul(Matrix4x3dc mat) {
-        return mul(mat, this.orNew());
+        return mul(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -987,7 +987,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d mul(Matrix4x3fc mat) {
-        return mul(mat, this.orNew());
+        return mul(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1012,7 +1012,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d mul(Matrix4fc mat) {
-        return mul(mat, this.orNew());
+        return mul(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1068,7 +1068,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d mulProject(Matrix4dc mat) {
-        return mulProject(mat, this.orNew());
+        return mulProject(mat, thisOrNew());
     }
 
     /**
@@ -1079,7 +1079,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d mul(double scalar) {
-        return mul(scalar, this.orNew());
+        return mul(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1101,7 +1101,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d div(double scalar) {
-        return div(scalar, this.orNew());
+        return div(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1126,7 +1126,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d rotate(Quaterniondc quat) {
-        return rotate(quat, this.orNew());
+        return rotate(quat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1151,7 +1151,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d rotateAxis(double angle, double x, double y, double z) {
-        return rotateAxis(angle, x, y, z, this.orNew());
+        return rotateAxis(angle, x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1181,7 +1181,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d rotateX(double angle) {
-        return rotateX(angle, this.orNew());
+        return rotateX(angle, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1206,7 +1206,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d rotateY(double angle) {
-        return rotateY(angle, this.orNew());
+        return rotateY(angle, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1231,7 +1231,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d rotateZ(double angle) {
-        return rotateZ(angle, this.orNew());
+        return rotateZ(angle, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1268,7 +1268,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d normalize() {
-        return normalize(this.orNew());
+        return normalize(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1291,7 +1291,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d normalize(double length) {
-        return normalize(length, this.orNew());
+        return normalize(length, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1312,7 +1312,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d normalize3() {
-        return normalize3(this.orNew());
+        return normalize3(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1386,7 +1386,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d zero() {
-        return this.orNew().set(0, 0, 0, 0);
+        return thisOrNew().set(0, 0, 0, 0);
     }
 
     /**
@@ -1395,7 +1395,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d negate() {
-        return negate(this.orNew());
+        return negate(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1417,7 +1417,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d min(Vector4dc v) {
-        return min(v, this.orNew());
+        return min(v, thisOrNew());
     }
 
     public Vector4d min(Vector4dc v, Vector4d dest) {
@@ -1436,7 +1436,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d max(Vector4dc v) {
-        return max(v, this.orNew());
+        return max(v, thisOrNew());
     }
 
     public Vector4d max(Vector4dc v, Vector4d dest) {
@@ -1558,7 +1558,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return a vector holding the result
      */
     public Vector4d lerp(Vector4dc other, double t) {
-        return lerp(other, t, this.orNew());
+        return lerp(other, t, thisOrNew());
     }
 
     /* (non-Javadoc)

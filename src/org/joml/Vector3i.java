@@ -200,7 +200,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * 
      * @return <code>this</code> or a new vector instance
      */
-    protected Vector3i orNew() {
+    protected Vector3i thisOrNew() {
         if (Options.IMMUTABLE)
             return new Vector3i();
         return this;
@@ -490,7 +490,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i sub(Vector3ic v) {
-        return sub(v.x(), v.y(), v.z(), this.orNew());
+        return sub(v.x(), v.y(), v.z(), thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -515,7 +515,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i sub(int x, int y, int z) {
-        return sub(x, y, z, this.orNew());
+        return sub(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -536,7 +536,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i add(Vector3ic v) {
-        return add(v.x(), v.y(), v.z(), this.orNew());
+        return add(v.x(), v.y(), v.z(), thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -561,7 +561,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i add(int x, int y, int z) {
-        return add(x, y, z, this.orNew());
+        return add(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -583,7 +583,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i mul(int scalar) {
-        return mul(scalar, this.orNew());
+        return mul(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -604,7 +604,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i mul(Vector3ic v) {
-        return mul(v.x(), v.y(), v.z(), this.orNew());
+        return mul(v.x(), v.y(), v.z(), thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -629,7 +629,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i mul(int x, int y, int z) {
-        return mul(x, y, z, this.orNew());
+        return mul(x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -693,7 +693,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i zero() {
-        return this.orNew().set(0, 0, 0);
+        return thisOrNew().set(0, 0, 0);
     }
 
     /**
@@ -736,7 +736,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i negate() {
-        return negate(this.orNew());
+        return negate(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -757,7 +757,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i min(Vector3ic v) {
-        return min(v, this.orNew());
+        return min(v, thisOrNew());
     }
 
     public Vector3i min(Vector3ic v, Vector3i dest) {
@@ -775,7 +775,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return a vector holding the result
      */
     public Vector3i max(Vector3ic v) {
-        return max(v, this.orNew());
+        return max(v, thisOrNew());
     }
 
     public Vector3i max(Vector3ic v, Vector3i dest) {

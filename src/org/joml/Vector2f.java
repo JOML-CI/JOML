@@ -182,7 +182,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @return <code>this</code> or a new vector instance
      */
-    protected Vector2f orNew() {
+    protected Vector2f thisOrNew() {
         if (Options.IMMUTABLE)
             return new Vector2f();
         return this;
@@ -457,7 +457,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f sub(Vector2fc v) {
-        return sub(v, this.orNew());
+        return sub(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -479,7 +479,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f sub(float x, float y) {
-        return sub(x, y, this.orNew());
+        return sub(x, y, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -559,7 +559,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f normalize() {
-        return normalize(this.orNew());
+        return normalize(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -580,7 +580,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f normalize(float length) {
-        return normalize(length, this.orNew());
+        return normalize(length, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -601,7 +601,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f add(Vector2fc v) {
-        return add(v, this.orNew());
+        return add(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -623,7 +623,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f add(float x, float y) {
-        return add(x, y, this.orNew());
+        return add(x, y, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -641,7 +641,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f zero() {
-        return this.orNew().set(0, 0);
+        return thisOrNew().set(0, 0);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -661,7 +661,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f negate() {
-        return negate(this.orNew());
+        return negate(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -681,7 +681,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f mul(float scalar) {
-        return mul(scalar, this.orNew());
+        return mul(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -703,7 +703,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f mul(float x, float y) {
-        return mul(x, y, this.orNew());
+        return mul(x, y, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -723,7 +723,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f mul(Vector2fc v) {
-        return mul(v, this.orNew());
+        return mul(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -745,7 +745,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f mulPosition(Matrix3x2fc mat) {
-        return mulPosition(mat, this.orNew());
+        return mulPosition(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -767,7 +767,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f mulDirection(Matrix3x2fc mat) {
-        return mulDirection(mat, this.orNew());
+        return mulDirection(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -793,7 +793,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f lerp(Vector2fc other, float t) {
-        return lerp(other, t, this.orNew());
+        return lerp(other, t, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -860,7 +860,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f fma(Vector2fc a, Vector2fc b) {
-        return fma(a, b, this.orNew());
+        return fma(a, b, thisOrNew());
     }
 
     /**
@@ -873,7 +873,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f fma(float a, Vector2fc b) {
-        return fma(a, b, this.orNew());
+        return fma(a, b, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -902,7 +902,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f min(Vector2fc v) {
-        return min(v, this.orNew());
+        return min(v, thisOrNew());
     }
 
     public Vector2f min(Vector2fc v, Vector2f dest) {
@@ -919,7 +919,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return a vector holding the result
      */
     public Vector2f max(Vector2fc v) {
-        return max(v, this.orNew());
+        return max(v, thisOrNew());
     }
 
     public Vector2f max(Vector2fc v, Vector2f dest) {

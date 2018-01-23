@@ -261,7 +261,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @return <code>this</code> or a new vector instance
      */
-    protected Vector4f orNew() {
+    protected Vector4f thisOrNew() {
         if (Options.IMMUTABLE)
             return new Vector4f();
         return this;
@@ -608,7 +608,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f sub(Vector4fc v) {
-        return sub(v, this.orNew());
+        return sub(v, thisOrNew());
     }
 
     /**
@@ -625,7 +625,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f sub(float x, float y, float z, float w) {
-        return sub(x, y, z, w, this.orNew());
+        return sub(x, y, z, w, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -654,7 +654,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f add(Vector4fc v) {
-        return add(v, this.orNew());
+        return add(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -682,7 +682,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f add(float x, float y, float z, float w) {
-        return add(x, y, z, w, this.orNew());
+        return add(x, y, z, w, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -706,7 +706,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f fma(Vector4fc a, Vector4fc b) {
-        return fma(a, b, this.orNew());
+        return fma(a, b, thisOrNew());
     }
 
     /**
@@ -719,7 +719,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f fma(float a, Vector4fc b) {
-        return fma(a, b, this.orNew());
+        return fma(a, b, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -752,7 +752,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f mul(Vector4fc v) {
-        return mul(v, this.orNew());
+        return mul(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -774,7 +774,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f div(Vector4fc v) {
-        return div(v, this.orNew());
+        return div(v, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -797,7 +797,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f mul(Matrix4fc mat) {
-        return mul(mat, this.orNew());
+        return mul(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -844,7 +844,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f mul(Matrix4x3fc mat) {
-        return mul(mat, this.orNew());
+        return mul(mat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -884,7 +884,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f mulProject(Matrix4fc mat) {
-        return mulProject(mat, this.orNew());
+        return mulProject(mat, thisOrNew());
     }
 
     /**
@@ -896,7 +896,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f mul(float scalar) {
-        return mul(scalar, this.orNew());
+        return mul(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -924,7 +924,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f mul(float x, float y, float z, float w) {
-        return mul(x, y, z, w, this.orNew());
+        return mul(x, y, z, w, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -947,7 +947,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f div(float scalar) {
-        return div(scalar, this.orNew());
+        return div(scalar, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -976,7 +976,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f div(float x, float y, float z, float w) {
-        return div(x, y, z, w, this.orNew());
+        return div(x, y, z, w, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1000,7 +1000,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f rotate(Quaternionfc quat) {
-        return rotate(quat, this.orNew());
+        return rotate(quat, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1024,7 +1024,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f rotateAbout(float angle, float x, float y, float z) {
-        return rotateAxis(angle, x, y, z, this.orNew());
+        return rotateAxis(angle, x, y, z, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1054,7 +1054,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f rotateX(float angle) {
-        return rotateX(angle, this.orNew());
+        return rotateX(angle, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1079,7 +1079,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f rotateY(float angle) {
-        return rotateY(angle, this.orNew());
+        return rotateY(angle, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1104,7 +1104,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f rotateZ(float angle) {
-        return rotateZ(angle, this.orNew());
+        return rotateZ(angle, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1141,7 +1141,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f normalize() {
-        return normalize(this.orNew());
+        return normalize(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1164,7 +1164,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f normalize(float length) {
-        return normalize(length, this.orNew());
+        return normalize(length, thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1185,7 +1185,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f normalize3() {
-        return normalize3(this.orNew());
+        return normalize3(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1259,8 +1259,9 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f zero() {
-        MemUtil.INSTANCE.zero(this.orNew());
-        return this;
+        Vector4f dest = thisOrNew();
+        MemUtil.INSTANCE.zero(dest);
+        return dest;
     }
 
     /**
@@ -1269,7 +1270,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f negate() {
-        return negate(this.orNew());
+        return negate(thisOrNew());
     }
 
     /* (non-Javadoc)
@@ -1327,7 +1328,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f min(Vector4fc v) {
-        return min(v, this.orNew());
+        return min(v, thisOrNew());
     }
 
     public Vector4f min(Vector4fc v, Vector4f dest) {
@@ -1346,7 +1347,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f max(Vector4fc v) {
-        return max(v, this.orNew());
+        return max(v, thisOrNew());
     }
 
     public Vector4f max(Vector4fc v, Vector4f dest) {
@@ -1426,7 +1427,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return a vector holding the result
      */
     public Vector4f lerp(Vector4fc other, float t) {
-        return lerp(other, t, this.orNew());
+        return lerp(other, t, thisOrNew());
     }
 
     /* (non-Javadoc)
