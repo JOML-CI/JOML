@@ -300,6 +300,70 @@ public interface Matrix3x2dc {
     ByteBuffer get(int index, ByteBuffer buffer);
 
     /**
+     * Store this matrix as an equivalent 3x3 matrix in column-major order into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * In order to specify the offset into the DoubleBuffer at which
+     * the matrix is stored, use {@link #get3x3(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get3x3(int, DoubleBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    DoubleBuffer get3x3(DoubleBuffer buffer);
+
+    /**
+     * Store this matrix as an equivalent 3x3 matrix in column-major order into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * 
+     * @param index
+     *            the absolute position into the DoubleBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    DoubleBuffer get3x3(int index, DoubleBuffer buffer);
+
+    /**
+     * Store this matrix as an equivalent 3x3 matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get3x3(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get3x3(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    ByteBuffer get3x3(ByteBuffer buffer);
+
+    /**
+     * Store this matrix as an equivalent 3x3 matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    ByteBuffer get3x3(int index, ByteBuffer buffer);
+
+    /**
      * Store this matrix as an equivalent 4x4 matrix in column-major order into the supplied {@link DoubleBuffer} at the current
      * buffer {@link DoubleBuffer#position() position}.
      * <p>
@@ -402,6 +466,30 @@ public interface Matrix3x2dc {
      * @return the passed in array
      */
     double[] get(double[] arr);
+
+    /**
+     * Store this matrix as an equivalent 3x3 matrix into the supplied double array in column-major order at the given offset.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    double[] get3x3(double[] arr, int offset);
+
+    /**
+     * Store this matrix as an equivalent 3x3 matrix into the supplied double array in column-major order.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get3x3(double[], int)}.
+     * 
+     * @see #get3x3(double[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
+     */
+    double[] get3x3(double[] arr);
 
     /**
      * Store this matrix as an equivalent 4x4 matrix into the supplied double array in column-major order at the given offset.
