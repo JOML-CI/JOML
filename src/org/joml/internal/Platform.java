@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 /**
  * This code was taken and adapted from the LWJGL 3 sources.
- * The original code can be seen here: <a href="https://github.com/LWJGL/lwjgl3/blob/master/modules/core/src/main/java/org/lwjgl/system/Platform.java">Platform.java</a>
+ * The original code can be seen here: <a href="https://github.com/LWJGL/lwjgl3/blob/master/modules/lwjgl/core/src/main/java/org/lwjgl/system/Platform.java">Platform.java</a>
  * 
  * @author The LWJGL authors
  */
