@@ -223,6 +223,8 @@ public abstract class MemUtil {
     public abstract void copy(Matrix3x2f src, float[] dest, int off);
     public abstract void copy(Matrix3x2d src, double[] dest, int off);
     public abstract void copy4x4(Matrix4x3f src, float[] dest, int off);
+    public abstract void copy4x4(Matrix4x3d src, float[] dest, int off);
+    public abstract void copy4x4(Matrix4x3d src, double[] dest, int off);
     public abstract void copy4x4(Matrix3x2f src, float[] dest, int off);
     public abstract void copy4x4(Matrix3x2d src, double[] dest, int off);
     public abstract void copy3x3(Matrix3x2f src, float[] dest, int off);
@@ -2077,6 +2079,44 @@ public abstract class MemUtil {
             dest[off+13] = src.m31();
             dest[off+14] = src.m32();
             dest[off+15] = 1.0f;
+        }
+
+        public void copy4x4(Matrix4x3d src, float[] dest, int off) {
+            dest[off+0]  = (float) src.m00();
+            dest[off+1]  = (float) src.m01();
+            dest[off+2]  = (float) src.m02();
+            dest[off+3]  = 0.0f;
+            dest[off+4]  = (float) src.m10();
+            dest[off+5]  = (float) src.m11();
+            dest[off+6]  = (float) src.m12();
+            dest[off+7]  = 0.0f;
+            dest[off+8]  = (float) src.m20();
+            dest[off+9]  = (float) src.m21();
+            dest[off+10] = (float) src.m22();
+            dest[off+11] = 0.0f;
+            dest[off+12] = (float) src.m30();
+            dest[off+13] = (float) src.m31();
+            dest[off+14] = (float) src.m32();
+            dest[off+15] = 1.0f;
+        }
+
+        public void copy4x4(Matrix4x3d src, double[] dest, int off) {
+            dest[off+0]  = src.m00();
+            dest[off+1]  = src.m01();
+            dest[off+2]  = src.m02();
+            dest[off+3]  = 0.0;
+            dest[off+4]  = src.m10();
+            dest[off+5]  = src.m11();
+            dest[off+6]  = src.m12();
+            dest[off+7]  = 0.0;
+            dest[off+8]  = src.m20();
+            dest[off+9]  = src.m21();
+            dest[off+10] = src.m22();
+            dest[off+11] = 0.0;
+            dest[off+12] = src.m30();
+            dest[off+13] = src.m31();
+            dest[off+14] = src.m32();
+            dest[off+15] = 1.0;
         }
 
         public void copy3x3(Matrix3x2f src, float[] dest, int off) {

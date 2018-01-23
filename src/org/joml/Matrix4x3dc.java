@@ -709,6 +709,64 @@ public interface Matrix4x3dc {
      */
     float[] get(float[] arr);
 
+    /**
+     * Store a 4x4 matrix in column-major order into the supplied array at the given offset,
+     * where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    double[] get4x4(double[] arr, int offset);
+
+    /**
+     * Store a 4x4 matrix in column-major order into the supplied array,
+     * where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get4x4(double[], int)}.
+     * 
+     * @see #get4x4(double[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
+     */
+    double[] get4x4(double[] arr);
+
+    /**
+     * Store a 4x4 matrix in column-major order into the supplied array at the given offset,
+     * where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given float array.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    float[] get4x4(float[] arr, int offset);
+
+    /**
+     * Store a 4x4 matrix in column-major order into the supplied array,
+     * where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given float array.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get4x4(float[], int)}.
+     * 
+     * @see #get4x4(float[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
+     */
+    float[] get4x4(float[] arr);
+
 //#ifdef __HAS_NIO__
     /**
      * Store a 4x4 matrix in column-major order into the supplied {@link DoubleBuffer} at the current

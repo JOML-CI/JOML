@@ -598,7 +598,8 @@ public interface Matrix4x3fc {
     float[] get(float[] arr);
 
     /**
-     * Store this matrix as an equivalent 4x4 matrix into the supplied float array in column-major order at the given offset.
+     * Store a 4x4 matrix in column-major order into the supplied array at the given offset,
+     * where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
      * 
      * @param arr
      *          the array to write the matrix values into
@@ -609,7 +610,8 @@ public interface Matrix4x3fc {
     float[] get4x4(float[] arr, int offset);
 
     /**
-     * Store this matrix as an equivalent 4x4 matrix into the supplied float array in column-major order.
+     * Store a 4x4 matrix in column-major order into the supplied array,
+     * where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
      * <p>
      * In order to specify an explicit offset into the array, use the method {@link #get4x4(float[], int)}.
      * 

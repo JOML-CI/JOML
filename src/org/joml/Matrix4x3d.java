@@ -2125,6 +2125,36 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return get(arr, 0);
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#get4x4(float[], int)
+     */
+    public float[] get4x4(float[] arr, int offset) {
+        MemUtil.INSTANCE.copy4x4(this, arr, offset);
+        return arr;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#get4x4(float[])
+     */
+    public float[] get4x4(float[] arr) {
+        return get4x4(arr, 0);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#get4x4(double[], int)
+     */
+    public double[] get4x4(double[] arr, int offset) {
+        MemUtil.INSTANCE.copy4x4(this, arr, offset);
+        return arr;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#get4x4(double[])
+     */
+    public double[] get4x4(double[] arr) {
+        return get4x4(arr, 0);
+    }
+
 //#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Matrix4x3dc#get4x4(java.nio.DoubleBuffer)
