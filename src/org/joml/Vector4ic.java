@@ -325,6 +325,28 @@ public interface Vector4ic {
     Vector4i negate(Vector4i dest);
 
     /**
+     * Set the components of <code>dest</code> to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector4i min(Vector4ic v, Vector4i dest);
+
+    /**
+     * Set the components of <code>dest</code> to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector4i max(Vector4ic v, Vector4i dest);
+
+    /**
      * Get the value of the specified component of this vector.
      * 
      * @param component

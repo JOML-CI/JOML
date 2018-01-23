@@ -256,6 +256,20 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
+    Vector3d fma(Vector3fc a, Vector3fc b, Vector3d dest);
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
     Vector3d fma(double a, Vector3fc b, Vector3d dest);
 
     /**
@@ -899,6 +913,28 @@ public interface Vector3dc {
      * @return the angle, in radians
      */
     double angle(Vector3dc v);
+
+    /**
+     * Set the components of <code>dest</code> to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector3d min(Vector3dc v, Vector3d dest);
+
+    /**
+     * Set the components of <code>dest</code> to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector3d max(Vector3dc v, Vector3d dest);
 
     /**
      * Negate this vector and store the result in <code>dest</code>.

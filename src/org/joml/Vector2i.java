@@ -196,9 +196,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i set(int s) {
-        this.x = s;
-        this.y = s;
-        return this;
+        return set(s, s);
     }
 
     /**
@@ -224,9 +222,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i set(Vector2ic v) {
-        x = v.x();
-        y = v.y();
-        return this;
+        return set(v.x(), v.y());
     }
 
     /**
@@ -240,9 +236,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i set(Vector2dc v) {
-        x = (int) v.x();
-        y = (int) v.y();
-        return this;
+        return set((int) v.x(), (int) v.y());
     }
 
 //#ifdef __HAS_NIO__
@@ -432,9 +426,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i sub(Vector2ic v) {
-        x -= v.x();
-        y -= v.y();
-        return this;
+        return sub(v, this);
     }
 
     /* (non-Javadoc)
@@ -456,9 +448,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i sub(int x, int y) {
-        this.x -= x;
-        this.y -= y;
-        return this;
+        return sub(x, y, this);
     }
 
     /* (non-Javadoc)
@@ -524,9 +514,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i add(Vector2ic v) {
-        x += v.x();
-        y += v.y();
-        return this;
+        return add(v, this);
     }
 
     /* (non-Javadoc)
@@ -548,9 +536,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i add(int x, int y) {
-        this.x += x;
-        this.y += y;
-        return this;
+        return add(x, y, this);
     }
 
     /* (non-Javadoc)
@@ -571,9 +557,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i mul(int scalar) {
-        x *= scalar;
-        y *= scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     /* (non-Javadoc)
@@ -615,9 +599,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i mul(int x, int y) {
-        this.x *= x;
-        this.y *= y;
-        return this;
+        return mul(x, y, this);
     }
 
     /* (non-Javadoc)
@@ -635,9 +617,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i zero() {
-        this.x = 0;
-        this.y = 0;
-        return this;
+        return set(0, 0);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -656,9 +636,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return this
      */
     public Vector2i negate() {
-        x = -x;
-        y = -y;
-        return this;
+        return negate(this);
     }
 
     /* (non-Javadoc)
@@ -668,6 +646,40 @@ public class Vector2i implements Externalizable, Vector2ic {
         dest.x = -x;
         dest.y = -y;
         return dest;
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector2i min(Vector2ic v) {
+        return min(v, this);
+    }
+
+    public Vector2i min(Vector2ic v, Vector2i dest) {
+        dest.x = x < v.x() ? x : v.x();
+        dest.y = y < v.y() ? y : v.y();
+        return this;
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector2i max(Vector2ic v) {
+        return max(v, this);
+    }
+
+    public Vector2i max(Vector2ic v, Vector2i dest) {
+        dest.x = x > v.x() ? x : v.x();
+        dest.y = y > v.y() ? y : v.y();
+        return this;
     }
 
     public int hashCode() {

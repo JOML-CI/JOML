@@ -100,10 +100,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the w component
      */
     public Vector4i(Vector3ic v, int w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = w;
+    	this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -118,10 +115,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the w component
      */
     public Vector4i(Vector2ic v, int z, int w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        this.w = w;
+    	this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -286,11 +280,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(Vector3ic v, int w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = w;
-        return this;
+        return set(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -307,11 +297,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(Vector2ic v, int z, int w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        this.w = w;
-        return this;
+    	return set(v.x(), v.y(), z, w);
     }
 
     /**
@@ -543,11 +529,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i sub(Vector4ic v) {
-        x -= v.x();
-        y -= v.y();
-        z -= v.z();
-        w -= v.w();
-        return this;
+        return sub(v, this);
     }
 
     /**
@@ -575,11 +557,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#sub(org.joml.Vector4ic, org.joml.Vector4i)
      */
     public Vector4i sub(Vector4ic v, Vector4i dest) {
-        dest.x = x - v.x();
-        dest.y = y - v.y();
-        dest.z = z - v.z();
-        dest.w = w - v.w();
-        return dest;
+        return sub(v.x(), v.y(), v.z(), v.w(), dest);
     }
 
     /* (non-Javadoc)
@@ -601,22 +579,14 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i add(Vector4ic v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
-        w += v.w();
-        return this;
+        return add(v, this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#add(org.joml.Vector4ic, org.joml.Vector4i)
      */
     public Vector4i add(Vector4ic v, Vector4i dest) {
-        dest.x = x + v.x();
-        dest.y = y + v.y();
-        dest.z = z + v.z();
-        dest.w = w + v.w();
-        return dest;
+        return add(v.x(), v.y(), v.z(), v.w(), dest);
     }
 
     /**
@@ -633,11 +603,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i add(int x, int y, int z, int w) {
-        this.x += x;
-        this.y += y;
-        this.z += z;
-        this.w += w;
-        return this;
+        return add(x, y, z, w, this);
     }
 
     /* (non-Javadoc)
@@ -659,11 +625,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i mul(Vector4ic v) {
-        x *= v.x();
-        y *= v.y();
-        z *= v.z();
-        w *= v.w();
-        return this;
+        return mul(v, this);
     }
 
     /* (non-Javadoc)
@@ -685,11 +647,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i div(Vector4ic v) {
-        x /= v.x();
-        y /= v.y();
-        z /= v.z();
-        w /= v.w();
-        return this;
+        return div(v, this);
     }
 
     /* (non-Javadoc)
@@ -712,11 +670,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i mul(float scalar) {
-        x *= scalar;
-        y *= scalar;
-        z *= scalar;
-        w *= scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     /* (non-Javadoc)
@@ -738,11 +692,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i div(int scalar) {
-        x /= scalar;
-        y /= scalar;
-        z /= scalar;
-        w /= scalar;
-        return this;
+        return div(scalar, this);
     }
 
     /* (non-Javadoc)
@@ -774,7 +724,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#distance(org.joml.Vector4i)
      */
     public double distance(Vector4ic v) {
-        return Math.sqrt(distanceSquared(v));
+        return distance(v.x(), v.y(), v.z(), v.w());
     }
 
     /* (non-Javadoc)
@@ -788,11 +738,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#distanceSquared(org.joml.Vector4ic)
      */
     public int distanceSquared(Vector4ic v) {
-        int dx = this.x - v.x();
-        int dy = this.y - v.y();
-        int dz = this.z - v.z();
-        int dw = this.w - v.w();
-        return dx * dx + dy * dy + dz * dz + dw * dw;
+        return distanceSquared(v.x(), v.y(), v.z(), v.w());
     }
 
     /* (non-Javadoc)
@@ -829,11 +775,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i negate() {
-        x = -x;
-        y = -y;
-        z = -z;
-        w = -w;
-        return this;
+        return negate(this);
     }
 
     /* (non-Javadoc)
@@ -884,34 +826,40 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 
     /**
-     * Set the components of this vector to be the component-wise minimum of
-     * this and the other vector.
+     * Set the components of this vector to be the component-wise minimum of this and the other vector.
      *
      * @param v
      *          the other vector
      * @return this
      */
     public Vector4i min(Vector4ic v) {
-        this.x = Math.min(x, v.x());
-        this.y = Math.min(y, v.y());
-        this.z = Math.min(z, v.z());
-        this.w = Math.min(w, v.w());
+        return min(v, this);
+    }
+
+    public Vector4i min(Vector4ic v, Vector4i dest) {
+        dest.x = x < v.x() ? x : v.x();
+        dest.y = y < v.y() ? y : v.y();
+        dest.z = z < v.z() ? z : v.z();
+        dest.w = w < v.w() ? w : v.w();
         return this;
     }
 
     /**
-     * Set the components of this vector to be the component-wise maximum of
-     * this and the other vector.
+     * Set the components of this vector to be the component-wise maximum of this and the other vector.
      *
      * @param v
      *          the other vector
      * @return this
      */
     public Vector4i max(Vector4ic v) {
-        this.x = Math.max(x, v.x());
-        this.y = Math.max(y, v.y());
-        this.z = Math.max(z, v.z());
-        this.w = Math.min(w, v.w());
+        return max(v, this);
+    }
+
+    public Vector4i max(Vector4ic v, Vector4i dest) {
+        dest.x = x > v.x() ? x : v.x();
+        dest.y = y > v.y() ? y : v.y();
+        dest.z = z > v.z() ? z : v.z();
+        dest.w = w > v.w() ? w : v.w();
         return this;
     }
 

@@ -711,6 +711,28 @@ public interface Vector3fc {
     float angle(Vector3fc v);
 
     /**
+     * Set the components of <code>dest</code> to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector3f min(Vector3fc v, Vector3f dest);
+
+    /**
+     * Set the components of <code>dest</code> to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector3f max(Vector3fc v, Vector3f dest);
+
+    /**
      * Negate this vector and store the result in <code>dest</code>.
      * 
      * @param dest

@@ -385,6 +385,28 @@ public interface Vector2dc {
     Vector2d fma(double a, Vector2dc b, Vector2d dest);
 
     /**
+     * Set the components of <code>dest</code> to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector2d min(Vector2dc v, Vector2d dest);
+
+    /**
+     * Set the components of <code>dest</code> to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector2d max(Vector2dc v, Vector2d dest);
+
+    /**
      * Get the value of the specified component of this vector.
      * 
      * @param component

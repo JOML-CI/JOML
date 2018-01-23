@@ -100,9 +100,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          provides the initial values for the new vector
      */
     public Vector3d(Vector3fc v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
+    	this(v.x(), v.y(), v.z());
     }
 
     /**
@@ -112,9 +110,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          provides the initial values for the new vector
      */
     public Vector3d(Vector3ic v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
+    	this(v.x(), v.y(), v.z());
     }
 
     /**
@@ -127,9 +123,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component
      */
     public Vector3d(Vector2fc v, double z) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
+    	this(v.x(), v.y(), z);
     }
 
     /**
@@ -142,9 +136,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component
      */
     public Vector3d(Vector2ic v, double z) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
+    	this(v.x(), v.y(), z);
     }
 
     /**
@@ -154,9 +146,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          provides the initial values for the new vector
      */
     public Vector3d(Vector3dc v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
+    	this(v.x(), v.y(), v.z());
     }
 
     /**
@@ -169,9 +159,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component
      */
     public Vector3d(Vector2dc v, double z) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
+    	this(v.x(), v.y(), z);
     }
 
 //#ifdef __HAS_NIO__
@@ -265,10 +253,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d set(Vector3dc v) {
-        x = v.x();
-        y = v.y();
-        z = v.z();
-        return this;
+        return set(v.x(), v.y(), v.z());
     }
 
     /**
@@ -279,10 +264,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d set(Vector3ic v) {
-        x = v.x();
-        y = v.y();
-        z = v.z();
-        return this;
+        return set(v.x(), v.y(), v.z());
     }
 
     /**
@@ -296,10 +278,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d set(Vector2dc v, double z) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        return this;
+        return set(v.x(), v.y(), z);
     }
 
     /**
@@ -313,10 +292,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d set(Vector2ic v, double z) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        return this;
+        return set(v.x(), v.y(), z);
     }
 
     /**
@@ -327,10 +303,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d set(Vector3fc v) {
-        x = v.x();
-        y = v.y();
-        z = v.z();
-        return this;
+        return set(v.x(), v.y(), v.z());
     }
 
     /**
@@ -344,10 +317,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d set(Vector2fc v, double z) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        return this;
+        return set(v.x(), v.y(), z);
     }
 
     /**
@@ -552,10 +522,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d sub(Vector3dc v) {
-        x -= v.x();
-        y -= v.y();
-        z -= v.z();
-        return this;
+        return sub(v, this);
     }
 
     /* (non-Javadoc)
@@ -576,10 +543,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d sub(Vector3fc v) {
-        x -= v.x();
-        y -= v.y();
-        z -= v.z();
-        return this;
+        return sub(v, this);
     }
 
     /* (non-Javadoc)
@@ -604,10 +568,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d sub(double x, double y, double z) {
-        this.x -= x;
-        this.y -= y;
-        this.z -= z;
-        return this;
+        return sub(x, y, z, this);
     }
 
     /* (non-Javadoc)
@@ -628,10 +589,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d add(Vector3dc v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
-        return this;
+        return add(v, this);
     }
 
     /* (non-Javadoc)
@@ -652,10 +610,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d add(Vector3fc v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
-        return this;
+        return add(v, this);
     }
 
     /* (non-Javadoc)
@@ -680,10 +635,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d add(double x, double y, double z) {
-        this.x += x;
-        this.y += y;
-        this.z += z;
-        return this;
+        return add(x, y, z, this);
     }
 
     /* (non-Javadoc)
@@ -706,10 +658,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d fma(Vector3dc a, Vector3dc b) {
-        x += a.x() * b.x();
-        y += a.y() * b.y();
-        z += a.z() * b.z();
-        return this;
+        return fma(a, b, this);
     }
 
     /**
@@ -722,10 +671,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d fma(double a, Vector3dc b) {
-        x += a * b.x();
-        y += a * b.y();
-        z += a * b.z();
-        return this;
+        return fma(a, b, this);
     }
 
     /**
@@ -738,10 +684,17 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d fma(Vector3fc a, Vector3fc b) {
-        x += a.x() * b.x();
-        y += a.y() * b.y();
-        z += a.z() * b.z();
-        return this;
+        return fma(a, b, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#fma(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Vector3f)
+     */
+    public Vector3d fma(Vector3fc a, Vector3fc b, Vector3d dest) {
+        dest.x = x + a.x() * b.x();
+        dest.y = y + a.y() * b.y();
+        dest.z = z + a.z() * b.z();
+        return dest;
     }
 
     /**
@@ -754,10 +707,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d fma(double a, Vector3fc b) {
-        x += a * b.x();
-        y += a * b.y();
-        z += a * b.z();
-        return this;
+        return fma(a, b, this);
     }
 
     /* (non-Javadoc)
@@ -808,10 +758,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d mul(Vector3dc v) {
-        x *= v.x();
-        y *= v.y();
-        z *= v.z();
-        return this;
+        return mul(v, this);
     }
 
     /**
@@ -822,10 +769,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d mul(Vector3fc v) {
-        x *= v.x();
-        y *= v.y();
-        z *= v.z();
-        return this;
+        return mul(v, this);
     }
 
     /* (non-Javadoc)
@@ -856,10 +800,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d div(Vector3d v) {
-        x /= v.x();
-        y /= v.y();
-        z /= v.z();
-        return this;
+        return div(v, this);
     }
 
     /**
@@ -870,10 +811,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d div(Vector3fc v) {
-        x /= v.x();
-        y /= v.y();
-        z /= v.z();
-        return this;
+        return div(v, this);
     }
 
     /* (non-Javadoc)
@@ -1483,10 +1421,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d mul(double scalar) {
-        x *= scalar;
-        y *= scalar;
-        z *= scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     /* (non-Javadoc)
@@ -1511,10 +1446,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d mul(double x, double y, double z) {
-        this.x *= x;
-        this.y *= y;
-        this.z *= z;
-        return this;
+        return mul(x, y, z, this);
     }
 
     /* (non-Javadoc)
@@ -1537,16 +1469,14 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d rotate(Quaterniondc quat) {
-        quat.transform(this, this);
-        return this;
+        return quat.transform(this, this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#rotate(org.joml.Quaterniondc, org.joml.Vector3d)
      */
     public Vector3d rotate(Quaterniondc quat, Vector3d dest) {
-        quat.transform(this, dest);
-        return dest;
+        return quat.transform(this, dest);
     }
 
     /*
@@ -1681,11 +1611,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d div(double scalar) {
-        double inv = 1.0 / scalar;
-        x *= inv;
-        y *= inv;
-        z *= inv;
-        return this;
+        return div(scalar, this);
     }
 
     /* (non-Javadoc)
@@ -1711,10 +1637,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d div(double x, double y, double z) {
-        this.x /= x;
-        this.y /= y;
-        this.z /= z;
-        return this;
+        return div(x, y, z, this);
     }
 
     /* (non-Javadoc)
@@ -1747,11 +1670,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d normalize() {
-        double invLength = 1.0 / length();
-        x *= invLength;
-        y *= invLength;
-        z *= invLength;
-        return this;
+        return normalize(this);
     }
 
     /* (non-Javadoc)
@@ -1773,11 +1692,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d normalize(double length) {
-        double invLength = 1.0 / length() * length;
-        x *= invLength;
-        y *= invLength;
-        z *= invLength;
-        return this;
+        return normalize(length, this);
     }
 
     /* (non-Javadoc)
@@ -1847,10 +1762,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#distance(org.joml.Vector3dc)
      */
     public double distance(Vector3dc v) {
-        double dx = v.x() - x;
-        double dy = v.y() - y;
-        double dz = v.z() - z;
-        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    	return distance(v.x(), v.y(), v.z());
     }
 
     /* (non-Javadoc)
@@ -1867,10 +1779,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#distanceSquared(org.joml.Vector3dc)
      */
     public double distanceSquared(Vector3dc v) {
-        double dx = v.x() - x;
-        double dy = v.y() - y;
-        double dz = v.z() - z;
-        return dx * dx + dy * dy + dz * dz;
+    	return distanceSquared(v.x(), v.y(), v.z());
     }
 
     /* (non-Javadoc)
@@ -1887,7 +1796,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#dot(org.joml.Vector3dc)
      */
     public double dot(Vector3dc v) {
-        return x * v.x() + y * v.y() + z * v.z();
+        return dot(v.x(), v.y(), v.z());
     }
 
     /* (non-Javadoc)
@@ -1926,9 +1835,13 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d min(Vector3dc v) {
-        this.x = x < v.x() ? x : v.x();
-        this.y = y < v.y() ? y : v.y();
-        this.z = z < v.z() ? z : v.z();
+        return min(v, this);
+    }
+
+    public Vector3d min(Vector3dc v, Vector3d dest) {
+        dest.x = x < v.x() ? x : v.x();
+        dest.y = y < v.y() ? y : v.y();
+        dest.z = z < v.z() ? z : v.z();
         return this;
     }
 
@@ -1940,9 +1853,13 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d max(Vector3dc v) {
-        this.x = x > v.x() ? x : v.x();
-        this.y = y > v.y() ? y : v.y();
-        this.z = z > v.z() ? z : v.z();
+        return max(v, this);
+    }
+
+    public Vector3d max(Vector3dc v, Vector3d dest) {
+        dest.x = x > v.x() ? x : v.x();
+        dest.y = y > v.y() ? y : v.y();
+        dest.z = z > v.z() ? z : v.z();
         return this;
     }
 
@@ -1952,10 +1869,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d zero() {
-        x = 0.0;
-        y = 0.0;
-        z = 0.0;
-        return this;
+        return set(0, 0, 0);
     }
 
     /**
@@ -1999,10 +1913,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d negate() {
-        x = -x;
-        y = -y;
-        z = -z;
-        return this;
+        return negate(this);
     }
 
     /* (non-Javadoc)
@@ -2021,10 +1932,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d absolute() {
-        this.x = Math.abs(this.x);
-        this.y = Math.abs(this.y);
-        this.z = Math.abs(this.z);
-        return this;
+        return absolute(this);
     }
 
     /*
@@ -2076,11 +1984,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d reflect(Vector3dc normal) {
-        double dot = this.dot(normal);
-        x = x - (dot + dot) * normal.x();
-        y = y - (dot + dot) * normal.y();
-        z = z - (dot + dot) * normal.z();
-        return this;
+        return reflect(normal, this);
     }
 
     /**
@@ -2095,22 +1999,14 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d reflect(double x, double y, double z) {
-        double dot = this.dot(x, y, z);
-        this.x = this.x - (dot + dot) * x;
-        this.y = this.y - (dot + dot) * y;
-        this.z = this.z - (dot + dot) * z;
-        return this;
+        return reflect(x, y, z, this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#reflect(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d reflect(Vector3dc normal, Vector3d dest) {
-        double dot = this.dot(normal);
-        dest.x = x - (dot + dot) * normal.x();
-        dest.y = y - (dot + dot) * normal.y();
-        dest.z = z - (dot + dot) * normal.z();
-        return dest;
+        return reflect(normal.x(), normal.y(), normal.z(), dest);
     }
 
     /* (non-Javadoc)
@@ -2132,7 +2028,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d half(Vector3dc other) {
-        return this.add(other).normalize();
+        return half(other, this);
     }
 
     /**
@@ -2147,14 +2043,14 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d half(double x, double y, double z) {
-        return this.add(x, y, z).normalize();
+        return half(x, y, z, this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#half(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d half(Vector3dc other, Vector3d dest) {
-        return dest.set(this).add(other).normalize();
+        return half(other.x(), other.y(), other.z(), dest);
     }
 
     /* (non-Javadoc)

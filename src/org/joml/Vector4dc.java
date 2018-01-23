@@ -134,6 +134,28 @@ public interface Vector4dc {
 //#endif
 
     /**
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector4d sub(Vector4dc v, Vector4d dest);
+
+    /**
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector4d sub(Vector4fc v, Vector4d dest);
+
+    /**
      * Subtract <tt>(x, y, z, w)</tt> from this and store the result in <code>dest</code>.
      * 
      * @param x
@@ -149,6 +171,28 @@ public interface Vector4dc {
      * @return dest
      */
     Vector4d sub(double x, double y, double z, double w, Vector4d dest);
+
+    /**
+     * Add the supplied vector to this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to add
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector4d add(Vector4dc v, Vector4d dest);
+
+    /**
+     * Add the supplied vector to this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to add
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector4d add(Vector4fc v, Vector4d dest);
 
     /**
      * Add <tt>(x, y, z, w)</tt> to this and store the result in <code>dest</code>.
@@ -498,6 +542,28 @@ public interface Vector4dc {
      * @return dest
      */
     Vector4d negate(Vector4d dest);
+
+    /**
+     * Set the components of <code>dest</code> to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector4d min(Vector4dc v, Vector4d dest);
+
+    /**
+     * Set the components of <code>dest</code> to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    Vector4d max(Vector4dc v, Vector4d dest);
 
     /**
      * Compute a smooth-step (i.e. hermite with zero tangents) interpolation

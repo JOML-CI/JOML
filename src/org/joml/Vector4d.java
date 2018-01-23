@@ -78,10 +78,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the {@link Vector4dc} to copy the values from
      */
     public Vector4d(Vector4dc v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = v.w();
+    	this(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -91,10 +88,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the {@link Vector4ic} to copy the values from
      */
     public Vector4d(Vector4ic v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = v.w();
+    	this(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -107,10 +101,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector3dc v, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = w;
+    	this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -123,10 +114,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector3ic v, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = w;
+    	this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -141,10 +129,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector2dc v, double z, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        this.w = w;
+    	this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -159,10 +144,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector2ic v, double z, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        this.w = w;
+    	this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -182,10 +164,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the {@link Vector4fc} to copy the values from
      */
     public Vector4d(Vector4fc v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = v.w();
+    	this(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -198,10 +177,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector3fc v, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = w;
+    	this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -216,10 +192,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector2fc v, double z, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        this.w = w;
+    	this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -340,11 +313,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector4dc v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = v.w();
-        return this;
+        return set(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -355,11 +324,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector4fc v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = v.w();
-        return this;
+        return set(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -370,11 +335,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector4ic v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = v.w();
-        return this;
+        return set(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -388,11 +349,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector3dc v, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = w;
-        return this;
+        return set(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -406,11 +363,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector3ic v, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = w;
-        return this;
+        return set(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -424,11 +377,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector3fc v, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        this.w = w;
-        return this;
+        return set(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -444,11 +393,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector2dc v, double z, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        this.w = w;
-        return this;
+        return set(v.x(), v.y(), z, w);
     }
 
     /**
@@ -464,11 +409,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector2ic v, double z, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        this.w = w;
-        return this;
+        return set(v.x(), v.y(), z, w);
     }
 
     /**
@@ -495,11 +436,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector2fc v, double z, double w) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        this.w = w;
-        return this;
+        return set(v.x(), v.y(), z, w);
     }
 
     /**
@@ -699,11 +636,24 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d sub(Vector4dc v) {
-        x -= v.x();
-        y -= v.y();
-        z -= v.z();
-        w -= v.w();
-        return this;
+        return sub(v, this);
+    }
+
+    /**
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    public Vector4d sub(Vector4dc v, Vector4d dest) {
+        dest.x = x - v.x();
+        dest.y = y - v.y();
+        dest.z = z - v.z();
+        dest.w = w - v.w();
+        return dest;
     }
 
     /**
@@ -714,11 +664,24 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d sub(Vector4fc v) {
-        x -= v.x();
-        y -= v.y();
-        z -= v.z();
-        w -= v.w();
-        return this;
+        return sub(v, this);
+    }
+
+    /**
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     * 			will hold the result
+     * @return dest
+     */
+    public Vector4d sub(Vector4fc v, Vector4d dest) {
+        dest.x = x - v.x();
+        dest.y = y - v.y();
+        dest.z = z - v.z();
+        dest.w = w - v.w();
+        return dest;
     }
 
     /**
@@ -735,11 +698,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d sub(double x, double y, double z, double w) {
-        this.x -= x;
-        this.y -= y;
-        this.z -= z;
-        this.w -= w;
-        return this;
+        return sub(x, y, z, w, this);
     }
 
     /* (non-Javadoc)
@@ -761,11 +720,23 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d add(Vector4dc v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
-        w += v.w();
-        return this;
+        return add(v, this);
+    }
+
+    public Vector4d add(Vector4dc v, Vector4d dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        dest.z = this.z + z;
+        dest.w = this.w + w;
+        return dest;
+    }
+
+    public Vector4d add(Vector4fc v, Vector4d dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        dest.z = this.z + z;
+        dest.w = this.w + w;
+        return dest;
     }
 
     /**
@@ -782,11 +753,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d add(double x, double y, double z, double w) {
-        this.x += x;
-        this.y += y;
-        this.z += z;
-        this.w += w;
-        return this;
+        return add(x, y, z, w, this);
     }
 
     /* (non-Javadoc)
@@ -808,11 +775,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d add(Vector4fc v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
-        w += v.w();
-        return this;
+        return add(v, this);
     }
 
     /**
@@ -825,11 +788,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d fma(Vector4dc a, Vector4dc b) {
-        x += a.x() * b.x();
-        y += a.y() * b.y();
-        z += a.z() * b.z();
-        w += a.w() * b.w();
-        return this;
+        return fma(a, b, this);
     }
 
     /**
@@ -842,11 +801,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d fma(double a, Vector4dc b) {
-        x += a * b.x();
-        y += a * b.y();
-        z += a * b.z();
-        w += a * b.w();
-        return this;
+        return fma(a, b, this);
     }
 
     /* (non-Javadoc)
@@ -1110,11 +1065,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d mul(double scalar) {
-        x *= scalar;
-        y *= scalar;
-        z *= scalar;
-        w *= scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     /* (non-Javadoc)
@@ -1136,12 +1087,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d div(double scalar) {
-        double inv = 1.0 / scalar;
-        x *= inv;
-        y *= inv;
-        z *= inv;
-        w *= inv;
-        return this;
+        return div(scalar, this);
     }
 
     /* (non-Javadoc)
@@ -1308,12 +1254,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d normalize() {
-        double invLength = 1.0 / length();
-        x *= invLength;
-        y *= invLength;
-        z *= invLength;
-        w *= invLength;
-        return this;
+        return normalize(this);
     }
 
     /* (non-Javadoc)
@@ -1336,12 +1277,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d normalize(double length) {
-        double invLength = 1.0 / length() * length;
-        x *= invLength;
-        y *= invLength;
-        z *= invLength;
-        w *= invLength;
-        return this;
+        return normalize(length, this);
     }
 
     /* (non-Javadoc)
@@ -1362,12 +1298,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d normalize3() {
-        double invLength = 1.0 / Math.sqrt(x * x + y * y + z * z);
-        x *= invLength;
-        y *= invLength;
-        z *= invLength;
-        w *= invLength;
-        return this;
+        return normalize3(this);
     }
 
     /* (non-Javadoc)
@@ -1386,11 +1317,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#distance(org.joml.Vector4dc)
      */
     public double distance(Vector4dc v) {
-        double dx = v.x() - x;
-        double dy = v.y() - y;
-        double dz = v.z() - z;
-        double dw = v.w() - w;
-        return Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+    	return distance(v.x(), v.y(), v.z(), v.w());
     }
 
     /* (non-Javadoc)
@@ -1408,7 +1335,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#dot(org.joml.Vector4dc)
      */
     public double dot(Vector4dc v) {
-        return x * v.x() + y * v.y() + z * v.z() + w * v.w();
+        return dot(v.x(), v.y(), v.z(), v.w());
     }
 
     /* (non-Javadoc)
@@ -1445,11 +1372,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d zero() {
-        x = 0.0;
-        y = 0.0;
-        z = 0.0;
-        w = 0.0;
-        return this;
+        return set(0, 0, 0, 0);
     }
 
     /**
@@ -1458,11 +1381,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d negate() {
-        x = -x;
-        y = -y;
-        z = -z;
-        w = -w;
-        return this;
+        return negate(this);
     }
 
     /* (non-Javadoc)
@@ -1474,6 +1393,44 @@ public class Vector4d implements Externalizable, Vector4dc {
         dest.z = -z;
         dest.w = -w;
         return dest;
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector4d min(Vector4dc v) {
+        return min(v, this);
+    }
+
+    public Vector4d min(Vector4dc v, Vector4d dest) {
+        dest.x = x < v.x() ? x : v.x();
+        dest.y = y < v.y() ? y : v.y();
+        dest.z = z < v.z() ? z : v.z();
+        dest.w = w < v.w() ? w : v.w();
+        return this;
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector4d max(Vector4dc v) {
+        return max(v, this);
+    }
+
+    public Vector4d max(Vector4dc v, Vector4d dest) {
+        dest.x = x > v.x() ? x : v.x();
+        dest.y = y > v.y() ? y : v.y();
+        dest.z = z > v.z() ? z : v.z();
+        dest.w = w > v.w() ? w : v.w();
+        return this;
     }
 
     /**

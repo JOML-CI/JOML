@@ -234,9 +234,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d set(Vector2dc v) {
-        x = v.x();
-        y = v.y();
-        return this;
+        return set(v.x(), v.y());
     }
 
     /**
@@ -247,9 +245,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d set(Vector2fc v) {
-        x = v.x();
-        y = v.y();
-        return this;
+        return set(v.x(), v.y());
     }
 
     /**
@@ -260,9 +256,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d set(Vector2ic v) {
-        x = v.x();
-        y = v.y();
-        return this;
+        return set(v.x(), v.y());
     }
 
 //#ifdef __HAS_NIO__
@@ -458,9 +452,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d sub(Vector2dc v) {
-        x -= v.x();
-        y -= v.y();
-        return this;
+        return sub(v, this);
     }
 
     /**
@@ -473,9 +465,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d sub(double x, double y) {
-        this.x -= x;
-        this.y -= y;
-        return this;
+        return sub(x, y, this);
     }
 
     /* (non-Javadoc)
@@ -495,9 +485,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d sub(Vector2fc v) {
-        x -= v.x();
-        y -= v.y();
-        return this;
+        return sub(v, this);
     }
 
     /* (non-Javadoc)
@@ -526,9 +514,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d mul(double scalar) {
-        this.x *= scalar;
-        this.y *= scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     /* (non-Javadoc)
@@ -550,9 +536,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d mul(double x, double y) {
-        this.x *= x;
-        this.y *= y;
-        return this;
+        return mul(x, y, this);
     }
 
     /* (non-Javadoc)
@@ -572,9 +556,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d mul(Vector2dc v) {
-        x *= v.x();
-        y *= v.y();
-        return this;
+        return mul(v, this);
     }
 
     /* (non-Javadoc)
@@ -686,10 +668,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d normalize() {
-        double invLength = 1.0 / Math.sqrt(x * x + y * y);
-        x *= invLength;
-        y *= invLength;
-        return this;
+        return normalize(this);
     }
 
     /* (non-Javadoc)
@@ -710,10 +689,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d normalize(double length) {
-        double invLength = 1.0 / Math.sqrt(x * x + y * y) * length;
-        x *= invLength;
-        y *= invLength;
-        return this;
+        return normalize(length, this);
     }
 
     /* (non-Javadoc)
@@ -734,9 +710,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d add(Vector2dc v) {
-        x += v.x();
-        y += v.y();
-        return this;
+        return add(v, this);
     }
 
     /**
@@ -749,9 +723,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d add(double x, double y) {
-        this.x += x;
-        this.y += y;
-        return this;
+        return add(x, y, this);
     }
 
     /* (non-Javadoc)
@@ -771,9 +743,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d add(Vector2fc v) {
-        x += v.x();
-        y += v.y();
-        return this;
+        return add(v, this);
     }
 
     /* (non-Javadoc)
@@ -800,9 +770,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d zero() {
-        x = 0.0;
-        y = 0.0;
-        return this;
+        return set(0, 0);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -822,9 +790,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d negate() {
-        x = -x;
-        y = -y;
-        return this;
+        return negate(this);
     }
 
     /* (non-Javadoc)
@@ -920,9 +886,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d fma(Vector2dc a, Vector2dc b) {
-        x += a.x() * b.x();
-        y += a.y() * b.y();
-        return this;
+        return fma(a, b, this);
     }
 
     /**
@@ -935,9 +899,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d fma(double a, Vector2dc b) {
-        x += a * b.x();
-        y += a * b.y();
-        return this;
+        return fma(a, b, this);
     }
 
     /* (non-Javadoc)
@@ -956,6 +918,40 @@ public class Vector2d implements Externalizable, Vector2dc {
         dest.x = x + a * b.x();
         dest.y = y + a * b.y();
         return dest;
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector2d min(Vector2dc v) {
+        return min(v, this);
+    }
+
+    public Vector2d min(Vector2dc v, Vector2d dest) {
+        dest.x = x < v.x() ? x : v.x();
+        dest.y = y < v.y() ? y : v.y();
+        return this;
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector2d max(Vector2dc v) {
+        return max(v, this);
+    }
+
+    public Vector2d max(Vector2dc v, Vector2d dest) {
+        dest.x = x > v.x() ? x : v.x();
+        dest.y = y > v.y() ? y : v.y();
+        return this;
     }
 
 }
