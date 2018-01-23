@@ -445,6 +445,22 @@ public interface Matrix3x2fc {
     Matrix3x2f scale(float x, float y, Matrix3x2f dest);
 
     /**
+     * Apply scaling to this matrix by scaling the base axes by the given <code>xy</code> factors
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the scaling will be applied first!
+     * 
+     * @param xy
+     *            the factors of the x and y component, respectively
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Matrix3x2f scale(Vector2fc xy, Matrix3x2f dest);
+
+    /**
      * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given sx and
      * sy factors while using the given <tt>(ox, oy)</tt> as the scaling origin,
      * and store the result in <code>dest</code>.
