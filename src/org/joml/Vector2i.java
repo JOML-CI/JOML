@@ -174,6 +174,20 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 //#endif
 
+    /**
+     * Will be called by methods that do not take an explicit <code>dest</code>
+     * parameter to return the object to write the result into. By default this is
+     * <code>this</code>. When <tt>-Djoml.immutable</tt> is <code>true</code> then
+     * this method returns a new vector instance on every invocation.
+     * 
+     * @return <code>this</code> or a new vector instance
+     */
+    protected Vector2i orNew() {
+        if (Options.IMMUTABLE)
+            return new Vector2i();
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector2ic#x()
      */
@@ -423,10 +437,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the vector to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i sub(Vector2ic v) {
-        return sub(v, this);
+        return sub(v, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -445,10 +459,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the x component to subtract
      * @param y
      *          the y component to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i sub(int x, int y) {
-        return sub(x, y, this);
+        return sub(x, y, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -511,10 +525,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the vector to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i add(Vector2ic v) {
-        return add(v, this);
+        return add(v, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -533,10 +547,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the x component to add
      * @param y
      *          the y component to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i add(int x, int y) {
-        return add(x, y, this);
+        return add(x, y, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -554,10 +568,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      * 
      * @param scalar
      *          the scalar to multiply this vector by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i mul(int scalar) {
-        return mul(scalar, this);
+        return mul(scalar, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -574,10 +588,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the vector to multiply
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i mul(Vector2ic v) {
-        return mul(v, this);
+        return mul(v, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -596,10 +610,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the x component to multiply
      * @param y
      *          the y component to multiply
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i mul(int x, int y) {
-        return mul(x, y, this);
+        return mul(x, y, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -614,10 +628,10 @@ public class Vector2i implements Externalizable, Vector2ic {
     /**
      * Set all components to zero.
      *
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i zero() {
-        return set(0, 0);
+        return this.orNew().set(0, 0);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -633,10 +647,10 @@ public class Vector2i implements Externalizable, Vector2ic {
     /**
      * Negate this vector.
      *
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i negate() {
-        return negate(this);
+        return negate(this.orNew());
     }
 
     /* (non-Javadoc)
@@ -653,10 +667,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i min(Vector2ic v) {
-        return min(v, this);
+        return min(v, this.orNew());
     }
 
     public Vector2i min(Vector2ic v, Vector2i dest) {
@@ -670,10 +684,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2i max(Vector2ic v) {
-        return max(v, this);
+        return max(v, this.orNew());
     }
 
     public Vector2i max(Vector2ic v, Vector2i dest) {

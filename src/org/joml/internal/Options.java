@@ -37,6 +37,12 @@ import java.util.Locale;
 public final class Options {
 
     /**
+     * Whether vector methods that do not take an explicit <code>dest</code> parameter will create a new vector to store the
+     * result into and return that vector, instead of writing to <code>this</code>.
+     */
+    public static final boolean IMMUTABLE = hasOption(System.getProperty("joml.immutable", "false"));
+
+    /**
      * Whether certain debugging checks should be made, such as that only direct NIO Buffers are used when Unsafe is active,
      * and a proxy should be created on calls to readOnlyView().
      */

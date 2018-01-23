@@ -192,6 +192,20 @@ public class Vector3i implements Externalizable, Vector3ic {
     }
 //#endif
 
+    /**
+     * Will be called by methods that do not take an explicit <code>dest</code>
+     * parameter to return the object to write the result into. By default this is
+     * <code>this</code>. When <tt>-Djoml.immutable</tt> is <code>true</code> then
+     * this method returns a new vector instance on every invocation.
+     * 
+     * @return <code>this</code> or a new vector instance
+     */
+    protected Vector3i orNew() {
+        if (Options.IMMUTABLE)
+            return new Vector3i();
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3ic#x()
      */
@@ -473,10 +487,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the vector to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i sub(Vector3ic v) {
-        return sub(v.x(), v.y(), v.z(), this);
+        return sub(v.x(), v.y(), v.z(), this.orNew());
     }
 
     /* (non-Javadoc)
@@ -498,10 +512,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the y component to subtract
      * @param z
      *          the z component to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i sub(int x, int y, int z) {
-        return sub(x, y, z, this);
+        return sub(x, y, z, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -519,10 +533,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the vector to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i add(Vector3ic v) {
-        return add(v.x(), v.y(), v.z(), this);
+        return add(v.x(), v.y(), v.z(), this.orNew());
     }
 
     /* (non-Javadoc)
@@ -544,10 +558,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the y component to add
      * @param z
      *          the z component to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i add(int x, int y, int z) {
-        return add(x, y, z, this);
+        return add(x, y, z, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -566,10 +580,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      * 
      * @param scalar
      *          the scalar to multiply this vector by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i mul(int scalar) {
-        return mul(scalar, this);
+        return mul(scalar, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -587,10 +601,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the vector to multiply
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i mul(Vector3ic v) {
-        return mul(v.x(), v.y(), v.z(), this);
+        return mul(v.x(), v.y(), v.z(), this.orNew());
     }
 
     /* (non-Javadoc)
@@ -612,10 +626,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the y component to multiply
      * @param z
      *          the z component to multiply
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i mul(int x, int y, int z) {
-        return mul(x, y, z, this);
+        return mul(x, y, z, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -676,10 +690,10 @@ public class Vector3i implements Externalizable, Vector3ic {
     /**
      * Set all components to zero.
      *
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i zero() {
-        return set(0, 0, 0);
+        return this.orNew().set(0, 0, 0);
     }
 
     /**
@@ -719,10 +733,10 @@ public class Vector3i implements Externalizable, Vector3ic {
     /**
      * Negate this vector.
      *
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i negate() {
-        return negate(this);
+        return negate(this.orNew());
     }
 
     /* (non-Javadoc)
@@ -740,10 +754,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i min(Vector3ic v) {
-        return min(v, this);
+        return min(v, this.orNew());
     }
 
     public Vector3i min(Vector3ic v, Vector3i dest) {
@@ -758,10 +772,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector3i max(Vector3ic v) {
-        return max(v, this);
+        return max(v, this.orNew());
     }
 
     public Vector3i max(Vector3ic v, Vector3i dest) {

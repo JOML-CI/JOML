@@ -174,6 +174,20 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 //#endif
 
+    /**
+     * Will be called by methods that do not take an explicit <code>dest</code>
+     * parameter to return the object to write the result into. By default this is
+     * <code>this</code>. When <tt>-Djoml.immutable</tt> is <code>true</code> then
+     * this method returns a new vector instance on every invocation.
+     * 
+     * @return <code>this</code> or a new vector instance
+     */
+    protected Vector2f orNew() {
+        if (Options.IMMUTABLE)
+            return new Vector2f();
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector2fc#x()
      */
@@ -198,7 +212,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     public Vector2f set(float d) {
         return set(d, d);
     }
-    
+
     /**
      * Set the x and y components to the supplied values.
      * 
@@ -440,10 +454,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param v
      *          the vector to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f sub(Vector2fc v) {
-        return sub(v, this);
+        return sub(v, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -462,10 +476,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the x component to subtract
      * @param y
      *          the y component to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f sub(float x, float y) {
-        return sub(x, y, this);
+        return sub(x, y, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -542,10 +556,10 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Normalize this vector.
      * 
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f normalize() {
-        return normalize(this);
+        return normalize(this.orNew());
     }
 
     /* (non-Javadoc)
@@ -563,10 +577,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param length
      *          the desired length
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f normalize(float length) {
-        return normalize(length, this);
+        return normalize(length, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -584,10 +598,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param v
      *        the vector to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f add(Vector2fc v) {
-        return add(v, this);
+        return add(v, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -606,10 +620,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the x component to add
      * @param y
      *          the y component to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f add(float x, float y) {
-        return add(x, y, this);
+        return add(x, y, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -624,10 +638,10 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Set all components to zero.
      * 
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f zero() {
-        return set(0, 0);
+        return this.orNew().set(0, 0);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -644,10 +658,10 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Negate this vector.
      * 
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f negate() {
-        return negate(this);
+        return negate(this.orNew());
     }
 
     /* (non-Javadoc)
@@ -664,10 +678,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param scalar
      *        the value to multiply this vector's components by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f mul(float scalar) {
-        return mul(scalar, this);
+        return mul(scalar, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -686,10 +700,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the x component to multiply this vector by
      * @param y
      *          the y component to multiply this vector by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f mul(float x, float y) {
-        return mul(x, y, this);
+        return mul(x, y, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -706,10 +720,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param v
      *          the vector to multiply by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f mul(Vector2fc v) {
-        return mul(v, this);
+        return mul(v, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -728,10 +742,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f mulPosition(Matrix3x2fc mat) {
-        return mulPosition(mat, this);
+        return mulPosition(mat, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -750,10 +764,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f mulDirection(Matrix3x2fc mat) {
-        return mulDirection(mat, this);
+        return mulDirection(mat, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -776,10 +790,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the other vector
      * @param t
      *          the interpolation factor between 0.0 and 1.0
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f lerp(Vector2fc other, float t) {
-        return lerp(other, t, this);
+        return lerp(other, t, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -843,10 +857,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f fma(Vector2fc a, Vector2fc b) {
-        return fma(a, b, this);
+        return fma(a, b, this.orNew());
     }
 
     /**
@@ -856,10 +870,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f fma(float a, Vector2fc b) {
-        return fma(a, b, this);
+        return fma(a, b, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -885,10 +899,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f min(Vector2fc v) {
-        return min(v, this);
+        return min(v, this.orNew());
     }
 
     public Vector2f min(Vector2fc v, Vector2f dest) {
@@ -902,10 +916,10 @@ public class Vector2f implements Externalizable, Vector2fc {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2f max(Vector2fc v) {
-        return max(v, this);
+        return max(v, this.orNew());
     }
 
     public Vector2f max(Vector2fc v, Vector2f dest) {

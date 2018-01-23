@@ -186,6 +186,20 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 //#endif
 
+    /**
+     * Will be called by methods that do not take an explicit <code>dest</code>
+     * parameter to return the object to write the result into. By default this is
+     * <code>this</code>. When <tt>-Djoml.immutable</tt> is <code>true</code> then
+     * this method returns a new vector instance on every invocation.
+     * 
+     * @return <code>this</code> or a new vector instance
+     */
+    protected Vector2d orNew() {
+        if (Options.IMMUTABLE)
+            return new Vector2d();
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#x()
      */
@@ -449,10 +463,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d sub(Vector2dc v) {
-        return sub(v, this);
+        return sub(v, this.orNew());
     }
 
     /**
@@ -462,10 +476,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the x component to subtract
      * @param y
      *          the y component to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d sub(double x, double y) {
-        return sub(x, y, this);
+        return sub(x, y, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -482,10 +496,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to subtract
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d sub(Vector2fc v) {
-        return sub(v, this);
+        return sub(v, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -511,10 +525,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param scalar
      *        the value to multiply this vector's components by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d mul(double scalar) {
-        return mul(scalar, this);
+        return mul(scalar, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -533,10 +547,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the x component to multiply this vector by
      * @param y
      *          the y component to multiply this vector by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d mul(double x, double y) {
-        return mul(x, y, this);
+        return mul(x, y, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -553,10 +567,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to multiply by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d mul(Vector2dc v) {
-        return mul(v, this);
+        return mul(v, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -575,10 +589,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d mulPosition(Matrix3x2dc mat) {
-        return mulPosition(mat, this);
+        return mulPosition(mat, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -599,10 +613,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d mulDirection(Matrix3x2dc mat) {
-        return mulDirection(mat, this);
+        return mulDirection(mat, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -665,10 +679,10 @@ public class Vector2d implements Externalizable, Vector2dc {
     /**
      * Normalize this vector.
      * 
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d normalize() {
-        return normalize(this);
+        return normalize(this.orNew());
     }
 
     /* (non-Javadoc)
@@ -686,10 +700,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param length
      *          the desired length
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d normalize(double length) {
-        return normalize(length, this);
+        return normalize(length, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -707,10 +721,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d add(Vector2dc v) {
-        return add(v, this);
+        return add(v, this.orNew());
     }
 
     /**
@@ -720,10 +734,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the x component to add
      * @param y
      *          the y component to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d add(double x, double y) {
-        return add(x, y, this);
+        return add(x, y, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -740,10 +754,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to add
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d add(Vector2fc v) {
-        return add(v, this);
+        return add(v, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -767,10 +781,10 @@ public class Vector2d implements Externalizable, Vector2dc {
     /**
      * Set all components to zero.
      * 
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d zero() {
-        return set(0, 0);
+        return this.orNew().set(0, 0);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -787,10 +801,10 @@ public class Vector2d implements Externalizable, Vector2dc {
     /**
      * Negate this vector.
      * 
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d negate() {
-        return negate(this);
+        return negate(this.orNew());
     }
 
     /* (non-Javadoc)
@@ -813,10 +827,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the other vector
      * @param t
      *          the interpolation factor between 0.0 and 1.0
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d lerp(Vector2dc other, double t) {
-        return lerp(other, t, this);
+        return lerp(other, t, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -883,10 +897,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d fma(Vector2dc a, Vector2dc b) {
-        return fma(a, b, this);
+        return fma(a, b, this.orNew());
     }
 
     /**
@@ -896,10 +910,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d fma(double a, Vector2dc b) {
-        return fma(a, b, this);
+        return fma(a, b, this.orNew());
     }
 
     /* (non-Javadoc)
@@ -925,10 +939,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d min(Vector2dc v) {
-        return min(v, this);
+        return min(v, this.orNew());
     }
 
     public Vector2d min(Vector2dc v, Vector2d dest) {
@@ -942,10 +956,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      *
      * @param v
      *          the other vector
-     * @return this
+     * @return a vector holding the result
      */
     public Vector2d max(Vector2dc v) {
-        return max(v, this);
+        return max(v, this.orNew());
     }
 
     public Vector2d max(Vector2dc v, Vector2d dest) {
