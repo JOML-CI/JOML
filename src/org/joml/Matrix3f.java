@@ -3560,8 +3560,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         dir.x = m10 * m21 - m11 * m20;
         dir.y = m20 * m01 - m21 * m00;
         dir.z = m00 * m11 - m01 * m10;
-        dir.normalize();
-        return dir;
+        return dir.normalize(dir);
     }
 
     /* (non-Javadoc)
@@ -3581,8 +3580,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         dir.x = m11 * m22 - m12 * m21;
         dir.y = m02 * m21 - m01 * m22;
         dir.z = m01 * m12 - m02 * m11;
-        dir.normalize();
-        return dir;
+        return dir.normalize(dir);
     }
 
     /* (non-Javadoc)
@@ -3602,8 +3600,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         dir.x = m12 * m20 - m10 * m22;
         dir.y = m00 * m22 - m02 * m20;
         dir.z = m02 * m10 - m00 * m12;
-        dir.normalize();
-        return dir;
+        return dir.normalize(dir);
     }
 
     /* (non-Javadoc)

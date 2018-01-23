@@ -1051,7 +1051,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      *
      * @param view
      *          the matrix which to multiply <code>this</code> with
-     * @return dest
+     * @return this
      */
     public Matrix4x3f mulOrtho(Matrix4x3fc view) {
         return mulOrtho(view, this);
@@ -7380,22 +7380,22 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     public Planef frustumPlane(int which, Planef plane) {
         switch (which) {
         case PLANE_NX:
-            plane.set(m00, m10, m20, 1.0f + m30).normalize();
+            plane.set(m00, m10, m20, 1.0f + m30).normalize(plane);
             break;
         case PLANE_PX:
-            plane.set(-m00, -m10, -m20, 1.0f - m30).normalize();
+            plane.set(-m00, -m10, -m20, 1.0f - m30).normalize(plane);
             break;
         case PLANE_NY:
-            plane.set(m01, m11, m21, 1.0f + m31).normalize();
+            plane.set(m01, m11, m21, 1.0f + m31).normalize(plane);
             break;
         case PLANE_PY:
-            plane.set(-m01, -m11, -m21, 1.0f - m31).normalize();
+            plane.set(-m01, -m11, -m21, 1.0f - m31).normalize(plane);
             break;
         case PLANE_NZ:
-            plane.set(m02, m12, m22, 1.0f + m32).normalize();
+            plane.set(m02, m12, m22, 1.0f + m32).normalize(plane);
             break;
         case PLANE_PZ:
-            plane.set(-m02, -m12, -m22, 1.0f - m32).normalize();
+            plane.set(-m02, -m12, -m22, 1.0f - m32).normalize(plane);
             break;
         default:
             throw new IllegalArgumentException("which"); //$NON-NLS-1$
@@ -7410,8 +7410,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dir.x = m10 * m21 - m11 * m20;
         dir.y = m20 * m01 - m21 * m00;
         dir.z = m00 * m11 - m01 * m10;
-        dir.normalize();
-        return dir;
+        return dir.normalize(dir);
     }
 
     /* (non-Javadoc)
@@ -7431,8 +7430,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dir.x = m11 * m22 - m12 * m21;
         dir.y = m02 * m21 - m01 * m22;
         dir.z = m01 * m12 - m02 * m11;
-        dir.normalize();
-        return dir;
+        return dir.normalize(dir);
     }
 
     /* (non-Javadoc)
@@ -7452,8 +7450,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dir.x = m12 * m20 - m10 * m22;
         dir.y = m00 * m22 - m02 * m20;
         dir.z = m02 * m10 - m00 * m12;
-        dir.normalize();
-        return dir;
+        return dir.normalize(dir);
     }
 
     /* (non-Javadoc)
@@ -8024,7 +8021,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      *          the rotation angle around the X axis in radians
      * @param angleY
      *          the rotation angle around the Y axis in radians
-     * @return dest
+     * @return this
      */
     public Matrix4x3f arcball(float radius, float centerX, float centerY, float centerZ, float angleX, float angleY) {
         return arcball(radius, centerX, centerY, centerZ, angleX, angleY, this);

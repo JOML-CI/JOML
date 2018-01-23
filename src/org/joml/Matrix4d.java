@@ -1758,7 +1758,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *
      * @param view
      *          the {@link #isAffine() affine} matrix to multiply <code>this</code> symmetric perspective projection matrix by
-     * @return dest
+     * @return this
      */
     public Matrix4d mulPerspectiveAffine(Matrix4dc view) {
        return mulPerspectiveAffine(view, this);
@@ -1975,7 +1975,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *
      * @param view
      *          the affine matrix which to multiply <code>this</code> with
-     * @return dest
+     * @return this
      */
     public Matrix4d mulOrthoAffine(Matrix4dc view) {
         return mulOrthoAffine(view, this);
@@ -8842,11 +8842,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
         double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
         double ndcZ = winZ+winZ-1.0;
-        dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
-        dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
-        dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
-        dest.w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
-        dest.div(dest.w);
+        double invW = 1.0 / (im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33);
+        dest.x = (im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30) * invW;
+        dest.y = (im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31) * invW;
+        dest.z = (im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32) * invW;
+        dest.w = 1.0;
         return dest;
     }
 
@@ -8887,11 +8887,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
         double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
         double ndcZ = winZ+winZ-1.0;
-        dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
-        dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
-        dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
-        double w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
-        dest.div(w);
+        double invW = 1.0 / (im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33);
+        dest.x = (im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30) * invW;
+        dest.y = (im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31) * invW;
+        dest.z = (im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32) * invW;
         return dest;
     }
 
@@ -8981,11 +8980,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
         double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
         double ndcZ = winZ+winZ-1.0;
-        dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
-        dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
-        dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
-        dest.w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
-        dest.div(dest.w);
+        double invW = 1.0 / (m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33);
+        dest.x = (m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30) * invW;
+        dest.y = (m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31) * invW;
+        dest.z = (m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32) * invW;
+        dest.w = 1.0;
         return dest;
     }
 
@@ -9003,11 +9002,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
         double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
         double ndcZ = winZ+winZ-1.0;
-        dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
-        dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
-        dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
-        double w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
-        dest.div(w);
+        double invW = 1.0 / (m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33);
+        dest.x = (m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30) * invW;
+        dest.y = (m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31) * invW;
+        dest.z = (m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32) * invW;
         return dest;
     }
 
@@ -9043,14 +9041,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#project(double, double, double, int[], org.joml.Vector4d)
      */
     public Vector4d project(double x, double y, double z, int[] viewport, Vector4d dest) {
-        dest.x = m00 * x + m10 * y + m20 * z + m30;
-        dest.y = m01 * x + m11 * y + m21 * z + m31;
-        dest.z = m02 * x + m12 * y + m22 * z + m32;
-        dest.w = m03 * x + m13 * y + m23 * z + m33;
-        dest.div(dest.w);
-        dest.x = (dest.x*0.5+0.5) * viewport[2] + viewport[0];
-        dest.y = (dest.y*0.5+0.5) * viewport[3] + viewport[1];
-        dest.z = (1.0+dest.z)*0.5;
+        double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33);
+        double nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
+        double ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
+        double nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
+        dest.x = (nx*0.5+0.5) * viewport[2] + viewport[0];
+        dest.y = (ny*0.5+0.5) * viewport[3] + viewport[1];
+        dest.z = (1.0+nz)*0.5;
+        dest.w = 1.0;
         return dest;
     }
 
@@ -9058,14 +9056,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#project(double, double, double, int[], org.joml.Vector3d)
      */
     public Vector3d project(double x, double y, double z, int[] viewport, Vector3d dest) {
-        dest.x = m00 * x + m10 * y + m20 * z + m30;
-        dest.y = m01 * x + m11 * y + m21 * z + m31;
-        dest.z = m02 * x + m12 * y + m22 * z + m32;
-        double w = m03 * x + m13 * y + m23 * z + m33;
-        dest.div(w);
-        dest.x = (dest.x*0.5+0.5) * viewport[2] + viewport[0];
-        dest.y = (dest.y*0.5+0.5) * viewport[3] + viewport[1];
-        dest.z = (1.0+dest.z)*0.5;
+        double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33);
+        double nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
+        double ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
+        double nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
+        dest.x = (nx*0.5+0.5) * viewport[2] + viewport[0];
+        dest.y = (ny*0.5+0.5) * viewport[3] + viewport[1];
+        dest.z = (1.0+nz)*0.5;
         return dest;
     }
 
@@ -12998,22 +12995,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Vector4d frustumPlane(int plane, Vector4d dest) {
         switch (plane) {
         case PLANE_NX:
-            dest.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
+            dest.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3(dest);
             break;
         case PLANE_PX:
-            dest.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3();
+            dest.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3(dest);
             break;
         case PLANE_NY:
-            dest.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3();
+            dest.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3(dest);
             break;
         case PLANE_PY:
-            dest.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3();
+            dest.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3(dest);
             break;
         case PLANE_NZ:
-            dest.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3();
+            dest.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3(dest);
             break;
         case PLANE_PZ:
-            dest.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3();
+            dest.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3(dest);
             break;
         default:
             throw new IllegalArgumentException("plane"); //$NON-NLS-1$
@@ -13027,22 +13024,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Planed frustumPlane(int which, Planed plane) {
         switch (which) {
         case PLANE_NX:
-            plane.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize();
+            plane.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize(plane);
             break;
         case PLANE_PX:
-            plane.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize();
+            plane.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize(plane);
             break;
         case PLANE_NY:
-            plane.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize();
+            plane.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize(plane);
             break;
         case PLANE_PY:
-            plane.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize();
+            plane.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize(plane);
             break;
         case PLANE_NZ:
-            plane.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize();
+            plane.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize(plane);
             break;
         case PLANE_PZ:
-            plane.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize();
+            plane.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize(plane);
             break;
         default:
             throw new IllegalArgumentException("which"); //$NON-NLS-1$
@@ -13204,8 +13201,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.x = m1x * (1.0 - x) + m2x * x;
         dest.y = m1y * (1.0 - x) + m2y * x;
         dest.z = m1z * (1.0 - x) + m2z * x;
-        dest.normalize();
-        return dest;
+        return dest.normalize(dest);
     }
 
     /* (non-Javadoc)
@@ -13215,8 +13211,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.x = m10 * m21 - m11 * m20;
         dest.y = m20 * m01 - m21 * m00;
         dest.z = m00 * m11 - m01 * m10;
-        dest.normalize();
-        return dest;
+        return dest.normalize(dest);
     }
 
     /* (non-Javadoc)
@@ -13236,8 +13231,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.x = m11 * m22 - m12 * m21;
         dest.y = m02 * m21 - m01 * m22;
         dest.z = m01 * m12 - m02 * m11;
-        dest.normalize();
-        return dest;
+        return dest.normalize(dest);
     }
 
     /* (non-Javadoc)
@@ -13257,8 +13251,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.x = m12 * m20 - m10 * m22;
         dest.y = m00 * m22 - m02 * m20;
         dest.z = m02 * m10 - m00 * m12;
-        dest.normalize();
-        return dest;
+        return dest.normalize(dest);
     }
 
     /* (non-Javadoc)
@@ -13945,7 +13938,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the rotation angle around the X axis in radians
      * @param angleY
      *          the rotation angle around the Y axis in radians
-     * @return dest
+     * @return this
      */
     public Matrix4d arcball(double radius, double centerX, double centerY, double centerZ, double angleX, double angleY) {
         return arcball(radius, centerX, centerY, centerZ, angleX, angleY, this);

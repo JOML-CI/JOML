@@ -1982,7 +1982,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *            the x component of the rotation center
      * @param y
      *            the y component of the rotation center
-     * @return dest
+     * @return this
      */
     public Matrix3x2d rotateAbout(double ang, double x, double y) {
         return rotateAbout(ang, x, y, this);
@@ -2243,8 +2243,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         s = 1.0 / s;
         dir.x =  m11 * s;
         dir.y = -m01 * s;
-        dir.normalize();
-        return dir;
+        return dir.normalize(dir);
     }
 
     /* (non-Javadoc)
@@ -2264,8 +2263,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         s = 1.0 / s;
         dir.x = -m10 * s;
         dir.y =  m00 * s;
-        dir.normalize();
-        return dir;
+        return dir.normalize(dir);
     }
 
     /* (non-Javadoc)

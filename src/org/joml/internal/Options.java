@@ -37,8 +37,8 @@ import java.util.Locale;
 public final class Options {
 
     /**
-     * Whether vector methods that do not take an explicit <code>dest</code> parameter will create a new vector to store the
-     * result into and return that vector, instead of writing to <code>this</code>.
+     * Whether methods that do not take an explicit <code>dest</code> parameter will create a new object to store the
+     * result into and return that object, instead of writing to and returning <code>this</code>.
      */
     public static final boolean IMMUTABLE = hasOption(System.getProperty("joml.immutable", "false"));
 

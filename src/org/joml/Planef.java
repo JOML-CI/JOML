@@ -112,11 +112,22 @@ public class Planef {
      * @return this
      */
     public Planef normalize() {
-        float invLength = (float) (1.0 / Math.sqrt(a * a + b * b + c * c));
-        a *= invLength;
-        b *= invLength;
-        c *= invLength;
-        d *= invLength;
+        return normalize(this);
+    }
+
+    /**
+     * Normalize this plane and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Planef normalize(Planef dest) {
+        float invLength = 1.0f / (float) Math.sqrt(a * a + b * b + c * c);
+        dest.a = a * invLength;
+        dest.b = b * invLength;
+        dest.c = c * invLength;
+        dest.d = d * invLength;
         return this;
     }
 
