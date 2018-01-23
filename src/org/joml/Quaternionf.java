@@ -92,24 +92,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /**
-     * Create a new {@link Quaternionf} and initialize its imaginary components to the given values,
-     * and its real part to <tt>1.0</tt>.
-     * 
-     * @param x
-     *          the first component of the imaginary part
-     * @param y
-     *          the second component of the imaginary part
-     * @param z
-     *          the third component of the imaginary part
-     */
-    public Quaternionf(float x, float y, float z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        w = 1.0f;
-    }
-
-    /**
      * Create a new {@link Quaternionf} and initialize its components to the same values as the given {@link Quaternionf}.
      * 
      * @param source
@@ -421,24 +403,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         this.y = y;
         this.z = z;
         this.w = w;
-        return this;
-    }
-
-    /**
-     * Set the x, y and z components of this quaternion to the given values.
-     * 
-     * @param x
-     *          the new value of x
-     * @param y
-     *          the new value of y
-     * @param z
-     *          the new value of z
-     * @return this
-     */
-    public Quaternionf set(float x, float y, float z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
         return this;
     }
 

@@ -87,24 +87,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     /**
-     * Create a new {@link Quaterniond} and initialize its imaginary components to the given values,
-     * and its real part to <tt>1.0</tt>.
-     * 
-     * @param x
-     *          the first component of the imaginary part
-     * @param y
-     *          the second component of the imaginary part
-     * @param z
-     *          the third component of the imaginary part
-     */
-    public Quaterniond(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.w = 1.0;
-    }
-
-    /**
      * Create a new {@link Quaterniond} and initialize its components to the same values as the given {@link Quaterniond}.
      * 
      * @param source
@@ -340,24 +322,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         this.y = y;
         this.z = z;
         this.w = w;
-        return this;
-    }
-
-    /**
-     * Set the x, y and z components of this quaternion to the new values.
-     * 
-     * @param x
-     *          the new value of x
-     * @param y
-     *          the new value of y
-     * @param z
-     *          the new value of z
-     * @return this
-     */
-    public Quaterniond set(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
         return this;
     }
 
