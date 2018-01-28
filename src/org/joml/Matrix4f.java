@@ -257,17 +257,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         }
     }
 
-    /**
-     * Will be called by methods that do not take an explicit <code>dest</code>
-     * parameter to return the object to write the result into. By default this is
-     * <code>this</code>. When <tt>-Djoml.immutable</tt> is <code>true</code> then
-     * this method returns a new matrix instance on every invocation.
-     * 
-     * @return <code>this</code> or a new matrix instance
-     */
-    protected Matrix4f thisOrNew() {
-        if (Options.IMMUTABLE)
-            return new Matrix4f();
+    private Matrix4f thisOrNew() {
         return this;
     }
 

@@ -253,17 +253,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 //#endif
 
-    /**
-     * Will be called by methods that do not take an explicit <code>dest</code>
-     * parameter to return the object to write the result into. By default this is
-     * <code>this</code>. When <tt>-Djoml.immutable</tt> is <code>true</code> then
-     * this method returns a new vector instance on every invocation.
-     * 
-     * @return <code>this</code> or a new vector instance
-     */
-    protected Vector4f thisOrNew() {
-        if (Options.IMMUTABLE)
-            return new Vector4f();
+    private Vector4f thisOrNew() {
         return this;
     }
 

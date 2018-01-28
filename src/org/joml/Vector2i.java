@@ -174,17 +174,7 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 //#endif
 
-    /**
-     * Will be called by methods that do not take an explicit <code>dest</code>
-     * parameter to return the object to write the result into. By default this is
-     * <code>this</code>. When <tt>-Djoml.immutable</tt> is <code>true</code> then
-     * this method returns a new vector instance on every invocation.
-     * 
-     * @return <code>this</code> or a new vector instance
-     */
-    protected Vector2i thisOrNew() {
-        if (Options.IMMUTABLE)
-            return new Vector2i();
+    private Vector2i thisOrNew() {
         return this;
     }
 
