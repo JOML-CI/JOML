@@ -26,8 +26,6 @@ package org.joml;
  * Computes the weighted average of multiple rotations represented as {@link Quaterniond} instances.
  * <p>
  * Instances of this class are <i>not</i> thread-safe.
- * <p>
- * Reference: <a href="http://www.alinenormoyle.com/">http://www.alinenormoyle.com/</a>
  * 
  * @author Kai Burjack
  */
@@ -295,8 +293,6 @@ public class QuaterniondInterpolator {
 
     /**
      * Compute the weighted average of all of the quaternions given in <code>qs</code> using the specified interpolation factors <code>weights</code>, and store the result in <code>dest</code>.
-     * <p>
-     * Reference: <a href="http://www.alinenormoyle.com/">http://www.alinenormoyle.com/</a>
      * 
      * @param qs
      *            the quaternions to interpolate over
