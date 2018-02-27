@@ -80,6 +80,18 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>jdk8</id>
+			<activation>
+				<property>
+					<name>jdk8</name>
+				</property>
+			</activation>
+			<properties>
+				<variant>joml-jdk8</variant>
+				<moduleInfoExclude>module-info.class</moduleInfoExclude>
+			</properties>
+		</profile>
+		<profile>
 			<id>jdk9</id>
 			<activation>
 				<jdk>9</jdk>
