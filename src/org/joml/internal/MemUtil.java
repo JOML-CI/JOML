@@ -2713,9 +2713,18 @@ public abstract class MemUtil {
         }
 
 //#ifdef __HAS_NIO__
+        private static boolean atLeastJava9(String classVersion) {
+            try {
+                double value = Double.parseDouble(classVersion);
+                return value >= 53.0;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+
         private static long findBufferAddress() {
-            String javaVersion = System.getProperty("java.version");
-            if (javaVersion != null && javaVersion.startsWith("9") || javaVersion.startsWith("1.9"))
+            String javaVersion = System.getProperty("java.class.version");
+            if (atLeastJava9(javaVersion))
                 return findBufferAddressJDK9(null);
             else
                 return findBufferAddressJDK1();
