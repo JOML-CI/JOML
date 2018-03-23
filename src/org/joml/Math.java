@@ -229,71 +229,99 @@ public class Math {
     }
 
     /**
-     * Gets the length of a n-dimensional double-precision vector.
+     * Gets the length of a 2-dimensional double-precision vector.
      * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
      *
-     * @param dimensions All the vectors dimensions
+     * @param x The vectors x component
+     * @param y The vectors y component
+     *          
      * @return the length of the given vector
      *
      * @author F. Neurath
      */
-    public static double vecLength(double... dimensions) {
-        double result = .0;
-        for(double d : dimensions) {
-            result += d * d;
-        }
-        return sqrt(result);
+    public static double vecLength2d(double x, double y) {
+        return sqrt(x * x + y * y);
     }
 
     /**
-     * Gets the squared length of a n-dimensional double-precision vector.
+     * Gets the length of a 2-dimensional single-precision vector.
      * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
      *
-     * @param dimensions All the vectors dimensions
-     * @return the squared length of the given vector
-     *
-     * @author F. Neurath
-     */
-    public static double vecLengthSquared(double... dimensions) {
-        double result = .0f;
-        for(double d : dimensions) {
-            result += d * d;
-        }
-        return result;
-    }
-
-    /**
-     * Gets the length of a n-dimensional single-precision vector.
-     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
-     *
-     * @param dimensions All the vectors dimensions
+     * @param x The vectors x component
+     * @param y The vectors y component
+     *          
      * @return the length of the given vector
      *
      * @author F. Neurath
      */
-    public static float vecLength(float... dimensions) {
-        float result = .0f;
-        for(float f : dimensions) {
-            result += f * f;
-        }
-        return (float) sqrt(result);
+    public static float vecLength2f(float x, float y) {
+        return (float) sqrt(x * x + y * y);
     }
 
     /**
-     * Gets the squared length of a n-dimensional single-precision vector.
+     * Gets the length of a 3-dimensional double-precision vector.
      * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
      *
-     * @param dimensions All the vectors dimensions
-     * @return the squared length of the given vector
+     * @param x The vectors x component
+     * @param y The vectors y component
+     * @param z The vectors z component
+     *          
+     * @return the length of the given vector
      *
      * @author F. Neurath
      */
-    public static float vecLengthSquared(float... dimensions) {
-        float result = .0f;
-        for(float f : dimensions) {
-            result += f * f;
-        }
-        return result;
+    public static double vecLength3d(double x, double y, double z) {
+        return sqrt(x * x + y * y + z * z);
+    }
+
+    /**
+     * Gets the length of a 3-dimensional single-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vectors x component
+     * @param y The vectors y component
+     * @param z The vectors z component
+     *          
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static float vecLength3f(float x, float y, float z) {
+        return (float) sqrt(x * x + y * y + z * z);
+    }
+
+    /**
+     * Gets the length of a 4-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vectors x component
+     * @param y The vectors y component
+     * @param z The vectors z component
+     * @param w The vectors w component
+     *          
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double vecLength4d(double x, double y, double z, double w) {
+        return sqrt(x * x + y * y + z * z + w * w);
+    }
+
+    /**
+     * Gets the length of a 4-dimensional single-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vectors x component
+     * @param y The vectors y component
+     * @param z The vectors z component
+     * @param w The vectors w component
+     *          
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static float vecLength4f(float x, float y, float z, float w) {
+        return (float) sqrt(x * x + y * y + z * z + w * w);
     }
 
     /* Other math functions not yet approximated */
