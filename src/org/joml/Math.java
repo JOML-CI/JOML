@@ -228,6 +228,74 @@ public class Math {
         return cos;
     }
 
+    /**
+     * Gets the length of a n-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param dimensions All the vectors dimensions
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double vecLength(double... dimensions) {
+        double result = .0;
+        for(double d : dimensions) {
+            result += d * d;
+        }
+        return sqrt(result);
+    }
+
+    /**
+     * Gets the squared length of a n-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param dimensions All the vectors dimensions
+     * @return the squared length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double vecLengthSquared(double... dimensions) {
+        double result = .0f;
+        for(double d : dimensions) {
+            result += d * d;
+        }
+        return result;
+    }
+
+    /**
+     * Gets the length of a n-dimensional single-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param dimensions All the vectors dimensions
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static float vecLength(float... dimensions) {
+        float result = .0f;
+        for(float f : dimensions) {
+            result += f * f;
+        }
+        return (float) sqrt(result);
+    }
+
+    /**
+     * Gets the squared length of a n-dimensional single-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param dimensions All the vectors dimensions
+     * @return the squared length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static float vecLengthSquared(float... dimensions) {
+        float result = .0f;
+        for(float f : dimensions) {
+            result += f * f;
+        }
+        return result;
+    }
+
     /* Other math functions not yet approximated */
 
     public static double sqrt(double r) {
