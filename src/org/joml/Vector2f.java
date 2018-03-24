@@ -509,8 +509,8 @@ public class Vector2f implements Externalizable, Vector2fc {
      * Get the length of a 2-dimensional single-precision vector.
      * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
      *
-     * @param x The vectors x component
-     * @param y The vectors y component
+     * @param x The vector's x component
+     * @param y The vector's y component
      *
      * @return the length of the given vector
      *
@@ -531,8 +531,8 @@ public class Vector2f implements Externalizable, Vector2fc {
      * Get the length squared of a 2-dimensional single-precision vector.
      * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
      *
-     * @param x The vectors x component
-     * @param y The vectors y component
+     * @param x The vector's x component
+     * @param y The vector's y component
      *
      * @return the length squared of the given vector
      *

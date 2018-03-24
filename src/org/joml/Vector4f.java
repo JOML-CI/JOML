@@ -1123,10 +1123,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      * Get the length squared of a 4-dimensional single-precision vector.
      * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
      *
-     * @param x The vectors x component
-     * @param y The vectors y component
-     * @param z The vectors z component
-     * @param w The vectors w component
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     * @param w The vector's w component
      *
      * @return the length squared of the given vector
      *
@@ -1147,10 +1147,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      * Get the length of a 4-dimensional single-precision vector.
      * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
      *
-     * @param x The vectors x component
-     * @param y The vectors y component
-     * @param z The vectors z component
-     * @param w The vectors w component
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     * @param w The vector's w component
      *
      * @return the length of the given vector
      *
