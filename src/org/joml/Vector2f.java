@@ -42,10 +42,26 @@ import org.joml.internal.Runtime;
  *
  * @author RGreenlees
  * @author Kai Burjack
+ * @author F. Neurath
  */
 public class Vector2f implements Externalizable, Vector2fc {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Gets the length of a 2-dimensional single-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vectors x component
+     * @param y The vectors y component
+     *
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static float vecLength2f(float x, float y) {
+        return (float) Math.sqrt(x * x + y * y);
+    }
 
     /**
      * The x component of the vector.

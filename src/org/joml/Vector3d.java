@@ -43,10 +43,27 @@ import org.joml.internal.Runtime;
  *
  * @author Richard Greenlees
  * @author Kai Burjack
+ * @author F. Neurath
  */
 public class Vector3d implements Externalizable, Vector3dc {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Gets the length of a 3-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vectors x component
+     * @param y The vectors y component
+     * @param z The vectors z component
+     *
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double vecLength3d(double x, double y, double z) {
+        return Math.sqrt(x * x + y * y + z * z);
+    }
 
     /**
      * The x component of the vector.
