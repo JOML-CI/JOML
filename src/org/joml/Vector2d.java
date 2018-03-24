@@ -49,21 +49,6 @@ public class Vector2d implements Externalizable, Vector2dc {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Gets the length of a 2-dimensional double-precision vector.
-     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
-     *
-     * @param x The vectors x component
-     * @param y The vectors y component
-     *
-     * @return the length of the given vector
-     *
-     * @author F. Neurath
-     */
-    public static double vecLength2d(double x, double y) {
-        return Math.sqrt(x * x + y * y);
-    }
-
-    /**
      * The x component of the vector.
      */
     public double x;
@@ -656,7 +641,44 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#length()
      */
     public double length() {
+        return Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Get the length of a 2-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vectors x component
+     * @param y The vectors y component
+     *
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double length(double x, double y) {
         return Math.sqrt(x * x + y * y);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#lengthSqared()
+     */
+    public double lengthSquared() {
+        return x * x + y * y;
+    }
+
+    /**
+     * Get the length squared of a 2-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vectors x component
+     * @param y The vectors y component
+     *
+     * @return the length squared of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double lengthSqared(double x, double y) {
+        return x * x + y * y;
     }
 
     /* (non-Javadoc)
