@@ -247,6 +247,13 @@ public interface Vector2dc {
     double length();
 
     /**
+     * Return the length squared of this vector.
+     *
+     * @return the length squared
+     */
+    double lengthSquared();
+
+    /**
      * Return the distance between <code>this</code> and <code>v</code>.
      * 
      * @param v

@@ -43,6 +43,7 @@ import org.joml.internal.Runtime;
  *
  * @author Richard Greenlees
  * @author Kai Burjack
+ * @author F. Neurath
  */
 public class Vector3d implements Externalizable, Vector3dc {
 
@@ -1661,11 +1662,43 @@ public class Vector3d implements Externalizable, Vector3dc {
         return x * x + y * y + z * z;
     }
 
+    /**
+     * Get the length squared of a 3-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     *
+     * @return the length squared of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double lengthSqared(double x, double y, double z) {
+        return x * x + y * y + z * z;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#length()
      */
     public double length() {
         return Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Get the length of a 3-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     *
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double length(double x, double y, double z) {
+        return Math.sqrt(x * x + y * y + z * z);
     }
 
     /**

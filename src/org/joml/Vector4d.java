@@ -42,6 +42,7 @@ import org.joml.internal.Runtime;
  * 
  * @author Richard Greenlees
  * @author Kai Burjack
+ * @author F. Neurath
  */
 public class Vector4d implements Externalizable, Vector4dc {
 
@@ -1245,11 +1246,45 @@ public class Vector4d implements Externalizable, Vector4dc {
         return x * x + y * y + z * z + w * w;
     }
 
+    /**
+     * Get the length squared of a 4-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     * @param w The vector's w component
+     *
+     * @return the length squared of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double lengthSquared(double x, double y, double z, double w) {
+        return x * x + y * y + z * z + w * w;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector4dc#length()
      */
     public double length() {
         return Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Get the length of a 4-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     * @param w The vector's w component
+     *
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double length(double x, double y, double z, double w) {
+        return Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     /**

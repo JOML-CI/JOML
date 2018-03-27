@@ -44,6 +44,7 @@ import org.joml.internal.Runtime;
  * 
  * @author Richard Greenlees
  * @author Kai Burjack
+ * @author F. Neurath
  */
 public class Vector4f implements Externalizable, Vector4fc {
 
@@ -1118,11 +1119,45 @@ public class Vector4f implements Externalizable, Vector4fc {
         return x * x + y * y + z * z + w * w;
     }
 
+    /**
+     * Get the length squared of a 4-dimensional single-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     * @param w The vector's w component
+     *
+     * @return the length squared of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static float lengthSquared(int x, int y, int z, int w) {
+        return x * x + y * y + z * z + w * w;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#length()
      */
     public float length() {
         return (float) Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Get the length of a 4-dimensional single-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     * @param w The vector's w component
+     *
+     * @return the length of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static float length(float x, float y, float z, float w) {
+        return (float) Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     /**
