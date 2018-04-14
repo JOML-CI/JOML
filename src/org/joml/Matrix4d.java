@@ -10418,8 +10418,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
         double rm11 = 2.0 / (top - bottom);
-        double rm30 = -(right + left) / (right - left);
-        double rm31 = -(top + bottom) / (top - bottom);
+        double rm30 = (right + left) / (left - right);
+        double rm31 = (top + bottom) / (bottom - top);
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest.m30 = m00 * rm30 + m10 * rm31 + m30;
@@ -10515,8 +10515,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         // calculate right matrix elements
         double rm00 = 2.0 / (right - left);
         double rm11 = 2.0 / (top - bottom);
-        double rm30 = -(right + left) / (right - left);
-        double rm31 = -(top + bottom) / (top - bottom);
+        double rm30 = (right + left) / (left - right);
+        double rm31 = (top + bottom) / (bottom - top);
 
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
@@ -10604,8 +10604,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m00 = 2.0 / (right - left);
         m11 = 2.0 / (top - bottom);
         m22 = -1.0;
-        m30 = -(right + left) / (right - left);
-        m31 = -(top + bottom) / (top - bottom);
+        m30 = (right + left) / (left - right);
+        m31 = (top + bottom) / (bottom - top);
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -10639,8 +10639,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             _identity();
         m00 = 2.0 / (right - left);
         m11 = 2.0 / (top - bottom);
-        m30 = -(right + left) / (right - left);
-        m31 = -(top + bottom) / (top - bottom);
+        m30 = (right + left) / (left - right);
+        m31 = (top + bottom) / (bottom - top);
         properties = PROPERTY_AFFINE;
         return this;
     }

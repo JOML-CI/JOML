@@ -7764,8 +7764,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
-        float rm30 = -(right + left) / (right - left);
-        float rm31 = -(top + bottom) / (top - bottom);
+        float rm30 = (right + left) / (left - right);
+        float rm31 = (top + bottom) / (bottom - top);
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
         dest._m30(m00 * rm30 + m10 * rm31 + m30);
@@ -7861,8 +7861,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
-        float rm30 = -(right + left) / (right - left);
-        float rm31 = -(top + bottom) / (top - bottom);
+        float rm30 = (right + left) / (left - right);
+        float rm31 = (top + bottom) / (bottom - top);
 
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
@@ -7950,8 +7950,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         this._m00(2.0f / (right - left));
         this._m11(2.0f / (top - bottom));
         this._m22(-1.0f);
-        this._m30(-(right + left) / (right - left));
-        this._m31(-(top + bottom) / (top - bottom));
+        this._m30((right + left) / (left - right));
+        this._m31((top + bottom) / (bottom - top));
         _properties(PROPERTY_AFFINE);
         return this;
     }
@@ -7985,8 +7985,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             MemUtil.INSTANCE.identity(this);
         this._m00(2.0f / (right - left));
         this._m11(2.0f / (top - bottom));
-        this._m30(-(right + left) / (right - left));
-        this._m31(-(top + bottom) / (top - bottom));
+        this._m30((right + left) / (left - right));
+        this._m31((top + bottom) / (bottom - top));
         _properties(PROPERTY_AFFINE);
         return this;
     }

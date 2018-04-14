@@ -78,6 +78,11 @@ public class UrlChecker {
     }
 
     public static void main(String[] args) throws Exception {
+        boolean disabled = Boolean.valueOf(System.getProperty("urlcheck.disabled", "false"));
+        if (disabled) {
+            System.out.println("Disabled URL checking.");
+            return;
+        }
         List urls = new ArrayList();
         Set alreadyCheckedUrls = new HashSet();
         int numChecked = 0;
@@ -89,6 +94,7 @@ public class UrlChecker {
             numChecked++;
             if (alreadyCheckedUrls.contains(url))
                 continue;
+            alreadyCheckedUrls.add(url);
             int statusCode;
             HttpUriRequest request = RequestBuilder.get().setUri(url).setHeader(
                     HttpHeaders.USER_AGENT,
@@ -107,7 +113,6 @@ public class UrlChecker {
                 System.err.println("Found invalid URL (" + statusCode + "): " + url);
                 throw new AssertionError();
             }
-            alreadyCheckedUrls.add(url);
         }
         System.out.println("Checked " + numChecked + " URLs.");
     }
