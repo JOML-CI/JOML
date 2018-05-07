@@ -254,7 +254,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         this.m31 = m31;
         this.m32 = m32;
         this.m33 = m33;
-        properties = 0;
+        determineProperties();
     }
 
 //#ifdef __HAS_NIO__
@@ -271,6 +271,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        determineProperties();
     }
 //#endif
 
@@ -303,6 +304,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         this.m31 = col3.y;
         this.m32 = col3.z;
         this.m33 = col3.w;
+        determineProperties();
     }
 
     /**

@@ -214,7 +214,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         this._m31(m31);
         this._m32(m32);
         this._m33(m33);
-        properties = 0;
+        determineProperties();
     }
 
 //#ifdef __HAS_NIO__
@@ -231,6 +231,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f(FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        determineProperties();
     }
 //#endif
 
@@ -255,6 +256,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         } else {
             setVector4fc(col0, col1, col2, col3);
         }
+        determineProperties();
     }
 
     private Matrix4f thisOrNew() {

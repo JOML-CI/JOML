@@ -130,7 +130,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m20 = mat.m20();
         m21 = mat.m21();
         m22 = mat.m22();
-        properties = 0;
+        determineProperties();
     }
 
     /**
@@ -177,7 +177,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         this.m30 = m30;
         this.m31 = m31;
         this.m32 = m32;
-        properties = 0;
+        determineProperties();
     }
 
 //#ifdef __HAS_NIO__
@@ -194,6 +194,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        determineProperties();
     }
 //#endif
 

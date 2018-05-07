@@ -85,6 +85,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         } else {
             set3x3Matrix3fc(mat);
         }
+        determineProperties();
     }
 
     /**
@@ -146,7 +147,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         this.m30 = m30;
         this.m31 = m31;
         this.m32 = m32;
-        properties = 0;
+        determineProperties();
     }
 
 //#ifdef __HAS_NIO__
@@ -163,6 +164,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      */
     public Matrix4x3f(FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        determineProperties();
     }
 //#endif
 
@@ -187,6 +189,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         } else {
             setVector3fc(col0, col1, col2, col3);
         }
+        determineProperties();
     }
 
     /**
