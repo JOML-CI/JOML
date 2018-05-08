@@ -2541,4 +2541,36 @@ public interface Matrix4x3fc {
      */
     Vector3f getEulerAnglesZYX(Vector3f dest);
 
+    /**
+     * Apply an oblique projection transformation to this matrix with the given values for <code>a</code> and
+     * <code>b</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the oblique transformation matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * oblique transformation will be applied first!
+     * <p>
+     * The oblique transformation is defined as:
+     * <pre>
+     * x' = x + a*z
+     * y' = y + a*z
+     * z' = z
+     * </pre>
+     * or in matrix form:
+     * <pre>
+     * 1 0 a 0
+     * 0 1 b 0
+     * 0 0 1 0
+     * </pre>
+     * 
+     * @param a
+     *            the value for the z factor that applies to x
+     * @param b
+     *            the value for the z factor that applies to y
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Matrix4x3f obliqueZ(float a, float b, Matrix4x3f dest);
+
 }

@@ -4093,4 +4093,82 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         return dest;
     }
 
+    /**
+     * Apply an oblique projection transformation to this matrix with the given values for <code>a</code> and
+     * <code>b</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the oblique transformation matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * oblique transformation will be applied first!
+     * <p>
+     * The oblique transformation is defined as:
+     * <pre>
+     * x' = x + a*z
+     * y' = y + a*z
+     * z' = z
+     * </pre>
+     * or in matrix form:
+     * <pre>
+     * 1 0 a
+     * 0 1 b
+     * 0 0 1
+     * </pre>
+     * 
+     * @param a
+     *            the value for the z factor that applies to x
+     * @param b
+     *            the value for the z factor that applies to y
+     * @return this
+     */
+    public Matrix3f obliqueZ(float a, float b) {
+        this.m20 = m00 * a + m10 * b + m20;
+        this.m21 = m01 * a + m11 * b + m21;
+        this.m22 = m02 * a + m12 * b + m22;
+        return this;
+    }
+
+    /**
+     * Apply an oblique projection transformation to this matrix with the given values for <code>a</code> and
+     * <code>b</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the oblique transformation matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * oblique transformation will be applied first!
+     * <p>
+     * The oblique transformation is defined as:
+     * <pre>
+     * x' = x + a*z
+     * y' = y + a*z
+     * z' = z
+     * </pre>
+     * or in matrix form:
+     * <pre>
+     * 1 0 a
+     * 0 1 b
+     * 0 0 1
+     * </pre>
+     * 
+     * @param a
+     *            the value for the z factor that applies to x
+     * @param b
+     *            the value for the z factor that applies to y
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3f obliqueZ(float a, float b, Matrix3f dest) {
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m10 = m10;
+        dest.m11 = m11;
+        dest.m12 = m12;
+        dest.m20 = m00 * a + m10 * b + m20;
+        dest.m21 = m01 * a + m11 * b + m21;
+        dest.m22 = m02 * a + m12 * b + m22;
+        return dest;
+    }
+
 }
