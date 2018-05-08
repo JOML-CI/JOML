@@ -26,6 +26,7 @@ package org.joml;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 //#endif
+import java.util.*;
 
 //#ifdef __GWT__
 import com.google.gwt.typedarrays.shared.Float32Array;
@@ -1336,5 +1337,21 @@ public interface Matrix3fc {
      * @return dest
      */
     Matrix3f obliqueZ(float a, float b, Matrix3f dest);
+
+    /**
+     * Compare the matrix elements of <code>this</code> matrix with the given matrix using the given <code>delta</code>
+     * and return whether all of them are equal within a maximum difference of <code>delta</code>.
+     * <p>
+     * Please note that this method is not used by any data structure such as {@link ArrayList} {@link HashSet} or {@link HashMap}
+     * and their operations, such as {@link ArrayList#contains(Object)} or {@link HashSet#remove(Object)}, since those
+     * data structures only use the {@link Object#equals(Object)} and {@link Object#hashCode()} methods.
+     * 
+     * @param m
+     *          the other matrix
+     * @param delta
+     *          the allowed maximum difference
+     * @return <code>true</code> whether all of the matrix elements are equal; <code>false</code> otherwise
+     */
+    boolean equals(Matrix3fc m, float delta);
 
 }

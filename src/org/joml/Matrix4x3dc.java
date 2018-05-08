@@ -27,6 +27,7 @@ import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 //#endif
+import java.util.*;
 
 /**
  * Interface to a read-only view of a 4x3 matrix of double-precision floats.
@@ -2938,5 +2939,21 @@ public interface Matrix4x3dc {
      * @return dest
      */
     Matrix4x3d obliqueZ(double a, double b, Matrix4x3d dest);
+
+    /**
+     * Compare the matrix elements of <code>this</code> matrix with the given matrix using the given <code>delta</code>
+     * and return whether all of them are equal within a maximum difference of <code>delta</code>.
+     * <p>
+     * Please note that this method is not used by any data structure such as {@link ArrayList} {@link HashSet} or {@link HashMap}
+     * and their operations, such as {@link ArrayList#contains(Object)} or {@link HashSet#remove(Object)}, since those
+     * data structures only use the {@link Object#equals(Object)} and {@link Object#hashCode()} methods.
+     * 
+     * @param m
+     *          the other matrix
+     * @param delta
+     *          the allowed maximum difference
+     * @return <code>true</code> whether all of the matrix elements are equal; <code>false</code> otherwise
+     */
+    boolean equals(Matrix4x3dc m, double delta);
 
 }

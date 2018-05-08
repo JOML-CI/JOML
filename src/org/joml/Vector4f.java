@@ -1412,6 +1412,24 @@ public class Vector4f implements Externalizable, Vector4fc {
         return true;
     }
 
+    public boolean equals(Vector4fc v, float delta) {
+        if (this == v)
+            return true;
+        if (v == null)
+            return false;
+        if (!(v instanceof Vector4fc))
+            return false;
+        if (!Runtime.equals(x, v.x(), delta))
+            return false;
+        if (!Runtime.equals(y, v.y(), delta))
+            return false;
+        if (!Runtime.equals(z, v.z(), delta))
+            return false;
+        if (!Runtime.equals(w, v.w(), delta))
+            return false;
+        return true;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#smoothStep(org.joml.Vector4fc, float, org.joml.Vector4f)
      */

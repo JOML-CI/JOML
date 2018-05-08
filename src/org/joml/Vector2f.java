@@ -849,6 +849,20 @@ public class Vector2f implements Externalizable, Vector2fc {
         return true;
     }
 
+    public boolean equals(Vector2fc v, float delta) {
+        if (this == v)
+            return true;
+        if (v == null)
+            return false;
+        if (!(v instanceof Vector2fc))
+            return false;
+        if (!Runtime.equals(x, v.x(), delta))
+            return false;
+        if (!Runtime.equals(y, v.y(), delta))
+            return false;
+        return true;
+    }
+
     /**
      * Return a string representation of this vector.
      * <p>

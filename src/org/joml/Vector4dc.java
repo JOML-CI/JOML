@@ -26,6 +26,7 @@ package org.joml;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 //#endif
+import java.util.*;
 
 /**
  * Interface to a read-only view of a 4-dimensional vector of double-precision floats.
@@ -626,5 +627,21 @@ public interface Vector4dc {
      * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..3]</tt>
      */
     double get(int component) throws IllegalArgumentException;
+
+    /**
+     * Compare the vector components of <code>this</code> vector with the given vector using the given <code>delta</code>
+     * and return whether all of them are equal within a maximum difference of <code>delta</code>.
+     * <p>
+     * Please note that this method is not used by any data structure such as {@link ArrayList} {@link HashSet} or {@link HashMap}
+     * and their operations, such as {@link ArrayList#contains(Object)} or {@link HashSet#remove(Object)}, since those
+     * data structures only use the {@link Object#equals(Object)} and {@link Object#hashCode()} methods.
+     * 
+     * @param v
+     *          the other vector
+     * @param delta
+     *          the allowed maximum difference
+     * @return <code>true</code> whether all of the vector components are equal; <code>false</code> otherwise
+     */
+    boolean equals(Vector4dc v, double delta);
 
 }

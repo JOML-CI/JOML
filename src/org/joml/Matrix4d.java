@@ -34,8 +34,8 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.internal.MemUtil;
-import org.joml.internal.Options;
+import org.joml.internal.*;
+import org.joml.internal.Runtime;
 
 /**
  * Contains the definition of a 4x4 Matrix of doubles, and associated functions to transform
@@ -13783,6 +13783,48 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         if (Double.doubleToLongBits(m32) != Double.doubleToLongBits(other.m32))
             return false;
         if (Double.doubleToLongBits(m33) != Double.doubleToLongBits(other.m33))
+            return false;
+        return true;
+    }
+
+    public boolean equals(Matrix4dc m, double delta) {
+        if (this == m)
+            return true;
+        if (m == null)
+            return false;
+        if (!(m instanceof Matrix4d))
+            return false;
+        if (!Runtime.equals(m00, m.m00(), delta))
+            return false;
+        if (!Runtime.equals(m01, m.m01(), delta))
+            return false;
+        if (!Runtime.equals(m02, m.m02(), delta))
+            return false;
+        if (!Runtime.equals(m03, m.m03(), delta))
+            return false;
+        if (!Runtime.equals(m10, m.m10(), delta))
+            return false;
+        if (!Runtime.equals(m11, m.m11(), delta))
+            return false;
+        if (!Runtime.equals(m12, m.m12(), delta))
+            return false;
+        if (!Runtime.equals(m13, m.m13(), delta))
+            return false;
+        if (!Runtime.equals(m20, m.m20(), delta))
+            return false;
+        if (!Runtime.equals(m21, m.m21(), delta))
+            return false;
+        if (!Runtime.equals(m22, m.m22(), delta))
+            return false;
+        if (!Runtime.equals(m23, m.m23(), delta))
+            return false;
+        if (!Runtime.equals(m30, m.m30(), delta))
+            return false;
+        if (!Runtime.equals(m31, m.m31(), delta))
+            return false;
+        if (!Runtime.equals(m32, m.m32(), delta))
+            return false;
+        if (!Runtime.equals(m33, m.m33(), delta))
             return false;
         return true;
     }

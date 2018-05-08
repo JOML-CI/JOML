@@ -33,8 +33,8 @@ import java.nio.DoubleBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.internal.MemUtil;
-import org.joml.internal.Options;
+import org.joml.internal.*;
+import org.joml.internal.Runtime;
 
 //#ifdef __GWT__
 import com.google.gwt.typedarrays.shared.Float64Array;
@@ -2418,6 +2418,70 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
                pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) >= -pxW &&
                nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) >= -nyW &&
                pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) >= -pyW;
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(m00);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m01);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m10);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m11);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m20);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m21);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Matrix3x2d other = (Matrix3x2d) obj;
+        if (Double.doubleToLongBits(m00) != Double.doubleToLongBits(other.m00))
+            return false;
+        if (Double.doubleToLongBits(m01) != Double.doubleToLongBits(other.m01))
+            return false;
+        if (Double.doubleToLongBits(m10) != Double.doubleToLongBits(other.m10))
+            return false;
+        if (Double.doubleToLongBits(m11) != Double.doubleToLongBits(other.m11))
+            return false;
+        if (Double.doubleToLongBits(m20) != Double.doubleToLongBits(other.m20))
+            return false;
+        if (Double.doubleToLongBits(m21) != Double.doubleToLongBits(other.m21))
+            return false;
+        return true;
+    }
+
+    public boolean equals(Matrix3x2dc m, double delta) {
+        if (this == m)
+            return true;
+        if (m == null)
+            return false;
+        if (!(m instanceof Matrix3x2d))
+            return false;
+        if (!Runtime.equals(m00, m.m00(), delta))
+            return false;
+        if (!Runtime.equals(m01, m.m01(), delta))
+            return false;
+        if (!Runtime.equals(m10, m.m10(), delta))
+            return false;
+        if (!Runtime.equals(m11, m.m11(), delta))
+            return false;
+        if (!Runtime.equals(m20, m.m20(), delta))
+            return false;
+        if (!Runtime.equals(m21, m.m21(), delta))
+            return false;
+        return true;
     }
 
 }

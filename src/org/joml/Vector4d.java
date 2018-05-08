@@ -1543,6 +1543,24 @@ public class Vector4d implements Externalizable, Vector4dc {
         return true;
     }
 
+    public boolean equals(Vector4dc v, double delta) {
+        if (this == v)
+            return true;
+        if (v == null)
+            return false;
+        if (!(v instanceof Vector4dc))
+            return false;
+        if (!Runtime.equals(x, v.x(), delta))
+            return false;
+        if (!Runtime.equals(y, v.y(), delta))
+            return false;
+        if (!Runtime.equals(z, v.z(), delta))
+            return false;
+        if (!Runtime.equals(w, v.w(), delta))
+            return false;
+        return true;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector4dc#smoothStep(org.joml.Vector4dc, double, org.joml.Vector4d)
      */

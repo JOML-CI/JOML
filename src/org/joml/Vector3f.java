@@ -1588,6 +1588,22 @@ public class Vector3f implements Externalizable, Vector3fc {
         return true;
     }
 
+    public boolean equals(Vector3fc v, float delta) {
+        if (this == v)
+            return true;
+        if (v == null)
+            return false;
+        if (!(v instanceof Vector3fc))
+            return false;
+        if (!Runtime.equals(x, v.x(), delta))
+            return false;
+        if (!Runtime.equals(y, v.y(), delta))
+            return false;
+        if (!Runtime.equals(z, v.z(), delta))
+            return false;
+        return true;
+    }
+
     /**
      * Reflect this vector about the given <code>normal</code> vector.
      * 

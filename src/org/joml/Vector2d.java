@@ -896,6 +896,20 @@ public class Vector2d implements Externalizable, Vector2dc {
         return true;
     }
 
+    public boolean equals(Vector2dc v, double delta) {
+        if (this == v)
+            return true;
+        if (v == null)
+            return false;
+        if (!(v instanceof Vector2dc))
+            return false;
+        if (!Runtime.equals(x, v.x(), delta))
+            return false;
+        if (!Runtime.equals(y, v.y(), delta))
+            return false;
+        return true;
+    }
+
     /**
      * Return a string representation of this vector.
      * <p>

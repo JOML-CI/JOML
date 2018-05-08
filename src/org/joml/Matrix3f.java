@@ -33,8 +33,8 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.internal.MemUtil;
-import org.joml.internal.Options;
+import org.joml.internal.*;
+import org.joml.internal.Runtime;
 
 //#ifdef __GWT__
 import com.google.gwt.typedarrays.shared.Float32Array;
@@ -3653,6 +3653,34 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         if (Float.floatToIntBits(m21) != Float.floatToIntBits(other.m21))
             return false;
         if (Float.floatToIntBits(m22) != Float.floatToIntBits(other.m22))
+            return false;
+        return true;
+    }
+
+    public boolean equals(Matrix3fc m, float delta) {
+        if (this == m)
+            return true;
+        if (m == null)
+            return false;
+        if (!(m instanceof Matrix3f))
+            return false;
+        if (!Runtime.equals(m00, m.m00(), delta))
+            return false;
+        if (!Runtime.equals(m01, m.m01(), delta))
+            return false;
+        if (!Runtime.equals(m02, m.m02(), delta))
+            return false;
+        if (!Runtime.equals(m10, m.m10(), delta))
+            return false;
+        if (!Runtime.equals(m11, m.m11(), delta))
+            return false;
+        if (!Runtime.equals(m12, m.m12(), delta))
+            return false;
+        if (!Runtime.equals(m20, m.m20(), delta))
+            return false;
+        if (!Runtime.equals(m21, m.m21(), delta))
+            return false;
+        if (!Runtime.equals(m22, m.m22(), delta))
             return false;
         return true;
     }

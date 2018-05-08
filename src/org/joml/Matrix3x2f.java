@@ -33,8 +33,8 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.internal.MemUtil;
-import org.joml.internal.Options;
+import org.joml.internal.*;
+import org.joml.internal.Runtime;
 
 //#ifdef __GWT__
 import com.google.gwt.typedarrays.shared.Float32Array;
@@ -2451,6 +2451,63 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
                pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) >= -pxW &&
                nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) >= -nyW &&
                pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) >= -pyW;
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Float.floatToIntBits(m00);
+        result = prime * result + Float.floatToIntBits(m01);
+        result = prime * result + Float.floatToIntBits(m10);
+        result = prime * result + Float.floatToIntBits(m11);
+        result = prime * result + Float.floatToIntBits(m20);
+        result = prime * result + Float.floatToIntBits(m21);
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Matrix3x2f other = (Matrix3x2f) obj;
+        if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))
+            return false;
+        if (Float.floatToIntBits(m01) != Float.floatToIntBits(other.m01))
+            return false;
+        if (Float.floatToIntBits(m10) != Float.floatToIntBits(other.m10))
+            return false;
+        if (Float.floatToIntBits(m11) != Float.floatToIntBits(other.m11))
+            return false;
+        if (Float.floatToIntBits(m20) != Float.floatToIntBits(other.m20))
+            return false;
+        if (Float.floatToIntBits(m21) != Float.floatToIntBits(other.m21))
+            return false;
+        return true;
+    }
+
+    public boolean equals(Matrix3x2fc m, float delta) {
+        if (this == m)
+            return true;
+        if (m == null)
+            return false;
+        if (!(m instanceof Matrix3x2f))
+            return false;
+        if (!Runtime.equals(m00, m.m00(), delta))
+            return false;
+        if (!Runtime.equals(m01, m.m01(), delta))
+            return false;
+        if (!Runtime.equals(m10, m.m10(), delta))
+            return false;
+        if (!Runtime.equals(m11, m.m11(), delta))
+            return false;
+        if (!Runtime.equals(m20, m.m20(), delta))
+            return false;
+        if (!Runtime.equals(m21, m.m21(), delta))
+            return false;
+        return true;
     }
 
 }

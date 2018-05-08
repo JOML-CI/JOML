@@ -2013,6 +2013,22 @@ public class Vector3d implements Externalizable, Vector3dc {
         return true;
     }
 
+    public boolean equals(Vector3dc v, double delta) {
+        if (this == v)
+            return true;
+        if (v == null)
+            return false;
+        if (!(v instanceof Vector3dc))
+            return false;
+        if (!Runtime.equals(x, v.x(), delta))
+            return false;
+        if (!Runtime.equals(y, v.y(), delta))
+            return false;
+        if (!Runtime.equals(z, v.z(), delta))
+            return false;
+        return true;
+    }
+
     /**
      * Reflect this vector about the given normal vector.
      * 
