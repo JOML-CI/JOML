@@ -94,7 +94,7 @@
 		<profile>
 			<id>jdk9</id>
 			<activation>
-				<jdk>9</jdk>
+				<jdk>[9,)</jdk>
 			</activation>
 			<properties>
 				<!-- JDK9 cannot handle < 1.6 anymore -->
