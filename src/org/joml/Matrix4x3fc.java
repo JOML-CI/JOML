@@ -41,32 +41,32 @@ public interface Matrix4x3fc {
 
     /**
      * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
-     * identifying the plane with equation <tt>x=-1</tt> when using the identity matrix.  
+     * identifying the plane with equation <code>x=-1</code> when using the identity matrix.  
      */
     int PLANE_NX = 0;
     /**
      * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
-     * identifying the plane with equation <tt>x=1</tt> when using the identity matrix.  
+     * identifying the plane with equation <code>x=1</code> when using the identity matrix.  
      */
     int PLANE_PX = 1;
     /**
      * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
-     * identifying the plane with equation <tt>y=-1</tt> when using the identity matrix.  
+     * identifying the plane with equation <code>y=-1</code> when using the identity matrix.  
      */
     int PLANE_NY = 2;
     /**
      * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
-     * identifying the plane with equation <tt>y=1</tt> when using the identity matrix.  
+     * identifying the plane with equation <code>y=1</code> when using the identity matrix.  
      */
     int PLANE_PY = 3;
     /**
      * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
-     * identifying the plane with equation <tt>z=-1</tt> when using the identity matrix.  
+     * identifying the plane with equation <code>z=-1</code> when using the identity matrix.  
      */
     int PLANE_NZ = 4;
     /**
      * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
-     * identifying the plane with equation <tt>z=1</tt> when using the identity matrix.  
+     * identifying the plane with equation <code>z=1</code> when using the identity matrix.  
      */
     int PLANE_PZ = 5;
 
@@ -352,7 +352,7 @@ public interface Matrix4x3fc {
     Matrix3f transpose3x3(Matrix3f dest);
 
     /**
-     * Get only the translation components <tt>(m30, m31, m32)</tt> of this matrix and store them in the given vector <code>xyz</code>.
+     * Get only the translation components <code>(m30, m31, m32)</code> of this matrix and store them in the given vector <code>xyz</code>.
      * 
      * @param dest
      *          will hold the translation components of this matrix
@@ -364,7 +364,7 @@ public interface Matrix4x3fc {
      * Get the scaling factors of <code>this</code> matrix for the three base axes.
      * 
      * @param dest
-     *          will hold the scaling factors for <tt>x</tt>, <tt>y</tt> and <tt>z</tt>
+     *          will hold the scaling factors for <code>x</code>, <code>y</code> and <code>z</code>
      * @return dest
      */
     Vector3f getScale(Vector3f dest);
@@ -600,7 +600,7 @@ public interface Matrix4x3fc {
 
     /**
      * Store a 4x4 matrix in column-major order into the supplied array at the given offset,
-     * where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * where the upper 4x3 submatrix is <code>this</code> and the last row is <code>(0, 0, 0, 1)</code>.
      * 
      * @param arr
      *          the array to write the matrix values into
@@ -612,7 +612,7 @@ public interface Matrix4x3fc {
 
     /**
      * Store a 4x4 matrix in column-major order into the supplied array,
-     * where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * where the upper 4x3 submatrix is <code>this</code> and the last row is <code>(0, 0, 0, 1)</code>.
      * <p>
      * In order to specify an explicit offset into the array, use the method {@link #get4x4(float[], int)}.
      * 
@@ -627,7 +627,7 @@ public interface Matrix4x3fc {
 //#ifdef __HAS_NIO__
     /**
      * Store a 4x4 matrix in column-major order into the supplied {@link FloatBuffer} at the current
-     * buffer {@link FloatBuffer#position() position}, where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * buffer {@link FloatBuffer#position() position}, where the upper 4x3 submatrix is <code>this</code> and the last row is <code>(0, 0, 0, 1)</code>.
      * <p>
      * This method will not increment the position of the given FloatBuffer.
      * <p>
@@ -645,7 +645,7 @@ public interface Matrix4x3fc {
 
     /**
      * Store a 4x4 matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
-     * absolute buffer position/index, where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * absolute buffer position/index, where the upper 4x3 submatrix is <code>this</code> and the last row is <code>(0, 0, 0, 1)</code>.
      * <p>
      * This method will not increment the position of the given FloatBuffer.
      * 
@@ -659,7 +659,7 @@ public interface Matrix4x3fc {
 
     /**
      * Store a 4x4 matrix in column-major order into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}, where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * buffer {@link ByteBuffer#position() position}, where the upper 4x3 submatrix is <code>this</code> and the last row is <code>(0, 0, 0, 1)</code>.
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
@@ -677,7 +677,7 @@ public interface Matrix4x3fc {
 
     /**
      * Store a 4x4 matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index, where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * absolute buffer position/index, where the upper 4x3 submatrix is <code>this</code> and the last row is <code>(0, 0, 0, 1)</code>.
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * 
@@ -844,7 +844,7 @@ public interface Matrix4x3fc {
      * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
      * this matrix and store the result in that vector.
      * <p>
-     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <code>0.0</code>, so it
      * will represent a direction in 3D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
@@ -862,7 +862,7 @@ public interface Matrix4x3fc {
      * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
      * this matrix and store the result in <code>dest</code>.
      * <p>
-     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <code>0.0</code>, so it
      * will represent a direction in 3D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
@@ -879,8 +879,8 @@ public interface Matrix4x3fc {
     Vector3f transformDirection(Vector3fc v, Vector3f dest);
 
     /**
-     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given <tt>xyz.x</tt>,
-     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given <code>xyz.x</code>,
+     * <code>xyz.y</code> and <code>xyz.z</code> factors, respectively and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -1040,7 +1040,7 @@ public interface Matrix4x3fc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</code>
      * 
      * @param angleX
      *            the angle to rotate about X
@@ -1067,7 +1067,7 @@ public interface Matrix4x3fc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
+     * This method is equivalent to calling: <code>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</code>
      * 
      * @param angleZ
      *            the angle to rotate about Z
@@ -1094,7 +1094,7 @@ public interface Matrix4x3fc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</code>
      * 
      * @param angleY
      *            the angle to rotate about Y
@@ -1110,7 +1110,7 @@ public interface Matrix4x3fc {
 
     /**
      * Apply rotation to this matrix by rotating the given amount of radians
-     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * about the specified <code>(x, y, z)</code> axis and store the result in <code>dest</code>.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -1141,7 +1141,7 @@ public interface Matrix4x3fc {
 
     /**
      * Apply rotation to this matrix, which is assumed to only contain a translation, by rotating the given amount of radians
-     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * about the specified <code>(x, y, z)</code> axis and store the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
      * <p>
@@ -1174,7 +1174,7 @@ public interface Matrix4x3fc {
 
     /**
      * Pre-multiply a rotation to this matrix by rotating the given amount of radians
-     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * about the specified <code>(x, y, z)</code> axis and store the result in <code>dest</code>.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -1303,8 +1303,8 @@ public interface Matrix4x3fc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @param dest
      *            will hold the result
      * @return dest
@@ -1313,7 +1313,7 @@ public interface Matrix4x3fc {
 
     /**
      * Apply an orthographic projection transformation for a right-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -1364,8 +1364,8 @@ public interface Matrix4x3fc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @param dest
      *            will hold the result
      * @return dest
@@ -1374,7 +1374,7 @@ public interface Matrix4x3fc {
 
     /**
      * Apply an orthographic projection transformation for a left-handed coordiante system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -1426,15 +1426,15 @@ public interface Matrix4x3fc {
      * @param dest
      *            will hold the result
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return dest
      */
     Matrix4x3f orthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4x3f dest);
 
     /**
      * Apply a symmetric orthographic projection transformation for a right-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
      * <p>
      * This method is equivalent to calling {@link #ortho(float, float, float, float, float, float, Matrix4x3f) ortho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -1485,15 +1485,15 @@ public interface Matrix4x3fc {
      * @param dest
      *            will hold the result
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return dest
      */
     Matrix4x3f orthoSymmetricLH(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4x3f dest);
 
     /**
      * Apply a symmetric orthographic projection transformation for a left-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
      * <p>
      * This method is equivalent to calling {@link #orthoLH(float, float, float, float, float, float, Matrix4x3f) orthoLH()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -1878,9 +1878,9 @@ public interface Matrix4x3fc {
 
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
-     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt> and store the result in <code>dest</code>.
+     * specified via the equation <code>x*a + y*b + z*c + d = 0</code> and store the result in <code>dest</code>.
      * <p>
-     * The vector <tt>(a, b, c)</tt> must be a unit vector.
+     * The vector <code>(a, b, c)</code> must be a unit vector.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1935,8 +1935,8 @@ public interface Matrix4x3fc {
      * specified via the plane orientation and a point on the plane, and store the result in <code>dest</code>.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionfc} is
-     * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
+     * It is assumed that the default mirror plane's normal is <code>(0, 0, 1)</code>. So, if the given {@link Quaternionfc} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <code>z=0</code>, offset by the given <code>point</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1944,7 +1944,7 @@ public interface Matrix4x3fc {
      * reflection will be applied first!
      * 
      * @param orientation
-     *          the plane orientation relative to an implied normal vector of <tt>(0, 0, 1)</tt>
+     *          the plane orientation relative to an implied normal vector of <code>(0, 0, 1)</code>
      * @param point
      *          a point on the plane
      * @param dest
@@ -1976,11 +1976,11 @@ public interface Matrix4x3fc {
      * Get the row at the given <code>row</code> index, starting with <code>0</code>.
      * 
      * @param row
-     *          the row index in <tt>[0..2]</tt>
+     *          the row index in <code>[0..2]</code>
      * @param dest
      *          will hold the row components
      * @return the passed in destination
-     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <code>[0..2]</code>
      */
     Vector4f getRow(int row, Vector4f dest) throws IndexOutOfBoundsException;
 
@@ -1988,11 +1988,11 @@ public interface Matrix4x3fc {
      * Get the column at the given <code>column</code> index, starting with <code>0</code>.
      * 
      * @param column
-     *          the column index in <tt>[0..2]</tt>
+     *          the column index in <code>[0..2]</code>
      * @param dest
      *          will hold the column components
      * @return the passed in destination
-     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..2]</tt>
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <code>[0..2]</code>
      */
     Vector3f getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException;
 
@@ -2001,7 +2001,7 @@ public interface Matrix4x3fc {
      * and store it into the left 3x3 submatrix of <code>dest</code>.
      * All other values of <code>dest</code> will be set to identity.
      * <p>
-     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * The normal matrix of <code>m</code> is the transpose of the inverse of <code>m</code>.
      * 
      * @param dest
      *             will hold the result
@@ -2012,7 +2012,7 @@ public interface Matrix4x3fc {
     /**
      * Compute a normal matrix from the left 3x3 submatrix of <code>this</code> and store it into <code>dest</code>.
      * <p>
-     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * The normal matrix of <code>m</code> is the transpose of the inverse of <code>m</code>.
      * 
      * @param dest
      *             will hold the result
@@ -2055,8 +2055,8 @@ public interface Matrix4x3fc {
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * The plane normal, which is <tt>(a, b, c)</tt>, is directed "inwards" of the frustum.
-     * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
+     * The plane normal, which is <code>(a, b, c)</code>, is directed "inwards" of the frustum.
+     * Any plane/point test using <code>a*x + b*y + c*z + d</code> therefore will yield a result greater than zero
      * if the point is within the frustum (i.e. at the <i>positive</i> side of the frustum plane).
      * <p>
      * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
@@ -2069,16 +2069,16 @@ public interface Matrix4x3fc {
      *          {@link #PLANE_NZ} and {@link #PLANE_PZ}
      * @param plane
      *          will hold the computed plane equation.
-     *          The plane equation will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector
+     *          The plane equation will be normalized, meaning that <code>(a, b, c)</code> will be a unit vector
      * @return planeEquation
      */
     Planef frustumPlane(int which, Planef plane);
 
     /**
-     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * Obtain the direction of <code>+Z</code> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
-     * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+Z</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -2090,17 +2090,17 @@ public interface Matrix4x3fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Z</tt>
+     *          will hold the direction of <code>+Z</code>
      * @return dir
      */
     Vector3f positiveZ(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * Obtain the direction of <code>+Z</code> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
      * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
-     * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+Z</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -2111,16 +2111,16 @@ public interface Matrix4x3fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Z</tt>
+     *          will hold the direction of <code>+Z</code>
      * @return dir
      */
     Vector3f normalizedPositiveZ(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * Obtain the direction of <code>+X</code> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
-     * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+X</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -2132,17 +2132,17 @@ public interface Matrix4x3fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+X</tt>
+     *          will hold the direction of <code>+X</code>
      * @return dir
      */
     Vector3f positiveX(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * Obtain the direction of <code>+X</code> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
      * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
-     * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+X</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -2153,16 +2153,16 @@ public interface Matrix4x3fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+X</tt>
+     *          will hold the direction of <code>+X</code>
      * @return dir
      */
     Vector3f normalizedPositiveX(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * Obtain the direction of <code>+Y</code> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
-     * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+Y</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -2174,17 +2174,17 @@ public interface Matrix4x3fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Y</tt>
+     *          will hold the direction of <code>+Y</code>
      * @return dir
      */
     Vector3f positiveY(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * Obtain the direction of <code>+Y</code> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
      * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
-     * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+Y</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -2195,7 +2195,7 @@ public interface Matrix4x3fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Y</tt>
+     *          will hold the direction of <code>+Y</code>
      * @return dir
      */
     Vector3f normalizedPositiveY(Vector3f dir);
@@ -2218,10 +2218,10 @@ public interface Matrix4x3fc {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
-     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
+     * <code>x*a + y*b + z*c + d = 0</code> as if casting a shadow from a given light position/direction <code>light</code>
      * and store the result in <code>dest</code>.
      * <p>
-     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <code>light.w</code> is <code>0.0</code> the light is being treated as a directional light; if it is <code>1.0</code> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -2248,10 +2248,10 @@ public interface Matrix4x3fc {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
-     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
+     * <code>x*a + y*b + z*c + d = 0</code> as if casting a shadow from a given light position/direction <code>(lightX, lightY, lightZ, lightW)</code>
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <code>lightW</code> is <code>0.0</code> the light is being treated as a directional light; if it is <code>1.0</code> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -2284,12 +2284,12 @@ public interface Matrix4x3fc {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
-     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
+     * <code>y = 0</code> as if casting a shadow from a given light position/direction <code>light</code>
      * and store the result in <code>dest</code>.
      * <p>
      * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
      * <p>
-     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <code>light.w</code> is <code>0.0</code> the light is being treated as a directional light; if it is <code>1.0</code> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -2299,7 +2299,7 @@ public interface Matrix4x3fc {
      * @param light
      *          the light's vector
      * @param planeTransform
-     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     *          the transformation to transform the implied plane <code>y = 0</code> before applying the projection
      * @param dest
      *          will hold the result
      * @return dest
@@ -2308,12 +2308,12 @@ public interface Matrix4x3fc {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
-     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
+     * <code>y = 0</code> as if casting a shadow from a given light position/direction <code>(lightX, lightY, lightZ, lightW)</code>
      * and store the result in <code>dest</code>.
      * <p>
      * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
      * <p>
-     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <code>lightW</code> is <code>0.0</code> the light is being treated as a directional light; if it is <code>1.0</code> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -2329,7 +2329,7 @@ public interface Matrix4x3fc {
      * @param lightW
      *          the w-component of the light vector
      * @param planeTransform
-     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     *          the transformation to transform the implied plane <code>y = 0</code> before applying the projection
      * @param dest
      *          will hold the result
      * @return dest
@@ -2337,8 +2337,8 @@ public interface Matrix4x3fc {
     Matrix4x3f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4x3fc planeTransform, Matrix4x3f dest);
 
     /**
-     * Apply a picking transformation to this matrix using the given window coordinates <tt>(x, y)</tt> as the pick center
-     * and the given <tt>(width, height)</tt> as the size of the picking region in window coordinates, and store the result
+     * Apply a picking transformation to this matrix using the given window coordinates <code>(x, y)</code> as the pick center
+     * and the given <code>(width, height)</code> as the size of the picking region in window coordinates, and store the result
      * in <code>dest</code>.
      * 
      * @param x
@@ -2350,7 +2350,7 @@ public interface Matrix4x3fc {
      * @param height
      *          the height of the picking region in window coordinates
      * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
+     *          the viewport described by <code>[x, y, width, height]</code>
      * @param dest
      *          the destination matrix, which will hold the result
      * @return dest
@@ -2358,10 +2358,10 @@ public interface Matrix4x3fc {
     Matrix4x3f pick(float x, float y, float width, float height, int[] viewport, Matrix4x3f dest);
 
     /**
-     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and center <tt>(centerX, centerY, centerZ)</tt>
+     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and center <code>(centerX, centerY, centerZ)</code>
      * position of the arcball and the specified X and Y rotation angles, and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-centerX, -centerY, -centerZ)</tt>
+     * This method is equivalent to calling: <code>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-centerX, -centerY, -centerZ)</code>
      * 
      * @param radius
      *          the arcball radius
@@ -2385,7 +2385,7 @@ public interface Matrix4x3fc {
      * Apply an arcball view transformation to this matrix with the given <code>radius</code> and <code>center</code>
      * position of the arcball and the specified X and Y rotation angles, and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</tt>
+     * This method is equivalent to calling: <code>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</code>
      * 
      * @param radius
      *          the arcball radius
@@ -2402,7 +2402,7 @@ public interface Matrix4x3fc {
     Matrix4x3f arcball(float radius, Vector3fc center, float angleX, float angleY, Matrix4x3f dest);
 
     /**
-     * Transform the axis-aligned box given as the minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
+     * Transform the axis-aligned box given as the minimum corner <code>(minX, minY, minZ)</code> and maximum corner <code>(maxX, maxY, maxZ)</code>
      * by <code>this</code> matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
      * and maximum corner stored in <code>outMax</code>.
      * <p>
@@ -2449,7 +2449,7 @@ public interface Matrix4x3fc {
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * If <code>t</code> is <code>0.0</code> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
      *
      * @param other
@@ -2472,7 +2472,7 @@ public interface Matrix4x3fc {
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>mul(new Matrix4x3f().lookAt(new Vector3f(), new Vector3f(dir).negate(), up).invert(), dest)</tt>
+     * This method is equivalent to calling: <code>mul(new Matrix4x3f().lookAt(new Vector3f(), new Vector3f(dir).negate(), up).invert(), dest)</code>
      * 
      * @see #rotateTowards(float, float, float, float, float, float, Matrix4x3f)
      * 
@@ -2496,7 +2496,7 @@ public interface Matrix4x3fc {
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>mul(new Matrix4x3f().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</tt>
+     * This method is equivalent to calling: <code>mul(new Matrix4x3f().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</code>
      * 
      * @see #rotateTowards(Vector3fc, Vector3fc, Matrix4x3f)
      * 
@@ -2524,10 +2524,10 @@ public interface Matrix4x3fc {
      * <p>
      * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
      * <p>
-     * Note that the returned Euler angles must be applied in the order <tt>Z * Y * X</tt> to obtain the identical matrix.
+     * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
      * This means that calling {@link Matrix4x3fc#rotateZYX(float, float, float, Matrix4x3f)} using the obtained Euler angles will yield
      * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
-     * <tt>m2</tt> should be identical to <tt>m</tt> (disregarding possible floating-point inaccuracies).
+     * <code>m2</code> should be identical to <code>m</code> (disregarding possible floating-point inaccuracies).
      * <pre>
      * Matrix4x3f m = ...; // &lt;- matrix only representing rotation
      * Matrix4x3f n = new Matrix4x3f();

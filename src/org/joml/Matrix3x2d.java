@@ -254,7 +254,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix by assuming a third row in
-     * both matrices of <tt>(0, 0, 1)</tt>.
+     * both matrices of <code>(0, 0, 1)</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -271,7 +271,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix by assuming a third row in
-     * both matrices of <tt>(0, 0, 1)</tt> and store the result in <code>dest</code>.
+     * both matrices of <code>(0, 0, 1)</code> and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -394,7 +394,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Invert this matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>.
+     * Invert this matrix by assuming a third row in this matrix of <code>(0, 0, 1)</code>.
      *
      * @return this
      */
@@ -403,7 +403,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Invert the <code>this</code> matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>
+     * Invert the <code>this</code> matrix by assuming a third row in this matrix of <code>(0, 0, 1)</code>
      * and store the result in <code>dest</code>.
      * 
      * @param dest
@@ -475,7 +475,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Set only the translation components of this matrix <tt>(m20, m21)</tt> to the given values <tt>(x, y)</tt>.
+     * Set only the translation components of this matrix <code>(m20, m21)</code> to the given values <code>(x, y)</code>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(double, double)}.
      * To apply a translation to another matrix, use {@link #translate(double, double)}.
@@ -496,7 +496,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Set only the translation components of this matrix <tt>(m20, m21)</tt> to the given values <tt>(offset.x, offset.y)</tt>.
+     * Set only the translation components of this matrix <code>(m20, m21)</code> to the given values <code>(offset.x, offset.y)</code>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(Vector2dc)}.
      * To apply a translation to another matrix, use {@link #translate(Vector2dc)}.
@@ -719,7 +719,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     /**
      * Return a string representation of this matrix.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */
@@ -1406,14 +1406,14 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Apply scaling to <code>this</code> matrix by scaling the base axes by the given sx and
-     * sy factors while using <tt>(ox, oy)</tt> as the scaling origin, and store the result in <code>dest</code>.
+     * sy factors while using <code>(ox, oy)</code> as the scaling origin, and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy, dest).scale(sx, sy).translate(-ox, -oy)</tt>
+     * This method is equivalent to calling: <code>translate(ox, oy, dest).scale(sx, sy).translate(-ox, -oy)</code>
      * 
      * @param sx
      *            the scaling factor of the x component
@@ -1441,14 +1441,14 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Apply scaling to this matrix by scaling the base axes by the given sx and
-     * sy factors while using <tt>(ox, oy)</tt> as the scaling origin.
+     * sy factors while using <code>(ox, oy)</code> as the scaling origin.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * scaling will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy).scale(sx, sy).translate(-ox, -oy)</tt>
+     * This method is equivalent to calling: <code>translate(ox, oy).scale(sx, sy).translate(-ox, -oy)</code>
      * 
      * @param sx
      *            the scaling factor of the x component
@@ -1466,7 +1466,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Apply scaling to this matrix by scaling the base axes by the given <code>factor</code>
-     * while using <tt>(ox, oy)</tt> as the scaling origin,
+     * while using <code>(ox, oy)</code> as the scaling origin,
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -1474,7 +1474,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * scaling will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy, dest).scale(factor).translate(-ox, -oy)</tt>
+     * This method is equivalent to calling: <code>translate(ox, oy, dest).scale(factor).translate(-ox, -oy)</code>
      * 
      * @param factor
      *            the scaling factor for all three axes
@@ -1492,14 +1492,14 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Apply scaling to this matrix by scaling the base axes by the given <code>factor</code>
-     * while using <tt>(ox, oy)</tt> as the scaling origin.
+     * while using <code>(ox, oy)</code> as the scaling origin.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * scaling will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy).scale(factor).translate(-ox, -oy)</tt>
+     * This method is equivalent to calling: <code>translate(ox, oy).scale(factor).translate(-ox, -oy)</code>
      * 
      * @param factor
      *            the scaling factor for all axes
@@ -1535,14 +1535,14 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Pre-multiply scaling to this matrix by scaling the base axes by the given sx and
-     * sy factors while using <tt>(ox, oy)</tt> as the scaling origin.
+     * sy factors while using <code>(ox, oy)</code> as the scaling origin.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>S * M</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
      * scaling will be applied last!
      * <p>
-     * This method is equivalent to calling: <tt>new Matrix3x2d().translate(ox, oy).scale(sx, sy).translate(-ox, -oy).mul(this, this)</tt>
+     * This method is equivalent to calling: <code>new Matrix3x2d().translate(ox, oy).scale(sx, sy).translate(-ox, -oy).mul(this, this)</code>
      * 
      * @param sx
      *            the scaling factor of the x component
@@ -1564,14 +1564,14 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Pre-multiply scaling to this matrix by scaling the base axes by the given <code>factor</code>
-     * while using <tt>(ox, oy)</tt> as the scaling origin.
+     * while using <code>(ox, oy)</code> as the scaling origin.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>S * M</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
      * scaling will be applied last!
      * <p>
-     * This method is equivalent to calling: <tt>new Matrix3x2d().translate(ox, oy).scale(factor).translate(-ox, -oy).mul(this, this)</tt>
+     * This method is equivalent to calling: <code>new Matrix3x2d().translate(ox, oy).scale(factor).translate(-ox, -oy).mul(this, this)</code>
      * 
      * @param factor
      *            the scaling factor for all three axes
@@ -1650,7 +1650,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Transform/multiply the given vector by this matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>
+     * Transform/multiply the given vector by this matrix by assuming a third row in this matrix of <code>(0, 0, 1)</code>
      * and store the result in that vector.
      * 
      * @see Vector3d#mul(Matrix3x2dc)
@@ -1664,7 +1664,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Transform/multiply the given vector by this matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>
+     * Transform/multiply the given vector by this matrix by assuming a third row in this matrix of <code>(0, 0, 1)</code>
      * and store the result in <code>dest</code>.
      * 
      * @see Vector3d#mul(Matrix3x2dc, Vector3d)
@@ -1680,7 +1680,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Transform/multiply the given vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
+     * Transform/multiply the given vector <code>(x, y, z)</code> by this matrix and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component of the vector to transform
@@ -1743,7 +1743,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=1, by
+     * Transform/multiply the given 2D-vector <code>(x, y)</code>, as if it was a 3D-vector with z=1, by
      * this matrix and store the result in <code>dest</code>.
      * <p>
      * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
@@ -1770,7 +1770,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
      * this matrix and store the result in that vector.
      * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <code>0.0</code>, so it
      * will represent a direction in 2D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
@@ -1792,7 +1792,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
      * this matrix and store the result in <code>dest</code>.
      * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <code>0.0</code>, so it
      * will represent a direction in 2D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
@@ -1813,10 +1813,10 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=0, by
+     * Transform/multiply the given 2D-vector <code>(x, y)</code>, as if it was a 3D-vector with z=0, by
      * this matrix and store the result in <code>dest</code>.
      * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <code>0.0</code>, so it
      * will represent a direction in 2D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
@@ -1965,9 +1965,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Apply a rotation transformation to this matrix by rotating the given amount of radians about
-     * the specified rotation center <tt>(x, y)</tt>.
+     * the specified rotation center <code>(x, y)</code>.
      * <p>
-     * This method is equivalent to calling: <tt>translate(x, y).rotate(ang).translate(-x, -y)</tt>
+     * This method is equivalent to calling: <code>translate(x, y).rotate(ang).translate(-x, -y)</code>
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1990,9 +1990,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
 
     /**
      * Apply a rotation transformation to this matrix by rotating the given amount of radians about
-     * the specified rotation center <tt>(x, y)</tt> and store the result in <code>dest</code>.
+     * the specified rotation center <code>(x, y)</code> and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>translate(x, y, dest).rotate(ang).translate(-x, -y)</tt>
+     * This method is equivalent to calling: <code>translate(x, y, dest).rotate(ang).translate(-x, -y)</code>
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -2080,8 +2080,8 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Apply a "view" transformation to this matrix that maps the given <tt>(left, bottom)</tt> and
-     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively and store the result in <code>dest</code>.
+     * Apply a "view" transformation to this matrix that maps the given <code>(left, bottom)</code> and
+     * <code>(right, top)</code> corners to <code>(-1, -1)</code> and <code>(1, 1)</code> respectively and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -2117,8 +2117,8 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Apply a "view" transformation to this matrix that maps the given <tt>(left, bottom)</tt> and
-     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively.
+     * Apply a "view" transformation to this matrix that maps the given <code>(left, bottom)</code> and
+     * <code>(right, top)</code> corners to <code>(-1, -1)</code> and <code>(1, 1)</code> respectively.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -2142,8 +2142,8 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Set this matrix to define a "view" transformation that maps the given <tt>(left, bottom)</tt> and
-     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively.
+     * Set this matrix to define a "view" transformation that maps the given <code>(left, bottom)</code> and
+     * <code>(right, top)</code> corners to <code>(-1, -1)</code> and <code>(1, 1)</code> respectively.
      * 
      * @see #view(double, double, double, double)
      * 
@@ -2193,7 +2193,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * This can be used to determine which region of the screen (i.e. the NDC space) is covered by the view.
      * 
      * @param area
-     *          will hold the view area as <tt>[minX, minY, maxX, maxY]</tt>
+     *          will hold the view area as <code>[minX, minY, maxX, maxY]</code>
      * @return area
      */
     public double[] viewArea(double[] area) {
@@ -2276,9 +2276,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Unproject the given window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport.
+     * Unproject the given window coordinates <code>(winX, winY)</code> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <code>[-1..1]</code>
      * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
      * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
@@ -2293,7 +2293,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * @param winY
      *          the y-coordinate in window coordinates (pixels)
      * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
+     *          the viewport described by <code>[x, y, width, height]</code>
      * @param dest
      *          will hold the unprojected position
      * @return dest
@@ -2314,7 +2314,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
-     * Unproject the given window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport.
+     * Unproject the given window coordinates <code>(winX, winY)</code> by <code>this</code> matrix using the specified viewport.
      * <p>
      * This method differs from {@link #unproject(double, double, int[], Vector2d) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
@@ -2327,7 +2327,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * @param winY
      *          the y-coordinate in window coordinates (pixels)
      * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
+     *          the viewport described by <code>[x, y, width, height]</code>
      * @param dest
      *          will hold the unprojected position
      * @return dest
@@ -2344,9 +2344,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * Compute the extents of the coordinate system before this transformation was applied and store the resulting
      * corner coordinates in <code>corner</code> and the span vectors in <code>xDir</code> and <code>yDir</code>.
      * <p>
-     * That means, given the maximum extents of the coordinate system between <tt>[-1..+1]</tt> in all dimensions,
+     * That means, given the maximum extents of the coordinate system between <code>[-1..+1]</code> in all dimensions,
      * this method returns one corner and the length and direction of the two base axis vectors in the coordinate
-     * system before this transformation is applied, which transforms into the corner coordinates <tt>[-1, +1]</tt>.
+     * system before this transformation is applied, which transforms into the corner coordinates <code>[-1, +1]</code>.
      * 
      * @param corner
      *          will hold one corner of the span

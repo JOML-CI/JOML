@@ -57,7 +57,7 @@ public interface Vector2dc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
+     *          will receive the values of this vector in <code>x, y</code> order
      * @return the passed in buffer
      * @see #get(int, ByteBuffer)
      */
@@ -72,7 +72,7 @@ public interface Vector2dc {
      * @param index 
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
+     *          will receive the values of this vector in <code>x, y</code> order
      * @return the passed in buffer
      */
     ByteBuffer get(int index, ByteBuffer buffer);
@@ -88,7 +88,7 @@ public interface Vector2dc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
+     *          will receive the values of this vector in <code>x, y</code> order
      * @return the passed in buffer
      * @see #get(int, DoubleBuffer)
      */
@@ -103,7 +103,7 @@ public interface Vector2dc {
      * @param index
      *          the absolute position into the DoubleBuffer
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
+     *          will receive the values of this vector in <code>x, y</code> order
      * @return the passed in buffer
      */
     DoubleBuffer get(int index, DoubleBuffer buffer);
@@ -125,7 +125,7 @@ public interface Vector2dc {
 //#endif
 
     /**
-     * Subtract <tt>(x, y)</tt> from this vector and store the result in <code>dest</code>.
+     * Subtract <code>(x, y)</code> from this vector and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component to subtract
@@ -198,7 +198,7 @@ public interface Vector2dc {
      * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>z</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -212,7 +212,7 @@ public interface Vector2dc {
      * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>z</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -273,7 +273,7 @@ public interface Vector2dc {
     double distance(Vector2fc v);
 
     /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y)</tt>.
+     * Return the distance between <code>this</code> vector and <code>(x, y)</code>.
      * 
      * @param x
      *          the x component of the other vector
@@ -351,7 +351,7 @@ public interface Vector2dc {
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * If <code>t</code> is <code>0.0</code> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
      * 
      * @param other
@@ -418,9 +418,9 @@ public interface Vector2dc {
      * Get the value of the specified component of this vector.
      * 
      * @param component
-     *          the component, within <tt>[0..1]</tt>
+     *          the component, within <code>[0..1]</code>
      * @return the value
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..1]</code>
      */
     double get(int component) throws IllegalArgumentException;
 

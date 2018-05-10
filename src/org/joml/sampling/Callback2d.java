@@ -29,7 +29,7 @@ package org.joml.sampling;
  */
 public interface Callback2d {
     /**
-     * Will be called whenever a new sample with the given coordinates <tt>(x, y)</tt> is generated.
+     * Will be called whenever a new sample with the given coordinates <code>(x, y)</code> is generated.
      * 
      * @param x
      *            the x coordinate of the new sample point

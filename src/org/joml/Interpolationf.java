@@ -137,7 +137,7 @@ public class Interpolationf {
      * and store the result in <code>dest</code>.
      * <p>
      * This method computes the constant rate of change for <i>f</i> given the three values of <i>f</i>
-     * at the specified three inputs <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt> and <tt>(v2X, v2Y)</tt>.
+     * at the specified three inputs <code>(v0X, v0Y)</code>, <code>(v1X, v1Y)</code> and <code>(v2X, v2Y)</code>.
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -186,7 +186,7 @@ public class Interpolationf {
      * and store the result in <code>dest</code>.
      * <p>
      * This method computes the constant rate of change for <i>f</i> given the three values of <i>f</i>
-     * at the specified three inputs <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt> and <tt>(v2X, v2Y)</tt>.
+     * at the specified three inputs <code>(v0X, v0Y)</code>, <code>(v1X, v1Y)</code> and <code>(v2X, v2Y)</code>.
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -289,13 +289,13 @@ public class Interpolationf {
     }
 
     /**
-     * Compute the interpolation factors <tt>(t0, t1, t2)</tt> in order to interpolate an arbitrary value over a given 
-     * triangle at the given point <tt>(x, y)</tt>.
+     * Compute the interpolation factors <code>(t0, t1, t2)</code> in order to interpolate an arbitrary value over a given 
+     * triangle at the given point <code>(x, y)</code>.
      * <p>
      * This method takes in the 2D vertex positions of the three vertices of a triangle and stores in <code>dest</code> the 
-     * factors <tt>(t0, t1, t2)</tt> in the equation <tt>v' = v0 * t0 + v1 * t1 + v2 * t2</tt> where <tt>(v0, v1, v2)</tt> are
-     * arbitrary (scalar or vector) values associated with the respective vertices of the triangle. The computed value <tt>v'</tt>
-     * is the interpolated value at the given position <tt>(x, y)</tt>.
+     * factors <code>(t0, t1, t2)</code> in the equation <code>v' = v0 * t0 + v1 * t1 + v2 * t2</code> where <code>(v0, v1, v2)</code> are
+     * arbitrary (scalar or vector) values associated with the respective vertices of the triangle. The computed value <code>v'</code>
+     * is the interpolated value at the given position <code>(x, y)</code>.
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -314,7 +314,7 @@ public class Interpolationf {
      * @param y
      *            the y coordinate of the point to interpolate at
      * @param dest
-     *            will hold the interpolation factors <tt>(t0, t1, t2)</tt>
+     *            will hold the interpolation factors <code>(t0, t1, t2)</code>
      * @return dest
      */
     public static Vector3f interpolationFactorsTriangle(

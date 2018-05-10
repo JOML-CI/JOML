@@ -67,7 +67,7 @@ public class Planef {
     }
 
     /**
-     * Create a new {@link Planef} with the plane equation <tt>a*x + b*y + c*z + d = 0</tt>.
+     * Create a new {@link Planef} with the plane equation <code>a*x + b*y + c*z + d = 0</code>.
      * 
      * @param a
      *          the x factor in the plane equation
@@ -132,9 +132,9 @@ public class Planef {
     }
 
     /**
-     * Compute the factors <tt>a</tt>, <tt>b</tt>, <tt>c</tt> and <tt>d</tt> in the plane equation
-     * <tt>a*x + b*y + c*z + d = 0</tt> from the given three points on the plane, and write the values
-     * to the <tt>x</tt>, <tt>y</tt>, <tt>z</tt> and <tt>w</tt> components, respectively, of the given
+     * Compute the factors <code>a</code>, <code>b</code>, <code>c</code> and <code>d</code> in the plane equation
+     * <code>a*x + b*y + c*z + d = 0</code> from the given three points on the plane, and write the values
+     * to the <code>x</code>, <code>y</code>, <code>z</code> and <code>w</code> components, respectively, of the given
      * <code>dest</code> vector.
      * 
      * @param v0
@@ -154,10 +154,10 @@ public class Planef {
     }
 
     /**
-     * Compute the factors <tt>a</tt>, <tt>b</tt>, <tt>c</tt> and <tt>d</tt> in the plane equation
-     * <tt>a*x + b*y + c*z + d = 0</tt> from the three points <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and
-     * <tt>(v2X, v2Y, v2Z)</tt> on the plane, and write the values to the <tt>x</tt>, <tt>y</tt>, <tt>z</tt> 
-     * and <tt>w</tt> components, respectively, of the given <code>dest</code> vector.
+     * Compute the factors <code>a</code>, <code>b</code>, <code>c</code> and <code>d</code> in the plane equation
+     * <code>a*x + b*y + c*z + d = 0</code> from the three points <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and
+     * <code>(v2X, v2Y, v2Z)</code> on the plane, and write the values to the <code>x</code>, <code>y</code>, <code>z</code> 
+     * and <code>w</code> components, respectively, of the given <code>dest</code> vector.
      * 
      * @param v0X
      *          the x coordinate of the first point on the plane
@@ -233,7 +233,7 @@ public class Planef {
     /**
      * Return a string representation of this plane.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

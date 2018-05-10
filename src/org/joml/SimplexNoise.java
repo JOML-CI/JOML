@@ -118,15 +118,15 @@ public class SimplexNoise {
     }
 
     /**
-     * Compute 2D simplex noise for the given input vector <tt>(x, y)</tt>.
+     * Compute 2D simplex noise for the given input vector <code>(x, y)</code>.
      * <p>
-     * The result is in the range <tt>[-1..+1]</tt>.
+     * The result is in the range <code>[-1..+1]</code>.
      * 
      * @param x
      *          the x coordinate
      * @param y
      *          the y coordinate
-     * @return the noise value (within <tt>[-1..+1]</tt>)
+     * @return the noise value (within <code>[-1..+1]</code>)
      */
     public static float noise(float x, float y) {
         float n0, n1, n2; // Noise contributions from the three corners
@@ -191,9 +191,9 @@ public class SimplexNoise {
     }
 
     /**
-     * Compute 3D simplex noise for the given input vector <tt>(x, y, z)</tt>.
+     * Compute 3D simplex noise for the given input vector <code>(x, y, z)</code>.
      * <p>
-     * The result is in the range <tt>[-1..+1]</tt>.
+     * The result is in the range <code>[-1..+1]</code>.
      * 
      * @param x
      *          the x coordinate
@@ -201,7 +201,7 @@ public class SimplexNoise {
      *          the y coordinate
      * @param z
      *          the z coordinate
-     * @return the noise value (within <tt>[-1..+1]</tt>)
+     * @return the noise value (within <code>[-1..+1]</code>)
      */
     public static float noise(float x, float y, float z) {
         float n0, n1, n2, n3; // Noise contributions from the four corners
@@ -328,9 +328,9 @@ public class SimplexNoise {
     }
 
     /**
-     * Compute 4D simplex noise for the given input vector <tt>(x, y, z, w)</tt>.
+     * Compute 4D simplex noise for the given input vector <code>(x, y, z, w)</code>.
      * <p>
-     * The result is in the range <tt>[-1..+1]</tt>.
+     * The result is in the range <code>[-1..+1]</code>.
      * 
      * @param x
      *          the x coordinate
@@ -340,7 +340,7 @@ public class SimplexNoise {
      *          the z coordinate
      * @param w
      *          the w coordinate
-     * @return the noise value (within <tt>[-1..+1]</tt>)
+     * @return the noise value (within <code>[-1..+1]</code>)
      */
     public static float noise(float x, float y, float z, float w) {
         float n0, n1, n2, n3, n4; // Noise contributions from the five corners

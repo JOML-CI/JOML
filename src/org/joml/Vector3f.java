@@ -63,7 +63,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     public float z;
 
     /**
-     * Create a new {@link Vector3f} of <tt>(0, 0, 0)</tt>.
+     * Create a new {@link Vector3f} of <code>(0, 0, 0)</code>.
      */
     public Vector3f() {
     }
@@ -151,7 +151,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * the vector is read, use {@link #Vector3f(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @param buffer values will be read in <code>x, y, z</code> order
      * @see #Vector3f(int, ByteBuffer)
      */
     public Vector3f(ByteBuffer buffer) {
@@ -165,7 +165,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * This method will not increment the position of the given ByteBuffer.
      *
      * @param index  the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @param buffer values will be read in <code>x, y, z</code> order
      */
     public Vector3f(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -181,7 +181,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * the vector is read, use {@link #Vector3f(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @param buffer values will be read in <code>x, y, z</code> order
      * @see #Vector3f(int, FloatBuffer)
      */
     public Vector3f(FloatBuffer buffer) {
@@ -195,7 +195,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * This method will not increment the position of the given FloatBuffer.
      *
      * @param index  the absolute position into the FloatBuffer
-     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @param buffer values will be read in <code>x, y, z</code> order
      */
     public Vector3f(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -332,7 +332,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      * @return this
      * @see #set(int, ByteBuffer)
      */
@@ -349,7 +349,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      * @return this
      */
     public Vector3f set(int index, ByteBuffer buffer) {
@@ -368,7 +368,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      * @return this
      * @see #set(int, FloatBuffer)
      */
@@ -385,7 +385,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @param index
      *          the absolute position into the FloatBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      * @return this
      */
     public Vector3f set(int index, FloatBuffer buffer) {
@@ -420,11 +420,11 @@ public class Vector3f implements Externalizable, Vector3fc {
      * Set the value of the specified component of this vector.
      *
      * @param component
-     *          the component whose value to set, within <tt>[0..2]</tt>
+     *          the component whose value to set, within <code>[0..2]</code>
      * @param value
      *          the value to set
      * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..2]</code>
      */
     public Vector3f setComponent(int component, float value) throws IllegalArgumentException {
         switch (component) {
@@ -682,7 +682,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Multiply the given matrix <code>mat</code> with this Vector3f, perform perspective division.
      * <p>
-     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * This method uses <code>w=1.0</code> as the fourth vector component.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -790,7 +790,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -803,7 +803,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -842,7 +842,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -869,7 +869,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and return the <i>w</i> component
      * of the resulting 4D vector.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -896,7 +896,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -909,7 +909,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -922,7 +922,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -974,7 +974,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -1334,7 +1334,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /**
-     * Set this vector to be the cross product of itself and <tt>(x, y, z)</tt>.
+     * Set this vector to be the cross product of itself and <code>(x, y, z)</code>.
      * 
      * @param x
      *          the x component of the other vector
@@ -1491,7 +1491,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Return a string representation of this vector.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */
@@ -1660,7 +1660,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /**
-     * Compute the half vector between this and the vector <tt>(x, y, z)</tt>.
+     * Compute the half vector between this and the vector <code>(x, y, z)</code>.
      * 
      * @param x
      *          the x component of the other vector
@@ -1716,7 +1716,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>this</code>.
      * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * If <code>t</code> is <code>0.0</code> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
      * 
      * @param other

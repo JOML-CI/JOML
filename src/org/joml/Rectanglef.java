@@ -39,7 +39,7 @@ public class Rectanglef {
     public float maxX, maxY;
 
     /**
-     * Create a new {@link Rectanglef} with a minimum and maximum corner of <tt>(0, 0)</tt>.
+     * Create a new {@link Rectanglef} with a minimum and maximum corner of <code>(0, 0)</code>.
      */
     public Rectanglef() {
     }
@@ -124,7 +124,7 @@ public class Rectanglef {
     /**
      * Return a string representation of this rectangle.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

@@ -82,7 +82,7 @@ public class SpiralSampling {
      * @param numSamples
      *            the number of samples to generate
      * @param jitter
-     *            the factor by which the radius of each sample point is jittered. Possible values are <tt>[0..1]</tt>
+     *            the factor by which the radius of each sample point is jittered. Possible values are <code>[0..1]</code>
      * @param callback
      *            will be called for each sample generated
      */

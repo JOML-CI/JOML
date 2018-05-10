@@ -904,7 +904,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     /**
      * Set this matrix to be equivalent to the rotation - and possibly scaling - specified by the given {@link Quaternionfc}.
      * <p>
-     * This method is equivalent to calling: <tt>rotation(q)</tt>
+     * This method is equivalent to calling: <code>rotation(q)</code>
      * 
      * @see #rotation(Quaternionfc)
      * 
@@ -919,7 +919,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     /**
      * Set this matrix to be equivalent to the rotation - and possibly scaling - specified by the given {@link Quaterniondc}.
      * <p>
-     * This method is equivalent to calling: <tt>rotation(q)</tt>
+     * This method is equivalent to calling: <code>rotation(q)</code>
      * 
      * @param q
      *          the {@link Quaterniondc}
@@ -1855,7 +1855,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(x, y, z)</tt>.
+     * Set only the translation components <code>(m30, m31, m32)</code> of this matrix to the given values <code>(x, y, z)</code>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(double, double, double)}.
      * To apply a translation, use {@link #translate(double, double, double)}.
@@ -1880,7 +1880,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
+     * Set only the translation components <code>(m30, m31, m32)</code> of this matrix to the given values <code>(xyz.x, xyz.y, xyz.z)</code>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(Vector3dc)}.
      * To apply a translation, use {@link #translate(Vector3dc)}.
@@ -1889,7 +1889,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @see #translate(Vector3dc)
      * 
      * @param xyz
-     *          the units to translate in <tt>(x, y, z)</tt>
+     *          the units to translate in <code>(x, y, z)</code>
      * @return this
      */
     public Matrix4x3d setTranslation(Vector3dc xyz) {
@@ -1919,7 +1919,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     /**
      * Return a string representation of this matrix.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */
@@ -2339,7 +2339,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Set this matrix to be a simple scale matrix which scales the base axes by
-     * <tt>xyz.x</tt>, <tt>xyz.y</tt> and <tt>xyz.z</tt>, respectively.
+     * <code>xyz.x</code>, <code>xyz.y</code> and <code>xyz.z</code>, respectively.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional scaling.
@@ -2537,7 +2537,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</code>
      * 
      * @param angleX
      *            the angle to rotate about X
@@ -2593,7 +2593,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * This method is equivalent to calling: <code>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</code>
      * 
      * @param angleZ
      *            the angle to rotate about Z
@@ -2649,7 +2649,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</code>
      * 
      * @param angleY
      *            the angle to rotate about Y
@@ -2989,8 +2989,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
-     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively.
+     * Apply scaling to this matrix by scaling the base axes by the given <code>xyz.x</code>,
+     * <code>xyz.y</code> and <code>xyz.z</code> factors, respectively.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -3217,7 +3217,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply rotation to this matrix, which is assumed to only contain a translation, by rotating the given amount of radians
-     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * about the specified <code>(x, y, z)</code> axis and store the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
      * <p>
@@ -3294,7 +3294,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Pre-multiply a rotation to this matrix by rotating the given amount of radians
-     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * about the specified <code>(x, y, z)</code> axis and store the result in <code>dest</code>.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -3372,7 +3372,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Pre-multiply a rotation to this matrix by rotating the given amount of radians
-     * about the specified <tt>(x, y, z)</tt> axis.
+     * about the specified <code>(x, y, z)</code> axis.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -3990,7 +3990,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
+     * This method is equivalent to calling: <code>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</code>
      * 
      * @param angles
      *            the Euler angles
@@ -4013,7 +4013,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</code>
      * 
      * @param angleX
      *            the angle to rotate about X
@@ -4086,7 +4086,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
+     * This method is equivalent to calling: <code>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</code>
      * 
      * @param angles
      *            the Euler angles
@@ -4109,7 +4109,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * This method is equivalent to calling: <code>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</code>
      * 
      * @param angleZ
      *            the angle to rotate about Z
@@ -4182,7 +4182,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateY(angles.y).rotateX(angles.x).rotateZ(angles.z)</tt>
+     * This method is equivalent to calling: <code>rotateY(angles.y).rotateX(angles.x).rotateZ(angles.z)</code>
      * 
      * @param angles
      *            the Euler angles
@@ -4205,7 +4205,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</code>
      * 
      * @param angleY
      *            the angle to rotate about Y
@@ -4412,9 +4412,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
-     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, and <tt>S</tt> is a scaling transformation
-     * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt>.
+     * Set <code>this</code> matrix to <code>T * R * S</code>, where <code>T</code> is a translation by the given <code>(tx, ty, tz)</code>,
+     * <code>R</code> is a rotation transformation specified by the quaternion <code>(qx, qy, qz, qw)</code>, and <code>S</code> is a scaling transformation
+     * which scales the three axes x, y and z by <code>(sx, sy, sz)</code>.
      * <p>
      * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
      * at last the translation.
@@ -4423,7 +4423,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz)</tt>
+     * This method is equivalent to calling: <code>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz)</code>
      * 
      * @see #translation(double, double, double)
      * @see #rotate(Quaterniondc)
@@ -4481,8 +4481,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * Set <code>this</code> matrix to <code>T * R * S</code>, where <code>T</code> is the given <code>translation</code>,
+     * <code>R</code> is a rotation transformation specified by the given quaternion, and <code>S</code> is a scaling transformation
      * which scales the axes by <code>scale</code>.
      * <p>
      * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
@@ -4492,7 +4492,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
+     * This method is equivalent to calling: <code>translation(translation).rotate(quat).scale(scale)</code>
      * 
      * @see #translation(Vector3fc)
      * @see #rotate(Quaternionfc)
@@ -4512,8 +4512,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * Set <code>this</code> matrix to <code>T * R * S</code>, where <code>T</code> is the given <code>translation</code>,
+     * <code>R</code> is a rotation transformation specified by the given quaternion, and <code>S</code> is a scaling transformation
      * which scales the axes by <code>scale</code>.
      * <p>
      * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
@@ -4523,7 +4523,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
+     * This method is equivalent to calling: <code>translation(translation).rotate(quat).scale(scale)</code>
      * 
      * @see #translation(Vector3dc)
      * @see #rotate(Quaterniondc)
@@ -4543,9 +4543,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
-     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, <tt>S</tt> is a scaling transformation
-     * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt>.
+     * Set <code>this</code> matrix to <code>T * R * S * M</code>, where <code>T</code> is a translation by the given <code>(tx, ty, tz)</code>,
+     * <code>R</code> is a rotation transformation specified by the quaternion <code>(qx, qy, qz, qw)</code>, <code>S</code> is a scaling transformation
+     * which scales the three axes x, y and z by <code>(sx, sy, sz)</code>.
      * <p>
      * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
      * at last the translation.
@@ -4554,7 +4554,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz).mul(m)</tt>
+     * This method is equivalent to calling: <code>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz).mul(m)</code>
      * 
      * @see #translation(double, double, double)
      * @see #rotate(Quaterniondc)
@@ -4636,8 +4636,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is the given <code>translation</code>,
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion, <tt>S</tt> is a scaling transformation
+     * Set <code>this</code> matrix to <code>T * R * S * M</code>, where <code>T</code> is the given <code>translation</code>,
+     * <code>R</code> is a rotation transformation specified by the given quaternion, <code>S</code> is a scaling transformation
      * which scales the axes by <code>scale</code>.
      * <p>
      * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
@@ -4647,7 +4647,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale).mul(m)</tt>
+     * This method is equivalent to calling: <code>translation(translation).rotate(quat).scale(scale).mul(m)</code>
      * 
      * @see #translation(Vector3dc)
      * @see #rotate(Quaterniondc)
@@ -4668,8 +4668,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion.
+     * Set <code>this</code> matrix to <code>T * R</code>, where <code>T</code> is a translation by the given <code>(tx, ty, tz)</code> and
+     * <code>R</code> is a rotation transformation specified by the given quaternion.
      * <p>
      * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
      * <p>
@@ -4677,7 +4677,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
+     * This method is equivalent to calling: <code>translation(tx, ty, tz).rotate(quat)</code>
      * 
      * @see #translation(double, double, double)
      * @see #rotate(Quaterniondc)
@@ -4720,8 +4720,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set <code>this</code> matrix to <tt>T * R * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
-     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the given quaternion and <tt>M</tt> is the given matrix <code>mat</code>.
+     * Set <code>this</code> matrix to <code>T * R * M</code>, where <code>T</code> is a translation by the given <code>(tx, ty, tz)</code>,
+     * <code>R</code> is a rotation - and possibly scaling - transformation specified by the given quaternion and <code>M</code> is the given matrix <code>mat</code>.
      * <p>
      * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
      * at last the translation.
@@ -4730,7 +4730,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).mul(mat)</tt>
+     * This method is equivalent to calling: <code>translation(tx, ty, tz).rotate(quat).mul(mat)</code>
      * 
      * @see #translation(double, double, double)
      * @see #rotate(Quaternionfc)
@@ -4753,8 +4753,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set <code>this</code> matrix to <tt>T * R * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
-     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt> and <tt>M</tt> is the given matrix <code>mat</code>
+     * Set <code>this</code> matrix to <code>T * R * M</code>, where <code>T</code> is a translation by the given <code>(tx, ty, tz)</code>,
+     * <code>R</code> is a rotation - and possibly scaling - transformation specified by the quaternion <code>(qx, qy, qz, qw)</code> and <code>M</code> is the given matrix <code>mat</code>
      * <p>
      * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
      * at last the translation.
@@ -4763,7 +4763,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
-     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).mul(mat)</tt>
+     * This method is equivalent to calling: <code>translation(tx, ty, tz).rotate(quat).mul(mat)</code>
      * 
      * @see #translation(double, double, double)
      * @see #rotate(Quaternionfc)
@@ -5646,11 +5646,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * Set the row at the given <code>row</code> index, starting with <code>0</code>.
      * 
      * @param row
-     *          the row index in <tt>[0..2]</tt>
+     *          the row index in <code>[0..2]</code>
      * @param src
      *          the row components to set
      * @return this
-     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <code>[0..2]</code>
      */
     public Matrix4x3d setRow(int row, Vector4dc src) throws IndexOutOfBoundsException {
         switch (row) {
@@ -5714,11 +5714,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * Set the column at the given <code>column</code> index, starting with <code>0</code>.
      * 
      * @param column
-     *          the column index in <tt>[0..3]</tt>
+     *          the column index in <code>[0..3]</code>
      * @param src
      *          the column components to set
      * @return this
-     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..3]</tt>
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <code>[0..3]</code>
      */
     public Matrix4x3d setColumn(int column, Vector3dc src) throws IndexOutOfBoundsException {
         switch (column) {
@@ -5754,7 +5754,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * and store it into the left 3x3 submatrix of <code>this</code>.
      * All other values of <code>this</code> will be set to {@link #identity() identity}.
      * <p>
-     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * The normal matrix of <code>m</code> is the transpose of the inverse of <code>m</code>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
@@ -5774,7 +5774,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * and store it into the left 3x3 submatrix of <code>dest</code>.
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
      * <p>
-     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * The normal matrix of <code>m</code> is the transpose of the inverse of <code>m</code>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
@@ -5955,9 +5955,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
-     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
+     * specified via the equation <code>x*a + y*b + z*c + d = 0</code>.
      * <p>
-     * The vector <tt>(a, b, c)</tt> must be a unit vector.
+     * The vector <code>(a, b, c)</code> must be a unit vector.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -6043,8 +6043,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniondc} is
-     * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
+     * It is assumed that the default mirror plane's normal is <code>(0, 0, 1)</code>. So, if the given {@link Quaterniondc} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <code>z=0</code>, offset by the given <code>point</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -6052,7 +6052,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * reflection will be applied first!
      * 
      * @param orientation
-     *          the plane orientation relative to an implied normal vector of <tt>(0, 0, 1)</tt>
+     *          the plane orientation relative to an implied normal vector of <code>(0, 0, 1)</code>
      * @param point
      *          a point on the plane
      * @return this
@@ -6083,9 +6083,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Set this matrix to a mirror/reflection transformation that reflects about the given plane
-     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
+     * specified via the equation <code>x*a + y*b + z*c + d = 0</code>.
      * <p>
-     * The vector <tt>(a, b, c)</tt> must be a unit vector.
+     * The vector <code>(a, b, c)</code> must be a unit vector.
      * <p>
      * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
      * 
@@ -6163,8 +6163,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniondc} is
-     * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
+     * It is assumed that the default mirror plane's normal is <code>(0, 0, 1)</code>. So, if the given {@link Quaterniondc} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <code>z=0</code>, offset by the given <code>point</code>.
      * 
      * @param orientation
      *          the plane orientation
@@ -6211,8 +6211,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @param dest
      *            will hold the result
      * @return dest
@@ -6247,7 +6247,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply an orthographic projection transformation for a right-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -6310,8 +6310,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return this
      */
     public Matrix4x3d ortho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
@@ -6320,7 +6320,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply an orthographic projection transformation for a right-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -6381,8 +6381,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @param dest
      *            will hold the result
      * @return dest
@@ -6417,7 +6417,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply an orthographic projection transformation for a left-handed coordiante system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -6480,8 +6480,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return this
      */
     public Matrix4x3d orthoLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
@@ -6490,7 +6490,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply an orthographic projection transformation for a left-handed coordiante system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -6546,8 +6546,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return this
      */
     public Matrix4x3d setOrtho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
@@ -6569,7 +6569,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Set this matrix to be an orthographic projection transformation for a right-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code>.
      * <p>
      * In order to apply the orthographic projection to an already existing transformation,
      * use {@link #ortho(double, double, double, double, double, double) ortho()}.
@@ -6620,8 +6620,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return this
      */
     public Matrix4x3d setOrthoLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
@@ -6643,7 +6643,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Set this matrix to be an orthographic projection transformation for a left-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code>.
      * <p>
      * In order to apply the orthographic projection to an already existing transformation,
      * use {@link #orthoLH(double, double, double, double, double, double) orthoLH()}.
@@ -6700,8 +6700,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param dest
      *            will hold the result
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return dest
      */
     public Matrix4x3d orthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4x3d dest) {
@@ -6732,7 +6732,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply a symmetric orthographic projection transformation for a right-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
      * <p>
      * This method is equivalent to calling {@link #ortho(double, double, double, double, double, double, Matrix4x3d) ortho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -6793,8 +6793,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return this
      */
     public Matrix4x3d orthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
@@ -6803,7 +6803,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply a symmetric orthographic projection transformation for a right-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix.
      * <p>
      * This method is equivalent to calling {@link #ortho(double, double, double, double, double, double) ortho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -6864,8 +6864,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param dest
      *            will hold the result
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return dest
      */
     public Matrix4x3d orthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4x3d dest) {
@@ -6896,7 +6896,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply a symmetric orthographic projection transformation for a left-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
      * <p>
      * This method is equivalent to calling {@link #orthoLH(double, double, double, double, double, double, Matrix4x3d) orthoLH()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -6957,8 +6957,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return this
      */
     public Matrix4x3d orthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
@@ -6967,7 +6967,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply a symmetric orthographic projection transformation for a left-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix.
      * <p>
      * This method is equivalent to calling {@link #orthoLH(double, double, double, double, double, double) orthoLH()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -7021,8 +7021,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return this
      */
     public Matrix4x3d setOrthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
@@ -7044,7 +7044,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Set this matrix to be a symmetric orthographic projection transformation for a right-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code>.
      * <p>
      * This method is equivalent to calling {@link #setOrtho(double, double, double, double, double, double) setOrtho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -7092,8 +7092,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param zFar
      *            far clipping plane distance
      * @param zZeroToOne
-     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
-     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @return this
      */
     public Matrix4x3d setOrthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
@@ -7115,7 +7115,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Set this matrix to be a symmetric orthographic projection transformation for a left-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * using OpenGL's NDC z range of <code>[-1..+1]</code>.
      * <p>
      * This method is equivalent to calling {@link #setOrthoLH(double, double, double, double, double, double) setOrthoLH()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -8417,9 +8417,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
-     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
+     * <code>x*a + y*b + z*c + d = 0</code> as if casting a shadow from a given light position/direction <code>light</code>.
      * <p>
-     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <code>light.w</code> is <code>0.0</code> the light is being treated as a directional light; if it is <code>1.0</code> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -8453,9 +8453,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
-     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>.
+     * <code>x*a + y*b + z*c + d = 0</code> as if casting a shadow from a given light position/direction <code>(lightX, lightY, lightZ, lightW)</code>.
      * <p>
-     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <code>lightW</code> is <code>0.0</code> the light is being treated as a directional light; if it is <code>1.0</code> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -8558,11 +8558,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
-     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
+     * <code>y = 0</code> as if casting a shadow from a given light position/direction <code>light</code>.
      * <p>
      * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
      * <p>
-     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <code>light.w</code> is <code>0.0</code> the light is being treated as a directional light; if it is <code>1.0</code> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -8572,7 +8572,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param light
      *          the light's vector
      * @param planeTransform
-     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     *          the transformation to transform the implied plane <code>y = 0</code> before applying the projection
      * @return this
      */
     public Matrix4x3d shadow(Vector4dc light, Matrix4x3dc planeTransform) {
@@ -8593,11 +8593,11 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
-     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>.
+     * <code>y = 0</code> as if casting a shadow from a given light position/direction <code>(lightX, lightY, lightZ, lightW)</code>.
      * <p>
      * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
      * <p>
-     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <code>lightW</code> is <code>0.0</code> the light is being treated as a directional light; if it is <code>1.0</code> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -8613,7 +8613,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param lightW
      *          the w-component of the light vector
      * @param planeTransform
-     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     *          the transformation to transform the implied plane <code>y = 0</code> before applying the projection
      * @return this
      */
     public Matrix4x3d shadow(double lightX, double lightY, double lightZ, double lightW, Matrix4x3dc planeTransform) {
@@ -8906,8 +8906,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Apply a picking transformation to this matrix using the given window coordinates <tt>(x, y)</tt> as the pick center
-     * and the given <tt>(width, height)</tt> as the size of the picking region in window coordinates.
+     * Apply a picking transformation to this matrix using the given window coordinates <code>(x, y)</code> as the pick center
+     * and the given <code>(width, height)</code> as the size of the picking region in window coordinates.
      * 
      * @param x
      *          the x coordinate of the picking region center in window coordinates
@@ -8918,7 +8918,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @param height
      *          the height of the picking region in window coordinates
      * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
+     *          the viewport described by <code>[x, y, width, height]</code>
      * @return this
      */
     public Matrix4x3d pick(double x, double y, double width, double height, int[] viewport) {
@@ -8999,10 +8999,10 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and center <tt>(centerX, centerY, centerZ)</tt>
+     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and center <code>(centerX, centerY, centerZ)</code>
      * position of the arcball and the specified X and Y rotation angles.
      * <p>
-     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-centerX, -centerY, -centerZ)</tt>
+     * This method is equivalent to calling: <code>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-centerX, -centerY, -centerZ)</code>
      * 
      * @param radius
      *          the arcball radius
@@ -9026,7 +9026,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * Apply an arcball view transformation to this matrix with the given <code>radius</code> and <code>center</code>
      * position of the arcball and the specified X and Y rotation angles.
      * <p>
-     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</tt>
+     * This method is equivalent to calling: <code>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</code>
      * 
      * @param radius
      *          the arcball radius
@@ -9137,7 +9137,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>this</code>.
      * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * If <code>t</code> is <code>0.0</code> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
      *
      * @param other
@@ -9182,7 +9182,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(Vector3dc, Vector3dc) rotationTowards()}.
      * <p>
-     * This method is equivalent to calling: <tt>mul(new Matrix4x3d().lookAt(new Vector3d(), new Vector3d(dir).negate(), up).invert(), dest)</tt>
+     * This method is equivalent to calling: <code>mul(new Matrix4x3d().lookAt(new Vector3d(), new Vector3d(dir).negate(), up).invert(), dest)</code>
      * 
      * @see #rotateTowards(double, double, double, double, double, double, Matrix4x3d)
      * @see #rotationTowards(Vector3dc, Vector3dc)
@@ -9211,7 +9211,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(Vector3dc, Vector3dc) rotationTowards()}.
      * <p>
-     * This method is equivalent to calling: <tt>mul(new Matrix4x3d().lookAt(new Vector3d(), new Vector3d(dir).negate(), up).invert())</tt>
+     * This method is equivalent to calling: <code>mul(new Matrix4x3d().lookAt(new Vector3d(), new Vector3d(dir).negate(), up).invert())</code>
      * 
      * @see #rotateTowards(double, double, double, double, double, double)
      * @see #rotationTowards(Vector3dc, Vector3dc)
@@ -9238,7 +9238,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(double, double, double, double, double, double) rotationTowards()}.
      * <p>
-     * This method is equivalent to calling: <tt>mul(new Matrix4x3d().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert())</tt>
+     * This method is equivalent to calling: <code>mul(new Matrix4x3d().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert())</code>
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -9274,7 +9274,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(double, double, double, double, double, double) rotationTowards()}.
      * <p>
-     * This method is equivalent to calling: <tt>mul(new Matrix4x3d().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</tt>
+     * This method is equivalent to calling: <code>mul(new Matrix4x3d().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</code>
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -9353,7 +9353,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * In order to apply the rotation transformation to a previous existing transformation,
      * use {@link #rotateTowards(double, double, double, double, double, double) rotateTowards}.
      * <p>
-     * This method is equivalent to calling: <tt>setLookAt(new Vector3d(), new Vector3d(dir).negate(), up).invert()</tt>
+     * This method is equivalent to calling: <code>setLookAt(new Vector3d(), new Vector3d(dir).negate(), up).invert()</code>
      * 
      * @see #rotationTowards(Vector3dc, Vector3dc)
      * @see #rotateTowards(double, double, double, double, double, double)
@@ -9375,7 +9375,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * In order to apply the rotation transformation to a previous existing transformation,
      * use {@link #rotateTowards(double, double, double, double, double, double) rotateTowards}.
      * <p>
-     * This method is equivalent to calling: <tt>setLookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert()</tt>
+     * This method is equivalent to calling: <code>setLookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert()</code>
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -9435,7 +9435,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * that translates to the given <code>pos</code> and aligns the local <code>-z</code>
      * axis with <code>dir</code>.
      * <p>
-     * This method is equivalent to calling: <tt>translation(pos).rotateTowards(dir, up)</tt>
+     * This method is equivalent to calling: <code>translation(pos).rotateTowards(dir, up)</code>
      * 
      * @see #translation(Vector3dc)
      * @see #rotateTowards(Vector3dc, Vector3dc)
@@ -9457,7 +9457,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * that translates to the given <code>(posX, posY, posZ)</code> and aligns the local <code>-z</code>
      * axis with <code>(dirX, dirY, dirZ)</code>.
      * <p>
-     * This method is equivalent to calling: <tt>translation(posX, posY, posZ).rotateTowards(dirX, dirY, dirZ, upX, upY, upZ)</tt>
+     * This method is equivalent to calling: <code>translation(posX, posY, posZ).rotateTowards(dirX, dirY, dirZ, upX, upY, upZ)</code>
      * 
      * @see #translation(double, double, double)
      * @see #rotateTowards(double, double, double, double, double, double)

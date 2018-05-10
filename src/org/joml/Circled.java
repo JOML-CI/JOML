@@ -38,7 +38,7 @@ public class Circled {
     public double x, y, r;
 
     /**
-     * Create a new {@link Circled} with center position <tt>(0, 0, 0)</tt> and radius <tt>0</tt>.
+     * Create a new {@link Circled} with center position <code>(0, 0, 0)</code> and radius <code>0</code>.
      */
     public Circled() {
     }
@@ -56,7 +56,7 @@ public class Circled {
     }
 
     /**
-     * Create a new {@link Circled} with center position <tt>(x, y)</tt> and radius <code>r</code>.
+     * Create a new {@link Circled} with center position <code>(x, y)</code> and radius <code>r</code>.
      * 
      * @param x
      *          the x coordinate of the circle's center
@@ -104,7 +104,7 @@ public class Circled {
     /**
      * Return a string representation of this circle.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

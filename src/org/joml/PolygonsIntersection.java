@@ -274,7 +274,7 @@ public class PolygonsIntersection {
     }
     
     /**
-     * Test whether the given point <tt>(x, y)</tt> lies inside any polygon stored in this {@link PolygonsIntersection} object.
+     * Test whether the given point <code>(x, y)</code> lies inside any polygon stored in this {@link PolygonsIntersection} object.
      * <p>
      * This method is thread-safe and can be used to test many points concurrently.
      * <p>
@@ -293,7 +293,7 @@ public class PolygonsIntersection {
     }
 
     /**
-     * Test whether the given point <tt>(x, y)</tt> lies inside any polygon stored in this {@link PolygonsIntersection} object.
+     * Test whether the given point <code>(x, y)</code> lies inside any polygon stored in this {@link PolygonsIntersection} object.
      * <p>
      * This method is thread-safe and can be used to test many points concurrently.
      * 

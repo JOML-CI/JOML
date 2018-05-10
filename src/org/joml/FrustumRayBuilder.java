@@ -125,9 +125,9 @@ public class FrustumRayBuilder {
      * from the bottom-left to the top-right frustum corners.
      * 
      * @param x
-     *          the interpolation factor along the left-to-right frustum planes, within <tt>[0..1]</tt>
+     *          the interpolation factor along the left-to-right frustum planes, within <code>[0..1]</code>
      * @param y
-     *          the interpolation factor along the bottom-to-top frustum planes, within <tt>[0..1]</tt>
+     *          the interpolation factor along the bottom-to-top frustum planes, within <code>[0..1]</code>
      * @param dir
      *          will hold the normalized ray direction
      * @return the <code>dir</code> vector

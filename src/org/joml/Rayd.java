@@ -39,7 +39,7 @@ public class Rayd {
     public double dX, dY, dZ;
 
     /**
-     * Create a new {@link Rayd} with origin <tt>(0, 0, 0)</tt> and no direction.
+     * Create a new {@link Rayd} with origin <code>(0, 0, 0)</code> and no direction.
      */
     public Rayd() {
     }
@@ -146,7 +146,7 @@ public class Rayd {
     /**
      * Return a string representation of this ray.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

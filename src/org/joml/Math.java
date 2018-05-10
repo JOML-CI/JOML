@@ -27,7 +27,7 @@ import org.joml.internal.Options;
 /**
  * Contains fast approximations of some {@link java.lang.Math} operations.
  * <p>
- * By default, {@link java.lang.Math} methods will be used by all other JOML classes. In order to use the approximations in this class, start the JVM with the parameter <tt>-Djoml.fastmath</tt>.
+ * By default, {@link java.lang.Math} methods will be used by all other JOML classes. In order to use the approximations in this class, start the JVM with the parameter <code>-Djoml.fastmath</code>.
  * <p>
  * There are two algorithms for approximating sin/cos:
  * <ol>
@@ -35,8 +35,8 @@ import org.joml.internal.Options;
  * <li>theagentd's <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/346213/view.html#msg346213">linear interpolation</a> variant of Riven's algorithm from
  * <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/view.html">http://www.java-gaming.org/</a>
  * </ol>
- * By default, the first algorithm is being used. In order to use the second one, start the JVM with <tt>-Djoml.sinLookup</tt>. The lookup table bit length of the second algorithm can also be adjusted
- * for improved accuracy via <tt>-Djoml.sinLookup.bits=&lt;n&gt;</tt>, where &lt;n&gt; is the number of bits of the lookup table.
+ * By default, the first algorithm is being used. In order to use the second one, start the JVM with <code>-Djoml.sinLookup</code>. The lookup table bit length of the second algorithm can also be adjusted
+ * for improved accuracy via <code>-Djoml.sinLookup.bits=&lt;n&gt;</code>, where &lt;n&gt; is the number of bits of the lookup table.
  * 
  * @author Kai Burjack
  */

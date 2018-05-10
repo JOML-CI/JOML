@@ -63,7 +63,7 @@ public interface Vector3ic {
      * @see #get(int, IntBuffer)
      *
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     *          will receive the values of this vector in <code>x, y, z</code> order
      * @return the passed in buffer
      */
     IntBuffer get(IntBuffer buffer);
@@ -77,7 +77,7 @@ public interface Vector3ic {
      * @param index
      *          the absolute position into the IntBuffer
      * @param
-     *          buffer will receive the values of this vector in <tt>x, y, z</tt> order
+     *          buffer will receive the values of this vector in <code>x, y, z</code> order
      * @return the passed in buffer
      */
     IntBuffer get(int index, IntBuffer buffer);
@@ -95,7 +95,7 @@ public interface Vector3ic {
      * @see #get(int, ByteBuffer)
      *
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     *          will receive the values of this vector in <code>x, y, z</code> order
      * @return the passed in buffer
      */
     ByteBuffer get(ByteBuffer buffer);
@@ -109,7 +109,7 @@ public interface Vector3ic {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     *          will receive the values of this vector in <code>x, y, z</code> order
      * @return the passed in buffer
      */
     ByteBuffer get(int index, ByteBuffer buffer);
@@ -249,7 +249,7 @@ public interface Vector3ic {
     double distance(Vector3ic v);
 
     /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     * Return the distance between <code>this</code> vector and <code>(x, y, z)</code>.
      *
      * @param x
      *          the x component of the other vector
@@ -271,7 +271,7 @@ public interface Vector3ic {
     long distanceSquared(Vector3ic v);
 
     /**
-     * Return the square of the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     * Return the square of the distance between <code>this</code> vector and <code>(x, y, z)</code>.
      *
      * @param x
      *          the x component of the other vector
@@ -318,9 +318,9 @@ public interface Vector3ic {
      * Get the value of the specified component of this vector.
      * 
      * @param component
-     *          the component, within <tt>[0..2]</tt>
+     *          the component, within <code>[0..2]</code>
      * @return the value
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..2]</code>
      */
     int get(int component) throws IllegalArgumentException;
 

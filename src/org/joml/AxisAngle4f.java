@@ -59,7 +59,7 @@ public class AxisAngle4f implements Externalizable {
     public float z;
 
     /**
-     * Create a new {@link AxisAngle4f} with zero rotation about <tt>(0, 0, 1)</tt>.
+     * Create a new {@link AxisAngle4f} with zero rotation about <code>(0, 0, 1)</code>.
      */
     public AxisAngle4f() {
         z = 1.0f;
@@ -667,7 +667,7 @@ public class AxisAngle4f implements Externalizable {
     /**
      * Return a string representation of this {@link AxisAngle4f}.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code> 0.000E0;-</code>".
      * 
      * @return the string representation
      */

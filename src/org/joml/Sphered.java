@@ -38,7 +38,7 @@ public class Sphered {
     public double x, y, z, r;
 
     /**
-     * Create a new {@link Sphered} with center position <tt>(0, 0, 0)</tt> and radius = <tt>0</tt>.
+     * Create a new {@link Sphered} with center position <code>(0, 0, 0)</code> and radius = <code>0</code>.
      */
     public Sphered() {
     }
@@ -57,7 +57,7 @@ public class Sphered {
     }
 
     /**
-     * Create a new {@link Sphered} with center position <tt>(x, y, z)</tt> and radius <code>r</code>.
+     * Create a new {@link Sphered} with center position <code>(x, y, z)</code> and radius <code>r</code>.
      * 
      * @param x
      *          the x coordinate of the sphere's center
@@ -112,7 +112,7 @@ public class Sphered {
     /**
      * Return a string representation of this sphere.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

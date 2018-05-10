@@ -60,8 +60,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     public double w;
 
     /**
-     * Create a new {@link Quaterniond} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>, 
-     * where <tt>(x, y, z)</tt> is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
+     * Create a new {@link Quaterniond} and initialize it with <code>(x=0, y=0, z=0, w=1)</code>, 
+     * where <code>(x, y, z)</code> is the vector part of the quaternion and <code>w</code> is the real/scalar part.
      */
     public Quaterniond() {
         this.w = 1.0;
@@ -195,7 +195,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     /**
-     * Add the quaternion <tt>(x, y, z, w)</tt> to this quaternion.
+     * Add the quaternion <code>(x, y, z, w)</code> to this quaternion.
      * 
      * @param x
      *          the x component of the vector part
@@ -383,7 +383,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * Set this quaternion to a rotation equivalent to the supplied axis and
      * angle (in radians).
      * <p>
-     * This method assumes that the given rotation axis <tt>(x, y, z)</tt> is already normalized
+     * This method assumes that the given rotation axis <code>(x, y, z)</code> is already normalized
      * 
      * @param angle
      *          the angle in radians
@@ -707,13 +707,13 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     /**
      * Multiply this quaternion by <code>q</code>.
      * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
-     * quaternion, then the resulting quaternion <tt>R</tt> is:
+     * If <code>T</code> is <code>this</code> and <code>Q</code> is the given
+     * quaternion, then the resulting quaternion <code>R</code> is:
      * <p>
-     * <tt>R = T * Q</tt>
+     * <code>R = T * Q</code>
      * <p>
      * So, this method uses post-multiplication like the matrix classes, resulting in a
-     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
+     * vector to be transformed by <code>Q</code> first, and then by <code>T</code>.
      * 
      * @param q
      *          the quaternion to multiply <code>this</code> by
@@ -735,15 +735,15 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     /**
-     * Multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt>.
+     * Multiply this quaternion by the quaternion represented via <code>(qx, qy, qz, qw)</code>.
      * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
-     * quaternion, then the resulting quaternion <tt>R</tt> is:
+     * If <code>T</code> is <code>this</code> and <code>Q</code> is the given
+     * quaternion, then the resulting quaternion <code>R</code> is:
      * <p>
-     * <tt>R = T * Q</tt>
+     * <code>R = T * Q</code>
      * <p>
      * So, this method uses post-multiplication like the matrix classes, resulting in a
-     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
+     * vector to be transformed by <code>Q</code> first, and then by <code>T</code>.
      * 
      * @param qx
      *          the x component of the quaternion to multiply <code>this</code> by
@@ -777,11 +777,11 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     /**
      * Pre-multiply this quaternion by <code>q</code>.
      * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * If <code>T</code> is <code>this</code> and <code>Q</code> is the given quaternion, then the resulting quaternion <code>R</code> is:
      * <p>
-     * <tt>R = Q * T</tt>
+     * <code>R = Q * T</code>
      * <p>
-     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <code>T</code> first, and then by <code>Q</code>.
      * 
      * @param q
      *            the quaternion to pre-multiply <code>this</code> by
@@ -803,13 +803,13 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     /**
-     * Pre-multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt>.
+     * Pre-multiply this quaternion by the quaternion represented via <code>(qx, qy, qz, qw)</code>.
      * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * If <code>T</code> is <code>this</code> and <code>Q</code> is the given quaternion, then the resulting quaternion <code>R</code> is:
      * <p>
-     * <tt>R = Q * T</tt>
+     * <code>R = Q * T</code>
      * <p>
-     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <code>T</code> first, and then by <code>Q</code>.
      * 
      * @param qx
      *          the x component of the quaternion to multiply <code>this</code> by
@@ -1136,7 +1136,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * <p>
      * The division expressed using the inverse is performed in the following way:
      * <p>
-     * <tt>this = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
+     * <code>this = this * b^-1</code>, where <code>b^-1</code> is the inverse of <code>b</code>.
      * 
      * @param b
      *          the {@link Quaterniondc} to divide this by
@@ -1193,7 +1193,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     /**
      * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
      * <p>
-     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</code>
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>
      * 
@@ -1228,7 +1228,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     /**
      * Set this quaternion from the supplied euler angles (in radians) with rotation order ZYX.
      * <p>
-     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * This method is equivalent to calling: <code>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</code>
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>
      * 
@@ -1263,7 +1263,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     /**
      * Set this quaternion from the supplied euler angles (in radians) with rotation order YXZ.
      * <p>
-     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</code>
      * <p>
      * Reference: <a href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">https://en.wikipedia.org</a>
      * 
@@ -1300,12 +1300,12 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * <code>target</code> {@link #normalize() unit} quaternion using spherical linear interpolation using the specified interpolation factor <code>alpha</code>.
      * <p>
      * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
-     * below <tt>1E-6</tt>.
+     * below <code>1E-6</code>.
      * 
      * @param target
-     *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
+     *          the target of the interpolation, which should be reached with <code>alpha = 1.0</code>
      * @param alpha
-     *          the interpolation factor, within <tt>[0..1]</tt>
+     *          the interpolation factor, within <code>[0..1]</code>
      * @return this
      */
     public Quaterniond slerp(Quaterniondc target, double alpha) {
@@ -1343,7 +1343,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * <p>
      * This method will interpolate between each two successive quaternions via {@link #slerp(Quaterniondc, double)} using their relative interpolation weights.
      * <p>
-     * This method resorts to non-spherical linear interpolation when the absolute dot product of any two interpolated quaternions is below <tt>1E-6f</tt>.
+     * This method resorts to non-spherical linear interpolation when the absolute dot product of any two interpolated quaternions is below <code>1E-6f</code>.
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/62354/method-for-interpolation-between-3-quaternions#answer-62356">http://gamedev.stackexchange.com/</a>
      * 
@@ -1570,7 +1570,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * by subdividing the rotation arc between <code>this</code> and <code>q</code> via non-spherical linear interpolations as long as
      * the absolute dot product of <code>this</code> and <code>q</code> is greater than the given <code>dotThreshold</code> parameter.
      * <p>
-     * Thanks to <tt>@theagentd</tt> at <a href="http://www.java-gaming.org/">http://www.java-gaming.org/</a> for providing the code.
+     * Thanks to <code>@theagentd</code> at <a href="http://www.java-gaming.org/">http://www.java-gaming.org/</a> for providing the code.
      * 
      * @param q
      *          the other quaternion
@@ -1655,7 +1655,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
      * <p>
      * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
-     * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors. 
+     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -1754,7 +1754,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     /**
      * Return a string representation of this quaternion.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */
@@ -1827,12 +1827,12 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * and store the result in <code>this</code>.
      * <p>
      * The difference is the rotation that has to be applied to get from
-     * <code>this</code> rotation to <code>other</code>. If <tt>T</tt> is <code>this</code>, <tt>Q</tt>
-     * is <code>other</code> and <tt>D</tt> is the computed difference, then the following equation holds:
+     * <code>this</code> rotation to <code>other</code>. If <code>T</code> is <code>this</code>, <code>Q</code>
+     * is <code>other</code> and <code>D</code> is the computed difference, then the following equation holds:
      * <p>
-     * <tt>T * D = Q</tt>
+     * <code>T * D = Q</code>
      * <p>
-     * It is defined as: <tt>D = T^-1 * Q</tt>, where <tt>T^-1</tt> denotes the {@link #invert() inverse} of <tt>T</tt>.
+     * It is defined as: <code>D = T^-1 * Q</code>, where <code>T^-1</code> denotes the {@link #invert() inverse} of <code>T</code>.
      * 
      * @param other
      *          the other quaternion
@@ -1860,7 +1860,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     
 
     /**
-     * Set <code>this</code> quaternion to a rotation that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
+     * Set <code>this</code> quaternion to a rotation that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
@@ -2080,7 +2080,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     /**
-     * Apply a rotation to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
+     * Apply a rotation to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
@@ -2490,9 +2490,9 @@ public class Quaterniond implements Externalizable, Quaterniondc {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles using rotation sequence <tt>XYZ</tt>.
+     * called the euler angles using rotation sequence <code>XYZ</code>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</code>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -2540,9 +2540,9 @@ public class Quaterniond implements Externalizable, Quaterniondc {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles, using the rotation sequence <tt>ZYX</tt>.
+     * called the euler angles, using the rotation sequence <code>ZYX</code>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * This method is equivalent to calling: <code>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</code>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -2590,9 +2590,9 @@ public class Quaterniond implements Externalizable, Quaterniondc {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles, using the rotation sequence <tt>YXZ</tt>.
+     * called the euler angles, using the rotation sequence <code>YXZ</code>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</code>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a

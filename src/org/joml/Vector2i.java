@@ -115,7 +115,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @see #Vector2i(int, ByteBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y</tt> order
+     *          values will be read in <code>x, y</code> order
      */
     public Vector2i(ByteBuffer buffer) {
         this(buffer.position(), buffer);
@@ -131,7 +131,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y</tt> order
+     *          values will be read in <code>x, y</code> order
      */
     public Vector2i(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -151,7 +151,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @see #Vector2i(int, IntBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y</tt> order
+     *          values will be read in <code>x, y</code> order
      */
     public Vector2i(IntBuffer buffer) {
         this(buffer.position(), buffer);
@@ -167,7 +167,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @param index
      *          the absolute position into the IntBuffer
      * @param buffer
-     *          values will be read in <tt>x, y</tt> order
+     *          values will be read in <code>x, y</code> order
      */
     public Vector2i(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -257,7 +257,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @see #set(int, ByteBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y</tt> order
+     *          values will be read in <code>x, y</code> order
      * @return this
      */
     public Vector2i set(ByteBuffer buffer) {
@@ -273,7 +273,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y</tt> order
+     *          values will be read in <code>x, y</code> order
      * @return this
      */
     public Vector2i set(int index, ByteBuffer buffer) {
@@ -294,7 +294,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @see #set(int, IntBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y</tt> order
+     *          values will be read in <code>x, y</code> order
      * @return this
      */
     public Vector2i set(IntBuffer buffer) {
@@ -310,7 +310,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @param index
      *          the absolute position into the IntBuffer
      * @param buffer
-     *          values will be read in <tt>x, y</tt> order
+     *          values will be read in <code>x, y</code> order
      * @return this
      */
     public Vector2i set(int index, IntBuffer buffer) {
@@ -359,11 +359,11 @@ public class Vector2i implements Externalizable, Vector2ic {
      * Set the value of the specified component of this vector.
      *
      * @param component
-     *          the component whose value to set, within <tt>[0..1]</tt>
+     *          the component whose value to set, within <code>[0..1]</code>
      * @param value
      *          the value to set
      * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..1]</code>
      */
     public Vector2i setComponent(int component, int value) throws IllegalArgumentException {
         switch (component) {
@@ -717,7 +717,7 @@ public class Vector2i implements Externalizable, Vector2ic {
     /**
      * Return a string representation of this vector.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

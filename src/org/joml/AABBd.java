@@ -40,7 +40,7 @@ public class AABBd {
 
     /**
      * Create a new {@link AABBd} representing the box with
-     * <tt>(minX, minY, minZ)=(+inf, +inf, +inf)</tt> and <tt>(maxX, maxY, maxZ)=(-inf, -inf, -inf)</tt>.
+     * <code>(minX, minY, minZ)=(+inf, +inf, +inf)</code> and <code>(maxX, maxY, maxZ)=(-inf, -inf, -inf)</code>.
      */
     public AABBd() {
     }
@@ -161,7 +161,7 @@ public class AABBd {
     }
 
     /**
-     * Set <code>this</code> to the union of <code>this</code> and the given point <tt>(x, y, z)</tt>.
+     * Set <code>this</code> to the union of <code>this</code> and the given point <code>(x, y, z)</code>.
      * 
      * @param x
      *          the x coordinate of the point
@@ -187,7 +187,7 @@ public class AABBd {
     }
 
     /**
-     * Compute the union of <code>this</code> and the given point <tt>(x, y, z)</tt> and store the result in <code>dest</code>.
+     * Compute the union of <code>this</code> and the given point <code>(x, y, z)</code> and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x coordinate of the point
@@ -279,7 +279,7 @@ public class AABBd {
     }
 
     /**
-     * Test whether the point <tt>(x, y, z)</tt> lies inside this AABB.
+     * Test whether the point <code>(x, y, z)</code> lies inside this AABB.
      * 
      * @param x
      *          the x coordinate of the point
@@ -305,7 +305,7 @@ public class AABBd {
     }
 
     /**
-     * Test whether the plane given via its plane equation <tt>a*x + b*y + c*z + d = 0</tt> intersects this AABB.
+     * Test whether the plane given via its plane equation <code>a*x + b*y + c*z + d = 0</code> intersects this AABB.
      * <p>
      * Reference: <a href="http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-testing-boxes-ii/">http://www.lighthouse3d.com</a> ("Geometric Approach - Testing Boxes II")
      * 
@@ -350,7 +350,7 @@ public class AABBd {
 
     /**
      * Test whether this AABB intersects the given sphere with equation
-     * <tt>(x - centerX)^2 + (y - centerY)^2 + (z - centerZ)^2 - radiusSquared = 0</tt>.
+     * <code>(x - centerX)^2 + (y - centerY)^2 + (z - centerZ)^2 - radiusSquared = 0</code>.
      * <p>
      * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
      * 
@@ -382,7 +382,7 @@ public class AABBd {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
      * intersects this AABB.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside this AABB.
@@ -423,7 +423,7 @@ public class AABBd {
     }
 
     /**
-     * Determine whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * Determine whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
      * intersects this AABB, and return the values of the parameter <i>t</i> in the ray equation
      * <i>p(t) = origin + t * dir</i> of the near and far point of intersection.
      * <p>
@@ -474,7 +474,7 @@ public class AABBd {
     }
 
     /**
-     * Determine whether the undirected line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
+     * Determine whether the undirected line segment with the end points <code>(p0X, p0Y, p0Z)</code> and <code>(p1X, p1Y, p1Z)</code>
      * intersects this AABB, and return the values of the parameter <i>t</i> in the ray equation
      * <i>p(t) = origin + p0 * (p1 - p0)</i> of the near and far point of intersection.
      * <p>
@@ -575,7 +575,7 @@ public class AABBd {
     /**
      * Return a string representation of this AABB.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

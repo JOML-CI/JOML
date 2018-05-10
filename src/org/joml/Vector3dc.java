@@ -62,7 +62,7 @@ public interface Vector3dc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     *          will receive the values of this vector in <code>x, y, z</code> order
      * @return the passed in buffer
      * @see #get(int, ByteBuffer)
      */
@@ -77,7 +77,7 @@ public interface Vector3dc {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     *          will receive the values of this vector in <code>x, y, z</code> order
      * @return the passed in buffer
      */
     ByteBuffer get(int index, ByteBuffer buffer);
@@ -93,7 +93,7 @@ public interface Vector3dc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     *          will receive the values of this vector in <code>x, y, z</code> order
      * @return the passed in buffer
      * @see #get(int, DoubleBuffer)
      */
@@ -108,7 +108,7 @@ public interface Vector3dc {
      * @param index
      *          the absolute position into the DoubleBuffer
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     *          will receive the values of this vector in <code>x, y, z</code> order
      * @return the passed in buffer
      */
     DoubleBuffer get(int index, DoubleBuffer buffer);
@@ -152,7 +152,7 @@ public interface Vector3dc {
     Vector3d sub(Vector3fc v, Vector3d dest);
 
     /**
-     * Subtract <tt>(x, y, z)</tt> from this vector and store the result in <code>dest</code>.
+     * Subtract <code>(x, y, z)</code> from this vector and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component to subtract
@@ -321,7 +321,7 @@ public interface Vector3dc {
      * Multiply the given matrix <code>mat</code> with this Vector3d, perform perspective division
      * and store the result in <code>dest</code>.
      * <p>
-     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * This method uses <code>w=1.0</code> as the fourth vector component.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -335,7 +335,7 @@ public interface Vector3dc {
      * Multiply the given matrix <code>mat</code> with this Vector3d, perform perspective division
      * and store the result in <code>dest</code>.
      * <p>
-     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * This method uses <code>w=1.0</code> as the fourth vector component.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -371,7 +371,7 @@ public interface Vector3dc {
 
     /**
      * Multiply the given matrix <code>mat</code> with <code>this</code> by assuming a
-     * third row in the matrix of <tt>(0, 0, 1)</tt> and store the result in <code>dest</code>.
+     * third row in the matrix of <code>(0, 0, 1)</code> and store the result in <code>dest</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -383,7 +383,7 @@ public interface Vector3dc {
 
     /**
      * Multiply the given matrix <code>mat</code> with <code>this</code> by assuming a
-     * third row in the matrix of <tt>(0, 0, 1)</tt> and store the result in <code>dest</code>.
+     * third row in the matrix of <code>(0, 0, 1)</code> and store the result in <code>dest</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -419,7 +419,7 @@ public interface Vector3dc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -433,7 +433,7 @@ public interface Vector3dc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -447,7 +447,7 @@ public interface Vector3dc {
      * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -461,7 +461,7 @@ public interface Vector3dc {
      * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -475,7 +475,7 @@ public interface Vector3dc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -489,7 +489,7 @@ public interface Vector3dc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -503,12 +503,12 @@ public interface Vector3dc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>, store the
      * result in <code>dest</code> and return the <i>w</i> component of the resulting 4D vector.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
-     *          will hold the <tt>(x, y, z)</tt> components of the resulting vector
+     *          will hold the <code>(x, y, z)</code> components of the resulting vector
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
     double mulPositionW(Matrix4fc mat, Vector3d dest);
@@ -517,12 +517,12 @@ public interface Vector3dc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>, store the
      * result in <code>dest</code> and return the <i>w</i> component of the resulting 4D vector.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
-     *          will hold the <tt>(x, y, z)</tt> components of the resulting vector
+     *          will hold the <code>(x, y, z)</code> components of the resulting vector
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
     double mulPositionW(Matrix4dc mat, Vector3d dest);
@@ -531,7 +531,7 @@ public interface Vector3dc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -545,7 +545,7 @@ public interface Vector3dc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -559,7 +559,7 @@ public interface Vector3dc {
      * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -573,7 +573,7 @@ public interface Vector3dc {
      * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -587,7 +587,7 @@ public interface Vector3dc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -601,7 +601,7 @@ public interface Vector3dc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
-     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -667,7 +667,7 @@ public interface Vector3dc {
     Quaterniond rotationTo(Vector3dc toDir, Quaterniond dest);
 
     /**
-     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <tt>(toDirX, toDirY, toDirZ)</tt>
+     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <code>(toDirX, toDirY, toDirZ)</code>
      * and store the result in <code>dest</code>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
@@ -812,7 +812,7 @@ public interface Vector3dc {
     Vector3d cross(Vector3dc v, Vector3d dest);
 
     /**
-     * Compute the cross product of this vector and <tt>(x, y, z)</tt> and store the result in <code>dest</code>.
+     * Compute the cross product of this vector and <code>(x, y, z)</code> and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component of the other vector
@@ -836,7 +836,7 @@ public interface Vector3dc {
     double distance(Vector3dc v);
 
     /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     * Return the distance between <code>this</code> vector and <code>(x, y, z)</code>.
      * 
      * @param x
      *          the x component of the other vector
@@ -858,7 +858,7 @@ public interface Vector3dc {
     double distanceSquared(Vector3dc v);
 
     /**
-     * Return the square of the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     * Return the square of the distance between <code>this</code> vector and <code>(x, y, z)</code>.
      * 
      * @param x
      *          the x component of the other vector
@@ -880,7 +880,7 @@ public interface Vector3dc {
     double dot(Vector3dc v);
 
     /**
-     * Return the dot product of this vector and the vector <tt>(x, y, z)</tt>.
+     * Return the dot product of this vector and the vector <code>(x, y, z)</code>.
      * 
      * @param x
      *          the x component of the other vector
@@ -894,7 +894,7 @@ public interface Vector3dc {
 
     /**
      * Return the cosine of the angle between <code>this</code> vector and
-     * the supplied vector. Use this instead of <tt>Math.cos(angle(v))</tt>.
+     * the supplied vector. Use this instead of <code>Math.cos(angle(v))</code>.
      * 
      * @see #angle(Vector3dc)
      * 
@@ -993,7 +993,7 @@ public interface Vector3dc {
     Vector3d half(Vector3dc other, Vector3d dest);
 
     /**
-     * Compute the half vector between this and the vector <tt>(x, y, z)</tt> 
+     * Compute the half vector between this and the vector <code>(x, y, z)</code> 
      * and store the result in <code>dest</code>.
      * 
      * @param x
@@ -1016,7 +1016,7 @@ public interface Vector3dc {
      * @param v
      *          the other vector
      * @param t
-     *          the interpolation factor, within <tt>[0..1]</tt>
+     *          the interpolation factor, within <code>[0..1]</code>
      * @param dest
      *          will hold the result
      * @return dest
@@ -1036,7 +1036,7 @@ public interface Vector3dc {
      * @param t1
      *          the tangent of the other vector
      * @param t
-     *          the interpolation factor, within <tt>[0..1]</tt>
+     *          the interpolation factor, within <code>[0..1]</code>
      * @param dest
      *          will hold the result
      * @return dest
@@ -1047,7 +1047,7 @@ public interface Vector3dc {
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * If <code>t</code> is <code>0.0</code> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
      * 
      * @param other
@@ -1064,23 +1064,23 @@ public interface Vector3dc {
      * Get the value of the specified component of this vector.
      * 
      * @param component
-     *          the component, within <tt>[0..2]</tt>
+     *          the component, within <code>[0..2]</code>
      * @return the value
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..2]</code>
      */
     double get(int component) throws IllegalArgumentException;
 
     /**
      * Determine the component with the biggest absolute value.
      * 
-     * @return the component index, within <tt>[0..2]</tt>
+     * @return the component index, within <code>[0..2]</code>
      */
     int maxComponent();
 
     /**
      * Determine the component with the smallest (towards zero) absolute value.
      * 
-     * @return the component index, within <tt>[0..2]</tt>
+     * @return the component index, within <code>[0..2]</code>
      */
     int minComponent();
 

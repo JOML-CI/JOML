@@ -45,7 +45,7 @@ public class StratifiedSampling {
     }
 
     /**
-     * Generate <tt>n * n</tt> random sample positions in the unit square of <tt>x, y = [-1..+1]</tt>.
+     * Generate <code>n * n</code> random sample positions in the unit square of <code>x, y = [-1..+1]</code>.
      * <p>
      * Each sample within its stratum is distributed randomly.
      * 
@@ -65,15 +65,15 @@ public class StratifiedSampling {
     }
 
     /**
-     * Generate <tt>n * n</tt> random sample positions in the unit square of <tt>x, y = [-1..+1]</tt>.
+     * Generate <code>n * n</code> random sample positions in the unit square of <code>x, y = [-1..+1]</code>.
      * <p>
-     * Each sample within its stratum is confined to be within <tt>[-centering/2..1-centering]</tt> of its stratum.
+     * Each sample within its stratum is confined to be within <code>[-centering/2..1-centering]</code> of its stratum.
      * 
      * @param n
      *            the number of strata in each dimension
      * @param centering
      *            determines how much the random samples in each stratum are confined to be near the center of the
-     *            stratum. Possible values are <tt>[0..1]</tt>
+     *            stratum. Possible values are <code>[0..1]</code>
      * @param callback
      *            will be called for each generated sample position
      */

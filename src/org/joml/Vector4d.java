@@ -227,7 +227,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @see #Vector4d(int, ByteBuffer)
      */
     public Vector4d(ByteBuffer buffer) {
@@ -241,7 +241,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * This method will not increment the position of the given ByteBuffer.
      *
      * @param index  the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer values will be read in <code>x, y, z, w</code> order
      */
     public Vector4d(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -257,7 +257,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * the vector is read, use {@link #Vector4d(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer values will be read in <code>x, y, z, w</code> order
      * @see #Vector4d(int, DoubleBuffer)
      */
     public Vector4d(DoubleBuffer buffer) {
@@ -271,7 +271,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * This method will not increment the position of the given DoubleBuffer.
      *
      * @param index  the absolute position into the DoubleBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer values will be read in <code>x, y, z, w</code> order
      */
     public Vector4d(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -477,7 +477,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      * @see #set(int, ByteBuffer)
      */
@@ -494,7 +494,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      */
     public Vector4d set(int index, ByteBuffer buffer) {
@@ -513,7 +513,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      * @see #set(int, DoubleBuffer)
      */
@@ -530,7 +530,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @param index
      *          the absolute position into the DoubleBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      */
     public Vector4d set(int index, DoubleBuffer buffer) {
@@ -565,11 +565,11 @@ public class Vector4d implements Externalizable, Vector4dc {
      * Set the value of the specified component of this vector.
      *
      * @param component
-     *          the component whose value to set, within <tt>[0..3]</tt>
+     *          the component whose value to set, within <code>[0..3]</code>
      * @param value
      *          the value to set
      * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..3]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..3]</code>
      */
     public Vector4d setComponent(int component, double value) throws IllegalArgumentException {
         switch (component) {
@@ -690,7 +690,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
-     * Subtract <tt>(x, y, z, w)</tt> from this.
+     * Subtract <code>(x, y, z, w)</code> from this.
      * 
      * @param x
      *          the x component to subtract
@@ -745,7 +745,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
-     * Add <tt>(x, y, z, w)</tt> to this.
+     * Add <code>(x, y, z, w)</code> to this.
      * 
      * @param x
      *          the x component to subtract
@@ -1332,7 +1332,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
-     * Normalize this vector by computing only the norm of <tt>(x, y, z)</tt>.
+     * Normalize this vector by computing only the norm of <code>(x, y, z)</code>.
      * 
      * @return a vector holding the result
      */
@@ -1475,7 +1475,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     /**
      * Return a string representation of this vector.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */
@@ -1591,7 +1591,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>this</code>.
      * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * If <code>t</code> is <code>0.0</code> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
      * 
      * @param other

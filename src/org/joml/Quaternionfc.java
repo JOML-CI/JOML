@@ -64,7 +64,7 @@ public interface Quaternionfc {
     Quaternionf normalize(Quaternionf dest);
 
     /**
-     * Add the quaternion <tt>(x, y, z, w)</tt> to this quaternion and store the result in <code>dest</code>.
+     * Add the quaternion <code>(x, y, z, w)</code> to this quaternion and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component of the vector part
@@ -265,13 +265,13 @@ public interface Quaternionfc {
     /**
      * Multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
      * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
-     * quaternion, then the resulting quaternion <tt>R</tt> is:
+     * If <code>T</code> is <code>this</code> and <code>Q</code> is the given
+     * quaternion, then the resulting quaternion <code>R</code> is:
      * <p>
-     * <tt>R = T * Q</tt>
+     * <code>R = T * Q</code>
      * <p>
      * So, this method uses post-multiplication like the matrix classes, resulting in a
-     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
+     * vector to be transformed by <code>Q</code> first, and then by <code>T</code>.
      * 
      * @param q
      *            the quaternion to multiply <code>this</code> by
@@ -282,15 +282,15 @@ public interface Quaternionfc {
     Quaternionf mul(Quaternionfc q, Quaternionf dest);
 
     /**
-     * Multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in <code>dest</code>.
+     * Multiply this quaternion by the quaternion represented via <code>(qx, qy, qz, qw)</code> and store the result in <code>dest</code>.
      * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
-     * quaternion, then the resulting quaternion <tt>R</tt> is:
+     * If <code>T</code> is <code>this</code> and <code>Q</code> is the given
+     * quaternion, then the resulting quaternion <code>R</code> is:
      * <p>
-     * <tt>R = T * Q</tt>
+     * <code>R = T * Q</code>
      * <p>
      * So, this method uses post-multiplication like the matrix classes, resulting in a
-     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
+     * vector to be transformed by <code>Q</code> first, and then by <code>T</code>.
      * 
      * @param qx
      *          the x component of the quaternion to multiply <code>this</code> by
@@ -309,11 +309,11 @@ public interface Quaternionfc {
     /**
      * Pre-multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
      * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * If <code>T</code> is <code>this</code> and <code>Q</code> is the given quaternion, then the resulting quaternion <code>R</code> is:
      * <p>
-     * <tt>R = Q * T</tt>
+     * <code>R = Q * T</code>
      * <p>
-     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <code>T</code> first, and then by <code>Q</code>.
      * 
      * @param q
      *            the quaternion to pre-multiply <code>this</code> by
@@ -324,13 +324,13 @@ public interface Quaternionfc {
     Quaternionf premul(Quaternionfc q, Quaternionf dest);
 
     /**
-     * Pre-multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in <code>dest</code>.
+     * Pre-multiply this quaternion by the quaternion represented via <code>(qx, qy, qz, qw)</code> and store the result in <code>dest</code>.
      * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * If <code>T</code> is <code>this</code> and <code>Q</code> is the given quaternion, then the resulting quaternion <code>R</code> is:
      * <p>
-     * <tt>R = Q * T</tt>
+     * <code>R = Q * T</code>
      * <p>
-     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <code>T</code> first, and then by <code>Q</code>.
      * 
      * @param qx
      *          the x component of the quaternion to multiply <code>this</code> by
@@ -357,7 +357,7 @@ public interface Quaternionfc {
     Vector3f transform(Vector3f vec);
 
     /**
-     * Transform the vector <tt>(1, 0, 0)</tt> by this quaternion.
+     * Transform the vector <code>(1, 0, 0)</code> by this quaternion.
      * 
      * @param dest
      *          will hold the result
@@ -366,7 +366,7 @@ public interface Quaternionfc {
     Vector3f transformPositiveX(Vector3f dest);
 
     /**
-     * Transform the vector <tt>(1, 0, 0)</tt> by this quaternion.
+     * Transform the vector <code>(1, 0, 0)</code> by this quaternion.
      * <p>
      * Only the first three components of the given 4D vector are modified.
      * 
@@ -377,7 +377,7 @@ public interface Quaternionfc {
     Vector4f transformPositiveX(Vector4f dest);
 
     /**
-     * Transform the vector <tt>(1, 0, 0)</tt> by this unit quaternion.
+     * Transform the vector <code>(1, 0, 0)</code> by this unit quaternion.
      * <p>
      * This method is only applicable when <code>this</code> is a unit quaternion.
      * <p>
@@ -390,7 +390,7 @@ public interface Quaternionfc {
     Vector3f transformUnitPositiveX(Vector3f dest);
 
     /**
-     * Transform the vector <tt>(1, 0, 0)</tt> by this unit quaternion.
+     * Transform the vector <code>(1, 0, 0)</code> by this unit quaternion.
      * <p>
      * Only the first three components of the given 4D vector are modified.
      * <p>
@@ -405,7 +405,7 @@ public interface Quaternionfc {
     Vector4f transformUnitPositiveX(Vector4f dest);
 
     /**
-     * Transform the vector <tt>(0, 1, 0)</tt> by this quaternion.
+     * Transform the vector <code>(0, 1, 0)</code> by this quaternion.
      * 
      * @param dest
      *          will hold the result
@@ -414,7 +414,7 @@ public interface Quaternionfc {
     Vector3f transformPositiveY(Vector3f dest);
 
     /**
-     * Transform the vector <tt>(0, 1, 0)</tt> by this quaternion.
+     * Transform the vector <code>(0, 1, 0)</code> by this quaternion.
      * <p>
      * Only the first three components of the given 4D vector are modified.
      * 
@@ -425,7 +425,7 @@ public interface Quaternionfc {
     Vector4f transformPositiveY(Vector4f dest);
 
     /**
-     * Transform the vector <tt>(0, 1, 0)</tt> by this unit quaternion.
+     * Transform the vector <code>(0, 1, 0)</code> by this unit quaternion.
      * <p>
      * This method is only applicable when <code>this</code> is a unit quaternion.
      * <p>
@@ -438,7 +438,7 @@ public interface Quaternionfc {
     Vector3f transformUnitPositiveY(Vector3f dest);
 
     /**
-     * Transform the vector <tt>(0, 1, 0)</tt> by this unit quaternion.
+     * Transform the vector <code>(0, 1, 0)</code> by this unit quaternion.
      * <p>
      * Only the first three components of the given 4D vector are modified.
      * <p>
@@ -453,7 +453,7 @@ public interface Quaternionfc {
     Vector4f transformUnitPositiveY(Vector4f dest);
 
     /**
-     * Transform the vector <tt>(0, 0, 1)</tt> by this quaternion.
+     * Transform the vector <code>(0, 0, 1)</code> by this quaternion.
      * 
      * @param dest
      *          will hold the result
@@ -462,7 +462,7 @@ public interface Quaternionfc {
     Vector3f transformPositiveZ(Vector3f dest);
 
     /**
-     * Transform the vector <tt>(0, 0, 1)</tt> by this quaternion.
+     * Transform the vector <code>(0, 0, 1)</code> by this quaternion.
      * <p>
      * Only the first three components of the given 4D vector are modified.
      * 
@@ -473,7 +473,7 @@ public interface Quaternionfc {
     Vector4f transformPositiveZ(Vector4f dest);
 
     /**
-     * Transform the vector <tt>(0, 0, 1)</tt> by this unit quaternion.
+     * Transform the vector <code>(0, 0, 1)</code> by this unit quaternion.
      * <p>
      * This method is only applicable when <code>this</code> is a unit quaternion.
      * <p>
@@ -486,7 +486,7 @@ public interface Quaternionfc {
     Vector3f transformUnitPositiveZ(Vector3f dest);
 
     /**
-     * Transform the vector <tt>(0, 0, 1)</tt> by this unit quaternion.
+     * Transform the vector <code>(0, 0, 1)</code> by this unit quaternion.
      * <p>
      * Only the first three components of the given 4D vector are modified.
      * <p>
@@ -525,7 +525,7 @@ public interface Quaternionfc {
     Vector3f transform(Vector3fc vec, Vector3f dest);
 
     /**
-     * Transform the given vector <tt>(x, y, z)</tt> by this quaternion and store the result in <code>dest</code>.
+     * Transform the given vector <code>(x, y, z)</code> by this quaternion and store the result in <code>dest</code>.
      * This will apply the rotation described by this quaternion to the given vector.
      * 
      * @param x
@@ -555,7 +555,7 @@ public interface Quaternionfc {
     Vector4f transform(Vector4fc vec, Vector4f dest);
 
     /**
-     * Transform the given vector <tt>(x, y, z)</tt> by this quaternion and store the result in <code>dest</code>.
+     * Transform the given vector <code>(x, y, z)</code> by this quaternion and store the result in <code>dest</code>.
      * This will apply the rotation described by this quaternion to the given vector.
      * 
      * @param x
@@ -588,7 +588,7 @@ public interface Quaternionfc {
      * <p>
      * The division expressed using the inverse is performed in the following way:
      * <p>
-     * <tt>dest = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
+     * <code>dest = this * b^-1</code>, where <code>b^-1</code> is the inverse of <code>b</code>.
      * 
      * @param b
      *          the {@link Quaternionfc} to divide this by
@@ -609,9 +609,9 @@ public interface Quaternionfc {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles using rotation sequence <tt>XYZ</tt> and store the result in <code>dest</code>.
+     * called the euler angles using rotation sequence <code>XYZ</code> and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</code>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -632,9 +632,9 @@ public interface Quaternionfc {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles, using the rotation sequence <tt>ZYX</tt> and store the result in <code>dest</code>.
+     * called the euler angles, using the rotation sequence <code>ZYX</code> and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
+     * This method is equivalent to calling: <code>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</code>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -655,9 +655,9 @@ public interface Quaternionfc {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles, using the rotation sequence <tt>YXZ</tt> and store the result in <code>dest</code>.
+     * called the euler angles, using the rotation sequence <code>YXZ</code> and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</code>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -677,7 +677,7 @@ public interface Quaternionfc {
     Quaternionf rotateYXZ(float angleY, float angleX, float angleZ, Quaternionf dest);
 
     /**
-     * Get the euler angles in radians in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the 
+     * Get the euler angles in radians in rotation sequence <code>XYZ</code> of this quaternion and store them in the 
      * provided parameter <code>eulerAngles</code>.
      * 
      * @param eulerAngles
@@ -699,14 +699,14 @@ public interface Quaternionfc {
      * and store the result in <code>dest</code>.
      * <p>
      * This method resorts to non-spherical linear interpolation when the absolute dot product of <code>this</code> and <code>target</code> is
-     * below <tt>1E-6f</tt>.
+     * below <code>1E-6f</code>.
      * <p>
      * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
      * 
      * @param target
-     *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
+     *          the target of the interpolation, which should be reached with <code>alpha = 1.0</code>
      * @param alpha
-     *          the interpolation factor, within <tt>[0..1]</tt>
+     *          the interpolation factor, within <code>[0..1]</code>
      * @param dest
      *          will hold the result
      * @return dest
@@ -778,7 +778,7 @@ public interface Quaternionfc {
      * by subdividing the rotation arc between <code>this</code> and <code>q</code> via non-spherical linear interpolations as long as
      * the absolute dot product of <code>this</code> and <code>q</code> is greater than the given <code>dotThreshold</code> parameter.
      * <p>
-     * Thanks to <tt>@theagentd</tt> at <a href="http://www.java-gaming.org/">http://www.java-gaming.org/</a> for providing the code.
+     * Thanks to <code>@theagentd</code> at <a href="http://www.java-gaming.org/">http://www.java-gaming.org/</a> for providing the code.
      * 
      * @param q
      *          the other quaternion
@@ -823,7 +823,7 @@ public interface Quaternionfc {
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
      * <p>
      * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
-     * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors. 
+     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -851,7 +851,7 @@ public interface Quaternionfc {
     Quaternionf lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternionf dest);
 
     /**
-     * Apply a rotation to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt> and
+     * Apply a rotation to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code> and
      * store the result in <code>dest</code>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
@@ -1103,12 +1103,12 @@ public interface Quaternionfc {
      * and store the result in <code>dest</code>.
      * <p>
      * The difference is the rotation that has to be applied to get from
-     * <code>this</code> rotation to <code>other</code>. If <tt>T</tt> is <code>this</code>, <tt>Q</tt>
-     * is <code>other</code> and <tt>D</tt> is the computed difference, then the following equation holds:
+     * <code>this</code> rotation to <code>other</code>. If <code>T</code> is <code>this</code>, <code>Q</code>
+     * is <code>other</code> and <code>D</code> is the computed difference, then the following equation holds:
      * <p>
-     * <tt>T * D = Q</tt>
+     * <code>T * D = Q</code>
      * <p>
-     * It is defined as: <tt>D = T^-1 * Q</tt>, where <tt>T^-1</tt> denotes the {@link #invert(Quaternionf) inverse} of <tt>T</tt>.
+     * It is defined as: <code>D = T^-1 * Q</code>, where <code>T^-1</code> denotes the {@link #invert(Quaternionf) inverse} of <code>T</code>.
      * 
      * @param other
      *          the other quaternion
@@ -1119,7 +1119,7 @@ public interface Quaternionfc {
     Quaternionf difference(Quaternionf other, Quaternionf dest);
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * Obtain the direction of <code>+X</code> before the rotation transformation represented by <code>this</code> quaternion is applied.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1128,13 +1128,13 @@ public interface Quaternionfc {
      * </pre>
      * 
      * @param dir
-     *          will hold the direction of <tt>+X</tt>
+     *          will hold the direction of <code>+X</code>
      * @return dir
      */
     Vector3f positiveX(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
+     * Obtain the direction of <code>+X</code> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
      * The quaternion <i>must</i> be {@link #normalize(Quaternionf) normalized} for this method to work.
      * <p>
      * This method is equivalent to the following code:
@@ -1144,13 +1144,13 @@ public interface Quaternionfc {
      * </pre>
      * 
      * @param dir
-     *          will hold the direction of <tt>+X</tt>
+     *          will hold the direction of <code>+X</code>
      * @return dir
      */
     Vector3f normalizedPositiveX(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * Obtain the direction of <code>+Y</code> before the rotation transformation represented by <code>this</code> quaternion is applied.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1159,13 +1159,13 @@ public interface Quaternionfc {
      * </pre>
      * 
      * @param dir
-     *            will hold the direction of <tt>+Y</tt>
+     *            will hold the direction of <code>+Y</code>
      * @return dir
      */
     Vector3f positiveY(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
+     * Obtain the direction of <code>+Y</code> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
      * The quaternion <i>must</i> be {@link #normalize(Quaternionf) normalized} for this method to work.
      * <p>
      * This method is equivalent to the following code:
@@ -1175,13 +1175,13 @@ public interface Quaternionfc {
      * </pre>
      * 
      * @param dir
-     *            will hold the direction of <tt>+Y</tt>
+     *            will hold the direction of <code>+Y</code>
      * @return dir
      */
     Vector3f normalizedPositiveY(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * Obtain the direction of <code>+Z</code> before the rotation transformation represented by <code>this</code> quaternion is applied.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1190,13 +1190,13 @@ public interface Quaternionfc {
      * </pre>
      * 
      * @param dir
-     *            will hold the direction of <tt>+Z</tt>
+     *            will hold the direction of <code>+Z</code>
      * @return dir
      */
     Vector3f positiveZ(Vector3f dir);
 
     /**
-     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
+     * Obtain the direction of <code>+Z</code> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
      * The quaternion <i>must</i> be {@link #normalize(Quaternionf) normalized} for this method to work.
      * <p>
      * This method is equivalent to the following code:
@@ -1206,7 +1206,7 @@ public interface Quaternionfc {
      * </pre>
      * 
      * @param dir
-     *            will hold the direction of <tt>+Z</tt>
+     *            will hold the direction of <code>+Z</code>
      * @return dir
      */
     Vector3f normalizedPositiveZ(Vector3f dir);

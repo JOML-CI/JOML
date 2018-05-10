@@ -298,7 +298,7 @@ public class BestCandidateSampling {
          * <em>This method performs heap allocations, so should be used sparingly.</em>
          * 
          * @param xyzs
-         *            will hold the x, y and z coordinates of all samples in the order <tt>XYZXYZXYZ...</tt>.
+         *            will hold the x, y and z coordinates of all samples in the order <code>XYZXYZXYZ...</code>.
          *            This array must have a length of at least <code>numSamples</code>
          * @return this
          */
@@ -323,7 +323,7 @@ public class BestCandidateSampling {
          * <em>This method performs heap allocations, so should be used sparingly.</em>
          * 
          * @param xyzs
-         *            will hold the x, y and z coordinates of all samples in the order <tt>XYZXYZXYZ...</tt>.
+         *            will hold the x, y and z coordinates of all samples in the order <code>XYZXYZXYZ...</code>.
          *            This FloatBuffer must have at least <code>numSamples</code> remaining elements.
          *            The position of the buffer will not be modified by this method
          * @return this
@@ -379,7 +379,7 @@ public class BestCandidateSampling {
         }
 
         /**
-         * Set whether to generate samples on a hemisphere around the <tt>+Z</tt> axis.
+         * Set whether to generate samples on a hemisphere around the <code>+Z</code> axis.
          * <p>
          * The default is <code>false</code>, which will generate samples on the whole unit sphere.
          * 
@@ -589,7 +589,7 @@ public class BestCandidateSampling {
          * <em>This method performs heap allocations, so should be used sparingly.</em>
          * 
          * @param xys
-         *            will hold the x and y coordinates of all samples in the order <tt>XYXYXY...</tt>.
+         *            will hold the x and y coordinates of all samples in the order <code>XYXYXY...</code>.
          *            This array must have a length of at least <code>numSamples</code>
          * @return this
          */
@@ -613,7 +613,7 @@ public class BestCandidateSampling {
          * <em>This method performs heap allocations, so should be used sparingly.</em>
          * 
          * @param xys
-         *            will hold the x and y coordinates of all samples in the order <tt>XYXYXY...</tt>. This FloatBuffer must have at least <code>numSamples</code> remaining elements. The
+         *            will hold the x and y coordinates of all samples in the order <code>XYXYXY...</code>. This FloatBuffer must have at least <code>numSamples</code> remaining elements. The
          *            position of the buffer will not be modified by this method
          * @return this
          */
@@ -721,7 +721,7 @@ public class BestCandidateSampling {
          * <em>This method performs heap allocations, so should be used sparingly.</em>
          * 
          * @param xyzs
-         *            will hold the x, y and z coordinates of all samples in the order <tt>XYZXYZXYZ...</tt>.
+         *            will hold the x, y and z coordinates of all samples in the order <code>XYZXYZXYZ...</code>.
          *            This array must have a length of at least <code>numSamples</code>
          * @return this
          */
@@ -745,7 +745,7 @@ public class BestCandidateSampling {
          * <em>This method performs heap allocations, so should be used sparingly.</em>
          * 
          * @param xys
-         *            will hold the x and y coordinates of all samples in the order <tt>XYXYXY...</tt>. This FloatBuffer must have at least <code>numSamples</code> remaining elements. The position of
+         *            will hold the x and y coordinates of all samples in the order <code>XYXYXY...</code>. This FloatBuffer must have at least <code>numSamples</code> remaining elements. The position of
          *            the buffer will not be modified by this method
          * @return this
          */
@@ -963,7 +963,7 @@ public class BestCandidateSampling {
          * <em>This method performs heap allocations, so should be used sparingly.</em>
          * 
          * @param xyzs
-         *            will hold the x, y and z coordinates of all samples in the order <tt>XYZXYZXYZ...</tt>.
+         *            will hold the x, y and z coordinates of all samples in the order <code>XYZXYZXYZ...</code>.
          *            This array must have a length of at least <code>numSamples</code>
          * @return this
          */
@@ -988,7 +988,7 @@ public class BestCandidateSampling {
          * <em>This method performs heap allocations, so should be used sparingly.</em>
          * 
          * @param xyzs
-         *            will hold the x, y and z coordinates of all samples in the order <tt>XYZXYZXYZ...</tt>.
+         *            will hold the x, y and z coordinates of all samples in the order <code>XYZXYZXYZ...</code>.
          *            This FloatBuffer must have at least <code>numSamples</code> remaining elements.
          *            The position of the buffer will not be modified by this method
          * @return this

@@ -58,7 +58,7 @@ public interface Vector2ic {
      * @see #get(int, ByteBuffer)
      *
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
+     *          will receive the values of this vector in <code>x, y</code> order
      * @return the passed in buffer
      */
     ByteBuffer get(ByteBuffer buffer);
@@ -72,7 +72,7 @@ public interface Vector2ic {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
+     *          will receive the values of this vector in <code>x, y</code> order
      * @return the passed in buffer
      */
     ByteBuffer get(int index, ByteBuffer buffer);
@@ -90,7 +90,7 @@ public interface Vector2ic {
      * @see #get(int, IntBuffer)
      *
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
+     *          will receive the values of this vector in <code>x, y</code> order
      * @return the passed in buffer
      */
     IntBuffer get(IntBuffer buffer);
@@ -104,7 +104,7 @@ public interface Vector2ic {
      * @param index
      *          the absolute position into the IntBuffer
      * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
+     *          will receive the values of this vector in <code>x, y</code> order
      * @return the passed in buffer
      */
     IntBuffer get(int index, IntBuffer buffer);
@@ -175,7 +175,7 @@ public interface Vector2ic {
     double distance(Vector2ic v);
 
     /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y)</tt>.
+     * Return the distance between <code>this</code> vector and <code>(x, y)</code>.
      *
      * @param x
      *          the x component of the other vector
@@ -196,7 +196,7 @@ public interface Vector2ic {
 
     /**
      * Return the square of the distance between <code>this</code> vector and
-     * <tt>(x, y)</tt>.
+     * <code>(x, y)</code>.
      *
      * @param x
      *          the x component of the other vector
@@ -305,9 +305,9 @@ public interface Vector2ic {
      * Get the value of the specified component of this vector.
      * 
      * @param component
-     *          the component, within <tt>[0..1]</tt>
+     *          the component, within <code>[0..1]</code>
      * @return the value
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..1]</code>
      */
     int get(int component) throws IllegalArgumentException;
 

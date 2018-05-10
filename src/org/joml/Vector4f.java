@@ -198,7 +198,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @see #Vector4f(int, ByteBuffer)
      */
     public Vector4f(ByteBuffer buffer) {
@@ -214,7 +214,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @param index 
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      */
     public Vector4f(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -231,7 +231,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @see #Vector4f(int, FloatBuffer)
      */
     public Vector4f(FloatBuffer buffer) {
@@ -247,7 +247,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @param index 
      *          the absolute position into the FloatBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      */
     public Vector4f(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -435,7 +435,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      * @see #set(int, ByteBuffer)
      */
@@ -452,7 +452,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      */
     public Vector4f set(int index, ByteBuffer buffer) {
@@ -471,7 +471,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      * @see #set(int, FloatBuffer)
      */
@@ -488,7 +488,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @param index 
      *          the absolute position into the FloatBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      */
     public Vector4f set(int index, FloatBuffer buffer) {
@@ -523,11 +523,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      * Set the value of the specified component of this vector.
      *
      * @param component
-     *          the component whose value to set, within <tt>[0..3]</tt>
+     *          the component whose value to set, within <code>[0..3]</code>
      * @param value
      *          the value to set
      * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..3]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..3]</code>
      */
     public Vector4f setComponent(int component, float value) throws IllegalArgumentException {
         switch (component) {
@@ -603,7 +603,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /**
-     * Subtract <tt>(x, y, z, w)</tt> from this.
+     * Subtract <code>(x, y, z, w)</code> from this.
      * 
      * @param x
      *          the x component to subtract
@@ -1205,7 +1205,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /**
-     * Normalize this vector by computing only the norm of <tt>(x, y, z)</tt>.
+     * Normalize this vector by computing only the norm of <code>(x, y, z)</code>.
      * 
      * @return a vector holding the result
      */
@@ -1312,7 +1312,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     /**
      * Return a string representation of this vector.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */
@@ -1460,7 +1460,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>this</code>.
      * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * If <code>t</code> is <code>0.0</code> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
      * 
      * @param other

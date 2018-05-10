@@ -466,8 +466,8 @@ public interface Matrix3dc {
     float[] get(float[] arr);
 
     /**
-     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given <tt>xyz.x</tt>,
-     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given <code>xyz.x</code>,
+     * <code>xyz.y</code> and <code>xyz.z</code> factors, respectively and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -584,7 +584,7 @@ public interface Matrix3dc {
     Vector3f transform(Vector3fc v, Vector3f dest);
 
     /**
-     * Transform the vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
+     * Transform the vector <code>(x, y, z)</code> by this matrix and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x coordinate of the vector to transform
@@ -619,7 +619,7 @@ public interface Matrix3dc {
     Vector3d transformTranspose(Vector3dc v, Vector3d dest);
 
     /**
-     * Transform the vector <tt>(x, y, z)</tt> by the transpose of this matrix and store the result in <code>dest</code>.
+     * Transform the vector <code>(x, y, z)</code> by the transpose of this matrix and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x coordinate of the vector to transform
@@ -715,7 +715,7 @@ public interface Matrix3dc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</code>
      * 
      * @param angleX
      *            the angle to rotate about X
@@ -742,7 +742,7 @@ public interface Matrix3dc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
+     * This method is equivalent to calling: <code>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</code>
      * 
      * @param angleZ
      *            the angle to rotate about Z
@@ -769,7 +769,7 @@ public interface Matrix3dc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <code>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</code>
      * 
      * @param angleY
      *            the angle to rotate about Y
@@ -816,7 +816,7 @@ public interface Matrix3dc {
 
     /**
      * Pre-multiply a rotation to this matrix by rotating the given amount of radians
-     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * about the specified <code>(x, y, z)</code> axis and store the result in <code>dest</code>.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -1114,11 +1114,11 @@ public interface Matrix3dc {
      * Get the row at the given <code>row</code> index, starting with <code>0</code>.
      * 
      * @param row
-     *          the row index in <tt>[0..2]</tt>
+     *          the row index in <code>[0..2]</code>
      * @param dest
      *          will hold the row components
      * @return the passed in destination
-     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <code>[0..2]</code>
      */
     Vector3d getRow(int row, Vector3d dest) throws IndexOutOfBoundsException;
 
@@ -1126,11 +1126,11 @@ public interface Matrix3dc {
      * Get the column at the given <code>column</code> index, starting with <code>0</code>.
      * 
      * @param column
-     *          the column index in <tt>[0..2]</tt>
+     *          the column index in <code>[0..2]</code>
      * @param dest
      *          will hold the column components
      * @return the passed in destination
-     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..2]</tt>
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <code>[0..2]</code>
      */
     Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException;
 
@@ -1138,9 +1138,9 @@ public interface Matrix3dc {
      * Get the matrix element value at the given column and row.
      * 
      * @param column
-     *          the colum index in <tt>[0..2]</tt>
+     *          the colum index in <code>[0..2]</code>
      * @param row
-     *          the row index in <tt>[0..2]</tt>
+     *          the row index in <code>[0..2]</code>
      * @return the element value
      */
     double get(int column, int row);
@@ -1206,13 +1206,13 @@ public interface Matrix3dc {
      * Get the scaling factors of <code>this</code> matrix for the three base axes.
      * 
      * @param dest
-     *          will hold the scaling factors for <tt>x</tt>, <tt>y</tt> and <tt>z</tt>
+     *          will hold the scaling factors for <code>x</code>, <code>y</code> and <code>z</code>
      * @return dest
      */
     Vector3d getScale(Vector3d dest);
 
     /**
-     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * Obtain the direction of <code>+Z</code> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1224,13 +1224,13 @@ public interface Matrix3dc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Z</tt>
+     *          will hold the direction of <code>+Z</code>
      * @return dir
      */
     Vector3d positiveZ(Vector3d dir);
 
     /**
-     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * Obtain the direction of <code>+Z</code> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
      * This method is equivalent to the following code:
@@ -1242,13 +1242,13 @@ public interface Matrix3dc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Z</tt>
+     *          will hold the direction of <code>+Z</code>
      * @return dir
      */
     Vector3d normalizedPositiveZ(Vector3d dir);
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * Obtain the direction of <code>+X</code> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1260,13 +1260,13 @@ public interface Matrix3dc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+X</tt>
+     *          will hold the direction of <code>+X</code>
      * @return dir
      */
     Vector3d positiveX(Vector3d dir);
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * Obtain the direction of <code>+X</code> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
      * This method is equivalent to the following code:
@@ -1278,13 +1278,13 @@ public interface Matrix3dc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+X</tt>
+     *          will hold the direction of <code>+X</code>
      * @return dir
      */
     Vector3d normalizedPositiveX(Vector3d dir);
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * Obtain the direction of <code>+Y</code> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1296,13 +1296,13 @@ public interface Matrix3dc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Y</tt>
+     *          will hold the direction of <code>+Y</code>
      * @return dir
      */
     Vector3d positiveY(Vector3d dir);
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * Obtain the direction of <code>+Y</code> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
      * This method is equivalent to the following code:
@@ -1314,7 +1314,7 @@ public interface Matrix3dc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Y</tt>
+     *          will hold the direction of <code>+Y</code>
      * @return dir
      */
     Vector3d normalizedPositiveY(Vector3d dir);
@@ -1356,7 +1356,7 @@ public interface Matrix3dc {
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * If <code>t</code> is <code>0.0</code> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
      *
      * @param other
@@ -1379,7 +1379,7 @@ public interface Matrix3dc {
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>mul(new Matrix3d().lookAlong(new Vector3d(dir).negate(), up).invert(), dest)</tt>
+     * This method is equivalent to calling: <code>mul(new Matrix3d().lookAlong(new Vector3d(dir).negate(), up).invert(), dest)</code>
      * 
      * @see #rotateTowards(double, double, double, double, double, double, Matrix3d)
      * 
@@ -1403,7 +1403,7 @@ public interface Matrix3dc {
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>mul(new Matrix3d().lookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</tt>
+     * This method is equivalent to calling: <code>mul(new Matrix3d().lookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</code>
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc, Matrix3d)
      * 
@@ -1430,10 +1430,10 @@ public interface Matrix3dc {
      * <p>
      * This method assumes that <code>this</code> matrix only represents a rotation without scaling.
      * <p>
-     * Note that the returned Euler angles must be applied in the order <tt>Z * Y * X</tt> to obtain the identical matrix.
+     * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
      * This means that calling {@link Matrix3dc#rotateZYX(double, double, double, Matrix3d)} using the obtained Euler angles will yield
      * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
-     * <tt>m2</tt> should be identical to <tt>m</tt> (disregarding possible floating-point inaccuracies).
+     * <code>m2</code> should be identical to <code>m</code> (disregarding possible floating-point inaccuracies).
      * <pre>
      * Matrix3d m = ...; // &lt;- matrix only representing rotation
      * Matrix3d n = new Matrix3d();

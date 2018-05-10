@@ -163,7 +163,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see #Vector4i(int, ByteBuffer)
      * 
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      */
     public Vector4i(ByteBuffer buffer) {
         this(buffer.position(), buffer);
@@ -179,7 +179,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      */
     public Vector4i(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -199,7 +199,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see #Vector4i(int, IntBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      */
     public Vector4i(IntBuffer buffer) {
         this(buffer.position(), buffer);
@@ -215,7 +215,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @param index
      *          the absolute position into the IntBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      */
     public Vector4i(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -351,7 +351,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see #set(int, ByteBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      */
     public Vector4i set(ByteBuffer buffer) {
@@ -367,7 +367,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      */
     public Vector4i set(int index, ByteBuffer buffer) {
@@ -388,7 +388,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see #set(int, IntBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      */
     public Vector4i set(IntBuffer buffer) {
@@ -404,7 +404,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @param index
      *          the absolute position into the IntBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <code>x, y, z, w</code> order
      * @return this
      */
     public Vector4i set(int index, IntBuffer buffer) {
@@ -457,11 +457,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * Set the value of the specified component of this vector.
      *
      * @param component
-     *          the component whose value to set, within <tt>[0..3]</tt>
+     *          the component whose value to set, within <code>[0..3]</code>
      * @param value
      *          the value to set
      * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..3]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..3]</code>
      */
     public Vector4i setComponent(int component, int value) throws IllegalArgumentException {
         switch (component) {
@@ -537,7 +537,7 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 
     /**
-     * Subtract <tt>(x, y, z, w)</tt> from this.
+     * Subtract <code>(x, y, z, w)</code> from this.
      *
      * @param x
      *          the x component to subtract
@@ -793,7 +793,7 @@ public class Vector4i implements Externalizable, Vector4ic {
     /**
      * Return a string representation of this vector.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

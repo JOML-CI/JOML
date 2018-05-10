@@ -83,7 +83,7 @@ public interface Matrix3x2fc {
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix by assuming a third row in
-     * both matrices of <tt>(0, 0, 1)</tt> and store the result in <code>dest</code>.
+     * both matrices of <code>(0, 0, 1)</code> and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -122,7 +122,7 @@ public interface Matrix3x2fc {
     float determinant();
 
     /**
-     * Invert the <code>this</code> matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>
+     * Invert the <code>this</code> matrix by assuming a third row in this matrix of <code>(0, 0, 1)</code>
      * and store the result in <code>dest</code>.
      * 
      * @param dest
@@ -551,7 +551,7 @@ public interface Matrix3x2fc {
 
     /**
      * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given sx and
-     * sy factors while using the given <tt>(ox, oy)</tt> as the scaling origin,
+     * sy factors while using the given <code>(ox, oy)</code> as the scaling origin,
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -559,7 +559,7 @@ public interface Matrix3x2fc {
      * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
      * , the scaling will be applied last!
      * <p>
-     * This method is equivalent to calling: <tt>new Matrix3x2f().translate(ox, oy).scale(sx, sy).translate(-ox, -oy).mul(this, dest)</tt>
+     * This method is equivalent to calling: <code>new Matrix3x2f().translate(ox, oy).scale(sx, sy).translate(-ox, -oy).mul(this, dest)</code>
      * 
      * @param sx
      *            the scaling factor of the x component
@@ -577,7 +577,7 @@ public interface Matrix3x2fc {
 
     /**
      * Pre-multiply scaling to this matrix by scaling the base axes by the given <code>factor</code>
-     * while using <tt>(ox, oy)</tt> as the scaling origin,
+     * while using <code>(ox, oy)</code> as the scaling origin,
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -585,7 +585,7 @@ public interface Matrix3x2fc {
      * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
      * scaling will be applied last!
      * <p>
-     * This method is equivalent to calling: <tt>new Matrix3x2f().translate(ox, oy).scale(factor).translate(-ox, -oy).mul(this, dest)</tt>
+     * This method is equivalent to calling: <code>new Matrix3x2f().translate(ox, oy).scale(factor).translate(-ox, -oy).mul(this, dest)</code>
      * 
      * @param factor
      *            the scaling factor for all three axes
@@ -655,14 +655,14 @@ public interface Matrix3x2fc {
 
     /**
      * Apply scaling to <code>this</code> matrix by scaling the base axes by the given sx and
-     * sy factors while using <tt>(ox, oy)</tt> as the scaling origin, and store the result in <code>dest</code>.
+     * sy factors while using <code>(ox, oy)</code> as the scaling origin, and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy, dest).scale(sx, sy).translate(-ox, -oy)</tt>
+     * This method is equivalent to calling: <code>translate(ox, oy, dest).scale(sx, sy).translate(-ox, -oy)</code>
      * 
      * @param sx
      *            the scaling factor of the x component
@@ -680,7 +680,7 @@ public interface Matrix3x2fc {
 
     /**
      * Apply scaling to this matrix by scaling the base axes by the given <code>factor</code>
-     * while using <tt>(ox, oy)</tt> as the scaling origin,
+     * while using <code>(ox, oy)</code> as the scaling origin,
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -688,7 +688,7 @@ public interface Matrix3x2fc {
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * scaling will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>translate(ox, oy, dest).scale(factor).translate(-ox, -oy)</tt>
+     * This method is equivalent to calling: <code>translate(ox, oy, dest).scale(factor).translate(-ox, -oy)</code>
      * 
      * @param factor
      *            the scaling factor for all three axes
@@ -703,7 +703,7 @@ public interface Matrix3x2fc {
     Matrix3x2f scaleAround(float factor, float ox, float oy, Matrix3x2f dest);
 
     /**
-     * Transform/multiply the given vector by this matrix by assuming a third row in this matrix of <tt>(0, 0, 1)</tt>
+     * Transform/multiply the given vector by this matrix by assuming a third row in this matrix of <code>(0, 0, 1)</code>
      * and store the result in that vector.
      * 
      * @see Vector3f#mul(Matrix3x2fc)
@@ -728,7 +728,7 @@ public interface Matrix3x2fc {
     Vector3f transform(Vector3f v, Vector3f dest);
 
     /**
-     * Transform/multiply the given vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
+     * Transform/multiply the given vector <code>(x, y, z)</code> by this matrix and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component of the vector to transform
@@ -781,7 +781,7 @@ public interface Matrix3x2fc {
     Vector2f transformPosition(Vector2fc v, Vector2f dest);
 
     /**
-     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=1, by
+     * Transform/multiply the given 2D-vector <code>(x, y)</code>, as if it was a 3D-vector with z=1, by
      * this matrix and store the result in <code>dest</code>.
      * <p>
      * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
@@ -806,7 +806,7 @@ public interface Matrix3x2fc {
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
      * this matrix and store the result in that vector.
      * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <code>0.0</code>, so it
      * will represent a direction in 2D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
@@ -824,7 +824,7 @@ public interface Matrix3x2fc {
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
      * this matrix and store the result in <code>dest</code>.
      * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <code>0.0</code>, so it
      * will represent a direction in 2D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
@@ -841,10 +841,10 @@ public interface Matrix3x2fc {
     Vector2f transformDirection(Vector2fc v, Vector2f dest);
 
     /**
-     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=0, by
+     * Transform/multiply the given 2D-vector <code>(x, y)</code>, as if it was a 3D-vector with z=0, by
      * this matrix and store the result in <code>dest</code>.
      * <p>
-     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <code>0.0</code>, so it
      * will represent a direction in 2D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
@@ -897,9 +897,9 @@ public interface Matrix3x2fc {
 
     /**
      * Apply a rotation transformation to this matrix by rotating the given amount of radians about
-     * the specified rotation center <tt>(x, y)</tt> and store the result in <code>dest</code>.
+     * the specified rotation center <code>(x, y)</code> and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>translate(x, y, dest).rotate(ang).translate(-x, -y)</tt>
+     * This method is equivalent to calling: <code>translate(x, y, dest).rotate(ang).translate(-x, -y)</code>
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -939,8 +939,8 @@ public interface Matrix3x2fc {
     Matrix3x2f rotateTo(Vector2fc fromDir, Vector2fc toDir, Matrix3x2f dest);
 
     /**
-     * Apply a "view" transformation to this matrix that maps the given <tt>(left, bottom)</tt> and
-     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively and store the result in <code>dest</code>.
+     * Apply a "view" transformation to this matrix that maps the given <code>(left, bottom)</code> and
+     * <code>(right, top)</code> corners to <code>(-1, -1)</code> and <code>(1, 1)</code> respectively and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -982,16 +982,16 @@ public interface Matrix3x2fc {
      * This can be used to determine which region of the screen (i.e. the NDC space) is covered by the view.
      * 
      * @param area
-     *          will hold the view area as <tt>[minX, minY, maxX, maxY]</tt>
+     *          will hold the view area as <code>[minX, minY, maxX, maxY]</code>
      * @return area
      */
     float[] viewArea(float[] area);
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * Obtain the direction of <code>+X</code> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the left 2x2 submatrix to obtain the direction 
-     * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+X</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1003,17 +1003,17 @@ public interface Matrix3x2fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+X</tt>
+     *          will hold the direction of <code>+X</code>
      * @return dir
      */
     Vector2f positiveX(Vector2f dir);
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * Obtain the direction of <code>+X</code> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
      * This method uses the rotation component of the left 2x2 submatrix to obtain the direction 
-     * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+X</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1024,16 +1024,16 @@ public interface Matrix3x2fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+X</tt>
+     *          will hold the direction of <code>+X</code>
      * @return dir
      */
     Vector2f normalizedPositiveX(Vector2f dir);
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * Obtain the direction of <code>+Y</code> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the left 2x2 submatrix to obtain the direction 
-     * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+Y</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1045,17 +1045,17 @@ public interface Matrix3x2fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Y</tt>
+     *          will hold the direction of <code>+Y</code>
      * @return dir
      */
     Vector2f positiveY(Vector2f dir);
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * Obtain the direction of <code>+Y</code> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
      * This method uses the rotation component of the left 2x2 submatrix to obtain the direction 
-     * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
+     * that is transformed to <code>+Y</code> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -1066,15 +1066,15 @@ public interface Matrix3x2fc {
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
-     *          will hold the direction of <tt>+Y</tt>
+     *          will hold the direction of <code>+Y</code>
      * @return dir
      */
     Vector2f normalizedPositiveY(Vector2f dir);
 
     /**
-     * Unproject the given window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport.
+     * Unproject the given window coordinates <code>(winX, winY)</code> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <code>[-1..1]</code>
      * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
      * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
@@ -1089,7 +1089,7 @@ public interface Matrix3x2fc {
      * @param winY
      *          the y-coordinate in window coordinates (pixels)
      * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
+     *          the viewport described by <code>[x, y, width, height]</code>
      * @param dest
      *          will hold the unprojected position
      * @return dest
@@ -1097,7 +1097,7 @@ public interface Matrix3x2fc {
     Vector2f unproject(float winX, float winY, int[] viewport, Vector2f dest);
 
     /**
-     * Unproject the given window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport.
+     * Unproject the given window coordinates <code>(winX, winY)</code> by <code>this</code> matrix using the specified viewport.
      * <p>
      * This method differs from {@link #unproject(float, float, int[], Vector2f) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
@@ -1110,7 +1110,7 @@ public interface Matrix3x2fc {
      * @param winY
      *          the y-coordinate in window coordinates (pixels)
      * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
+     *          the viewport described by <code>[x, y, width, height]</code>
      * @param dest
      *          will hold the unprojected position
      * @return dest
@@ -1118,11 +1118,11 @@ public interface Matrix3x2fc {
     Vector2f unprojectInv(float winX, float winY, int[] viewport, Vector2f dest);
 
     /**
-     * Test whether the given point <tt>(x, y)</tt> is within the frustum defined by <code>this</code> matrix.
+     * Test whether the given point <code>(x, y)</code> is within the frustum defined by <code>this</code> matrix.
      * <p>
-     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>M</tt>
-     * into standard OpenGL clip space and tests whether the given point with the coordinates <tt>(x, y, z)</tt> given
-     * in space <tt>M</tt> is within the clip space.
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <code>M</code>
+     * into standard OpenGL clip space and tests whether the given point with the coordinates <code>(x, y, z)</code> given
+     * in space <code>M</code> is within the clip space.
      * <p>
      * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -1138,9 +1138,9 @@ public interface Matrix3x2fc {
     /**
      * Test whether the given circle is partly or completely within or outside of the frustum defined by <code>this</code> matrix.
      * <p>
-     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>M</tt>
-     * into standard OpenGL clip space and tests whether the given sphere with the coordinates <tt>(x, y, z)</tt> given
-     * in space <tt>M</tt> is within the clip space.
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <code>M</code>
+     * into standard OpenGL clip space and tests whether the given sphere with the coordinates <code>(x, y, z)</code> given
+     * in space <code>M</code> is within the clip space.
      * <p>
      * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -1159,9 +1159,9 @@ public interface Matrix3x2fc {
      * Test whether the given axis-aligned rectangle is partly or completely within or outside of the frustum defined by <code>this</code> matrix.
      * The rectangle is specified via its min and max corner coordinates.
      * <p>
-     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>M</tt>
-     * into standard OpenGL clip space and tests whether the given axis-aligned rectangle with its minimum corner coordinates <tt>(minX, minY, minZ)</tt>
-     * and maximum corner coordinates <tt>(maxX, maxY, maxZ)</tt> given in space <tt>M</tt> is within the clip space.
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <code>M</code>
+     * into standard OpenGL clip space and tests whether the given axis-aligned rectangle with its minimum corner coordinates <code>(minX, minY, minZ)</code>
+     * and maximum corner coordinates <code>(maxX, maxY, maxZ)</code> given in space <code>M</code> is within the clip space.
      * <p>
      * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * <br>

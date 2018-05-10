@@ -63,7 +63,7 @@ public class Vector3i implements Externalizable, Vector3ic {
     public int z;
 
     /**
-     * Create a new {@link Vector3i} of <tt>(0, 0, 0)</tt>.
+     * Create a new {@link Vector3i} of <code>(0, 0, 0)</code>.
      */
     public Vector3i() {
     }
@@ -133,7 +133,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @see #Vector3i(int, ByteBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      */
     public Vector3i(ByteBuffer buffer) {
         this(buffer.position(), buffer);
@@ -149,7 +149,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      */
     public Vector3i(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -169,7 +169,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @see #Vector3i(int, IntBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      */
     public Vector3i(IntBuffer buffer) {
         this(buffer.position(), buffer);
@@ -185,7 +185,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @param index
      *          the absolute position into the IntBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      */
     public Vector3i(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -302,7 +302,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @see #set(int, ByteBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      * @return this
      */
     public Vector3i set(ByteBuffer buffer) {
@@ -318,7 +318,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @param index
      *          the absolute position into the ByteBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      * @return this
      */
     public Vector3i set(int index, ByteBuffer buffer) {
@@ -339,7 +339,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @see #set(int, IntBuffer)
      *
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      * @return this
      */
     public Vector3i set(IntBuffer buffer) {
@@ -355,7 +355,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @param index
      *          the absolute position into the IntBuffer
      * @param buffer
-     *          values will be read in <tt>x, y, z</tt> order
+     *          values will be read in <code>x, y, z</code> order
      * @return this
      */
     public Vector3i set(int index, IntBuffer buffer) {
@@ -406,11 +406,11 @@ public class Vector3i implements Externalizable, Vector3ic {
      * Set the value of the specified component of this vector.
      *
      * @param component
-     *          the component whose value to set, within <tt>[0..2]</tt>
+     *          the component whose value to set, within <code>[0..2]</code>
      * @param value
      *          the value to set
      * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..2]</code>
      */
     public Vector3i setComponent(int component, int value) throws IllegalArgumentException {
         switch (component) {
@@ -689,7 +689,7 @@ public class Vector3i implements Externalizable, Vector3ic {
     /**
      * Return a string representation of this vector.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

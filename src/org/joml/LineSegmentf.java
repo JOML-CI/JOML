@@ -39,7 +39,7 @@ public class LineSegmentf {
     public float bX, bY, bZ;
 
     /**
-     * Create a new {@link LineSegmentf} of zero length on the point <tt>(0, 0, 0)</tt>.
+     * Create a new {@link LineSegmentf} of zero length on the point <code>(0, 0, 0)</code>.
      */
     public LineSegmentf() {
     }
@@ -140,7 +140,7 @@ public class LineSegmentf {
     /**
      * Return a string representation of this line segment.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

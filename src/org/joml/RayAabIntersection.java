@@ -55,8 +55,8 @@ public class RayAabIntersection {
     }
 
     /**
-     * Create a new {@link RayAabIntersection} and initialize it with a ray with origin <tt>(originX, originY, originZ)</tt>
-     * and direction <tt>(dirX, dirY, dirZ)</tt>.
+     * Create a new {@link RayAabIntersection} and initialize it with a ray with origin <code>(originX, originY, originZ)</code>
+     * and direction <code>(dirX, dirY, dirZ)</code>.
      * <p>
      * In order to change the direction and/or origin of the ray later, use {@link #set(float, float, float, float, float, float) set()}.
      * 
@@ -80,8 +80,8 @@ public class RayAabIntersection {
     }
 
     /**
-     * Update the ray stored by this {@link RayAabIntersection} with the new origin <tt>(originX, originY, originZ)</tt>
-     * and direction <tt>(dirX, dirY, dirZ)</tt>.
+     * Update the ray stored by this {@link RayAabIntersection} with the new origin <code>(originX, originY, originZ)</code>
+     * and direction <code>(dirX, dirY, dirZ)</code>.
      * 
      * @param originX
      *          the x coordinate of the ray origin
@@ -137,7 +137,7 @@ public class RayAabIntersection {
 
     /**
      * Test whether the ray stored in this {@link RayAabIntersection} intersect the axis-aligned box
-     * given via its minimum corner <tt>(minX, minY, minZ)</tt> and its maximum corner <tt>(maxX, maxY, maxZ)</tt>.
+     * given via its minimum corner <code>(minX, minY, minZ)</code> and its maximum corner <code>(maxX, maxY, maxZ)</code>.
      * <p>
      * This implementation uses a tableswitch to dispatch to the correct intersection method.
      * <p>

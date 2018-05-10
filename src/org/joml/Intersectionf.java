@@ -162,7 +162,7 @@ public class Intersectionf {
 
     /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
-     * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
+     * <code>(centerX, centerY, centerZ)</code> and <code>radius</code>.
      * <p>
      * Reference: <a href="http://math.stackexchange.com/questions/943383/determine-circle-of-intersection-of-plane-and-sphere">http://math.stackexchange.com</a>
      *
@@ -209,8 +209,8 @@ public class Intersectionf {
 
     /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
-     * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>, and store the center of the circle of
-     * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
+     * <code>(centerX, centerY, centerZ)</code> and <code>radius</code>, and store the center of the circle of
+     * intersection in the <code>(x, y, z)</code> components of the supplied vector and the radius of that circle in the w component.
      * <p>
      * Reference: <a href="http://math.stackexchange.com/questions/943383/determine-circle-of-intersection-of-plane-and-sphere">http://math.stackexchange.com</a>
      *
@@ -231,7 +231,7 @@ public class Intersectionf {
      * @param radius
      *          the radius of the sphere
      * @param intersectionCenterAndRadius
-     *          will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
+     *          will hold the center of the circle of intersection in the <code>(x, y, z)</code> components and the radius in the w component
      * @return <code>true</code> iff the plane intersects the sphere; <code>false</code> otherwise
      */
     public static boolean intersectPlaneSphere(
@@ -252,10 +252,10 @@ public class Intersectionf {
 
     /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the moving sphere with center
-     * <tt>(cX, cY, cZ)</tt>, <code>radius</code> and velocity <tt>(vX, vY, vZ)</tt>, and store the point of intersection
-     * in the <tt>(x, y, z)</tt> components of the supplied vector and the time of intersection in the w component.
+     * <code>(cX, cY, cZ)</code>, <code>radius</code> and velocity <code>(vX, vY, vZ)</code>, and store the point of intersection
+     * in the <code>(x, y, z)</code> components of the supplied vector and the time of intersection in the w component.
      * <p>
-     * The normal vector <tt>(a, b, c)</tt> of the plane equation needs to be normalized.
+     * The normal vector <code>(a, b, c)</code> of the plane equation needs to be normalized.
      * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.5.3 "Intersecting Moving Sphere Against Plane"
      * 
@@ -317,9 +317,9 @@ public class Intersectionf {
 
     /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere moving from center
-     * position <tt>(t0X, t0Y, t0Z)</tt> to <tt>(t1X, t1Y, t1Z)</tt> and having the given <code>radius</code>.
+     * position <code>(t0X, t0Y, t0Z)</code> to <code>(t1X, t1Y, t1Z)</code> and having the given <code>radius</code>.
      * <p>
-     * The normal vector <tt>(a, b, c)</tt> of the plane equation needs to be normalized.
+     * The normal vector <code>(a, b, c)</code> of the plane equation needs to be normalized.
      * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.5.3 "Intersecting Moving Sphere Against Plane"
      * 
@@ -363,7 +363,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
+     * Test whether the axis-aligned box with minimum corner <code>(minX, minY, minZ)</code> and maximum corner <code>(maxX, maxY, maxZ)</code>
      * intersects the plane with the general equation <i>a*x + b*y + c*z + d = 0</i>.
      * <p>
      * Reference: <a href="http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-testing-boxes-ii/">http://www.lighthouse3d.com</a> ("Geometric Approach - Testing Boxes II")
@@ -461,8 +461,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the axis-aligned box with minimum corner <tt>(minXA, minYA, minZA)</tt> and maximum corner <tt>(maxXA, maxYA, maxZA)</tt>
-     * intersects the axis-aligned box with minimum corner <tt>(minXB, minYB, minZB)</tt> and maximum corner <tt>(maxXB, maxYB, maxZB)</tt>.
+     * Test whether the axis-aligned box with minimum corner <code>(minXA, minYA, minZA)</code> and maximum corner <code>(maxXA, maxYA, maxZA)</code>
+     * intersects the axis-aligned box with minimum corner <code>(minXB, minYB, minZB)</code> and maximum corner <code>(maxXB, maxYB, maxZB)</code>.
      * 
      * @param minXA
      *              the x coordinate of the minimum corner of the first axis-aligned box
@@ -734,9 +734,9 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the one sphere with center <tt>(aX, aY, aZ)</tt> and square radius <code>radiusSquaredA</code> intersects the other
-     * sphere with center <tt>(bX, bY, bZ)</tt> and square radius <code>radiusSquaredB</code>, and store the center of the circle of
-     * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
+     * Test whether the one sphere with center <code>(aX, aY, aZ)</code> and square radius <code>radiusSquaredA</code> intersects the other
+     * sphere with center <code>(bX, bY, bZ)</code> and square radius <code>radiusSquaredB</code>, and store the center of the circle of
+     * intersection in the <code>(x, y, z)</code> components of the supplied vector and the radius of that circle in the w component.
      * <p>
      * The normal vector of the circle of intersection can simply be obtained by subtracting the center of either sphere from the other.
      * <p>
@@ -759,7 +759,7 @@ public class Intersectionf {
      * @param radiusSquaredB
      *              the square of the second sphere's radius
      * @param centerAndRadiusOfIntersectionCircle
-     *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
+     *              will hold the center of the circle of intersection in the <code>(x, y, z)</code> components and the radius in the w component
      * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
      */
     public static boolean intersectSphereSphere(
@@ -783,7 +783,7 @@ public class Intersectionf {
     /**
      * Test whether the one sphere with center <code>centerA</code> and square radius <code>radiusSquaredA</code> intersects the other
      * sphere with center <code>centerB</code> and square radius <code>radiusSquaredB</code>, and store the center of the circle of
-     * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
+     * intersection in the <code>(x, y, z)</code> components of the supplied vector and the radius of that circle in the w component.
      * <p>
      * The normal vector of the circle of intersection can simply be obtained by subtracting the center of either sphere from the other.
      * <p>
@@ -798,7 +798,7 @@ public class Intersectionf {
      * @param radiusSquaredB
      *              the square of the second sphere's radius
      * @param centerAndRadiusOfIntersectionCircle
-     *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
+     *              will hold the center of the circle of intersection in the <code>(x, y, z)</code> components and the radius in the w component
      * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
      */
     public static boolean intersectSphereSphere(Vector3fc centerA, float radiusSquaredA, Vector3fc centerB, float radiusSquaredB, Vector4f centerAndRadiusOfIntersectionCircle) {
@@ -807,7 +807,7 @@ public class Intersectionf {
 
     /**
      * Test whether the one sphere with intersects the other sphere, and store the center of the circle of
-     * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
+     * intersection in the <code>(x, y, z)</code> components of the supplied vector and the radius of that circle in the w component.
      * <p>
      * The normal vector of the circle of intersection can simply be obtained by subtracting the center of either sphere from the other.
      * <p>
@@ -818,7 +818,7 @@ public class Intersectionf {
      * @param sphereB
      *              the second sphere
      * @param centerAndRadiusOfIntersectionCircle
-     *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
+     *              will hold the center of the circle of intersection in the <code>(x, y, z)</code> components and the radius in the w component
      * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
      */
     public static boolean intersectSphereSphere(Spheref sphereA, Spheref sphereB, Vector4f centerAndRadiusOfIntersectionCircle) {
@@ -826,7 +826,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given sphere with center <tt>(sX, sY, sZ)</tt> intersects the triangle given by its three vertices, and if they intersect
+     * Test whether the given sphere with center <code>(sX, sY, sZ)</code> intersects the triangle given by its three vertices, and if they intersect
      * store the point of intersection into <code>result</code>.
      * <p>
      * This method also returns whether the point of intersection is on one of the triangle's vertices, edges or on the face.
@@ -863,7 +863,7 @@ public class Intersectionf {
      *          will hold the point of intersection
      * @return one of {@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2},
      *                {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20} or
-     *                {@link #POINT_ON_TRIANGLE_FACE} or <tt>0</tt>
+     *                {@link #POINT_ON_TRIANGLE_FACE} or <code>0</code>
      */
     public static int intersectSphereTriangle(
             float sX, float sY, float sZ, float sR,
@@ -881,8 +881,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the one sphere with center <tt>(aX, aY, aZ)</tt> and square radius <code>radiusSquaredA</code> intersects the other
-     * sphere with center <tt>(bX, bY, bZ)</tt> and square radius <code>radiusSquaredB</code>.
+     * Test whether the one sphere with center <code>(aX, aY, aZ)</code> and square radius <code>radiusSquaredA</code> intersects the other
+     * sphere with center <code>(bX, bY, bZ)</code> and square radius <code>radiusSquaredB</code>.
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
      * 
@@ -935,7 +935,7 @@ public class Intersectionf {
     }
 
     /**
-     * Determine the signed distance of the given point <tt>(pointX, pointY, pointZ)</tt> to the plane specified via its general plane equation
+     * Determine the signed distance of the given point <code>(pointX, pointY, pointZ)</code> to the plane specified via its general plane equation
      * <i>a*x + b*y + c*z + d = 0</i>.
      * 
      * @param pointX
@@ -960,8 +960,8 @@ public class Intersectionf {
     }
 
     /**
-     * Determine the signed distance of the given point <tt>(pointX, pointY, pointZ)</tt> to the plane of the triangle specified by its three points
-     * <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
+     * Determine the signed distance of the given point <code>(pointX, pointY, pointZ)</code> to the plane of the triangle specified by its three points
+     * <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>.
      * <p>
      * If the point lies on the front-facing side of the triangle's plane, that is, if the triangle has counter-clockwise winding order
      * as seen from the point, then this method returns a positive number.
@@ -1008,11 +1008,11 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the ray with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt> intersects the plane
-     * containing the given point <tt>(pointX, pointY, pointZ)</tt> and having the normal <tt>(normalX, normalY, normalZ)</tt>, and return the
+     * Test whether the ray with given origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code> intersects the plane
+     * containing the given point <code>(pointX, pointY, pointZ)</code> and having the normal <code>(normalX, normalY, normalZ)</code>, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
      * <p>
-     * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
+     * This method returns <code>-1.0</code> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
      * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
      * <p>
      * Reference: <a href="https://www.siggraph.org/education/materials/HyperGraph/raytrace/rayplane_intersection.htm">https://www.siggraph.org/</a>
@@ -1044,7 +1044,7 @@ public class Intersectionf {
      * @param epsilon
      *              some small epsilon for when the ray is parallel to the plane
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
-     *         intersects the plane; <tt>-1.0</tt> otherwise
+     *         intersects the plane; <code>-1.0</code> otherwise
      */
     public static float intersectRayPlane(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
             float pointX, float pointY, float pointZ, float normalX, float normalY, float normalZ, float epsilon) {
@@ -1062,7 +1062,7 @@ public class Intersectionf {
      * containing the given <code>point</code> and having the given <code>normal</code>, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
      * <p>
-     * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
+     * This method returns <code>-1.0</code> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
      * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
      * <p>
      * Reference: <a href="https://www.siggraph.org/education/materials/HyperGraph/raytrace/rayplane_intersection.htm">https://www.siggraph.org/</a>
@@ -1078,7 +1078,7 @@ public class Intersectionf {
      * @param epsilon
      *              some small epsilon for when the ray is parallel to the plane
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
-     *         intersects the plane; <tt>-1.0</tt> otherwise
+     *         intersects the plane; <code>-1.0</code> otherwise
      */
     public static float intersectRayPlane(Vector3fc origin, Vector3fc dir, Vector3fc point, Vector3fc normal, float epsilon) {
         return intersectRayPlane(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), point.x(), point.y(), point.z(), normal.x(), normal.y(), normal.z(), epsilon);
@@ -1088,7 +1088,7 @@ public class Intersectionf {
      * Test whether the given ray intersects the given plane, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
      * <p>
-     * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
+     * This method returns <code>-1.0</code> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
      * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
      * <p>
      * Reference: <a href="https://www.siggraph.org/education/materials/HyperGraph/raytrace/rayplane_intersection.htm">https://www.siggraph.org/</a>
@@ -1100,18 +1100,18 @@ public class Intersectionf {
      * @param epsilon
      *              some small epsilon for when the ray is parallel to the plane
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
-     *         intersects the plane; <tt>-1.0</tt> otherwise
+     *         intersects the plane; <code>-1.0</code> otherwise
      */
     public static float intersectRayPlane(Rayf ray, Planef plane, float epsilon) {
         return intersectRayPlane(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, plane.a, plane.b, plane.c, plane.d, epsilon);
     }
 
     /**
-     * Test whether the ray with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt> intersects the plane
+     * Test whether the ray with given origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code> intersects the plane
      * given as the general plane equation <i>a*x + b*y + c*z + d = 0</i>, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
      * <p>
-     * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
+     * This method returns <code>-1.0</code> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
      * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
      * <p>
      * Reference: <a href="https://www.siggraph.org/education/materials/HyperGraph/raytrace/rayplane_intersection.htm">https://www.siggraph.org/</a>
@@ -1139,7 +1139,7 @@ public class Intersectionf {
      * @param epsilon
      *              some small epsilon for when the ray is parallel to the plane
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
-     *         intersects the plane; <tt>-1.0</tt> otherwise
+     *         intersects the plane; <code>-1.0</code> otherwise
      */
     public static float intersectRayPlane(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
             float a, float b, float c, float d, float epsilon) {
@@ -1153,8 +1153,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
-     * intersects the sphere with the given center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
+     * Test whether the axis-aligned box with minimum corner <code>(minX, minY, minZ)</code> and maximum corner <code>(maxX, maxY, maxZ)</code>
+     * intersects the sphere with the given center <code>(centerX, centerY, centerZ)</code> and square radius <code>radiusSquared</code>.
      * <p>
      * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
      * 
@@ -1245,7 +1245,7 @@ public class Intersectionf {
     }
 
     /**
-     * Find the point on the given plane which is closest to the specified point <tt>(pX, pY, pZ)</tt> and store the result in <code>result</code>.
+     * Find the point on the given plane which is closest to the specified point <code>(pX, pY, pZ)</code> and store the result in <code>result</code>.
      * 
      * @param aX
      *          the x coordinate of one point on the plane
@@ -1279,7 +1279,7 @@ public class Intersectionf {
     }
 
     /**
-     * Find the point on the given line segment which is closest to the specified point <tt>(pX, pY, pZ)</tt>, and store the result in <code>result</code>.
+     * Find the point on the given line segment which is closest to the specified point <code>(pX, pY, pZ)</code>, and store the result in <code>result</code>.
      * 
      * @param aX
      *          the x coordinate of the first end point of the line segment
@@ -1533,8 +1533,8 @@ public class Intersectionf {
     }
 
     /**
-     * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>
-     * between that triangle and the given point <tt>(pX, pY, pZ)</tt> and store that point into the given <code>result</code>.
+     * Determine the closest point on the triangle with the given vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code>, <code>(v2X, v2Y, v2Z)</code>
+     * between that triangle and the given point <code>(pX, pY, pZ)</code> and store that point into the given <code>result</code>.
      * <p>
      * Additionally, this method returns whether the closest point is a vertex ({@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2})
      * of the triangle, lies on an edge ({@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20})
@@ -1670,7 +1670,7 @@ public class Intersectionf {
 
     /**
      * Find the point on a given rectangle, specified via three of its corners, which is closest to the specified point
-     * <tt>(pX, pY, pZ)</tt> and store the result into <code>res</code>.
+     * <code>(pX, pY, pZ)</code> and store the result into <code>res</code>.
      * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.1.4.2 "Closest Point on 3D Rectangle to Point"
      * 
@@ -1740,8 +1740,8 @@ public class Intersectionf {
     }
 
     /**
-     * Determine the point of intersection between a sphere with the given center <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code> moving
-     * with the given velocity <tt>(velX, velY, velZ)</tt> and the triangle specified via its three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>.
+     * Determine the point of intersection between a sphere with the given center <code>(centerX, centerY, centerZ)</code> and <code>radius</code> moving
+     * with the given velocity <code>(velX, velY, velZ)</code> and the triangle specified via its three vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code>, <code>(v2X, v2Y, v2Z)</code>.
      * <p>
      * The vertices of the triangle must be specified in counter-clockwise winding order.
      * <p>
@@ -1786,12 +1786,12 @@ public class Intersectionf {
      * @param maxT
      *              the maximum intersection time
      * @param pointAndTime
-     *              iff the moving sphere and the triangle intersect, this will hold the point of intersection in the <tt>(x, y, z)</tt> components
-     *              and the time of intersection in the <tt>w</tt> component
+     *              iff the moving sphere and the triangle intersect, this will hold the point of intersection in the <code>(x, y, z)</code> components
+     *              and the time of intersection in the <code>w</code> component
      * @return {@link #POINT_ON_TRIANGLE_FACE} if the intersection point lies on the triangle's face,
      *         or {@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1} or {@link #POINT_ON_TRIANGLE_VERTEX_2} if the intersection point is a vertex,
      *         or {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12} or {@link #POINT_ON_TRIANGLE_EDGE_20} if the intersection point lies on an edge;
-     *         or <tt>0</tt> if no intersection
+     *         or <code>0</code> if no intersection
      */
     public static int intersectSweptSphereTriangle(
             float centerX, float centerY, float centerZ, float radius, float velX, float velY, float velZ,
@@ -1941,7 +1941,7 @@ public class Intersectionf {
     }
 
     /**
-     * Compute the lowest root for <tt>t</tt> in the quadratic equation <tt>a*t*t + b*t + c = 0</tt>.
+     * Compute the lowest root for <code>t</code> in the quadratic equation <code>a*t*t + b*t + c = 0</code>.
      * <p>
      * This is a helper method for {@link #intersectSweptSphereTriangle}
      * 
@@ -1977,8 +1977,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the projection of the given point <tt>(pX, pY, pZ)</tt> lies inside of the triangle defined by the three vertices
-     * <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
+     * Test whether the projection of the given point <code>(pX, pY, pZ)</code> lies inside of the triangle defined by the three vertices
+     * <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>.
      * <p>
      * Reference: <a href="http://www.peroxide.dk/papers/collision/collision.pdf">Improved Collision detection and Response</a>
      * 
@@ -2031,8 +2031,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and normalized direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>,
+     * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and normalized direction <code>(dirX, dirY, dirZ)</code>
+     * intersects the given sphere with center <code>(centerX, centerY, centerZ)</code> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
      * and far) of intersections into the given <code>result</code> vector.
      * <p>
@@ -2135,8 +2135,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and normalized direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
+     * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and normalized direction <code>(dirX, dirY, dirZ)</code>
+     * intersects the given sphere with center <code>(centerX, centerY, centerZ)</code> and square radius <code>radiusSquared</code>.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
      * <p>
@@ -2219,8 +2219,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
-     * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
+     * Test whether the line segment with the end points <code>(p0X, p0Y, p0Z)</code> and <code>(p1X, p1Y, p1Z)</code>
+     * intersects the given sphere with center <code>(centerX, centerY, centerZ)</code> and square radius <code>radiusSquared</code>.
      * <p>
      * Reference: <a href="http://paulbourke.net/geometry/circlesphere/index.html#linesphere">http://paulbourke.net/</a>
      * 
@@ -2295,8 +2295,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects the axis-aligned box given as its minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>,
+     * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
+     * intersects the axis-aligned box given as its minimum corner <code>(minX, minY, minZ)</code> and maximum corner <code>(maxX, maxY, maxZ)</code>,
      * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
@@ -2439,8 +2439,8 @@ public class Intersectionf {
     }
 
     /**
-     * Determine whether the undirected line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
-     * intersects the axis-aligned box given as its minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>,
+     * Determine whether the undirected line segment with the end points <code>(p0X, p0Y, p0Z)</code> and <code>(p1X, p1Y, p1Z)</code>
+     * intersects the axis-aligned box given as its minimum corner <code>(minX, minY, minZ)</code> and maximum corner <code>(maxX, maxY, maxZ)</code>,
      * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + p0 * (p1 - p0)</i> of the near and far point of intersection.
      * <p>
      * This method returns <code>true</code> for a line segment whose either end point lies inside the axis-aligned box.
@@ -2598,8 +2598,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects the axis-aligned box given as its minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>.
+     * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
+     * intersects the axis-aligned box given as its minimum corner <code>(minX, minY, minZ)</code> and maximum corner <code>(maxX, maxY, maxZ)</code>.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
      * <p>
@@ -2722,8 +2722,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
+     * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
+     * intersects the frontface of the triangle consisting of the three vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>.
      * <p>
      * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
@@ -2832,8 +2832,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
+     * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
+     * intersects the triangle consisting of the three vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>.
      * <p>
      * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
@@ -2938,8 +2938,8 @@ public class Intersectionf {
     }
 
     /**
-     * Determine whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>
+     * Determine whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
+     * intersects the frontface of the triangle consisting of the three vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>
      * and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
      * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
@@ -2984,7 +2984,7 @@ public class Intersectionf {
      * @param epsilon
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
-     *         if the ray intersects the frontface of the triangle; <tt>-1.0</tt> otherwise
+     *         if the ray intersects the frontface of the triangle; <code>-1.0</code> otherwise
      */
     public static float intersectRayTriangleFront(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
             float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
@@ -3044,15 +3044,15 @@ public class Intersectionf {
      * @param epsilon
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
-     *         if the ray intersects the frontface of the triangle; <tt>-1.0</tt> otherwise
+     *         if the ray intersects the frontface of the triangle; <code>-1.0</code> otherwise
      */
     public static float intersectRayTriangleFront(Vector3fc origin, Vector3fc dir, Vector3fc v0, Vector3fc v1, Vector3fc v2, float epsilon) {
         return intersectRayTriangleFront(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), epsilon);
     }
 
     /**
-     * Determine whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>
+     * Determine whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
+     * intersects the triangle consisting of the three vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>
      * and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
      * This is an implementation of the <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
@@ -3095,7 +3095,7 @@ public class Intersectionf {
      * @param epsilon
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
-     *         if the ray intersects the triangle; <tt>-1.0</tt> otherwise
+     *         if the ray intersects the triangle; <code>-1.0</code> otherwise
      */
     public static float intersectRayTriangle(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
             float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
@@ -3153,15 +3153,15 @@ public class Intersectionf {
      * @param epsilon
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
-     *         if the ray intersects the triangle; <tt>-1.0</tt> otherwise
+     *         if the ray intersects the triangle; <code>-1.0</code> otherwise
      */
     public static float intersectRayTriangle(Vector3fc origin, Vector3fc dir, Vector3fc v0, Vector3fc v1, Vector3fc v2, float epsilon) {
         return intersectRayTriangle(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), epsilon);
     }
 
     /**
-     * Test whether the line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
-     * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
+     * Test whether the line segment with the end points <code>(p0X, p0Y, p0Z)</code> and <code>(p1X, p1Y, p1Z)</code>
+     * intersects the triangle consisting of the three vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
      * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
@@ -3215,7 +3215,7 @@ public class Intersectionf {
 
     /**
      * Test whether the line segment with the end points <code>p0</code> and <code>p1</code>
-     * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
+     * intersects the triangle consisting of the three vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
      * Reference: <a href="http://www.graphics.cornell.edu/pubs/1997/MT97.pdf">
@@ -3242,8 +3242,8 @@ public class Intersectionf {
     }
 
     /**
-     * Determine whether the line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
-     * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
+     * Determine whether the line segment with the end points <code>(p0X, p0Y, p0Z)</code> and <code>(p1X, p1Y, p1Z)</code>
+     * intersects the triangle consisting of the three vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points,
      * and return the point of intersection.
      * <p>
@@ -3306,7 +3306,7 @@ public class Intersectionf {
 
     /**
      * Determine whether the line segment with the end points <code>p0</code> and <code>p1</code>
-     * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
+     * intersects the triangle consisting of the three vertices <code>(v0X, v0Y, v0Z)</code>, <code>(v1X, v1Y, v1Z)</code> and <code>(v2X, v2Y, v2Z)</code>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points,
      * and return the point of intersection.
      * <p>
@@ -3336,7 +3336,7 @@ public class Intersectionf {
     }
 
     /**
-     * Determine whether the line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
+     * Determine whether the line segment with the end points <code>(p0X, p0Y, p0Z)</code> and <code>(p1X, p1Y, p1Z)</code>
      * intersects the plane given as the general plane equation <i>a*x + b*y + c*z + d = 0</i>,
      * and return the point of intersection.
      * 
@@ -3382,7 +3382,7 @@ public class Intersectionf {
 
     /**
      * Test whether the line with the general line equation <i>a*x + b*y + c = 0</i> intersects the circle with center
-     * <tt>(centerX, centerY)</tt> and <code>radius</code>.
+     * <code>(centerX, centerY)</code> and <code>radius</code>.
      * <p>
      * Reference: <a href="http://math.stackexchange.com/questions/943383/determine-circle-of-intersection-of-plane-and-sphere">http://math.stackexchange.com</a>
      *
@@ -3408,8 +3408,8 @@ public class Intersectionf {
 
     /**
      * Test whether the line with the general line equation <i>a*x + b*y + c = 0</i> intersects the circle with center
-     * <tt>(centerX, centerY)</tt> and <code>radius</code>, and store the center of the line segment of
-     * intersection in the <tt>(x, y)</tt> components of the supplied vector and the half-length of that line segment in the z component.
+     * <code>(centerX, centerY)</code> and <code>radius</code>, and store the center of the line segment of
+     * intersection in the <code>(x, y)</code> components of the supplied vector and the half-length of that line segment in the z component.
      * <p>
      * Reference: <a href="http://math.stackexchange.com/questions/943383/determine-circle-of-intersection-of-plane-and-sphere">http://math.stackexchange.com</a>
      *
@@ -3426,7 +3426,7 @@ public class Intersectionf {
      * @param radius
      *          the radius of the circle
      * @param intersectionCenterAndHL
-     *          will hold the center of the line segment of intersection in the <tt>(x, y)</tt> components and the half-length in the z component
+     *          will hold the center of the line segment of intersection in the <code>(x, y)</code> components and the half-length in the z component
      * @return <code>true</code> iff the line intersects the circle; <code>false</code> otherwise
      */
     public static boolean intersectLineCircle(float a, float b, float c, float centerX, float centerY, float radius, Vector3f intersectionCenterAndHL) {
@@ -3442,9 +3442,9 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the line defined by the two points <tt>(x0, y0)</tt> and <tt>(x1, y1)</tt> intersects the circle with center
-     * <tt>(centerX, centerY)</tt> and <code>radius</code>, and store the center of the line segment of
-     * intersection in the <tt>(x, y)</tt> components of the supplied vector and the half-length of that line segment in the z component.
+     * Test whether the line defined by the two points <code>(x0, y0)</code> and <code>(x1, y1)</code> intersects the circle with center
+     * <code>(centerX, centerY)</code> and <code>radius</code>, and store the center of the line segment of
+     * intersection in the <code>(x, y)</code> components of the supplied vector and the half-length of that line segment in the z component.
      * <p>
      * Reference: <a href="http://math.stackexchange.com/questions/943383/determine-circle-of-intersection-of-plane-and-sphere">http://math.stackexchange.com</a>
      *
@@ -3463,7 +3463,7 @@ public class Intersectionf {
      * @param radius
      *          the radius of the circle
      * @param intersectionCenterAndHL
-     *          will hold the center of the line segment of intersection in the <tt>(x, y)</tt> components and the half-length in the z component
+     *          will hold the center of the line segment of intersection in the <code>(x, y)</code> components and the half-length in the z component
      * @return <code>true</code> iff the line intersects the circle; <code>false</code> otherwise
      */
     public static boolean intersectLineCircle(float x0, float y0, float x1, float y1, float centerX, float centerY, float radius, Vector3f intersectionCenterAndHL) {
@@ -3472,7 +3472,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the axis-aligned rectangle with minimum corner <tt>(minX, minY)</tt> and maximum corner <tt>(maxX, maxY)</tt>
+     * Test whether the axis-aligned rectangle with minimum corner <code>(minX, minY)</code> and maximum corner <code>(maxX, maxY)</code>
      * intersects the line with the general equation <i>a*x + b*y + c = 0</i>.
      * <p>
      * Reference: <a href="http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-testing-boxes-ii/">http://www.lighthouse3d.com</a> ("Geometric Approach - Testing Boxes II")
@@ -3537,8 +3537,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the axis-aligned rectangle with minimum corner <tt>(minX, minY)</tt> and maximum corner <tt>(maxX, maxY)</tt>
-     * intersects the line defined by the two points <tt>(x0, y0)</tt> and <tt>(x1, y1)</tt>.
+     * Test whether the axis-aligned rectangle with minimum corner <code>(minX, minY)</code> and maximum corner <code>(maxX, maxY)</code>
+     * intersects the line defined by the two points <code>(x0, y0)</code> and <code>(x1, y1)</code>.
      * <p>
      * Reference: <a href="http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-testing-boxes-ii/">http://www.lighthouse3d.com</a> ("Geometric Approach - Testing Boxes II")
      * 
@@ -3568,8 +3568,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the axis-aligned rectangle with minimum corner <tt>(minXA, minYA)</tt> and maximum corner <tt>(maxXA, maxYA)</tt>
-     * intersects the axis-aligned rectangle with minimum corner <tt>(minXB, minYB)</tt> and maximum corner <tt>(maxXB, maxYB)</tt>.
+     * Test whether the axis-aligned rectangle with minimum corner <code>(minXA, minYA)</code> and maximum corner <code>(maxXA, maxYA)</code>
+     * intersects the axis-aligned rectangle with minimum corner <code>(minXB, minYB)</code> and maximum corner <code>(maxXB, maxYB)</code>.
      * 
      * @param minXA
      *              the x coordinate of the minimum corner of the first axis-aligned rectangle
@@ -3612,8 +3612,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether a given circle with center <tt>(aX, aY)</tt> and radius <code>aR</code> and travelled distance vector <tt>(maX, maY)</tt>
-     * intersects a given static circle with center <tt>(bX, bY)</tt> and radius <code>bR</code>.
+     * Test whether a given circle with center <code>(aX, aY)</code> and radius <code>aR</code> and travelled distance vector <code>(maX, maY)</code>
+     * intersects a given static circle with center <code>(bX, bY)</code> and radius <code>bR</code>.
      * <p>
      * Note that the case of two moving circles can always be reduced to this case by expressing the moved distance of one of the circles relative
      * to the other.
@@ -3693,9 +3693,9 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the one circle with center <tt>(aX, aY)</tt> and square radius <code>radiusSquaredA</code> intersects the other
-     * circle with center <tt>(bX, bY)</tt> and square radius <code>radiusSquaredB</code>, and store the center of the line segment of
-     * intersection in the <tt>(x, y)</tt> components of the supplied vector and the half-length of that line segment in the z component.
+     * Test whether the one circle with center <code>(aX, aY)</code> and square radius <code>radiusSquaredA</code> intersects the other
+     * circle with center <code>(bX, bY)</code> and square radius <code>radiusSquaredB</code>, and store the center of the line segment of
+     * intersection in the <code>(x, y)</code> components of the supplied vector and the half-length of that line segment in the z component.
      * <p>
      * This method returns <code>false</code> when one circle contains the other circle.
      * <p>
@@ -3714,7 +3714,7 @@ public class Intersectionf {
      * @param radiusSquaredB
      *              the square of the second circle's radius
      * @param intersectionCenterAndHL
-     *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
+     *              will hold the center of the circle of intersection in the <code>(x, y, z)</code> components and the radius in the w component
      * @return <code>true</code> iff both circles intersect; <code>false</code> otherwise
      */
     public static boolean intersectCircleCircle(float aX, float aY, float radiusSquaredA, float bX, float bY, float radiusSquaredB, Vector3f intersectionCenterAndHL) {
@@ -3734,7 +3734,7 @@ public class Intersectionf {
     /**
      * Test whether the one circle with center <code>centerA</code> and square radius <code>radiusSquaredA</code> intersects the other
      * circle with center <code>centerB</code> and square radius <code>radiusSquaredB</code>, and store the center of the line segment of
-     * intersection in the <tt>(x, y)</tt> components of the supplied vector and the half-length of that line segment in the z component.
+     * intersection in the <code>(x, y)</code> components of the supplied vector and the half-length of that line segment in the z component.
      * <p>
      * This method returns <code>false</code> when one circle contains the other circle.
      * <p>
@@ -3749,7 +3749,7 @@ public class Intersectionf {
      * @param radiusSquaredB
      *              the square of the second circle's radius
      * @param intersectionCenterAndHL
-     *              will hold the center of the line segment of intersection in the <tt>(x, y)</tt> components and the half-length in the z component
+     *              will hold the center of the line segment of intersection in the <code>(x, y)</code> components and the half-length in the z component
      * @return <code>true</code> iff both circles intersect; <code>false</code> otherwise
      */
     public static boolean intersectCircleCircle(Vector2fc centerA, float radiusSquaredA, Vector2fc centerB, float radiusSquaredB, Vector3f intersectionCenterAndHL) {
@@ -3757,7 +3757,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the one circle with center <tt>(aX, aY)</tt> and radius <code>rA</code> intersects the other circle with center <tt>(bX, bY)</tt> and radius <code>rB</code>.
+     * Test whether the one circle with center <code>(aX, aY)</code> and radius <code>rA</code> intersects the other circle with center <code>(bX, bY)</code> and radius <code>rB</code>.
      * <p>
      * This method returns <code>true</code> when one circle contains the other circle.
      * <p>
@@ -3805,7 +3805,7 @@ public class Intersectionf {
     }
 
     /**
-     * Determine the signed distance of the given point <tt>(pointX, pointY)</tt> to the line specified via its general plane equation
+     * Determine the signed distance of the given point <code>(pointX, pointY)</code> to the line specified via its general plane equation
      * <i>a*x + b*y + c = 0</i>.
      * <p>
      * Reference: <a href="http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">http://mathworld.wolfram.com</a>
@@ -3828,7 +3828,7 @@ public class Intersectionf {
     }
 
     /**
-     * Determine the signed distance of the given point <tt>(pointX, pointY)</tt> to the line defined by the two points <tt>(x0, y0)</tt> and <tt>(x1, y1)</tt>.
+     * Determine the signed distance of the given point <code>(pointX, pointY)</code> to the line defined by the two points <code>(x0, y0)</code> and <code>(x1, y1)</code>.
      * <p>
      * Reference: <a href="http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">http://mathworld.wolfram.com</a>
      * 
@@ -3854,7 +3854,7 @@ public class Intersectionf {
     }
 
     /**
-     * Compute the distance of the given point <tt>(pX, pY, pZ)</tt> to the line defined by the two points <tt>(x0, y0, z0)</tt> and <tt>(x1, y1, z1)</tt>.
+     * Compute the distance of the given point <code>(pX, pY, pZ)</code> to the line defined by the two points <code>(x0, y0, z0)</code> and <code>(x1, y1, z1)</code>.
      * <p>
      * Reference: <a href="http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html">http://mathworld.wolfram.com</a>
      * 
@@ -3887,11 +3887,11 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the ray with given origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt> intersects the line
-     * containing the given point <tt>(pointX, pointY)</tt> and having the normal <tt>(normalX, normalY)</tt>, and return the
+     * Test whether the ray with given origin <code>(originX, originY)</code> and direction <code>(dirX, dirY)</code> intersects the line
+     * containing the given point <code>(pointX, pointY)</code> and having the normal <code>(normalX, normalY)</code>, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
      * <p>
-     * This method returns <tt>-1.0</tt> if the ray does not intersect the line, because it is either parallel to the line or its direction points
+     * This method returns <code>-1.0</code> if the ray does not intersect the line, because it is either parallel to the line or its direction points
      * away from the line or the ray's origin is on the <i>negative</i> side of the line (i.e. the line's normal points away from the ray's origin).
      * 
      * @param originX
@@ -3913,7 +3913,7 @@ public class Intersectionf {
      * @param epsilon
      *              some small epsilon for when the ray is parallel to the line
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
-     *         intersects the line; <tt>-1.0</tt> otherwise
+     *         intersects the line; <code>-1.0</code> otherwise
      */
     public static float intersectRayLine(float originX, float originY, float dirX, float dirY, float pointX, float pointY, float normalX, float normalY, float epsilon) {
         float denom = normalX * dirX + normalY * dirY;
@@ -3930,7 +3930,7 @@ public class Intersectionf {
      * containing the given <code>point</code> and having the given <code>normal</code>, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
      * <p>
-     * This method returns <tt>-1.0</tt> if the ray does not intersect the line, because it is either parallel to the line or its direction points
+     * This method returns <code>-1.0</code> if the ray does not intersect the line, because it is either parallel to the line or its direction points
      * away from the line or the ray's origin is on the <i>negative</i> side of the line (i.e. the line's normal points away from the ray's origin).
      * 
      * @param origin
@@ -3944,18 +3944,18 @@ public class Intersectionf {
      * @param epsilon
      *              some small epsilon for when the ray is parallel to the line
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
-     *         intersects the line; <tt>-1.0</tt> otherwise
+     *         intersects the line; <code>-1.0</code> otherwise
      */
     public static float intersectRayLine(Vector2fc origin, Vector2fc dir, Vector2fc point, Vector2fc normal, float epsilon) {
         return intersectRayLine(origin.x(), origin.y(), dir.x(), dir.y(), point.x(), point.y(), normal.x(), normal.y(), epsilon);
     }
 
     /**
-     * Determine whether the ray with given origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt> intersects the undirected line segment
-     * given by the two end points <tt>(aX, bY)</tt> and <tt>(bX, bY)</tt>, and return the value of the parameter <i>t</i> in the ray equation
+     * Determine whether the ray with given origin <code>(originX, originY)</code> and direction <code>(dirX, dirY)</code> intersects the undirected line segment
+     * given by the two end points <code>(aX, bY)</code> and <code>(bX, bY)</code>, and return the value of the parameter <i>t</i> in the ray equation
      * <i>p(t) = origin + t * dir</i> of the intersection point, if any.
      * <p>
-     * This method returns <tt>-1.0</tt> if the ray does not intersect the line segment.
+     * This method returns <code>-1.0</code> if the ray does not intersect the line segment.
      * 
      * @see #intersectRayLineSegment(Vector2fc, Vector2fc, Vector2fc, Vector2fc)
      * 
@@ -3976,7 +3976,7 @@ public class Intersectionf {
      * @param bY
      *              the y coordinate of the line segment's second end point
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
-     *         intersects the line segment; <tt>-1.0</tt> otherwise
+     *         intersects the line segment; <code>-1.0</code> otherwise
      */
     public static float intersectRayLineSegment(float originX, float originY, float dirX, float dirY, float aX, float aY, float bX, float bY) {
         float v1X = originX - aX;
@@ -3996,7 +3996,7 @@ public class Intersectionf {
      * given by the two end points <code>a</code> and <code>b</code>, and return the value of the parameter <i>t</i> in the ray equation
      * <i>p(t) = origin + t * dir</i> of the intersection point, if any.
      * <p>
-     * This method returns <tt>-1.0</tt> if the ray does not intersect the line segment.
+     * This method returns <code>-1.0</code> if the ray does not intersect the line segment.
      * 
      * @see #intersectRayLineSegment(float, float, float, float, float, float, float, float)
      * 
@@ -4009,15 +4009,15 @@ public class Intersectionf {
      * @param b
      *              the line segment's second end point
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
-     *         intersects the line segment; <tt>-1.0</tt> otherwise
+     *         intersects the line segment; <code>-1.0</code> otherwise
      */
     public static float intersectRayLineSegment(Vector2fc origin, Vector2fc dir, Vector2fc a, Vector2fc b) {
         return intersectRayLineSegment(origin.x(), origin.y(), dir.x(), dir.y(), a.x(), a.y(), b.x(), b.y());
     }
 
     /**
-     * Test whether the axis-aligned rectangle with minimum corner <tt>(minX, minY)</tt> and maximum corner <tt>(maxX, maxY)</tt>
-     * intersects the circle with the given center <tt>(centerX, centerY)</tt> and square radius <code>radiusSquared</code>.
+     * Test whether the axis-aligned rectangle with minimum corner <code>(minX, minY)</code> and maximum corner <code>(maxX, maxY)</code>
+     * intersects the circle with the given center <code>(centerX, centerY)</code> and square radius <code>radiusSquared</code>.
      * <p>
      * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
      * 
@@ -4077,8 +4077,8 @@ public class Intersectionf {
     }
 
     /**
-     * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt>, <tt>(v2X, v2Y)</tt>
-     * between that triangle and the given point <tt>(pX, pY)</tt> and store that point into the given <code>result</code>.
+     * Determine the closest point on the triangle with the given vertices <code>(v0X, v0Y)</code>, <code>(v1X, v1Y)</code>, <code>(v2X, v2Y)</code>
+     * between that triangle and the given point <code>(pX, pY)</code> and store that point into the given <code>result</code>.
      * <p>
      * Additionally, this method returns whether the closest point is a vertex ({@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2})
      * of the triangle, lies on an edge ({@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20})
@@ -4193,8 +4193,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt>
-     * intersects the given circle with center <tt>(centerX, centerY)</tt> and square radius <code>radiusSquared</code>,
+     * Test whether the given ray with the origin <code>(originX, originY)</code> and direction <code>(dirX, dirY)</code>
+     * intersects the given circle with center <code>(centerX, centerY)</code> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
      * and far) of intersections into the given <code>result</code> vector.
      * <p>
@@ -4268,8 +4268,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt>
-     * intersects the given circle with center <tt>(centerX, centerY)</tt> and square radius <code>radiusSquared</code>.
+     * Test whether the given ray with the origin <code>(originX, originY)</code> and direction <code>(dirX, dirY)</code>
+     * intersects the given circle with center <code>(centerX, centerY)</code> and square radius <code>radiusSquared</code>.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the circle.
      * <p>
@@ -4328,8 +4328,8 @@ public class Intersectionf {
     }
 
     /**
-     * Determine whether the given ray with the origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt>
-     * intersects the axis-aligned rectangle given as its minimum corner <tt>(minX, minY)</tt> and maximum corner <tt>(maxX, maxY)</tt>,
+     * Determine whether the given ray with the origin <code>(originX, originY)</code> and direction <code>(dirX, dirY)</code>
+     * intersects the axis-aligned rectangle given as its minimum corner <code>(minX, minY)</code> and maximum corner <code>(maxX, maxY)</code>,
      * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
      * as well as the side of the axis-aligned rectangle the ray intersects.
      * <p>
@@ -4360,7 +4360,7 @@ public class Intersectionf {
      *              <i>p(t) = origin + t * dir</i> of the near and far point of intersection
      * @return the side on which the near intersection occurred as one of
      *         {@link #AAR_SIDE_MINX}, {@link #AAR_SIDE_MINY}, {@link #AAR_SIDE_MAXX} or {@link #AAR_SIDE_MAXY};
-     *         or <tt>-1</tt> if the ray does not intersect the axis-aligned rectangle;
+     *         or <code>-1</code> if the ray does not intersect the axis-aligned rectangle;
      */
     public static int intersectRayAar(float originX, float originY, float dirX, float dirY, 
             float minX, float minY, float maxX, float maxY, Vector2f result) {
@@ -4435,15 +4435,15 @@ public class Intersectionf {
      *              <i>p(t) = origin + t * dir</i> of the near and far point of intersection
      * @return the side on which the near intersection occurred as one of
      *         {@link #AAR_SIDE_MINX}, {@link #AAR_SIDE_MINY}, {@link #AAR_SIDE_MAXX} or {@link #AAR_SIDE_MAXY};
-     *         or <tt>-1</tt> if the ray does not intersect the axis-aligned rectangle;
+     *         or <code>-1</code> if the ray does not intersect the axis-aligned rectangle;
      */
     public static int intersectRayAar(Vector2fc origin, Vector2fc dir, Vector2fc min, Vector2fc max, Vector2f result) {
         return intersectRayAar(origin.x(), origin.y(), dir.x(), dir.y(), min.x(), min.y(), max.x(), max.y(), result);
     }
 
     /**
-     * Determine whether the undirected line segment with the end points <tt>(p0X, p0Y)</tt> and <tt>(p1X, p1Y)</tt>
-     * intersects the axis-aligned rectangle given as its minimum corner <tt>(minX, minY)</tt> and maximum corner <tt>(maxX, maxY)</tt>,
+     * Determine whether the undirected line segment with the end points <code>(p0X, p0Y)</code> and <code>(p1X, p1Y)</code>
+     * intersects the axis-aligned rectangle given as its minimum corner <code>(minX, minY)</code> and maximum corner <code>(maxX, maxY)</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
      * into <code>result</code>.
      * <p>
@@ -4552,8 +4552,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt>
-     * intersects the given axis-aligned rectangle given as its minimum corner <tt>(minX, minY)</tt> and maximum corner <tt>(maxX, maxY)</tt>.
+     * Test whether the given ray with the origin <code>(originX, originY)</code> and direction <code>(dirX, dirY)</code>
+     * intersects the given axis-aligned rectangle given as its minimum corner <code>(minX, minY)</code> and maximum corner <code>(maxX, maxY)</code>.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned rectangle.
      * <p>
@@ -4628,7 +4628,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given point <tt>(pX, pY)</tt> lies inside the triangle with the vertices <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt>, <tt>(v2X, v2Y)</tt>.
+     * Test whether the given point <code>(pX, pY)</code> lies inside the triangle with the vertices <code>(v0X, v0Y)</code>, <code>(v1X, v1Y)</code>, <code>(v2X, v2Y)</code>.
      * 
      * @param pX
      *          the x coordinate of the point
@@ -4675,8 +4675,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given point <tt>(pX, pY)</tt> lies inside the axis-aligned rectangle with the minimum corner <tt>(minX, minY)</tt>
-     * and maximum corner <tt>(maxX, maxY)</tt>.
+     * Test whether the given point <code>(pX, pY)</code> lies inside the axis-aligned rectangle with the minimum corner <code>(minX, minY)</code>
+     * and maximum corner <code>(maxX, maxY)</code>.
      * 
      * @param pX
      *          the x coordinate of the point
@@ -4697,7 +4697,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the point <tt>(pX, pY)</tt> lies inside the circle with center <tt>(centerX, centerY)</tt> and square radius <code>radiusSquared</code>.
+     * Test whether the point <code>(pX, pY)</code> lies inside the circle with center <code>(centerX, centerY)</code> and square radius <code>radiusSquared</code>.
      * 
      * @param pX
      *          the x coordinate of the point
@@ -4720,8 +4720,8 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the circle with center <tt>(centerX, centerY)</tt> and square radius <code>radiusSquared</code> intersects the triangle with counter-clockwise vertices
-     * <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt>, <tt>(v2X, v2Y)</tt>.
+     * Test whether the circle with center <code>(centerX, centerY)</code> and square radius <code>radiusSquared</code> intersects the triangle with counter-clockwise vertices
+     * <code>(v0X, v0Y)</code>, <code>(v1X, v1Y)</code>, <code>(v2X, v2Y)</code>.
      * <p>
      * The vertices of the triangle must be specified in counter-clockwise order.
      * <p>
@@ -4817,15 +4817,15 @@ public class Intersectionf {
     }
 
     /**
-     * Determine whether the polygon specified by the given sequence of <tt>(x, y)</tt> coordinate pairs intersects with the ray
-     * with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>, and store the point of intersection
+     * Determine whether the polygon specified by the given sequence of <code>(x, y)</code> coordinate pairs intersects with the ray
+     * with given origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>, and store the point of intersection
      * into the given vector <code>p</code>.
      * <p>
      * If the polygon intersects the ray, this method returns the index of the polygon edge intersecting the ray, that is, the index of the 
      * first vertex of the directed line segment. The second vertex is always that index + 1, modulus the number of polygon vertices.
      * 
      * @param verticesXY
-     *          the sequence of <tt>(x, y)</tt> coordinate pairs of all vertices of the polygon
+     *          the sequence of <code>(x, y)</code> coordinate pairs of all vertices of the polygon
      * @param originX
      *          the x coordinate of the ray's origin
      * @param originY
@@ -4836,7 +4836,7 @@ public class Intersectionf {
      *          the y coordinate of the ray's direction
      * @param p
      *          will hold the point of intersection
-     * @return the index of the first vertex of the polygon edge that intersects the ray; or <tt>-1</tt> if the ray does not intersect the polygon
+     * @return the index of the first vertex of the polygon edge that intersects the ray; or <code>-1</code> if the ray does not intersect the polygon
      */
     public static int intersectPolygonRay(float[] verticesXY, float originX, float originY, float dirX, float dirY, Vector2f p) {
         float nearestT = Float.POSITIVE_INFINITY;
@@ -4866,14 +4866,14 @@ public class Intersectionf {
 
     /**
      * Determine whether the polygon specified by the given sequence of <code>vertices</code> intersects with the ray
-     * with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>, and store the point of intersection
+     * with given origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>, and store the point of intersection
      * into the given vector <code>p</code>.
      * <p>
      * If the polygon intersects the ray, this method returns the index of the polygon edge intersecting the ray, that is, the index of the 
      * first vertex of the directed line segment. The second vertex is always that index + 1, modulus the number of polygon vertices.
      * 
      * @param vertices
-     *          the sequence of <tt>(x, y)</tt> coordinate pairs of all vertices of the polygon
+     *          the sequence of <code>(x, y)</code> coordinate pairs of all vertices of the polygon
      * @param originX
      *          the x coordinate of the ray's origin
      * @param originY
@@ -4884,7 +4884,7 @@ public class Intersectionf {
      *          the y coordinate of the ray's direction
      * @param p
      *          will hold the point of intersection
-     * @return the index of the first vertex of the polygon edge that intersects the ray; or <tt>-1</tt> if the ray does not intersect the polygon
+     * @return the index of the first vertex of the polygon edge that intersects the ray; or <code>-1</code> if the ray does not intersect the polygon
      */
     public static int intersectPolygonRay(Vector2fc[] vertices, float originX, float originY, float dirX, float dirY, Vector2f p) {
         float nearestT = Float.POSITIVE_INFINITY;

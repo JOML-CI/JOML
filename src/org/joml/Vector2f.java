@@ -120,7 +120,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     *        values will be read in <code>x, y</code> order
      * @see #Vector2f(int, ByteBuffer)
      */
     public Vector2f(ByteBuffer buffer) {
@@ -135,7 +135,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *
      * @param index
      *        the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param buffer values will be read in <code>x, y</code> order
      */
     public Vector2f(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -152,7 +152,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     *        values will be read in <code>x, y</code> order
      * @see #Vector2f(int, FloatBuffer)
      */
     public Vector2f(FloatBuffer buffer) {
@@ -168,7 +168,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @param index 
      *        the absolute position into the FloatBuffer
      * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     *        values will be read in <code>x, y</code> order
      */
     public Vector2f(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
@@ -267,7 +267,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     *        values will be read in <code>x, y</code> order
      * @return this
      * @see #set(int, ByteBuffer)
      */
@@ -284,7 +284,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @param index
      *        the absolute position into the ByteBuffer
      * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     *        values will be read in <code>x, y</code> order
      * @return this
      */
     public Vector2f set(int index, ByteBuffer buffer) {
@@ -303,7 +303,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * the absolute position as parameter.
      *
      * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     *        values will be read in <code>x, y</code> order
      * @return this
      * @see #set(int, FloatBuffer)
      */
@@ -320,7 +320,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @param index 
      *        the absolute position into the FloatBuffer
      * @param buffer
-     *        values will be read in <tt>x, y</tt> order
+     *        values will be read in <code>x, y</code> order
      * @return this
      */
     public Vector2f set(int index, FloatBuffer buffer) {
@@ -369,11 +369,11 @@ public class Vector2f implements Externalizable, Vector2fc {
      * Set the value of the specified component of this vector.
      *
      * @param component
-     *          the component whose value to set, within <tt>[0..1]</tt>
+     *          the component whose value to set, within <code>[0..1]</code>
      * @param value
      *          the value to set
      * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..1]</code>
      */
     public Vector2f setComponent(int component, float value) throws IllegalArgumentException {
         switch (component) {
@@ -461,7 +461,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 
     /**
-     * Subtract <tt>(x, y)</tt> from this vector.
+     * Subtract <code>(x, y)</code> from this vector.
      * 
      * @param x
      *          the x component to subtract
@@ -759,7 +759,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
      * <p>
-     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * This method assumes the <code>z</code> component of <code>this</code> to be <code>1.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -781,7 +781,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
      * <p>
-     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * This method assumes the <code>z</code> component of <code>this</code> to be <code>0.0</code>.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -804,7 +804,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>this</code>.
      * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * If <code>t</code> is <code>0.0</code> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
      * 
      * @param other
@@ -866,7 +866,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Return a string representation of this vector.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
      * 
      * @return the string representation
      */

@@ -1,3 +1,7 @@
+language: java
+sudo: false
+before_install:
+  - wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
 matrix:
   include:
     - os: linux
@@ -6,11 +10,22 @@ matrix:
       jdk: oraclejdk8
     - os: linux
       jdk: oraclejdk9
+    - os: linux
+      env: JDK='Oracle JDK 10'
+      install: . ./install-jdk.sh -F 10 -L BCL
+    - os: linux
+      env: JDK='OpenJDK 10'
+      install: . ./install-jdk.sh -F 10 -L GPL
+    - os: linux
+      env: JDK='Oracle JDK 11'
+      install: . ./install-jdk.sh -F 11 -L BCL
+    - os: linux
+      env: JDK='OpenJDK 11'
+      install: . ./install-jdk.sh -F 11 -L GPL
     - os: osx
       osx_image: xcode7.3
     - os: osx
       osx_image: xcode8.3
     - os: osx
-      osx_image: xcode9.2
-language: java
-script: mvn clean install -Dmaven.javadoc.skip=false
+      osx_image: xcode9.3
+script: ./mvnw clean install -Dmaven.javadoc.skip=false

@@ -59,7 +59,7 @@ public class AxisAngle4d implements Externalizable {
     public double z;
 
     /**
-     * Create a new {@link AxisAngle4d} with zero rotation about <tt>(0, 0, 1)</tt>.
+     * Create a new {@link AxisAngle4d} with zero rotation about <code>(0, 0, 1)</code>.
      */
     public AxisAngle4d() {
         z = 1.0;
@@ -767,7 +767,7 @@ public class AxisAngle4d implements Externalizable {
     /**
      * Return a string representation of this {@link AxisAngle4d}.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code> 0.000E0;-</code>".
      * 
      * @return the string representation
      */
