@@ -1,13 +1,31 @@
 language: java
 sudo: false
+git:
+  depth: 1
+cache:
+  directories:
+    - $HOME/.m2
 before_install:
   - wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
+install: true
+env:
+  global:
+    - secure: "bAYEubjYV/4Zw6TKWapaqBg7+/fIu7SEStNGxYW2w2yZbZnE0DoWDvTCjRyTC1ugjI5ibYu8hdbC0nbSJxpaoB42fZ9jY1lRWz63VsMzNK1vdEjGUwTY1ENWgeOMCK0W2x3khd+EHenzbcJy0ZCN3kst9UsEZwYuZ4VENumAK4o="
+    - secure: "KPb8H6zydtkjmXT05rkKf+VGOqDPrfFI1tTt5zJ3EpP+GjiAAmb7PhgPapUu4ognsGj/duMKrF/02XqDF0B28WSZ+98qL9UkTFqicjfWdH7mAifOe7WDArFdOiXytgjHRNYuqHVNZEvskUIvKOAOdeKKcbdMdOwXTksIeWzV3Zo="
+    - secure: "CTXe/8wI8l+kMAnujvmMISAESV+3sQWGvz/SOzsoAby6xwIpAQRjzVVEmbovFS8sb78VP2qmmm84hJAq37VffCVrgywS7zHiG/ny4V4QvjqemxyBR7Ft8X1LzI5kGXFxv+DPGRWOzWc5IJ0FI9pf8ML7GVV7fvIz+lqsnYl9IWI="
+    - secure: "TvzL53KDcjCgddNSZiByNipetAffHwpWIORXSxscKly86CrvacCERc0eHHAKPNsYq+1Y0sm2HUPuazVXIuAGsvAm46AYDA8ZG7x2dxr+Fpc1T7zilCS8yNzwwjWv/F9t2d9UC2nstmvX2HyA+1yeC1NamtVyBuvURTFdIzbWSqo="
+    - secure: "fPGWnjcUM1rP26dvDaL1SPlrB1yRlsZKrTTb011GA0fq9aIXEMXfUN9F4p0gYG2vxLOFD+hUArky81kgSqSI1XVJTQMnTTO9OEAiIk+4w1ZsS/5pWU01YnSMo1/yyNlYvnZGZIIS+OZFs2zeJbn/tWrDuXeQ4ddv5AsEhi0DabY="
 matrix:
   include:
     - os: linux
       jdk: openjdk7
     - os: linux
       jdk: oraclejdk8
+      after_success:
+        - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && 
+          openssl aes-256-cbc -pass pass:$ENCRYPTION_KEY -in .travis/pubring.asc.enc -out ./pubring.asc -d &&
+          openssl aes-256-cbc -pass pass:$ENCRYPTION_KEY -in .travis/secring.asc.enc -out ./secring.asc -d &&
+          ./mvnw deploy --settings .travis/settings.xml -Ddeployment -Durlcheck.disabled=true -Dmaven.test.skip=true
     - os: linux
       jdk: oraclejdk9
     - os: linux
@@ -28,4 +46,4 @@ matrix:
       osx_image: xcode8.3
     - os: osx
       osx_image: xcode9.3
-script: ./mvnw clean install -Dmaven.javadoc.skip=false
+script: ./mvnw package -Dmaven.javadoc.skip=false
