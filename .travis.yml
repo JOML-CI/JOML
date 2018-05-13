@@ -6,7 +6,7 @@ cache:
   directories:
     - $HOME/.m2
 before_install:
-  - wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
+  - wget -q https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
 install: true
 env:
   global:
@@ -25,7 +25,10 @@ matrix:
         - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && 
           openssl aes-256-cbc -pass pass:$ENCRYPTION_KEY -in .travis/pubring.asc.enc -out ./pubring.asc -d &&
           openssl aes-256-cbc -pass pass:$ENCRYPTION_KEY -in .travis/secring.asc.enc -out ./secring.asc -d &&
-          ./mvnw deploy --settings .travis/settings.xml -Ddeployment -Durlcheck.disabled=true -Dmaven.test.skip=true
+          ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Durlcheck.disabled=true -Dmaven.test.skip=true &&
+          ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Dgwt  -Durlcheck.disabled=true -Dmaven.test.skip=true -f pom-gwt.xml &&
+          ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Djdk3 -Durlcheck.disabled=true -Dmaven.test.skip=true -f pom-jdk3.xml &&
+          ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Djdk8 -Durlcheck.disabled=true -Dmaven.test.skip=true -f pom-jdk8.xml
     - os: linux
       jdk: oraclejdk9
     - os: linux
@@ -46,4 +49,8 @@ matrix:
       osx_image: xcode8.3
     - os: osx
       osx_image: xcode9.3
-script: ./mvnw package -Dmaven.javadoc.skip=false
+script: 
+  - ./mvnw clean package -Dmaven.javadoc.skip=false
+  - sed 's;<artifactId>joml</artifactId>;<artifactId>joml-gwt</artifactId>;'  pom.xml > pom-gwt.xml  && ./mvnw clean package -Dmaven.javadoc.skip=false -Dgwt  -f pom-gwt.xml
+  - sed 's;<artifactId>joml</artifactId>;<artifactId>joml-jdk3</artifactId>;' pom.xml > pom-jdk3.xml && ./mvnw clean package -Dmaven.javadoc.skip=false -Djdk3 -f pom-jdk3.xml
+  - sed 's;<artifactId>joml</artifactId>;<artifactId>joml-jdk8</artifactId>;' pom.xml > pom-jdk8.xml && ./mvnw clean package -Dmaven.javadoc.skip=false -Djdk8 -f pom-jdk8.xml
