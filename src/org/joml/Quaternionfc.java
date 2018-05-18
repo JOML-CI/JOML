@@ -737,8 +737,6 @@ public interface Quaternionfc {
      * <p>
      * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
      * 
-     * @see #rotateLocal(float, float, float, Quaternionf)
-     * 
      * @param dt
      *          the delta time
      * @param vx
@@ -905,48 +903,6 @@ public interface Quaternionfc {
     Quaternionf rotateTo(Vector3fc fromDir, Vector3fc toDir, Quaternionf dest);
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
-     * cartesian space and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @param angleX
-     *              the angle in radians to rotate about the x axis
-     * @param angleY
-     *              the angle in radians to rotate about the y axis
-     * @param angleZ
-     *              the angle in radians to rotate about the z axis
-     * @param dest
-     *              will hold the result
-     * @return dest
-     */
-    Quaternionf rotate(float angleX, float angleY, float angleZ, Quaternionf dest);
-
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
-     * local coordinate system represented by this quaternion and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
-     * rotation represented by <code>this</code> will be applied first!
-     * 
-     * @param angleX
-     *              the angle in radians to rotate about the local x axis
-     * @param angleY
-     *              the angle in radians to rotate about the local y axis
-     * @param angleZ
-     *              the angle in radians to rotate about the local z axis
-     * @param dest
-     *              will hold the result
-     * @return dest
-     */
-    Quaternionf rotateLocal(float angleX, float angleY, float angleZ, Quaternionf dest);
-
-    /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the x axis
      * and store the result in <code>dest</code>.
      * <p>
@@ -954,8 +910,6 @@ public interface Quaternionfc {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
-     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in radians to rotate about the x axis
@@ -974,8 +928,6 @@ public interface Quaternionfc {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternionf)
-     * 
      * @param angle
      *              the angle in radians to rotate about the y axis
      * @param dest
@@ -992,8 +944,6 @@ public interface Quaternionfc {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
-     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in radians to rotate about the z axis

@@ -553,38 +553,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /**
-     * Set this quaternion to represent a rotation of the given angles in radians about the basis unit axes of the cartesian space.
-     * 
-     * @param angleX
-     *              the angle in radians to rotate about the x axis
-     * @param angleY
-     *              the angle in radians to rotate about the y axis
-     * @param angleZ
-     *              the angle in radians to rotate about the z axis
-     * @return this
-     */
-    public Quaternionf rotation(float angleX, float angleY, float angleZ) {
-        double thetaX = angleX * 0.5;
-        double thetaY = angleY * 0.5;
-        double thetaZ = angleZ * 0.5;
-        double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
-        double s;
-        if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
-            w = (float) (1.0 - thetaMagSq / 2.0);
-            s = 1.0 - thetaMagSq / 6.0;
-        } else {
-            double thetaMag = Math.sqrt(thetaMagSq);
-            double sin = Math.sin(thetaMag);
-            s = sin / thetaMag;
-            w = (float) Math.cosFromSin(sin, thetaMag);
-        }
-        x = (float) (thetaX * s);
-        y = (float) (thetaY * s);
-        z = (float) (thetaZ * s);
-        return this;
-    }
-
-    /**
      * Set this quaternion to represent a rotation of the given radians about the x axis.
      * 
      * @param angle
@@ -1878,8 +1846,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * <p>
      * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
      * 
-     * @see #rotateLocal(float, float, float)
-     * 
      * @param dt
      *          the delta time
      * @param vx
@@ -1898,7 +1864,30 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#integrate(float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf integrate(float dt, float vx, float vy, float vz, Quaternionf dest) {
-        return rotateLocal(dt * vx, dt * vy, dt * vz, dest);
+        float thetaX = vx * 0.5f;
+        float thetaY = vy * 0.5f;
+        float thetaZ = vz * 0.5f;
+        float thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
+        float s;
+        float dqX, dqY, dqZ, dqW;
+        if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
+            dqW = 1.0f - thetaMagSq * 0.5f;
+            s = 1.0f - thetaMagSq / 6.0f;
+        } else {
+            float thetaMag = (float) Math.sqrt(thetaMagSq);
+            float sin = (float) Math.sin(thetaMag);
+            s = sin / thetaMag;
+            dqW = (float) Math.cosFromSin(sin, thetaMag);
+        }
+        dqX = thetaX * s;
+        dqY = thetaY * s;
+        dqZ = thetaZ * s;
+        /* Pre-multiplication */
+        dest.set(dqW * x + dqX * w + dqY * z - dqZ * y,
+                 dqW * y - dqX * z + dqY * w + dqZ * x,
+                 dqW * z + dqX * y - dqY * x + dqZ * w,
+                 dqW * w - dqX * x - dqY * y - dqZ * z);
+        return dest;
     }
 
     /**
@@ -2365,160 +2354,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the cartesian space.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @see #rotate(float, float, float, Quaternionf)
-     * 
-     * @param angleX
-     *              the angle in radians to rotate about the x axis
-     * @param angleY
-     *              the angle in radians to rotate about the y axis
-     * @param angleZ
-     *              the angle in radians to rotate about the z axis
-     * @return this
-     */
-    public Quaternionf rotate(float angleX, float angleY, float angleZ) {
-        return rotate(angleX, angleY, angleZ, this);
-    }
-
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
-     * cartesian space and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @see #rotate(float, float, float)
-     * 
-     * @param angleX
-     *              the angle in radians to rotate about the x axis
-     * @param angleY
-     *              the angle in radians to rotate about the y axis
-     * @param angleZ
-     *              the angle in radians to rotate about the z axis
-     * @param dest
-     *              will hold the result
-     * @return dest
-     */
-    public Quaternionf rotate(float angleX, float angleY, float angleZ, Quaternionf dest) {
-        double thetaX = angleX * 0.5;
-        double thetaY = angleY * 0.5;
-        double thetaZ = angleZ * 0.5;
-        double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
-        double s;
-        double dqX, dqY, dqZ, dqW;
-        if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
-            dqW = 1.0 - thetaMagSq / 2.0;
-            s = 1.0 - thetaMagSq / 6.0;
-        } else {
-            double thetaMag = Math.sqrt(thetaMagSq);
-            double sin = Math.sin(thetaMag);
-            s = sin / thetaMag;
-            dqW = Math.cosFromSin(sin, thetaMag);
-        }
-        dqX = thetaX * s;
-        dqY = thetaY * s;
-        dqZ = thetaZ * s;
-        /* Pre-multiplication */
-//        dest.set((float) (dqW * x + dqX * w + dqY * z - dqZ * y),
-//                 (float) (dqW * y - dqX * z + dqY * w + dqZ * x),
-//                 (float) (dqW * z + dqX * y - dqY * x + dqZ * w),
-//                 (float) (dqW * w - dqX * x - dqY * y - dqZ * z));
-        /* Post-multiplication (like matrices multiply) */
-        dest.set((float) (w * dqX + x * dqW + y * dqZ - z * dqY),
-                 (float) (w * dqY - x * dqZ + y * dqW + z * dqX),
-                 (float) (w * dqZ + x * dqY - y * dqX + z * dqW),
-                 (float) (w * dqW - x * dqX - y * dqY - z * dqZ));
-        return dest;
-    }
-
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
-     * local coordinate system represented by this quaternion.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
-     * rotation represented by <code>this</code> will be applied first!
-     * 
-     * @see #rotateLocal(float, float, float, Quaternionf)
-     * 
-     * @param angleX
-     *              the angle in radians to rotate about the local x axis
-     * @param angleY
-     *              the angle in radians to rotate about the local y axis
-     * @param angleZ
-     *              the angle in radians to rotate about the local z axis
-     * @return this
-     */
-    public Quaternionf rotateLocal(float angleX, float angleY, float angleZ) {
-        return rotateLocal(angleX, angleY, angleZ, this);
-    }
-
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
-     * local coordinate system represented by this quaternion and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
-     * rotation represented by <code>this</code> will be applied first!
-     * 
-     * @see #rotateLocal(float, float, float)
-     * 
-     * @param angleX
-     *              the angle in radians to rotate about the local x axis
-     * @param angleY
-     *              the angle in radians to rotate about the local y axis
-     * @param angleZ
-     *              the angle in radians to rotate about the local z axis
-     * @param dest
-     *              will hold the result
-     * @return dest
-     */
-    public Quaternionf rotateLocal(float angleX, float angleY, float angleZ, Quaternionf dest) {
-        float thetaX = angleX * 0.5f;
-        float thetaY = angleY * 0.5f;
-        float thetaZ = angleZ * 0.5f;
-        float thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
-        float s;
-        float dqX, dqY, dqZ, dqW;
-        if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
-            dqW = 1.0f - thetaMagSq * 0.5f;
-            s = 1.0f - thetaMagSq / 6.0f;
-        } else {
-            float thetaMag = (float) Math.sqrt(thetaMagSq);
-            float sin = (float) Math.sin(thetaMag);
-            s = sin / thetaMag;
-            dqW = (float) Math.cosFromSin(sin, thetaMag);
-        }
-        dqX = thetaX * s;
-        dqY = thetaY * s;
-        dqZ = thetaZ * s;
-        /* Pre-multiplication */
-        dest.set(dqW * x + dqX * w + dqY * z - dqZ * y,
-                 dqW * y - dqX * z + dqY * w + dqZ * x,
-                 dqW * z + dqX * y - dqY * x + dqZ * w,
-                 dqW * w - dqX * x - dqY * y - dqZ * z);
-        return dest;
-    }
-
-    /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the x axis.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
-     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in radians to rotate about the x axis
@@ -2549,8 +2390,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternionf)
-     * 
      * @param angle
      *              the angle in radians to rotate about the y axis
      * @return this
@@ -2579,8 +2418,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
-     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in radians to rotate about the z axis
