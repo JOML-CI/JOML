@@ -29,7 +29,7 @@ import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
 /**
- * Represents a 2D circle.
+ * Represents a 2D circle using double-precision floating-point numbers.
  * 
  * @author Kai Burjack
  */

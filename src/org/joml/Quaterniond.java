@@ -33,7 +33,7 @@ import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
 /**
- * * Quaternion of 4 double-precision floats which can represent rotation and uniform scaling.
+ * Quaternion of 4 double-precision floats which can represent rotation and uniform scaling.
  *
  * @author Richard Greenlees
  * @author Kai Burjack

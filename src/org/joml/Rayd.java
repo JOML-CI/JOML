@@ -29,7 +29,7 @@ import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
 /**
- * Represents a ray with a given origin and direction.
+ * Represents a ray with a given origin and direction using double-precision floating-point numbers.
  *
  * @author Kai Burjack
  */

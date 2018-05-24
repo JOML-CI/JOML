@@ -29,7 +29,7 @@ import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
 /**
- * Represents a 3D plane.
+ * Represents a 3D plane using double-precision floating-point numbers.
  * 
  * @author Kai Burjack
  */

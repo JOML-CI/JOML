@@ -28,6 +28,11 @@ import java.text.NumberFormat;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
+/**
+ * Represents a 3D plane using single-precision floating-point numbers.
+ * 
+ * @author Kai Burjack
+ */
 public class Planef {
 
     public float a, b, c, d;

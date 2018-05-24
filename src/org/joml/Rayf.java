@@ -28,6 +28,11 @@ import java.text.NumberFormat;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
+/**
+ * Represents a ray with a given origin and direction using single-precision floating-point numbers.
+ *
+ * @author Kai Burjack
+ */
 public class Rayf {
 
     public float oX, oY, oZ;
