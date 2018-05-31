@@ -1,12 +1,11 @@
 language: java
+dist: trusty
 sudo: false
 git:
   depth: 1
 cache:
   directories:
     - $HOME/.m2
-before_install:
-  - wget -q https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
 install: true
 env:
   global:
@@ -20,7 +19,7 @@ matrix:
     - os: linux
       jdk: openjdk7
     - os: linux
-      jdk: oraclejdk8
+      jdk: openjdk8
       after_success:
         - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && 
           openssl aes-256-cbc -pass pass:$ENCRYPTION_KEY -in .travis/pubring.asc.enc -out ./pubring.asc -d &&
@@ -30,19 +29,9 @@ matrix:
           ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Djdk3 -Durlcheck.disabled=true -Dmaven.test.skip=true -f pom-jdk3.xml &&
           ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Djdk8 -Durlcheck.disabled=true -Dmaven.test.skip=true -f pom-jdk8.xml
     - os: linux
-      jdk: oraclejdk9
+      jdk: openjdk9
     - os: linux
-      env: JDK='Oracle JDK 10'
-      install: . ./install-jdk.sh -F 10 -L BCL
-    - os: linux
-      env: JDK='OpenJDK 10'
-      install: . ./install-jdk.sh -F 10 -L GPL
-    - os: linux
-      env: JDK='Oracle JDK 11'
-      install: . ./install-jdk.sh -F 11 -L BCL
-    - os: linux
-      env: JDK='OpenJDK 11'
-      install: . ./install-jdk.sh -F 11 -L GPL
+      jdk: openjdk10
     - os: osx
       osx_image: xcode7.3
     - os: osx

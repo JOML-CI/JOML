@@ -178,7 +178,7 @@
 							<dependency>
 								<groupId>org.ow2.asm</groupId>
 								<artifactId>asm</artifactId>
-								<version>6.1.1</version>
+								<version>6.2</version>
 							</dependency>
 						</dependencies>
 					</plugin>
@@ -231,7 +231,7 @@
 							<dependency>
 								<groupId>org.ow2.asm</groupId>
 								<artifactId>asm</artifactId>
-								<version>6.1.1</version>
+								<version>6.2</version>
 							</dependency>
 							<dependency>
 								<groupId>com.sun</groupId>
@@ -470,7 +470,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -559,7 +559,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.0.1</version>
 				<configuration>
 					<!-- Exclude the Java 1.4 API classes from the javadoc jar -->
 					<excludePackageNames>org.joml.jre</excludePackageNames>
