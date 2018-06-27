@@ -44,6 +44,22 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.2</maven.compiler.source>
 		<maven.compiler.target>1.2</maven.compiler.target>
+		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+		<maven-enforcer-plugin.version>3.0.0-M1</maven-enforcer-plugin.version>
+		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
+		<maven-gpg-plugin>1.6</maven-gpg-plugin>
+		<maven-deploy-plugin>2.8.2</maven-deploy-plugin>
+		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+		<buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
+		<nexus-staging-maven-plugin>1.6.8</nexus-staging-maven-plugin>
+		<httpclient.version>4.5.5</httpclient.version>
+		<asm.version>6.2</asm.version>
+		<gwt-user.version>2.5.0</gwt-user.version>
+		<junit.version>3.8.2</junit.version>
+		<jcp.version>6.1.2</jcp.version>
 		<platform>__JRE__</platform>
 		<hasNio>__HAS_NIO__</hasNio>
 		<javaExclude>org/joml/jre/**</javaExclude>
@@ -111,7 +127,7 @@
 					-->
 					<plugin>
 						<artifactId>maven-enforcer-plugin</artifactId>
-						<version>3.0.0-M1</version>
+						<version>${maven-enforcer-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>enforce-versions</id>
@@ -135,7 +151,7 @@
 					-->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.8</version>
+						<version>${maven-antrun-plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>process-classes</phase>
@@ -178,13 +194,13 @@
 							<dependency>
 								<groupId>org.ow2.asm</groupId>
 								<artifactId>asm</artifactId>
-								<version>6.2</version>
+								<version>${asm.version}</version>
 							</dependency>
 						</dependencies>
 					</plugin>
 					<plugin>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.0.1</version>
+						<version>${maven-javadoc-plugin.version}</version>
 						<configuration>
 							<additionalOptions>
 								<additionalOption>-html4</additionalOption>
@@ -206,7 +222,7 @@
 					-->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.8</version>
+						<version>${maven-antrun-plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>process-classes</phase>
@@ -240,7 +256,7 @@
 							<dependency>
 								<groupId>org.ow2.asm</groupId>
 								<artifactId>asm</artifactId>
-								<version>6.2</version>
+								<version>${asm.version}</version>
 							</dependency>
 							<dependency>
 								<groupId>com.sun</groupId>
@@ -305,7 +321,7 @@
 					<!-- Check for invalid URLs in sources -->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.8</version>
+						<version>${maven-antrun-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>validate</id>
@@ -334,13 +350,13 @@
 							<dependency>
 								<groupId>org.apache.httpcomponents</groupId>
 								<artifactId>httpclient</artifactId>
-								<version>4.5.5</version>
+								<version>${httpclient.version}</version>
 							</dependency>
 						</dependencies>
 					</plugin>
 					<plugin>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
+						<version>${maven-gpg-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -353,7 +369,7 @@
 					</plugin>
 					<plugin>
 						<artifactId>maven-deploy-plugin</artifactId>
-						<version>2.8.2</version>
+						<version>${maven-deploy-plugin.version}</version>
 						<configuration>
 							<skip>true</skip>
 						</configuration>
@@ -361,7 +377,7 @@
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.8</version>
+						<version>${nexus-staging-maven-plugin.version}</version>
 						<extensions>true</extensions>
 						<executions>
 							<execution>
@@ -398,7 +414,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.0.0-M1</version>
+				<version>${maven-enforcer-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>enforce-versions</id>
@@ -422,7 +438,7 @@
 			<plugin>
 				<groupId>com.igormaznitsa</groupId>
 				<artifactId>jcp</artifactId>
-				<version>6.1.2</version>
+				<version>${jcp.version}</version>
 				<executions>
 					<execution>
 						<id>preprocessSources</id>
@@ -470,7 +486,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<excludes>
 						<exclude>org/joml/jre/**</exclude>
@@ -479,7 +495,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>${maven-resources-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -503,7 +519,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>1.4</version>
+				<version>${buildnumber-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<phase>validate</phase>
@@ -519,7 +535,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>${maven-jar-plugin.version}</version>
 				<configuration>
 					<excludes>
 						<!-- Exclude the Java 1.4 API classes when javaExclude is set -->
@@ -546,7 +562,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${maven-source-plugin.version}</version>
 				<configuration>
 					<excludes>
 						<!-- Exclude the Java 1.4 API classes from the sources jar -->
@@ -568,7 +584,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${maven-javadoc-plugin.version}</version>
 				<configuration>
 					<!-- Exclude the Java 1.4 API classes from the javadoc jar -->
 					<excludePackageNames>org.joml.jre</excludePackageNames>
@@ -588,13 +604,13 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.2</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>2.5.0</version>
+			<version>${gwt-user.version}</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
