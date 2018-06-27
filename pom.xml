@@ -203,7 +203,7 @@
 						<version>${maven-javadoc-plugin.version}</version>
 						<configuration>
 							<additionalOptions>
-								<additionalOption>-html4</additionalOption>
+								<additionalOption>-html5</additionalOption>
 							</additionalOptions>
 						</configuration>
 					</plugin>
