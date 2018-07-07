@@ -48,13 +48,13 @@
 		<maven-enforcer-plugin.version>3.0.0-M1</maven-enforcer-plugin.version>
 		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
 		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
-		<maven-gpg-plugin>1.6</maven-gpg-plugin>
-		<maven-deploy-plugin>2.8.2</maven-deploy-plugin>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
 		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
 		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
 		<buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
-		<nexus-staging-maven-plugin>1.6.8</nexus-staging-maven-plugin>
+		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<httpclient.version>4.5.5</httpclient.version>
 		<asm.version>6.2</asm.version>
 		<gwt-user.version>2.5.0</gwt-user.version>

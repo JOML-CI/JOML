@@ -582,7 +582,7 @@ public class Vector3i implements Externalizable, Vector3ic {
     public Vector3i mul(int scalar, Vector3i dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
-        dest.y = z * scalar;
+        dest.z = z * scalar;
         return dest;
     }
 
