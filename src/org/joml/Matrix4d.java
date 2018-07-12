@@ -14371,6 +14371,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31 + (other.m31() - m31) * t;
         dest.m32 = m32 + (other.m32() - m32) * t;
         dest.m33 = m33 + (other.m33() - m33) * t;
+        dest.properties = 0;
         return dest;
     }
 

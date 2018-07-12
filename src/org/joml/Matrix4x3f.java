@@ -8208,6 +8208,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dest.m30 = m30 + (other.m30() - m30) * t;
         dest.m31 = m31 + (other.m31() - m31) * t;
         dest.m32 = m32 + (other.m32() - m32) * t;
+        dest.properties = 0;
         return dest;
     }
 
