@@ -229,7 +229,7 @@ public interface Vector4ic {
      *          will hold the result
      * @return dest
      */
-    Vector4i mul(float scalar, Vector4i dest);
+    Vector4i mul(int scalar, Vector4i dest);
 
     /**
      * Divide all components of this {@link Vector4i} by the given scalar value
