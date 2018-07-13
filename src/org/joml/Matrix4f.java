@@ -13365,7 +13365,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m31(m31 + (other.m31() - m31) * t);
         dest._m32(m32 + (other.m32() - m32) * t);
         dest._m33(m33 + (other.m33() - m33) * t);
-        dest.properties = 0;
+        dest.properties = properties & other.properties();
         return dest;
     }
 
