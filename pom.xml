@@ -64,7 +64,6 @@
 		<hasNio>__HAS_NIO__</hasNio>
 		<javaExclude>org/joml/jre/**</javaExclude>
 		<moduleInfoExclude></moduleInfoExclude>
-		<nativeExcludes></nativeExcludes>
 		<variant>joml</variant>
 	</properties>
 	<distributionManagement>
@@ -92,7 +91,6 @@
 				<hasNio>__NHAS_NIO__</hasNio>
 				<javaExclude>org/joml/jre/**</javaExclude>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
-				<nativeExcludes>*</nativeExcludes>
 			</properties>
 		</profile>
 		<profile>
@@ -287,7 +285,6 @@
 				<variant>joml-gwt</variant>
 				<javaExclude></javaExclude>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
-				<nativeExcludes>*</nativeExcludes>
 			</properties>
 			<build>
 				<!-- Add the sources to the jar artifact -->
@@ -400,15 +397,6 @@
 	</profiles>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>native/build</directory>
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>${nativeExcludes}</exclude>
-				</excludes>
-			</resource>
-		</resources>
 		<testSourceDirectory>test</testSourceDirectory>
 		<finalName>${variant}-${project.version}</finalName>
 		<plugins>
@@ -570,8 +558,6 @@
 						<!-- Exclude GWT config -->
 						<exclude>org/joml/JOML.gwt.xml</exclude>
 					</excludes>
-					<!-- Exclude the natives -->
-					<excludeResources>true</excludeResources>
 				</configuration>
 				<executions>
 					<execution>
