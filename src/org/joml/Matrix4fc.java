@@ -3676,6 +3676,18 @@ public interface Matrix4fc {
     Vector4f getRow(int row, Vector4f dest) throws IndexOutOfBoundsException;
 
     /**
+     * Get the first three components of the row at the given <code>row</code> index, starting with <code>0</code>.
+     * 
+     * @param row
+     *          the row index in <code>[0..3]</code>
+     * @param dest
+     *          will hold the first three row components
+     * @return the passed in destination
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <code>[0..3]</code>
+     */
+    Vector3f getRow(int row, Vector3f dest) throws IndexOutOfBoundsException;
+
+    /**
      * Get the column at the given <code>column</code> index, starting with <code>0</code>.
      * 
      * @param column
@@ -3686,6 +3698,18 @@ public interface Matrix4fc {
      * @throws IndexOutOfBoundsException if <code>column</code> is not in <code>[0..3]</code>
      */
     Vector4f getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException;
+
+    /**
+     * Get the first three components of the column at the given <code>column</code> index, starting with <code>0</code>.
+     * 
+     * @param column
+     *          the column index in <code>[0..3]</code>
+     * @param dest
+     *          will hold the first three column components
+     * @return the passed in destination
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <code>[0..3]</code>
+     */
+    Vector3f getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException;
 
     /**
      * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>

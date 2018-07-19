@@ -263,6 +263,11 @@ public abstract class MemUtil {
     public abstract void putColumn2(Matrix4f src, Vector4f dest);
     public abstract void putColumn3(Matrix4f src, Vector4f dest);
 
+    public abstract void putColumn0(Matrix4f src, Vector3f dest);
+    public abstract void putColumn1(Matrix4f src, Vector3f dest);
+    public abstract void putColumn2(Matrix4f src, Vector3f dest);
+    public abstract void putColumn3(Matrix4f src, Vector3f dest);
+
     public abstract void getColumn0(Matrix4f dest, Vector4f src);
     public abstract void getColumn1(Matrix4f dest, Vector4f src);
     public abstract void getColumn2(Matrix4f dest, Vector4f src);
@@ -2601,6 +2606,30 @@ public abstract class MemUtil {
             dest.y = src.m31();
             dest.z = src.m32();
             dest.w = src.m33();
+        }
+
+        public void putColumn0(Matrix4f src, Vector3f dest) {
+            dest.x = src.m00();
+            dest.y = src.m01();
+            dest.z = src.m02();
+        }
+
+        public void putColumn1(Matrix4f src, Vector3f dest) {
+            dest.x = src.m10();
+            dest.y = src.m11();
+            dest.z = src.m12();
+        }
+
+        public void putColumn2(Matrix4f src, Vector3f dest) {
+            dest.x = src.m20();
+            dest.y = src.m21();
+            dest.z = src.m22();
+        }
+
+        public void putColumn3(Matrix4f src, Vector3f dest) {
+            dest.x = src.m30();
+            dest.y = src.m31();
+            dest.z = src.m32();
         }
 
         public void getColumn0(Matrix4f dest, Vector4f src) {

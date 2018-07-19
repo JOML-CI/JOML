@@ -11647,6 +11647,37 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#getRow(int, org.joml.Vector3f)
+     */
+    public Vector3f getRow(int row, Vector3f dest) throws IndexOutOfBoundsException {
+        switch (row) {
+        case 0:
+            dest.x = m00;
+            dest.y = m10;
+            dest.z = m20;
+            break;
+        case 1:
+            dest.x = m01;
+            dest.y = m11;
+            dest.z = m21;
+            break;
+        case 2:
+            dest.x = m02;
+            dest.y = m12;
+            dest.z = m22;
+            break;
+        case 3:
+            dest.x = m03;
+            dest.y = m13;
+            dest.z = m23;
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return dest;
+    }
+
     /**
      * Set the row at the given <code>row</code> index, starting with <code>0</code>.
      * 
@@ -11694,6 +11725,29 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#getColumn(int, org.joml.Vector4f)
      */
     public Vector4f getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException {
+        switch (column) {
+        case 0:
+            MemUtil.INSTANCE.putColumn0(this, dest);
+            break;
+        case 1:
+            MemUtil.INSTANCE.putColumn1(this, dest);
+            break;
+        case 2:
+            MemUtil.INSTANCE.putColumn2(this, dest);
+            break;
+        case 3:
+            MemUtil.INSTANCE.putColumn3(this, dest);
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#getColumn(int, org.joml.Vector3f)
+     */
+    public Vector3f getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
             MemUtil.INSTANCE.putColumn0(this, dest);

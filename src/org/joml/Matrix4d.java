@@ -8508,6 +8508,37 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#getRow(int, org.joml.Vector3d)
+     */
+    public Vector3d getRow(int row, Vector3d dest) throws IndexOutOfBoundsException {
+        switch (row) {
+        case 0:
+            dest.x = m00;
+            dest.y = m10;
+            dest.z = m20;
+            break;
+        case 1:
+            dest.x = m01;
+            dest.y = m11;
+            dest.z = m21;
+            break;
+        case 2:
+            dest.x = m02;
+            dest.y = m12;
+            dest.z = m22;
+            break;
+        case 3:
+            dest.x = m03;
+            dest.y = m13;
+            dest.z = m23;
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return dest;
+    }
+
     /**
      * Set the row at the given <code>row</code> index, starting with <code>0</code>.
      * 
@@ -8579,6 +8610,37 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             dest.y = m31;
             dest.z = m32;
             dest.w = m33;
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#getColumn(int, org.joml.Vector43)
+     */
+    public Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException {
+        switch (column) {
+        case 0:
+            dest.x = m00;
+            dest.y = m01;
+            dest.z = m02;
+            break;
+        case 1:
+            dest.x = m10;
+            dest.y = m11;
+            dest.z = m12;
+            break;
+        case 2:
+            dest.x = m20;
+            dest.y = m21;
+            dest.z = m22;
+            break;
+        case 3:
+            dest.x = m30;
+            dest.y = m31;
+            dest.z = m32;
             break;
         default:
             throw new IndexOutOfBoundsException();
