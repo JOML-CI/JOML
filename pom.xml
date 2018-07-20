@@ -209,6 +209,17 @@
 			</build>
 		</profile>
 		<profile>
+			<id>jdk12</id>
+			<activation>
+				<jdk>[12,)</jdk>
+			</activation>
+			<properties>
+				<!-- JDK12 cannot handle < 1.7 anymore -->
+				<maven.compiler.source>1.7</maven.compiler.source>
+				<maven.compiler.target>1.7</maven.compiler.target>
+			</properties>
+		</profile>
+		<profile>
 			<id>preJdk9</id>
 			<activation>
 				<jdk>[1.3,1.8]</jdk>
