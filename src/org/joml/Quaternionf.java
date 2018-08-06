@@ -1815,7 +1815,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         dest.y = sqrt * y;
         dest.z = sqrt * z;
         dest.w = sqrt * w;
-        return this;
+        return dest;
     }
 
     /**

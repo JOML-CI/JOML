@@ -1458,7 +1458,7 @@ public class Vector3f implements Externalizable, Vector3fc {
         dest.x = x < v.x() ? x : v.x();
         dest.y = y < v.y() ? y : v.y();
         dest.z = z < v.z() ? z : v.z();
-        return this;
+        return dest;
     }
 
     /**
@@ -1476,7 +1476,7 @@ public class Vector3f implements Externalizable, Vector3fc {
         dest.x = x > v.x() ? x : v.x();
         dest.y = y > v.y() ? y : v.y();
         dest.z = z > v.z() ? z : v.z();
-        return this;
+        return dest;
     }
 
     /**

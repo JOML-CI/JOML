@@ -666,7 +666,7 @@ public class Vector2i implements Externalizable, Vector2ic {
     public Vector2i min(Vector2ic v, Vector2i dest) {
         dest.x = x < v.x() ? x : v.x();
         dest.y = y < v.y() ? y : v.y();
-        return this;
+        return dest;
     }
 
     /**
@@ -683,7 +683,7 @@ public class Vector2i implements Externalizable, Vector2ic {
     public Vector2i max(Vector2ic v, Vector2i dest) {
         dest.x = x > v.x() ? x : v.x();
         dest.y = y > v.y() ? y : v.y();
-        return this;
+        return dest;
     }
 
     public int hashCode() {

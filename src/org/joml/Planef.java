@@ -133,7 +133,7 @@ public class Planef {
         dest.b = b * invLength;
         dest.c = c * invLength;
         dest.d = d * invLength;
-        return this;
+        return dest;
     }
 
     /**

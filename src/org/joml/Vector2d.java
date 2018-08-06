@@ -990,7 +990,7 @@ public class Vector2d implements Externalizable, Vector2dc {
     public Vector2d min(Vector2dc v, Vector2d dest) {
         dest.x = x < v.x() ? x : v.x();
         dest.y = y < v.y() ? y : v.y();
-        return this;
+        return dest;
     }
 
     /**
@@ -1007,7 +1007,7 @@ public class Vector2d implements Externalizable, Vector2dc {
     public Vector2d max(Vector2dc v, Vector2d dest) {
         dest.x = x > v.x() ? x : v.x();
         dest.y = y > v.y() ? y : v.y();
-        return this;
+        return dest;
     }
 
 }

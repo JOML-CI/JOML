@@ -943,7 +943,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     public Vector2f min(Vector2fc v, Vector2f dest) {
         dest.x = x < v.x() ? x : v.x();
         dest.y = y < v.y() ? y : v.y();
-        return this;
+        return dest;
     }
 
     /**
@@ -960,7 +960,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     public Vector2f max(Vector2fc v, Vector2f dest) {
         dest.x = x > v.x() ? x : v.x();
         dest.y = y > v.y() ? y : v.y();
-        return this;
+        return dest;
     }
 
 }

@@ -842,7 +842,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         dest.y = y < v.y() ? y : v.y();
         dest.z = z < v.z() ? z : v.z();
         dest.w = w < v.w() ? w : v.w();
-        return this;
+        return dest;
     }
 
     /**
@@ -861,7 +861,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         dest.y = y > v.y() ? y : v.y();
         dest.z = z > v.z() ? z : v.z();
         dest.w = w > v.w() ? w : v.w();
-        return this;
+        return dest;
     }
 
     public int hashCode() {
