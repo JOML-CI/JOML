@@ -44,7 +44,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.2</maven.compiler.source>
 		<maven.compiler.target>1.2</maven.compiler.target>
-		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 		<maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
 		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
 		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
@@ -55,8 +55,8 @@
 		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
 		<buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-		<httpclient.version>4.5.5</httpclient.version>
-		<asm.version>6.2</asm.version>
+		<httpclient.version>4.5.6</httpclient.version>
+		<asm.version>6.2.1</asm.version>
 		<gwt-user.version>2.5.0</gwt-user.version>
 		<junit.version>3.8.2</junit.version>
 		<jcp.version>6.1.4</jcp.version>
