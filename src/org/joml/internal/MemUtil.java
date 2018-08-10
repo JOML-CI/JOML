@@ -2698,17 +2698,6 @@ public abstract class MemUtil {
         public static final long Quaternionf_x;
         public static final long floatArrayOffset;
 
-//#ifdef __HAS_NIO__
-        /**
-         * Used to create a direct ByteBuffer for a known address.
-         */
-        private static native ByteBuffer newTestBuffer();
-        /**
-         * Return the pointer size (4 = 32-bit, 8 = 64-bit).
-         */
-        private static native int getPointerSize();
-//#endif
-
         static {
             UNSAFE = getUnsafeInstance();
             try {
@@ -2741,15 +2730,6 @@ public abstract class MemUtil {
         }
 
 //#ifdef __HAS_NIO__
-        private static boolean atLeastJava9(String classVersion) {
-            try {
-                double value = Double.parseDouble(classVersion);
-                return value >= 53.0;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-
         private static long findBufferAddress() {
             try {
                 return UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
