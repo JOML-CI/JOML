@@ -1659,6 +1659,22 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#lengthSquared()
      */
     public double lengthSquared() {
+        return lengthSquared(x, y, z);
+    }
+
+    /**
+     * Get the length squared of a 3-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     *
+     * @return the length squared of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double lengthSquared(double x, double y, double z) {
         return x * x + y * y + z * z;
     }
 
@@ -1673,6 +1689,8 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return the length squared of the given vector
      *
      * @author F. Neurath
+     *
+     * @deprecated method name has a typo, use {@link #lengthSquared(double, double, double)} instead
      */
     public static double lengthSqared(double x, double y, double z) {
         return x * x + y * y + z * z;
@@ -1698,7 +1716,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @author F. Neurath
      */
     public static double length(double x, double y, double z) {
-        return Math.sqrt(x * x + y * y + z * z);
+        return Math.sqrt(lengthSquared(x, y, z));
     }
 
     /**
@@ -1806,10 +1824,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#distance(double, double, double)
      */
     public double distance(double x, double y, double z) {
-        double dx = this.x - x;
-        double dy = this.y - y;
-        double dz = this.z - z;
-        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+        return Math.sqrt(distanceSquared(x, y, z));
     }
 
     /* (non-Javadoc)

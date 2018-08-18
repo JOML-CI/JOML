@@ -1238,7 +1238,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#lengthSquared()
      */
     public float lengthSquared() {
-        return x * x + y * y + z * z;
+        return lengthSquared(x, y, z);
     }
 
     /**
@@ -1277,7 +1277,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @author F. Neurath
      */
     public static float length(float x, float y, float z) {
-        return (float) Math.sqrt(x * x + y * y + z * z);
+        return (float) Math.sqrt(lengthSquared(x, y, z));
     }
 
     /**

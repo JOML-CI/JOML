@@ -468,6 +468,18 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @see org.joml.Vector2ic#lengthSquared()
      */
     public long lengthSquared() {
+        return lengthSquared(x, y);
+    }
+
+    /**
+     * Get the length squared of a 2-dimensional single-precision vector.
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     *
+     * @return the length squared of the given vector
+     */
+    public static long lengthSquared(int x, int y) {
         return x * x + y * y;
     }
 
@@ -476,6 +488,18 @@ public class Vector2i implements Externalizable, Vector2ic {
      */
     public double length() {
         return Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Get the length of a 2-dimensional single-precision vector.
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     *
+     * @return the length squared of the given vector
+     */
+    public static double length(int x, int y) {
+        return Math.sqrt(lengthSquared(x, y));
     }
 
     /* (non-Javadoc)

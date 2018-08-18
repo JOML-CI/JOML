@@ -638,6 +638,45 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Vector2dc#lengthSqared()
+     */
+    public double lengthSquared() {
+        return lengthSquared(x, y);
+    }
+
+    /**
+     * Get the length squared of a 2-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     *
+     * @return the length squared of the given vector
+     *
+     * @author F. Neurath
+     */
+    public static double lengthSquared(double x, double y) {
+        return x * x + y * y;
+    }
+
+    /**
+     * Get the length squared of a 2-dimensional double-precision vector.
+     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     *
+     * @return the length squared of the given vector
+     *
+     * @author F. Neurath
+     *
+     * @deprecated method name has a typo, use {@link #lengthSquared(double, double)} instead
+     */
+    public static double lengthSqared(double x, double y) {
+        return x * x + y * y;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Vector2dc#length()
      */
     public double length() {
@@ -656,29 +695,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @author F. Neurath
      */
     public static double length(double x, double y) {
-        return Math.sqrt(x * x + y * y);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector2dc#lengthSqared()
-     */
-    public double lengthSquared() {
-        return x * x + y * y;
-    }
-
-    /**
-     * Get the length squared of a 2-dimensional double-precision vector.
-     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
-     *
-     * @param x The vector's x component
-     * @param y The vector's y component
-     *
-     * @return the length squared of the given vector
-     *
-     * @author F. Neurath
-     */
-    public static double lengthSqared(double x, double y) {
-        return x * x + y * y;
+        return Math.sqrt(lengthSquared(x, y));
     }
 
     /* (non-Javadoc)
@@ -689,6 +706,13 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Vector2dc#distanceSquared(org.joml.Vector2dc)
+     */
+    public double distanceSquared(Vector2dc v) {
+        return distanceSquared(v.x(), v.y());
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Vector2dc#distance(org.joml.Vector2fc)
      */
     public double distance(Vector2fc v) {
@@ -696,12 +720,26 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Vector2dc#distanceSquared(org.joml.Vector2fc)
+     */
+    public double distanceSquared(Vector2fc v) {
+        return distanceSquared(v.x(), v.y());
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Vector2dc#distance(double, double)
      */
     public double distance(double x, double y) {
+        return Math.sqrt(distanceSquared(x, y));
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#distanceSquared(double, double)
+     */
+    public double distanceSquared(double x, double y) {
         double dx = this.x - x;
         double dy = this.y - y;
-        return Math.sqrt(dx * dx + dy * dy);
+        return dx * dx + dy * dy;
     }
 
     /**

@@ -565,14 +565,14 @@ public interface Vector3fc {
 
     /**
      * Return the length squared of this vector.
-     * 
+     *
      * @return the length squared
      */
     float lengthSquared();
 
     /**
      * Return the length of this vector.
-     * 
+     *
      * @return the length
      */
     float length();

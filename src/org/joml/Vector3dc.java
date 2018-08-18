@@ -768,14 +768,14 @@ public interface Vector3dc {
 
     /**
      * Return the length squared of this vector.
-     * 
+     *
      * @return the length squared
      */
     double lengthSquared();
 
     /**
      * Return the length of this vector.
-     * 
+     *
      * @return the length
      */
     double length();

@@ -1243,7 +1243,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#lengthSquared()
      */
     public double lengthSquared() {
-        return x * x + y * y + z * z + w * w;
+        return lengthSquared(x, y, z, w);
     }
 
     /**
@@ -1284,7 +1284,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @author F. Neurath
      */
     public static double length(double x, double y, double z, double w) {
-        return Math.sqrt(x * x + y * y + z * z + w * w);
+        return Math.sqrt(lengthSquared(x, y, z, w));
     }
 
     /**

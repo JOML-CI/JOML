@@ -167,18 +167,18 @@ public interface Vector2fc {
     float angle(Vector2fc v);
 
     /**
+     * Return the length squared of this vector.
+     *
+     * @return the length squared
+     */
+    float lengthSquared();
+
+    /**
      * Return the length of this vector.
      * 
      * @return the length
      */
     float length();
-
-    /**
-     * Return the length squared of this vector.
-     * 
-     * @return the length squared
-     */
-    float lengthSquared();
 
     /**
      * Return the distance between this and <code>v</code>.

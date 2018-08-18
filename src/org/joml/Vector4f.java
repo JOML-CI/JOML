@@ -1116,7 +1116,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#lengthSquared()
      */
     public float lengthSquared() {
-        return x * x + y * y + z * z + w * w;
+        return lengthSquared(x, y, z, w);
     }
 
     /**
@@ -1132,6 +1132,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      *
      * @author F. Neurath
      */
+    public static float lengthSquared(float x, float y, float z, float w) {
+        return x * x + y * y + z * z + w * w;
+    }
+
     public static float lengthSquared(int x, int y, int z, int w) {
         return x * x + y * y + z * z + w * w;
     }

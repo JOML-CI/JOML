@@ -241,13 +241,6 @@ public interface Vector2dc {
     double angle(Vector2dc v);
 
     /**
-     * Return the length of this vector.
-     * 
-     * @return the length
-     */
-    double length();
-
-    /**
      * Return the length squared of this vector.
      *
      * @return the length squared
@@ -255,26 +248,51 @@ public interface Vector2dc {
     double lengthSquared();
 
     /**
-     * Return the distance between <code>this</code> and <code>v</code>.
+     * Return the length of this vector.
      * 
+     * @return the length
+     */
+    double length();
+
+    /**
+     * Return the distance between this and <code>v</code>.
+     *
      * @param v
-     *          the other vector
-     * @return the euclidean distance
+     *        the other vector
+     * @return the distance
      */
     double distance(Vector2dc v);
 
     /**
-     * Return the distance between <code>this</code> and <code>v</code>.
-     * 
+     * Return the distance squared between this and <code>v</code>.
+     *
      * @param v
-     *          the other vector
-     * @return the euclidean distance
+     *        the other vector
+     * @return the distance squared
+     */
+    double distanceSquared(Vector2dc v);
+
+    /**
+     * Return the distance between this and <code>v</code>.
+     *
+     * @param v
+     *        the other vector
+     * @return the distance
      */
     double distance(Vector2fc v);
 
     /**
+     * Return the distance squared between this and <code>v</code>.
+     *
+     * @param v
+     *        the other vector
+     * @return the distance squared
+     */
+    double distanceSquared(Vector2fc v);
+
+    /**
      * Return the distance between <code>this</code> vector and <code>(x, y)</code>.
-     * 
+     *
      * @param x
      *          the x component of the other vector
      * @param y
@@ -282,6 +300,17 @@ public interface Vector2dc {
      * @return the euclidean distance
      */
     double distance(double x, double y);
+
+    /**
+     * Return the distance squared between <code>this</code> vector and <code>(x, y)</code>.
+     *
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @return the euclidean distance squared
+     */
+    double distanceSquared(double x, double y);
 
     /**
      * Normalize this vector and store the result in <code>dest</code>.
