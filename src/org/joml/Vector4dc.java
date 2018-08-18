@@ -422,7 +422,7 @@ public interface Vector4dc {
 
     /**
      * Return the length squared of this vector.
-     * 
+     *
      * @return the length squared
      */
     double lengthSquared();

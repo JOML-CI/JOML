@@ -636,6 +636,19 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @see org.joml.Vector3ic#lengthSquared()
      */
     public long lengthSquared() {
+        return lengthSquared(x, y, z);
+    }
+
+    /**
+     * Get the length squared of a 3-dimensional single-precision vector.
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     *
+     * @return the length squared of the given vector
+     */
+    public static long lengthSquared(int x, int y, int z) {
         return x * x + y * y + z * z;
     }
 
@@ -644,6 +657,19 @@ public class Vector3i implements Externalizable, Vector3ic {
      */
     public double length() {
         return Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Get the length of a 3-dimensional single-precision vector.
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     *
+     * @return the length squared of the given vector
+     */
+    public static double length(int x, int y, int z) {
+        return Math.sqrt(lengthSquared(x, y, z));
     }
 
     /* (non-Javadoc)

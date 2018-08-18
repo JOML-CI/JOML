@@ -710,6 +710,20 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#lengthSquared()
      */
     public long lengthSquared() {
+        return lengthSquared(x, y, z, w);
+    }
+
+    /**
+     * Get the length squared of a 4-dimensional single-precision vector.
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     * @param w The vector's w component
+     *
+     * @return the length squared of the given vector
+     */
+    public static long lengthSquared(int x, int y, int z, int w) {
         return x * x + y * y + z * z + w * w;
     }
 
@@ -718,6 +732,20 @@ public class Vector4i implements Externalizable, Vector4ic {
      */
     public double length() {
         return Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Get the length of a 4-dimensional single-precision vector.
+     *
+     * @param x The vector's x component
+     * @param y The vector's y component
+     * @param z The vector's z component
+     * @param w The vector's w component
+     *
+     * @return the length squared of the given vector
+     */
+    public static double length(int x, int y, int z, int w) {
+        return Math.sqrt(lengthSquared(x, y, z, w));
     }
 
     /* (non-Javadoc)
