@@ -1356,18 +1356,86 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#distance(org.joml.Vector4dc)
      */
     public double distance(Vector4dc v) {
-    	return distance(v.x(), v.y(), v.z(), v.w());
+        return distance(v.x(), v.y(), v.z(), v.w());
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4dc#distance(double, double, double, double)
      */
     public double distance(double x, double y, double z, double w) {
+        return (float) Math.sqrt(distanceSquared(x, y, z, w));
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#distanceSquared(org.joml.Vector4dc)
+     */
+    public double distanceSquared(Vector4dc v) {
+        return distanceSquared(v.x(), v.y(), v.z(), v.w());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#distanceSquared(double, double, double, double)
+     */
+    public double distanceSquared(double x, double y, double z, double w) {
         double dx = this.x - x;
         double dy = this.y - y;
         double dz = this.z - z;
         double dw = this.w - w;
-        return Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+        return dx * dx + dy * dy + dz * dz + dw * dw;
+    }
+
+    /**
+     * Return the distance between <code>(x1, y1, z1, w1)</code> and <code>(x2, y2, z2, w2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param z1
+     *          the z component of the first vector
+     * @param w1
+     *          the w component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @param z2
+     *          the z component of the second vector
+     * @param w2
+     *          the 2 component of the second vector
+     * @return the euclidean distance
+     */
+    public static double distance(double x1, double y1, double z1, double w1, double x2, double y2, double z2, double w2) {
+        return Math.sqrt(distanceSquared(x1, y1, z1, w1, x2, y2, z2, w2));
+    }
+
+    /**
+     * Return the squared distance between <code>(x1, y1, z1, w1)</code> and <code>(x2, y2, z2, w2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param z1
+     *          the z component of the first vector
+     * @param w1
+     *          the w component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @param z2
+     *          the z component of the second vector
+     * @param w2
+     *          the w component of the second vector
+     * @return the euclidean distance squared
+     */
+    public static double distanceSquared(double x1, double y1, double z1, double w1, double x2, double y2, double z2, double w2) {
+        double dx = x1 - x2;
+        double dy = y1 - y2;
+        double dz = z1 - z2;
+        double dw = w1 - w2;
+        return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
     /* (non-Javadoc)

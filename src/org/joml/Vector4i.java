@@ -749,7 +749,7 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distance(org.joml.Vector4i)
+     * @see org.joml.Vector4ic#distance(org.joml.Vector4ic)
      */
     public double distance(Vector4ic v) {
         return distance(v.x(), v.y(), v.z(), v.w());
@@ -777,6 +777,60 @@ public class Vector4i implements Externalizable, Vector4ic {
         int dy = this.y - y;
         int dz = this.z - z;
         int dw = this.w - w;
+        return dx * dx + dy * dy + dz * dz + dw * dw;
+    }
+
+    /**
+     * Return the distance between <code>(x1, y1, z1, w1)</code> and <code>(x2, y2, z2, w2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param z1
+     *          the z component of the first vector
+     * @param w1
+     *          the w component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @param z2
+     *          the z component of the second vector
+     * @param w2
+     *          the 2 component of the second vector
+     * @return the euclidean distance
+     */
+    public static double distance(int x1, int y1, int z1, int w1, int x2, int y2, int z2, int w2) {
+        return Math.sqrt(distanceSquared(x1, y1, z1, w1, x2, y2, z2, w2));
+    }
+
+    /**
+     * Return the squared distance between <code>(x1, y1, z1, w1)</code> and <code>(x2, y2, z2, w2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param z1
+     *          the z component of the first vector
+     * @param w1
+     *          the w component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @param z2
+     *          the z component of the second vector
+     * @param w2
+     *          the w component of the second vector
+     * @return the euclidean distance squared
+     */
+    public static long distanceSquared(int x1, int y1, int z1, int w1, int x2, int y2, int z2, int w2) {
+        int dx = x1 - x2;
+        int dy = y1 - y2;
+        int dz = z1 - z2;
+        int dw = w1 - w2;
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
