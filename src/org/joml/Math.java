@@ -294,6 +294,26 @@ public class Math {
         return java.lang.Math.floor(v);
     }
 
+    public static float floor(float v) {
+        return (float) java.lang.Math.floor(v);
+    }
+
+    public static double ceil(double v) {
+        return java.lang.Math.ceil(v);
+    }
+
+    public static float ceil(float v) {
+        return (float) java.lang.Math.ceil(v);
+    }
+
+    public static long round(double v) {
+        return java.lang.Math.round(v);
+    }
+
+    public static int round(float v) {
+        return java.lang.Math.round(v);
+    }
+
     public static double exp(double a) {
     	return java.lang.Math.exp(a);
     }

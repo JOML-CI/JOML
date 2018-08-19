@@ -415,6 +415,27 @@ public interface Vector2fc {
     float get(int component) throws IllegalArgumentException;
 
     /**
+     * Floor each component of this vector
+     *
+     * @return dest
+     */
+    Vector2f floor(Vector2f dest);
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return dest
+     */
+    Vector2f ceil(Vector2f dest);
+
+    /**
+     * Round each component of this vector
+     *
+     * @return dest
+     */
+    Vector2f round(Vector2f dest);
+
+    /**
      * Returns {@code true} if all the components are a finite floating-point value;
      * returns {@code false} otherwise (if any component is NaN and infinity).
      *

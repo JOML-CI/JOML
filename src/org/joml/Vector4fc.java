@@ -637,6 +637,27 @@ public interface Vector4fc {
     float get(int component) throws IllegalArgumentException;
 
     /**
+     * Floor each component of this vector
+     *
+     * @return dest
+     */
+    Vector4f floor(Vector4f dest);
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return dest
+     */
+    Vector4f ceil(Vector4f dest);
+
+    /**
+     * Round each component of this vector
+     *
+     * @return dest
+     */
+    Vector4f round(Vector4f dest);
+
+    /**
      * Returns {@code true} if all the components are a finite floating-point value;
      * returns {@code false} otherwise (if any component is NaN and infinity).
      *

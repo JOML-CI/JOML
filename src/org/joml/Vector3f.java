@@ -1889,6 +1889,54 @@ public class Vector3f implements Externalizable, Vector3fc {
         return orthogonalizeUnit(v, thisOrNew());
     }
 
+    /**
+     * Floor each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector3f floor() {
+        return floor(thisOrNew());
+    }
+
+    public Vector3f floor(Vector3f dest) {
+        dest.x = Math.floor(x);
+        dest.y = Math.floor(y);
+        dest.z = Math.floor(z);
+        return dest;
+    }
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector3f ceil() {
+        return ceil(thisOrNew());
+    }
+
+    public Vector3f ceil(Vector3f dest) {
+        dest.x = Math.ceil(x);
+        dest.y = Math.ceil(y);
+        dest.z = Math.ceil(z);
+        return dest;
+    }
+
+    /**
+     * Round each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector3f round() {
+        return round(thisOrNew());
+    }
+
+    public Vector3f round(Vector3f dest) {
+        dest.x = Math.round(x);
+        dest.y = Math.round(y);
+        dest.z = Math.round(z);
+        return dest;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3fc#isFinite()
      */

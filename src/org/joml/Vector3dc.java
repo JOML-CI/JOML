@@ -1113,6 +1113,27 @@ public interface Vector3dc {
     Vector3d orthogonalizeUnit(Vector3dc v, Vector3d dest);
 
     /**
+     * Floor each component of this vector
+     *
+     * @return dest
+     */
+    Vector3d floor(Vector3d dest);
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return dest
+     */
+    Vector3d ceil(Vector3d dest);
+
+    /**
+     * Round each component of this vector
+     *
+     * @return dest
+     */
+    Vector3d round(Vector3d dest);
+
+    /**
      * Returns {@code true} if all the components are a finite floating-point value;
      * returns {@code false} otherwise (if any component is NaN and infinity).
      *

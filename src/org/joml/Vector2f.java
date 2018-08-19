@@ -999,6 +999,51 @@ public class Vector2f implements Externalizable, Vector2fc {
         return dest;
     }
 
+    /**
+     * Floor each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector2f floor() {
+        return floor(thisOrNew());
+    }
+
+    public Vector2f floor(Vector2f dest) {
+        dest.x = Math.floor(x);
+        dest.y = Math.floor(y);
+        return dest;
+    }
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector2f ceil() {
+        return ceil(thisOrNew());
+    }
+
+    public Vector2f ceil(Vector2f dest) {
+        dest.x = Math.ceil(x);
+        dest.y = Math.ceil(y);
+        return dest;
+    }
+
+    /**
+     * Round each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector2f round() {
+        return ceil(thisOrNew());
+    }
+
+    public Vector2f round(Vector2f dest) {
+        dest.x = Math.round(x);
+        dest.y = Math.round(y);
+        return dest;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector2fc#isFinite()
      */

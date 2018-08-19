@@ -2329,6 +2329,54 @@ public class Vector3d implements Externalizable, Vector3dc {
         return orthogonalizeUnit(v, thisOrNew());
     }
 
+    /**
+     * Floor each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector3d floor() {
+        return floor(thisOrNew());
+    }
+
+    public Vector3d floor(Vector3d dest) {
+        dest.x = Math.floor(x);
+        dest.y = Math.floor(y);
+        dest.z = Math.floor(z);
+        return dest;
+    }
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector3d ceil() {
+        return ceil(thisOrNew());
+    }
+
+    public Vector3d ceil(Vector3d dest) {
+        dest.x = Math.ceil(x);
+        dest.y = Math.ceil(y);
+        dest.z = Math.ceil(z);
+        return dest;
+    }
+
+    /**
+     * Round each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector3d round() {
+        return round(thisOrNew());
+    }
+
+    public Vector3d round(Vector3d dest) {
+        dest.x = Math.round(x);
+        dest.y = Math.round(y);
+        dest.z = Math.round(z);
+        return dest;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#isFinite()
      */
