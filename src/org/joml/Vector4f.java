@@ -1240,11 +1240,79 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#distance(float, float, float, float)
      */
     public float distance(float x, float y, float z, float w) {
+        return (float) Math.sqrt(distanceSquared(x, y, z, w));
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#distanceSquared(org.joml.Vector4fc)
+     */
+    public float distanceSquared(Vector4fc v) {
+        return distanceSquared(v.x(), v.y(), v.z(), v.w());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#distanceSquared(float, float, float, float)
+     */
+    public float distanceSquared(float x, float y, float z, float w) {
         float dx = this.x - x;
         float dy = this.y - y;
         float dz = this.z - z;
         float dw = this.w - w;
-        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+        return dx * dx + dy * dy + dz * dz + dw * dw;
+    }
+
+    /**
+     * Return the distance between <code>(x1, y1, z1, w1)</code> and <code>(x2, y2, z2, w2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param z1
+     *          the z component of the first vector
+     * @param w1
+     *          the w component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @param z2
+     *          the z component of the second vector
+     * @param w2
+     *          the 2 component of the second vector
+     * @return the euclidean distance
+     */
+    public static float distance(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2) {
+        return (float) Math.sqrt(distanceSquared(x1, y1, z1, w1, x2, y2, z2, w2));
+    }
+
+    /**
+     * Return the squared distance between <code>(x1, y1, z1, w1)</code> and <code>(x2, y2, z2, w2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param z1
+     *          the z component of the first vector
+     * @param w1
+     *          the w component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @param z2
+     *          the z component of the second vector
+     * @param w2
+     *          the w component of the second vector
+     * @return the euclidean distance squared
+     */
+    public static float distanceSquared(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2) {
+        float dx = x1 - x2;
+        float dy = y1 - y2;
+        float dz = z1 - z2;
+        float dw = w1 - w2;
+        return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
     /* (non-Javadoc)

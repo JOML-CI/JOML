@@ -1408,6 +1408,51 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dx * dx + dy * dy + dz * dz;
     }
 
+    /**
+     * Return the distance between <code>(x1, y1, z1)</code> and <code>(x2, y2, z2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param z1
+     *          the z component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @param z2
+     *          the z component of the second vector
+     * @return the euclidean distance
+     */
+    public static float distance(float x1, float y1, float z1, float x2, float y2, float z2) {
+        return (float) Math.sqrt(distanceSquared(x1, y1, z1, x2, y2, z2));
+    }
+
+    /**
+     * Return the squared distance between <code>(x1, y1, z1)</code> and <code>(x2, y2, z2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param z1
+     *          the z component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @param z2
+     *          the z component of the second vector
+     * @return the euclidean distance squared
+     */
+    public static float distanceSquared(float x1, float y1, float z1, float x2, float y2, float z2) {
+        float dx = x1 - x2;
+        float dy = y1 - y2;
+        float dz = z1 - z2;
+        return dx * dx + dy * dy + dz * dz;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3fc#dot(org.joml.Vector3fc)
      */

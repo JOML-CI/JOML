@@ -448,17 +448,17 @@ public interface Vector4fc {
     Vector4f normalize(float length, Vector4f dest);
 
     /**
-     * Return the distance between <code>this</code> vector and <code>v</code>.
-     * 
+     * Return the distance between this Vector and <code>v</code>.
+     *
      * @param v
      *          the other vector
-     * @return the euclidean distance
+     * @return the distance
      */
     float distance(Vector4fc v);
 
     /**
      * Return the distance between <code>this</code> vector and <code>(x, y, z, w)</code>.
-     * 
+     *
      * @param x
      *          the x component of the other vector
      * @param y
@@ -470,6 +470,31 @@ public interface Vector4fc {
      * @return the euclidean distance
      */
     float distance(float x, float y, float z, float w);
+
+    /**
+     * Return the square of the distance between this vector and <code>v</code>.
+     *
+     * @param v
+     *          the other vector
+     * @return the squared of the distance
+     */
+    float distanceSquared(Vector4fc v);
+
+    /**
+     * Return the square of the distance between <code>this</code> vector and
+     * <code>(x, y, z, w)</code>.
+     *
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @param w
+     *          the w component of the other vector
+     * @return the square of the distance
+     */
+    float distanceSquared(float x, float y, float z, float w);
 
     /**
      * Compute the dot product (inner product) of this vector and <code>v</code>

@@ -533,6 +533,42 @@ public class Vector2i implements Externalizable, Vector2ic {
         int dy = this.y - y;
         return dx * dx + dy * dy;
     }
+
+    /**
+     * Return the distance between <code>(x1, y1)</code> and <code>(x2, y2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @return the euclidean distance
+     */
+    public static double distance(int x1, int y1, int x2, int y2) {
+        return Math.sqrt(distanceSquared(x1, y1, x2, y2));
+    }
+
+    /**
+     * Return the squared distance between <code>(x1, y1)</code> and <code>(x2, y2)</code>.
+     *
+     * @param x1
+     *          the x component of the first vector
+     * @param y1
+     *          the y component of the first vector
+     * @param x2
+     *          the x component of the second vector
+     * @param y2
+     *          the y component of the second vector
+     * @return the euclidean distance squared
+     */
+    public static long distanceSquared(int x1, int y1, int x2, int y2) {
+        int dx = x1 - x2;
+        int dy = y1 - y2;
+        return dx * dx + dy * dy;
+    }
     
     /**
      * Add <code>v</code> to this vector.
