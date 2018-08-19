@@ -1084,6 +1084,51 @@ public class Vector2d implements Externalizable, Vector2dc {
         return dest;
     }
 
+    /**
+     * Floor each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector2d floor() {
+        return floor(thisOrNew());
+    }
+
+    public Vector2d floor(Vector2d dest) {
+        dest.x = Math.floor(x);
+        dest.y = Math.floor(y);
+        return dest;
+    }
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector2d ceil() {
+        return ceil(thisOrNew());
+    }
+
+    public Vector2d ceil(Vector2d dest) {
+        dest.x = Math.ceil(x);
+        dest.y = Math.ceil(y);
+        return dest;
+    }
+
+    /**
+     * Round each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector2d round() {
+        return round(thisOrNew());
+    }
+
+    public Vector2d round(Vector2d dest) {
+        dest.x = Math.round(x);
+        dest.y = Math.round(y);
+        return dest;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#isFinite()
      */

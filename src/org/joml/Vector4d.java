@@ -1701,6 +1701,57 @@ public class Vector4d implements Externalizable, Vector4dc {
         }
     }
 
+    /**
+     * Floor each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector4d floor() {
+        return floor(thisOrNew());
+    }
+
+    public Vector4d floor(Vector4d dest) {
+        dest.x = Math.floor(x);
+        dest.y = Math.floor(y);
+        dest.z = Math.floor(z);
+        dest.w = Math.floor(w);
+        return dest;
+    }
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector4d ceil() {
+        return ceil(thisOrNew());
+    }
+
+    public Vector4d ceil(Vector4d dest) {
+        dest.x = Math.ceil(x);
+        dest.y = Math.ceil(y);
+        dest.z = Math.ceil(z);
+        dest.w = Math.ceil(w);
+        return dest;
+    }
+
+    /**
+     * Round each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector4d round() {
+        return round(thisOrNew());
+    }
+
+    public Vector4d round(Vector4d dest) {
+        dest.x = Math.round(x);
+        dest.y = Math.round(y);
+        dest.z = Math.round(z);
+        dest.w = Math.round(w);
+        return dest;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector4dc#isFinite()
      */

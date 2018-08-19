@@ -654,6 +654,27 @@ public interface Vector4dc {
     double get(int component) throws IllegalArgumentException;
 
     /**
+     * Floor each component of this vector
+     *
+     * @return dest
+     */
+    Vector4d floor(Vector4d dest);
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return dest
+     */
+    Vector4d ceil(Vector4d dest);
+
+    /**
+     * Round each component of this vector
+     *
+     * @return dest
+     */
+    Vector4d round(Vector4d dest);
+
+    /**
      * Returns {@code true} if all the components are a finite floating-point value;
      * returns {@code false} otherwise (if any component is NaN and infinity).
      *

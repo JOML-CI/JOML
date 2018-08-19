@@ -1574,6 +1574,57 @@ public class Vector4f implements Externalizable, Vector4fc {
         }
     }
 
+    /**
+     * Floor each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector4f floor() {
+        return floor(thisOrNew());
+    }
+
+    public Vector4f floor(Vector4f dest) {
+        dest.x = Math.floor(x);
+        dest.y = Math.floor(y);
+        dest.z = Math.floor(z);
+        dest.w = Math.floor(w);
+        return dest;
+    }
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector4f ceil() {
+        return ceil(thisOrNew());
+    }
+
+    public Vector4f ceil(Vector4f dest) {
+        dest.x = Math.ceil(x);
+        dest.y = Math.ceil(y);
+        dest.z = Math.ceil(z);
+        dest.w = Math.ceil(w);
+        return dest;
+    }
+
+    /**
+     * Round each component of this vector
+     *
+     * @return a vector holding the result
+     */
+    public Vector4f round() {
+        return round(thisOrNew());
+    }
+
+    public Vector4f round(Vector4f dest) {
+        dest.x = Math.round(x);
+        dest.y = Math.round(y);
+        dest.z = Math.round(z);
+        dest.w = Math.round(w);
+        return dest;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#isFinite()
      */

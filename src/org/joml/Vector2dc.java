@@ -454,6 +454,27 @@ public interface Vector2dc {
     double get(int component) throws IllegalArgumentException;
 
     /**
+     * Floor each component of this vector
+     *
+     * @return dest
+     */
+    Vector2d floor(Vector2d dest);
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return dest
+     */
+    Vector2d ceil(Vector2d dest);
+
+    /**
+     * Round each component of this vector
+     *
+     * @return dest
+     */
+    Vector2d round(Vector2d dest);
+
+    /**
      * Returns {@code true} if all the components are a finite floating-point value;
      * returns {@code false} otherwise (if any component is NaN and infinity).
      *

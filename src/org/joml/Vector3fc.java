@@ -909,6 +909,27 @@ public interface Vector3fc {
     Vector3f orthogonalizeUnit(Vector3fc v, Vector3f dest);
 
     /**
+     * Floor each component of this vector
+     *
+     * @return dest
+     */
+    Vector3f floor(Vector3f dest);
+
+    /**
+     * Ceil each component of this vector
+     *
+     * @return dest
+     */
+    Vector3f ceil(Vector3f dest);
+
+    /**
+     * Round each component of this vector
+     *
+     * @return dest
+     */
+    Vector3f round(Vector3f dest);
+
+    /**
      * Returns {@code true} if all the components are a finite floating-point value;
      * returns {@code false} otherwise (if any component is NaN and infinity).
      *
