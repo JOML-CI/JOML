@@ -1113,6 +1113,14 @@ public interface Vector3dc {
     Vector3d orthogonalizeUnit(Vector3dc v, Vector3d dest);
 
     /**
+     * Returns {@code true} if all the components are a finite floating-point value;
+     * returns {@code false} otherwise (if any component is NaN and infinity).
+     *
+     * @return {@code true} if all the components are a finite floating-point value, {@code false} otherwise.
+     */
+    boolean isFinite();
+
+    /**
      * Compare the vector components of <code>this</code> vector with the given vector using the given <code>delta</code>
      * and return whether all of them are equal within a maximum difference of <code>delta</code>.
      * <p>

@@ -1506,4 +1506,10 @@ public class Vector4f implements Externalizable, Vector4fc {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#isFinite()
+     */
+    public boolean isFinite() {
+        return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
+    }
 }

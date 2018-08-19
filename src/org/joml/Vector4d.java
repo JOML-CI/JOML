@@ -1633,4 +1633,10 @@ public class Vector4d implements Externalizable, Vector4dc {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#isFinite()
+     */
+    public boolean isFinite() {
+        return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
+    }
 }

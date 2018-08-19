@@ -963,4 +963,11 @@ public class Vector2f implements Externalizable, Vector2fc {
         return dest;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#isFinite()
+     */
+    public boolean isFinite() {
+        return Math.isFinite(x) && Math.isFinite(y);
+    }
+
 }
