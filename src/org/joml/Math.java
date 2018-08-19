@@ -298,4 +298,11 @@ public class Math {
     	return java.lang.Math.exp(a);
     }
 
+    public static boolean isFinite(double d) {
+        return abs(d) <= Double.MAX_VALUE;
+    }
+
+    public static boolean isFinite(float f) {
+        return abs(f) <= Float.MAX_VALUE;
+    }
 }

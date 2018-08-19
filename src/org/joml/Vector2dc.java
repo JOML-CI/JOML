@@ -454,6 +454,14 @@ public interface Vector2dc {
     double get(int component) throws IllegalArgumentException;
 
     /**
+     * Returns {@code true} if all the components are a finite floating-point value;
+     * returns {@code false} otherwise (if any component is NaN and infinity).
+     *
+     * @return {@code true} if all the components are a finite floating-point value, {@code false} otherwise.
+     */
+    boolean isFinite();
+
+    /**
      * Compare the vector components of <code>this</code> vector with the given vector using the given <code>delta</code>
      * and return whether all of them are equal within a maximum difference of <code>delta</code>.
      * <p>
@@ -468,5 +476,4 @@ public interface Vector2dc {
      * @return <code>true</code> whether all of the vector components are equal; <code>false</code> otherwise
      */
     boolean equals(Vector2dc v, double delta);
-
 }

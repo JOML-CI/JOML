@@ -2284,4 +2284,11 @@ public class Vector3d implements Externalizable, Vector3dc {
         return orthogonalizeUnit(v, thisOrNew());
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#isFinite()
+     */
+    public boolean isFinite() {
+        return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z);
+    }
+
 }

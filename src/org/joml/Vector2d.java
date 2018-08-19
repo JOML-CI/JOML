@@ -1048,4 +1048,11 @@ public class Vector2d implements Externalizable, Vector2dc {
         return dest;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#isFinite()
+     */
+    public boolean isFinite() {
+        return Math.isFinite(x) && Math.isFinite(y);
+    }
+
 }

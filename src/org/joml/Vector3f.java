@@ -1844,4 +1844,11 @@ public class Vector3f implements Externalizable, Vector3fc {
         return orthogonalizeUnit(v, thisOrNew());
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#isFinite()
+     */
+    public boolean isFinite() {
+        return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z);
+    }
+
 }
