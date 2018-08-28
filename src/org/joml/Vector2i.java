@@ -774,6 +774,17 @@ public class Vector2i implements Externalizable, Vector2ic {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector2ic#equals(int, int)
+     */
+    public boolean equals(int x, int y) {
+        if (this.x != x)
+            return false;
+        if (this.y != y)
+            return false;
+        return true;
+    }
+
     /**
      * Return a string representation of this vector.
      * <p>

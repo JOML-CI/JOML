@@ -984,6 +984,17 @@ public class Vector2d implements Externalizable, Vector2dc {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#equals(double, double)
+     */
+    public boolean equals(double x, double y) {
+        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(x))
+            return false;
+        if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(y))
+            return false;
+        return true;
+    }
+
     /**
      * Return a string representation of this vector.
      * <p>

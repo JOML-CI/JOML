@@ -982,4 +982,18 @@ public class Vector4i implements Externalizable, Vector4ic {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#equals(int, int, int, int)
+     */
+    public boolean equals(int x, int y, int z, int w) {
+        if (this.x != x)
+            return false;
+        if (this.y != y)
+            return false;
+        if (this.z != z)
+            return false;
+        if (this.w != w)
+            return false;
+        return true;
+    }
 }

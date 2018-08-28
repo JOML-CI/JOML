@@ -899,6 +899,17 @@ public class Vector2f implements Externalizable, Vector2fc {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#equals(float, float)
+     */
+    public boolean equals(float x, float y) {
+        if (Float.floatToIntBits(this.x) != Float.floatToIntBits(x))
+            return false;
+        if (Float.floatToIntBits(this.y) != Float.floatToIntBits(y))
+            return false;
+        return true;
+    }
+
     /**
      * Return a string representation of this vector.
      * <p>

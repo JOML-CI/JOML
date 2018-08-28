@@ -1649,6 +1649,19 @@ public class Vector3f implements Externalizable, Vector3fc {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#equals(float, float, float)
+     */
+    public boolean equals(float x, float y, float z) {
+        if (Float.floatToIntBits(this.x) != Float.floatToIntBits(x))
+            return false;
+        if (Float.floatToIntBits(this.y) != Float.floatToIntBits(y))
+            return false;
+        if (Float.floatToIntBits(this.z) != Float.floatToIntBits(z))
+            return false;
+        return true;
+    }
+
     /**
      * Reflect this vector about the given <code>normal</code> vector.
      * 

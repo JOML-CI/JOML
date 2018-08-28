@@ -878,4 +878,16 @@ public class Vector3i implements Externalizable, Vector3ic {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector3ic#equals(int, int, int)
+     */
+    public boolean equals(int x, int y, int z) {
+        if (this.x != x)
+            return false;
+        if (this.y != y)
+            return false;
+        if (this.z != z)
+            return false;
+        return true;
+    }
 }

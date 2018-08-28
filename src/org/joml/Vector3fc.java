@@ -953,4 +953,17 @@ public interface Vector3fc {
      */
     boolean equals(Vector3fc v, float delta);
 
+    /**
+     * Compare the vector components of <code>this</code> vector and the given <code>(x, y, z)</code>.
+     *
+     * @param x
+     *          the x component to compare to
+     * @param y
+     *          the y component to compare to
+     * @param z
+     *          the z component to compare to
+     * @return <code>true</code> if all the vector components are equal
+     */
+    boolean equals(float x, float y, float z);
+
 }
