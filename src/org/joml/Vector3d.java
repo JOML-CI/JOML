@@ -2089,6 +2089,19 @@ public class Vector3d implements Externalizable, Vector3dc {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#equals(double, double, double)
+     */
+    public boolean equals(double x, double y, double z) {
+        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(x))
+            return false;
+        if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(y))
+            return false;
+        if (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(z))
+            return false;
+        return true;
+    }
+
     /**
      * Reflect this vector about the given normal vector.
      * 

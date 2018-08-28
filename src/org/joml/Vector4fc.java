@@ -681,4 +681,19 @@ public interface Vector4fc {
      */
     boolean equals(Vector4fc v, float delta);
 
+    /**
+     * Compare the vector components of <code>this</code> vector and the given <code>(x, y, z, w)</code>.
+     *
+     * @param x
+     *          the x component to compare to
+     * @param y
+     *          the y component to compare to
+     * @param z
+     *          the z component to compare to
+     * @param w
+     *          the w component to compare to
+     * @return <code>true</code> if all the vector components are equal
+     */
+    boolean equals(float x, float y, float z, float w);
+
 }

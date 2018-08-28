@@ -356,4 +356,19 @@ public interface Vector4ic {
      */
     int get(int component) throws IllegalArgumentException;
 
+    /**
+     * Compare the vector components of <code>this</code> vector and the given <code>(x, y, z, w)</code>.
+     *
+     * @param x
+     *          the x component to compare to
+     * @param y
+     *          the y component to compare to
+     * @param z
+     *          the z component to compare to
+     * @param w
+     *          the w component to compare to
+     * @return <code>true</code> if all the vector components are equal
+     */
+    boolean equals(int x, int y, int z, int w);
+
 }

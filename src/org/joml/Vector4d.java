@@ -1630,6 +1630,21 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Vector4dc#equals(double, double, double, double)
+     */
+    public boolean equals(double x, double y, double z, double w) {
+        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(x))
+            return false;
+        if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(y))
+            return false;
+        if (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(z))
+            return false;
+        if (Double.doubleToLongBits(this.w) != Double.doubleToLongBits(w))
+            return false;
+        return true;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Vector4dc#smoothStep(org.joml.Vector4dc, double, org.joml.Vector4d)
      */
     public Vector4d smoothStep(Vector4dc v, double t, Vector4d dest) {
