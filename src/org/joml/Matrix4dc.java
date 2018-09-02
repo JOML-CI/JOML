@@ -1852,6 +1852,39 @@ public interface Matrix4dc {
     Matrix4d rotateAffine(double ang, double x, double y, double z, Matrix4d dest);
 
     /**
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this {@link #isAffine() affine}
+     * matrix while using <code>(ox, oy, oz)</code> as the rotation origin, and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * This method is only applicable if <code>this</code> is an {@link #isAffine() affine} matrix.
+     * <p>
+     * This method is equivalent to calling: <code>translate(ox, oy, oz, dest).rotate(quat).translate(-ox, -oy, -oz)</code>
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @param quat
+     *          the {@link Quaterniondc}
+     * @param ox
+     *          the x coordinate of the rotation origin
+     * @param oy
+     *          the y coordinate of the rotation origin
+     * @param oz
+     *          the z coordinate of the rotation origin
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix4d rotateAroundAffine(Quaterniondc quat, double ox, double oy, double oz, Matrix4d dest);
+
+    /**
      * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix while using <code>(ox, oy, oz)</code> as the rotation origin,
      * and store the result in <code>dest</code>.
      * <p>

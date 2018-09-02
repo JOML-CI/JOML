@@ -3755,6 +3755,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double m_sinX = -sinX;
         double m_sinY = -sinY;
         double m_sinZ = -sinZ;
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
 
         // rotateX
         double nm11 = cosX;
@@ -3768,21 +3770,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m20 = sinY;
         m21 = nm21 * cosY;
         m22 = nm22 * cosY;
-        m23 = 0.0;
         // rotateZ
         m00 = nm00 * cosZ;
         m01 = nm01 * cosZ + nm11 * sinZ;
         m02 = nm02 * cosZ + nm12 * sinZ;
-        m03 = 0.0;
         m10 = nm00 * m_sinZ;
         m11 = nm01 * m_sinZ + nm11 * cosZ;
         m12 = nm02 * m_sinZ + nm12 * cosZ;
-        m13 = 0.0;
-        // set last column to identity
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
         return this;
     }
@@ -3815,6 +3809,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double m_sinZ = -sinZ;
         double m_sinY = -sinY;
         double m_sinX = -sinX;
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
 
         // rotateZ
         double nm00 = cosZ;
@@ -3828,21 +3824,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m00 = nm00 * cosY;
         m01 = nm01 * cosY;
         m02 = m_sinY;
-        m03 = 0.0;
         // rotateX
         m10 = nm10 * cosX + nm20 * sinX;
         m11 = nm11 * cosX + nm21 * sinX;
         m12 = nm22 * sinX;
-        m13 = 0.0;
         m20 = nm10 * m_sinX + nm20 * cosX;
         m21 = nm11 * m_sinX + nm21 * cosX;
         m22 = nm22 * cosX;
-        m23 = 0.0;
-        // set last column to identity
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
         return this;
     }
@@ -4962,7 +4950,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix while using <code>(ox, oy, oz)</code> as the rotation origin.
+     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix while using <code>(ox, oy, oz)</code> as the rotation origin.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -4985,34 +4973,83 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the y coordinate of the rotation origin
      * @param oz
      *          the z coordinate of the rotation origin
-     * @return this
+     * @return a matrix holding the result
      */
     public Matrix4d rotateAround(Quaterniondc quat, double ox, double oy, double oz) {
         return rotateAround(quat, ox, oy, oz, this);
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#rotateAroundAffine(org.joml.Quaterniondc, double, double, double, org.joml.Matrix4d)
+     */
+    public Matrix4d rotateAroundAffine(Quaterniondc quat, double ox, double oy, double oz, Matrix4d dest) {
+        double w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w(), dzw = zw + zw, xy = quat.x() * quat.y(), dxy = xy + xy;
+        double xz = quat.x() * quat.z(), dxz = xz + xz, yw = quat.y() * quat.w(), dyw = yw + yw;
+        double yz = quat.y() * quat.z(), dyz = yz + yz, xw = quat.x() * quat.w(), dxw = xw + xw;
+        double rm00 = w2 + x2 - z2 - y2;
+        double rm01 = dxy + dzw;
+        double rm02 = dxz - dyw;
+        double rm10 = -dzw + dxy;
+        double rm11 = y2 - z2 + w2 - x2;
+        double rm12 = dyz + dxw;
+        double rm20 = dyw + dxz;
+        double rm21 = dyz - dxw;
+        double rm22 = z2 - y2 - x2 + w2;
+        double tm30 = m00 * ox + m10 * oy + m20 * oz + m30;
+        double tm31 = m01 * ox + m11 * oy + m21 * oz + m31;
+        double tm32 = m02 * ox + m12 * oy + m22 * oz + m32;
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        dest._m20(m00 * rm20 + m10 * rm21 + m20 * rm22);
+        dest._m21(m01 * rm20 + m11 * rm21 + m21 * rm22);
+        dest._m22(m02 * rm20 + m12 * rm21 + m22 * rm22);
+        dest._m23(0.0);
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(0.0);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(0.0);
+        dest._m30(-nm00 * ox - nm10 * oy - m20 * oz + tm30);
+        dest._m31(-nm01 * ox - nm11 * oy - m21 * oz + tm31);
+        dest._m32(-nm02 * ox - nm12 * oy - m22 * oz + tm32);
+        dest._m33(1.0);
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        return dest;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4dc#rotateAround(org.joml.Quaterniondc, double, double, double, org.joml.Matrix4d)
      */
     public Matrix4d rotateAround(Quaterniondc quat, double ox, double oy, double oz, Matrix4d dest) {
-        double w2 = quat.w() * quat.w();
-        double x2 = quat.x() * quat.x();
-        double y2 = quat.y() * quat.y();
-        double z2 = quat.z() * quat.z();
-        double zw = quat.z() * quat.w();
-        double xy = quat.x() * quat.y();
-        double xz = quat.x() * quat.z();
-        double yw = quat.y() * quat.w();
-        double yz = quat.y() * quat.z();
-        double xw = quat.x() * quat.w();
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return rotationAround(quat, ox, oy, oz);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return rotateAroundAffine(quat, ox, oy, oz, this);
+        return rotateAroundGeneric(quat, ox, oy, oz, this);
+    }
+    private Matrix4d rotateAroundGeneric(Quaterniondc quat, double ox, double oy, double oz, Matrix4d dest) {
+        double w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w(), dzw = zw + zw, xy = quat.x() * quat.y(), dxy = xy + xy;
+        double xz = quat.x() * quat.z(), dxz = xz + xz, yw = quat.y() * quat.w(), dyw = yw + yw;
+        double yz = quat.y() * quat.z(), dyz = yz + yz, xw = quat.x() * quat.w(), dxw = xw + xw;
         double rm00 = w2 + x2 - z2 - y2;
-        double rm01 = xy + zw + zw + xy;
-        double rm02 = xz - yw + xz - yw;
-        double rm10 = -zw + xy - zw + xy;
+        double rm01 = dxy + dzw;
+        double rm02 = dxz - dyw;
+        double rm10 = -dzw + dxy;
         double rm11 = y2 - z2 + w2 - x2;
-        double rm12 = yz + yz + xw + xw;
-        double rm20 = yw + xz + xz + yw;
-        double rm21 = yz + yz - xw - xw;
+        double rm12 = dyz + dxw;
+        double rm20 = dyw + dxz;
+        double rm21 = dyz - dxw;
         double rm22 = z2 - y2 - x2 + w2;
         double tm30 = m00 * ox + m10 * oy + m20 * oz + m30;
         double tm31 = m01 * ox + m11 * oy + m21 * oz + m31;
@@ -5025,24 +5062,71 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m30 = -nm00 * ox - nm10 * oy - m20 * oz + tm30;
-        dest.m31 = -nm01 * ox - nm11 * oy - m21 * oz + tm31;
-        dest.m32 = -nm02 * ox - nm12 * oy - m22 * oz + tm32;
-        dest.m33 = m33;
+        dest._m20(m00 * rm20 + m10 * rm21 + m20 * rm22);
+        dest._m21(m01 * rm20 + m11 * rm21 + m21 * rm22);
+        dest._m22(m02 * rm20 + m12 * rm21 + m22 * rm22);
+        dest._m23(m03 * rm20 + m13 * rm21 + m23 * rm22);
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m30(-nm00 * ox - nm10 * oy - m20 * oz + tm30);
+        dest._m31(-nm01 * ox - nm11 * oy - m21 * oz + tm31);
+        dest._m32(-nm02 * ox - nm12 * oy - m22 * oz + tm32);
+        dest._m33(m33);
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
+    }
+
+    /**
+     * Set this matrix to a transformation composed of a rotation of the specified {@link Quaterniondc} while using <code>(ox, oy, oz)</code> as the rotation origin.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method is equivalent to calling: <code>translation(ox, oy, oz).rotate(quat).translate(-ox, -oy, -oz)</code>
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @param quat
+     *          the {@link Quaterniondc}
+     * @param ox
+     *          the x coordinate of the rotation origin
+     * @param oy
+     *          the y coordinate of the rotation origin
+     * @param oz
+     *          the z coordinate of the rotation origin
+     * @return this
+     */
+    public Matrix4d rotationAround(Quaterniondc quat, double ox, double oy, double oz) {
+        double w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w(), dzw = zw + zw, xy = quat.x() * quat.y(), dxy = xy + xy;
+        double xz = quat.x() * quat.z(), dxz = xz + xz, yw = quat.y() * quat.w(), dyw = yw + yw;
+        double yz = quat.y() * quat.z(), dyz = yz + yz, xw = quat.x() * quat.w(), dxw = xw + xw;
+        this._m20(dyw + dxz);
+        this._m21(dyz - dxw);
+        this._m22(z2 - y2 - x2 + w2);
+        this._m23(0.0);
+        this._m00(w2 + x2 - z2 - y2);
+        this._m01(dxy + dzw);
+        this._m02(dxz - dyw);
+        this._m03(0.0);
+        this._m10(-dzw + dxy);
+        this._m11(y2 - z2 + w2 - x2);
+        this._m12(dyz + dxw);
+        this._m13(0.0);
+        this._m30(-m00 * ox - m10 * oy - m20 * oz + ox);
+        this._m31(-m01 * ox - m11 * oy - m21 * oz + oy);
+        this._m32(-m02 * ox - m12 * oy - m22 * oz + oz);
+        this._m33(1.0);
+        this.properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
+        return this;
     }
 
     /**
@@ -6740,23 +6824,23 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double x2 = quat.x() * quat.x();
         double y2 = quat.y() * quat.y();
         double z2 = quat.z() * quat.z();
-        double zw = quat.z() * quat.w();
-        double xy = quat.x() * quat.y();
-        double xz = quat.x() * quat.z();
-        double yw = quat.y() * quat.w();
-        double yz = quat.y() * quat.z();
-        double xw = quat.x() * quat.w();
+        double zw = quat.z() * quat.w(), dzw = zw + zw;
+        double xy = quat.x() * quat.y(), dxy = xy + xy;
+        double xz = quat.x() * quat.z(), dxz = xz + xz;
+        double yw = quat.y() * quat.w(), dyw = yw + yw;
+        double yz = quat.y() * quat.z(), dyz = yz + yz;
+        double xw = quat.x() * quat.w(), dxw = xw + xw;
         if ((properties & PROPERTY_IDENTITY) == 0)
             this._identity();
-        m00 = w2 + x2 - z2 - y2;
-        m01 = xy + zw + zw + xy;
-        m02 = xz - yw + xz - yw;
-        m10 = -zw + xy - zw + xy;
-        m11 = y2 - z2 + w2 - x2;
-        m12 = yz + yz + xw + xw;
-        m20 = yw + xz + xz + yw;
-        m21 = yz + yz - xw - xw;
-        m22 = z2 - y2 - x2 + w2;
+        _m00(w2 + x2 - z2 - y2);
+        _m01(dxy + dzw);
+        _m02(dxz - dyw);
+        _m10(-dzw + dxy);
+        _m11(y2 - z2 + w2 - x2);
+        _m12(dyz + dxw);
+        _m20(dyw + dxz);
+        _m21(dyz - dxw);
+        _m22(z2 - y2 - x2 + w2);
         properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
         return this;
     }
@@ -6787,23 +6871,23 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double x2 = quat.x() * quat.x();
         double y2 = quat.y() * quat.y();
         double z2 = quat.z() * quat.z();
-        double zw = quat.z() * quat.w();
-        double xy = quat.x() * quat.y();
-        double xz = quat.x() * quat.z();
-        double yw = quat.y() * quat.w();
-        double yz = quat.y() * quat.z();
-        double xw = quat.x() * quat.w();
+        double zw = quat.z() * quat.w(), dzw = zw + zw;
+        double xy = quat.x() * quat.y(), dxy = xy + xy;
+        double xz = quat.x() * quat.z(), dxz = xz + xz;
+        double yw = quat.y() * quat.w(), dyw = yw + yw;
+        double yz = quat.y() * quat.z(), dyz = yz + yz;
+        double xw = quat.x() * quat.w(), dxw = xw + xw;
         if ((properties & PROPERTY_IDENTITY) == 0)
             this._identity();
-        m00 = w2 + x2 - z2 - y2;
-        m01 = xy + zw + zw + xy;
-        m02 = xz - yw + xz - yw;
-        m10 = -zw + xy - zw + xy;
-        m11 = y2 - z2 + w2 - x2;
-        m12 = yz + yz + xw + xw;
-        m20 = yw + xz + xz + yw;
-        m21 = yz + yz - xw - xw;
-        m22 = z2 - y2 - x2 + w2;
+        _m00(w2 + x2 - z2 - y2);
+        _m01(dxy + dzw);
+        _m02(dxz - dyw);
+        _m10(-dzw + dxy);
+        _m11(y2 - z2 + w2 - x2);
+        _m12(dyz + dxw);
+        _m20(dyw + dxz);
+        _m21(dyz - dxw);
+        _m22(z2 - y2 - x2 + w2);
         properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
         return this;
     }
@@ -7473,24 +7557,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateGeneric(quat, dest);
     }
     private Matrix4d rotateGeneric(Quaterniondc quat, Matrix4d dest) {
-        double w2 = quat.w() * quat.w();
-        double x2 = quat.x() * quat.x();
-        double y2 = quat.y() * quat.y();
-        double z2 = quat.z() * quat.z();
-        double zw = quat.z() * quat.w();
-        double xy = quat.x() * quat.y();
-        double xz = quat.x() * quat.z();
-        double yw = quat.y() * quat.w();
-        double yz = quat.y() * quat.z();
-        double xw = quat.x() * quat.w();
+        double w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w(), dzw = zw + zw, xy = quat.x() * quat.y(), dxy = xy + xy;
+        double xz = quat.x() * quat.z(), dxz = xz + xz, yw = quat.y() * quat.w(), dyw = yw + yw;
+        double yz = quat.y() * quat.z(), dyz = yz + yz, xw = quat.x() * quat.w(), dxw = xw + xw;
         double rm00 = w2 + x2 - z2 - y2;
-        double rm01 = xy + zw + zw + xy;
-        double rm02 = xz - yw + xz - yw;
-        double rm10 = -zw + xy - zw + xy;
+        double rm01 = dxy + dzw;
+        double rm02 = dxz - dyw;
+        double rm10 = -dzw + dxy;
         double rm11 = y2 - z2 + w2 - x2;
-        double rm12 = yz + yz + xw + xw;
-        double rm20 = yw + xz + xz + yw;
-        double rm21 = yz + yz - xw - xw;
+        double rm12 = dyz + dxw;
+        double rm20 = dyw + dxz;
+        double rm21 = dyz - dxw;
         double rm22 = z2 - y2 - x2 + w2;
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
@@ -7686,24 +7765,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d rotateAffine(Quaterniondc quat, Matrix4d dest) {
-        double w2 = quat.w() * quat.w();
-        double x2 = quat.x() * quat.x();
-        double y2 = quat.y() * quat.y();
-        double z2 = quat.z() * quat.z();
-        double zw = quat.z() * quat.w();
-        double xy = quat.x() * quat.y();
-        double xz = quat.x() * quat.z();
-        double yw = quat.y() * quat.w();
-        double yz = quat.y() * quat.z();
-        double xw = quat.x() * quat.w();
+        double w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w(), dzw = zw + zw, xy = quat.x() * quat.y(), dxy = xy + xy;
+        double xz = quat.x() * quat.z(), dxz = xz + xz, yw = quat.y() * quat.w(), dyw = yw + yw;
+        double yz = quat.y() * quat.z(), dyz = yz + yz, xw = quat.x() * quat.w(), dxw = xw + xw;
         double rm00 = w2 + x2 - z2 - y2;
-        double rm01 = xy + zw + zw + xy;
-        double rm02 = xz - yw + xz - yw;
-        double rm10 = -zw + xy - zw + xy;
+        double rm01 = dxy + dzw;
+        double rm02 = dxz - dyw;
+        double rm10 = -dzw + dxy;
         double rm11 = y2 - z2 + w2 - x2;
-        double rm12 = yz + yz + xw + xw;
-        double rm20 = yw + xz + xz + yw;
-        double rm21 = yz + yz - xw - xw;
+        double rm12 = dyz + dxw;
+        double rm20 = dyw + dxz;
+        double rm21 = dyz - dxw;
         double rm22 = z2 - y2 - x2 + w2;
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
@@ -7789,42 +7863,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d rotateTranslation(Quaterniondc quat, Matrix4d dest) {
-        double w2 = quat.w() * quat.w();
-        double x2 = quat.x() * quat.x();
-        double y2 = quat.y() * quat.y();
-        double z2 = quat.z() * quat.z();
-        double zw = quat.z() * quat.w();
-        double xy = quat.x() * quat.y();
-        double xz = quat.x() * quat.z();
-        double yw = quat.y() * quat.w();
-        double yz = quat.y() * quat.z();
-        double xw = quat.x() * quat.w();
+        double w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w(), dzw = zw + zw, xy = quat.x() * quat.y(), dxy = xy + xy;
+        double xz = quat.x() * quat.z(), dxz = xz + xz, yw = quat.y() * quat.w(), dyw = yw + yw;
+        double yz = quat.y() * quat.z(), dyz = yz + yz, xw = quat.x() * quat.w(), dxw = xw + xw;
         double rm00 = w2 + x2 - z2 - y2;
-        double rm01 = xy + zw + zw + xy;
-        double rm02 = xz - yw + xz - yw;
-        double rm10 = -zw + xy - zw + xy;
+        double rm01 = dxy + dzw;
+        double rm02 = dxz - dyw;
+        double rm10 = -dzw + dxy;
         double rm11 = y2 - z2 + w2 - x2;
-        double rm12 = yz + yz + xw + xw;
-        double rm20 = yw + xz + xz + yw;
-        double rm21 = yz + yz - xw - xw;
+        double rm12 = dyz + dxw;
+        double rm20 = dyw + dxz;
+        double rm21 = dyz - dxw;
         double rm22 = z2 - y2 - x2 + w2;
-        double nm00 = rm00;
-        double nm01 = rm01;
-        double nm02 = rm02;
-        double nm10 = rm10;
-        double nm11 = rm11;
-        double nm12 = rm12;
         dest.m20 = rm20;
         dest.m21 = rm21;
         dest.m22 = rm22;
         dest.m23 = 0.0;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
+        dest.m00 = rm00;
+        dest.m01 = rm01;
+        dest.m02 = rm02;
         dest.m03 = 0.0;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
+        dest.m10 = rm10;
+        dest.m11 = rm11;
+        dest.m12 = rm12;
         dest.m13 = 0.0;
         dest.m30 = m30;
         dest.m31 = m31;
@@ -7935,24 +7998,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d rotateLocal(Quaterniondc quat, Matrix4d dest) {
-        double w2 = quat.w() * quat.w();
-        double x2 = quat.x() * quat.x();
-        double y2 = quat.y() * quat.y();
-        double z2 = quat.z() * quat.z();
-        double zw = quat.z() * quat.w();
-        double xy = quat.x() * quat.y();
-        double xz = quat.x() * quat.z();
-        double yw = quat.y() * quat.w();
-        double yz = quat.y() * quat.z();
-        double xw = quat.x() * quat.w();
+        double w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w(), dzw = zw + zw, xy = quat.x() * quat.y(), dxy = xy + xy;
+        double xz = quat.x() * quat.z(), dxz = xz + xz, yw = quat.y() * quat.w(), dyw = yw + yw;
+        double yz = quat.y() * quat.z(), dyz = yz + yz, xw = quat.x() * quat.w(), dxw = xw + xw;
         double lm00 = w2 + x2 - z2 - y2;
-        double lm01 = xy + zw + zw + xy;
-        double lm02 = xz - yw + xz - yw;
-        double lm10 = -zw + xy - zw + xy;
+        double lm01 = dxy + dzw;
+        double lm02 = dxz - dyw;
+        double lm10 = -dzw + dxy;
         double lm11 = y2 - z2 + w2 - x2;
-        double lm12 = yz + yz + xw + xw;
-        double lm20 = yw + xz + xz + yw;
-        double lm21 = yz + yz - xw - xw;
+        double lm12 = dyz + dxw;
+        double lm20 = dyw + dxz;
+        double lm21 = dyz - dxw;
         double lm22 = z2 - y2 - x2 + w2;
         double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
         double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
@@ -14688,22 +14746,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double upnX = ndirY * leftZ - ndirZ * leftY;
         double upnY = ndirZ * leftX - ndirX * leftZ;
         double upnZ = ndirX * leftY - ndirY * leftX;
+        if ((properties & PROPERTY_IDENTITY) == 0)
+            this._identity();
         this.m00 = leftX;
         this.m01 = leftY;
         this.m02 = leftZ;
-        this.m03 = 0.0;
         this.m10 = upnX;
         this.m11 = upnY;
         this.m12 = upnZ;
-        this.m13 = 0.0;
         this.m20 = ndirX;
         this.m21 = ndirY;
         this.m22 = ndirZ;
-        this.m23 = 0.0;
-        this.m30 = 0.0;
-        this.m31 = 0.0;
-        this.m32 = 0.0;
-        this.m33 = 1.0;
         properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
         return this;
     }
