@@ -2632,7 +2632,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         _m00(w2 + x2 - z2 - y2);
         _m01(dxy + dzw);
         _m02(dxz - dyw);
-        _m10(-dzw + dxy);
+        _m10(dxy - dzw);
         _m11(y2 - z2 + w2 - x2);
         _m12(dyz + dxw);
         _m20(dyw + dxz);
@@ -3991,7 +3991,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         float rm00 = w2 + x2 - z2 - y2;
         float rm01 = dxy + dzw;
         float rm02 = dxz - dyw;
-        float rm10 = -dzw + dxy;
+        float rm10 = dxy - dzw;
         float rm11 = y2 - z2 + w2 - x2;
         float rm12 = dyz + dxw;
         float rm20 = dyw + dxz;
@@ -4064,7 +4064,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         this._m00(w2 + x2 - z2 - y2);
         this._m01(dxy + dzw);
         this._m02(dxz - dyw);
-        this._m10(-dzw + dxy);
+        this._m10(dxy - dzw);
         this._m11(y2 - z2 + w2 - x2);
         this._m12(dyz + dxw);
         this._m30(-m00 * ox - m10 * oy - m20 * oz + ox);
@@ -6577,7 +6577,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         float rm00 = w2 + x2 - z2 - y2;
         float rm01 = dxy + dzw;
         float rm02 = dxz - dyw;
-        float rm10 = -dzw + dxy;
+        float rm10 = dxy - dzw;
         float rm11 = y2 - z2 + w2 - x2;
         float rm12 = dyz + dxw;
         float rm20 = dyw + dxz;
@@ -6669,7 +6669,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         float rm00 = w2 + x2 - z2 - y2;
         float rm01 = dxy + dzw;
         float rm02 = dxz - dyw;
-        float rm10 = -dzw + dxy;
+        float rm10 = dxy - dzw;
         float rm11 = y2 - z2 + w2 - x2;
         float rm12 = dyz + dxw;
         float rm20 = dyw + dxz;

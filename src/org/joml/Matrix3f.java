@@ -1712,20 +1712,20 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         float x2 = quat.x() * quat.x();
         float y2 = quat.y() * quat.y();
         float z2 = quat.z() * quat.z();
-        float zw = quat.z() * quat.w();
-        float xy = quat.x() * quat.y();
-        float xz = quat.x() * quat.z();
-        float yw = quat.y() * quat.w();
-        float yz = quat.y() * quat.z();
-        float xw = quat.x() * quat.w();
+        float zw = quat.z() * quat.w(), dzw = zw + zw;
+        float xy = quat.x() * quat.y(), dxy = xy + xy;
+        float xz = quat.x() * quat.z(), dxz = xz + xz;
+        float yw = quat.y() * quat.w(), dyw = yw + yw;
+        float yz = quat.y() * quat.z(), dyz = yz + yz;
+        float xw = quat.x() * quat.w(), dxw = xw + xw;
         m00 = w2 + x2 - z2 - y2;
-        m01 = xy + zw + zw + xy;
-        m02 = xz - yw + xz - yw;
-        m10 = -zw + xy - zw + xy;
+        m01 = dxy + dzw;
+        m02 = dxz - dyw;
+        m10 = -dzw + dxy;
         m11 = y2 - z2 + w2 - x2;
-        m12 = yz + yz + xw + xw;
-        m20 = yw + xz + xz + yw;
-        m21 = yz + yz - xw - xw;
+        m12 = dyz + dxw;
+        m20 = dyw + dxz;
+        m21 = dyz - dxw;
         m22 = z2 - y2 - x2 + w2;
         return this;
     }
@@ -2719,24 +2719,19 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return dest
      */
     public Matrix3f rotate(Quaternionfc quat, Matrix3f dest) {
-        float w2 = quat.w() * quat.w();
-        float x2 = quat.x() * quat.x();
-        float y2 = quat.y() * quat.y();
-        float z2 = quat.z() * quat.z();
-        float zw = quat.z() * quat.w();
-        float xy = quat.x() * quat.y();
-        float xz = quat.x() * quat.z();
-        float yw = quat.y() * quat.w();
-        float yz = quat.y() * quat.z();
-        float xw = quat.x() * quat.w();
+        float w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w(), dzw = zw + zw, xy = quat.x() * quat.y(), dxy = xy + xy;
+        float xz = quat.x() * quat.z(), dxz = xz + xz, yw = quat.y() * quat.w(), dyw = yw + yw;
+        float yz = quat.y() * quat.z(), dyz = yz + yz, xw = quat.x() * quat.w(), dxw = xw + xw;
         float rm00 = w2 + x2 - z2 - y2;
-        float rm01 = xy + zw + zw + xy;
-        float rm02 = xz - yw + xz - yw;
-        float rm10 = -zw + xy - zw + xy;
+        float rm01 = dxy + dzw;
+        float rm02 = dxz - dyw;
+        float rm10 = dxy - dzw;
         float rm11 = y2 - z2 + w2 - x2;
-        float rm12 = yz + yz + xw + xw;
-        float rm20 = yw + xz + xz + yw;
-        float rm21 = yz + yz - xw - xw;
+        float rm12 = dyz + dxw;
+        float rm20 = dyw + dxz;
+        float rm21 = dyz - dxw;
         float rm22 = z2 - y2 - x2 + w2;
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
@@ -2783,24 +2778,19 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return dest
      */
     public Matrix3f rotateLocal(Quaternionfc quat, Matrix3f dest) {
-        float w2 = quat.w() * quat.w();
-        float x2 = quat.x() * quat.x();
-        float y2 = quat.y() * quat.y();
-        float z2 = quat.z() * quat.z();
-        float zw = quat.z() * quat.w();
-        float xy = quat.x() * quat.y();
-        float xz = quat.x() * quat.z();
-        float yw = quat.y() * quat.w();
-        float yz = quat.y() * quat.z();
-        float xw = quat.x() * quat.w();
+        float w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w(), dzw = zw + zw, xy = quat.x() * quat.y(), dxy = xy + xy;
+        float xz = quat.x() * quat.z(), dxz = xz + xz, yw = quat.y() * quat.w(), dyw = yw + yw;
+        float yz = quat.y() * quat.z(), dyz = yz + yz, xw = quat.x() * quat.w(), dxw = xw + xw;
         float lm00 = w2 + x2 - z2 - y2;
-        float lm01 = xy + zw + zw + xy;
-        float lm02 = xz - yw + xz - yw;
-        float lm10 = -zw + xy - zw + xy;
+        float lm01 = dxy + dzw;
+        float lm02 = dxz - dyw;
+        float lm10 = dxy - dzw;
         float lm11 = y2 - z2 + w2 - x2;
-        float lm12 = yz + yz + xw + xw;
-        float lm20 = yw + xz + xz + yw;
-        float lm21 = yz + yz - xw - xw;
+        float lm12 = dyz + dxw;
+        float lm20 = dyw + dxz;
+        float lm21 = dyz - dxw;
         float lm22 = z2 - y2 - x2 + w2;
         float nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
         float nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;

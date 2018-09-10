@@ -3332,7 +3332,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         double rm00 = w2 + x2 - z2 - y2;
         double rm01 = dxy + dzw;
         double rm02 = dxz - dyw;
-        double rm10 = -dzw + dxy;
+        double rm10 = dxy - dzw;
         double rm11 = y2 - z2 + w2 - x2;
         double rm12 = dyz + dxw;
         double rm20 = dyw + dxz;
@@ -3405,7 +3405,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         this._m00(w2 + x2 - z2 - y2);
         this._m01(dxy + dzw);
         this._m02(dxz - dyw);
-        this._m10(-dzw + dxy);
+        this._m10(dxy - dzw);
         this._m11(y2 - z2 + w2 - x2);
         this._m12(dyz + dxw);
         this._m30(-m00 * ox - m10 * oy - m20 * oz + ox);
@@ -4473,7 +4473,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         _m00(w2 + x2 - z2 - y2);
         _m01(dxy + dzw);
         _m02(dxz - dyw);
-        _m10(-dzw + dxy);
+        _m10(dxy - dzw);
         _m11(y2 - z2 + w2 - x2);
         _m12(dyz + dxw);
         _m20(dyw + dxz);
@@ -4521,7 +4521,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         _m00(w2 + x2 - z2 - y2);
         _m01(dxy + dzw);
         _m02(dxz - dyw);
-        _m10(-dzw + dxy);
+        _m10(dxy - dzw);
         _m11(y2 - z2 + w2 - x2);
         _m12(dyz + dxw);
         _m20(dyw + dxz);
@@ -4988,7 +4988,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         double rm00 = w2 + x2 - z2 - y2;
         double rm01 = dxy + dzw;
         double rm02 = dxz - dyw;
-        double rm10 = -dzw + dxy;
+        double rm10 = dxy - dzw;
         double rm11 = y2 - z2 + w2 - x2;
         double rm12 = dyz + dxw;
         double rm20 = dyw + dxz;
@@ -5182,7 +5182,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         double rm00 = w2 + x2 - z2 - y2;
         double rm01 = dxy + dzw;
         double rm02 = dxz - dyw;
-        double rm10 = -dzw + dxy;
+        double rm10 = dxy - dzw;
         double rm11 = y2 - z2 + w2 - x2;
         double rm12 = dyz + dxw;
         double rm20 = dyw + dxz;
@@ -5309,7 +5309,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         double lm00 = w2 + x2 - z2 - y2;
         double lm01 = dxy + dzw;
         double lm02 = dxz - dyw;
-        double lm10 = -dzw + dxy;
+        double lm10 = dxy - dzw;
         double lm11 = y2 - z2 + w2 - x2;
         double lm12 = dyz + dxw;
         double lm20 = dyw + dxz;
@@ -5405,7 +5405,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         double lm00 = w2 + x2 - z2 - y2;
         double lm01 = dxy + dzw;
         double lm02 = dxz - dyw;
-        double lm10 = -dzw + dxy;
+        double lm10 = dxy - dzw;
         double lm11 = y2 - z2 + w2 - x2;
         double lm12 = dyz + dxw;
         double lm20 = dyw + dxz;
