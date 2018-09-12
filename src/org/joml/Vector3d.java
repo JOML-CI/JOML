@@ -1664,7 +1664,6 @@ public class Vector3d implements Externalizable, Vector3dc {
 
     /**
      * Get the length squared of a 3-dimensional double-precision vector.
-     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
      *
      * @param x The vector's x component
      * @param y The vector's y component
@@ -1687,7 +1686,6 @@ public class Vector3d implements Externalizable, Vector3dc {
 
     /**
      * Get the length of a 3-dimensional double-precision vector.
-     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
      *
      * @param x The vector's x component
      * @param y The vector's y component
