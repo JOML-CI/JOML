@@ -729,18 +729,18 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     public Vector4d add(Vector4dc v, Vector4d dest) {
-        dest.x = this.x + x;
-        dest.y = this.y + y;
-        dest.z = this.z + z;
-        dest.w = this.w + w;
+        dest.x = x + v.x();
+        dest.y = y + v.y();
+        dest.z = z + v.z();
+        dest.w = w + v.w();
         return dest;
     }
 
     public Vector4d add(Vector4fc v, Vector4d dest) {
-        dest.x = this.x + x;
-        dest.y = this.y + y;
-        dest.z = this.z + z;
-        dest.w = this.w + w;
+        dest.x = x + v.x();
+        dest.y = y + v.y();
+        dest.z = z + v.z();
+        dest.w = w + v.w();
         return dest;
     }
 
@@ -765,10 +765,10 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#add(double, double, double, double, org.joml.Vector4d)
      */
     public Vector4d add(double x, double y, double z, double w, Vector4d dest) {
-        dest.x = this.x - x;
-        dest.y = this.y - y;
-        dest.z = this.z - z;
-        dest.w = this.w - w;
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        dest.z = this.z + z;
+        dest.w = this.w + w;
         return dest;
     }
 
