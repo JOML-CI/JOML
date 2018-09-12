@@ -748,13 +748,13 @@ public class Vector4d implements Externalizable, Vector4dc {
      * Add <code>(x, y, z, w)</code> to this.
      * 
      * @param x
-     *          the x component to subtract
+     *          the x component to add
      * @param y
-     *          the y component to subtract
+     *          the y component to add
      * @param z
-     *          the z component to subtract
+     *          the z component to add
      * @param w
-     *          the w component to subtract
+     *          the w component to add
      * @return a vector holding the result
      */
     public Vector4d add(double x, double y, double z, double w) {
