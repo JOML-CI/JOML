@@ -1471,10 +1471,10 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#angleCos(org.joml.Vector3fc)
      */
     public float angleCos(Vector3fc v) {
-        double length1Sqared = x * x + y * y + z * z;
-        double length2Sqared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z();
+        double length1Squared = x * x + y * y + z * z;
+        double length2Squared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z();
         double dot = x * v.x() + y * v.y() + z * v.z();
-        return (float) (dot / (Math.sqrt(length1Sqared * length2Sqared)));
+        return (float) (dot / (Math.sqrt(length1Squared * length2Squared)));
     }
 
     /* (non-Javadoc)

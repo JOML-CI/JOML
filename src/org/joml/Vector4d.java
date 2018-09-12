@@ -1456,10 +1456,10 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#angleCos(org.joml.Vector4dc)
      */
     public double angleCos(Vector4dc v) {
-        double length1Sqared = x * x + y * y + z * z + w * w;
-        double length2Sqared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z() + v.w() * v.w();
+        double length1Squared = x * x + y * y + z * z + w * w;
+        double length2Squared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z() + v.w() * v.w();
         double dot = x * v.x() + y * v.y() + z * v.z() + w * v.w();
-        return dot / (Math.sqrt(length1Sqared * length2Sqared));
+        return dot / (Math.sqrt(length1Squared * length2Squared));
     }
 
     /* (non-Javadoc)

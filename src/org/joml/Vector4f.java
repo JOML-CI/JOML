@@ -1333,10 +1333,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#angleCos(org.joml.Vector4fc)
      */
     public float angleCos(Vector4fc v) {
-        double length1Sqared = x * x + y * y + z * z + w * w;
-        double length2Sqared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z() + v.w() * v.w();
+        double length1Squared = x * x + y * y + z * z + w * w;
+        double length2Squared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z() + v.w() * v.w();
         double dot = x * v.x() + y * v.y() + z * v.z() + w * v.w();
-        return (float) (dot / (Math.sqrt(length1Sqared * length2Sqared)));
+        return (float) (dot / (Math.sqrt(length1Squared * length2Squared)));
     }
 
     /* (non-Javadoc)
