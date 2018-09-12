@@ -1678,24 +1678,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return x * x + y * y + z * z;
     }
 
-    /**
-     * Get the length squared of a 3-dimensional double-precision vector.
-     * Addresses <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
-     *
-     * @param x The vector's x component
-     * @param y The vector's y component
-     * @param z The vector's z component
-     *
-     * @return the length squared of the given vector
-     *
-     * @author F. Neurath
-     *
-     * @deprecated method name has a typo, use {@link #lengthSquared(double, double, double)} instead
-     */
-    public static double lengthSqared(double x, double y, double z) {
-        return x * x + y * y + z * z;
-    }
-
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#length()
      */
@@ -1907,10 +1889,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#angleCos(org.joml.Vector3dc)
      */
     public double angleCos(Vector3dc v) {
-        double length1Sqared = x * x + y * y + z * z;
-        double length2Sqared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z();
+        double length1Squared = x * x + y * y + z * z;
+        double length2Squared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z();
         double dot = x * v.x() + y * v.y() + z * v.z();
-        return dot / (Math.sqrt(length1Sqared * length2Sqared));
+        return dot / (Math.sqrt(length1Squared * length2Squared));
     }
 
     /* (non-Javadoc)
