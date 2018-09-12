@@ -312,7 +312,8 @@ public interface Vector2ic {
     int get(int component) throws IllegalArgumentException;
 
     /**
-     * Compare the vector components of <code>this</code> vector and the given <code>(x, y)</code>.
+     * Compare the vector components of <code>this</code> vector with the given <code>(x, y)</code>
+     * and return whether all of them are equal.
      *
      * @param x
      *          the x component to compare to

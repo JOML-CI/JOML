@@ -1077,7 +1077,9 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     /**
-     * Floor each component of this vector
+     * Set each component of this vector to the largest (closest to positive
+     * infinity) {@code double} value that is less than or equal to that
+     * component and is equal to a mathematical integer.
      *
      * @return a vector holding the result
      */
@@ -1092,7 +1094,9 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     /**
-     * Ceil each component of this vector
+     * Set each component of this vector to the smallest (closest to negative
+     * infinity) {@code double} value that is greater than or equal to that
+     * component and is equal to a mathematical integer.
      *
      * @return a vector holding the result
      */
@@ -1107,7 +1111,8 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     /**
-     * Round each component of this vector
+     * Set each component of this vector to the closest double that is equal to
+     * a mathematical integer, with ties rounding to positive infinity.
      *
      * @return a vector holding the result
      */

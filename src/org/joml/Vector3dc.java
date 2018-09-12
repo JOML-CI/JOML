@@ -1113,7 +1113,10 @@ public interface Vector3dc {
     Vector3d orthogonalizeUnit(Vector3dc v, Vector3d dest);
 
     /**
-     * Floor each component of this vector
+     * Compute for each component of this vector the largest (closest to positive
+     * infinity) {@code double} value that is less than or equal to that
+     * component and is equal to a mathematical integer and store the result in
+     * <code>dest</code>.
      *
      * @param dest
      *          will hold the result
@@ -1122,7 +1125,10 @@ public interface Vector3dc {
     Vector3d floor(Vector3d dest);
 
     /**
-     * Ceil each component of this vector
+     * Compute for each component of this vector the smallest (closest to negative
+     * infinity) {@code double} value that is greater than or equal to that
+     * component and is equal to a mathematical integer and store the result in
+     * <code>dest</code>.
      *
      * @param dest
      *          will hold the result
@@ -1131,7 +1137,9 @@ public interface Vector3dc {
     Vector3d ceil(Vector3d dest);
 
     /**
-     * Round each component of this vector
+     * Compute for each component of this vector the closest double that is equal to
+     * a mathematical integer, with ties rounding to positive infinity and store
+     * the result in <code>dest</code>.
      *
      * @param dest
      *          will hold the result
@@ -1140,10 +1148,12 @@ public interface Vector3dc {
     Vector3d round(Vector3d dest);
 
     /**
-     * Returns {@code true} if all the components are a finite floating-point value;
-     * returns {@code false} otherwise (if any component is NaN and infinity).
+     * Determine whether all components are finite floating-point values, that
+     * is, they are not {@link Double#isNaN() NaN} and not
+     * {@link Double#isInfinite() infinity}.
      *
-     * @return {@code true} if all the components are a finite floating-point value, {@code false} otherwise.
+     * @return {@code true} if all components are finite floating-point values;
+     *         {@code false} otherwise
      */
     boolean isFinite();
 
@@ -1164,7 +1174,8 @@ public interface Vector3dc {
     boolean equals(Vector3dc v, double delta);
 
     /**
-     * Compare the vector components of <code>this</code> vector and the given <code>(x, y, z)</code>.
+     * Compare the vector components of <code>this</code> vector with the given <code>(x, y, z)</code>
+     * and return whether all of them are equal.
      *
      * @param x
      *          the x component to compare to

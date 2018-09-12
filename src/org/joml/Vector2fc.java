@@ -415,7 +415,10 @@ public interface Vector2fc {
     float get(int component) throws IllegalArgumentException;
 
     /**
-     * Floor each component of this vector
+     * Compute for each component of this vector the largest (closest to positive
+     * infinity) {@code float} value that is less than or equal to that
+     * component and is equal to a mathematical integer and store the result in
+     * <code>dest</code>.
      *
      * @param dest
      *          will hold the result
@@ -424,7 +427,10 @@ public interface Vector2fc {
     Vector2f floor(Vector2f dest);
 
     /**
-     * Ceil each component of this vector
+     * Compute for each component of this vector the smallest (closest to negative
+     * infinity) {@code float} value that is greater than or equal to that
+     * component and is equal to a mathematical integer and store the result in
+     * <code>dest</code>.
      *
      * @param dest
      *          will hold the result
@@ -433,7 +439,9 @@ public interface Vector2fc {
     Vector2f ceil(Vector2f dest);
 
     /**
-     * Round each component of this vector
+     * Compute for each component of this vector the closest float that is equal to
+     * a mathematical integer, with ties rounding to positive infinity and store
+     * the result in <code>dest</code>.
      *
      * @param dest
      *          will hold the result
@@ -442,10 +450,12 @@ public interface Vector2fc {
     Vector2f round(Vector2f dest);
 
     /**
-     * Returns {@code true} if all the components are a finite floating-point value;
-     * returns {@code false} otherwise (if any component is NaN and infinity).
+     * Determine whether all components are finite floating-point values, that
+     * is, they are not {@link Double#isNaN() NaN} and not
+     * {@link Double#isInfinite() infinity}.
      *
-     * @return {@code true} if all the components are a finite floating-point value, {@code false} otherwise.
+     * @return {@code true} if all components are finite floating-point values;
+     *         {@code false} otherwise
      */
     boolean isFinite();
 
@@ -466,7 +476,8 @@ public interface Vector2fc {
     boolean equals(Vector2fc v, float delta);
 
     /**
-     * Compare the vector components of <code>this</code> vector and the given <code>(x, y)</code>.
+     * Compare the vector components of <code>this</code> vector with the given <code>(x, y)</code>
+     * and return whether all of them are equal.
      *
      * @param x
      *          the x component to compare to
