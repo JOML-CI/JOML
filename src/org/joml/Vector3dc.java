@@ -1115,6 +1115,8 @@ public interface Vector3dc {
     /**
      * Floor each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector3d floor(Vector3d dest);
@@ -1122,6 +1124,8 @@ public interface Vector3dc {
     /**
      * Ceil each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector3d ceil(Vector3d dest);
@@ -1129,6 +1133,8 @@ public interface Vector3dc {
     /**
      * Round each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector3d round(Vector3d dest);
