@@ -656,6 +656,8 @@ public interface Vector4dc {
     /**
      * Floor each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector4d floor(Vector4d dest);
@@ -663,6 +665,8 @@ public interface Vector4dc {
     /**
      * Ceil each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector4d ceil(Vector4d dest);
@@ -670,6 +674,8 @@ public interface Vector4dc {
     /**
      * Round each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector4d round(Vector4d dest);

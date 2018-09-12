@@ -417,6 +417,8 @@ public interface Vector2fc {
     /**
      * Floor each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector2f floor(Vector2f dest);
@@ -424,6 +426,8 @@ public interface Vector2fc {
     /**
      * Ceil each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector2f ceil(Vector2f dest);
@@ -431,6 +435,8 @@ public interface Vector2fc {
     /**
      * Round each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector2f round(Vector2f dest);

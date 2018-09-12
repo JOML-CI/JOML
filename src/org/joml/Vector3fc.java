@@ -911,6 +911,8 @@ public interface Vector3fc {
     /**
      * Floor each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector3f floor(Vector3f dest);
@@ -918,6 +920,8 @@ public interface Vector3fc {
     /**
      * Ceil each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector3f ceil(Vector3f dest);
@@ -925,6 +929,8 @@ public interface Vector3fc {
     /**
      * Round each component of this vector
      *
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     Vector3f round(Vector3f dest);
