@@ -967,6 +967,70 @@ public interface Matrix4fc {
     ByteBuffer get(int index, ByteBuffer buffer);
 
     /**
+     * Store the upper 4x3 submatrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    FloatBuffer get4x3(FloatBuffer buffer);
+
+    /**
+     * Store the upper 4x3 submatrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in column-major order
+     * @return the passed in buffer
+     */
+    FloatBuffer get4x3(int index, FloatBuffer buffer);
+
+    /**
+     * Store the upper 4x3 submatrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    ByteBuffer get4x3(ByteBuffer buffer);
+
+    /**
+     * Store the upper 4x3 submatrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in column-major order
+     * @return the passed in buffer
+     */
+    ByteBuffer get4x3(int index, ByteBuffer buffer);
+
+    /**
      * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
      * <p>

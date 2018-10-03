@@ -96,6 +96,8 @@ public abstract class MemUtil {
     public abstract void put3x3(Matrix3x2f m, int offset, ByteBuffer dest);
     public abstract void put3x3(Matrix3x2d m, int offset, DoubleBuffer dest);
     public abstract void put3x3(Matrix3x2d m, int offset, ByteBuffer dest);
+    public abstract void put4x3(Matrix4f m, int offset, FloatBuffer dest);
+    public abstract void put4x3(Matrix4f m, int offset, ByteBuffer dest);
     public abstract void putTransposed(Matrix4f m, int offset, FloatBuffer dest);
     public abstract void putTransposed(Matrix4f m, int offset, ByteBuffer dest);
     public abstract void put4x3Transposed(Matrix4f m, int offset, FloatBuffer dest);
@@ -362,6 +364,76 @@ public abstract class MemUtil {
                 put0(m, dest);
             else
                 putN(m, offset, dest);
+        }
+
+        public void put4x3_0(Matrix4f m, FloatBuffer dest) {
+            dest.put(0,  m.m00());
+            dest.put(1,  m.m01());
+            dest.put(2,  m.m02());
+            dest.put(3,  m.m10());
+            dest.put(4,  m.m11());
+            dest.put(5,  m.m12());
+            dest.put(6,  m.m20());
+            dest.put(7,  m.m21());
+            dest.put(8,  m.m22());
+            dest.put(9,  m.m30());
+            dest.put(10, m.m31());
+            dest.put(11, m.m32());
+        }
+        public void put4x3_N(Matrix4f m, int offset, FloatBuffer dest) {
+            dest.put(offset,    m.m00());
+            dest.put(offset+1,  m.m01());
+            dest.put(offset+2,  m.m02());
+            dest.put(offset+3,  m.m10());
+            dest.put(offset+4,  m.m11());
+            dest.put(offset+5,  m.m12());
+            dest.put(offset+6,  m.m20());
+            dest.put(offset+7,  m.m21());
+            dest.put(offset+8,  m.m22());
+            dest.put(offset+9,  m.m30());
+            dest.put(offset+10, m.m31());
+            dest.put(offset+11, m.m32());
+        }
+        public void put4x3(Matrix4f m, int offset, FloatBuffer dest) {
+            if (offset == 0)
+                put4x3_0(m, dest);
+            else
+                put4x3_N(m, offset, dest);
+        }
+
+        public void put4x3_0(Matrix4f m, ByteBuffer dest) {
+            dest.putFloat(0,  m.m00());
+            dest.putFloat(4,  m.m01());
+            dest.putFloat(8,  m.m02());
+            dest.putFloat(12, m.m10());
+            dest.putFloat(16, m.m11());
+            dest.putFloat(20, m.m12());
+            dest.putFloat(24, m.m20());
+            dest.putFloat(28, m.m21());
+            dest.putFloat(32, m.m22());
+            dest.putFloat(36, m.m30());
+            dest.putFloat(40, m.m31());
+            dest.putFloat(44, m.m32());
+        }
+        private void put4x3_N(Matrix4f m, int offset, ByteBuffer dest) {
+            dest.putFloat(offset,    m.m00());
+            dest.putFloat(offset+4,  m.m01());
+            dest.putFloat(offset+8,  m.m02());
+            dest.putFloat(offset+12, m.m10());
+            dest.putFloat(offset+16, m.m11());
+            dest.putFloat(offset+20, m.m12());
+            dest.putFloat(offset+24, m.m20());
+            dest.putFloat(offset+28, m.m21());
+            dest.putFloat(offset+32, m.m22());
+            dest.putFloat(offset+36, m.m30());
+            dest.putFloat(offset+40, m.m31());
+            dest.putFloat(offset+44, m.m32());
+        }
+        public void put4x3(Matrix4f m, int offset, ByteBuffer dest) {
+            if (offset == 0)
+                put4x3_0(m, dest);
+            else
+                put4x3_N(m, offset, dest);
         }
 
         public void put0(Matrix4x3f m, FloatBuffer dest) {
@@ -2981,6 +3053,16 @@ public abstract class MemUtil {
             }
         }
 
+        public void put4x3(Matrix4f m, long destAddr) {
+            for (int i = 0; i < 4; i++) {
+                putLong(null, destAddr + 12 * i, UNSAFE.getLong(m, Matrix4f_m00 + (i << 4)));
+            }
+            UNSAFE.putFloat(null, destAddr +  8, m.m02());
+            UNSAFE.putFloat(null, destAddr + 20, m.m12());
+            UNSAFE.putFloat(null, destAddr + 32, m.m22());
+            UNSAFE.putFloat(null, destAddr + 44, m.m32());
+        }
+
         public void put(Matrix4x3f m, long destAddr) {
             for (int i = 0; i < 6; i++) {
                 putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4x3f_m00 + (i << 3)));
@@ -3699,6 +3781,20 @@ public abstract class MemUtil {
                 throwNoDirectBufferException();
             }
             put(m, addressOf(dest) + offset);
+        }
+
+        public void put4x3(Matrix4f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
+            put4x3(m, addressOf(dest) + (offset << 2));
+        }
+
+        public void put4x3(Matrix4f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
+            put4x3(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix4x3f m, int offset, FloatBuffer dest) {
