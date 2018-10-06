@@ -357,6 +357,20 @@ public interface Vector4ic {
     int get(int component) throws IllegalArgumentException;
 
     /**
+     * Determine the component with the biggest absolute value.
+     * 
+     * @return the component index, within <code>[0..3]</code>
+     */
+    int maxComponent();
+
+    /**
+     * Determine the component with the smallest (towards zero) absolute value.
+     * 
+     * @return the component index, within <code>[0..3]</code>
+     */
+    int minComponent();
+
+    /**
      * Compare the vector components of <code>this</code> vector with the given <code>(x, y, z, w)</code>
      * and return whether all of them are equal.
      *

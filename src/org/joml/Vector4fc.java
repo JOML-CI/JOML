@@ -637,6 +637,20 @@ public interface Vector4fc {
     float get(int component) throws IllegalArgumentException;
 
     /**
+     * Determine the component with the biggest absolute value.
+     * 
+     * @return the component index, within <code>[0..3]</code>
+     */
+    int maxComponent();
+
+    /**
+     * Determine the component with the smallest (towards zero) absolute value.
+     * 
+     * @return the component index, within <code>[0..3]</code>
+     */
+    int minComponent();
+
+    /**
      * Compute for each component of this vector the largest (closest to positive
      * infinity) {@code float} value that is less than or equal to that
      * component and is equal to a mathematical integer and store the result in

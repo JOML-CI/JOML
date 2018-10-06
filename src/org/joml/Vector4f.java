@@ -1587,6 +1587,42 @@ public class Vector4f implements Externalizable, Vector4fc {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#maxComponent()
+     */
+    public int maxComponent() {
+        float absX = Math.abs(x);
+        float absY = Math.abs(y);
+        float absZ = Math.abs(z);
+        float absW = Math.abs(w);
+        if (absX >= absY && absX >= absZ && absX >= absW) {
+            return 0;
+        } else if (absY >= absZ && absY >= absW) {
+            return 1;
+        } else if (absZ >= absW) {
+            return 2;
+        }
+        return 3;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#minComponent()
+     */
+    public int minComponent() {
+        float absX = Math.abs(x);
+        float absY = Math.abs(y);
+        float absZ = Math.abs(z);
+        float absW = Math.abs(w);
+        if (absX < absY && absX < absZ && absX < absW) {
+            return 0;
+        } else if (absY < absZ && absY < absW) {
+            return 1;
+        } else if (absZ < absW) {
+            return 2;
+        }
+        return 3;
+    }
+
     /**
      * Set each component of this vector to the largest (closest to positive
      * infinity) {@code float} value that is less than or equal to that

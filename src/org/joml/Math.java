@@ -258,6 +258,10 @@ public class Math {
         return java.lang.Math.abs(r);
     }
 
+    public static int abs(int r) {
+        return java.lang.Math.abs(r);
+    }
+
     public static int max(int x, int y) {
         return java.lang.Math.max(x, y);
     }

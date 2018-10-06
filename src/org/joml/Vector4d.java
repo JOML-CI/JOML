@@ -33,6 +33,7 @@ import java.nio.DoubleBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.Math;
 import org.joml.internal.MemUtil;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
@@ -1712,6 +1713,42 @@ public class Vector4d implements Externalizable, Vector4dc {
         default:
             throw new IllegalArgumentException();
         }
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#maxComponent()
+     */
+    public int maxComponent() {
+        double absX = Math.abs(x);
+        double absY = Math.abs(y);
+        double absZ = Math.abs(z);
+        double absW = Math.abs(w);
+        if (absX >= absY && absX >= absZ && absX >= absW) {
+            return 0;
+        } else if (absY >= absZ && absY >= absW) {
+            return 1;
+        } else if (absZ >= absW) {
+            return 2;
+        }
+        return 3;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#minComponent()
+     */
+    public int minComponent() {
+        double absX = Math.abs(x);
+        double absY = Math.abs(y);
+        double absZ = Math.abs(z);
+        double absW = Math.abs(w);
+        if (absX < absY && absX < absZ && absX < absW) {
+            return 0;
+        } else if (absY < absZ && absY < absW) {
+            return 1;
+        } else if (absZ < absW) {
+            return 2;
+        }
+        return 3;
     }
 
     /**

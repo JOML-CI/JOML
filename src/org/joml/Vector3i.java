@@ -33,6 +33,7 @@ import java.nio.IntBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.Math;
 import org.joml.internal.MemUtil;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
@@ -844,6 +845,36 @@ public class Vector3i implements Externalizable, Vector3ic {
         dest.y = y > v.y() ? y : v.y();
         dest.z = z > v.z() ? z : v.z();
         return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3ic#maxComponent()
+     */
+    public int maxComponent() {
+        float absX = Math.abs(x);
+        float absY = Math.abs(y);
+        float absZ = Math.abs(z);
+        if (absX >= absY && absX >= absZ) {
+            return 0;
+        } else if (absY >= absZ) {
+            return 1;
+        }
+        return 2;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3ic#minComponent()
+     */
+    public int minComponent() {
+        float absX = Math.abs(x);
+        float absY = Math.abs(y);
+        float absZ = Math.abs(z);
+        if (absX < absY && absX < absZ) {
+            return 0;
+        } else if (absY < absZ) {
+            return 1;
+        }
+        return 2;
     }
 
     public int hashCode() {

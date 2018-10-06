@@ -33,6 +33,7 @@ import java.nio.IntBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.Math;
 import org.joml.internal.MemUtil;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
@@ -744,6 +745,28 @@ public class Vector2i implements Externalizable, Vector2ic {
         dest.x = x > v.x() ? x : v.x();
         dest.y = y > v.y() ? y : v.y();
         return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2ic#maxComponent()
+     */
+    public int maxComponent() {
+        int absX = Math.abs(x);
+        int absY = Math.abs(y);
+        if (absX >= absY)
+            return 0;
+        return 1;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2ic#minComponent()
+     */
+    public int minComponent() {
+        int absX = Math.abs(x);
+        int absY = Math.abs(y);
+        if (absX < absY)
+            return 0;
+        return 1;
     }
 
     public int hashCode() {

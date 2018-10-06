@@ -444,6 +444,20 @@ public interface Vector2dc {
     Vector2d max(Vector2dc v, Vector2d dest);
 
     /**
+     * Determine the component with the biggest absolute value.
+     * 
+     * @return the component index, within <code>[0..1]</code>
+     */
+    int maxComponent();
+
+    /**
+     * Determine the component with the smallest (towards zero) absolute value.
+     * 
+     * @return the component index, within <code>[0..1]</code>
+     */
+    int minComponent();
+
+    /**
      * Get the value of the specified component of this vector.
      * 
      * @param component

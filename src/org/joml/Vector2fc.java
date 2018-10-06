@@ -405,6 +405,20 @@ public interface Vector2fc {
     Vector2f max(Vector2fc v, Vector2f dest);
 
     /**
+     * Determine the component with the biggest absolute value.
+     * 
+     * @return the component index, within <code>[0..1]</code>
+     */
+    int maxComponent();
+
+    /**
+     * Determine the component with the smallest (towards zero) absolute value.
+     * 
+     * @return the component index, within <code>[0..1]</code>
+     */
+    int minComponent();
+
+    /**
      * Get the value of the specified component of this vector.
      * 
      * @param component

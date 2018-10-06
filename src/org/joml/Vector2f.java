@@ -33,6 +33,7 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.Math;
 import org.joml.internal.MemUtil;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
@@ -1006,6 +1007,28 @@ public class Vector2f implements Externalizable, Vector2fc {
         dest.x = x > v.x() ? x : v.x();
         dest.y = y > v.y() ? y : v.y();
         return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#maxComponent()
+     */
+    public int maxComponent() {
+        float absX = Math.abs(x);
+        float absY = Math.abs(y);
+        if (absX >= absY)
+            return 0;
+        return 1;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#minComponent()
+     */
+    public int minComponent() {
+        float absX = Math.abs(x);
+        float absY = Math.abs(y);
+        if (absX < absY)
+            return 0;
+        return 1;
     }
 
     /**
