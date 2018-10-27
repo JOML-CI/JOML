@@ -261,6 +261,31 @@ public interface Vector3ic {
      */
     double distance(int x, int y, int z);
 
+
+    /**
+     * Return the grid distance in between (aka 1-Norm, Minkowski or Manhattan distance)
+     * <code>(x, y)</code>.
+     *
+     * @param v
+     *          the other vector
+     * @return the grid distance
+     */
+    long gridDistance(Vector3ic v);
+
+    /**
+     * Return the grid distance in between (aka 1-Norm, Minkowski or Manhattan distance)
+     * <code>(x, y)</code>.
+     *
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the y component of the other vector
+     * @return the grid distance
+     */
+    long gridDistance(int x, int y, int z);
+
     /**
      * Return the square of the distance between this vector and <code>v</code>.
      *

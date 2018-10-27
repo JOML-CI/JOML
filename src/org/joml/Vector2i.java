@@ -536,6 +536,22 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 
     /**
+     * (non-Javadoc)
+     * @see org.joml.Vector2ic#gridDistance(org.joml.Vector2ic)
+     */
+    public long gridDistance(Vector2ic v) {
+        return Math.abs(v.x() - x()) + Math.abs(v.y() - y());
+    }
+
+    /**
+     * (non-Javadoc)
+     * @see org.joml.Vector2ic#gridDistance(int, int)
+     */
+    public long gridDistance(int x, int y) {
+        return Math.abs(x - x()) + Math.abs(y - y());
+    }
+
+    /**
      * Return the distance between <code>(x1, y1)</code> and <code>(x2, y2)</code>.
      *
      * @param x1
