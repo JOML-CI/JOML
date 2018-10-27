@@ -687,6 +687,14 @@ public class Vector3i implements Externalizable, Vector3ic {
         return Math.sqrt(distanceSquared(x, y, z));
     }
 
+    public long gridDistance(Vector3ic v) {
+        return Math.abs(v.x() - x()) + Math.abs(v.y() - y())  + Math.abs(v.z() - z());
+    }
+
+    public long gridDistance(int x, int y, int z) {
+        return Math.abs(x - x()) + Math.abs(y - y()) + Math.abs(z - z());
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3ic#distanceSquared(org.joml.Vector3ic)
      */
