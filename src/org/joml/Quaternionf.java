@@ -1864,9 +1864,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#integrate(float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf integrate(float dt, float vx, float vy, float vz, Quaternionf dest) {
-        float thetaX = vx * 0.5f;
-        float thetaY = vy * 0.5f;
-        float thetaZ = vz * 0.5f;
+        float thetaX = dt * vx * 0.5f;
+        float thetaY = dt * vy * 0.5f;
+        float thetaZ = dt * vz * 0.5f;
         float thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
         float s;
         float dqX, dqY, dqZ, dqW;

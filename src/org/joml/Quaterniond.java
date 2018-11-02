@@ -1438,9 +1438,9 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#integrate(double, double, double, double, org.joml.Quaterniond)
      */
     public Quaterniond integrate(double dt, double vx, double vy, double vz, Quaterniond dest) {
-        double thetaX = vx * 0.5;
-        double thetaY = vy * 0.5;
-        double thetaZ = vz * 0.5;
+        double thetaX = dt * vx * 0.5;
+        double thetaY = dt * vy * 0.5;
+        double thetaZ = dt * vz * 0.5;
         double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
         double s;
         double dqX, dqY, dqZ, dqW;
