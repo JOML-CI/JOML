@@ -9752,7 +9752,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             this._m32((zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar));
         }
         this._m23(-1.0f);
-        _properties(PROPERTY_PERSPECTIVE);
+        _properties(offAngleX == 0.0f && offAngleY == 0.0f ? PROPERTY_PERSPECTIVE : 0);
         return this;
     }
 

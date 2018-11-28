@@ -12524,6 +12524,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m30 = 0.0;
         m31 = 0.0;
         m33 = 0.0;
+        properties = offAngleX == 0.0 && offAngleY == 0.0 ? PROPERTY_PERSPECTIVE : 0;
         return this;
     }
 
