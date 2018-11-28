@@ -12176,7 +12176,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double yScale = 1.0 / h;
         double rm00 = xScale;
         double rm11 = yScale;
-        double offX = Math.tan(offAngleX * 0.5) * zNear, offY = Math.tan(offAngleY * 0.5) * zNear;
+        double offX = Math.tan(offAngleX), offY = Math.tan(offAngleY);
         double rm20 = offX * xScale;
         double rm21 = offY * yScale;
         double rm22;
@@ -12502,7 +12502,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double xScale = 1.0 / (h * aspect), yScale = 1.0 / h;
         m00 = xScale;
         m11 = yScale;
-        double offX = Math.tan(offAngleX * 0.5) * zNear, offY = Math.tan(offAngleY * 0.5) * zNear;
+        double offX = Math.tan(offAngleX), offY = Math.tan(offAngleY);
         m20 = offX * xScale;
         m21 = offY * yScale;
         boolean farInf = zFar > 0 && Double.isInfinite(zFar);

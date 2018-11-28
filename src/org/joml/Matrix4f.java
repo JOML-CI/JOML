@@ -9417,7 +9417,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float yScale = 1.0f / h;
         float rm00 = xScale;
         float rm11 = yScale;
-        float offX = (float) Math.tan(offAngleX * 0.5f) * zNear, offY = (float) Math.tan(offAngleY * 0.5f) * zNear;
+        float offX = (float) Math.tan(offAngleX), offY = (float) Math.tan(offAngleY);
         float rm20 = offX * xScale;
         float rm21 = offY * yScale;
         float rm22;
@@ -9733,7 +9733,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float xScale = 1.0f / (h * aspect), yScale = 1.0f / h;
         this._m00(xScale);
         this._m11(yScale);
-        float offX = (float) Math.tan(offAngleX * 0.5f) * zNear, offY = (float) Math.tan(offAngleY * 0.5f) * zNear;
+        float offX = (float) Math.tan(offAngleX), offY = (float) Math.tan(offAngleY);
         this._m20(offX * xScale);
         this._m21(offY * yScale);
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
