@@ -34,6 +34,7 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.Math;
 import org.joml.internal.*;
 import org.joml.internal.Runtime;
 
@@ -12124,6 +12125,226 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
+     * Apply an asymmetric off-center perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given angles <code>offAngleX</code> and <code>offAngleY</code> are the horizontal and vertical angles between
+     * the line of sight and the line given by the center of the near and far frustum planes. So, when <code>offAngleY</code>
+     * is just <code>fovy/2</code> then the projection frustum is rotated towards +Y and the bottom frustum plane 
+     * is parallel to the XZ-plane.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveOffCenter(double, double, double, double, double, double, boolean) setPerspective}.
+     * 
+     * @see #setPerspectiveOffCenter(double, double, double, double, double, double, boolean)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param offAngleX
+     *            the horizontal angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param offAngleY
+     *            the vertical angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param dest
+     *            will hold the result
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
+     * @return dest
+     */
+    public Matrix4d perspectiveOffCenter(double fovy, double offAngleX, double offAngleY, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setPerspectiveOffCenter(fovy, offAngleX, offAngleY, aspect, zNear, zFar, zZeroToOne);
+        return perspectiveOffCenterGeneric(fovy, offAngleX, offAngleY, aspect, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4d perspectiveOffCenterGeneric(double fovy, double offAngleX, double offAngleY, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        double h = Math.tan(fovy * 0.5);
+        // calculate right matrix elements
+        double xScale = 1.0 / (h * aspect);
+        double yScale = 1.0 / h;
+        double rm00 = xScale;
+        double rm11 = yScale;
+        double offX = Math.tan(offAngleX * 0.5) * zNear, offY = Math.tan(offAngleY * 0.5) * zNear;
+        double rm20 = offX * xScale;
+        double rm21 = offY * yScale;
+        double rm22;
+        double rm32;
+        boolean farInf = zFar > 0 && Double.isInfinite(zFar);
+        boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            double e = 1E-6;
+            rm22 = e - 1.0;
+            rm32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
+        } else if (nearInf) {
+            double e = 1E-6;
+            rm22 = (zZeroToOne ? 0.0 : 1.0) - e;
+            rm32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
+        } else {
+            rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
+        // perform optimized matrix multiplication
+        double nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
+        double nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 - m31;
+        double nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 - m32;
+        double nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 - m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m30 = m20 * rm32;
+        dest.m31 = m21 * rm32;
+        dest.m32 = m22 * rm32;
+        dest.m33 = m23 * rm32;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        properties = properties & ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
+                | PROPERTY_ORTHONORMAL | (rm20 == 0.0 && rm21 == 0.0 ? 0 : PROPERTY_PERSPECTIVE));
+        return dest;
+    }
+
+    /**
+     * Apply an asymmetric off-center perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given angles <code>offAngleX</code> and <code>offAngleY</code> are the horizontal and vertical angles between
+     * the line of sight and the line given by the center of the near and far frustum planes. So, when <code>offAngleY</code>
+     * is just <code>fovy/2</code> then the projection frustum is rotated towards +Y and the bottom frustum plane 
+     * is parallel to the XZ-plane.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveOffCenter(double, double, double, double, double, double) setPerspective}.
+     * 
+     * @see #setPerspectiveOffCenter(double, double, double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param offAngleX
+     *            the horizontal angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param offAngleY
+     *            the vertical angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d perspectiveOffCenter(double fovy, double offAngleX, double offAngleY, double aspect, double zNear, double zFar, Matrix4d dest) {
+        return perspectiveOffCenter(fovy, offAngleX, offAngleY, aspect, zNear, zFar, false, dest);
+    }
+
+    /**
+     * Apply an asymmetric off-center perspective projection frustum transformation using for a right-handed coordinate system
+     * the given NDC z range to this matrix.
+     * <p>
+     * The given angles <code>offAngleX</code> and <code>offAngleY</code> are the horizontal and vertical angles between
+     * the line of sight and the line given by the center of the near and far frustum planes. So, when <code>offAngleY</code>
+     * is just <code>fovy/2</code> then the projection frustum is rotated towards +Y and the bottom frustum plane 
+     * is parallel to the XZ-plane.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveOffCenter(double, double, double, double, double, double, boolean) setPerspective}.
+     * 
+     * @see #setPerspectiveOffCenter(double, double, double, double, double, double, boolean)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param offAngleX
+     *            the horizontal angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param offAngleY
+     *            the vertical angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
+     * @return a matrix holding the result
+     */
+    public Matrix4d perspectiveOffCenter(double fovy, double offAngleX, double offAngleY, double aspect, double zNear, double zFar, boolean zZeroToOne) {
+        return perspectiveOffCenter(fovy, offAngleX, offAngleY, aspect, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply an asymmetric off-center perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix.
+     * <p>
+     * The given angles <code>offAngleX</code> and <code>offAngleY</code> are the horizontal and vertical angles between
+     * the line of sight and the line given by the center of the near and far frustum planes. So, when <code>offAngleY</code>
+     * is just <code>fovy/2</code> then the projection frustum is rotated towards +Y and the bottom frustum plane 
+     * is parallel to the XZ-plane.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveOffCenter(double, double, double, double, double, double) setPerspective}.
+     * 
+     * @see #setPerspectiveOffCenter(double, double, double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param offAngleX
+     *            the horizontal angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param offAngleY
+     *            the vertical angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @return a matrix holding the result
+     */
+    public Matrix4d perspectiveOffCenter(double fovy, double offAngleX, double offAngleY, double aspect, double zNear, double zFar) {
+        return perspectiveOffCenter(fovy, offAngleX, offAngleY, aspect, zNear, zFar, this);
+    }
+
+    /**
      * Set this matrix to be a symmetric perspective projection frustum transformation for a right-handed coordinate system
      * using the given NDC z range.
      * <p>
@@ -12205,6 +12426,105 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d setPerspective(double fovy, double aspect, double zNear, double zFar) {
         return setPerspective(fovy, aspect, zNear, zFar, false);
+    }
+
+    /**
+     * Set this matrix to be an asymmetric off-center perspective projection frustum transformation for a right-handed
+     * coordinate system using OpenGL's NDC z range of <code>[-1..+1]</code>.
+     * <p>
+     * The given angles <code>offAngleX</code> and <code>offAngleY</code> are the horizontal and vertical angles between
+     * the line of sight and the line given by the center of the near and far frustum planes. So, when <code>offAngleY</code>
+     * is just <code>fovy/2</code> then the projection frustum is rotated towards +Y and the bottom frustum plane 
+     * is parallel to the XZ-plane.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspectiveOffCenter(double, double, double, double, double, double) perspectiveOffCenter()}.
+     * 
+     * @see #perspectiveOffCenter(double, double, double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param offAngleX
+     *            the horizontal angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param offAngleY
+     *            the vertical angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @return this
+     */
+    public Matrix4d setPerspectiveOffCenter(double fovy, double offAngleX, double offAngleY,
+            double aspect, double zNear, double zFar) {
+        return setPerspectiveOffCenter(fovy, offAngleX, offAngleY, aspect, zNear, zFar, false);
+    }
+    /**
+     * Set this matrix to be an asymmetric off-center perspective projection frustum transformation for a right-handed
+     * coordinate system using the given NDC z range.
+     * <p>
+     * The given angles <code>offAngleX</code> and <code>offAngleY</code> are the horizontal and vertical angles between
+     * the line of sight and the line given by the center of the near and far frustum planes. So, when <code>offAngleY</code>
+     * is just <code>fovy/2</code> then the projection frustum is rotated towards +Y and the bottom frustum plane 
+     * is parallel to the XZ-plane.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspectiveOffCenter(double, double, double, double, double, double) perspectiveOffCenter()}.
+     * 
+     * @see #perspectiveOffCenter(double, double, double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param offAngleX
+     *            the horizontal angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param offAngleY
+     *            the vertical angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d setPerspectiveOffCenter(double fovy, double offAngleX, double offAngleY,
+                                            double aspect, double zNear, double zFar, boolean zZeroToOne) {
+        this.zero();
+        double h = Math.tan(fovy * 0.5);
+        double xScale = 1.0 / (h * aspect), yScale = 1.0 / h;
+        m00 = xScale;
+        m11 = yScale;
+        double offX = Math.tan(offAngleX * 0.5) * zNear, offY = Math.tan(offAngleY * 0.5) * zNear;
+        m20 = offX * xScale;
+        m21 = offY * yScale;
+        boolean farInf = zFar > 0 && Double.isInfinite(zFar);
+        boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            double e = 1E-6;
+            m22 = e - 1.0;
+            m32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
+        } else if (nearInf) {
+            double e = 1E-6;
+            m22 = (zZeroToOne ? 0.0 : 1.0) - e;
+            m32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
+        } else {
+            m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
+        m23 = -1.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m33 = 0.0;
+        return this;
     }
 
     /**
