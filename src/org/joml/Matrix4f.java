@@ -9366,6 +9366,181 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
+     * Apply a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveRect(float, float, float, float, boolean) setPerspectiveRect}.
+     * 
+     * @see #setPerspectiveRect(float, float, float, float, boolean)
+     * 
+     * @param width
+     *            the width of the near frustum plane
+     * @param height
+     *            the height of the near frustum plane
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param dest
+     *            will hold the result
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
+     * @return dest
+     */
+    public Matrix4f perspectiveRect(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setPerspectiveRect(width, height, zNear, zFar, zZeroToOne);
+        return perspectiveRectGeneric(width, height, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4f perspectiveRectGeneric(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        float rm00 = (zNear + zNear) / width;
+        float rm11 = (zNear + zNear) / height;
+        float rm22, rm32;
+        boolean farInf = zFar > 0 && Float.isInfinite(zFar);
+        boolean nearInf = zNear > 0 && Float.isInfinite(zNear);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            float e = 1E-6f;
+            rm22 = e - 1.0f;
+            rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
+        } else if (nearInf) {
+            float e = 1E-6f;
+            rm22 = (zZeroToOne ? 0.0f : 1.0f) - e;
+            rm32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
+        } else {
+            rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
+        // perform optimized matrix multiplication
+        float nm20 = m20 * rm22 - m30;
+        float nm21 = m21 * rm22 - m31;
+        float nm22 = m22 * rm22 - m32;
+        float nm23 = m23 * rm22 - m33;
+        dest._m00(m00 * rm00);
+        dest._m01(m01 * rm00);
+        dest._m02(m02 * rm00);
+        dest._m03(m03 * rm00);
+        dest._m10(m10 * rm11);
+        dest._m11(m11 * rm11);
+        dest._m12(m12 * rm11);
+        dest._m13(m13 * rm11);
+        dest._m30(m20 * rm32);
+        dest._m31(m21 * rm32);
+        dest._m32(m22 * rm32);
+        dest._m33(m23 * rm32);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._properties(properties & ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+        return dest;
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveRect(float, float, float, float) setPerspectiveRect}.
+     * 
+     * @see #setPerspectiveRect(float, float, float, float)
+     * 
+     * @param width
+     *            the width of the near frustum plane
+     * @param height
+     *            the height of the near frustum plane
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f perspectiveRect(float width, float height, float zNear, float zFar, Matrix4f dest) {
+        return perspectiveRect(width, height, zNear, zFar, false, dest);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation using for a right-handed coordinate system
+     * the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveRect(float, float, float, float, boolean) setPerspectiveRect}.
+     * 
+     * @see #setPerspectiveRect(float, float, float, float, boolean)
+     * 
+     * @param width
+     *            the width of the near frustum plane
+     * @param height
+     *            the height of the near frustum plane
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
+     * @return a matrix holding the result
+     */
+    public Matrix4f perspectiveRect(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
+        return perspectiveRect(width, height, zNear, zFar, zZeroToOne, thisOrNew());
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveRect(float, float, float, float) setPerspectiveRect}.
+     * 
+     * @see #setPerspectiveRect(float, float, float, float)
+     * 
+     * @param width
+     *            the width of the near frustum plane
+     * @param height
+     *            the height of the near frustum plane
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @return a matrix holding the result
+     */
+    public Matrix4f perspectiveRect(float width, float height, float zNear, float zFar) {
+        return perspectiveRect(width, height, zNear, zFar, thisOrNew());
+    }
+
+    /**
      * Apply an asymmetric off-center perspective projection frustum transformation for a right-handed coordinate system
      * using the given NDC z range to this matrix and store the result in <code>dest</code>.
      * <p>
@@ -9380,7 +9555,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * the perspective projection will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setPerspectiveOffCenter(float, float, float, float, float, float, boolean) setPerspective}.
+     * use {@link #setPerspectiveOffCenter(float, float, float, float, float, float, boolean) setPerspectiveOffCenter}.
      * 
      * @see #setPerspectiveOffCenter(float, float, float, float, float, float, boolean)
      * 
@@ -9478,7 +9653,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * the perspective projection will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setPerspectiveOffCenter(float, float, float, float, float, float) setPerspective}.
+     * use {@link #setPerspectiveOffCenter(float, float, float, float, float, float) setPerspectiveOffCenter}.
      * 
      * @see #setPerspectiveOffCenter(float, float, float, float, float, float)
      * 
@@ -9519,7 +9694,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * the perspective projection will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setPerspectiveOffCenter(float, float, float, float, float, float, boolean) setPerspective}.
+     * use {@link #setPerspectiveOffCenter(float, float, float, float, float, float, boolean) setPerspectiveOffCenter}.
      * 
      * @see #setPerspectiveOffCenter(float, float, float, float, float, float, boolean)
      * 
@@ -9561,7 +9736,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * the perspective projection will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setPerspectiveOffCenter(float, float, float, float, float, float) setPerspective}.
+     * use {@link #setPerspectiveOffCenter(float, float, float, float, float, float) setPerspectiveOffCenter}.
      * 
      * @see #setPerspectiveOffCenter(float, float, float, float, float, float)
      * 
@@ -9657,6 +9832,79 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar) {
         return setPerspective(fovy, aspect, zNear, zFar, false);
+    }
+
+    /**
+     * Set this matrix to be a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspectiveRect(float, float, float, float, boolean) perspectiveRect()}.
+     * 
+     * @see #perspectiveRect(float, float, float, float, boolean)
+     * 
+     * @param width
+     *            the width of the near frustum plane
+     * @param height
+     *            the height of the near frustum plane
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f setPerspectiveRect(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
+        MemUtil.INSTANCE.zero(this);
+        this._m00((zNear + zNear) / width);
+        this._m11((zNear + zNear) / height);
+        boolean farInf = zFar > 0 && Float.isInfinite(zFar);
+        boolean nearInf = zNear > 0 && Float.isInfinite(zNear);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            float e = 1E-6f;
+            this._m22(e - 1.0f);
+            this._m32((e - (zZeroToOne ? 1.0f : 2.0f)) * zNear);
+        } else if (nearInf) {
+            float e = 1E-6f;
+            this._m22((zZeroToOne ? 0.0f : 1.0f) - e);
+            this._m32(((zZeroToOne ? 1.0f : 2.0f) - e) * zFar);
+        } else {
+            this._m22((zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar));
+            this._m32((zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar));
+        }
+        this._m23(-1.0f);
+        _properties(PROPERTY_PERSPECTIVE);
+        return this;
+    }
+
+    /**
+     * Set this matrix to be a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <code>[-1..+1]</code>.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspectiveRect(float, float, float, float) perspectiveRect()}.
+     * 
+     * @see #perspectiveRect(float, float, float, float)
+     * 
+     * @param width
+     *            the width of the near frustum plane
+     * @param height
+     *            the height of the near frustum plane
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @return this
+     */
+    public Matrix4f setPerspectiveRect(float width, float height, float zNear, float zFar) {
+        return setPerspectiveRect(width, height, zNear, zFar, false);
     }
 
     /**
