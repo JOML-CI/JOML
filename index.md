@@ -1,5 +1,7 @@
-# [JOML](http://joml-ci.github.io/JOML) – Java OpenGL Math Library [![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=master)](https://travis-ci.org/JOML-CI/JOML) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.joml/joml/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22joml%22)
+# [JOML](http://joml-ci.github.io/JOML) – Java OpenGL Math Library
 A Java math library for OpenGL rendering calculations | use it on: [Desktop](https://github.com/JOML-CI/JOML/wiki#maven-setup-for-desktop) / [Android](https://github.com/JOML-CI/JOML/wiki#gradle-setup-for-android) / [GWT](https://github.com/JOML-CI/JOML/wiki#gradle-setup-for-gwt)
+
+[![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=master)](https://travis-ci.org/JOML-CI/JOML) [![Build Status](https://ci.appveyor.com/api/projects/status/github/JOML-CI/JOML?branch=master&svg=true)](https://ci.appveyor.com/project/httpdigest/joml) [![Maven Release](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/joml/joml/maven-metadata.xml.svg)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3Aorg.joml%20a%3Ajoml) [![Maven Snapshot](https://img.shields.io/nexus/s/https/oss.sonatype.org/org.joml/joml.svg)](https://oss.sonatype.org/content/repositories/snapshots/org/joml/joml/)
 
 Design goals
 ------------
@@ -117,7 +119,7 @@ new Matrix4f().perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
                       0.0f, 1.0f, 0.0f).get(fb);
 glUniformMatrix4fv(mat4Location, false, fb);
 ```
-The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method [*glUniformMatrix4fv*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv-int-boolean-java.nio.FloatBuffer-).
+The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method [*glUniformMatrix4fv*](https://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv(int,boolean,java.nio.FloatBuffer)).
 
 Instead of using the uniform methods, one or multiple matrices can also be uploaded to an OpenGL buffer object and then sourced from that buffer object from within a shader when used as an uniform buffer object or a shader storage buffer object.
 The following uploads a matrix to an OpenGL buffer object which can then be used as an uniform buffer object in a shader:
@@ -129,7 +131,7 @@ glBindBuffer(GL_UNIFORM_BUFFER, ubo);
 glBufferSubData(GL_UNIFORM_BUFFER, 0, m.get(fb));
 ```
 
-If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call [*glLoadMatrixf()*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf-java.nio.FloatBuffer-) provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
+If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call [*glLoadMatrixf()*](https://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf(java.nio.FloatBuffer)) provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f();
@@ -145,7 +147,7 @@ glLoadMatrixf(m.get(fb));
 
 Using with Vulkan and LWJGL 3
 ----------------------------
-You can use [VK10.vkMapMemory()](http://javadoc.lwjgl.org/org/lwjgl/vulkan/VK10.html#vkMapMemory-org.lwjgl.vulkan.VkDevice-long-long-long-int-org.lwjgl.PointerBuffer-) provided by LWJGL to map a Vulkan memory object, which may be the backing store of a Uniform Buffer, into Java and use the returned Java NIO ByteBuffer to upload the matrix like you would with OpenGL by calling [get()](http://joml-ci.github.io/JOML/apidocs/org/joml/Matrix4f.html#get-java.nio.ByteBuffer-) on the matrix:
+You can use [VK10.vkMapMemory()](https://javadoc.lwjgl.org/org/lwjgl/vulkan/VK10.html#vkMapMemory(org.lwjgl.vulkan.VkDevice,long,long,long,int,org.lwjgl.PointerBuffer)) provided by LWJGL to map a Vulkan memory object, which may be the backing store of a Uniform Buffer, into Java and use the returned Java NIO ByteBuffer to upload the matrix like you would with OpenGL by calling [get()](http://joml-ci.github.io/JOML/apidocs/org/joml/Matrix4f.html#get-java.nio.ByteBuffer-) on the matrix:
 ```Java
 Matrix4f m = ...;
 VkDevice device = ...; // <- the vulkan device
@@ -277,12 +279,12 @@ void frame() {
 ```
 In the example above, a single Matrix4f is allocated during some initialization time when the *init()* method is called. Then each *frame()* we reinitialize the same matrix with the *identity()* and recompute the camera transformation based on some other parameters.
 
-Immutable Views
+Read-only Views
 ---------------
 
 In more complex applications with multiple API providers and consumers/clients, it is sometimes desirable to communicate the intent that a certain object returned by an API call or consumed by a call should not get modified by the caller or the callee, respectively. This can be helpful to encourage efficient memory usage by sharing objects and to discourage/disallow unintended object mutations.
 
-For this, JOML provides immutable views on each class, realized via a Java interface implemented by each class. This interface only contains methods that will not mutate the object on which it is called.
+For this, JOML provides read-only views on each class, realized via a Java interface implemented by each class. This interface only contains methods that will not mutate the object on which it is called.
 
 ```Java
 private Vector4f sharedVector;
@@ -293,7 +295,7 @@ public void consume(Vector4fc v) {
   // ...
 }
 ```
-Using immutable views, it is possible to declare who is responsible of mutating an object and who is not allowed to.
+Using read-only views, it is possible to declare who is responsible of mutating an object and who is not allowed to.
 
 Multithreading
 --------------
@@ -306,7 +308,7 @@ This allows you to use all of the legacy OpenGL matrix stack operations even in 
 but without the otherwise necessary JNI calls into the graphics driver.
 *Note that JOML does not interface in any way with the OpenGL API. It merely provides matrix and vector arithmetics.*
 ```Java
-MatrixStackf s = new MatrixStackf(2);
+Matrix4fStack s = new Matrix4fStack(2);
 s.translate(2.0f, 0.0f, 0.0f);
 s.pushMatrix();
 {
