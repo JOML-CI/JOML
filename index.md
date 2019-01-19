@@ -320,6 +320,13 @@ s.rotate((float) Math.toRadians(45.0f), 0.0f, 0.0f, 1.0f);
 // do something with the Matrix4f of 's'
 ```
 
+Literature
+----------
+This section contains a list of books/tutorials/articles featuring JOML.
+
+* [Computer Graphics Programming in OpenGL with Java, 2nd Edition](https://www.amazon.com/dp/1683922190) – [Mercury Learning](http://www.merclearning.com/titles/Computer_Graphics_Programming_in_OpenGL_with_Java_Second_Edition.html)
+* [3D Game Development with LWJGL 3](https://ahbejarano.gitbook.io/lwjglgamedev/)
+
 Projects and Organisations using JOML
 -------------------------------------
 This section names real-world projects and organisations using JOML. All owners of the projects and responsible contacts of an organisation listed here were asked for permission before.
