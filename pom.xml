@@ -55,7 +55,7 @@
 		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
 		<buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-		<httpclient.version>4.5.6</httpclient.version>
+		<httpclient.version>4.5.7</httpclient.version>
 		<asm.version>7.0</asm.version>
 		<gwt-user.version>2.5.0</gwt-user.version>
 		<junit.version>3.8.2</junit.version>
@@ -318,15 +318,14 @@
 			</build>
 		</profile>
 		<profile>
-			<id>deployment</id>
+			<id>verify</id>
 			<activation>
 				<property>
-					<name>deployment</name>
+					<name>verify</name>
 				</property>
 			</activation>
 			<build>
 				<plugins>
-					<!-- Check for invalid URLs in sources -->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<version>${maven-antrun-plugin.version}</version>
@@ -362,6 +361,18 @@
 							</dependency>
 						</dependencies>
 					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>deployment</id>
+			<activation>
+				<property>
+					<name>deployment</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
 					<plugin>
 						<artifactId>maven-gpg-plugin</artifactId>
 						<version>${maven-gpg-plugin.version}</version>
