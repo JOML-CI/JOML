@@ -1609,6 +1609,25 @@ public interface Matrix4dc {
     Matrix4d scale(double xyz, Matrix4d dest);
 
     /**
+     * Apply scaling to this matrix by by scaling the X axis by <code>x</code> and the Y axis by <code>y</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Matrix4d scaleXY(double x, double y, Matrix4d dest);
+
+    /**
      * Apply scaling to <code>this</code> matrix by scaling the base axes by the given sx,
      * sy and sz factors while using <code>(ox, oy, oz)</code> as the scaling origin,
      * and store the result in <code>dest</code>.
