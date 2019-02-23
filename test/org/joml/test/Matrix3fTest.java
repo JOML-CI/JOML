@@ -37,7 +37,6 @@ public class Matrix3fTest extends TestCase {
      * Test of setRow method, of class Matrix3f.
      */
     public void testSetRow_4args() {
-        System.out.println("setRow");
         int row = 0;
         float x = 0.0F;
         float y = 1.0F;
