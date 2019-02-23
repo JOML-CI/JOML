@@ -3266,17 +3266,17 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         switch (row) {
         case 0:
             this.m00 = x;
-            this.m01 = y;
-            this.m02 = z;
+            this.m10 = y;
+            this.m20 = z;
             break;
         case 1:
-            this.m10 = x;
+            this.m01 = x;
             this.m11 = y;
-            this.m12 = z;
+            this.m21 = z;
             break;
         case 2:
-            this.m20 = x;
-            this.m21 = y;
+            this.m02 = x;
+            this.m12 = y;
             this.m22 = z;
             break;
         default:
