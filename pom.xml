@@ -496,10 +496,11 @@
 				<version>3.0.0</version>
 				<executions>
 					<execution>
-						<id>validate</id>
+						<id>validate-java</id>
 						<phase>validate</phase>
 						<configuration>
 							<includeTestSourceDirectory>true</includeTestSourceDirectory>
+							<excludes>org/joml/jre/**/*.java</excludes>
 							<configLocation>checkstyle.xml</configLocation>
 							<encoding>UTF-8</encoding>
 							<consoleOutput>true</consoleOutput>

@@ -8,4 +8,8 @@
 		<property name="message"
 			value="CRLF and CR line endings are prohibited, but this file uses them." />
 	</module>
+	<module name="RegexpHeader">
+		<property name="headerFile" value="config/licenseheader" />
+		<property name="fileExtensions" value="java" />
+	</module>
 </module>
