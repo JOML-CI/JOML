@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.joml</groupId>
@@ -117,12 +118,9 @@
 			</properties>
 			<build>
 				<plugins>
-					<!--
-						Make sure the jdk9 profile is only used with a
-						1.9 JDK, and not forcefully enabled via -Pjdk9, because
-						antrun will not work on earlier JDKs, because of missing
-						tools.jar.
-					-->
+					<!-- Make sure the jdk9 profile is only used with a 1.9 JDK, and not 
+						forcefully enabled via -Pjdk9, because antrun will not work on earlier JDKs, 
+						because of missing tools.jar. -->
 					<plugin>
 						<artifactId>maven-enforcer-plugin</artifactId>
 						<version>${maven-enforcer-plugin.version}</version>
@@ -142,11 +140,9 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!--
-						Use the antrun plugin to build and run a post-processing
-						Java application to rewrite the Java class file
-						version from 1.6 back to 1.2 in all compiled class files.
-					-->
+					<!-- Use the antrun plugin to build and run a post-processing Java application 
+						to rewrite the Java class file version from 1.6 back to 1.2 in all compiled 
+						class files. -->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<version>${maven-antrun-plugin.version}</version>
@@ -157,25 +153,28 @@
 									<target>
 										<echo message="Post-process compiled class files..."></echo>
 										<mkdir dir="${project.build.directory}/buildhelper" />
-										<javac
-											srcdir="buildhelper"
+										<javac srcdir="buildhelper"
 											destdir="${project.build.directory}/buildhelper"
 											includeantruntime="false">
-											<include name="Java6to2.java"/>
-											<include name="ModuleInfoGenerator.java"/>
+											<include name="Java6to2.java" />
+											<include name="ModuleInfoGenerator.java" />
 											<classpath refid="maven.plugin.classpath" />
 										</javac>
-										<java classname="Java6to2" classpathref="maven.plugin.classpath">
+										<java classname="Java6to2"
+											classpathref="maven.plugin.classpath">
 											<classpath>
-												<pathelement location="${project.build.directory}/buildhelper" />
+												<pathelement
+													location="${project.build.directory}/buildhelper" />
 											</classpath>
 											<arg value="${project.build.outputDirectory}" />
 										</java>
 										<echo message="Post-processing done."></echo>
 										<echo message="Generate Java 9 module-info.class..."></echo>
-										<java classname="ModuleInfoGenerator" classpathref="maven.plugin.classpath">
+										<java classname="ModuleInfoGenerator"
+											classpathref="maven.plugin.classpath">
 											<classpath>
-												<pathelement location="${project.build.directory}/buildhelper" />
+												<pathelement
+													location="${project.build.directory}/buildhelper" />
 											</classpath>
 											<arg value="${project.build.outputDirectory}" />
 											<arg value="${project.version}" />
@@ -226,9 +225,7 @@
 			</activation>
 			<build>
 				<plugins>
-					<!--
-						Generate module-info.class for Java 9.
-					-->
+					<!-- Generate module-info.class for Java 9. -->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<version>${maven-antrun-plugin.version}</version>
@@ -239,16 +236,17 @@
 									<target>
 										<echo message="Generate Java 9 module-info.class..."></echo>
 										<mkdir dir="${project.build.directory}/buildhelper" />
-										<javac
-											srcdir="buildhelper"
+										<javac srcdir="buildhelper"
 											destdir="${project.build.directory}/buildhelper"
 											includeantruntime="false">
-											<include name="ModuleInfoGenerator.java"/>
+											<include name="ModuleInfoGenerator.java" />
 											<classpath refid="maven.plugin.classpath" />
 										</javac>
-										<java classname="ModuleInfoGenerator" classpathref="maven.plugin.classpath">
+										<java classname="ModuleInfoGenerator"
+											classpathref="maven.plugin.classpath">
 											<classpath>
-												<pathelement location="${project.build.directory}/buildhelper" />
+												<pathelement
+													location="${project.build.directory}/buildhelper" />
 											</classpath>
 											<arg value="${project.build.outputDirectory}" />
 											<arg value="${project.version}" />
@@ -280,9 +278,7 @@
 			</build>
 		</profile>
 		<profile>
-			<!--
-				Builds a GWT module JAR file by preprocessing with the __GWT__ define.
-			-->
+			<!-- Builds a GWT module JAR file by preprocessing with the __GWT__ define. -->
 			<id>gwt</id>
 			<activation>
 				<property>
@@ -336,14 +332,17 @@
 								<configuration>
 									<target>
 										<mkdir dir="${project.build.directory}/buildhelper" />
-										<javac srcdir="buildhelper" destdir="${project.build.directory}/buildhelper"
+										<javac srcdir="buildhelper"
+											destdir="${project.build.directory}/buildhelper"
 											includeantruntime="false">
 											<classpath refid="maven.plugin.classpath" />
-											<include name="UrlChecker.java"/>
+											<include name="UrlChecker.java" />
 										</javac>
-										<java classname="UrlChecker" classpathref="maven.plugin.classpath" failonerror="yes">
+										<java classname="UrlChecker"
+											classpathref="maven.plugin.classpath" failonerror="yes">
 											<classpath>
-												<pathelement location="${project.build.directory}/buildhelper" />
+												<pathelement
+													location="${project.build.directory}/buildhelper" />
 											</classpath>
 										</java>
 									</target>
@@ -434,10 +433,8 @@
 						<configuration>
 							<rules>
 								<requireJavaVersion>
-									<!--
-										To successfully compile JOML, we need at least a JDK6
-										because conditionally loaded classes use > 1.4 features.
-									-->
+									<!-- To successfully compile JOML, we need at least a JDK6 because 
+										conditionally loaded classes use > 1.4 features. -->
 									<version>1.6</version>
 								</requireJavaVersion>
 							</rules>
@@ -495,6 +492,27 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<configuration>
+							<includeTestSourceDirectory>true</includeTestSourceDirectory>
+							<configLocation>checkstyle.xml</configLocation>
+							<encoding>UTF-8</encoding>
+							<consoleOutput>true</consoleOutput>
+							<failsOnError>true</failsOnError>
+							<linkXRef>false</linkXRef>
+						</configuration>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
@@ -550,7 +568,8 @@
 					<excludes>
 						<!-- Exclude the Java 1.4 API classes when javaExclude is set -->
 						<exclude>${javaExclude}</exclude>
-						<!-- Exclude the Java 9 module-info.class when moduleInfoExclude is set -->
+						<!-- Exclude the Java 9 module-info.class when moduleInfoExclude is 
+							set -->
 						<exclude>${moduleInfoExclude}</exclude>
 					</excludes>
 					<archive>
