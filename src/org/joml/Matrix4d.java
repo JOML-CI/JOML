@@ -4395,6 +4395,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#scaleXY(double, double, org.joml.Matrix4d)
+     */
+    public Matrix4d scaleXY(double x, double y, Matrix4d dest) {
+        return scale(x, y, 1.0, dest);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the X axis by <code>x</code> and the Y axis by <code>y</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @return this
+     */
+    public Matrix4d scaleXY(double x, double y) {
+        return scale(x, y, 1.0);
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4dc#scaleAround(double, double, double, double, double, double, org.joml.Matrix4d)
      */
     public Matrix4d scaleAround(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4d dest) {

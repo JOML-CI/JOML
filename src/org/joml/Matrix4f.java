@@ -4706,6 +4706,31 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#scaleXY(float, float, org.joml.Matrix4f)
+     */
+    public Matrix4f scaleXY(float x, float y, Matrix4f dest) {
+        return scale(x, y, 1.0f, dest);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the X axis by <code>x</code> and the Y axis by <code>y</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @return this
+     */
+    public Matrix4f scaleXY(float x, float y) {
+        return scale(x, y, 1.0f);
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4fc#scale(float, float, float, org.joml.Matrix4f)
      */
     public Matrix4f scale(float x, float y, float z, Matrix4f dest) {
