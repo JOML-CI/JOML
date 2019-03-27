@@ -112,37 +112,46 @@ Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
 ---------------------------------------------------
 JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
 ```Java
-FloatBuffer fb = BufferUtils.createFloatBuffer(16);
-new Matrix4f().perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
-              .lookAt(0.0f, 0.0f, 10.0f,
-                      0.0f, 0.0f, 0.0f,
-                      0.0f, 1.0f, 0.0f).get(fb);
-glUniformMatrix4fv(mat4Location, false, fb);
+try (MemoryStack stack = MemoryStack.stackPush()) {
+  FloatBuffer fb = new Matrix4f()
+    .perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
+    .lookAt(0.0f, 0.0f, 10.0f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f)
+    .get(stack.mallocFloat(16));
+  glUniformMatrix4fv(mat4Location, false, fb);
+}
 ```
 The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method [*glUniformMatrix4fv*](https://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv(int,boolean,java.nio.FloatBuffer)).
+
+Also please read [Memory Management in LWJGL 3](https://blog.lwjgl.org/memory-management-in-lwjgl-3/) on how to properly manage native memory that JOML will store the matrices to.
 
 Instead of using the uniform methods, one or multiple matrices can also be uploaded to an OpenGL buffer object and then sourced from that buffer object from within a shader when used as an uniform buffer object or a shader storage buffer object.
 The following uploads a matrix to an OpenGL buffer object which can then be used as an uniform buffer object in a shader:
 ```Java
 Matrix4f m = ...; // <- the matrix to upload
 int ubo = ...; // <- name of a created and already initialized UBO
-FloatBuffer fb = BufferUtils.createFloatBuffer(16);
-glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-glBufferSubData(GL_UNIFORM_BUFFER, 0, m.get(fb));
+try (MemoryStack stack = MemoryStack.stackPush()) {
+  glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+  glBufferSubData(GL_UNIFORM_BUFFER, 0, m.get(stack.mallocFloat(16)));
+}
 ```
 
 If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call [*glLoadMatrixf()*](https://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf(java.nio.FloatBuffer)) provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
 ```Java
-FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f();
 m.setPerspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f);
 glMatrixMode(GL_PROJECTION);
-glLoadMatrixf(m.get(fb));
+try (MemoryStack stack = MemoryStack.stackPush()) {
+  glLoadMatrixf(m.get(stack.mallocFloat(16)));
+}
 m.setLookAt(0.0f, 0.0f, 10.0f,
             0.0f, 0.0f, 0.0f,
             0.0f, 1.0f, 0.0f);
 glMatrixMode(GL_MODELVIEW);
-glLoadMatrixf(m.get(fb));
+try (MemoryStack stack = MemoryStack.stackPush()) {
+  glLoadMatrixf(m.get(stack.mallocFloat(16)));
+}
 ```
 
 Using with Vulkan and LWJGL 3
@@ -152,12 +161,13 @@ You can use [VK10.vkMapMemory()](https://javadoc.lwjgl.org/org/lwjgl/vulkan/VK10
 Matrix4f m = ...;
 VkDevice device = ...; // <- the vulkan device
 long memory = ...; // <- handle to the vulkan device memory
-PointerBuffer pb = MemoryUtil.memAllocPointer(1);
-if (vkMapMemory(device, memory, 0, 16 << 2, 0, pb) == VK_SUCCESS) {
-  m.get(MemoryUtil.memByteBuffer(pb.get(0), 16 << 2));
-  vkUnmapMemory(device, memory);
+try (MemoryStack stack = MemoryStack.stackPush()) {
+  PointerBuffer pb = stack.mallocPointer(1);
+  if (vkMapMemory(device, memory, 0, 16 << 2, 0, pb) == VK_SUCCESS) {
+    m.get(MemoryUtil.memByteBuffer(pb.get(0), 16 << 2));
+    vkUnmapMemory(device, memory);
+  }
 }
-MemoryUtil.memFree(pb);
 ```
 
 Since Vulkan uses a clip space z range between *0 <= z <= w* you need to tell JOML about it when creating a projection matrix. For this, the projection methods on the Matrix4f class have an additional overload taking a boolean parameter to indicate whether Z should be within [0..1] like in Vulkan or [-1..+1] like in OpenGL. The existing method overload without that parameter will default to OpenGL behaviour.
@@ -167,9 +177,10 @@ Alternatively, you can use Vulkan's Push Constants to quickly upload a matrix in
 Matrix4f m = ...;
 VkCommandBuffer cmdBuf = ...; // <- the VkCommandBuffer
 long layout = ...; // <- handle to a Vulkan VkPipelineLayout
-ByteBuffer bb = MemoryUtil.memAlloc(16 << 2);
-vkCmdPushConstants(cmdBuf, layout, VK_SHADER_STAGE_VERTEX_BIT, 0, m.get(bb));
-MemoryUtil.memFree(bb);
+try (MemoryStack stack = MemoryStack.stackPush()) {
+  vkCmdPushConstants(cmdBuf, layout, VK_SHADER_STAGE_VERTEX_BIT,
+                     0, m.get(stack.mallocFloat(16)));
+}
 ```
 
 Also, care must be taken regarding the difference between Vulkan's viewport transformation on the one side and Direct3D's and OpenGL's different viewport transformation on the other side. Since Vulkan does not perform any inversion of the Y-axis from NDC to window coordinates, NDC space and clip space will have its +Y axis pointing downwards (with regard to the screen).
@@ -257,9 +268,12 @@ FloatBuffer fb;
 Matrix4f m;
 
 void init() {
-  fb = BufferUtils.createFloatBuffer(16);
+  fb = MemoryUtil.memAllocFloat(16);
   m = new Matrix4f();
   ...
+}
+void destroy() {
+  MemoryUtil.memFree(fb);
 }
 
 void frame() {
