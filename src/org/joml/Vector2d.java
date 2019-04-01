@@ -508,8 +508,8 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#sub(org.joml.Vector2fc, org.joml.Vector2d)
      */
     public Vector2d sub(Vector2fc v, Vector2d dest) {
-        dest.x = x + v.x();
-        dest.y = y + v.y();
+        dest.x = x - v.x();
+        dest.y = y - v.y();
         return dest;
     }
 
