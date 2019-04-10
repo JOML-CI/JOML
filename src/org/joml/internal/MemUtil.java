@@ -3588,10 +3588,10 @@ public abstract class MemUtil {
         }
 
         public void get(Vector4d dst, long srcAddr) {
-            dst.x = UNSAFE.getLong(null, srcAddr);
-            dst.y = UNSAFE.getLong(null, srcAddr+8);
-            dst.z = UNSAFE.getLong(null, srcAddr+16);
-            dst.w = UNSAFE.getLong(null, srcAddr+24);
+            dst.x = UNSAFE.getDouble(null, srcAddr);
+            dst.y = UNSAFE.getDouble(null, srcAddr+8);
+            dst.z = UNSAFE.getDouble(null, srcAddr+16);
+            dst.w = UNSAFE.getDouble(null, srcAddr+24);
         }
 
         public void get(Vector4f dst, long srcAddr) {
