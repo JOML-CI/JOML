@@ -67,6 +67,40 @@ public class Matrix3d implements Externalizable, Matrix3dc {
     }
 
     /**
+     * Create a new {@link Matrix3d} by setting its uppper left 2x2 submatrix to the values of the given {@link Matrix2dc}
+     * and the rest to identity.
+     *
+     * @param mat
+     *          the {@link Matrix2dc}
+     */
+    public Matrix3d(Matrix2dc mat) {
+        if (mat instanceof Matrix2d) {
+            MemUtil.INSTANCE.copy((Matrix2d) mat, this);
+        } else {
+            setMatrix2dc(mat);
+        }
+    }
+
+    /**
+     * Create a new {@link Matrix3d} by setting its uppper left 2x2 submatrix to the values of the given {@link Matrix2fc}
+     * and the rest to identity.
+     *
+     * @param mat
+     *          the {@link Matrix2fc}
+     */
+    public Matrix3d(Matrix2fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = 0.0;
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = 1.0;
+    }
+
+    /**
      * Create a new {@link Matrix3d} and initialize it with the values from the given matrix.
      * 
      * @param mat
@@ -566,6 +600,59 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         m21 = mat.m21();
         m22 = mat.m22();
         return this;
+    }
+
+    /**
+     * Set the upper left 2x2 submatrix of this {@link Matrix3d} to the given {@link Matrix2fc}
+     * and the rest to identity.
+     *
+     * @see #Matrix3d(Matrix2fc)
+     *
+     * @param mat
+     *          the {@link Matrix2fc}
+     * @return this
+     */
+    public Matrix3d set(Matrix2fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = 0.0;
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = 1.0;
+        return this;
+    }
+
+    /**
+     * Set the upper left 2x2 submatrix of this {@link Matrix3d} to the given {@link Matrix2dc}
+     * and the rest to identity.
+     *
+     * @see #Matrix3d(Matrix2dc)
+     *
+     * @param mat
+     *          the {@link Matrix2dc}
+     * @return this
+     */
+    public Matrix3d set(Matrix2dc mat) {
+        if (mat instanceof Matrix2d) {
+            MemUtil.INSTANCE.copy((Matrix2d) mat, this);
+        } else {
+            setMatrix2dc(mat);
+        }
+        return this;
+    }
+    private void setMatrix2dc(Matrix2dc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = 0.0;
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = 1.0;
     }
 
     /**

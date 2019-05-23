@@ -70,6 +70,21 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 
     /**
+     * Create a new {@link Matrix3f} by setting its uppper left 2x2 submatrix to the values of the given {@link Matrix2fc}
+     * and the rest to identity.
+     *
+     * @param mat
+     *          the {@link Matrix2fc}
+     */
+    public Matrix3f(Matrix2fc mat) {
+        if (mat instanceof Matrix2f) {
+            MemUtil.INSTANCE.copy((Matrix2f) mat, this);
+        } else {
+            setMatrix2fc(mat);
+        }
+    }
+
+    /**
      * Create a new {@link Matrix3f} and make it a copy of the given matrix.
      * 
      * @param mat
@@ -498,6 +513,36 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         m20 = mat.m20();
         m21 = mat.m21();
         m22 = mat.m22();
+    }
+
+    /**
+     * Set the upper left 2x2 submatrix of this {@link Matrix3f} to the given {@link Matrix2fc}
+     * and the rest to identity.
+     *
+     * @see #Matrix3f(Matrix2fc)
+     *
+     * @param mat
+     *          the {@link Matrix2fc}
+     * @return this
+     */
+    public Matrix3f set(Matrix2fc mat) {
+        if (mat instanceof Matrix2f) {
+            MemUtil.INSTANCE.copy((Matrix2f) mat, this);
+        } else {
+            setMatrix2fc(mat);
+        }
+        return this;
+    }
+    private void setMatrix2fc(Matrix2fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = 0.0f;
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = 1.0f;
     }
 
     /**

@@ -793,6 +793,72 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 
     /**
+     * Multiply the given matrix with this Vector2f and store the result in <code>this</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @return a vector holding the result
+     */
+    public Vector2f mul(Matrix2fc mat) {
+        return mul(mat, thisOrNew());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#mul(org.joml.Matrix2fc, org.joml.Vector2f)
+     */
+    public Vector2f mul(Matrix2fc mat, Vector2f dest) {
+        float rx = mat.m00() * x + mat.m10() * y;
+        float ry = mat.m01() * x + mat.m11() * y;
+        dest.x = rx;
+        dest.y = ry;
+        return dest;
+    }
+
+    /**
+     * Multiply the given matrix with this Vector2f and store the result in <code>this</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @return a vector holding the result
+     */
+    public Vector2f mul(Matrix2dc mat) {
+        return mul(mat, thisOrNew());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#mul(org.joml.Matrix2dc, org.joml.Vector2f)
+     */
+    public Vector2f mul(Matrix2dc mat, Vector2f dest) {
+        double rx = mat.m00() * x + mat.m10() * y;
+        double ry = mat.m01() * x + mat.m11() * y;
+        dest.x = (float) rx;
+        dest.y = (float) ry;
+        return dest;
+    }
+
+    /**
+     * Multiply the transpose of the given matrix with this Vector2f store the result in <code>this</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @return a vector holding the result
+     */
+    public Vector2f mulTranspose(Matrix2fc mat) {
+        return mulTranspose(mat, thisOrNew());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#mulTranspose(org.joml.Matrix2fc, org.joml.Vector2f)
+     */
+    public Vector2f mulTranspose(Matrix2fc mat, Vector2f dest) {
+        float rx = mat.m00() * x + mat.m01() * y;
+        float ry = mat.m10() * x + mat.m11() * y;
+        dest.x = rx;
+        dest.y = ry;
+        return dest;
+    }
+
+    /**
      * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>z</code> component of <code>this</code> to be <code>1.0</code>.

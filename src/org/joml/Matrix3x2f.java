@@ -81,6 +81,21 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3x2f} by setting its left 2x2 submatrix to the values of the given {@link Matrix2fc}
+     * and the rest to identity.
+     *
+     * @param mat
+     *          the {@link Matrix2fc}
+     */
+    public Matrix3x2f(Matrix2fc mat) {
+        if (mat instanceof Matrix2f) {
+            MemUtil.INSTANCE.copy((Matrix2f) mat, this);
+        } else {
+            setMatrix2fc(mat);
+        }
+    }
+
+    /**
      * Create a new 3x2 matrix using the supplied float values. The order of the parameter is column-major, 
      * so the first two parameters specify the two elements of the first column.
      * 
@@ -251,6 +266,28 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
         m11 = mat.m11();
         m20 = mat.m20();
         m21 = mat.m21();
+    }
+
+    /**
+     * Set the left 2x2 submatrix of this {@link Matrix3x2f} to the given {@link Matrix2fc} and don't change the other elements.
+     *
+     * @param m
+     *          the 2x2 matrix
+     * @return this
+     */
+    public Matrix3x2f set(Matrix2fc m) {
+        if (m instanceof Matrix2f) {
+            MemUtil.INSTANCE.copy((Matrix2f) m, this);
+        } else {
+            setMatrix2fc(m);
+        }
+        return this;
+    }
+    private void setMatrix2fc(Matrix2fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m10 = mat.m10();
+        m11 = mat.m11();
     }
 
     /**

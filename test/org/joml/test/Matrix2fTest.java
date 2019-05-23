@@ -1,0 +1,53 @@
+package org.joml.test;
+
+import junit.framework.TestCase;
+import org.joml.Matrix2f;
+import org.joml.Vector2f;
+
+public class Matrix2fTest extends TestCase {
+
+    public void testMul() {
+        assertEquals(new Matrix2f(87, 124, 129, 184), new Matrix2f(2, 3, 5, 7).mul(new Matrix2f(11, 13, 17, 19)));
+    }
+
+    public void testMulLocal() {
+        assertEquals(new Matrix2f(87, 124, 129, 184), new Matrix2f(11, 13, 17, 19).mulLocal(new Matrix2f(2, 3, 5, 7)));
+    }
+
+    public void testDeterminant() {
+        assertEquals(-1f, new Matrix2f(2, 3, 5, 7).determinant());
+    }
+
+    public void testInvert() {
+        assertTrue("Matrix2f.invert()",
+                new Matrix2f(-19f/12, 13f/12, 17f/12, -11f/12).equals(new Matrix2f(11, 13, 17, 19).invert(), 0.001f));
+    }
+
+    public void testRotation() {
+        final float angle = (float)Math.PI / 4;
+        Matrix2f mat = new Matrix2f().rotation(angle);
+        final float coord = 1 / (float) Math.sqrt(2);
+        assertTrue("Matrix2f.rotation()",
+                new Vector2f(coord, coord).equals(mat.transform(new Vector2f(1, 0)), 0.001f));
+    }
+
+    public void testNormal() {
+        assertTrue("Matrix2f.normal()",
+                new Matrix2f(2, 3, 5, 7).invert().transpose().equals(new Matrix2f(2, 3, 5, 7).normal(), 0.001f));
+    }
+
+    public void testPositiveX() {
+        Matrix2f inv = new Matrix2f(2, 3, 5, 7).invert();
+        Vector2f expected = inv.transform(new Vector2f(1, 0)).normalize();
+        assertTrue("Matrix2f.positiveX()",
+                expected.equals(new Matrix2f(2, 3, 5, 7).positiveX(new Vector2f()), 0.001f));
+    }
+
+    public void testPositiveY() {
+        Matrix2f inv = new Matrix2f(11, 13, 17, 19).invert();
+        Vector2f expected = inv.transform(new Vector2f(0, 1)).normalize();
+        assertTrue("Matrix2f.positiveY()",
+                expected.equals(new Matrix2f(11, 13, 17, 19).positiveY(new Vector2f()), 0.001f));
+    }
+
+}

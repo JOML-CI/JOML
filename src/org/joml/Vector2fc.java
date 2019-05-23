@@ -311,6 +311,39 @@ public interface Vector2fc {
     Vector2f mul(Vector2fc v, Vector2f dest);
 
     /**
+     * Multiply the given matrix with this Vector2f and store the result in <code>dest</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f mul(Matrix2fc mat, Vector2f dest);
+
+    /**
+     * Multiply the given matrix with this Vector2f and store the result in <code>dest</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f mul(Matrix2dc mat, Vector2f dest);
+
+    /**
+     * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f mulTranspose(Matrix2fc mat, Vector2f dest);
+
+    /**
      * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>

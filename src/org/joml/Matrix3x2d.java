@@ -67,6 +67,35 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3x2d} by setting its left 2x2 submatrix to the values of the given {@link Matrix2dc}
+     * and the rest to identity.
+     *
+     * @param mat
+     *          the {@link Matrix2dc}
+     */
+    public Matrix3x2d(Matrix2dc mat) {
+        if (mat instanceof Matrix2d) {
+            MemUtil.INSTANCE.copy((Matrix2d) mat, this);
+        } else {
+            setMatrix2dc(mat);
+        }
+    }
+
+    /**
+     * Create a new {@link Matrix3x2d} by setting its left 2x2 submatrix to the values of the given {@link Matrix2fc}
+     * and the rest to identity.
+     *
+     * @param mat
+     *          the {@link Matrix2fc}
+     */
+    public Matrix3x2d(Matrix2fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m10 = mat.m10();
+        m11 = mat.m11();
+    }
+
+    /**
      * Create a new {@link Matrix3x2d} and make it a copy of the given matrix.
      * 
      * @param mat
@@ -251,6 +280,43 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         m11 = mat.m11();
         m20 = mat.m20();
         m21 = mat.m21();
+    }
+
+    /**
+     * Set the left 2x2 submatrix of this {@link Matrix3x2d} to the given {@link Matrix2dc} and don't change the other elements.
+     *
+     * @param m
+     *          the 2x2 matrix
+     * @return this
+     */
+    public Matrix3x2d set(Matrix2dc m) {
+        if (m instanceof Matrix2d) {
+            MemUtil.INSTANCE.copy((Matrix2d) m, this);
+        } else {
+            setMatrix2dc(m);
+        }
+        return this;
+    }
+    private void setMatrix2dc(Matrix2dc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m10 = mat.m10();
+        m11 = mat.m11();
+    }
+
+    /**
+     * Set the left 2x2 submatrix of this {@link Matrix3x2d} to the given {@link Matrix2fc} and don't change the other elements.
+     *
+     * @param m
+     *          the 2x2 matrix
+     * @return this
+     */
+    public Matrix3x2d set(Matrix2fc m) {
+        m00 = m.m00();
+        m01 = m.m01();
+        m10 = m.m10();
+        m11 = m.m11();
+        return this;
     }
 
     /**
