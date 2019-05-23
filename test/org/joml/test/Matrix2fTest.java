@@ -30,15 +30,17 @@ import org.joml.Vector2f;
 public class Matrix2fTest extends TestCase {
 
     public void testMul() {
-        assertEquals(new Matrix2f(87, 124, 129, 184), new Matrix2f(2, 3, 5, 7).mul(new Matrix2f(11, 13, 17, 19)));
+        assertTrue("Matrix2f.mul()",
+                new Matrix2f(87, 124, 129, 184).equals(new Matrix2f(2, 3, 5, 7).mul(new Matrix2f(11, 13, 17, 19)), 0.001f));
     }
 
     public void testMulLocal() {
-        assertEquals(new Matrix2f(87, 124, 129, 184), new Matrix2f(11, 13, 17, 19).mulLocal(new Matrix2f(2, 3, 5, 7)));
+        assertTrue("Matrix2f.mulLocal()",
+                new Matrix2f(87, 124, 129, 184).equals(new Matrix2f(11, 13, 17, 19).mulLocal(new Matrix2f(2, 3, 5, 7)), 0.001f));
     }
 
     public void testDeterminant() {
-        assertEquals(-1f, new Matrix2f(2, 3, 5, 7).determinant());
+        assertTrue("Matrix2f.determinant()", -1f == new Matrix2f(2, 3, 5, 7).determinant());
     }
 
     public void testInvert() {
