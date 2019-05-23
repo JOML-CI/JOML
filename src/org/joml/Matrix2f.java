@@ -674,7 +674,7 @@ public class Matrix2f implements Externalizable, Matrix2fc {
 //#endif
 
 //#ifndef __GWT__
-    public Matrix2f getToAddress(long address) {
+    public Matrix2fc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
         MemUtil.MemUtilUnsafe unsafe = (MemUtil.MemUtilUnsafe) MemUtil.INSTANCE;
