@@ -196,6 +196,52 @@ public interface Vector2dc {
     Vector2d mul(Vector2dc v, Vector2d dest);
 
     /**
+     * Multiply the given matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d mul(Matrix2dc mat, Vector2d dest);
+
+    /**
+     * Multiply the given matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d mul(Matrix2fc mat, Vector2d dest);
+
+    /**
+     * Multiply the transpose of the given matrix with this Vector2f and store the result in <code>dest</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d mulTranspose(Matrix2dc mat, Vector2d dest);
+
+    /**
+     * Multiply the transpose of the given matrix with this Vector2f and store the result in <code>dest</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d mulTranspose(Matrix2fc mat, Vector2d dest);
+
+    /**
      * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>

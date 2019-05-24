@@ -1,5 +1,24 @@
 package org.joml
 
+/* Matrix2f */
+
+operator fun Matrix2f.get(c: Int, r: Int): Float = get(c, r)
+operator fun Matrix2f.minus(m: Matrix2fc) = sub(m)
+operator fun Matrix2f.plus(m: Matrix2fc) = add(m)
+operator fun Matrix2f.times(m: Matrix2fc) = mul(m)
+operator fun Matrix2f.times(v: Vector2f) = transform(v)
+infix fun Matrix2f.transform(v: Vector2f) = transform(v)
+
+/* Matrix2d */
+
+operator fun Matrix2d.get(c: Int, r: Int): Double = get(c, r)
+operator fun Matrix2d.minus(m: Matrix2dc) = sub(m)
+operator fun Matrix2d.plus(m: Matrix2dc) = add(m)
+operator fun Matrix2d.times(m: Matrix2dc) = mul(m)
+operator fun Matrix2d.times(m: Matrix2fc) = mul(m)
+operator fun Matrix2d.times(v: Vector2d) = transform(v)
+infix fun Matrix2d.transform(v: Vector2d) = transform(v)
+
 /* Matrix3f */
 
 operator fun Matrix3f.get(c: Int, r: Int): Float = get(c, r)

@@ -167,6 +167,32 @@ fun IntBuffer.getVector4i(index: Int, v: Vector4i) = v.set(index, this)
 fun IntBuffer.putVector4i(v: Vector4i) = v.get(this)
 fun IntBuffer.putVector4i(index: Int, v: Vector4i) = v.get(index, this)
 
+/* Matrix2f */
+
+/* ByteBuffer */
+fun ByteBuffer.getMatrix2f(v: Matrix2f) = v.set(this)
+fun ByteBuffer.putMatrix2f(v: Matrix2f) = v.get(this)
+fun ByteBuffer.putMatrix2f(index: Int, v: Matrix2f) = v.get(index, this)
+
+/* FloatBuffer */
+fun FloatBuffer.getMatrix2f() = Matrix2f(this)
+fun FloatBuffer.getMatrix2f(v: Matrix2f) = v.set(this)
+fun FloatBuffer.putMatrix2f(v: Matrix2f) = v.get(this)
+fun FloatBuffer.putMatrix2f(index: Int, v: Matrix2f) = v.get(index, this)
+
+/* Matrix2d */
+
+/* ByteBuffer */
+fun ByteBuffer.getMatrix2d(v: Matrix2d) = v.set(this)
+fun ByteBuffer.putMatrix2d(v: Matrix2d) = v.get(this)
+fun ByteBuffer.putMatrix2d(index: Int, v: Matrix2d) = v.get(index, this)
+
+/* FloatBuffer */
+fun DoubleBuffer.getMatrix2d() = Matrix2d(this)
+fun DoubleBuffer.getMatrix2d(v: Matrix2d) = v.set(this)
+fun DoubleBuffer.putMatrix2d(v: Matrix2d) = v.get(this)
+fun DoubleBuffer.putMatrix2d(index: Int, v: Matrix2d) = v.get(index, this)
+
 /* Matrix3f */
 
 /* ByteBuffer */

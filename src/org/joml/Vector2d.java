@@ -576,6 +576,94 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     /**
+     * Multiply the given matrix <code>mat</code> with this Vector2d.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return a vector holding the result
+     */
+    public Vector2d mul(Matrix2fc mat) {
+        return mul(mat, thisOrNew());
+    }
+
+    /**
+     * Multiply the given matrix <code>mat</code> with this Vector2d.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return a vector holding the result
+     */
+    public Vector2d mul(Matrix2dc mat) {
+        return mul(mat, thisOrNew());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#mul(org.joml.Matrix2dc, org.joml.Vector2d)
+     */
+    public Vector2d mul(Matrix2dc mat, Vector2d dest) {
+        double rx = mat.m00() * x + mat.m10() * y;
+        double ry = mat.m01() * x + mat.m11() * y;
+        dest.x = rx;
+        dest.y = ry;
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#mul(org.joml.Matrix2fc, org.joml.Vector2d)
+     */
+    public Vector2d mul(Matrix2fc mat, Vector2d dest) {
+        double rx = mat.m00() * x + mat.m10() * y;
+        double ry = mat.m01() * x + mat.m11() * y;
+        dest.x = rx;
+        dest.y = ry;
+        return dest;
+    }
+
+    /**
+     * Multiply the transpose of the given matrix with this Vector2d and store the result in <code>this</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @return a vector holding the result
+     */
+    public Vector2d mulTranspose(Matrix2dc mat) {
+        return mulTranspose(mat, thisOrNew());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#mulTranspose(org.joml.Matrix2dc, org.joml.Vector2d)
+     */
+    public Vector2d mulTranspose(Matrix2dc mat, Vector2d dest) {
+        double rx = mat.m00() * x + mat.m01() * y;
+        double ry = mat.m10() * x + mat.m11() * y;
+        dest.x = rx;
+        dest.y = ry;
+        return dest;
+    }
+
+    /**
+     * Multiply the transpose of the given matrix with  this Vector2d and store the result in <code>this</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @return a vector holding the result
+     */
+    public Vector2d mulTranspose(Matrix2fc mat) {
+        return mulTranspose(mat, thisOrNew());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#mulTranspose(org.joml.Matrix2fc, org.joml.Vector2d)
+     */
+    public Vector2d mulTranspose(Matrix2fc mat, Vector2d dest) {
+        double rx = mat.m00() * x + mat.m01() * y;
+        double ry = mat.m10() * x + mat.m11() * y;
+        dest.x = rx;
+        dest.y = ry;
+        return dest;
+    }
+
+    /**
      * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>z</code> component of <code>this</code> to be <code>1.0</code>.
