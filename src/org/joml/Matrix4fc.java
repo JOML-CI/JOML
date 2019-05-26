@@ -4993,6 +4993,50 @@ public interface Matrix4fc {
     Matrix4f obliqueZ(float a, float b, Matrix4f dest);
 
     /**
+     * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3f)})
+     * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3f)}) and the
+     * given vector <code>up</code>, and store the result in <code>dest</code>.
+     * 
+     * This effectively ensure that the resulting matrix will be equal to the one obtained from calling
+     * {@link Matrix4f#setLookAt(Vector3fc, Vector3fc, Vector3fc)} with the current 
+     * local origin of this matrix (as obtained by {@link #originAffine(Vector3f)}), the sum of this position and the 
+     * negated local Z axis as well as the given vector <code>up</code>.
+     * 
+     * This method must only be called on {@link #isAffine()} matrices.
+     * 
+     * @param up
+     *            the up vector
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    Matrix4f withLookAtUp(Vector3fc up, Matrix4f dest);
+
+    /**
+     * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3f)})
+     * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3f)}) and the
+     * given vector <code>(upX, upY, upZ)</code>, and store the result in <code>dest</code>.
+     * 
+     * This effectively ensure that the resulting matrix will be equal to the one obtained from calling
+     * {@link Matrix4f#setLookAt(float, float, float, float, float, float, float, float, float)} called with the current 
+     * local origin of this matrix (as obtained by {@link #originAffine(Vector3f)}), the sum of this position and the 
+     * negated local Z axis as well as the given vector <code>(upX, upY, upZ)</code>.
+     * 
+     * This method must only be called on {@link #isAffine()} matrices.
+     * 
+     * @param upX
+     *            the x coordinate of the up vector
+     * @param upY
+     *            the y coordinate of the up vector
+     * @param upZ
+     *            the z coordinate of the up vector
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    Matrix4f withLookAtUp(float upX, float upY, float upZ, Matrix4f dest);
+
+    /**
      * Compare the matrix elements of <code>this</code> matrix with the given matrix using the given <code>delta</code>
      * and return whether all of them are equal within a maximum difference of <code>delta</code>.
      * <p>

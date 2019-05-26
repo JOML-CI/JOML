@@ -15734,4 +15734,100 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         projDest.setFrustum(px, px + tx, py, py + ty, near, far, zeroToOne);
     }
 
+    /**
+     * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3d)})
+     * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3d)}) and the
+     * given vector <code>up</code>.
+     * 
+     * This effectively ensure that the resulting matrix will be equal to the one obtained from 
+     * {@link #setLookAt(Vector3dc, Vector3dc, Vector3dc)} called with the current 
+     * local origin of this matrix (as obtained by {@link #originAffine(Vector3d)}), the sum of this position and the 
+     * negated local Z axis as well as the given vector <code>up</code>.
+     * 
+     * This method must only be called on {@link #isAffine()} matrices.
+     * 
+     * @param up
+     *            the up vector
+     * @return this
+     */
+    public Matrix4d withLookAtUp(Vector3dc up) {
+        return withLookAtUp(up.x(), up.y(), up.z(), this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix4dc#withLookAtUp(Vector3dc, org.joml.Matrix4d)
+     */
+    public Matrix4d withLookAtUp(Vector3dc up, Matrix4d dest) {
+        return withLookAtUp(up.x(), up.y(), up.z());
+    }
+
+    /**
+     * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3d)})
+     * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3d)}) and the
+     * given vector <code>(upX, upY, upZ)</code>.
+     * 
+     * This effectively ensure that the resulting matrix will be equal to the one obtained from 
+     * {@link #setLookAt(double, double, double, double, double, double, double, double, double)} called with the current 
+     * local origin of this matrix (as obtained by {@link #originAffine(Vector3d)}), the sum of this position and the 
+     * negated local Z axis as well as the given vector <code>(upX, upY, upZ)</code>.
+     * 
+     * This method must only be called on {@link #isAffine()} matrices.
+     * 
+     * @param upX
+     *            the x coordinate of the up vector
+     * @param upY
+     *            the y coordinate of the up vector
+     * @param upZ
+     *            the z coordinate of the up vector
+     * @return this
+     */
+    public Matrix4d withLookAtUp(double upX, double upY, double upZ) {
+        return withLookAtUp(upX, upY, upZ, this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix4fc#withLookAtUp(double, double, double, org.joml.Matrix4f)
+     */
+    public Matrix4d withLookAtUp(double upX, double upY, double upZ, Matrix4d dest) {
+        double a = m00 * m11 - m01 * m10, b = m00 * m12 - m02 * m10;
+        double d = m01 * m12 - m02 * m11, g = m20 * m31 - m21 * m30;
+        double h = m20 * m32 - m22 * m30, j = m21 * m32 - m22 * m31;
+        double ex = -m10 * j + m11 * h - m12 * g;
+        double ey =  m00 * j - m01 * h + m02 * g;
+        double ez = -m30 * d + m31 * b - m32 * a;
+        double dx = m10 * m21 - m11 * m20;
+        double dy = m20 * m01 - m21 * m00;
+        double dz = m00 * m11 - m01 * m10;
+        double lx = upY * dz - upZ * dy;
+        double ly = upZ * dx - upX * dz;
+        double lz = upX * dy - upY * dx;
+        double invLeftLength = 1.0 / Math.sqrt(lx * lx + ly * ly + lz * lz);
+        lx *= invLeftLength;
+        ly *= invLeftLength;
+        lz *= invLeftLength;
+        double upnX = dy * lz - dz * ly;
+        double upnY = dz * lx - dx * lz;
+        double upnZ = dx * ly - dy * lx;
+        dest._m00(lx);
+        dest._m01(upnX);
+        dest._m02(m02);
+        dest._m03(0.0);
+        dest._m10(ly);
+        dest._m11(upnY);
+        dest._m12(m12);
+        dest._m13(0.0);
+        dest._m20(lz);
+        dest._m21(upnZ);
+        dest._m22(m22);
+        dest._m23(0.0);
+        dest._m30(-(lx * ex + ly * ey + lz * ez));
+        dest._m31(-(upnX * ex + upnY * ey + upnZ * ez));
+        dest._m32(m32);
+        dest._m33(1.0);
+        dest.properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
+        return dest;
+    }
+
 }
