@@ -917,6 +917,40 @@ public interface Vector3dc {
     double angle(Vector3dc v);
 
     /**
+     * Return the signed angle between this vector and the supplied vector with
+     * respect to the plane with the given normal vector <code>n</code>.
+     * 
+     * @see #angleCos(Vector3dc)
+     * 
+     * @param v
+     *          the other vector
+     * @param n
+     *          the plane's normal vector
+     * @return the angle, in radians
+     */
+    double angleSigned(Vector3dc v, Vector3dc n);
+
+    /**
+     * Return the signed angle between this vector and the supplied vector with
+     * respect to the plane with the given normal vector <code>(nx, ny, nz)</code>.
+     * 
+     * @param x
+     *          the x coordinate of the other vector
+     * @param y
+     *          the y coordinate of the other vector
+     * @param z
+     *          the z coordinate of the other vector
+     * @param nx
+     *          the x coordinate of the plane's normal vector
+     * @param ny
+     *          the y coordinate of the plane's normal vector
+     * @param nz
+     *          the z coordinate of the plane's normal vector
+     * @return the angle, in radians
+     */
+    double angleSigned(double x, double y, double z, double nx, double ny, double nz);
+
+    /**
      * Set the components of <code>dest</code> to be the component-wise minimum of this and the other vector.
      *
      * @param v

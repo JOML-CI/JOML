@@ -1905,6 +1905,22 @@ public class Vector3d implements Externalizable, Vector3dc {
         return Math.acos(cos);
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#angleSigned(org.joml.Vector3dc, org.joml.Vector3dc)
+     */
+    public double angleSigned(Vector3dc v, Vector3dc n) {
+        return angleSigned(v.x(), v.y(), v.z(), n.x(), n.y(), n.z());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#angleSigned(double, double, double, double, double, double)
+     */
+    public double angleSigned(double x, double y, double z, double nx, double ny, double nz) {
+        return Math.atan2(
+                (this.y * z - this.z * y) * nx + (this.z * x - this.x * z) * ny + (this.x * y - this.y * x) * nz,
+                this.x * x + this.y * y + this.z * z);
+    }
+
     /**
      * Set the components of this vector to be the component-wise minimum of this and the other vector.
      *

@@ -1487,6 +1487,22 @@ public class Vector3f implements Externalizable, Vector3fc {
         return (float) Math.acos(cos);
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#angleSigned(org.joml.Vector3fc, org.joml.Vector3fc)
+     */
+    public float angleSigned(Vector3fc v, Vector3fc n) {
+        return angleSigned(v.x(), v.y(), v.z(), n.x(), n.y(), n.z());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#angleSigned(float, float, float, float, float, float)
+     */
+    public float angleSigned(float x, float y, float z, float nx, float ny, float nz) {
+        return (float) Math.atan2(
+                (this.y * z - this.z * y) * nx + (this.z * x - this.x * z) * ny + (this.x * y - this.y * x) * nz,
+                this.x * x + this.y * y + this.z * z);
+    }
+
     /**
      * Set the components of this vector to be the component-wise minimum of this and the other vector.
      *

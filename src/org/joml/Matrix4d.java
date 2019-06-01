@@ -15788,7 +15788,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
     /*
      * (non-Javadoc)
-     * @see org.joml.Matrix4fc#withLookAtUp(double, double, double, org.joml.Matrix4f)
+     * @see org.joml.Matrix4dc#withLookAtUp(double, double, double, org.joml.Matrix4d)
      */
     public Matrix4d withLookAtUp(double upX, double upY, double upZ, Matrix4d dest) {
         double ux = m12 * m20 - m10 * m22, uy = m00 * m22 - m02 * m20, uz = m02 * m10 - m00 * m12;
