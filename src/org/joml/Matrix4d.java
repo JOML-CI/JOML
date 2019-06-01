@@ -15791,42 +15791,34 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4fc#withLookAtUp(double, double, double, org.joml.Matrix4f)
      */
     public Matrix4d withLookAtUp(double upX, double upY, double upZ, Matrix4d dest) {
-        double a = m00 * m11 - m01 * m10, b = m00 * m12 - m02 * m10;
-        double d = m01 * m12 - m02 * m11, g = m20 * m31 - m21 * m30;
-        double h = m20 * m32 - m22 * m30, j = m21 * m32 - m22 * m31;
-        double ex = -m10 * j + m11 * h - m12 * g;
-        double ey =  m00 * j - m01 * h + m02 * g;
-        double ez = -m30 * d + m31 * b - m32 * a;
-        double dx = m10 * m21 - m11 * m20;
-        double dy = m20 * m01 - m21 * m00;
-        double dz = m00 * m11 - m01 * m10;
-        double lx = upY * dz - upZ * dy;
-        double ly = upZ * dx - upX * dz;
-        double lz = upX * dy - upY * dx;
-        double invLeftLength = 1.0 / Math.sqrt(lx * lx + ly * ly + lz * lz);
-        lx *= invLeftLength;
-        ly *= invLeftLength;
-        lz *= invLeftLength;
-        double upnX = dy * lz - dz * ly;
-        double upnY = dz * lx - dx * lz;
-        double upnZ = dx * ly - dy * lx;
-        dest._m00(lx);
-        dest._m01(upnX);
+        double ux = m12 * m20 - m10 * m22, uy = m00 * m22 - m02 * m20, uz = m02 * m10 - m00 * m12;
+        double y = (upY * uz - upZ * uy) * (m10 * m21 - m11 * m20) +
+                   (upZ * ux - upX * uz) * (m20 * m01 - m21 * m00) +
+                   (upX * uy - upY * ux) * (m00 * m11 - m01 * m10);
+        double x = upX * ux + upY * uy + upZ * uz;
+        double cos = 1.0 / Math.sqrt(y * y / (x * x) + 1.0);
+        double sin = y / x * cos;
+        double nm00 = cos * m00 - sin * m01, nm01 = sin * m00 + cos * m01;
+        double nm10 = cos * m10 - sin * m11, nm11 = sin * m10 + cos * m11;
+        double nm20 = cos * m20 - sin * m21, nm21 = sin * m20 + cos * m21;
+        double nm30 = cos * m30 - sin * m31, nm31 = sin * m30 + cos * m31;
+        dest._m00(nm00);
+        dest._m01(nm01);
         dest._m02(m02);
-        dest._m03(0.0);
-        dest._m10(ly);
-        dest._m11(upnY);
+        dest._m03(m03);
+        dest._m10(nm10);
+        dest._m11(nm11);
         dest._m12(m12);
-        dest._m13(0.0);
-        dest._m20(lz);
-        dest._m21(upnZ);
+        dest._m13(m13);
+        dest._m20(nm20);
+        dest._m21(nm21);
         dest._m22(m22);
-        dest._m23(0.0);
-        dest._m30(-(lx * ex + ly * ey + lz * ez));
-        dest._m31(-(upnX * ex + upnY * ey + upnZ * ez));
+        dest._m23(m23);
+        dest._m30(nm30);
+        dest._m31(nm31);
         dest._m32(m32);
-        dest._m33(1.0);
-        dest.properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
+        dest._m33(m33);
+        dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
