@@ -15791,33 +15791,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#withLookAtUp(double, double, double, org.joml.Matrix4d)
      */
     public Matrix4d withLookAtUp(double upX, double upY, double upZ, Matrix4d dest) {
-        double ux = m12 * m20 - m10 * m22, uy = m00 * m22 - m02 * m20, uz = m02 * m10 - m00 * m12;
-        double y = (upY * uz - upZ * uy) * (m10 * m21 - m11 * m20) +
-                   (upZ * ux - upX * uz) * (m20 * m01 - m21 * m00) +
-                   (upX * uy - upY * ux) * (m00 * m11 - m01 * m10);
-        double x = upX * ux + upY * uy + upZ * uz;
-        double cos = 1.0 / Math.sqrt(y * y / (x * x) + 1.0);
-        double sin = y / x * cos;
-        double nm00 = cos * m00 - sin * m01, nm01 = sin * m00 + cos * m01;
-        double nm10 = cos * m10 - sin * m11, nm11 = sin * m10 + cos * m11;
-        double nm20 = cos * m20 - sin * m21, nm21 = sin * m20 + cos * m21;
-        double nm30 = cos * m30 - sin * m31, nm31 = sin * m30 + cos * m31;
-        dest._m00(nm00);
-        dest._m01(nm01);
-        dest._m02(m02);
-        dest._m03(m03);
-        dest._m10(nm10);
-        dest._m11(nm11);
-        dest._m12(m12);
-        dest._m13(m13);
-        dest._m20(nm20);
-        dest._m21(nm21);
-        dest._m22(m22);
-        dest._m23(m23);
-        dest._m30(nm30);
-        dest._m31(nm31);
-        dest._m32(m32);
-        dest._m33(m33);
+        double y = (upY * m21 - upZ * m11) * m02 +
+                   (upZ * m01 - upX * m21) * m12 +
+                   (upX * m11 - upY * m01) * m22;
+        double x = upX * m01 + upY * m11 + upZ * m21;
+        if ((properties & PROPERTY_ORTHONORMAL) == 0)
+            x *= Math.sqrt(m01 * m01 + m11 * m11 + m21 * m21);
+        double invsqrt = 1.0f / (float) Math.sqrt(y * y + x * x);
+        double c = x * invsqrt, s = y * invsqrt;
+        double nm00 = c * m00 - s * m01, nm10 = c * m10 - s * m11, nm20 = c * m20 - s * m21, nm31 = s * m30 + c * m31;
+        double nm01 = s * m00 + c * m01, nm11 = s * m10 + c * m11, nm21 = s * m20 + c * m21, nm30 = c * m30 - s * m31;
+        dest._m00(nm00)._m10(nm10)._m20(nm20)._m30(nm30);
+        dest._m01(nm01)._m11(nm11)._m21(nm21)._m31(nm31);
+        if (dest != this) {
+            dest._m02(m02)._m12(m12)._m22(m22)._m32(m32);
+            dest._m03(m03)._m13(m13)._m23(m23)._m33(m33);
+        }
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
