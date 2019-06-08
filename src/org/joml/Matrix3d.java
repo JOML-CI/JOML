@@ -1194,7 +1194,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Matrix3dc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
@@ -1303,6 +1303,24 @@ public class Matrix3d implements Externalizable, Matrix3dc {
     }
 
     /**
+     * Set the values of this matrix by reading 9 float values from the given {@link ByteBuffer} in column-major order,
+     * starting at its current position.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3d setFloats(ByteBuffer buffer) {
+        MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
+        return this;
+    }
+//#endif
+//#ifdef __HAS_UNSAFE__
+    /**
      * Set the values of this matrix by reading 9 double values from off-heap memory in column-major order,
      * starting at the given address.
      * <p>
@@ -1319,23 +1337,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
         MemUtil.MemUtilUnsafe unsafe = (MemUtil.MemUtilUnsafe) MemUtil.INSTANCE;
         unsafe.get(this, address);
-        return this;
-    }
-
-    /**
-     * Set the values of this matrix by reading 9 float values from the given {@link ByteBuffer} in column-major order,
-     * starting at its current position.
-     * <p>
-     * The ByteBuffer is expected to contain the values in column-major order.
-     * <p>
-     * The position of the ByteBuffer will not be changed by this method.
-     * 
-     * @param buffer
-     *              the ByteBuffer to read the matrix values from in column-major order
-     * @return this
-     */
-    public Matrix3d setFloats(ByteBuffer buffer) {
-        MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         return this;
     }
 //#endif

@@ -119,7 +119,7 @@ public interface Vector3fc {
     ByteBuffer get(int index, ByteBuffer buffer);
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Store this vector at the given off-heap memory address.
      * <p>

@@ -64,6 +64,7 @@
 		<jcp.version>6.1.4</jcp.version>
 		<platform>__JRE__</platform>
 		<hasNio>__HAS_NIO__</hasNio>
+		<hasUnsafe>__HAS_UNSAFE__</hasUnsafe>
 		<javaExclude>org/joml/jre/**</javaExclude>
 		<moduleInfoExclude></moduleInfoExclude>
 		<variant>joml</variant>
@@ -290,8 +291,42 @@
 				<!-- Define the '__GWT__' preprocessor variable -->
 				<platform>__GWT__</platform>
 				<hasNio>__NHAS_NIO__</hasNio>
+				<hasUnsafe>__NHAS_UNSAFE__</hasUnsafe>
 				<variant>joml-gwt</variant>
 				<javaExclude></javaExclude>
+				<moduleInfoExclude>module-info.class</moduleInfoExclude>
+			</properties>
+			<build>
+				<!-- Add the sources to the jar artifact -->
+				<resources>
+					<resource>
+						<directory>${project.build.directory}/generated-sources/preprocessed</directory>
+						<includes>
+							<include>**/*.java</include>
+						</includes>
+						<filtering>false</filtering>
+					</resource>
+					<resource>
+						<directory>${project.build.sourceDirectory}</directory>
+						<includes>
+							<include>org/joml/JOML.gwt.xml</include>
+						</includes>
+						<filtering>false</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>graal</id>
+			<activation>
+				<property>
+					<name>graal</name>
+				</property>
+			</activation>
+			<properties>
+				<platform>__GRAAL__</platform>
+				<hasUnsafe>__NHAS_UNSAFE__</hasUnsafe>
+				<variant>joml-graal</variant>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
 			</properties>
 			<build>
@@ -487,6 +522,10 @@
 						</property>
 						<property>
 							<name>${hasNio}</name>
+							<value>1</value>
+						</property>
+						<property>
+							<name>${hasUnsafe}</name>
 							<value>1</value>
 						</property>
 					</globalVars>

@@ -1065,8 +1065,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
         return buffer;
     }
 //#endif
-
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Matrix3x2fc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
@@ -1201,7 +1200,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this matrix by reading 6 float values from off-heap memory in column-major order,
      * starting at the given address.

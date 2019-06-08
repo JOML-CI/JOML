@@ -366,7 +366,7 @@ public class Vector3i implements Externalizable, Vector3ic {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this vector by reading 3 integer values from off-heap memory,
      * starting at the given address.
@@ -463,7 +463,7 @@ public class Vector3i implements Externalizable, Vector3ic {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Vector3ic getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");

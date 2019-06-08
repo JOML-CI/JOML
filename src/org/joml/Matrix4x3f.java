@@ -1356,8 +1356,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return this;
     }
 //#endif
-
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this matrix by reading 12 float values from off-heap memory in column-major order,
      * starting at the given address.
@@ -1840,7 +1839,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Matrix4x3fc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");

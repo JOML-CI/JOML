@@ -1160,7 +1160,7 @@ public interface Matrix4fc {
     ByteBuffer get4x3Transposed(int index, ByteBuffer buffer);
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Store this matrix in column-major order at the given off-heap address.
      * <p>

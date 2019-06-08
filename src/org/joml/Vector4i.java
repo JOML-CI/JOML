@@ -415,7 +415,7 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this vector by reading 4 integer values from off-heap memory,
      * starting at the given address.
@@ -553,7 +553,7 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Vector4ic getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");

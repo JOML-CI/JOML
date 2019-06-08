@@ -2568,7 +2568,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this matrix by reading 16 double values from off-heap memory in column-major order,
      * starting at the given address.
@@ -3367,8 +3367,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 //#endif
-
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Matrix4dc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");

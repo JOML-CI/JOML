@@ -110,7 +110,7 @@ public interface Vector2fc {
     FloatBuffer get(int index, FloatBuffer buffer);
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Store this vector at the given off-heap memory address.
      * <p>

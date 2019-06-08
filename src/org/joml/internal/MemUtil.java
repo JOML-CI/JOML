@@ -67,7 +67,7 @@ public abstract class MemUtil {
     public static final MemUtil INSTANCE = createInstance();
     private static MemUtil createInstance() {
         MemUtil accessor;
-//#ifdef __GWT__
+//#ifdef __NHAS_UNSAFE__
         accessor = new MemUtilNIO();
 //#else
         try {
@@ -3070,7 +3070,7 @@ public abstract class MemUtil {
         }
     }
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public static class MemUtilUnsafe extends MemUtilNIO {
         public static final sun.misc.Unsafe UNSAFE;
 

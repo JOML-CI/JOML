@@ -1095,7 +1095,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Matrix3fc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
@@ -1155,8 +1155,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         return this;
     }
 //#endif
-
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this matrix by reading 9 float values from off-heap memory in column-major order,
      * starting at the given address.

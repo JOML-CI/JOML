@@ -43,7 +43,7 @@ public final class Options {
      */
     public static final boolean DEBUG = hasOption(System.getProperty("joml.debug", "false"));
 
-//#ifdef __JRE__
+//#ifdef __HAS_UNSAFE__
     /**
      * Whether <i>not</i> to use sun.misc.Unsafe when copying memory with MemUtil.
      */

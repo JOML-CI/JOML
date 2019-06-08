@@ -331,7 +331,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this vector by reading 2 float values from off-heap memory,
      * starting at the given address.
@@ -423,7 +423,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Vector2fc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");

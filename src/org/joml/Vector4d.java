@@ -541,7 +541,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this vector by reading 4 double values from off-heap memory,
      * starting at the given address.
@@ -625,7 +625,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Vector4dc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");

@@ -115,7 +115,7 @@ public interface Vector3dc {
     DoubleBuffer get(int index, DoubleBuffer buffer);
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Store this vector at the given off-heap memory address.
      * <p>

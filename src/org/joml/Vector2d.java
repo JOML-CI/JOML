@@ -340,7 +340,7 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this vector by reading 2 double values from off-heap memory,
      * starting at the given address.
@@ -432,7 +432,7 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Vector2dc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");

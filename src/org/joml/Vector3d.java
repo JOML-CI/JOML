@@ -429,7 +429,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Set the values of this vector by reading 3 double values from off-heap memory,
      * starting at the given address.
@@ -510,7 +510,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     public Vector3dc getToAddress(long address) {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");

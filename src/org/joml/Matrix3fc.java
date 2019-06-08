@@ -405,7 +405,7 @@ public interface Matrix3fc {
     ByteBuffer getTransposed(int index, ByteBuffer buffer);
 //#endif
 
-//#ifndef __GWT__
+//#ifdef __HAS_UNSAFE__
     /**
      * Store this matrix in column-major order at the given off-heap address.
      * <p>

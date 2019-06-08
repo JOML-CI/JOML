@@ -979,6 +979,7 @@ public interface Matrix4dc {
      */
     ByteBuffer get(int index, ByteBuffer buffer);
 
+//#ifdef __HAS_UNSAFE__
     /**
      * Store this matrix in column-major order at the given off-heap address.
      * <p>
@@ -991,6 +992,7 @@ public interface Matrix4dc {
      * @return this
      */
     Matrix4dc getToAddress(long address);
+//#endif
 
     /**
      * Store the elements of this matrix as float values in column-major order into the supplied {@link ByteBuffer} at the current
