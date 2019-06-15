@@ -826,17 +826,23 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      */
     public Matrix3d mulLocal(Matrix3dc left, Matrix3d dest) {
         double nm00 = left.m00() * m00 + left.m10() * m01 + left.m20() * m02;
-        double nm01 = left.m01() * m00 + left.m11() * m01 + left.m20() * m02;
+        double nm01 = left.m01() * m00 + left.m11() * m01 + left.m21() * m02;
+        double nm02 = left.m02() * m00 + left.m12() * m01 + left.m22() * m02;
         double nm10 = left.m00() * m10 + left.m10() * m11 + left.m20() * m12;
-        double nm11 = left.m01() * m10 + left.m11() * m11 + left.m20() * m12;
+        double nm11 = left.m01() * m10 + left.m11() * m11 + left.m21() * m12;
+        double nm12 = left.m02() * m10 + left.m12() * m11 + left.m22() * m12;
         double nm20 = left.m00() * m20 + left.m10() * m21 + left.m20() * m22;
         double nm21 = left.m01() * m20 + left.m11() * m21 + left.m21() * m22;
+        double nm22 = left.m02() * m20 + left.m12() * m21 + left.m22() * m22;
         dest.m00 = nm00;
         dest.m01 = nm01;
+        dest.m02 = nm02;
         dest.m10 = nm10;
         dest.m11 = nm11;
+        dest.m12 = nm12;
         dest.m20 = nm20;
         dest.m21 = nm21;
+        dest.m22 = nm22;
         return dest;
     }
 
