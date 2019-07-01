@@ -44,6 +44,7 @@ import org.joml.Matrix4d;
 import org.joml.Matrix4f;
 import org.joml.Matrix4x3d;
 import org.joml.Matrix4x3f;
+import org.joml.Quaterniond;
 import org.joml.Quaternionf;
 import org.joml.Vector2d;
 import org.joml.Vector2f;
@@ -244,6 +245,7 @@ public abstract class MemUtil {
     public abstract void copy(Vector4f src, Vector4f dst);
     public abstract void copy(Vector4i src, Vector4i dst);
     public abstract void copy(Quaternionf src, Quaternionf dst);
+    public abstract void copy(Quaterniond src, Quaterniond dst);
     public abstract void copy(float[] arr, int off, Matrix4f dest);
     public abstract void copy(float[] arr, int off, Matrix3f dest);
     public abstract void copy(float[] arr, int off, Matrix4x3f dest);
@@ -2179,6 +2181,13 @@ public abstract class MemUtil {
         }
 
         public void copy(Quaternionf src, Quaternionf dst) {
+            dst.x = src.x;
+            dst.y = src.y;
+            dst.z = src.z;
+            dst.w = src.w;
+        }
+
+        public void copy(Quaterniond src, Quaterniond dst) {
             dst.x = src.x;
             dst.y = src.y;
             dst.z = src.z;

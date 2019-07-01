@@ -30,6 +30,7 @@ import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.internal.MemUtil;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
@@ -94,10 +95,14 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      *          the {@link Quaterniond} to take the component values from
      */
     public Quaterniond(Quaterniondc source) {
-        x = source.x();
-        y = source.y();
-        z = source.z();
-        w = source.w();
+        if (source instanceof Quaterniond) {
+            MemUtil.INSTANCE.copy((Quaterniond) source, this);
+        } else {
+            this.x = source.x();
+            this.y = source.y();
+            this.z = source.z();
+            this.w = source.w();
+        }
     }
 
     /**
@@ -168,6 +173,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     public double w() {
         return this.w;
     }
+
 
     /**
      * Normalize this quaternion.

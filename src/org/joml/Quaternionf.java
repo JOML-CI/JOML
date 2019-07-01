@@ -98,8 +98,15 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @param source
      *          the {@link Quaternionf} to take the component values from
      */
-    public Quaternionf(Quaternionf source) {
-        MemUtil.INSTANCE.copy(source, this);
+    public Quaternionf(Quaternionfc source) {
+        if (source instanceof Quaternionf) {
+            MemUtil.INSTANCE.copy((Quaternionf) source, this);
+        } else {
+            this.x = source.x();
+            this.y = source.y();
+            this.z = source.z();
+            this.w = source.w();
+        }
     }
 
     /**
