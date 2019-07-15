@@ -38,6 +38,8 @@ matrix:
     - os: linux
       jdk: openjdk12
     - os: linux
+      jdk: openjdk13
+    - os: linux
       jdk: openjdk-ea
 script: 
   - ./mvnw clean package -Dmaven.javadoc.skip=false
