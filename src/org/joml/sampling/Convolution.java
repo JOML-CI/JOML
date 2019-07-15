@@ -46,7 +46,7 @@ public class Convolution {
      * @param cols
      *          the number of columns (must be an odd number)
      * @param sigma
-     *          determines how big the factors are at the center of distribution
+     *          the standard deviation of the filter kernel values
      * @param dest
      *          will hold the kernel factors in row-major order
      */
@@ -87,7 +87,7 @@ public class Convolution {
      * @param cols
      *          the number of columns (must be an odd number)
      * @param sigma
-     *          determines how big the factors are at the center of distribution
+     *          the standard deviation of the filter kernel values
      * @param dest
      *          will hold the kernel factors in row-major order
      */
@@ -102,7 +102,7 @@ public class Convolution {
             throw new IllegalArgumentException("dest must not be null");
         }
         if (dest.length < rows * cols) {
-            throw new IllegalArgumentException("dest must have at least " + (rows * cols) + " remaining values");
+            throw new IllegalArgumentException("dest must have a size of at least " + (rows * cols));
         }
         float sum = 0.0f;
         for (int i = 0, y = -(rows - 1) / 2; y <= (rows - 1) / 2; y++) {
