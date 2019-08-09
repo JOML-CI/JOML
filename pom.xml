@@ -625,7 +625,7 @@
 							<Bundle-Name>${project.name}</Bundle-Name>
 							<Bundle-SymbolicName>${project.groupId}</Bundle-SymbolicName>
 							<Bundle-Version>${project.version}</Bundle-Version>
-							<Export-Package>org.joml org.joml.sampling</Export-Package>
+							<Export-Package>org.joml,org.joml.sampling</Export-Package>
 						</manifestEntries>
 					</archive>
 				</configuration>
