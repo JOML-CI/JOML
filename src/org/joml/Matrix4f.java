@@ -12590,7 +12590,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m31(0.0f);
         dest._m32(0.0f);
         dest._m33(1.0f);
-        dest._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
+        dest.properties = (properties | PROPERTY_AFFINE) & ~(PROPERTY_TRANSLATION | PROPERTY_PERSPECTIVE);
         return dest;
     }
 
@@ -12622,24 +12622,98 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest;
     }
     private Matrix3f normalGeneric(Matrix3f dest) {
-        float m00m11 = m00 * m11;
-        float m01m10 = m01 * m10;
-        float m02m10 = m02 * m10;
-        float m00m12 = m00 * m12;
-        float m01m12 = m01 * m12;
-        float m02m11 = m02 * m11;
-        float det = (m00m11 - m01m10) * m22 + (m02m10 - m00m12) * m21 + (m01m12 - m02m11) * m20;
+        float det = (m00 * m11 - (m01 * m10)) * m22
+                  + (m02 * m10 - (m00 * m12)) * m21
+                  + (m01 * m12 - (m02 * m11)) * m20;
         float s = 1.0f / det;
         /* Invert and transpose in one go */
-        dest.m00((m11 * m22 - m21 * m12) * s);
-        dest.m01((m20 * m12 - m10 * m22) * s);
-        dest.m02((m10 * m21 - m20 * m11) * s);
-        dest.m10((m21 * m02 - m01 * m22) * s);
-        dest.m11((m00 * m22 - m20 * m02) * s);
-        dest.m12((m20 * m01 - m00 * m21) * s);
-        dest.m20((m01m12 - m02m11) * s);
-        dest.m21((m02m10 - m00m12) * s);
-        dest.m22((m00m11 - m01m10) * s);
+        dest.m00 = (m11 * m22 - m21 * m12) * s;
+        dest.m01 = (m20 * m12 - m10 * m22) * s;
+        dest.m02 = (m10 * m21 - m20 * m11) * s;
+        dest.m10 = (m21 * m02 - m01 * m22) * s;
+        dest.m11 = (m00 * m22 - m20 * m02) * s;
+        dest.m12 = (m20 * m01 - m00 * m21) * s;
+        dest.m20 = (m01 * m12 - m02 * m11) * s;
+        dest.m21 = (m02 * m10 - m00 * m12) * s;
+        dest.m22 = (m00 * m11 - m01 * m10) * s;
+        return dest;
+    }
+
+    /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal()} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @return this
+     */
+    public Matrix4f cofactor3x3() {
+        return cofactor3x3(this);
+    }
+
+    /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix3f)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix3f cofactor3x3(Matrix3f dest) {
+        dest.m00 = m11 * m22 - m21 * m12;
+        dest.m01 = m20 * m12 - m10 * m22;
+        dest.m02 = m10 * m21 - m20 * m11;
+        dest.m10 = m21 * m02 - m01 * m22;
+        dest.m11 = m00 * m22 - m20 * m02;
+        dest.m12 = m20 * m01 - m00 * m21;
+        dest.m20 = m01 * m12 - m02 * m11;
+        dest.m21 = m02 * m10 - m00 * m12;
+        dest.m22 = m00 * m11 - m01 * m10;
+        return dest;
+    }
+
+    /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * All other values of <code>dest</code> will be set to {@link #identity() identity}.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix4f)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix4f cofactor3x3(Matrix4f dest) {
+        float nm00 = m11 * m22 - m21 * m12;
+        float nm01 = m20 * m12 - m10 * m22;
+        float nm02 = m10 * m21 - m20 * m11;
+        float nm10 = m21 * m02 - m01 * m22;
+        float nm11 = m00 * m22 - m20 * m02;
+        float nm12 = m20 * m01 - m00 * m21;
+        float nm20 = m01 * m12 - m11 * m02;
+        float nm21 = m02 * m10 - m12 * m00;
+        float nm22 = m00 * m11 - m10 * m01;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = 0.0f;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = 0.0f;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = 0.0f;
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
+        dest.properties = (properties | PROPERTY_AFFINE) & ~(PROPERTY_TRANSLATION | PROPERTY_PERSPECTIVE);
         return dest;
     }
 

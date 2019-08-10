@@ -8861,7 +8861,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = 0.0;
         dest.m32 = 0.0;
         dest.m33 = 1.0;
-        dest.properties = PROPERTY_AFFINE | PROPERTY_ORTHONORMAL;
+        dest.properties = (properties | PROPERTY_AFFINE) & ~(PROPERTY_TRANSLATION | PROPERTY_PERSPECTIVE);
         return dest;
     }
 
@@ -8911,6 +8911,84 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m20((m01m12 - m02m11) * s);
         dest.m21((m02m10 - m00m12) * s);
         dest.m22((m00m11 - m01m10) * s);
+        return dest;
+    }
+
+    /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal()} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @return this
+     */
+    public Matrix4d cofactor3x3() {
+        return cofactor3x3(this);
+    }
+
+    /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix3d)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix3d cofactor3x3(Matrix3d dest) {
+        dest.m00 = m11 * m22 - m21 * m12;
+        dest.m01 = m20 * m12 - m10 * m22;
+        dest.m02 = m10 * m21 - m20 * m11;
+        dest.m10 = m21 * m02 - m01 * m22;
+        dest.m11 = m00 * m22 - m20 * m02;
+        dest.m12 = m20 * m01 - m00 * m21;
+        dest.m20 = m01 * m12 - m02 * m11;
+        dest.m21 = m02 * m10 - m00 * m12;
+        dest.m22 = m00 * m11 - m01 * m10;
+        return dest;
+    }
+
+    /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * All other values of <code>dest</code> will be set to {@link #identity() identity}.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix4d)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix4d cofactor3x3(Matrix4d dest) {
+        double nm00 = m11 * m22 - m21 * m12;
+        double nm01 = m20 * m12 - m10 * m22;
+        double nm02 = m10 * m21 - m20 * m11;
+        double nm10 = m21 * m02 - m01 * m22;
+        double nm11 = m00 * m22 - m20 * m02;
+        double nm12 = m20 * m01 - m00 * m21;
+        double nm20 = m01 * m12 - m11 * m02;
+        double nm21 = m02 * m10 - m12 * m00;
+        double nm22 = m00 * m11 - m10 * m01;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = 0.0;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = 0.0;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = 0.0;
+        dest.m30 = 0.0;
+        dest.m31 = 0.0;
+        dest.m32 = 0.0;
+        dest.m33 = 1.0;
+        dest.properties = (properties | PROPERTY_AFFINE) & ~(PROPERTY_TRANSLATION | PROPERTY_PERSPECTIVE);
         return dest;
     }
 

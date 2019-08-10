@@ -3528,6 +3528,8 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     /**
      * Set <code>this</code> matrix to its own normal matrix.
      * <p>
+     * The normal matrix of <code>m</code> is the transpose of the inverse of <code>m</code>.
+     * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
      * In this case, use {@link #set(Matrix3fc)} to set a given Matrix3f to this matrix.
@@ -3542,6 +3544,8 @@ public class Matrix3f implements Externalizable, Matrix3fc {
 
     /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
+     * <p>
+     * The normal matrix of <code>m</code> is the transpose of the inverse of <code>m</code>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
@@ -3572,6 +3576,50 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         float nm20 = (m01m12 - m02m11) * s;
         float nm21 = (m02m10 - m00m12) * s;
         float nm22 = (m00m11 - m01m10) * s;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        return dest;
+    }
+
+    /**
+     * Compute the cofactor matrix of <code>this</code>.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal()} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @return this
+     */
+    public Matrix3f cofactor() {
+        return cofactor(this);
+    }
+
+    /**
+     * Compute the cofactor matrix of <code>this</code> and store it into <code>dest</code>.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix3f)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix3f cofactor(Matrix3f dest) {
+        float nm00 = m11 * m22 - m21 * m12;
+        float nm01 = m20 * m12 - m10 * m22;
+        float nm02 = m10 * m21 - m20 * m11;
+        float nm10 = m21 * m02 - m01 * m22;
+        float nm11 = m00 * m22 - m20 * m02;
+        float nm12 = m20 * m01 - m00 * m21;
+        float nm20 = m01 * m12 - m11 * m02;
+        float nm21 = m02 * m10 - m12 * m00;
+        float nm22 = m00 * m11 - m10 * m01;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;

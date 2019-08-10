@@ -1868,6 +1868,33 @@ public interface Matrix4x3dc {
     Matrix3d normal(Matrix3d dest);
 
     /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix3d)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d cofactor3x3(Matrix3d dest);
+
+    /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * All other values of <code>dest</code> will be set to identity.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix4x3d)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix4x3d cofactor3x3(Matrix4x3d dest);
+
+    /**
      * Normalize the left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit

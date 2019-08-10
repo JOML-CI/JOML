@@ -4097,6 +4097,33 @@ public interface Matrix4fc {
     Matrix3f normal(Matrix3f dest);
 
     /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix3f)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3f cofactor3x3(Matrix3f dest);
+
+    /**
+     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * All other values of <code>dest</code> will be set to identity.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix4f)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix4f cofactor3x3(Matrix4f dest);
+
+    /**
      * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit

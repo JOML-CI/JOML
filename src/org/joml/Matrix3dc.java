@@ -1148,12 +1148,26 @@ public interface Matrix3dc {
 
     /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
+     * <p>
+     * The normal matrix of <code>m</code> is the transpose of the inverse of <code>m</code>.
      * 
      * @param dest
      *             will hold the result
      * @return dest
      */
     Matrix3d normal(Matrix3d dest);
+
+    /**
+     * Compute the cofactor matrix of <code>this</code> and store it into <code>dest</code>.
+     * <p>
+     * The cofactor matrix can be used instead of {@link #normal(Matrix3d)} to transform normals
+     * when the orientation of the normals with respect to the surface should be preserved.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d cofactor(Matrix3d dest);
 
     /**
      * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
