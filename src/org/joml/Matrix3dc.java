@@ -1511,4 +1511,63 @@ public interface Matrix3dc {
      */
     boolean equals(Matrix3dc m, double delta);
 
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects through the given plane
+     * specified via the plane normal <code>(nx, ny, nz)</code>, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @param dest
+     *          will hold the result
+     * @return a matrix holding the result
+     */
+    Matrix3d reflect(double nx, double ny, double nz, Matrix3d dest);
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects through a plane
+     * specified via the plane orientation, and store the result in <code>dest</code>.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <code>(0, 0, 1)</code>. So, if the given {@link Quaterniondc} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <code>z=0</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @param dest
+     *          will hold the result
+     * @return a matrix holding the result
+     */
+    Matrix3d reflect(Quaterniondc orientation, Matrix3d dest);
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects through the given plane
+     * specified via the plane normal, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param normal
+     *          the plane normal
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    Matrix3d reflect(Vector3dc normal, Matrix3d dest);
+
 }

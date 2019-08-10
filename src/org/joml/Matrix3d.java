@@ -4862,4 +4862,175 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dest;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#reflect(double, double, double, org.joml.Matrix3d)
+     */
+    public Matrix3d reflect(double nx, double ny, double nz, Matrix3d dest) {
+        double da = nx + nx, db = ny + ny, dc = nz + nz;
+        double rm00 = 1.0 - da * nx;
+        double rm01 = -da * ny;
+        double rm02 = -da * nz;
+        double rm10 = -db * nx;
+        double rm11 = 1.0 - db * ny;
+        double rm12 = -db * nz;
+        double rm20 = -dc * nx;
+        double rm21 = -dc * ny;
+        double rm22 = 1.0 - dc * nz;
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        dest._m20(m00 * rm20 + m10 * rm21 + m20 * rm22);
+        dest._m21(m01 * rm20 + m11 * rm21 + m21 * rm22);
+        dest._m22(m02 * rm20 + m12 * rm21 + m22 * rm22);
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        return dest;
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects through the given plane
+     * specified via the plane normal.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @return a matrix holding the result
+     */
+    public Matrix3d reflect(double nx, double ny, double nz) {
+        return reflect(nx, ny, nz, this);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects through the given plane
+     * specified via the plane normal.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param normal
+     *          the plane normal
+     * @return this
+     */
+    public Matrix3d reflect(Vector3dc normal) {
+        return reflect(normal.x(), normal.y(), normal.z());
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about a plane
+     * specified via the plane orientation.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <code>(0, 0, 1)</code>. So, if the given {@link Quaterniondc} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <code>z=0</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @return a matrix holding the result
+     */
+    public Matrix3d reflect(Quaterniondc orientation) {
+        return reflect(orientation, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#reflect(org.joml.Quaterniondc, org.joml.Matrix3d)
+     */
+    public Matrix3d reflect(Quaterniondc orientation, Matrix3d dest) {
+        double num1 = orientation.x() + orientation.x();
+        double num2 = orientation.y() + orientation.y();
+        double num3 = orientation.z() + orientation.z();
+        double normalX = (double) (orientation.x() * num3 + orientation.w() * num2);
+        double normalY = (double) (orientation.y() * num3 - orientation.w() * num1);
+        double normalZ = (double) (1.0 - (orientation.x() * num1 + orientation.y() * num2));
+        return reflect(normalX, normalY, normalZ, dest);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#reflect(org.joml.Vector3dc, org.joml.Matrix3d)
+     */
+    public Matrix3d reflect(Vector3dc normal, Matrix3d dest) {
+        return reflect(normal.x(), normal.y(), normal.z(), dest);
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects through the given plane
+     * specified via the plane normal.
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @return this
+     */
+    public Matrix3d reflection(double nx, double ny, double nz) {
+        double da = nx + nx, db = ny + ny, dc = nz + nz;
+        this._m00(1.0 - da * nx);
+        this._m01(-da * ny);
+        this._m02(-da * nz);
+        this._m10(-db * nx);
+        this._m11(1.0 - db * ny);
+        this._m12(-db * nz);
+        this._m20(-dc * nx);
+        this._m21(-dc * ny);
+        this._m22(1.0 - dc * nz);
+        return this;
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects through the given plane
+     * specified via the plane normal.
+     * 
+     * @param normal
+     *          the plane normal
+     * @return this
+     */
+    public Matrix3d reflection(Vector3dc normal) {
+        return reflection(normal.x(), normal.y(), normal.z());
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects through a plane
+     * specified via the plane orientation.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <code>(0, 0, 1)</code>. So, if the given {@link Quaterniondc} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <code>z=0</code>, offset by the given <code>point</code>.
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @return this
+     */
+    public Matrix3d reflection(Quaterniondc orientation) {
+        double num1 = orientation.x() + orientation.x();
+        double num2 = orientation.y() + orientation.y();
+        double num3 = orientation.z() + orientation.z();
+        double normalX = orientation.x() * num3 + orientation.w() * num2;
+        double normalY = orientation.y() * num3 - orientation.w() * num1;
+        double normalZ = 1.0 - (orientation.x() * num1 + orientation.y() * num2);
+        return reflection(normalX, normalY, normalZ);
+    }
+
 }

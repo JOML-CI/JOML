@@ -34,6 +34,7 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.Math;
 import org.joml.internal.*;
 import org.joml.internal.Runtime;
 
@@ -4286,6 +4287,177 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         dest.m21 = m01 * a + m11 * b + m21;
         dest.m22 = m02 * a + m12 * b + m22;
         return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3fc#reflect(float, float, float, org.joml.Matrix3f)
+     */
+    public Matrix3f reflect(float nx, float ny, float nz, Matrix3f dest) {
+        float da = nx + nx, db = ny + ny, dc = nz + nz;
+        float rm00 = 1.0f - da * nx;
+        float rm01 = -da * ny;
+        float rm02 = -da * nz;
+        float rm10 = -db * nx;
+        float rm11 = 1.0f - db * ny;
+        float rm12 = -db * nz;
+        float rm20 = -dc * nx;
+        float rm21 = -dc * ny;
+        float rm22 = 1.0f - dc * nz;
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        dest._m20(m00 * rm20 + m10 * rm21 + m20 * rm22);
+        dest._m21(m01 * rm20 + m11 * rm21 + m21 * rm22);
+        dest._m22(m02 * rm20 + m12 * rm21 + m22 * rm22);
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        return dest;
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects through the given plane
+     * specified via the plane normal.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @return a matrix holding the result
+     */
+    public Matrix3f reflect(float nx, float ny, float nz) {
+        return reflect(nx, ny, nz, this);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects through the given plane
+     * specified via the plane normal.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param normal
+     *          the plane normal
+     * @return this
+     */
+    public Matrix3f reflect(Vector3fc normal) {
+        return reflect(normal.x(), normal.y(), normal.z());
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about a plane
+     * specified via the plane orientation.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <code>(0, 0, 1)</code>. So, if the given {@link Quaternionfc} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <code>z=0</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @return a matrix holding the result
+     */
+    public Matrix3f reflect(Quaternionfc orientation) {
+        return reflect(orientation, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3fc#reflect(org.joml.Quaternionfc, org.joml.Matrix3f)
+     */
+    public Matrix3f reflect(Quaternionfc orientation, Matrix3f dest) {
+        double num1 = orientation.x() + orientation.x();
+        double num2 = orientation.y() + orientation.y();
+        double num3 = orientation.z() + orientation.z();
+        float normalX = (float) (orientation.x() * num3 + orientation.w() * num2);
+        float normalY = (float) (orientation.y() * num3 - orientation.w() * num1);
+        float normalZ = (float) (1.0 - (orientation.x() * num1 + orientation.y() * num2));
+        return reflect(normalX, normalY, normalZ, dest);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3fc#reflect(org.joml.Vector3fc, org.joml.Matrix3f)
+     */
+    public Matrix3f reflect(Vector3fc normal, Matrix3f dest) {
+        return reflect(normal.x(), normal.y(), normal.z(), dest);
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects through the given plane
+     * specified via the plane normal.
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @return this
+     */
+    public Matrix3f reflection(float nx, float ny, float nz) {
+        float da = nx + nx, db = ny + ny, dc = nz + nz;
+        this._m00(1.0f - da * nx);
+        this._m01(-da * ny);
+        this._m02(-da * nz);
+        this._m10(-db * nx);
+        this._m11(1.0f - db * ny);
+        this._m12(-db * nz);
+        this._m20(-dc * nx);
+        this._m21(-dc * ny);
+        this._m22(1.0f - dc * nz);
+        return this;
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects through the given plane
+     * specified via the plane normal.
+     * 
+     * @param normal
+     *          the plane normal
+     * @return this
+     */
+    public Matrix3f reflection(Vector3fc normal) {
+        return reflection(normal.x(), normal.y(), normal.z());
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects through a plane
+     * specified via the plane orientation.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <code>(0, 0, 1)</code>. So, if the given {@link Quaternionfc} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <code>z=0</code>, offset by the given <code>point</code>.
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @return this
+     */
+    public Matrix3f reflection(Quaternionfc orientation) {
+        float num1 = orientation.x() + orientation.x();
+        float num2 = orientation.y() + orientation.y();
+        float num3 = orientation.z() + orientation.z();
+        float normalX = orientation.x() * num3 + orientation.w() * num2;
+        float normalY = orientation.y() * num3 - orientation.w() * num1;
+        float normalZ = 1.0f - (orientation.x() * num1 + orientation.y() * num2);
+        return reflection(normalX, normalY, normalZ);
     }
 
 }
