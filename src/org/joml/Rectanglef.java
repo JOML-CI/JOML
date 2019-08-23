@@ -36,64 +36,66 @@ import org.joml.internal.Runtime;
  */
 public class Rectanglef {
 
-    public float minX, minY;
-    public float maxX, maxY;
+	public float minX, minY;
+	public float maxX, maxY;
 
-    /**
-     * Create a new {@link Rectanglef} with a minimum and maximum corner of <code>(0, 0)</code>.
-     */
-    public Rectanglef() {
-    }
+	/**
+	 * Create a new {@link Rectanglef} with a minimum and maximum corner of
+	 * <code>(0, 0)</code>.
+	 */
+	public Rectanglef() {
+	}
 
-    /**
-     * Create a new {@link Rectanglef} as a copy of the given <code>source</code>.
-     * 
-     * @param source
-     *          the {@link Rectanglef} to copy from
-     */
-    public Rectanglef(Rectanglef source) {
-        this.minX = source.minX;
-        this.minY = source.minY;
-        this.maxX = source.maxX;
-        this.maxY = source.maxY;
-    }
+	/**
+	 * Create a new {@link Rectanglef} as a copy of the given <code>source</code>.
+	 * 
+	 * @param source the {@link Rectanglef} to copy from
+	 */
+	public Rectanglef(Rectanglef source) {
+		this.minX = source.minX;
+		this.minY = source.minY;
+		this.maxX = source.maxX;
+		this.maxY = source.maxY;
+	}
 
-    /**
-     * Create a new {@link Rectanglef} with the given <code>min</code> and <code>max</code> corner coordinates.
-     * 
-     * @param min
-     *          the minimum coordinates
-     * @param max
-     *          the maximum coordinates
-     */
-    public Rectanglef(Vector2fc min, Vector2fc max) {
-        this.minX = min.x();
-        this.minY = min.y();
-        this.maxX = max.x();
-        this.maxY = max.y();
-    }
+	/**
+	 * Create a new {@link Rectanglef} with the given <code>min</code> and
+	 * <code>max</code> corner coordinates.
+	 * 
+	 * @param min the minimum coordinates
+	 * @param max the maximum coordinates
+	 */
+	public Rectanglef(Vector2fc min, Vector2fc max) {
+		this.minX = min.x();
+		this.minY = min.y();
+		this.maxX = max.x();
+		this.maxY = max.y();
+	}
 
-    /**
-     * Create a new {@link Rectanglef} with the given minimum and maximum corner coordinates.
-     * 
-     * @param minX
-     *          the x coordinate of the minimum corner
-     * @param minY
-     *          the y coordinate of the minimum corner
-     * @param maxX
-     *          the x coordinate of the maximum corner
-     * @param maxY
-     *          the y coordinate of the maximum corner
-     */
-    public Rectanglef(float minX, float minY, float maxX, float maxY) {
-        super();
-        this.minX = minX;
-        this.minY = minY;
-        this.maxX = maxX;
-        this.maxY = maxY;
-    }
+	/**
+	 * Create a new {@link Rectanglef} with the given minimum and maximum corner
+	 * coordinates.
+	 * 
+	 * @param minX the x coordinate of the minimum corner
+	 * @param minY the y coordinate of the minimum corner
+	 * @param maxX the x coordinate of the maximum corner
+	 * @param maxY the y coordinate of the maximum corner
+	 */
+	public Rectanglef(float minX, float minY, float maxX, float maxY) {
+		super();
+		this.minX = minX;
+		this.minY = minY;
+		this.maxX = maxX;
+		this.maxY = maxY;
+	}
 
-     public boolean intersects(Rectanglef r) {
+	/**
+	 * Tests if a this rectangle intersects with another rectangle
+	 * 
+	 * @param r The rectangle to test against
+	 * @return If this rectangle intersects rectangle r
+	 */
+	public boolean intersects(Rectanglef r) {
 
 		float tw = maxX - minX;
 		float th = maxY - minY;
@@ -111,12 +113,25 @@ public class Rectanglef {
 
 	}
 
+	/**
+	 * Tests if a coordinate is contained within this rectangle
+	 * 
+	 * @param v The vector representing a point
+	 * @return If this rectangle contains the point x, y
+	 */
 	public boolean contains(Vector2fc v) {
 
 		return contains(v.x(), v.y());
 
 	}
 
+	/**
+	 * Tests if a coordinate is contained within this rectangle
+	 * 
+	 * @param x The x coordinate
+	 * @param y The y coordinate
+	 * @return If this rectangle contains the point x, y
+	 */
 	public boolean contains(float x, float y) {
 
 		float w = maxX - minX;
@@ -130,57 +145,51 @@ public class Rectanglef {
 		return ((w < minX || w > x) && (h < minY || h > y));
 
 	}
-    
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Float.floatToIntBits(maxX);
-        result = prime * result + Float.floatToIntBits(maxY);
-        result = prime * result + Float.floatToIntBits(minX);
-        result = prime * result + Float.floatToIntBits(minY);
-        return result;
-    }
 
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Rectanglef other = (Rectanglef) obj;
-        if (Float.floatToIntBits(maxX) != Float.floatToIntBits(other.maxX))
-            return false;
-        if (Float.floatToIntBits(maxY) != Float.floatToIntBits(other.maxY))
-            return false;
-        if (Float.floatToIntBits(minX) != Float.floatToIntBits(other.minX))
-            return false;
-        if (Float.floatToIntBits(minY) != Float.floatToIntBits(other.minY))
-            return false;
-        return true;
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(maxX);
+		result = prime * result + Float.floatToIntBits(maxY);
+		result = prime * result + Float.floatToIntBits(minX);
+		result = prime * result + Float.floatToIntBits(minY);
+		return result;
+	}
 
-    /**
-     * Return a string representation of this rectangle.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
-     * 
-     * @return the string representation
-     */
-    public String toString() {
-        return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
-    }
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		Rectanglef other = (Rectanglef) obj;
+		if (Float.floatToIntBits(maxX) != Float.floatToIntBits(other.maxX)) return false;
+		if (Float.floatToIntBits(maxY) != Float.floatToIntBits(other.maxY)) return false;
+		if (Float.floatToIntBits(minX) != Float.floatToIntBits(other.minX)) return false;
+		if (Float.floatToIntBits(minY) != Float.floatToIntBits(other.minY)) return false;
+		return true;
+	}
 
-    /**
-     * Return a string representation of this rectangle by formatting the vector components with the given {@link NumberFormat}.
-     * 
-     * @param formatter
-     *          the {@link NumberFormat} used to format the vector components with
-     * @return the string representation
-     */
-    public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(minX) + " " + formatter.format(minY) + ") < "
-             + "(" + formatter.format(maxX) + " " + formatter.format(maxY) + ")";
-    }
+	/**
+	 * Return a string representation of this rectangle.
+	 * <p>
+	 * This method creates a new {@link DecimalFormat} on every invocation with the
+	 * format string "<code>0.000E0;-</code>".
+	 * 
+	 * @return the string representation
+	 */
+	public String toString() {
+		return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
+	}
+
+	/**
+	 * Return a string representation of this rectangle by formatting the vector
+	 * components with the given {@link NumberFormat}.
+	 * 
+	 * @param formatter the {@link NumberFormat} used to format the vector
+	 *                  components with
+	 * @return the string representation
+	 */
+	public String toString(NumberFormat formatter) {
+		return "(" + formatter.format(minX) + " " + formatter.format(minY) + ") < " + "(" + formatter.format(maxX) + " " + formatter.format(maxY) + ")";
+	}
 
 }
