@@ -93,6 +93,42 @@ public class Rectangled {
         this.maxY = maxY;
     }
 
+    /**
+     * Check if this and the given rectangle intersect.
+     * 
+     * @param other
+     *          the other rectangle
+     * @return <code>true</code> iff both rectangle intersect; <code>false</code> otherwise
+     */
+    public boolean intersects(Rectangled other) {
+        return minX < other.maxX && maxX >= other.minX &&
+               maxY >= other.minY && minY < other.maxY;
+    }
+
+    /**
+     * Check if this rectangle contains the given <code>point</code>.
+     * 
+     * @param point
+     *          the point to test
+     * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
+     */
+    public boolean contains(Vector2d point) {
+        return contains(point.x, point.y);
+    }
+
+    /**
+     * Check if this rectangle contains the given point <code>(x, y)</code>.
+     * 
+     * @param x
+     *          the x coordinate of the point to check
+     * @param y
+     *          the y coordinate of the point to check
+     * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
+     */
+    public boolean contains(double x, double y) {
+        return x >= minX && y >= minX && x < maxX && y < maxY;
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
