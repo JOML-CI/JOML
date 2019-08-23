@@ -32,7 +32,7 @@ import org.joml.internal.Runtime;
 /**
  * Represents a 2D axis-aligned rectangle.
  * 
- * @author Kai Burjack
+ * @author Kai Burjack, AnthoFoxo
  */
 public class Rectangled {
 
@@ -93,6 +93,44 @@ public class Rectangled {
         this.maxY = maxY;
     }
 
+    public boolean intersects(Rectangled r) {
+
+		double tw = maxX - minX;
+		double th = maxY - minY;
+		double rw = r.maxX - r.minX;
+		double rh = r.maxY - r.minY;
+
+		if (rw <= 0D || rh <= 0D || tw <= 0D || th <= 0D) return false;
+
+		rw += r.minX;
+		rh += r.minY;
+		tw += minX;
+		th += minY;
+
+		return ((rw < r.minX || rw > minX) && (rh < r.minY || rh > minY) && (tw < minX || tw > r.minX) && (th < minY || th > r.minY));
+
+	}
+
+	public boolean contains(Vector2dc v) {
+
+		return contains(v.x(), v.y());
+
+	}
+
+	public boolean contains(double x, double y) {
+
+		double w = maxX - minX;
+		double h = maxY - minY;
+
+		if (x < minX || y < minY) return false;
+
+		w += minX;
+		h += minY;
+
+		return ((w < minX || w > x) && (h < minY || h > y));
+
+	}
+    
     public int hashCode() {
         final int prime = 31;
         int result = 1;
