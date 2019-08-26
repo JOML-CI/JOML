@@ -40,6 +40,7 @@ public class ModuleInfoGenerator implements Opcodes {
         cw.visit(V9, Opcodes.ACC_MODULE, "module-info", null, null, null);
         ModuleVisitor mv = cw.visitModule("org.joml", 0, args[1]);
         mv.visitRequire("java.base", ACC_MANDATED, "9");
+        mv.visitRequire("jdk.unsupported", ACC_STATIC_PHASE, null);
         mv.visitExport("org/joml", 0, (String[]) null);
         mv.visitExport("org/joml/sampling", 0, (String[]) null);
         mv.visitEnd();
