@@ -27,11 +27,7 @@ package org.joml.internal;
 import java.lang.reflect.Field;
 //#endif
 //#ifdef __HAS_NIO__
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
+import java.nio.*;
 //#endif
 
 import org.joml.Matrix2f;
@@ -4120,960 +4116,1368 @@ public abstract class MemUtil {
         }
 
 //#ifdef __HAS_NIO__
-        public void putMatrix3f(Quaternionf q, int position, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+        public void putMatrix3f(Quaternionf q, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < (9 << 2))
+                    throw new BufferOverflowException();
             }
-            long addr = addressOf(dest) + position;
+            long addr = addressOf(dest) + offset;
             putMatrix3f(q, addr);
         }
 
-        public void putMatrix3f(Quaternionf q, int position, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+        public void putMatrix3f(Quaternionf q, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9)
+                    throw new BufferOverflowException();
             }
-            long addr = addressOf(dest) + (position << 2);
+            long addr = addressOf(dest) + (offset << 2);
             putMatrix3f(q, addr);
         }
 
-        public void putMatrix4f(Quaternionf q, int position, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+        public void putMatrix4f(Quaternionf q, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 2)
+                    throw new BufferOverflowException();
             }
-            long addr = addressOf(dest) + position;
+            long addr = addressOf(dest) + offset;
             putMatrix4f(q, addr);
         }
 
-        public void putMatrix4f(Quaternionf q, int position, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+        public void putMatrix4f(Quaternionf q, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
-            long addr = addressOf(dest) + (position << 2);
+            long addr = addressOf(dest) + (offset << 2);
             putMatrix4f(q, addr);
         }
 
-        public void putMatrix4x3f(Quaternionf q, int position, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+        public void putMatrix4x3f(Quaternionf q, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 2)
+                    throw new BufferOverflowException();
             }
-            long addr = addressOf(dest) + position;
+            long addr = addressOf(dest) + offset;
             putMatrix4x3f(q, addr);
         }
 
-        public void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+        public void putMatrix4x3f(Quaternionf q, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
-            long addr = addressOf(dest) + (position << 2);
+            long addr = addressOf(dest) + (offset << 2);
             putMatrix4x3f(q, addr);
         }
 
         public void put(Matrix4f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 2));
         }
 
         public void put(Matrix4f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 2)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void put4x3(Matrix4f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
             put4x3(m, addressOf(dest) + (offset << 2));
         }
 
         public void put4x3(Matrix4f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 2)
+                    throw new BufferOverflowException();
             }
             put4x3(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix4x3f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 2));
         }
 
         public void put(Matrix4x3f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 2)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void put4x4(Matrix4x3f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             put4x4(m, addressOf(dest) + (offset << 2));
         }
 
         public void put4x4(Matrix4x3f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 2)
+                    throw new BufferOverflowException();
             }
             put4x4(m, addressOf(dest) + offset);
         }
 
         public void put4x4(Matrix4x3d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             put4x4(m, addressOf(dest) + (offset << 3));
         }
 
         public void put4x4(Matrix4x3d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 3)
+                    throw new BufferOverflowException();
             }
             put4x4(m, addressOf(dest) + offset);
         }
 
         public void put4x4(Matrix3x2f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             put4x4(m, addressOf(dest) + (offset << 2));
         }
 
         public void put4x4(Matrix3x2f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 2)
+                    throw new BufferOverflowException();
             }
             put4x4(m, addressOf(dest) + offset);
         }
 
         public void put4x4(Matrix3x2d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             put4x4(m, addressOf(dest) + (offset << 3));
         }
 
         public void put4x4(Matrix3x2d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 3)
+                    throw new BufferOverflowException();
             }
             put4x4(m, addressOf(dest) + offset);
         }
 
         public void put3x3(Matrix3x2f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9)
+                    throw new BufferOverflowException();
             }
             put3x3(m, addressOf(dest) + (offset << 2));
         }
 
         public void put3x3(Matrix3x2f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9 << 2)
+                    throw new BufferOverflowException();
             }
             put3x3(m, addressOf(dest) + offset);
         }
 
         public void put3x3(Matrix3x2d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9)
+                    throw new BufferOverflowException();
             }
             put3x3(m, addressOf(dest) + (offset << 3));
         }
 
         public void put3x3(Matrix3x2d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9 << 3)
+                    throw new BufferOverflowException();
             }
             put3x3(m, addressOf(dest) + offset);
         }
 
         public void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public void putTransposed(Matrix4f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 2)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public void put4x3Transposed(Matrix4f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
             put4x3Transposed(m, addressOf(dest) + (offset << 2));
         }
 
         public void put4x3Transposed(Matrix4f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 2)
+                    throw new BufferOverflowException();
             }
             put4x3Transposed(m, addressOf(dest) + offset);
         }
 
         public void putTransposed(Matrix4x3f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public void putTransposed(Matrix4x3f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 2)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public void putTransposed(Matrix3f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public void putTransposed(Matrix3f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9 << 2)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public void putTransposed(Matrix2f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public void putTransposed(Matrix2f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4 << 2)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix4d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 3));
         }
 
         public void put(Matrix4d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 3)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix4x3d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 3));
         }
 
         public void put(Matrix4x3d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 3)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void putf(Matrix4d m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             putf(m, addressOf(dest) + (offset << 2));
         }
 
         public void putf(Matrix4d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 2)
+                    throw new BufferOverflowException();
             }
             putf(m, addressOf(dest) + offset);
         }
 
         public void putf(Matrix4x3d m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
             putf(m, addressOf(dest) + (offset << 2));
         }
 
         public void putf(Matrix4x3d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 2)
+                    throw new BufferOverflowException();
             }
             putf(m, addressOf(dest) + offset);
         }
 
         public void putTransposed(Matrix4d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + (offset << 3));
         }
 
         public void putTransposed(Matrix4d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 3)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public void put4x3Transposed(Matrix4d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
             put4x3Transposed(m, addressOf(dest) + (offset << 3));
         }
 
         public void put4x3Transposed(Matrix4d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 3)
+                    throw new BufferOverflowException();
             }
             put4x3Transposed(m, addressOf(dest) + offset);
         }
 
         public void putTransposed(Matrix4x3d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + (offset << 3));
         }
 
         public void putTransposed(Matrix4x3d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 3)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public void putTransposed(Matrix2d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + (offset << 3));
         }
 
         public void putTransposed(Matrix2d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4 << 3)
+                    throw new BufferOverflowException();
             }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public void putfTransposed(Matrix4d m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16)
+                    throw new BufferOverflowException();
             }
             putfTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public void putfTransposed(Matrix4d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 16 << 2)
+                    throw new BufferOverflowException();
             }
             putfTransposed(m, addressOf(dest) + offset);
         }
 
         public void putfTransposed(Matrix4x3d m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12)
+                    throw new BufferOverflowException();
             }
             putfTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public void putfTransposed(Matrix4x3d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 12 << 2)
+                    throw new BufferOverflowException();
             }
             putfTransposed(m, addressOf(dest) + offset);
         }
 
         public void putfTransposed(Matrix2d m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
             }
             putfTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public void putfTransposed(Matrix2d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4 << 2)
+                    throw new BufferOverflowException();
             }
             putfTransposed(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix3f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 2));
         }
 
         public void put(Matrix3f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9 << 2)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix3d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 3));
         }
 
         public void put(Matrix3d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9 << 3)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix3x2f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 6)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 2));
         }
 
         public void put(Matrix3x2f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 6 << 2)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix3x2d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 6)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 3));
         }
 
         public void put(Matrix3x2d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 6 << 3)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void putf(Matrix3d m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9)
+                    throw new BufferOverflowException();
             }
             putf(m, addressOf(dest) + (offset << 2));
         }
 
         public void putf(Matrix3d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 9 << 2)
+                    throw new BufferOverflowException();
             }
             putf(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix2f m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 2));
         }
 
         public void put(Matrix2f m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4 << 2)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void put(Matrix2d m, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + (offset << 3));
         }
 
         public void put(Matrix2d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 2 << 3)
+                    throw new BufferOverflowException();
             }
             put(m, addressOf(dest) + offset);
         }
 
         public void putf(Matrix2d m, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
             }
             putf(m, addressOf(dest) + (offset << 2));
         }
 
         public void putf(Matrix2d m, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4 << 2)
+                    throw new BufferOverflowException();
             }
             putf(m, addressOf(dest) + offset);
         }
 
         public void put(Vector4d src, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + (offset << 3));
         }
 
         public void put(Vector4d src, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4 << 3)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
         }
 
         public void put(Vector4f src, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public void put(Vector4f src, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4 << 2)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
         }
 
         public void put(Vector4i src, int offset, IntBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public void put(Vector4i src, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4 << 2)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
         }
 
         public void put(Vector3f src, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 3)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public void put(Vector3f src, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 3 << 2)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
         }
 
         public void put(Vector3d src, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 3)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + (offset << 3));
         }
 
         public void put(Vector3d src, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 3 << 3)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
         }
 
         public void put(Vector3i src, int offset, IntBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 3)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public void put(Vector3i src, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 3 << 2)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
         }
 
         public void put(Vector2f src, int offset, FloatBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 2)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public void put(Vector2f src, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 2 << 2)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
         }
 
         public void put(Vector2d src, int offset, DoubleBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 2)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + (offset << 3));
         }
 
         public void put(Vector2d src, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 2 << 3)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
         }
 
         public void put(Vector2i src, int offset, IntBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 2)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public void put(Vector2i src, int offset, ByteBuffer dest) {
-            if (Options.DEBUG && !dest.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 2 << 2)
+                    throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
         }
 
         public void get(Matrix4f m, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 16)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 2));
         }
 
         public void get(Matrix4f m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 16 << 2)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void get(Matrix4x3f m, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 12)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 2));
         }
 
         public void get(Matrix4x3f m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 12 << 2)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void get(Matrix4d m, int offset, DoubleBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 16)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 3));
         }
 
         public void get(Matrix4d m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 16 << 3)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void get(Matrix4x3d m, int offset, DoubleBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 12)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 3));
         }
 
         public void get(Matrix4x3d m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 12 << 3)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void getf(Matrix4d m, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 16)
+                    throw new BufferUnderflowException();
             }
             getf(m, addressOf(src) + (offset << 2));
         }
 
         public void getf(Matrix4d m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 16 << 2)
+                    throw new BufferUnderflowException();
             }
             getf(m, addressOf(src) + offset);
         }
 
         public void getf(Matrix4x3d m, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 12)
+                    throw new BufferUnderflowException();
             }
             getf(m, addressOf(src) + (offset << 2));
         }
 
         public void getf(Matrix4x3d m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 12 << 2)
+                    throw new BufferUnderflowException();
             }
             getf(m, addressOf(src) + offset);
         }
 
         public void get(Matrix3f m, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 9)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 2));
         }
 
         public void get(Matrix3f m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 9 << 2)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void get(Matrix3d m, int offset, DoubleBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 9)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 3));
         }
 
         public void get(Matrix3d m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 9 << 3)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void get(Matrix3x2f m, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 6)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 2));
         }
 
         public void get(Matrix3x2f m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 6 << 2)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void get(Matrix3x2d m, int offset, DoubleBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 6)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 3));
         }
 
         public void get(Matrix3x2d m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 6 << 3)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void getf(Matrix3d m, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 9)
+                    throw new BufferUnderflowException();
             }
             getf(m, addressOf(src) + (offset << 2));
         }
 
         public void getf(Matrix3d m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 9 << 2)
+                    throw new BufferUnderflowException();
             }
             getf(m, addressOf(src) + offset);
         }
 
         public void get(Matrix2f m, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 2));
         }
 
         public void get(Matrix2f m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4 << 2)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void get(Matrix2d m, int offset, DoubleBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + (offset << 3));
         }
 
         public void get(Matrix2d m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4 << 3)
+                    throw new BufferUnderflowException();
             }
             get(m, addressOf(src) + offset);
         }
 
         public void getf(Matrix2d m, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4)
+                    throw new BufferUnderflowException();
             }
             getf(m, addressOf(src) + (offset << 2));
         }
 
         public void getf(Matrix2d m, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4 << 2)
+                    throw new BufferUnderflowException();
             }
             getf(m, addressOf(src) + offset);
         }
 
         public void get(Vector4d dst, int offset, DoubleBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + (offset << 3));
         }
 
         public void get(Vector4d dst, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4 << 3)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + offset);
         }
 
         public void get(Vector4f dst, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public void get(Vector4f dst, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4 << 2)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + offset);
         }
 
         public void get(Vector4i dst, int offset, IntBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public void get(Vector4i dst, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 4 << 2)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + offset);
         }
 
         public void get(Vector3f dst, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 3)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public void get(Vector3f dst, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 3 << 2)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + offset);
         }
 
         public void get(Vector3d dst, int offset, DoubleBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 3)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + (offset << 3));
         }
 
         public void get(Vector3d dst, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 3 << 3)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + offset);
         }
 
         public void get(Vector3i dst, int offset, IntBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 3)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public void get(Vector3i dst, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 3 << 2)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + offset);
         }
 
         public void get(Vector2f dst, int offset, FloatBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 2)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public void get(Vector2f dst, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 2 << 2)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + offset);
         }
 
         public void get(Vector2d dst, int offset, DoubleBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 2)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + (offset << 3));
         }
 
         public void get(Vector2d dst, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 2 << 3)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + offset);
         }
 
         public void get(Vector2i dst, int offset, IntBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 2)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public void get(Vector2i dst, int offset, ByteBuffer src) {
-            if (Options.DEBUG && !src.isDirect()) {
-                throwNoDirectBufferException();
+            if (Options.DEBUG) {
+                if (!src.isDirect())
+                    throwNoDirectBufferException();
+                if (src.capacity() - offset < 2 << 2)
+                    throw new BufferUnderflowException();
             }
             get(dst, addressOf(src) + offset);
         }
