@@ -449,6 +449,15 @@ public interface Vector4fc {
     Vector4f normalize(float length, Vector4f dest);
 
     /**
+     * Normalize this vector by computing only the norm of <code>(x, y, z)</code> and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f normalize3(Vector4f dest);
+
+    /**
      * Return the distance between this Vector and <code>v</code>.
      *
      * @param v
