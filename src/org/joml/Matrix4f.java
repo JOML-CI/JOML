@@ -11833,12 +11833,12 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float nearX = (px - im20) * invNearW;
         float nearY = (py - im21) * invNearW;
         float nearZ = (pz - im22) * invNearW;
-        float invFarW = 1.0f / (im03 * ndcX + im13 * ndcY + im23 + im33);
-        float farX = (px + im20) * invFarW;
-        float farY = (py + im21) * invFarW;
-        float farZ = (pz + im22) * invFarW;
+        float invW0 = 1.0f / (im03 * ndcX + im13 * ndcY + im33);
+        float x0 = (px + im20) * invW0;
+        float y0 = (py + im21) * invW0;
+        float z0 = (pz + im22) * invW0;
         originDest.x = nearX; originDest.y = nearY; originDest.z = nearZ;
-        dirDest.x = farX - nearX; dirDest.y = farY - nearY; dirDest.z = farZ - nearZ;
+        dirDest.x = x0 - nearX; dirDest.y = y0 - nearY; dirDest.z = z0 - nearZ;
         return this;
     }
 
@@ -11891,12 +11891,12 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float nearX = (px - m20) * invNearW;
         float nearY = (py - m21) * invNearW;
         float nearZ = (pz - m22) * invNearW;
-        float invFarW = 1.0f / (m03 * ndcX + m13 * ndcY + m23 + m33);
-        float farX = (px + m20) * invFarW;
-        float farY = (py + m21) * invFarW;
-        float farZ = (pz + m22) * invFarW;
+        float invW0 = 1.0f / (m03 * ndcX + m13 * ndcY + m33);
+        float x0 = (px + m20) * invW0;
+        float y0 = (py + m21) * invW0;
+        float z0 = (pz + m22) * invW0;
         originDest.x = nearX; originDest.y = nearY; originDest.z = nearZ;
-        dirDest.x = farX - nearX; dirDest.y = farY - nearY; dirDest.z = farZ - nearZ;
+        dirDest.x = x0 - nearX; dirDest.y = y0 - nearY; dirDest.z = z0 - nearZ;
         return this;
     }
 
