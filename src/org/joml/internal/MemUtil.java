@@ -146,7 +146,9 @@ public abstract class MemUtil {
     public abstract void putf(Matrix2d m, int offset, FloatBuffer dest);
     public abstract void putf(Matrix2d m, int offset, ByteBuffer dest);
     public abstract void put(Vector4d src, int offset, DoubleBuffer dest);
+    public abstract void put(Vector4d src, int offset, FloatBuffer dest);
     public abstract void put(Vector4d src, int offset, ByteBuffer dest);
+    public abstract void putf(Vector4d src, int offset, ByteBuffer dest);
     public abstract void put(Vector4f src, int offset, FloatBuffer dest);
     public abstract void put(Vector4f src, int offset, ByteBuffer dest);
     public abstract void put(Vector4i src, int offset, IntBuffer dest);
@@ -154,7 +156,9 @@ public abstract class MemUtil {
     public abstract void put(Vector3f src, int offset, FloatBuffer dest);
     public abstract void put(Vector3f src, int offset, ByteBuffer dest);
     public abstract void put(Vector3d src, int offset, DoubleBuffer dest);
+    public abstract void put(Vector3d src, int offset, FloatBuffer dest);
     public abstract void put(Vector3d src, int offset, ByteBuffer dest);
+    public abstract void putf(Vector3d src, int offset, ByteBuffer dest);
     public abstract void put(Vector3i src, int offset, IntBuffer dest);
     public abstract void put(Vector3i src, int offset, ByteBuffer dest);
     public abstract void put(Vector2f src, int offset, FloatBuffer dest);
@@ -1366,11 +1370,25 @@ public abstract class MemUtil {
             dest.put(offset+3, src.w);
         }
 
+        public void put(Vector4d src, int offset, FloatBuffer dest) {
+            dest.put(offset,   (float)src.x);
+            dest.put(offset+1, (float)src.y);
+            dest.put(offset+2, (float)src.z);
+            dest.put(offset+3, (float)src.w);
+        }
+
         public void put(Vector4d src, int offset, ByteBuffer dest) {
             dest.putDouble(offset,    src.x);
             dest.putDouble(offset+8,  src.y);
             dest.putDouble(offset+16, src.z);
             dest.putDouble(offset+24, src.w);
+        }
+
+        public void putf(Vector4d src, int offset, ByteBuffer dest) {
+            dest.putFloat(offset,    (float) src.x);
+            dest.putFloat(offset+4,  (float) src.y);
+            dest.putFloat(offset+8,  (float) src.z);
+            dest.putFloat(offset+12, (float) src.w);
         }
 
         public void put(Vector4f src, int offset, FloatBuffer dest) {
@@ -1419,10 +1437,22 @@ public abstract class MemUtil {
             dest.put(offset+2, src.z);
         }
 
+        public void put(Vector3d src, int offset, FloatBuffer dest) {
+            dest.put(offset,   (float)src.x);
+            dest.put(offset+1, (float)src.y);
+            dest.put(offset+2, (float)src.z);
+        }
+
         public void put(Vector3d src, int offset, ByteBuffer dest) {
             dest.putDouble(offset,    src.x);
             dest.putDouble(offset+8,  src.y);
             dest.putDouble(offset+16, src.z);
+        }
+
+        public void putf(Vector3d src, int offset, ByteBuffer dest) {
+            dest.putFloat(offset,   (float) src.x);
+            dest.putFloat(offset+4, (float) src.y);
+            dest.putFloat(offset+8, (float) src.z);
         }
 
         public void put(Vector3i src, int offset, IntBuffer dest) {
@@ -3789,6 +3819,13 @@ public abstract class MemUtil {
             UNSAFE.putDouble(null, destAddr+24, src.w);
         }
 
+        public void putf(Vector4d src, long destAddr) {
+            UNSAFE.putFloat(null, destAddr,    (float) src.x);
+            UNSAFE.putFloat(null, destAddr+4,  (float) src.y);
+            UNSAFE.putFloat(null, destAddr+8,  (float) src.z);
+            UNSAFE.putFloat(null, destAddr+12, (float) src.w);
+        }
+
         public void put(Vector4f src, long destAddr) {
             UNSAFE.putFloat(null, destAddr,    src.x);
             UNSAFE.putFloat(null, destAddr+4,  src.y);
@@ -3813,6 +3850,12 @@ public abstract class MemUtil {
             UNSAFE.putDouble(null, destAddr,    src.x);
             UNSAFE.putDouble(null, destAddr+8,  src.y);
             UNSAFE.putDouble(null, destAddr+16, src.z);
+        }
+
+        public void putf(Vector3d src, long destAddr) {
+            UNSAFE.putFloat(null, destAddr,   (float) src.x);
+            UNSAFE.putFloat(null, destAddr+4, (float) src.y);
+            UNSAFE.putFloat(null, destAddr+8, (float) src.z);
         }
 
         public void put(Vector3i src, long destAddr) {
@@ -4852,6 +4895,16 @@ public abstract class MemUtil {
             put(src, addressOf(dest) + (offset << 3));
         }
 
+        public void put(Vector4d src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4)
+                    throw new BufferOverflowException();
+            }
+            putf(src, addressOf(dest) + (offset << 2));
+        }
+
         public void put(Vector4d src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) {
                 if (!dest.isDirect())
@@ -4860,6 +4913,16 @@ public abstract class MemUtil {
                     throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
+        }
+
+        public void putf(Vector4d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 4 << 2)
+                    throw new BufferOverflowException();
+            }
+            putf(src, addressOf(dest) + offset);
         }
 
         public void put(Vector4f src, int offset, FloatBuffer dest) {
@@ -4932,6 +4995,16 @@ public abstract class MemUtil {
             put(src, addressOf(dest) + (offset << 3));
         }
 
+        public void put(Vector3d src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 3)
+                    throw new BufferOverflowException();
+            }
+            putf(src, addressOf(dest) + (offset << 2));
+        }
+
         public void put(Vector3d src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) {
                 if (!dest.isDirect())
@@ -4940,6 +5013,16 @@ public abstract class MemUtil {
                     throw new BufferOverflowException();
             }
             put(src, addressOf(dest) + offset);
+        }
+
+        public void putf(Vector3d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) {
+                if (!dest.isDirect())
+                    throwNoDirectBufferException();
+                if (dest.capacity() - offset < 3 << 2)
+                    throw new BufferOverflowException();
+            }
+            putf(src, addressOf(dest) + offset);
         }
 
         public void put(Vector3i src, int offset, IntBuffer dest) {

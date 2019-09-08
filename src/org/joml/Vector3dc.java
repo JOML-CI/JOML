@@ -24,8 +24,7 @@
 package org.joml;
 
 //#ifdef __HAS_NIO__
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
+import java.nio.*;
 //#endif
 import java.util.*;
 
@@ -113,6 +112,80 @@ public interface Vector3dc {
      * @return the passed in buffer
      */
     DoubleBuffer get(int index, DoubleBuffer buffer);
+
+    /**
+     * Store this vector into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the vector is stored, use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     *
+     * @param buffer
+     *          will receive the values of this vector in <code>x, y, z</code> order
+     * @return the passed in buffer
+     * @see #get(int, DoubleBuffer)
+     */
+    FloatBuffer get(FloatBuffer buffer);
+
+    /**
+     * Store this vector into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     *
+     * @param index
+     *          the absolute position into the FloatBuffer
+     * @param buffer
+     *          will receive the values of this vector in <code>x, y, z</code> order
+     * @return the passed in buffer
+     */
+    FloatBuffer get(int index, FloatBuffer buffer);
+
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the vector is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given ByteBuffer.
+     *
+     * @param buffer
+     *          will receive the values of this vector in <code>x, y, z</code> order
+     * @return the passed in buffer
+     * @see #get(int, ByteBuffer)
+     */
+    ByteBuffer getf(ByteBuffer buffer);
+
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given ByteBuffer.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this vector in <code>x, y, z</code> order
+     * @return the passed in buffer
+     */
+    ByteBuffer getf(int index, ByteBuffer buffer);
 //#endif
 
 //#ifdef __HAS_UNSAFE__

@@ -28,8 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 //#ifdef __HAS_NIO__
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
+import java.nio.*;
 //#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -620,6 +619,36 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#get(int, java.nio.DoubleBuffer)
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.put(this, index, buffer);
+        return buffer;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#getf(java.nio.ByteBuffer)
+     */
+    public ByteBuffer getf(ByteBuffer buffer) {
+        return getf(buffer.position(), buffer);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#getf(int, java.nio.ByteBuffer)
+     */
+    public ByteBuffer getf(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putf(this, index, buffer);
+        return buffer;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#get(java.nio.FloatBuffer)
+     */
+    public FloatBuffer get(FloatBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#get(int, java.nio.FloatBuffer)
+     */
+    public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
