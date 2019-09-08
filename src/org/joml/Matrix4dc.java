@@ -5236,12 +5236,12 @@ public interface Matrix4dc {
      * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3d)})
      * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3d)}) and the
      * given vector <code>up</code>, and store the result in <code>dest</code>.
-     * 
-     * This effectively ensure that the resulting matrix will be equal to the one obtained from calling
+     * <p>
+     * This effectively ensures that the resulting matrix will be equal to the one obtained from calling
      * {@link Matrix4d#setLookAt(Vector3dc, Vector3dc, Vector3dc)} with the current 
      * local origin of this matrix (as obtained by {@link #originAffine(Vector3d)}), the sum of this position and the 
      * negated local Z axis as well as the given vector <code>up</code>.
-     * 
+     * <p>
      * This method must only be called on {@link #isAffine()} matrices.
      * 
      * @param up
@@ -5256,12 +5256,12 @@ public interface Matrix4dc {
      * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3d)})
      * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3d)}) and the
      * given vector <code>(upX, upY, upZ)</code>, and store the result in <code>dest</code>.
-     * 
-     * This effectively ensure that the resulting matrix will be equal to the one obtained from calling
+     * <p>
+     * This effectively ensures that the resulting matrix will be equal to the one obtained from calling
      * {@link Matrix4d#setLookAt(double, double, double, double, double, double, double, double, double)} called with the current 
      * local origin of this matrix (as obtained by {@link #originAffine(Vector3d)}), the sum of this position and the 
      * negated local Z axis as well as the given vector <code>(upX, upY, upZ)</code>.
-     * 
+     * <p>
      * This method must only be called on {@link #isAffine()} matrices.
      * 
      * @param upX
