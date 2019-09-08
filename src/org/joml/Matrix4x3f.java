@@ -7713,7 +7713,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     }
 
     /**
-     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>.
+     * Compute the cofactor matrix of the left 3x3 submatrix of <code>this</code>.
      * <p>
      * The cofactor matrix can be used instead of {@link #normal()} to transform normals
      * when the orientation of the normals with respect to the surface should be preserved.
@@ -7725,7 +7725,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     }
 
     /**
-     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * Compute the cofactor matrix of the left 3x3 submatrix of <code>this</code>
      * and store it into <code>dest</code>.
      * <p>
      * The cofactor matrix can be used instead of {@link #normal(Matrix3f)} to transform normals
@@ -7749,7 +7749,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     }
 
     /**
-     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * Compute the cofactor matrix of the left 3x3 submatrix of <code>this</code>
      * and store it into <code>dest</code>.
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
      * <p>
@@ -9010,27 +9010,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return this;
     }
 
-    /**
-     * Extract the Euler angles from the rotation represented by the upper left 3x3 submatrix of <code>this</code>
-     * and store the extracted Euler angles in <code>dest</code>.
-     * <p>
-     * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
-     * <p>
-     * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
-     * This means that calling {@link Matrix4x3f#rotateZYX(float, float, float)} using the obtained Euler angles will yield
-     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
-     * <code>m2</code> should be identical to <code>m</code> (disregarding possible floating-point inaccuracies).
-     * <pre>
-     * Matrix4x3f m = ...; // &lt;- matrix only representing rotation
-     * Matrix4x3f n = new Matrix4x3f();
-     * n.rotateZYX(m.getEulerAnglesZYX(new Vector3f()));
-     * </pre>
-     * <p>
-     * Reference: <a href="http://nghiaho.com/?page_id=846">http://nghiaho.com/</a>
-     * 
-     * @param dest
-     *          will hold the extracted Euler angles
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3fc#getEulerAnglesZYX(org.joml.Vector3f)
      */
     public Vector3f getEulerAnglesZYX(Vector3f dest) {
         dest.x = (float) Math.atan2(m12, m22);

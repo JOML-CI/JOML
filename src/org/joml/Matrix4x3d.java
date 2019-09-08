@@ -6232,7 +6232,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>.
+     * Compute the cofactor matrix of the left 3x3 submatrix of <code>this</code>.
      * <p>
      * The cofactor matrix can be used instead of {@link #normal()} to transform normals
      * when the orientation of the normals with respect to the surface should be preserved.
@@ -6244,7 +6244,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * Compute the cofactor matrix of the left 3x3 submatrix of <code>this</code>
      * and store it into <code>dest</code>.
      * <p>
      * The cofactor matrix can be used instead of {@link #normal(Matrix3d)} to transform normals
@@ -6268,7 +6268,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * Compute the cofactor matrix of the left 3x3 submatrix of <code>this</code>
      * and store it into <code>dest</code>.
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
      * <p>

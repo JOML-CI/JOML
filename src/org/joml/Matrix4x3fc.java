@@ -2072,7 +2072,7 @@ public interface Matrix4x3fc {
     Matrix3f normal(Matrix3f dest);
 
     /**
-     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * Compute the cofactor matrix of the left 3x3 submatrix of <code>this</code>
      * and store it into <code>dest</code>.
      * <p>
      * The cofactor matrix can be used instead of {@link #normal(Matrix3f)} to transform normals
@@ -2085,7 +2085,7 @@ public interface Matrix4x3fc {
     Matrix3f cofactor3x3(Matrix3f dest);
 
     /**
-     * Compute the cofactor matrix of the upper left 3x3 submatrix of <code>this</code>
+     * Compute the cofactor matrix of the left 3x3 submatrix of <code>this</code>
      * and store it into <code>dest</code>.
      * All other values of <code>dest</code> will be set to identity.
      * <p>
@@ -2597,10 +2597,10 @@ public interface Matrix4x3fc {
     Matrix4x3f rotateTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix4x3f dest);
 
     /**
-     * Extract the Euler angles from the rotation represented by the upper left 3x3 submatrix of <code>this</code>
+     * Extract the Euler angles from the rotation represented by the left 3x3 submatrix of <code>this</code>
      * and store the extracted Euler angles in <code>dest</code>.
      * <p>
-     * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
+     * This method assumes that the left 3x3 submatrix of <code>this</code> only represents a rotation without scaling.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
      * This means that calling {@link Matrix4x3fc#rotateZYX(float, float, float, Matrix4x3f)} using the obtained Euler angles will yield
