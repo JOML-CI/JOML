@@ -64,7 +64,7 @@ public class Random {
         Xorshiro128(long seed) {
             this.state = seed;
             this._s0 = nextSplitMix64();
-            this._s0 = nextSplitMix64();
+            this._s1 = nextSplitMix64();
         }
 
         private long nextSplitMix64() {
