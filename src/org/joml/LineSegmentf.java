@@ -23,6 +23,10 @@
  */
 package org.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -34,7 +38,7 @@ import org.joml.internal.Runtime;
  * 
  * @author Kai Burjack
  */
-public class LineSegmentf {
+public class LineSegmentf implements Externalizable {
 
     public float aX, aY, aZ;
     public float bX, bY, bZ;
@@ -159,6 +163,24 @@ public class LineSegmentf {
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(aX) + " " + formatter.format(aY) + " " + formatter.format(aZ) + ") - "
              + "(" + formatter.format(bX) + " " + formatter.format(bY) + " " + formatter.format(bZ) + ")";
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeFloat(aX);
+        out.writeFloat(aY);
+        out.writeFloat(aZ);
+        out.writeFloat(bX);
+        out.writeFloat(bY);
+        out.writeFloat(bZ);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        aX = in.readFloat();
+        aY = in.readFloat();
+        aZ = in.readFloat();
+        bX = in.readFloat();
+        bY = in.readFloat();
+        bZ = in.readFloat();
     }
 
 }

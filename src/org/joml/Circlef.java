@@ -23,6 +23,10 @@
  */
 package org.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -34,7 +38,7 @@ import org.joml.internal.Runtime;
  * 
  * @author Kai Burjack
  */
-public class Circlef {
+public class Circlef implements Externalizable {
 
     public float x, y, r;
 
@@ -118,6 +122,18 @@ public class Circlef {
      */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(r) + ")";
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeFloat(x);
+        out.writeFloat(y);
+        out.writeFloat(r);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        x = in.readFloat();
+        y = in.readFloat();
+        r = in.readFloat();
     }
 
 }

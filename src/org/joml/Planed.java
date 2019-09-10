@@ -23,6 +23,10 @@
  */
 package org.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -34,7 +38,7 @@ import org.joml.internal.Runtime;
  * 
  * @author Kai Burjack
  */
-public class Planed {
+public class Planed implements Externalizable {
 
     public double a, b, c, d;
 
@@ -261,6 +265,20 @@ public class Planed {
      */
     public String toString(NumberFormat formatter) {
         return "[" + formatter.format(a) + " " + formatter.format(b) + " " + formatter.format(c) + " " + formatter.format(d) + "]";
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeDouble(a);
+        out.writeDouble(b);
+        out.writeDouble(c);
+        out.writeDouble(d);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        a = in.readDouble();
+        b = in.readDouble();
+        c = in.readDouble();
+        d = in.readDouble();
     }
 
 }

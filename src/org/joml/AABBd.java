@@ -23,6 +23,10 @@
  */
 package org.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -34,7 +38,7 @@ import org.joml.internal.Runtime;
  * 
  * @author Kai Burjack
  */
-public class AABBd {
+public class AABBd implements Externalizable {
 
     public double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY, minZ = Double.POSITIVE_INFINITY;
     public double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY, maxZ = Double.NEGATIVE_INFINITY;
@@ -594,6 +598,24 @@ public class AABBd {
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(minX) + " " + formatter.format(minY) + " " + formatter.format(minZ) + ") < "
              + "(" + formatter.format(maxX) + " " + formatter.format(maxY) + " " + formatter.format(maxZ) + ")";
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeDouble(minX);
+        out.writeDouble(minY);
+        out.writeDouble(minZ);
+        out.writeDouble(maxX);
+        out.writeDouble(maxY);
+        out.writeDouble(maxZ);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        minX = in.readDouble();
+        minY = in.readDouble();
+        minZ = in.readDouble();
+        maxX = in.readDouble();
+        maxY = in.readDouble();
+        maxZ = in.readDouble();
     }
 
 }

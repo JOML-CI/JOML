@@ -23,6 +23,10 @@
  */
 package org.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -34,7 +38,7 @@ import org.joml.internal.Runtime;
  * 
  * @author Kai Burjack
  */
-public class Rectangled {
+public class Rectangled implements Externalizable {
 
     public double minX, minY;
     public double maxX, maxY;
@@ -184,6 +188,20 @@ public class Rectangled {
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(minX) + " " + formatter.format(minY) + ") < "
              + "(" + formatter.format(maxX) + " " + formatter.format(maxY) + ")";
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeDouble(minX);
+        out.writeDouble(minY);
+        out.writeDouble(maxX);
+        out.writeDouble(maxY);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        minX = in.readDouble();
+        minY = in.readDouble();
+        maxX = in.readDouble();
+        maxY = in.readDouble();
     }
 
 }
