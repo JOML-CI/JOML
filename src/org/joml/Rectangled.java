@@ -102,7 +102,7 @@ public class Rectangled implements Externalizable {
      * 
      * @param other
      *          the other rectangle
-     * @return <code>true</code> iff both rectangle intersect; <code>false</code> otherwise
+     * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
      */
     public boolean intersects(Rectangled other) {
         return minX < other.maxX && maxX >= other.minX &&
