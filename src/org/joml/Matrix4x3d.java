@@ -2422,19 +2422,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d rotationX(double ang) {
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         m00 = 1.0;
         m01 = 0.0;
         m02 = 0.0;
@@ -2466,19 +2455,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d rotationY(double ang) {
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         m00 = cos;
         m01 = 0.0;
         m02 = -sin;
@@ -2510,19 +2488,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d rotationZ(double ang) {
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         m00 = cos;
         m01 = sin;
         m02 = 0.0;
@@ -4187,19 +4154,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return dest.rotationX(ang);
 
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         double rm11 = cos;
         double rm12 = sin;
         double rm21 = -sin;
@@ -4257,19 +4213,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return dest.rotationY(ang);
 
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         double rm00 = cos;
         double rm02 = -sin;
         double rm20 = sin;
@@ -4327,19 +4272,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return dest.rotationZ(ang);
 
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         double rm00 = cos;
         double rm01 = sin;
         double rm10 = -sin;
