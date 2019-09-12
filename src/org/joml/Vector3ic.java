@@ -324,7 +324,7 @@ public interface Vector3ic {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector3i min(Vector3ic v, Vector3i dest);
@@ -335,7 +335,7 @@ public interface Vector3ic {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector3i max(Vector3ic v, Vector3i dest);

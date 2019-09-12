@@ -99,7 +99,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the {@link Vector4ic} to copy the values from
      */
     public Vector4f(Vector4ic v) {
-    	this(v.x(), v.y(), v.z(), v.w());
+        this(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -112,7 +112,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the w component
      */
     public Vector4f(Vector3fc v, float w) {
-    	this(v.x(), v.y(), v.z(), w);
+        this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -125,7 +125,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the w component
      */
     public Vector4f(Vector3ic v, float w) {
-    	this(v.x(), v.y(), v.z(), w);
+        this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -140,7 +140,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the w component
      */
     public Vector4f(Vector2fc v, float z, float w) {
-    	this(v.x(), v.y(), z, w);
+        this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -155,7 +155,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the w component
      */
     public Vector4f(Vector2ic v, float z, float w) {
-    	this(v.x(), v.y(), z, w);
+        this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -388,7 +388,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return this
      */
     public Vector4f set(Vector2ic v, float z, float w) {
-    	return set(v.x(), v.y(), z, w);
+        return set(v.x(), v.y(), z, w);
     }
 
     /**

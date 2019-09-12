@@ -80,7 +80,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the {@link Vector4dc} to copy the values from
      */
     public Vector4d(Vector4dc v) {
-    	this(v.x(), v.y(), v.z(), v.w());
+        this(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -90,7 +90,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the {@link Vector4ic} to copy the values from
      */
     public Vector4d(Vector4ic v) {
-    	this(v.x(), v.y(), v.z(), v.w());
+        this(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -103,7 +103,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector3dc v, double w) {
-    	this(v.x(), v.y(), v.z(), w);
+        this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -116,7 +116,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector3ic v, double w) {
-    	this(v.x(), v.y(), v.z(), w);
+        this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -131,7 +131,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector2dc v, double z, double w) {
-    	this(v.x(), v.y(), z, w);
+        this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -146,7 +146,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector2ic v, double z, double w) {
-    	this(v.x(), v.y(), z, w);
+        this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -166,7 +166,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the {@link Vector4fc} to copy the values from
      */
     public Vector4d(Vector4fc v) {
-    	this(v.x(), v.y(), v.z(), v.w());
+        this(v.x(), v.y(), v.z(), v.w());
     }
 
     /**
@@ -179,7 +179,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector3fc v, double w) {
-    	this(v.x(), v.y(), v.z(), w);
+        this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -194,7 +194,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector2fc v, double z, double w) {
-    	this(v.x(), v.y(), z, w);
+        this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -681,7 +681,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @param v
      *          the vector to subtract
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     public Vector4d sub(Vector4dc v, Vector4d dest) {
@@ -709,7 +709,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @param v
      *          the vector to subtract
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     public Vector4d sub(Vector4fc v, Vector4d dest) {

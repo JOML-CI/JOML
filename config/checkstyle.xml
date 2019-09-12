@@ -12,4 +12,5 @@
 		<property name="headerFile" value="config/licenseheader" />
 		<property name="fileExtensions" value="java" />
 	</module>
+	<module name="FileTabCharacter" />
 </module>

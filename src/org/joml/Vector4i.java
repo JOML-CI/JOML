@@ -102,7 +102,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the w component
      */
     public Vector4i(Vector3ic v, int w) {
-    	this(v.x(), v.y(), v.z(), w);
+        this(v.x(), v.y(), v.z(), w);
     }
 
     /**
@@ -117,7 +117,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the w component
      */
     public Vector4i(Vector2ic v, int z, int w) {
-    	this(v.x(), v.y(), z, w);
+        this(v.x(), v.y(), z, w);
     }
 
     /**
@@ -303,7 +303,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(Vector2ic v, int z, int w) {
-    	return set(v.x(), v.y(), z, w);
+        return set(v.x(), v.y(), z, w);
     }
 
     /**

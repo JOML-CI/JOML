@@ -101,7 +101,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          provides the initial values for the new vector
      */
     public Vector3d(Vector3fc v) {
-    	this(v.x(), v.y(), v.z());
+        this(v.x(), v.y(), v.z());
     }
 
     /**
@@ -111,7 +111,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          provides the initial values for the new vector
      */
     public Vector3d(Vector3ic v) {
-    	this(v.x(), v.y(), v.z());
+        this(v.x(), v.y(), v.z());
     }
 
     /**
@@ -124,7 +124,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component
      */
     public Vector3d(Vector2fc v, double z) {
-    	this(v.x(), v.y(), z);
+        this(v.x(), v.y(), z);
     }
 
     /**
@@ -137,7 +137,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component
      */
     public Vector3d(Vector2ic v, double z) {
-    	this(v.x(), v.y(), z);
+        this(v.x(), v.y(), z);
     }
 
     /**
@@ -147,7 +147,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          provides the initial values for the new vector
      */
     public Vector3d(Vector3dc v) {
-    	this(v.x(), v.y(), v.z());
+        this(v.x(), v.y(), v.z());
     }
 
     /**
@@ -160,7 +160,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component
      */
     public Vector3d(Vector2dc v, double z) {
-    	this(v.x(), v.y(), z);
+        this(v.x(), v.y(), z);
     }
 
 //#ifdef __HAS_NIO__
@@ -1827,7 +1827,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#distance(org.joml.Vector3dc)
      */
     public double distance(Vector3dc v) {
-    	return distance(v.x(), v.y(), v.z());
+        return distance(v.x(), v.y(), v.z());
     }
 
     /* (non-Javadoc)
@@ -1841,7 +1841,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#distanceSquared(org.joml.Vector3dc)
      */
     public double distanceSquared(Vector3dc v) {
-    	return distanceSquared(v.x(), v.y(), v.z());
+        return distanceSquared(v.x(), v.y(), v.z());
     }
 
     /* (non-Javadoc)

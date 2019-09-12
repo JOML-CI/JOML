@@ -308,7 +308,7 @@ public interface Vector2ic {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector2i min(Vector2ic v, Vector2i dest);
@@ -319,7 +319,7 @@ public interface Vector2ic {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector2i max(Vector2ic v, Vector2i dest);

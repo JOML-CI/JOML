@@ -216,7 +216,7 @@ public interface Vector4dc {
      * @param v
      *          the vector to subtract
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4d sub(Vector4dc v, Vector4d dest);
@@ -227,7 +227,7 @@ public interface Vector4dc {
      * @param v
      *          the vector to subtract
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4d sub(Vector4fc v, Vector4d dest);
@@ -255,7 +255,7 @@ public interface Vector4dc {
      * @param v
      *          the vector to add
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4d add(Vector4dc v, Vector4d dest);
@@ -266,7 +266,7 @@ public interface Vector4dc {
      * @param v
      *          the vector to add
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4d add(Vector4fc v, Vector4d dest);
@@ -651,7 +651,7 @@ public interface Vector4dc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4d min(Vector4dc v, Vector4d dest);
@@ -662,7 +662,7 @@ public interface Vector4dc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4d max(Vector4dc v, Vector4d dest);

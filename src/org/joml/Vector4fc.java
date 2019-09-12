@@ -568,7 +568,7 @@ public interface Vector4fc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4f min(Vector4fc v, Vector4f dest);
@@ -579,7 +579,7 @@ public interface Vector4fc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4f max(Vector4fc v, Vector4f dest);

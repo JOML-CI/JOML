@@ -752,7 +752,7 @@ public interface Vector3fc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector3f min(Vector3fc v, Vector3f dest);
@@ -763,7 +763,7 @@ public interface Vector3fc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector3f max(Vector3fc v, Vector3f dest);

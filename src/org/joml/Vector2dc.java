@@ -474,7 +474,7 @@ public interface Vector2dc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector2d min(Vector2dc v, Vector2d dest);
@@ -485,7 +485,7 @@ public interface Vector2dc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector2d max(Vector2dc v, Vector2d dest);

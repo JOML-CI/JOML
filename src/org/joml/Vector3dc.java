@@ -1029,7 +1029,7 @@ public interface Vector3dc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector3d min(Vector3dc v, Vector3d dest);
@@ -1040,7 +1040,7 @@ public interface Vector3dc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector3d max(Vector3dc v, Vector3d dest);

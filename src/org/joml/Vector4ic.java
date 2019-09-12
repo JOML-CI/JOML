@@ -357,7 +357,7 @@ public interface Vector4ic {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4i min(Vector4ic v, Vector4i dest);
@@ -368,7 +368,7 @@ public interface Vector4ic {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector4i max(Vector4ic v, Vector4i dest);

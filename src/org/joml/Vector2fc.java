@@ -422,7 +422,7 @@ public interface Vector2fc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector2f min(Vector2fc v, Vector2f dest);
@@ -433,7 +433,7 @@ public interface Vector2fc {
      * @param v
      *          the other vector
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     Vector2f max(Vector2fc v, Vector2f dest);

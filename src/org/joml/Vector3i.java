@@ -104,7 +104,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the {@link Vector3ic} to copy the values from
      */
     public Vector3i(Vector3ic v) {
-    	this(v.x(), v.y(), v.z());
+        this(v.x(), v.y(), v.z());
     }
 
     /**
@@ -117,7 +117,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the z component
      */
     public Vector3i(Vector2ic v, int z) {
-    	this(v.x(), v.y(), z);
+        this(v.x(), v.y(), z);
     }
 
 //#ifdef __HAS_NIO__

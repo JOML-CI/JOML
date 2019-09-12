@@ -102,7 +102,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the {@link Vector3fc} to copy the values from
      */
     public Vector3f(Vector3fc v) {
-    	this(v.x(), v.y(), v.z());
+        this(v.x(), v.y(), v.z());
     }
 
     /**
@@ -112,7 +112,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the {@link Vector3ic} to copy the values from
      */
     public Vector3f(Vector3ic v) {
-    	this(v.x(), v.y(), v.z());
+        this(v.x(), v.y(), v.z());
     }
 
     /**
@@ -125,7 +125,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the z component
      */
     public Vector3f(Vector2fc v, float z) {
-    	this(v.x(), v.y(), z);
+        this(v.x(), v.y(), z);
     }
 
     /**
@@ -138,7 +138,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the z component
      */
     public Vector3f(Vector2ic v, float z) {
-    	this(v.x(), v.y(), z);
+        this(v.x(), v.y(), z);
     }
 
 //#ifdef __HAS_NIO__
@@ -1377,7 +1377,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#distance(org.joml.Vector3fc)
      */
     public float distance(Vector3fc v) {
-    	return distance(v.x(), v.y(), v.z());
+        return distance(v.x(), v.y(), v.z());
     }
 
     /* (non-Javadoc)
