@@ -4712,7 +4712,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         m30 = in.readFloat();
         m31 = in.readFloat();
         m32 = in.readFloat();
-        properties = 0;
+        determineProperties();
     }
 
     /**

@@ -6798,7 +6798,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         this._m31(in.readFloat());
         this._m32(in.readFloat());
         this._m33(in.readFloat());
-        _properties(0);
+        determineProperties();
     }
 
     /**

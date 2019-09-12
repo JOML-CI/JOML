@@ -6016,7 +6016,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = in.readDouble();
         m32 = in.readDouble();
         m33 = in.readDouble();
-        properties = 0;
+        determineProperties();
     }
 
     /* (non-Javadoc)

@@ -4152,7 +4152,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = in.readDouble();
         m31 = in.readDouble();
         m32 = in.readDouble();
-        properties = 0;
+        determineProperties();
     }
 
     /* (non-Javadoc)
