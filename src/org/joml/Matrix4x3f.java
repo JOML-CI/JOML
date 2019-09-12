@@ -2128,6 +2128,15 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f rotation(float angle, float x, float y, float z) {
+        if (y == 0.0f && z == 0.0f)
+            return rotationX(angle);
+        else if (x == 0.0f && z == 0.0f)
+            return rotationY(angle);
+        else if (x == 0.0f && y == 0.0f)
+            return rotationZ(angle);
+        return rotationInternal(angle, x, y, z);
+    }
+    private Matrix4x3f rotationInternal(float angle, float x, float y, float z) {
         float sin = (float) Math.sin(angle);
         float cos = (float) Math.cosFromSin(sin, angle);
         float C = 1.0f - cos;
@@ -3828,6 +3837,15 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return rotateGeneric(ang, x, y, z, dest);
     }
     private Matrix4x3f rotateGeneric(float ang, float x, float y, float z, Matrix4x3f dest) {
+        if (y == 0.0f && z == 0.0f)
+            return rotateX(ang, dest);
+        else if (x == 0.0f && z == 0.0f)
+            return rotateY(ang, dest);
+        else if (x == 0.0f && y == 0.0f)
+            return rotateZ(ang, dest);
+        return rotateGenericInternal(ang, x, y, z, dest);
+    }
+    private Matrix4x3f rotateGenericInternal(float ang, float x, float y, float z, Matrix4x3f dest) {
         float s = (float) Math.sin(ang);
         float c = (float) Math.cosFromSin(s, ang);
         float C = 1.0f - c;
@@ -4135,6 +4153,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return dest
      */
     public Matrix4x3f rotateLocal(float ang, float x, float y, float z, Matrix4x3f dest) {
+        if (y == 0.0f && z == 0.0f)
+            return rotateLocalX(ang, dest);
+        else if (x == 0.0f && z == 0.0f)
+            return rotateLocalY(ang, dest);
+        else if (x == 0.0f && y == 0.0f)
+            return rotateLocalZ(ang, dest);
         float s = (float) Math.sin(ang);
         float c = (float) Math.cosFromSin(s, ang);
         float C = 1.0f - c;

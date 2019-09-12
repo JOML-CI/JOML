@@ -2378,6 +2378,15 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return this
      */
     public Matrix4x3d rotation(double angle, double x, double y, double z) {
+        if (y == 0.0 && z == 0.0)
+            return rotationX(angle);
+        else if (x == 0.0 && z == 0.0)
+            return rotationY(angle);
+        else if (x == 0.0 && y == 0.0)
+            return rotationZ(angle);
+        return rotationInternal(angle, x, y, z);
+    }
+    private Matrix4x3d rotationInternal(double angle, double x, double y, double z) {
         double sin = Math.sin(angle);
         double cos = Math.cosFromSin(sin, angle);
         double C = 1.0 - cos;
@@ -3169,6 +3178,15 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return rotateGeneric(ang, x, y, z, dest);
     }
     private Matrix4x3d rotateGeneric(double ang, double x, double y, double z, Matrix4x3d dest) {
+        if (y == 0.0 && z == 0.0)
+            return rotateX(ang, dest);
+        else if (x == 0.0 && z == 0.0)
+            return rotateY(ang, dest);
+        else if (x == 0.0 && y == 0.0)
+            return rotateZ(ang, dest);
+        return rotateGenericInternal(ang, x, y, z, dest);
+    }
+    private Matrix4x3d rotateGenericInternal(double ang, double x, double y, double z, Matrix4x3d dest) {
         double s = Math.sin(ang);
         double c = Math.cosFromSin(s, ang);
         double C = 1.0 - c;
@@ -3475,6 +3493,12 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return dest
      */
     public Matrix4x3d rotateLocal(double ang, double x, double y, double z, Matrix4x3d dest) {
+        if (y == 0.0 && z == 0.0)
+            return rotateLocalX(ang, dest);
+        else if (x == 0.0 && z == 0.0)
+            return rotateLocalY(ang, dest);
+        else if (x == 0.0 && y == 0.0)
+            return rotateLocalZ(ang, dest);
         double s = Math.sin(ang);
         double c = Math.cosFromSin(s, ang);
         double C = 1.0 - c;
