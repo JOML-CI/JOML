@@ -5331,7 +5331,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return dest.rotationXYZ(angleX, angleY, angleZ);
         else if ((properties & PROPERTY_AFFINE) != 0)
             return dest.rotateAffineXYZ(angleX, angleY, angleZ);
-
+        return rotateXYZInternal(angleX, angleY, angleZ, dest);
+    }
+    private Matrix4f rotateXYZInternal(float angleX, float angleY, float angleZ, Matrix4f dest) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
         float sinY = (float) Math.sin(angleY);
@@ -5513,7 +5515,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return dest.rotationZYX(angleZ, angleY, angleX);
         else if ((properties & PROPERTY_AFFINE) != 0)
             return dest.rotateAffineZYX(angleZ, angleY, angleX);
-
+        return rotateZYXInternal(angleZ, angleY, angleX, dest);
+    }
+    private Matrix4f rotateZYXInternal(float angleZ, float angleY, float angleX, Matrix4f dest) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
         float sinY = (float) Math.sin(angleY);
@@ -5693,7 +5697,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return dest.rotationYXZ(angleY, angleX, angleZ);
         else if ((properties & PROPERTY_AFFINE) != 0)
             return dest.rotateAffineYXZ(angleY, angleX, angleZ);
-
+        return rotateYXZInternal(angleY, angleX, angleZ, dest);
+    }
+    private Matrix4f rotateYXZInternal(float angleY, float angleX, float angleZ, Matrix4f dest) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
         float sinY = (float) Math.sin(angleY);
@@ -6200,6 +6206,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return rotateLocalY(ang, dest);
         else if (x == 0.0f && y == 0.0f)
             return rotateLocalZ(ang, dest);
+        return rotateLocalGenericInternal(ang, x, y, z, dest);
+    }
+    private Matrix4f rotateLocalGenericInternal(float ang, float x, float y, float z, Matrix4f dest) {
         float s = (float) Math.sin(ang);
         float c = (float) Math.cosFromSin(s, ang);
         float C = 1.0f - c;

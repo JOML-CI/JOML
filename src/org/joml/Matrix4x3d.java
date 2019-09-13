@@ -4379,7 +4379,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d rotateXYZ(double angleX, double angleY, double angleZ, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
-
+        return rotateXYZInternal(angleX, angleY, angleZ, dest);
+    }
+    private Matrix4x3d rotateXYZInternal(double angleX, double angleY, double angleZ, Matrix4x3d dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
         double sinY = Math.sin(angleY);
@@ -4475,7 +4477,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d rotateZYX(double angleZ, double angleY, double angleX, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
-
+        return rotateZYXInternal(angleZ, angleY, angleX, dest);
+    }
+    private Matrix4x3d rotateZYXInternal(double angleZ, double angleY, double angleX, Matrix4x3d dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
         double sinY = Math.sin(angleY);
@@ -4571,7 +4575,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d rotateYXZ(double angleY, double angleX, double angleZ, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
-
+        return rotateYXZInternal(angleY, angleX, angleZ, dest);
+    }
+    private Matrix4x3d rotateYXZInternal(double angleY, double angleX, double angleZ, Matrix4x3d dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
         double sinY = Math.sin(angleY);
