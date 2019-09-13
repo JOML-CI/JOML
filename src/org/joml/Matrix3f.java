@@ -1861,19 +1861,8 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      */
     public Matrix3f rotateX(float ang, Matrix3f dest) {
         float sin, cos;
-        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
-            cos = -1.0f;
-            sin = 0.0f;
-        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
-            cos = 0.0f;
-            sin = 1.0f;
-        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
-            cos = 0.0f;
-            sin = -1.0f;
-        } else {
-            sin = (float) Math.sin(ang);
-            cos = (float) Math.cosFromSin(sin, ang);
-        }
+        sin = (float) Math.sin(ang);
+        cos = (float) Math.cosFromSin(sin, ang);
         float rm11 = cos;
         float rm21 = -sin;
         float rm12 = sin;
@@ -1925,19 +1914,8 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      */
     public Matrix3f rotateY(float ang, Matrix3f dest) {
         float sin, cos;
-        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
-            cos = -1.0f;
-            sin = 0.0f;
-        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
-            cos = 0.0f;
-            sin = 1.0f;
-        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
-            cos = 0.0f;
-            sin = -1.0f;
-        } else {
-            sin = (float) Math.sin(ang);
-            cos = (float) Math.cosFromSin(sin, ang);
-        }
+        sin = (float) Math.sin(ang);
+        cos = (float) Math.cosFromSin(sin, ang);
         float rm00 = cos;
         float rm20 = sin;
         float rm02 = -sin;
@@ -1989,19 +1967,8 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      */
     public Matrix3f rotateZ(float ang, Matrix3f dest) {
         float sin, cos;
-        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
-            cos = -1.0f;
-            sin = 0.0f;
-        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
-            cos = 0.0f;
-            sin = 1.0f;
-        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
-            cos = 0.0f;
-            sin = -1.0f;
-        } else {
-            sin = (float) Math.sin(ang);
-            cos = (float) Math.cosFromSin(sin, ang);
-        }
+        sin = (float) Math.sin(ang);
+        cos = (float) Math.cosFromSin(sin, ang);
         float rm00 = cos;
         float rm10 = -sin;
         float rm01 = sin;
