@@ -4833,6 +4833,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d rotateTranslation(double ang, double x, double y, double z, Matrix4d dest) {
+        double tx = m30, ty = m31, tz = m32;
+        if (y == 0.0 && z == 0.0)
+            return dest.rotationX(ang).setTranslation(tx, ty, tz);
+        else if (x == 0.0 && z == 0.0)
+            return dest.rotationY(ang).setTranslation(tx, ty, tz);
+        else if (x == 0.0 && y == 0.0)
+            return dest.rotationZ(ang).setTranslation(tx, ty, tz);
+        return rotateTranslationInternal(ang, x, y, z, dest);
+    }
+    private Matrix4d rotateTranslationInternal(double ang, double x, double y, double z, Matrix4d dest) {
         double s = Math.sin(ang);
         double c = Math.cosFromSin(s, ang);
         double C = 1.0 - c;

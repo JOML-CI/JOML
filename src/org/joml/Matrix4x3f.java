@@ -3914,6 +3914,16 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return dest
      */
     public Matrix4x3f rotateTranslation(float ang, float x, float y, float z, Matrix4x3f dest) {
+        float tx = m30, ty = m31, tz = m32;
+        if (y == 0.0f && z == 0.0f)
+            return dest.rotationX(ang).setTranslation(tx, ty, tz);
+        else if (x == 0.0f && z == 0.0f)
+            return dest.rotationY(ang).setTranslation(tx, ty, tz);
+        else if (x == 0.0f && y == 0.0f)
+            return dest.rotationZ(ang).setTranslation(tx, ty, tz);
+        return rotateTranslationInternal(ang, x, y, z, dest);
+    }
+    private Matrix4x3f rotateTranslationInternal(float ang, float x, float y, float z, Matrix4x3f dest) {
         float s = (float) Math.sin(ang);
         float c = (float) Math.cosFromSin(s, ang);
         float C = 1.0f - c;
