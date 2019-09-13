@@ -5066,6 +5066,13 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateX(float ang, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationX(ang);
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            float x = m30, y = m31, z = m32;
+            return dest.rotationX(ang).setTranslation(x, y, z);
+        }
+        return rotateXInternal(ang, dest);
+    }
+    private Matrix4f rotateXInternal(float ang, Matrix4f dest) {
         float sin, cos;
         sin = (float) Math.sin(ang);
         cos = (float) Math.cosFromSin(sin, ang);
@@ -5129,6 +5136,13 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateY(float ang, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationY(ang);
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            float x = m30, y = m31, z = m32;
+            return dest.rotationY(ang).setTranslation(x, y, z);
+        }
+        return rotateYInternal(ang, dest);
+    }
+    private Matrix4f rotateYInternal(float ang, Matrix4f dest) {
         float cos, sin;
         sin = (float) Math.sin(ang);
         cos = (float) Math.cosFromSin(sin, ang);
@@ -5192,6 +5206,13 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateZ(float ang, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZ(ang);
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            float x = m30, y = m31, z = m32;
+            return dest.rotationZ(ang).setTranslation(x, y, z);
+        }
+        return rotateZInternal(ang, dest);
+    }
+    private Matrix4f rotateZInternal(float ang, Matrix4f dest) {
         float sin = (float) Math.sin(ang);
         float cos = (float) Math.cosFromSin(sin, ang);
         return rotateTowardsXY(sin, cos, dest);

@@ -4152,7 +4152,13 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d rotateX(double ang, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationX(ang);
-
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double x = m30, y = m31, z = m32;
+            return dest.rotationX(ang).setTranslation(x, y, z);
+        }
+        return rotateXInternal(ang, dest);
+    }
+    private Matrix4x3d rotateXInternal(double ang, Matrix4x3d dest) {
         double sin, cos;
         sin = Math.sin(ang);
         cos = Math.cosFromSin(sin, ang);
@@ -4211,7 +4217,13 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d rotateY(double ang, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationY(ang);
-
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double x = m30, y = m31, z = m32;
+            return dest.rotationY(ang).setTranslation(x, y, z);
+        }
+        return rotateYInternal(ang, dest);
+    }
+    private Matrix4x3d rotateYInternal(double ang, Matrix4x3d dest) {
         double sin, cos;
         sin = Math.sin(ang);
         cos = Math.cosFromSin(sin, ang);
@@ -4270,7 +4282,13 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d rotateZ(double ang, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZ(ang);
-
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double x = m30, y = m31, z = m32;
+            return dest.rotationZ(ang).setTranslation(x, y, z);
+        }
+        return rotateZInternal(ang, dest);
+    }
+    private Matrix4x3d rotateZInternal(double ang, Matrix4x3d dest) {
         double sin, cos;
         sin = Math.sin(ang);
         cos = Math.cosFromSin(sin, ang);
