@@ -133,6 +133,62 @@ public class Rectanglef implements Externalizable {
         return x >= minX && y >= minX && x < maxX && y < maxY;
     }
 
+    /**
+     * Translate <code>this</code> by the given vector <code>xy</code>.
+     * 
+     * @param xy
+     *          the vector to translate by
+     * @return this
+     */
+    public Rectanglef translate(Vector2fc xy) {
+        return translate(xy.x(), xy.y(), this);
+    }
+
+    /**
+     * Translate <code>this</code> by the given vector <code>xy</code> and store the result in <code>dest</code>.
+     * 
+     * @param xy
+     *          the vector to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglef translate(Vector2fc xy, Rectanglef dest) {
+        return translate(xy.x(), xy.y(), dest);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y)</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @return this
+     */
+    public Rectanglef translate(float x, float y) {
+        return translate(x, y, this);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y)</code> and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglef translate(float x, float y, Rectanglef dest) {
+        dest.minX = minX + x;
+        dest.minY = minY + y;
+        dest.maxX = maxX + x;
+        dest.maxY = maxY + y;
+        return dest;
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
