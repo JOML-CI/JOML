@@ -80,6 +80,65 @@ public class Spheref implements Externalizable {
         this.r = r;
     }
 
+    /**
+     * Translate <code>this</code> by the given vector <code>xyz</code>.
+     * 
+     * @param xyz
+     *          the vector to translate by
+     * @return this
+     */
+    public Spheref translate(Vector3fc xyz) {
+        return translate(xyz.x(), xyz.y(), xyz.z(), this);
+    }
+
+    /**
+     * Translate <code>this</code> by the given vector <code>xyz</code> and store the result in <code>dest</code>.
+     * 
+     * @param xyz
+     *          the vector to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Spheref translate(Vector3fc xyz, Spheref dest) {
+        return translate(xyz.x(), xyz.y(), xyz.z(), dest);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y, z)</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @param z
+     *          the z coordinate to translate by
+     * @return this
+     */
+    public Spheref translate(float x, float y, float z) {
+        return translate(x, y, z, this);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y, z)</code> and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @param z
+     *          the z coordinate to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Spheref translate(float x, float y, float z, Spheref dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        dest.z = this.z + z;
+        return dest;
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
