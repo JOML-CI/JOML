@@ -77,6 +77,27 @@ public class Planef implements Externalizable {
     }
 
     /**
+     * Create a new {@link Planef} from the given three points lying on the plane.
+     * <p>
+     * The resulting plane is not necessarily {@link #normalize() normalized}.
+     * 
+     * @param pointA
+     *          the first point
+     * @param pointB
+     *          the second point
+     * @param pointC
+     *          the third point
+     */
+    public Planef(Vector3fc pointA, Vector3fc pointB, Vector3fc pointC) {
+        float abX = pointB.x() - pointA.x(), abY = pointB.y() - pointA.y(), abZ = pointB.z() - pointA.z();
+        float acX = pointC.x() - pointA.x(), acY = pointC.y() - pointA.y(), acZ = pointC.z() - pointA.z();
+        this.a = abY * acZ - abZ * acY;
+        this.b = abZ * acX - abX * acZ;
+        this.c = abX * acY - abY * acX;
+        this.d = -a * pointA.x() - b * pointA.y() - c * pointA.z();
+    }
+
+    /**
      * Create a new {@link Planef} with the plane equation <code>a*x + b*y + c*z + d = 0</code>.
      * 
      * @param a
