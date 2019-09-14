@@ -76,6 +76,84 @@ public class Circled implements Externalizable {
         this.r = r;
     }
 
+    /**
+     * Translate <code>this</code> by the given vector <code>xy</code>.
+     * 
+     * @param xy
+     *          the vector to translate by
+     * @return this
+     */
+    public Circled translate(Vector2dc xy) {
+        return translate(xy.x(), xy.y(), this);
+    }
+
+    /**
+     * Translate <code>this</code> by the given vector <code>xy</code> and store the result in <code>dest</code>.
+     * 
+     * @param xy
+     *          the vector to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Circled translate(Vector2dc xy, Circled dest) {
+        return translate(xy.x(), xy.y(), dest);
+    }
+
+    /**
+     * Translate <code>this</code> by the given vector <code>xy</code>.
+     * 
+     * @param xy
+     *          the vector to translate by
+     * @return this
+     */
+    public Circled translate(Vector2fc xy) {
+        return translate(xy.x(), xy.y(), this);
+    }
+
+    /**
+     * Translate <code>this</code> by the given vector <code>xy</code> and store the result in <code>dest</code>.
+     * 
+     * @param xy
+     *          the vector to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Circled translate(Vector2fc xy, Circled dest) {
+        return translate(xy.x(), xy.y(), dest);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y)</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @return this
+     */
+    public Circled translate(double x, double y) {
+        return translate(x, y, this);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y)</code> and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Circled translate(double x, double y, Circled dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        return dest;
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
