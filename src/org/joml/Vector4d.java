@@ -1072,9 +1072,9 @@ public class Vector4d implements Externalizable, Vector4dc {
      */
     public Vector4d mulProject(Matrix4dc mat, Vector4d dest) {
         double invW = 1.0 / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
-        double rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30()) * invW;
-        double ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31()) * invW;
-        double rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32()) * invW;
+        double rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW;
+        double ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW;
+        double rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW;
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
