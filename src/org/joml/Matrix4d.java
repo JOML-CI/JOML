@@ -6357,7 +6357,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d rotateXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
-        else if ((properties & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double tx = m30, ty = m31, tz = m32;
+            return dest.rotationXYZ(angleX, angleY, angleZ).setTranslation(tx, ty, tz);
+        } else if ((properties & PROPERTY_AFFINE) != 0)
             return dest.rotateAffineXYZ(angleX, angleY, angleZ);
         return rotateXYZInternal(angleX, angleY, angleZ, dest);
     }
@@ -6442,6 +6445,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#rotateAffineXYZ(double, double, double, org.joml.Matrix4d)
      */
     public Matrix4d rotateAffineXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotationXYZ(angleX, angleY, angleZ);
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double tx = m30, ty = m31, tz = m32;
+            return dest.rotationXYZ(angleX, angleY, angleZ).setTranslation(tx, ty, tz);
+        }
+        return rotateAffineXYZInternal(angleX, angleY, angleZ, dest);
+    }
+    private Matrix4d rotateAffineXYZInternal(double angleX, double angleY, double angleZ, Matrix4d dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
         double sinY = Math.sin(angleY);
@@ -6541,7 +6553,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d rotateZYX(double angleZ, double angleY, double angleX, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
-        else if ((properties & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double tx = m30, ty = m31, tz = m32;
+            return dest.rotationZYX(angleZ, angleY, angleX).setTranslation(tx, ty, tz);
+        } else if ((properties & PROPERTY_AFFINE) != 0)
             return dest.rotateAffineZYX(angleZ, angleY, angleX);
         return rotateZYXInternal(angleZ, angleY, angleX, dest);
     }
@@ -6723,7 +6738,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d rotateYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
-        else if ((properties & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double tx = m30, ty = m31, tz = m32;
+            return dest.rotationYXZ(angleY, angleX, angleZ).setTranslation(tx, ty, tz);
+        } else if ((properties & PROPERTY_AFFINE) != 0)
             return dest.rotateAffineYXZ(angleY, angleX, angleZ);
         return rotateYXZInternal(angleY, angleX, angleZ, dest);
     }

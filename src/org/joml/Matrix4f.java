@@ -5350,7 +5350,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
-        else if ((properties & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            float tx = m30, ty = m31, tz = m32;
+            return dest.rotationXYZ(angleX, angleY, angleZ).setTranslation(tx, ty, tz);
+        } else if ((properties & PROPERTY_AFFINE) != 0)
             return dest.rotateAffineXYZ(angleX, angleY, angleZ);
         return rotateXYZInternal(angleX, angleY, angleZ, dest);
     }
@@ -5435,6 +5438,15 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#rotateAffineXYZ(float, float, float, org.joml.Matrix4f)
      */
     public Matrix4f rotateAffineXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotationXYZ(angleX, angleY, angleZ);
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            float tx = m30, ty = m31, tz = m32;
+            return dest.rotationXYZ(angleX, angleY, angleZ).setTranslation(tx, ty, tz);
+        }
+        return rotateAffineXYZInternal(angleX, angleY, angleZ, dest);
+    }
+    private Matrix4f rotateAffineXYZInternal(float angleX, float angleY, float angleZ, Matrix4f dest) {
         float sinX = (float) Math.sin(angleX);
         float cosX = (float) Math.cosFromSin(sinX, angleX);
         float sinY = (float) Math.sin(angleY);
@@ -5534,7 +5546,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateZYX(float angleZ, float angleY, float angleX, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
-        else if ((properties & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            float tx = m30, ty = m31, tz = m32;
+            return dest.rotationZYX(angleZ, angleY, angleX).setTranslation(tx, ty, tz);
+        } else if ((properties & PROPERTY_AFFINE) != 0)
             return dest.rotateAffineZYX(angleZ, angleY, angleX);
         return rotateZYXInternal(angleZ, angleY, angleX, dest);
     }
@@ -5716,7 +5731,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateYXZ(float angleY, float angleX, float angleZ, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
-        else if ((properties & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            float tx = m30, ty = m31, tz = m32;
+            return dest.rotationYXZ(angleY, angleX, angleZ).setTranslation(tx, ty, tz);
+        } else if ((properties & PROPERTY_AFFINE) != 0)
             return dest.rotateAffineYXZ(angleY, angleX, angleZ);
         return rotateYXZInternal(angleY, angleX, angleZ, dest);
     }

@@ -4407,6 +4407,10 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d rotateXYZ(double angleX, double angleY, double angleZ, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double tx = m30, ty = m31, tz = m32;
+            return dest.rotationXYZ(angleX, angleY, angleZ).setTranslation(tx, ty, tz);
+        }
         return rotateXYZInternal(angleX, angleY, angleZ, dest);
     }
     private Matrix4x3d rotateXYZInternal(double angleX, double angleY, double angleZ, Matrix4x3d dest) {
@@ -4505,6 +4509,10 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d rotateZYX(double angleZ, double angleY, double angleX, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double tx = m30, ty = m31, tz = m32;
+            return dest.rotationZYX(angleZ, angleY, angleX).setTranslation(tx, ty, tz);
+        }
         return rotateZYXInternal(angleZ, angleY, angleX, dest);
     }
     private Matrix4x3d rotateZYXInternal(double angleZ, double angleY, double angleX, Matrix4x3d dest) {
@@ -4603,6 +4611,10 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     public Matrix4x3d rotateYXZ(double angleY, double angleX, double angleZ, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
+        else if ((properties & PROPERTY_TRANSLATION) != 0) {
+            double tx = m30, ty = m31, tz = m32;
+            return dest.rotationYXZ(angleY, angleX, angleZ).setTranslation(tx, ty, tz);
+        }
         return rotateYXZInternal(angleY, angleX, angleZ, dest);
     }
     private Matrix4x3d rotateYXZInternal(double angleY, double angleX, double angleZ, Matrix4x3d dest) {
