@@ -9271,9 +9271,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double nearY = (py - im21) * invNearW;
         double nearZ = (pz - im22) * invNearW;
         double invW0 = 1.0 / (im03 * ndcX + im13 * ndcY + im33);
-        double x0 = (px + im20) * invW0;
-        double y0 = (py + im21) * invW0;
-        double z0 = (pz + im22) * invW0;
+        double x0 = px * invW0;
+        double y0 = py * invW0;
+        double z0 = pz * invW0;
         originDest.x = nearX; originDest.y = nearY; originDest.z = nearZ;
         dirDest.x = x0 - nearX; dirDest.y = y0 - nearY; dirDest.z = z0 - nearZ;
         return this;
@@ -9350,9 +9350,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double nearY = (py - m21) * invNearW;
         double nearZ = (pz - m22) * invNearW;
         double invW0 = 1.0 / (m03 * ndcX + m13 * ndcY + m33);
-        double x0 = (px + m20) * invW0;
-        double y0 = (py + m21) * invW0;
-        double z0 = (pz + m22) * invW0;
+        double x0 = px * invW0;
+        double y0 = py * invW0;
+        double z0 = pz * invW0;
         originDest.x = nearX; originDest.y = nearY; originDest.z = nearZ;
         dirDest.x = x0 - nearX; dirDest.y = y0 - nearY; dirDest.z = z0 - nearZ;
         return this;
