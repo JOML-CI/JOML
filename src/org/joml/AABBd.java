@@ -284,6 +284,92 @@ public class AABBd implements Externalizable {
     }
 
     /**
+     * Translate <code>this</code> by the given vector <code>xyz</code>.
+     * 
+     * @param xyz
+     *          the vector to translate by
+     * @return this
+     */
+    public AABBd translate(Vector3dc xyz) {
+        return translate(xyz.x(), xyz.y(), xyz.z(), this);
+    }
+
+    /**
+     * Translate <code>this</code> by the given vector <code>xyz</code> and store the result in <code>dest</code>.
+     * 
+     * @param xyz
+     *          the vector to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AABBd translate(Vector3dc xyz, AABBd dest) {
+        return translate(xyz.x(), xyz.y(), xyz.z(), dest);
+    }
+
+    /**
+     * Translate <code>this</code> by the given vector <code>xyz</code>.
+     * 
+     * @param xyz
+     *          the vector to translate by
+     * @return this
+     */
+    public AABBd translate(Vector3fc xyz) {
+        return translate(xyz.x(), xyz.y(), xyz.z(), this);
+    }
+
+    /**
+     * Translate <code>this</code> by the given vector <code>xyz</code> and store the result in <code>dest</code>.
+     * 
+     * @param xyz
+     *          the vector to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AABBd translate(Vector3fc xyz, AABBd dest) {
+        return translate(xyz.x(), xyz.y(), xyz.z(), dest);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y, z)</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @param z
+     *          the z coordinate to translate by
+     * @return this
+     */
+    public AABBd translate(double x, double y, double z) {
+        return translate(x, y, z, this);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y, z)</code> and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @param z
+     *          the z coordinate to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AABBd translate(double x, double y, double z, AABBd dest) {
+        dest.minX = minX + x;
+        dest.minY = minY + y;
+        dest.minZ = minZ + z;
+        dest.maxX = maxX + x;
+        dest.maxY = maxY + y;
+        dest.maxZ = maxZ + z;
+        return dest;
+    }
+
+    /**
      * Test whether the point <code>(x, y, z)</code> lies inside this AABB.
      * 
      * @param x

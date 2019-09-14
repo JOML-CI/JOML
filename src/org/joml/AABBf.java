@@ -284,6 +284,68 @@ public class AABBf implements Externalizable {
     }
 
     /**
+     * Translate <code>this</code> by the given vector <code>xyz</code>.
+     * 
+     * @param xyz
+     *          the vector to translate by
+     * @return this
+     */
+    public AABBf translate(Vector3fc xyz) {
+        return translate(xyz.x(), xyz.y(), xyz.z(), this);
+    }
+
+    /**
+     * Translate <code>this</code> by the given vector <code>xyz</code> and store the result in <code>dest</code>.
+     * 
+     * @param xyz
+     *          the vector to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AABBf translate(Vector3fc xyz, AABBf dest) {
+        return translate(xyz.x(), xyz.y(), xyz.z(), dest);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y, z)</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @param z
+     *          the z coordinate to translate by
+     * @return this
+     */
+    public AABBf translate(float x, float y, float z) {
+        return translate(x, y, z, this);
+    }
+
+    /**
+     * Translate <code>this</code> by the vector <code>(x, y, z)</code> and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate to translate by
+     * @param y
+     *          the y coordinate to translate by
+     * @param z
+     *          the z coordinate to translate by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AABBf translate(float x, float y, float z, AABBf dest) {
+        dest.minX = minX + x;
+        dest.minY = minY + y;
+        dest.minZ = minZ + z;
+        dest.maxX = maxX + x;
+        dest.maxY = maxY + y;
+        dest.maxZ = maxZ + z;
+        return dest;
+    }
+
+    /**
      * Test whether the point <code>(x, y, z)</code> lies inside this AABB.
      * 
      * @param x
