@@ -62,6 +62,21 @@ public class Spheref implements Externalizable {
     }
 
     /**
+     * Create a new {@link Spheref} with center position <code>c</code> and radius <code>r</code>.
+     * 
+     * @param c
+     *          the center position of the sphere
+     * @param r
+     *          the radius of the sphere
+     */
+    public Spheref(Vector3fc c, float r) {
+        this.x = c.x();
+        this.y = c.y();
+        this.z = c.z();
+        this.r = r;
+    }
+
+    /**
      * Create a new {@link Spheref} with center position <code>(x, y, z)</code> and radius <code>r</code>.
      * 
      * @param x
