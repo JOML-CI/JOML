@@ -14927,7 +14927,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f withLookAtUp(Vector3fc up) {
-        return withLookAtUp(up.x(), up.y(), up.z(), this);
+        return withLookAtUp(up.x(), up.y(), up.z(), thisOrNew());
     }
 
     /*
@@ -14959,7 +14959,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f withLookAtUp(float upX, float upY, float upZ) {
-        return withLookAtUp(upX, upY, upZ, this);
+        return withLookAtUp(upX, upY, upZ, thisOrNew());
     }
 
     /*
