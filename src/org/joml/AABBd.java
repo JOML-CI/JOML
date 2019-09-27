@@ -73,6 +73,23 @@ public class AABBd implements Externalizable {
      * @param max
      *          the maximum coordinates
      */
+    public AABBd(Vector3fc min, Vector3fc max) {
+        this.minX = min.x();
+        this.minY = min.y();
+        this.minZ = min.z();
+        this.maxX = max.x();
+        this.maxY = max.y();
+        this.maxZ = max.z();
+    }
+
+    /**
+     * Create a new {@link AABBd} with the given minimum and maximum corner coordinates.
+     * 
+     * @param min
+     *          the minimum coordinates
+     * @param max
+     *          the maximum coordinates
+     */
     public AABBd(Vector3dc min, Vector3dc max) {
         this.minX = min.x();
         this.minY = min.y();
