@@ -166,6 +166,48 @@ public class AABBf implements Externalizable {
     }
 
     /**
+     * Get the maximum corner coordinate of the given component.
+     * 
+     * @param component
+     *          the component, within <code>[0..2]</code>
+     * @return the maximum coordinate
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..2]</code>
+     */
+    public float getMax(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return maxX;
+        case 1:
+            return maxY;
+        case 2:
+            return maxZ;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * Get the minimum corner coordinate of the given component.
+     * 
+     * @param component
+     *          the component, within <code>[0..2]</code>
+     * @return the maximum coordinate
+     * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..2]</code>
+     */
+    public float getMin(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return minX;
+        case 1:
+            return minY;
+        case 2:
+            return minZ;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
      * Set <code>this</code> to the union of <code>this</code> and the given point <code>(x, y, z)</code>.
      * 
      * @param x
