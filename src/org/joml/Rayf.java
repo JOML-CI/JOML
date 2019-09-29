@@ -40,8 +40,30 @@ import org.joml.internal.Runtime;
  */
 public class Rayf implements Externalizable {
 
-    public float oX, oY, oZ;
-    public float dX, dY, dZ;
+    /**
+     * The x coordinate of the ray's origin.
+     */
+    public float oX;
+    /**
+     * The y coordinate of the ray's origin.
+     */
+    public float oY;
+    /**
+     * The z coordinate of the ray's origin.
+     */
+    public float oZ;
+    /**
+     * The x coordinate of the ray's direction.
+     */
+    public float dX;
+    /**
+     * The y coordinate of the ray's direction.
+     */
+    public float dY;
+    /**
+     * The z coordinate of the ray's direction.
+     */
+    public float dZ;
 
     /**
      * Create a new {@link Rayf} with origin <code>(0, 0, 0)</code> and no direction.

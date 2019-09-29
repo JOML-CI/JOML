@@ -40,7 +40,22 @@ import org.joml.internal.Runtime;
  */
 public class Sphered implements Externalizable {
 
-    public double x, y, z, r;
+    /**
+     * The x coordinate of the sphere's center.
+     */
+    public double x;
+    /**
+     * The y coordinate of the sphere's center.
+     */
+    public double y;
+    /**
+     * The z coordinate of the sphere's center.
+     */
+    public double z;
+    /**
+     * The sphere's radius.
+     */
+    public double r;
 
     /**
      * Create a new {@link Sphered} with center position <code>(0, 0, 0)</code> and radius = <code>0</code>.

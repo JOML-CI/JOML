@@ -40,8 +40,30 @@ import org.joml.internal.Runtime;
  */
 public class LineSegmentf implements Externalizable {
 
-    public float aX, aY, aZ;
-    public float bX, bY, bZ;
+    /**
+     * The x coordinate of the first point.
+     */
+    public float aX;
+    /**
+     * The y coordinate of the first point.
+     */
+    public float aY;
+    /**
+     * The z coordinate of the first point.
+     */
+    public float aZ;
+    /**
+     * The x coordinate of the second point.
+     */
+    public float bX;
+    /**
+     * The y coordinate of the second point.
+     */
+    public float bY;
+    /**
+     * The z coordinate of the second point.
+     */
+    public float bZ;
 
     /**
      * Create a new {@link LineSegmentf} of zero length on the point <code>(0, 0, 0)</code>.

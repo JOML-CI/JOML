@@ -40,7 +40,20 @@ import org.joml.internal.Runtime;
  */
 public class Circlef implements Externalizable {
 
-    public float x, y, r;
+    /**
+     * The x coordiante of the circle's center.
+     */
+    public float x;
+    
+    /**
+     * The y coordiante of the circle's center.
+     */
+    public float y;
+    
+    /**
+     * The radius of the circle.
+     */
+    public float r;
 
     /**
      * Create a new {@link Circlef} with center position <code>(0, 0, 0)</code> and radius <code>0</code>.

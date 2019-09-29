@@ -40,8 +40,22 @@ import org.joml.internal.Runtime;
  */
 public class Rectanglef implements Externalizable {
 
-    public float minX, minY;
-    public float maxX, maxY;
+    /**
+     * The x coordinate of the minimum corner.
+     */
+    public float minX;
+    /**
+     * The y coordinate of the minimum corner.
+     */
+    public float minY;
+    /**
+     * The x coordinate of the maximum corner.
+     */
+    public float maxX;
+    /**
+     * The y coordinate of the maximum corner.
+     */
+    public float maxY;
 
     /**
      * Create a new {@link Rectanglef} with a minimum and maximum corner of <code>(0, 0)</code>.

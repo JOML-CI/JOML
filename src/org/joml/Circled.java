@@ -40,7 +40,20 @@ import org.joml.internal.Runtime;
  */
 public class Circled implements Externalizable {
 
-    public double x, y, r;
+    /**
+     * The x coordiante of the circle's center.
+     */
+    public double x;
+    
+    /**
+     * The y coordiante of the circle's center.
+     */
+    public double y;
+    
+    /**
+     * The radius of the circle.
+     */
+    public double r;
 
     /**
      * Create a new {@link Circled} with center position <code>(0, 0, 0)</code> and radius <code>0</code>.

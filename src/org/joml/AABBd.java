@@ -40,8 +40,30 @@ import org.joml.internal.Runtime;
  */
 public class AABBd implements Externalizable {
 
-    public double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY, minZ = Double.POSITIVE_INFINITY;
-    public double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY, maxZ = Double.NEGATIVE_INFINITY;
+    /**
+     * The x coordinate of the minimum corner.
+     */
+    public double minX = Double.POSITIVE_INFINITY;
+    /**
+     * The y coordinate of the minimum corner.
+     */
+    public double minY = Double.POSITIVE_INFINITY;
+    /**
+     * The z coordinate of the minimum corner.
+     */
+    public double minZ = Double.POSITIVE_INFINITY;
+    /**
+     * The x coordinate of the maximum corner.
+     */
+    public double maxX = Double.NEGATIVE_INFINITY;
+    /**
+     * The y coordinate of the maximum corner.
+     */
+    public double maxY = Double.NEGATIVE_INFINITY;
+    /**
+     * The z coordinate of the maximum corner.
+     */
+    public double maxZ = Double.NEGATIVE_INFINITY;
 
     /**
      * Create a new {@link AABBd} representing the box with

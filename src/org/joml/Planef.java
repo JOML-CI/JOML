@@ -40,7 +40,22 @@ import org.joml.internal.Runtime;
  */
 public class Planef implements Externalizable {
 
-    public float a, b, c, d;
+    /**
+     * The factor <code>a</code> in the plane equation <code>a*x + b*y + c*z + d = 0</code>.
+     */
+    public float a;
+    /**
+     * The factor <code>b</code> in the plane equation <code>a*x + b*y + c*z + d = 0</code>.
+     */
+    public float b;
+    /**
+     * The factor <code>c</code> in the plane equation <code>a*x + b*y + c*z + d = 0</code>.
+     */
+    public float c;
+    /**
+     * The constant <code>d</code> in the plane equation <code>a*x + b*y + c*z + d = 0</code>.
+     */
+    public float d;
 
     /**
      * Create a new undefined {@link Planef}.

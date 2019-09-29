@@ -40,8 +40,22 @@ import org.joml.internal.Runtime;
  */
 public class Rectangled implements Externalizable {
 
-    public double minX, minY;
-    public double maxX, maxY;
+    /**
+     * The x coordinate of the minimum corner.
+     */
+    public double minX;
+    /**
+     * The y coordinate of the minimum corner.
+     */
+    public double minY;
+    /**
+     * The x coordinate of the maximum corner.
+     */
+    public double maxX;
+    /**
+     * The y coordinate of the maximum corner.
+     */
+    public double maxY;
 
     /**
      * Create a new {@link Rectangled} with a minimum and maximum corner of <code>(0, 0)</code>.

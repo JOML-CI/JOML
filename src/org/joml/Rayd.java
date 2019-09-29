@@ -40,8 +40,30 @@ import org.joml.internal.Runtime;
  */
 public class Rayd implements Externalizable {
 
-    public double oX, oY, oZ;
-    public double dX, dY, dZ;
+    /**
+     * The x coordinate of the ray's origin.
+     */
+    public double oX;
+    /**
+     * The y coordinate of the ray's origin.
+     */
+    public double oY;
+    /**
+     * The z coordinate of the ray's origin.
+     */
+    public double oZ;
+    /**
+     * The x coordinate of the ray's direction.
+     */
+    public double dX;
+    /**
+     * The y coordinate of the ray's direction.
+     */
+    public double dY;
+    /**
+     * The z coordinate of the ray's direction.
+     */
+    public double dZ;
 
     /**
      * Create a new {@link Rayd} with origin <code>(0, 0, 0)</code> and no direction.
