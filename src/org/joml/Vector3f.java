@@ -1148,12 +1148,12 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#rotateAxis(float, float, float, float, org.joml.Vector3f)
      */
     public Vector3f rotateAxis(float angle, float aX, float aY, float aZ, Vector3f dest) {
-        if (aY == 0.0f && aZ == 0.0f)
-            return rotateX(angle, dest);
-        else if (aX == 0.0f && aZ == 0.0f)
-            return rotateY(angle, dest);
-        else if (aX == 0.0f && aY == 0.0f)
-            return rotateZ(angle, dest);
+        if (aY == 0.0f && aZ == 0.0f && Math.abs(aX) == 1.0f)
+            return rotateX(aX * angle, dest);
+        else if (aX == 0.0f && aZ == 0.0f && Math.abs(aY) == 1.0f)
+            return rotateY(aY * angle, dest);
+        else if (aX == 0.0f && aY == 0.0f && Math.abs(aZ) == 1.0f)
+            return rotateZ(aZ * angle, dest);
         return rotateAxisInternal(angle, aX, aY, aZ, dest);
     }
     private Vector3f rotateAxisInternal(float angle, float aX, float aY, float aZ, Vector3f dest) {

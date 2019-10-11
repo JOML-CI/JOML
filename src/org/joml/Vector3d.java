@@ -1551,14 +1551,15 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#rotateAxis(double, double, double, double, org.joml.Vector3d)
      */
     public Vector3d rotateAxis(double angle, double aX, double aY, double aZ, Vector3d dest) {
-        if (aY == 0.0 && aZ == 0.0)
-            return rotateX(angle, dest);
-        else if (aX == 0.0 && aZ == 0.0)
-            return rotateY(angle, dest);
-        else if (aX == 0.0 && aY == 0.0)
-            return rotateZ(angle, dest);
+        if (aY == 0.0 && aZ == 0.0 && Math.abs(aX) == 1.0)
+            return rotateX(aX * angle, dest);
+        else if (aX == 0.0 && aZ == 0.0 && Math.abs(aY) == 1.0)
+            return rotateY(aY * angle, dest);
+        else if (aX == 0.0 && aY == 0.0 && Math.abs(aZ) == 1.0)
+            return rotateZ(aZ * angle, dest);
         return rotateAxisInternal(angle, aX, aY, aZ, dest);
     }
+
     private Vector3d rotateAxisInternal(double angle, double aX, double aY, double aZ, Vector3d dest) {
         double hangle = angle * 0.5;
         double sinAngle = Math.sin(hangle);

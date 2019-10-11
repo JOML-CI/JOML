@@ -1023,12 +1023,12 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#rotateAxis(float, float, float, float, org.joml.Vector4f)
      */
     public Vector4f rotateAxis(float angle, float aX, float aY, float aZ, Vector4f dest) {
-        if (aY == 0.0f && aZ == 0.0f)
-            return rotateX(angle, dest);
-        else if (aX == 0.0f && aZ == 0.0f)
-            return rotateY(angle, dest);
-        else if (aX == 0.0f && aY == 0.0f)
-            return rotateZ(angle, dest);
+        if (aY == 0.0f && aZ == 0.0f && Math.abs(aX) == 1.0f)
+            return rotateX(aX * angle, dest);
+        else if (aX == 0.0f && aZ == 0.0f && Math.abs(aY) == 1.0f)
+            return rotateY(aY * angle, dest);
+        else if (aX == 0.0f && aY == 0.0f && Math.abs(aZ) == 1.0f)
+            return rotateZ(aZ * angle, dest);
         return rotateAxisInternal(angle, aX, aY, aZ, dest);
     }
     private Vector4f rotateAxisInternal(float angle, float aX, float aY, float aZ, Vector4f dest) {

@@ -1180,12 +1180,12 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#rotateAxis(double, double, double, double, org.joml.Vector4d)
      */
     public Vector4d rotateAxis(double angle, double aX, double aY, double aZ, Vector4d dest) {
-        if (aY == 0.0 && aZ == 0.0)
-            return rotateX(angle, dest);
-        else if (aX == 0.0 && aZ == 0.0)
-            return rotateY(angle, dest);
-        else if (aX == 0.0 && aY == 0.0)
-            return rotateZ(angle, dest);
+        if (aY == 0.0 && aZ == 0.0 && Math.abs(aX) == 1.0)
+            return rotateX(aX * angle, dest);
+        else if (aX == 0.0 && aZ == 0.0 && Math.abs(aY) == 1.0)
+            return rotateY(aY * angle, dest);
+        else if (aX == 0.0 && aY == 0.0 && Math.abs(aZ) == 1.0)
+            return rotateZ(aZ * angle, dest);
         return rotateAxisInternal(angle, aX, aY, aZ, dest);
     }
     private Vector4d rotateAxisInternal(double angle, double aX, double aY, double aZ, Vector4d dest) {

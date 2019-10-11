@@ -3608,12 +3608,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d rotation(double angle, double x, double y, double z) {
-        if (y == 0.0 && z == 0.0)
-            return rotationX(angle);
-        else if (x == 0.0 && z == 0.0)
-            return rotationY(angle);
-        else if (x == 0.0 && y == 0.0)
-            return rotationZ(angle);
+        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+            return rotationX(x * angle);
+        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+            return rotationY(y * angle);
+        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+            return rotationZ(z * angle);
         return rotationInternal(angle, x, y, z);
     }
     private Matrix4d rotationInternal(double angle, double x, double y, double z) {
@@ -4712,12 +4712,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateGeneric(ang, x, y, z, dest);
     }
     private Matrix4d rotateGeneric(double ang, double x, double y, double z, Matrix4d dest) {
-        if (y == 0.0 && z == 0.0)
-            return rotateX(ang, dest);
-        else if (x == 0.0 && z == 0.0)
-            return rotateY(ang, dest);
-        else if (x == 0.0 && y == 0.0)
-            return rotateZ(ang, dest);
+        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+            return rotateX(x * ang, dest);
+        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+            return rotateY(y * ang, dest);
+        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+            return rotateZ(z * ang, dest);
         return rotateGenericInternal(ang, x, y, z, dest);
     }
     private Matrix4d rotateGenericInternal(double ang, double x, double y, double z, Matrix4d dest) {
@@ -4834,12 +4834,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d rotateTranslation(double ang, double x, double y, double z, Matrix4d dest) {
         double tx = m30, ty = m31, tz = m32;
-        if (y == 0.0 && z == 0.0)
-            return dest.rotationX(ang).setTranslation(tx, ty, tz);
-        else if (x == 0.0 && z == 0.0)
-            return dest.rotationY(ang).setTranslation(tx, ty, tz);
-        else if (x == 0.0 && y == 0.0)
-            return dest.rotationZ(ang).setTranslation(tx, ty, tz);
+        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+            return dest.rotationX(x * ang).setTranslation(tx, ty, tz);
+        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+            return dest.rotationY(y * ang).setTranslation(tx, ty, tz);
+        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+            return dest.rotationZ(z * ang).setTranslation(tx, ty, tz);
         return rotateTranslationInternal(ang, x, y, z, dest);
     }
     private Matrix4d rotateTranslationInternal(double ang, double x, double y, double z, Matrix4d dest) {
@@ -4923,12 +4923,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d rotateAffine(double ang, double x, double y, double z, Matrix4d dest) {
-        if (y == 0.0 && z == 0.0)
-            return rotateX(ang, dest);
-        else if (x == 0.0 && z == 0.0)
-            return rotateY(ang, dest);
-        else if (x == 0.0 && y == 0.0)
-            return rotateZ(ang, dest);
+        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+            return rotateX(x * ang, dest);
+        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+            return rotateY(y * ang, dest);
+        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+            return rotateZ(z * ang, dest);
         return rotateAffineInternal(ang, x, y, z, dest);
     }
     private Matrix4d rotateAffineInternal(double ang, double x, double y, double z, Matrix4d dest) {
@@ -5234,12 +5234,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateLocalGeneric(ang, x, y, z, dest);
     }
     private Matrix4d rotateLocalGeneric(double ang, double x, double y, double z, Matrix4d dest) {
-        if (y == 0.0 && z == 0.0)
-            return rotateLocalX(ang, dest);
-        else if (x == 0.0 && z == 0.0)
-            return rotateLocalY(ang, dest);
-        else if (x == 0.0 && y == 0.0)
-            return rotateLocalZ(ang, dest);
+        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+            return rotateLocalX(x * ang, dest);
+        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+            return rotateLocalY(y * ang, dest);
+        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+            return rotateLocalZ(z * ang, dest);
         return rotateLocalGenericInternal(ang, x, y, z, dest);
     }
     private Matrix4d rotateLocalGenericInternal(double ang, double x, double y, double z, Matrix4d dest) {
