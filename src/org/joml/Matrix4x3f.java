@@ -4139,6 +4139,9 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             return rotateLocalY(y * ang, dest);
         else if (x == 0.0f && y == 0.0f && Math.abs(z) == 1.0f)
             return rotateLocalZ(z * ang, dest);
+        return rotateLocalInternal(ang, x, y, z, dest);
+    }
+    private Matrix4x3f rotateLocalInternal(float ang, float x, float y, float z, Matrix4x3f dest) {
         float s = (float) Math.sin(ang);
         float c = (float) Math.cosFromSin(s, ang);
         float C = 1.0f - c;

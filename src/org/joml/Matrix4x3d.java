@@ -3476,6 +3476,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return rotateLocalY(y * ang, dest);
         else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
             return rotateLocalZ(z * ang, dest);
+        return rotateLocalInternal(ang, x, y, z, dest);
+    }
+    private Matrix4x3d rotateLocalInternal(double ang, double x, double y, double z, Matrix4x3d dest) {
         double s = Math.sin(ang);
         double c = Math.cosFromSin(s, ang);
         double C = 1.0 - c;

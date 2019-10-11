@@ -515,7 +515,6 @@
 					<processing>java</processing>
 					<keepLines>false</keepLines>
 					<verbose>false</verbose>
-					<eol>\n</eol>
 					<globalVars>
 						<property>
 							<name>${platform}</name>
