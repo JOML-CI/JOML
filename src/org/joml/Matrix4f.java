@@ -1432,7 +1432,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
-        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties() & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0)
             return mulPerspectiveAffine(right, dest);
         return mulGeneric(right, dest);
     }
