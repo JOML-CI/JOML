@@ -322,6 +322,16 @@ public interface Matrix4x3fc {
     Matrix4x3f invert(Matrix4x3f dest);
 
     /**
+     * Invert this matrix and write the result as the top 4x3 matrix into <code>dest</code>
+     * and set all other values of <code>dest</code> to identity..
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix4f invert(Matrix4f dest);
+
+    /**
      * Invert <code>this</code> orthographic projection matrix and store the result into the given <code>dest</code>.
      * <p>
      * This method can be used to quickly obtain the inverse of an orthographic projection matrix.
@@ -2651,6 +2661,46 @@ public interface Matrix4x3fc {
      * @return dest
      */
     Matrix4x3f obliqueZ(float a, float b, Matrix4x3f dest);
+
+    /**
+     * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3f)})
+     * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3f)}) and the
+     * given vector <code>up</code>, and store the result in <code>dest</code>.
+     * <p>
+     * This effectively ensures that the resulting matrix will be equal to the one obtained from calling
+     * {@link Matrix4f#setLookAt(Vector3fc, Vector3fc, Vector3fc)} with the current 
+     * local origin of this matrix (as obtained by {@link #origin(Vector3f)}), the sum of this position and the 
+     * negated local Z axis as well as the given vector <code>up</code>.
+     * 
+     * @param up
+     *            the up vector
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    Matrix4x3f withLookAtUp(Vector3fc up, Matrix4x3f dest);
+
+    /**
+     * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3f)})
+     * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3f)}) and the
+     * given vector <code>(upX, upY, upZ)</code>, and store the result in <code>dest</code>.
+     * <p>
+     * This effectively ensures that the resulting matrix will be equal to the one obtained from calling
+     * {@link Matrix4f#setLookAt(float, float, float, float, float, float, float, float, float)} called with the current 
+     * local origin of this matrix (as obtained by {@link #origin(Vector3f)}), the sum of this position and the 
+     * negated local Z axis as well as the given vector <code>(upX, upY, upZ)</code>.
+     * 
+     * @param upX
+     *            the x coordinate of the up vector
+     * @param upY
+     *            the y coordinate of the up vector
+     * @param upZ
+     *            the z coordinate of the up vector
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    Matrix4x3f withLookAtUp(float upX, float upY, float upZ, Matrix4x3f dest);
 
     /**
      * Compare the matrix elements of <code>this</code> matrix with the given matrix using the given <code>delta</code>

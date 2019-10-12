@@ -1455,6 +1455,82 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return dest;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3fc#invert(org.joml.Matrix4f)
+     */
+    public Matrix4f invert(Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.identity();
+        else if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return invertOrthonormal(dest);
+        return invertGeneric(dest);
+    }
+    private Matrix4f invertGeneric(Matrix4f dest) {
+        float m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
+        float m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
+        float s = 1.0f / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
+        float m10m22 = m10 * m22, m10m21 = m10 * m21, m11m22 = m11 * m22;
+        float m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
+        float m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
+        float m21m00 = m21 * m00, m22m01 = m22 * m01, m22m00 = m22 * m00;
+        float nm00 = (m11m22 - m12m21) * s;
+        float nm01 = (m21m02 - m22m01) * s;
+        float nm02 = (m12m01 - m11m02) * s;
+        float nm10 = (m12m20 - m10m22) * s;
+        float nm11 = (m22m00 - m20m02) * s;
+        float nm12 = (m10m02 - m12m00) * s;
+        float nm20 = (m10m21 - m11m20) * s;
+        float nm21 = (m20m01 - m21m00) * s;
+        float nm22 = (m11m00 - m10m01) * s;
+        float nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
+        float nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
+        float nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = 0.0f;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = 0.0f;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = 0.0f;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = 0.0f;
+        dest.properties = 0;
+        return dest;
+    }
+    private Matrix4f invertOrthonormal(Matrix4f dest) {
+        float nm30 = -(m00 * m30 + m01 * m31 + m02 * m32);
+        float nm31 = -(m10 * m30 + m11 * m31 + m12 * m32);
+        float nm32 = -(m20 * m30 + m21 * m31 + m22 * m32);
+        float m01 = this.m01;
+        float m02 = this.m02;
+        float m12 = this.m12;
+        dest.m00 = m00;
+        dest.m01 = m10;
+        dest.m02 = m20;
+        dest.m03 = 0.0f;
+        dest.m10 = m01;
+        dest.m11 = m11;
+        dest.m12 = m21;
+        dest.m13 = 0.0f;
+        dest.m20 = m02;
+        dest.m21 = m12;
+        dest.m22 = m22;
+        dest.m23 = 0.0f;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = 0.0f;
+        dest.properties = PROPERTY_ORTHONORMAL;
+        return dest;
+    }
+
     /**
      * Invert this matrix.
      * 
@@ -9107,6 +9183,78 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.properties = 0;
+        return dest;
+    }
+
+    /**
+     * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3f)})
+     * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3f)}) and the
+     * given vector <code>up</code>.
+     * <p>
+     * This effectively ensures that the resulting matrix will be equal to the one obtained from 
+     * {@link #setLookAt(Vector3fc, Vector3fc, Vector3fc)} called with the current 
+     * local origin of this matrix (as obtained by {@link #origin(Vector3f)}), the sum of this position and the 
+     * negated local Z axis as well as the given vector <code>up</code>.
+     * 
+     * @param up
+     *            the up vector
+     * @return this
+     */
+    public Matrix4x3f withLookAtUp(Vector3fc up) {
+        return withLookAtUp(up.x(), up.y(), up.z(), this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix4x3fc#withLookAtUp(Vector3fc, org.joml.Matrix4x3f)
+     */
+    public Matrix4x3f withLookAtUp(Vector3fc up, Matrix4x3f dest) {
+        return withLookAtUp(up.x(), up.y(), up.z());
+    }
+
+    /**
+     * Apply a transformation to this matrix to ensure that the local Y axis (as obtained by {@link #positiveY(Vector3f)})
+     * will be coplanar to the plane spanned by the local Z axis (as obtained by {@link #positiveZ(Vector3f)}) and the
+     * given vector <code>(upX, upY, upZ)</code>.
+     * <p>
+     * This effectively ensures that the resulting matrix will be equal to the one obtained from 
+     * {@link #setLookAt(float, float, float, float, float, float, float, float, float)} called with the current 
+     * local origin of this matrix (as obtained by {@link #origin(Vector3f)}), the sum of this position and the 
+     * negated local Z axis as well as the given vector <code>(upX, upY, upZ)</code>.
+     * 
+     * @param upX
+     *            the x coordinate of the up vector
+     * @param upY
+     *            the y coordinate of the up vector
+     * @param upZ
+     *            the z coordinate of the up vector
+     * @return this
+     */
+    public Matrix4x3f withLookAtUp(float upX, float upY, float upZ) {
+        return withLookAtUp(upX, upY, upZ, this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix4x3fc#withLookAtUp(float, float, float, org.joml.Matrix4x3f)
+     */
+    public Matrix4x3f withLookAtUp(float upX, float upY, float upZ, Matrix4x3f dest) {
+        float y = (upY * m21 - upZ * m11) * m02 +
+                  (upZ * m01 - upX * m21) * m12 +
+                  (upX * m11 - upY * m01) * m22;
+        float x = upX * m01 + upY * m11 + upZ * m21;
+        if ((properties & PROPERTY_ORTHONORMAL) == 0)
+            x *= (float) Math.sqrt(m01 * m01 + m11 * m11 + m21 * m21);
+        float invsqrt = 1.0f / (float) Math.sqrt(y * y + x * x);
+        float c = x * invsqrt, s = y * invsqrt;
+        float nm00 = c * m00 - s * m01, nm10 = c * m10 - s * m11, nm20 = c * m20 - s * m21, nm31 = s * m30 + c * m31;
+        float nm01 = s * m00 + c * m01, nm11 = s * m10 + c * m11, nm21 = s * m20 + c * m21, nm30 = c * m30 - s * m31;
+        dest._m00(nm00)._m10(nm10)._m20(nm20)._m30(nm30);
+        dest._m01(nm01)._m11(nm11)._m21(nm21)._m31(nm31);
+        if (dest != this) {
+            dest._m02(m02)._m12(m12)._m22(m22)._m32(m32);
+        }
+        dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
