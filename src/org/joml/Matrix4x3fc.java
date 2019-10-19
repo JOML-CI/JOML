@@ -701,6 +701,70 @@ public interface Matrix4x3fc {
     ByteBuffer get4x4(int index, ByteBuffer buffer);
 
     /**
+     * Store the left 3x3 submatrix as 3x4 matrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}, with the m03, m13 and m23 components being zero.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #get3x4(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get3x4(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the left 3x3 submatrix as 3x4 matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    FloatBuffer get3x4(FloatBuffer buffer);
+
+    /**
+     * Store the left 3x3 submatrix as 3x4 matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index, with the m03, m13 and m23 components being zero.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of the left 3x3 submatrix as 3x4 matrix in column-major order
+     * @return the passed in buffer
+     */
+    FloatBuffer get3x4(int index, FloatBuffer buffer);
+
+    /**
+     * Store the left 3x3 submatrix as 3x4 matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}, with the m03, m13 and m23 components being zero.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get3x4(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get3x4(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the left 3x3 submatrix as 3x4 matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    ByteBuffer get3x4(ByteBuffer buffer);
+
+    /**
+     * Store the left 3x3 submatrix as 3x4 matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index, with the m03, m13 and m23 components being zero.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of the left 3x3 submatrix as 3x4 matrix in column-major order
+     * @return the passed in buffer
+     */
+    ByteBuffer get3x4(int index, ByteBuffer buffer);
+
+    /**
      * Store this matrix in row-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
      * <p>

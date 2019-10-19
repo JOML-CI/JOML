@@ -3221,6 +3221,36 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#get3x4(java.nio.FloatBuffer)
+     */
+    public FloatBuffer get3x4(FloatBuffer buffer) {
+        return get3x4(buffer.position(), buffer);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#get3x4(int, java.nio.FloatBuffer)
+     */
+    public FloatBuffer get3x4(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.put3x4(this, index, buffer);
+        return buffer;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#get3x4(java.nio.ByteBuffer)
+     */
+    public ByteBuffer get3x4(ByteBuffer buffer) {
+        return get3x4(buffer.position(), buffer);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#get3x4(int, java.nio.ByteBuffer)
+     */
+    public ByteBuffer get3x4(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.put3x4(this, index, buffer);
+        return buffer;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4fc#getTransposed(java.nio.FloatBuffer)
      */
     public FloatBuffer getTransposed(FloatBuffer buffer) {
