@@ -199,6 +199,21 @@ public class Planed implements Externalizable {
     }
 
     /**
+     * Compute the signed distance between this plane and the given point.
+     * 
+     * @param x
+     *          the x coordinate of the point
+     * @param y
+     *          the y coordinate of the point
+     * @param z
+     *          the z coordinate of the point
+     * @return the signed distance between this plane and the point
+     */
+    public double distance(double x, double y, double z) {
+        return Intersectiond.distancePointPlane(x, y, z, a, b, c, d);
+    }
+
+    /**
      * Compute the factors <code>a</code>, <code>b</code>, <code>c</code> and <code>d</code> in the plane equation
      * <code>a*x + b*y + c*z + d = 0</code> from the given three points on the plane, and write the values
      * to the <code>x</code>, <code>y</code>, <code>z</code> and <code>w</code> components, respectively, of the given
