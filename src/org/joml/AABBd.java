@@ -30,6 +30,7 @@ import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.Math;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
@@ -700,6 +701,56 @@ public class AABBd implements Externalizable {
      */
     public int intersectLineSegment(LineSegmentf lineSegment, Vector2d result) {
         return Intersectiond.intersectLineSegmentAab(lineSegment, this, result);
+    }
+
+    /**
+     * Apply the given {@link Matrix4dc#isAffine() affine} transformation to this {@link AABBd}.
+     * <p>
+     * The matrix in <code>m</code> <i>must</i> be {@link Matrix4dc#isAffine() affine}.
+     * 
+     * @param m
+     *          the affine transformation matrix
+     * @return this
+     */
+    public AABBd transform(Matrix4dc m) {
+        return transform(m, this);
+    }
+
+    /**
+     * Apply the given {@link Matrix4dc#isAffine() affine} transformation to this {@link AABBd}
+     * and store the resulting AABB into <code>dest</code>.
+     * <p>
+     * The matrix in <code>m</code> <i>must</i> be {@link Matrix4dc#isAffine() affine}.
+     * 
+     * @param m
+     *          the affine transformation matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AABBd transform(Matrix4dc m, AABBd dest) {
+        double dx = maxX - minX, dy = maxY - minY, dz = maxZ - minZ;
+        double minx = Double.POSITIVE_INFINITY, miny = Double.POSITIVE_INFINITY, minz = Double.POSITIVE_INFINITY;
+        double maxx = Double.NEGATIVE_INFINITY, maxy = Double.NEGATIVE_INFINITY, maxz = Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < 8; i++) {
+            double x = minX + (i & 1) * dx, y = minY + (i >> 1 & 1) * dy, z = minZ + (i >> 2 & 1) * dz;
+            double tx = m.m00() * x + m.m10() * y + m.m20() * z + m.m30();
+            double ty = m.m01() * x + m.m11() * y + m.m21() * z + m.m31();
+            double tz = m.m02() * x + m.m12() * y + m.m22() * z + m.m32();
+            minx = Math.min(tx, minx);
+            miny = Math.min(ty, miny);
+            minz = Math.min(tz, minz);
+            maxx = Math.max(tx, maxx);
+            maxy = Math.max(ty, maxy);
+            maxz = Math.max(tz, maxz);
+        }
+        dest.minX = minx;
+        dest.minY = miny;
+        dest.minZ = minz;
+        dest.maxX = maxx;
+        dest.maxY = maxy;
+        dest.maxZ = maxz;
+        return dest;
     }
 
     public int hashCode() {
