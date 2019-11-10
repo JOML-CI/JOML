@@ -238,6 +238,20 @@ public class TestUtil {
     }
 
     /**
+     * Assert that both quaternions are equal with respect to the given delta.
+     * 
+     * @param expected
+     * @param actual
+     * @param delta
+     */
+    public static void assertQuaternionfEquals(Quaternionf expected, Quaternionf actual, float delta) {
+        Assert.assertEquals(expected.x, actual.x, delta);
+        Assert.assertEquals(expected.y, actual.y, delta);
+        Assert.assertEquals(expected.z, actual.z, delta);
+        Assert.assertEquals(expected.w, actual.w, delta);
+    }
+
+    /**
      * Assert that both vectors are equal with respect to the given delta.
      * 
      * @param expected

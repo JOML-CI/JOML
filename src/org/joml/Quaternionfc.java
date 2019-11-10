@@ -1162,4 +1162,16 @@ public interface Quaternionfc {
      */
     Vector3f normalizedPositiveZ(Vector3f dir);
 
+    /**
+     * Conjugate <code>this</code> by the given quaternion <code>q</code> by computing <code>q * this * q^-1</code>
+     * and store the result into <code>dest</code>.
+     * 
+     * @param q
+     *          the {@link Quaternionfc} to conjugate <code>this</code> by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Quaternionf conjugateBy(Quaternionfc q, Quaternionf dest);
+
 }

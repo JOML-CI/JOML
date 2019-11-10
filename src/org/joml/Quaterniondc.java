@@ -1055,4 +1055,16 @@ public interface Quaterniondc {
      */
     Vector3d normalizedPositiveZ(Vector3d dir);
 
+    /**
+     * Conjugate <code>this</code> by the given quaternion <code>q</code> by computing <code>q * this * q^-1</code>
+     * and store the result into <code>dest</code>.
+     * 
+     * @param q
+     *          the {@link Quaterniondc} to conjugate <code>this</code> by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Quaterniond conjugateBy(Quaterniondc q, Quaterniond dest);
+
 }

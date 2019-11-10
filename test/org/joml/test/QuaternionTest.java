@@ -141,4 +141,12 @@ public class QuaternionTest extends TestCase {
         assertSame(destination, result);
     }
 
+    public static void testConjugateBy() {
+        Quaternionf p = new Quaternionf().rotateXYZ(0.234f, -0.62f, 0.11f);
+        Quaternionf q = new Quaternionf().rotateXYZ(0.834f, 0.42f, -1.471f);
+        Quaternionf r = p.mul(q.mul(p.invert(new Quaternionf()), new Quaternionf()), new Quaternionf());
+        Quaternionf r2 = q.conjugateBy(p, new Quaternionf());
+        TestUtil.assertQuaternionfEquals(r, r2, 1E-6f);
+    }
+
 }

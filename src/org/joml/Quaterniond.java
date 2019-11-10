@@ -2627,4 +2627,39 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dir;
     }
 
+    /**
+     * Conjugate <code>this</code> by the given quaternion <code>q</code> by computing <code>q * this * q^-1</code>.
+     * 
+     * @param q
+     *          the {@link Quaterniondc} to conjugate <code>this</code> by
+     * @return this
+     */
+    public Quaterniond conjugate(Quaterniondc q) {
+        return conjugateBy(q, this);
+    }
+
+    /**
+     * Conjugate <code>this</code> by the given quaternion <code>q</code> by computing <code>q * this * q^-1</code>
+     * and store the result into <code>dest</code>.
+     * 
+     * @param q
+     *          the {@link Quaterniondc} to conjugate <code>this</code> by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaterniond conjugateBy(Quaterniondc q, Quaterniond dest) {
+        double invNorm = 1.0f / (q.x() * q.x() + q.y() * q.y() + q.z() * q.z() + q.w() * q.w());
+        double qix = -q.x() * invNorm, qiy = -q.y() * invNorm, qiz = -q.z() * invNorm, qiw = q.w() * invNorm;
+        double qpx = q.w() * x + q.x() * w + q.y() * z - q.z() * y;
+        double qpy = q.w() * y - q.x() * z + q.y() * w + q.z() * x;
+        double qpz = q.w() * z + q.x() * y - q.y() * x + q.z() * w;
+        double qpw = q.w() * w - q.x() * x - q.y() * y - q.z() * z;
+        dest.x = qpw * qix + qpx * qiw + qpy * qiz - qpz * qiy;
+        dest.y = qpw * qiy - qpx * qiz + qpy * qiw + qpz * qix;
+        dest.z = qpw * qiz + qpx * qiy - qpy * qix + qpz * qiw;
+        dest.w = qpw * qiw - qpx * qix - qpy * qiy - qpz * qiz;
+        return dest;
+    }
+
 }
