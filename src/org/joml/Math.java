@@ -243,7 +243,23 @@ public class Math {
         return java.lang.Math.acos(r);
     }
 
+    /**
+     * https://math.stackexchange.com/questions/1098487/atan2-faster-approximation/1105038#answer-1105038
+     */
+    private static double fastAtan2(double y, double x) {
+        double ax = x >= 0.0 ? x : -x, ay = y >= 0.0 ? y : -y;
+        double a = min(ax, ay) / max(ax, ay);
+        double s = a * a;
+        double r = ((-0.0464964749 * s + 0.15931422) * s - 0.327622764) * s * a + a;
+        if (ay > ax)
+            r = 1.57079637 - r;
+        if (x < 0.0)
+            r = 3.14159274 - r;
+        return y >= 0 ? r : -r;
+    }
     public static double atan2(double y, double x) {
+        if (Options.FASTMATH)
+            return fastAtan2(y, x);
         return java.lang.Math.atan2(y, x);
     }
 
