@@ -144,6 +144,22 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
+     * Set this {@link AxisAngle4f} to the values of <code>a</code>.
+     * 
+     * @param a
+     *            the AngleAxis4d to copy the values from
+     * @return this
+     */
+    public AxisAngle4f set(AxisAngle4d a) {
+        x = (float) a.x;
+        y = (float) a.y;
+        z = (float) a.z;
+        angle = (float) a.angle;
+        angle = (float) ((angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI));
+        return this;
+    }
+
+    /**
      * Set this {@link AxisAngle4f} to the given values.
      * 
      * @param angle
@@ -558,6 +574,28 @@ public class AxisAngle4f implements Externalizable {
      */
     public Matrix3d get(Matrix3d m) {
         return m.set(this);
+    }
+
+    /**
+     * Set the given {@link AxisAngle4d} to this {@link AxisAngle4f}.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AxisAngle4d get(AxisAngle4d dest) {
+        return dest.set(this);
+    }
+
+    /**
+     * Set the given {@link AxisAngle4f} to this {@link AxisAngle4f}.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AxisAngle4f get(AxisAngle4f dest) {
+        return dest.set(this);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

@@ -629,6 +629,28 @@ public class AxisAngle4d implements Externalizable {
         return m.set(this);
     }
 
+    /**
+     * Set the given {@link AxisAngle4d} to this {@link AxisAngle4d}.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AxisAngle4d get(AxisAngle4d dest) {
+        return dest.set(this);
+    }
+
+    /**
+     * Set the given {@link AxisAngle4f} to this {@link AxisAngle4d}.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AxisAngle4f get(AxisAngle4f dest) {
+        return dest.set(this);
+    }
+
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeDouble(angle);
         out.writeDouble(x);
