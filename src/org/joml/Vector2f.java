@@ -222,6 +222,32 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 
     /**
+     * Set the x and y components to the supplied value.
+     *
+     * @param d
+     *        the value of both components
+     * @return this
+     */
+    public Vector2f set(double d) {
+        return set(d, d);
+    }
+
+    /**
+     * Set the x and y components to the supplied values.
+     * 
+     * @param x
+     *        the x component
+     * @param y
+     *        the y component
+     * @return this
+     */
+    public Vector2f set(double x, double y) {
+        this.x = (float) x;
+        this.y = (float) y;
+        return this;
+    }
+
+    /**
      * Set this {@link Vector2f} to the values of v.
      * 
      * @param v
@@ -365,6 +391,14 @@ public class Vector2f implements Externalizable, Vector2fc {
         default:
             throw new IllegalArgumentException();
         }
+    }
+
+    public Vector2f get(Vector2f dest) {
+        return dest.set(this);
+    }
+
+    public Vector2d get(Vector2d dest) {
+        return dest.set(this);
     }
 
     /**

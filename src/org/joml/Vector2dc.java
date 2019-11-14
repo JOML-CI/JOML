@@ -515,6 +515,24 @@ public interface Vector2dc {
     double get(int component) throws IllegalArgumentException;
 
     /**
+     * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f get(Vector2f dest);
+
+    /**
+     * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d get(Vector2d dest);
+
+    /**
      * Compute for each component of this vector the largest (closest to positive
      * infinity) {@code double} value that is less than or equal to that
      * component and is equal to a mathematical integer and store the result in

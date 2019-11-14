@@ -376,6 +376,14 @@ public class Vector2d implements Externalizable, Vector2dc {
         }
     }
 
+    public Vector2f get(Vector2f dest) {
+        return dest.set(this);
+    }
+
+    public Vector2d get(Vector2d dest) {
+        return dest.set(this);
+    }
+
     /**
      * Set the value of the specified component of this vector.
      *
