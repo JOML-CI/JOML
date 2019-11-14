@@ -647,6 +647,24 @@ public interface Vector4fc {
     float get(int component) throws IllegalArgumentException;
 
     /**
+     * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f get(Vector4f dest);
+
+    /**
+     * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d get(Vector4d dest);
+
+    /**
      * Determine the component with the biggest absolute value.
      * 
      * @return the component index, within <code>[0..3]</code>

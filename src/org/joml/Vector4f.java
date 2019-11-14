@@ -424,6 +424,38 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
+    /**
+     * Set the x, y, z, and w components to the supplied value.
+     *
+     * @param d
+     *          the value of all four components
+     * @return this
+     */
+    public Vector4f set(double d) {
+        return set(d, d, d, d);
+    }
+
+    /**
+     * Set the x, y, z, and w components to the supplied values.
+     * 
+     * @param x
+     *          the x component
+     * @param y
+     *          the y component
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
+     * @return this
+     */
+    public Vector4f set(double x, double y, double z, double w) {
+        this.x = (float) x;
+        this.y = (float) y;
+        this.z = (float) z;
+        this.w = (float) w;
+        return this;
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
@@ -1595,6 +1627,14 @@ public class Vector4f implements Externalizable, Vector4fc {
         default:
             throw new IllegalArgumentException();
         }
+    }
+
+    public Vector4f get(Vector4f dest) {
+        return dest.set(this);
+    }
+
+    public Vector4d get(Vector4d dest) {
+        return dest.set(this);
     }
 
     /* (non-Javadoc)

@@ -902,6 +902,24 @@ public interface Vector3fc {
     float get(int component) throws IllegalArgumentException;
 
     /**
+     * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f get(Vector3f dest);
+
+    /**
+     * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d get(Vector3d dest);
+
+    /**
      * Determine the component with the biggest absolute value.
      * 
      * @return the component index, within <code>[0..2]</code>

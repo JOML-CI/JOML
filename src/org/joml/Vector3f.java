@@ -283,6 +283,20 @@ public class Vector3f implements Externalizable, Vector3fc {
      * and the z component from the given <code>z</code>
      *
      * @param v
+     *          the {@link Vector2dc} to copy the values from
+     * @param z
+     *          the z component
+     * @return this
+     */
+    public Vector3f set(Vector2dc v, float z) {
+        return set(v.x(), v.y(), z);
+    }
+
+    /**
+     * Set the first two components from the given <code>v</code>
+     * and the z component from the given <code>z</code>
+     *
+     * @param v
      *          the {@link Vector2ic} to copy the values from
      * @param z
      *          the z component
@@ -318,6 +332,35 @@ public class Vector3f implements Externalizable, Vector3fc {
         this.x = x;
         this.y = y;
         this.z = z;
+        return this;
+    }
+
+    /**
+     * Set the x, y, and z components to the supplied value.
+     *
+     * @param d
+     *          the value of all three components
+     * @return this
+     */
+    public Vector3f set(double d) {
+        return set(d, d, d);
+    }
+
+    /**
+     * Set the x, y and z components to the supplied values.
+     * 
+     * @param x
+     *          the x component
+     * @param y
+     *          the y component 
+     * @param z
+     *          the z component
+     * @return this
+     */
+    public Vector3f set(double x, double y, double z) {
+        this.x = (float) x;
+        this.y = (float) y;
+        this.z = (float) z;
         return this;
     }
 
@@ -1835,6 +1878,14 @@ public class Vector3f implements Externalizable, Vector3fc {
         default:
             throw new IllegalArgumentException();
         }
+    }
+
+    public Vector3f get(Vector3f dest) {
+        return dest.set(this);
+    }
+
+    public Vector3d get(Vector3d dest) {
+        return dest.set(this);
     }
 
     /* (non-Javadoc)

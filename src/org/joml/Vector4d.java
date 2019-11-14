@@ -1754,6 +1754,14 @@ public class Vector4d implements Externalizable, Vector4dc {
         }
     }
 
+    public Vector4f get(Vector4f dest) {
+        return dest.set(this);
+    }
+
+    public Vector4d get(Vector4d dest) {
+        return dest.set(this);
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector4dc#maxComponent()
      */

@@ -2289,6 +2289,14 @@ public class Vector3d implements Externalizable, Vector3dc {
         }
     }
 
+    public Vector3f get(Vector3f dest) {
+        return dest.set(this);
+    }
+
+    public Vector3d get(Vector3d dest) {
+        return dest.set(this);
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#maxComponent()
      */
