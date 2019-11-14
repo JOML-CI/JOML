@@ -148,6 +148,26 @@ public interface Quaterniondc {
     Matrix4f get(Matrix4f dest);
 
     /**
+     * Set the given {@link AxisAngle4f} to represent the rotation of
+     * <code>this</code> quaternion.
+     * 
+     * @param dest
+     *            the {@link AxisAngle4f} to set
+     * @return the passed in destination
+     */
+    AxisAngle4f get(AxisAngle4f dest);
+
+    /**
+     * Set the given {@link AxisAngle4d} to represent the rotation of
+     * <code>this</code> quaternion.
+     * 
+     * @param dest
+     *            the {@link AxisAngle4d} to set
+     * @return the passed in destination
+     */
+    AxisAngle4d get(AxisAngle4d dest);
+
+    /**
      * Set the given {@link Quaterniond} to the values of <code>this</code>.
      * 
      * @param dest
@@ -155,6 +175,15 @@ public interface Quaterniondc {
      * @return the passed in destination
      */
     Quaterniond get(Quaterniond dest);
+
+    /**
+     * Set the given {@link Quaternionf} to the values of <code>this</code>.
+     * 
+     * @param dest
+     *          the {@link Quaternionf} to set
+     * @return the passed in destination
+     */
+    Quaternionf get(Quaternionf dest);
 
     /**
      * Multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.

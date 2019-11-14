@@ -30,6 +30,7 @@ import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.Math;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
@@ -88,10 +89,10 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     /**
-     * Create a new {@link Quaterniond} and initialize its components to the same values as the given {@link Quaterniond}.
+     * Create a new {@link Quaterniond} and initialize its components to the same values as the given {@link Quaterniondc}.
      * 
      * @param source
-     *          the {@link Quaterniond} to take the component values from
+     *          the {@link Quaterniondc} to take the component values from
      */
     public Quaterniond(Quaterniondc source) {
         x = source.x();
@@ -292,6 +293,66 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dest.set(this);
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#get(org.joml.AxisAngle4f)
+     */
+    public AxisAngle4f get(AxisAngle4f dest) {
+        double x = this.x;
+        double y = this.y;
+        double z = this.z;
+        double w = this.w;
+        if (w > 1.0) {
+            double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
+        }
+        dest.angle = (float) (2.0 * Math.acos(w));
+        double s = Math.sqrt(1.0 - w * w);
+        if (s < 0.001) {
+            dest.x = (float) x;
+            dest.y = (float) y;
+            dest.z = (float) z;
+        } else {
+            s = 1.0 / s;
+            dest.x = (float) (x * s);
+            dest.y = (float) (y * s);
+            dest.z = (float) (z * s);
+        }
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#get(org.joml.AxisAngle4d)
+     */
+    public AxisAngle4d get(AxisAngle4d dest) {
+        double x = this.x;
+        double y = this.y;
+        double z = this.z;
+        double w = this.w;
+        if (w > 1.0) {
+            double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
+        }
+        dest.angle = 2.0 * Math.acos(w);
+        double s = Math.sqrt(1.0 - w * w);
+        if (s < 0.001) {
+            dest.x = x;
+            dest.y = y;
+            dest.z = z;
+        } else {
+            s = 1.0 / s;
+            dest.x = x * s;
+            dest.y = y * s;
+            dest.z = z * s;
+        }
+        return dest;
+    }
+
     /**
      * Set the given {@link Quaterniond} to the values of <code>this</code>.
      * 
@@ -302,6 +363,19 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @return the passed in destination
      */
     public Quaterniond get(Quaterniond dest) {
+        return dest.set(this);
+    }
+
+    /**
+     * Set the given {@link Quaternionf} to the values of <code>this</code>.
+     * 
+     * @see #set(Quaterniondc)
+     * 
+     * @param dest
+     *          the {@link Quaternionf} to set
+     * @return the passed in destination
+     */
+    public Quaternionf get(Quaternionf dest) {
         return dest.set(this);
     }
 

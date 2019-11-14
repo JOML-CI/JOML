@@ -85,6 +85,25 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @param w
      *          the real part
      */
+    public Quaternionf(double x, double y, double z, double w) {
+        this.x = (float) x;
+        this.y = (float) y;
+        this.z = (float) z;
+        this.w = (float) w;
+    }
+
+    /**
+     * Create a new {@link Quaternionf} and initialize its components to the given values.
+     * 
+     * @param x
+     *          the first component of the imaginary part
+     * @param y
+     *          the second component of the imaginary part
+     * @param z
+     *          the third component of the imaginary part
+     * @param w
+     *          the real part
+     */
     public Quaternionf(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
@@ -93,13 +112,23 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /**
-     * Create a new {@link Quaternionf} and initialize its components to the same values as the given {@link Quaternionf}.
+     * Create a new {@link Quaternionf} and initialize its components to the same values as the given {@link Quaternionfc}.
      * 
      * @param source
-     *          the {@link Quaternionf} to take the component values from
+     *          the {@link Quaternionfc} to take the component values from
      */
-    public Quaternionf(Quaternionf source) {
-        MemUtil.INSTANCE.copy(source, this);
+    public Quaternionf(Quaternionfc source) {
+        set(source);
+    }
+
+    /**
+     * Create a new {@link Quaternionf} and initialize its components to the same values as the given {@link Quaterniondc}.
+     * 
+     * @param source
+     *          the {@link Quaterniondc} to take the component values from
+     */
+    public Quaternionf(Quaterniondc source) {
+        set(source);
     }
 
     /**
@@ -115,6 +144,21 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         y = axisAngle.y * sin;
         z = axisAngle.z * sin;
         w = cos;
+    }
+
+    /**
+     * Create a new {@link Quaterniond} which represents the rotation of the given {@link AxisAngle4d}.
+     * 
+     * @param axisAngle
+     *          the {@link AxisAngle4d}
+     */
+    public Quaternionf(AxisAngle4d axisAngle) {
+        double sin = Math.sin(axisAngle.angle * 0.5);
+        double cos = Math.cosFromSin(sin, axisAngle.angle * 0.5);
+        x = (float) (axisAngle.x * sin);
+        y = (float) (axisAngle.y * sin);
+        z = (float) (axisAngle.z * sin);
+        w = (float) cos;
     }
 
     /**
@@ -317,6 +361,36 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#get(org.joml.AxisAngle4d)
+     */
+    public AxisAngle4d get(AxisAngle4d dest) {
+        float x = this.x;
+        float y = this.y;
+        float z = this.z;
+        float w = this.w;
+        if (w > 1.0f) {
+            float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
+        }
+        dest.angle = (float) (2.0f * Math.acos(w));
+        float s = (float) Math.sqrt(1.0 - w * w);
+        if (s < 0.001f) {
+            dest.x = x;
+            dest.y = y;
+            dest.z = z;
+        } else {
+            s = 1.0f / s;
+            dest.x = x * s;
+            dest.y = y * s;
+            dest.z = z * s;
+        }
+        return dest;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Quaternionfc#get(org.joml.Quaterniond)
      */
     public Quaterniond get(Quaterniond dest) {
@@ -408,10 +482,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /**
-     * Set this quaternion to be a copy of q.
+     * Set this quaternion to be a copy of <code>q</code>.
      * 
      * @param q
-     *          the {@link Quaternionf} to copy
+     *          the {@link Quaternionfc} to copy
      * @return this
      */
     public Quaternionf set(Quaternionfc q) {
@@ -423,6 +497,21 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             this.z = q.z();
             this.w = q.w();
         }
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a copy of <code>q</code>.
+     * 
+     * @param q
+     *          the {@link Quaterniondc} to copy
+     * @return this
+     */
+    public Quaternionf set(Quaterniondc q) {
+        this.x = (float) q.x();
+        this.y = (float) q.y();
+        this.z = (float) q.z();
+        this.w = (float) q.w();
         return this;
     }
 

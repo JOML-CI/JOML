@@ -176,6 +176,16 @@ public interface Quaternionfc {
     AxisAngle4f get(AxisAngle4f dest);
 
     /**
+     * Set the given {@link AxisAngle4d} to represent the rotation of
+     * <code>this</code> quaternion.
+     * 
+     * @param dest
+     *            the {@link AxisAngle4d} to set
+     * @return the passed in destination
+     */
+    AxisAngle4d get(AxisAngle4d dest);
+
+    /**
      * Set the given {@link Quaterniond} to the values of <code>this</code>.
      * 
      * @see Quaterniond#set(Quaternionfc)
