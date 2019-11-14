@@ -494,6 +494,230 @@ public interface Quaterniondc {
     Vector4d transform(double x, double y, double z, Vector4d dest);
 
     /**
+     * Transform the given vector by this quaternion.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @return vec
+     */
+    Vector3f transform(Vector3f vec);
+
+    /**
+     * Transform the vector <code>(1, 0, 0)</code> by this quaternion.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformPositiveX(Vector3f dest);
+
+    /**
+     * Transform the vector <code>(1, 0, 0)</code> by this quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformPositiveX(Vector4f dest);
+
+    /**
+     * Transform the vector <code>(1, 0, 0)</code> by this unit quaternion.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformUnitPositiveX(Vector3f dest);
+
+    /**
+     * Transform the vector <code>(1, 0, 0)</code> by this unit quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformUnitPositiveX(Vector4f dest);
+
+    /**
+     * Transform the vector <code>(0, 1, 0)</code> by this quaternion.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformPositiveY(Vector3f dest);
+
+    /**
+     * Transform the vector <code>(0, 1, 0)</code> by this quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformPositiveY(Vector4f dest);
+
+    /**
+     * Transform the vector <code>(0, 1, 0)</code> by this unit quaternion.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformUnitPositiveY(Vector3f dest);
+
+    /**
+     * Transform the vector <code>(0, 1, 0)</code> by this unit quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformUnitPositiveY(Vector4f dest);
+
+    /**
+     * Transform the vector <code>(0, 0, 1)</code> by this quaternion.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformPositiveZ(Vector3f dest);
+
+    /**
+     * Transform the vector <code>(0, 0, 1)</code> by this quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformPositiveZ(Vector4f dest);
+
+    /**
+     * Transform the vector <code>(0, 0, 1)</code> by this unit quaternion.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformUnitPositiveZ(Vector3f dest);
+
+    /**
+     * Transform the vector <code>(0, 0, 1)</code> by this unit quaternion.
+     * <p>
+     * Only the first three components of the given 4D vector are modified.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * <p>
+     * Reference: <a href="https://de.mathworks.com/help/aerotbx/ug/quatrotate.html?requestedDomain=true">https://de.mathworks.com/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformUnitPositiveZ(Vector4f dest);
+
+    /**
+     * Transform the given vector by this quaternion.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and modified.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @return vec
+     */
+    Vector4f transform(Vector4f vec);
+
+    /**
+     * Transform the given vector by this quaternion and store the result in <code>dest</code>.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transform(Vector3fc vec, Vector3f dest);
+
+    /**
+     * Transform the given vector <code>(x, y, z)</code> by this quaternion and store the result in <code>dest</code>.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transform(double x, double y, double z, Vector3f dest);
+
+    /**
+     * Transform the given vector by this quaternion and store the result in <code>dest</code>.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and set on the destination.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transform(Vector4fc vec, Vector4f dest);
+
+    /**
+     * Transform the given vector <code>(x, y, z)</code> by this quaternion and store the result in <code>dest</code>.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transform(double x, double y, double z, Vector4f dest);
+
+    /**
      * Invert this quaternion and store the {@link #normalize(Quaterniond) normalized} result in <code>dest</code>.
      * <p>
      * If this quaternion is already normalized, then {@link #conjugate(Quaterniond)} should be used instead.

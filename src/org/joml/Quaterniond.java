@@ -911,9 +911,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(org.joml.Vector3d)
-     */
     public Vector3d transform(Vector3d vec){
         return transform(vec.x, vec.y, vec.z, vec);
     }
@@ -1164,6 +1161,258 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         dest.z = m02 * x + m12 * y + m22 * z;
         return dest;
     }
+
+    public Vector3f transform(Vector3f vec){
+        return transform(vec.x, vec.y, vec.z, vec);
+    }
+
+    public Vector3f transformPositiveX(Vector3f dest) {
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double xz = x * z;
+        double yw = y * w;
+        dest.x = (float) (w2 + x2 - z2 - y2);
+        dest.y = (float) (xy + zw + zw + xy);
+        dest.z = (float) (xz - yw + xz - yw);
+        return dest;
+    }
+
+    public Vector4f transformPositiveX(Vector4f dest) {
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double xz = x * z;
+        double yw = y * w;
+        dest.x = (float) (w2 + x2 - z2 - y2);
+        dest.y = (float) (xy + zw + zw + xy);
+        dest.z = (float) (xz - yw + xz - yw);
+        return dest;
+    }
+
+    public Vector3f transformUnitPositiveX(Vector3f dest) {
+        double y2 = y * y;
+        double z2 = z * z;
+        double xy = x * y;
+        double xz = x * z;
+        double yw = y * w;
+        double zw = z * w;
+        dest.x = (float) (1.0 - y2 - y2 - z2 - z2);
+        dest.y = (float) (xy + zw + xy + zw);
+        dest.z = (float) (xz - yw + xz - yw);
+        return dest;
+    }
+
+    public Vector4f transformUnitPositiveX(Vector4f dest) {
+        double y2 = y * y;
+        double z2 = z * z;
+        double xy = x * y;
+        double xz = x * z;
+        double yw = y * w;
+        double zw = z * w;
+        dest.x = (float) (1.0 - y2 - y2 - z2 - z2);
+        dest.y = (float) (xy + zw + xy + zw);
+        dest.z = (float) (xz - yw + xz - yw);
+        return dest;
+    }
+
+    public Vector3f transformPositiveY(Vector3f dest) {
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double yz = y * z;
+        double xw = x * w;
+        dest.x = (float) (-zw + xy - zw + xy);
+        dest.y = (float) (y2 - z2 + w2 - x2);
+        dest.z = (float) (yz + yz + xw + xw);
+        return dest;
+    }
+
+    public Vector4f transformPositiveY(Vector4f dest) {
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double yz = y * z;
+        double xw = x * w;
+        dest.x = (float) (-zw + xy - zw + xy);
+        dest.y = (float) (y2 - z2 + w2 - x2);
+        dest.z = (float) (yz + yz + xw + xw);
+        return dest;
+    }
+
+    public Vector4f transformUnitPositiveY(Vector4f dest) {
+        double x2 = x * x;
+        double z2 = z * z;
+        double xy = x * y;
+        double yz = y * z;
+        double xw = x * w;
+        double zw = z * w;
+        dest.x = (float) (xy - zw + xy - zw);
+        dest.y = (float) (1.0 - x2 - x2 - z2 - z2);
+        dest.z = (float) (yz + yz + xw + xw);
+        return dest;
+    }
+
+    public Vector3f transformUnitPositiveY(Vector3f dest) {
+        double x2 = x * x;
+        double z2 = z * z;
+        double xy = x * y;
+        double yz = y * z;
+        double xw = x * w;
+        double zw = z * w;
+        dest.x = (float) (xy - zw + xy - zw);
+        dest.y = (float) (1.0 - x2 - x2 - z2 - z2);
+        dest.z = (float) (yz + yz + xw + xw);
+        return dest;
+    }
+
+    public Vector3f transformPositiveZ(Vector3f dest) {
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double xz = x * z;
+        double yw = y * w;
+        double yz = y * z;
+        double xw = x * w;
+        dest.x = (float) (yw + xz + xz + yw);
+        dest.y = (float) (yz + yz - xw - xw);
+        dest.z = (float) (z2 - y2 - x2 + w2);
+        return dest;
+    }
+
+    public Vector4f transformPositiveZ(Vector4f dest) {
+        double w2 = w * w;
+        double x2 = x * x;
+        double y2 = y * y;
+        double z2 = z * z;
+        double xz = x * z;
+        double yw = y * w;
+        double yz = y * z;
+        double xw = x * w;
+        dest.x = (float) (yw + xz + xz + yw);
+        dest.y = (float) (yz + yz - xw - xw);
+        dest.z = (float) (z2 - y2 - x2 + w2);
+        return dest;
+    }
+
+    public Vector4f transformUnitPositiveZ(Vector4f dest) {
+        double x2 = x * x;
+        double y2 = y * y;
+        double xz = x * z;
+        double yz = y * z;
+        double xw = x * w;
+        double yw = y * w;
+        dest.x = (float) (xz + yw + xz + yw);
+        dest.y = (float) (yz + yz - xw - xw);
+        dest.z = (float) (1.0 - x2 - x2 - y2 - y2);
+        return dest;
+    }
+
+    public Vector3f transformUnitPositiveZ(Vector3f dest) {
+        double x2 = x * x;
+        double y2 = y * y;
+        double xz = x * z;
+        double yz = y * z;
+        double xw = x * w;
+        double yw = y * w;
+        dest.x = (float) (xz + yw + xz + yw);
+        dest.y = (float) (yz + yz - xw - xw);
+        dest.z = (float) (1.0 - x2 - x2 - y2 - y2);
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transform(org.joml.Vector4f)
+     */
+    public Vector4f transform(Vector4f vec){
+        return transform(vec, vec);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transform(org.joml.Vector3fc, org.joml.Vector3f)
+     */
+    public Vector3f transform(Vector3fc vec, Vector3f dest) {
+        return transform(vec.x(), vec.y(), vec.z(), dest);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transform(double, double, double, org.joml.Vector3f)
+     */
+    public Vector3f transform(double x, double y, double z, Vector3f dest) {
+        double w2 = this.w * this.w;
+        double x2 = this.x * this.x;
+        double y2 = this.y * this.y;
+        double z2 = this.z * this.z;
+        double zw = this.z * this.w, zwd = zw + zw;
+        double xy = this.x * this.y, xyd = xy + xy;
+        double xz = this.x * this.z, xzd = xz + xz;
+        double yw = this.y * this.w, ywd = yw + yw;
+        double yz = this.y * this.z, yzd = yz + yz;
+        double xw = this.x * this.w, xwd = xw + xw;
+        double m00 = w2 + x2 - z2 - y2;
+        double m01 = xyd + zwd;
+        double m02 = xzd - ywd;
+        double m10 = xyd - zwd;
+        double m11 = y2 - z2 + w2 - x2;
+        double m12 = yzd + xwd;
+        double m20 = ywd + xzd;
+        double m21 = yzd - xwd;
+        double m22 = z2 - y2 - x2 + w2;
+        dest.x = (float) (m00 * x + m10 * y + m20 * z);
+        dest.y = (float) (m01 * x + m11 * y + m21 * z);
+        dest.z = (float) (m02 * x + m12 * y + m22 * z);
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transform(org.joml.Vector4fc, org.joml.Vector4f)
+     */
+    public Vector4f transform(Vector4fc vec, Vector4f dest) {
+        return transform(vec.x(), vec.y(), vec.z(), dest);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaterniondc#transform(double, double, double, org.joml.Vector4f)
+     */
+    public Vector4f transform(double x, double y, double z, Vector4f dest) {
+        double w2 = this.w * this.w;
+        double x2 = this.x * this.x;
+        double y2 = this.y * this.y;
+        double z2 = this.z * this.z;
+        double zw = this.z * this.w, zwd = zw + zw;
+        double xy = this.x * this.y, xyd = xy + xy;
+        double xz = this.x * this.z, xzd = xz + xz;
+        double yw = this.y * this.w, ywd = yw + yw;
+        double yz = this.y * this.z, yzd = yz + yz;
+        double xw = this.x * this.w, xwd = xw + xw;
+        double m00 = w2 + x2 - z2 - y2;
+        double m01 = xyd + zwd;
+        double m02 = xzd - ywd;
+        double m10 = xyd - zwd;
+        double m11 = y2 - z2 + w2 - x2;
+        double m12 = yzd + xwd;
+        double m20 = ywd + xzd;
+        double m21 = yzd - xwd;
+        double m22 = z2 - y2 - x2 + w2;
+        dest.x = (float) (m00 * x + m10 * y + m20 * z);
+        dest.y = (float) (m01 * x + m11 * y + m21 * z);
+        dest.z = (float) (m02 * x + m12 * y + m22 * z);
+        return dest;
+    }
+
 
     /* (non-Javadoc)
      * @see org.joml.Quaterniondc#invert(org.joml.Quaterniond)
