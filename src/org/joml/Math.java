@@ -243,6 +243,15 @@ public class Math {
         return java.lang.Math.acos(r);
     }
 
+    public static double safeAcos(double v) {
+        if (v < -1.0)
+            return Math.PI;
+        else if (v > +1.0)
+            return 0.0;
+        else
+            return acos(v);
+    }
+
     /**
      * https://math.stackexchange.com/questions/1098487/atan2-faster-approximation/1105038#answer-1105038
      */

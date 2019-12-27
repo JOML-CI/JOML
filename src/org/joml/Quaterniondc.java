@@ -97,7 +97,9 @@ public interface Quaterniondc {
     double dot(Quaterniondc otherQuat);
 
     /**
-     * Return the angle in radians represented by this quaternion rotation.
+     * Return the angle in radians represented by this normalized quaternion rotation.
+     * <p>
+     * This quaternion must be {@link #normalize(Quaterniond) normalized}.
      * 
      * @return the angle in radians
      */

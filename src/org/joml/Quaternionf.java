@@ -284,8 +284,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#angle()
      */
     public float angle() {
-        float angle = (float) (2.0 * Math.acos(w));
-        return (float) (angle <= Math.PI ? angle : Math.PI + Math.PI - angle);
+        return (float) (2.0 * Math.safeAcos(w));
     }
 
     /* (non-Javadoc)

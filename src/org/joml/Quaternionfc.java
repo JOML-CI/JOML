@@ -93,7 +93,9 @@ public interface Quaternionfc {
     Quaternionf add(Quaternionfc q2, Quaternionf dest);
 
     /**
-     * Return the angle in radians represented by this quaternion rotation.
+     * Return the angle in radians represented by this normalized quaternion rotation.
+     * <p>
+     * This quaternion must be {@link #normalize(Quaternionf) normalized}.
      * 
      * @return the angle in radians
      */

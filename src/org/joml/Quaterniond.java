@@ -261,8 +261,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#angle()
      */
     public double angle() {
-        double angle = 2.0 * Math.acos(w);
-        return angle <= Math.PI ? angle : Math.PI + Math.PI - angle;
+        return 2.0 * Math.safeAcos(w);
     }
 
     /* (non-Javadoc)

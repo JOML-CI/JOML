@@ -103,7 +103,7 @@ public class AxisAngle4d implements Externalizable {
      *            the quaternion from which to create the new AngleAxis4f
      */
     public AxisAngle4d(Quaternionfc q) {
-        double acos = safeAcos(q.w());
+        double acos = Math.safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
         x = q.x() * invSqrt;
         y = q.y() * invSqrt;
@@ -122,7 +122,7 @@ public class AxisAngle4d implements Externalizable {
      *            the quaternion from which to create the new AngleAxis4d
      */
     public AxisAngle4d(Quaterniondc q) {
-        double acos = safeAcos(q.w());
+        double acos = Math.safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
         x = q.x() * invSqrt;
         y = q.y() * invSqrt;
@@ -255,7 +255,7 @@ public class AxisAngle4d implements Externalizable {
      * @return this
      */
     public AxisAngle4d set(Quaternionfc q) {
-        double acos = safeAcos(q.w());
+        double acos = Math.safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
         this.x = q.x() * invSqrt;
         this.y = q.y() * invSqrt;
@@ -273,7 +273,7 @@ public class AxisAngle4d implements Externalizable {
      * @return this
      */
     public AxisAngle4d set(Quaterniondc q) {
-        double acos = safeAcos(q.w());
+        double acos = Math.safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
         this.x = q.x() * invSqrt;
         this.y = q.y() * invSqrt;
@@ -327,20 +327,11 @@ public class AxisAngle4d implements Externalizable {
             return this;
         }
         double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
-        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        angle = Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
         x = (nm12 - nm21) / s;
         y = (nm20 - nm02) / s;
         z = (nm01 - nm10) / s;
         return this;
-    }
-
-    private static double safeAcos(double v) {
-        if (v < -1.0)
-            return Math.PI;
-        else if (v > +1.0)
-            return 0.0;
-        else
-            return Math.acos(v);
     }
 
     /**
@@ -388,7 +379,7 @@ public class AxisAngle4d implements Externalizable {
             return this;
         }
         double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
-        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        angle = Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
         x = (nm12 - nm21) / s;
         y = (nm20 - nm02) / s;
         z = (nm01 - nm10) / s;
@@ -440,7 +431,7 @@ public class AxisAngle4d implements Externalizable {
             return this;
         }
         double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
-        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        angle = Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
         x = (nm12 - nm21) / s;
         y = (nm20 - nm02) / s;
         z = (nm01 - nm10) / s;
@@ -492,7 +483,7 @@ public class AxisAngle4d implements Externalizable {
             return this;
         }
         double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
-        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        angle = Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
         x = (nm12 - nm21) / s;
         y = (nm20 - nm02) / s;
         z = (nm01 - nm10) / s;
@@ -544,7 +535,7 @@ public class AxisAngle4d implements Externalizable {
             return this;
         }
         double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
-        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        angle = Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
         x = (nm12 - nm21) / s;
         y = (nm20 - nm02) / s;
         z = (nm01 - nm10) / s;
