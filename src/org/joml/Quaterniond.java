@@ -2226,28 +2226,25 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @return this
      */
     public Quaterniond rotationTo(double fromDirX, double fromDirY, double fromDirZ, double toDirX, double toDirY, double toDirZ) {
-        x = fromDirY * toDirZ - fromDirZ * toDirY;
-        y = fromDirZ * toDirX - fromDirX * toDirZ;
-        z = fromDirX * toDirY - fromDirY * toDirX;
-        w = Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
-                              (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
-                 (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
-        double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
-        if (Double.isInfinite(invNorm)) {
-            // Rotation is ambiguous: Find appropriate rotation axis (1. try toDir x +Z)
+        double dot = fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ;
+        if (dot >= 1.0)
+            return identity();
+        if (dot < -1.0 + 1E-6) {
             x = toDirY; y = -toDirX; z = 0.0; w = 0.0;
-            invNorm = (float) (1.0 / Math.sqrt(x * x + y * y));
-            if (Double.isInfinite(invNorm)) {
-                // 2. try toDir x +X
+            if (x*x + y*y == 0.0)
                 x = 0.0; y = toDirZ; z = -toDirY; w = 0.0;
-                invNorm = (float) (1.0 / Math.sqrt(y * y + z * z));
-            }
+        } else {
+            double sd2 = Math.sqrt((1.0 + dot) * 2.0);
+            double isd2 = 1.0 / sd2;
+            double cx = fromDirY * toDirZ - fromDirZ * toDirY;
+            double cy = fromDirZ * toDirX - fromDirX * toDirZ;
+            double cz = fromDirX * toDirY - fromDirY * toDirX;
+            x = cx * isd2;
+            y = cy * isd2;
+            z = cz * isd2;
+            w = sd2 * 0.5;
         }
-        x *= invNorm;
-        y *= invNorm;
-        z *= invNorm;
-        w *= invNorm;
-        return this;
+        return normalize();
     }
 
     /**
@@ -2272,27 +2269,30 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      */
     public Quaterniond rotateTo(double fromDirX, double fromDirY, double fromDirZ,
                                 double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
-        double x = fromDirY * toDirZ - fromDirZ * toDirY;
-        double y = fromDirZ * toDirX - fromDirX * toDirZ;
-        double z = fromDirX * toDirY - fromDirY * toDirX;
-        double w = Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
-                                    (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
-                  (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
-        double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
-        if (Double.isInfinite(invNorm)) {
-            // Rotation is ambiguous: Find appropriate rotation axis (1. try toDir x +Z)
+        double dot = fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ;
+        if (dot >= 1.0)
+            return dest.identity();
+        double x, y, z, w;
+        if (dot < -1.0 + 1E-6) {
             x = toDirY; y = -toDirX; z = 0.0; w = 0.0;
-            invNorm = (float) (1.0 / Math.sqrt(x * x + y * y));
-            if (Double.isInfinite(invNorm)) {
-                // 2. try toDir x +X
+            if (x*x + y*y == 0.0)
                 x = 0.0; y = toDirZ; z = -toDirY; w = 0.0;
-                invNorm = (float) (1.0 / Math.sqrt(y * y + z * z));
-            }
+        } else {
+            double sd2 = Math.sqrt((1.0 + dot) * 2.0);
+            double isd2 = 1.0 / sd2;
+            double cx = fromDirY * toDirZ - fromDirZ * toDirY;
+            double cy = fromDirZ * toDirX - fromDirX * toDirZ;
+            double cz = fromDirX * toDirY - fromDirY * toDirX;
+            x = cx * isd2;
+            y = cy * isd2;
+            z = cz * isd2;
+            w = sd2 * 0.5;
         }
-        x *= invNorm;
-        y *= invNorm;
-        z *= invNorm;
-        w *= invNorm;
+        double norm2 = 1.0 / Math.sqrt(x*x + y*y + z*z + w*w);
+        x *= norm2;
+        y *= norm2;
+        z *= norm2;
+        w *= norm2;
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
