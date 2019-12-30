@@ -24,6 +24,7 @@
 package org.joml;
 
 import org.joml.internal.Options;
+import org.joml.internal.Runtime;
 
 /**
  * Contains fast approximations of some {@link java.lang.Math} operations.
@@ -354,5 +355,25 @@ public class Math {
 
     public static boolean isFinite(float f) {
         return abs(f) <= Float.MAX_VALUE;
+    }
+
+    public static float fma(float a, float b, float c) {
+//#ifndef __GWT__
+//#ifdef __HAS_MATH_FMA__
+        if (Runtime.HAS_Math_fma)
+            return java.lang.Math.fma(a, b, c);
+//#endif
+//#endif
+        return a * b + c;
+    }
+
+    public static double fma(double a, double b, double c) {
+//#ifndef __GWT__
+//#ifdef __HAS_MATH_FMA__
+        if (Runtime.HAS_Math_fma)
+            return java.lang.Math.fma(a, b, c);
+//#endif
+//#endif
+        return a * b + c;
     }
 }

@@ -28,6 +28,7 @@ public final class Runtime {
 //#ifndef __GWT__
     public static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();
     public static final boolean HAS_doubleToRawLongBits = hasDoubleToRawLongBits();
+    public static final boolean HAS_Math_fma = hasMathFma();
 
     private Runtime() {
     }
@@ -44,6 +45,15 @@ public final class Runtime {
     private static boolean hasDoubleToRawLongBits() {
         try {
             Double.class.getDeclaredMethod("doubleToRawLongBits", new Class[] { double.class });
+            return true;
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+    }
+
+    private static boolean hasMathFma() {
+        try {
+            java.lang.Math.class.getDeclaredMethod("fma", new Class[] { float.class, float.class, float.class });
             return true;
         } catch (NoSuchMethodException e) {
             return false;
