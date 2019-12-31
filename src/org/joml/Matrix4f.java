@@ -13035,11 +13035,15 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * This method is equivalent to calling: <code>invert(new Matrix4f()).transformProject(0, 0, -1, 0, origin)</code>
+     * and in the case of an already available inverse of <code>this</code> matrix, the method {@link #perspectiveInvOrigin(Vector3f)}
+     * on the inverse of the matrix should be used instead.
      * <p>
      * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
      * <p>
      * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @see #perspectiveInvOrigin(Vector3f)
      * 
      * @param origin
      *          will hold the origin of the coordinate system before applying <code>this</code>
@@ -13072,6 +13076,32 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
         origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
         return origin;
+    }
+
+    /**
+     * Compute the eye/origin of the inverse of the perspective frustum transformation defined by <code>this</code> matrix, 
+     * which can be the inverse of a projection matrix or the inverse of a combined modelview-projection matrix, and store the result
+     * in the given <code>dest</code>.
+     * <p>
+     * Note that this method will only work using perspective projections obtained via one of the
+     * perspective methods, such as {@link #perspective(float, float, float, float) perspective()}
+     * or {@link #frustum(float, float, float, float, float, float) frustum()}.
+     * <p>
+     * If the inverse of the modelview-projection matrix is not available, then calling {@link #perspectiveOrigin(Vector3f)}
+     * on the original modelview-projection matrix is preferred.
+     * 
+     * @see #perspectiveOrigin(Vector3f)
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f perspectiveInvOrigin(Vector3f dest) {
+        float invW = 1.0f / m23;
+        dest.x = m20 * invW;
+        dest.y = m21 * invW;
+        dest.z = m22 * invW;
+        return dest;
     }
 
     /**

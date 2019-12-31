@@ -14054,6 +14054,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#perspectiveInvOrigin(org.joml.Vector3d)
+     */
+    public Vector3d perspectiveInvOrigin(Vector3d dest) {
+        double invW = 1.0 / m23;
+        dest.x = m20 * invW;
+        dest.y = m21 * invW;
+        dest.z = m22 * invW;
+        return dest;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4dc#perspectiveFov()
      */
     public double perspectiveFov() {

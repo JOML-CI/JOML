@@ -4335,6 +4335,8 @@ public interface Matrix4fc {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * This method is equivalent to calling: <code>invert(new Matrix4f()).transformProject(0, 0, -1, 0, origin)</code>
+     * and in the case of an already available inverse of <code>this</code> matrix, the method {@link #perspectiveInvOrigin(Vector3f)}
+     * on the inverse of the matrix should be used instead.
      * <p>
      * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
      * <p>
@@ -4347,6 +4349,26 @@ public interface Matrix4fc {
      * @return origin
      */
     Vector3f perspectiveOrigin(Vector3f origin);
+
+    /**
+     * Compute the eye/origin of the inverse of the perspective frustum transformation defined by <code>this</code> matrix, 
+     * which can be the inverse of a projection matrix or the inverse of a combined modelview-projection matrix, and store the result
+     * in the given <code>dest</code>.
+     * <p>
+     * Note that this method will only work using perspective projections obtained via one of the
+     * perspective methods, such as {@link #perspective(float, float, float, float, Matrix4f) perspective()}
+     * or {@link #frustum(float, float, float, float, float, float, Matrix4f) frustum()}.
+     * <p>
+     * If the inverse of the modelview-projection matrix is not available, then calling {@link #perspectiveOrigin(Vector3f)}
+     * on the original modelview-projection matrix is preferred.
+     * 
+     * @see #perspectiveOrigin(Vector3f)
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f perspectiveInvOrigin(Vector3f dest);
 
     /**
      * Return the vertical field-of-view angle in radians of this perspective transformation matrix.
