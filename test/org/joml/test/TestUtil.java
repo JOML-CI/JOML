@@ -195,6 +195,25 @@ public class TestUtil {
      * @param m2
      * @param delta
      */
+    public static void assertMatrix3fEquals(Matrix3fc m1, Matrix3fc m2, float delta) {
+        Assert.assertEquals(m1.m00(), m2.m00(), delta);
+        Assert.assertEquals(m1.m01(), m2.m01(), delta);
+        Assert.assertEquals(m1.m02(), m2.m02(), delta);
+        Assert.assertEquals(m1.m10(), m2.m10(), delta);
+        Assert.assertEquals(m1.m11(), m2.m11(), delta);
+        Assert.assertEquals(m1.m12(), m2.m12(), delta);
+        Assert.assertEquals(m1.m20(), m2.m20(), delta);
+        Assert.assertEquals(m1.m21(), m2.m21(), delta);
+        Assert.assertEquals(m1.m22(), m2.m22(), delta);
+    }
+
+    /**
+     * Assert that both matrices are equal with respect to the given delta.
+     * 
+     * @param m1
+     * @param m2
+     * @param delta
+     */
     public static void assertMatrix4x3dEquals(Matrix4x3dc m1, Matrix4x3dc m2, double delta) {
         Assert.assertEquals(m1.m00(), m2.m00(), delta);
         Assert.assertEquals(m1.m01(), m2.m01(), delta);

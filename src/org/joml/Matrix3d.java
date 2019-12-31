@@ -1004,16 +1004,20 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      * @see org.joml.Matrix3dc#invert(org.joml.Matrix3d)
      */
     public Matrix3d invert(Matrix3d dest) {
-        double s = 1.0 / determinant();
-        double nm00 = (m11 * m22 - m21 * m12) * s;
-        double nm01 = (m21 * m02 - m01 * m22) * s;
-        double nm02 = (m01 * m12 - m11 * m02) * s;
-        double nm10 = (m20 * m12 - m10 * m22) * s;
-        double nm11 = (m00 * m22 - m20 * m02) * s;
-        double nm12 = (m10 * m02 - m00 * m12) * s;
-        double nm20 = (m10 * m21 - m20 * m11) * s;
-        double nm21 = (m20 * m01 - m00 * m21) * s;
-        double nm22 = (m00 * m11 - m10 * m01) * s;
+        double a = Math.fma(m00, m11, -m01 * m10);
+        double b = Math.fma(m02, m10, -m00 * m12);
+        double c = Math.fma(m01, m12, -m02 * m11);
+        double d = Math.fma(a, m22, Math.fma(b, m21, c * m20));
+        double s = 1.0 / d;
+        double nm00 = Math.fma(m11, m22, -m21 * m12) * s;
+        double nm01 = Math.fma(m21, m02, -m01 * m22) * s;
+        double nm02 = c * s;
+        double nm10 = Math.fma(m20, m12, -m10 * m22) * s;
+        double nm11 = Math.fma(m00, m22, -m20 * m02) * s;
+        double nm12 = b * s;
+        double nm20 = Math.fma(m10, m21, -m20 * m11) * s;
+        double nm21 = Math.fma(m20, m01, -m00 * m21) * s;
+        double nm22 = a * s;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;

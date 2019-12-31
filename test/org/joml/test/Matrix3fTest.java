@@ -23,9 +23,9 @@
  */
 package org.joml.test;
 
+import org.joml.*;
+
 import junit.framework.TestCase;
-import org.joml.Matrix3f;
-import org.joml.Vector3f;
 
 /**
  *
@@ -47,6 +47,20 @@ public class Matrix3fTest extends TestCase {
         Matrix3f result = instance.setRow(row, x, y, z);
         result.getRow(row, outRow);
         assertEquals(inRow, outRow);
+    }
+
+    public static void testInvert() {
+        Matrix3f invm = new Matrix3f();
+        Matrix3f m = new Matrix3f();
+        m.rotateXYZ(0.23f, 1.523f, -0.7234f).invert(invm);
+        Vector3f orig = new Vector3f(4, -6, 8);
+        Vector3f v = new Vector3f();
+        Vector3f w = new Vector3f();
+        m.transform(orig, v);
+        invm.transform(v, w);
+        TestUtil.assertVector3fEquals(orig, w, 1E-4f);
+        invm.invert();
+        TestUtil.assertMatrix3fEquals(m, invm, 1E-3f);
     }
 
 }

@@ -866,16 +866,20 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @see org.joml.Matrix3fc#invert(org.joml.Matrix3f)
      */
     public Matrix3f invert(Matrix3f dest) {
-        float s = 1.0f / determinant();
-        float nm00 = (m11 * m22 - m21 * m12) * s;
-        float nm01 = (m21 * m02 - m01 * m22) * s;
-        float nm02 = (m01 * m12 - m11 * m02) * s;
-        float nm10 = (m20 * m12 - m10 * m22) * s;
-        float nm11 = (m00 * m22 - m20 * m02) * s;
-        float nm12 = (m10 * m02 - m00 * m12) * s;
-        float nm20 = (m10 * m21 - m20 * m11) * s;
-        float nm21 = (m20 * m01 - m00 * m21) * s;
-        float nm22 = (m00 * m11 - m10 * m01) * s;
+        float a = Math.fma(m00, m11, -m01 * m10);
+        float b = Math.fma(m02, m10, -m00 * m12);
+        float c = Math.fma(m01, m12, -m02 * m11);
+        float d = Math.fma(a, m22, Math.fma(b, m21, c * m20));
+        float s = 1.0f / d;
+        float nm00 = Math.fma(m11, m22, -m21 * m12) * s;
+        float nm01 = Math.fma(m21, m02, -m01 * m22) * s;
+        float nm02 = c * s;
+        float nm10 = Math.fma(m20, m12, -m10 * m22) * s;
+        float nm11 = Math.fma(m00, m22, -m20 * m02) * s;
+        float nm12 = b * s;
+        float nm20 = Math.fma(m10, m21, -m20 * m11) * s;
+        float nm21 = Math.fma(m20, m01, -m00 * m21) * s;
+        float nm22 = a * s;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
