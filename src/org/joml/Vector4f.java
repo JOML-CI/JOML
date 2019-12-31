@@ -911,6 +911,20 @@ public class Vector4f implements Externalizable, Vector4fc {
         return mulProject(mat, thisOrNew());
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#mulProject(org.joml.Matrix4fc, org.joml.Vector3f)
+     */
+    public Vector3f mulProject(Matrix4fc mat, Vector3f dest) {
+        float invW = 1.0f / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
+        float rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW;
+        float ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW;
+        float rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        return dest;
+    }
+
     /**
      * Multiply all components of this {@link Vector4f} by the given scalar
      * value.

@@ -4172,6 +4172,23 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#transformProject(org.joml.Vector4dc, org.joml.Vector3d)
+     */
+    public Vector3d transformProject(Vector4dc v, Vector3d dest) {
+        return v.mulProject(this, dest);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#transformProject(double, double, double, double, org.joml.Vector3d)
+     */
+    public Vector3d transformProject(double x, double y, double z, double w, Vector3d dest) {
+        dest.x = x;
+        dest.y = y;
+        dest.z = z;
+        return dest.mulProject(this, w, dest);
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformPosition(org.joml.Vector3d)
      */
     public Vector3d transformPosition(Vector3d dest) {

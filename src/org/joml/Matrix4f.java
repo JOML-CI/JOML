@@ -4596,6 +4596,23 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#transformProject(org.joml.Vector4fc, org.joml.Vector3f)
+     */
+    public Vector3f transformProject(Vector4fc v, Vector3f dest) {
+        return v.mulProject(this, dest);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#transformProject(float, float, float, float, org.joml.Vector3f)
+     */
+    public Vector3f transformProject(float x, float y, float z, float w, Vector3f dest) {
+        dest.x = x;
+        dest.y = y;
+        dest.z = z;
+        return dest.mulProject(this, w, dest);
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4fc#transformProject(org.joml.Vector3f)
      */
     public Vector3f transformProject(Vector3f v) {
@@ -13016,6 +13033,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * Generally, this method computes the origin in the local frame of
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * This method is equivalent to calling: <code>invert(new Matrix4f()).transformProject(0, 0, -1, 0, origin)</code>
      * <p>
      * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
      * <p>

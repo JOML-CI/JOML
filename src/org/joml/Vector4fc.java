@@ -290,6 +290,18 @@ public interface Vector4fc {
     Vector4f mulProject(Matrix4fc mat, Vector4f dest);
 
     /**
+     * Multiply the given matrix <code>mat</code> with this Vector4f, perform perspective division
+     * and store the <code>(x, y, z)</code> result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f mulProject(Matrix4fc mat, Vector3f dest);
+
+    /**
      * Multiply all components of this {@link Vector4f} by the given scalar
      * value and store the result in <code>dest</code>.
      * 

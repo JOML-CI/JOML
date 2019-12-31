@@ -408,6 +408,18 @@ public interface Vector4dc {
     Vector4d mulProject(Matrix4dc mat, Vector4d dest);
 
     /**
+     * Multiply the given matrix <code>mat</code> with this Vector4d, perform perspective division
+     * and store the <code>(x, y, z)</code> result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d mulProject(Matrix4dc mat, Vector3d dest);
+
+    /**
      * Multiply this Vector4d by the given scalar value and store the result in <code>dest</code>.
      * 
      * @param scalar

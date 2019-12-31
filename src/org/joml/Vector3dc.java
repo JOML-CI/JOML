@@ -395,6 +395,22 @@ public interface Vector3dc {
      * Multiply the given matrix <code>mat</code> with this Vector3d, perform perspective division
      * and store the result in <code>dest</code>.
      * <p>
+     * This method uses the given <code>w</code> as the fourth vector component.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param w
+     *          the w component to use
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d mulProject(Matrix4dc mat, double w, Vector3d dest);
+
+    /**
+     * Multiply the given matrix <code>mat</code> with this Vector3d, perform perspective division
+     * and store the result in <code>dest</code>.
+     * <p>
      * This method uses <code>w=1.0</code> as the fourth vector component.
      * 
      * @param mat

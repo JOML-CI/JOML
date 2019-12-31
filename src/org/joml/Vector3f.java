@@ -723,6 +723,20 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#mulProject(org.joml.Matrix4fc, float, org.joml.Vector3f)
+     */
+    public Vector3f mulProject(Matrix4fc mat, float w, Vector3f dest) {
+        float invW = 1.0f / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
+        float rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW;
+        float ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW;
+        float rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        return dest;
+    }
+
     /**
      * Multiply the given matrix <code>mat</code> with this Vector3f, perform perspective division.
      * <p>

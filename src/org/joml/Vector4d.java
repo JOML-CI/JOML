@@ -1093,6 +1093,20 @@ public class Vector4d implements Externalizable, Vector4dc {
         return mulProject(mat, thisOrNew());
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#mulProject(org.joml.Matrix4dc, org.joml.Vector3d)
+     */
+    public Vector3d mulProject(Matrix4dc mat, Vector3d dest) {
+        double invW = 1.0 / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
+        double rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW;
+        double ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW;
+        double rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        return dest;
+    }
+
     /**
      * Multiply this Vector4d by the given scalar value.
      * 

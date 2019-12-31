@@ -1391,6 +1391,24 @@ public interface Matrix4fc {
     Vector3f transformProject(float x, float y, float z, Vector3f dest);
 
     /**
+     * Transform/multiply the vector <code>(x, y, z, w)</code> by this matrix, perform perspective divide and store
+     * <code>(x, y, z)</code> of the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param w
+     *          the w coordinate of the vector to transform
+     * @param dest
+     *          will contain the <code>(x, y, z)</code> components of the result
+     * @return dest
+     */
+    Vector3f transformProject(float x, float y, float z, float w, Vector3f dest);
+
+    /**
      * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=1, by
      * this matrix and store the result in that vector.
      * <p>
@@ -4315,6 +4333,8 @@ public interface Matrix4fc {
      * Generally, this method computes the origin in the local frame of
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * This method is equivalent to calling: <code>invert(new Matrix4f()).transformProject(0, 0, -1, 0, origin)</code>
      * <p>
      * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
      * <p>

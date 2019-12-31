@@ -251,6 +251,22 @@ public interface Vector3fc {
     Vector3f mulProject(Matrix4fc mat, Vector3f dest);
 
     /**
+     * Multiply the given matrix <code>mat</code> with this Vector3f, perform perspective division
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method uses the given <code>w</code> as the fourth vector component.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param w
+     *          the w component to use
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f mulProject(Matrix4fc mat, float w, Vector3f dest);
+
+    /**
      * Multiply the given matrix with this Vector3f and store the result in <code>dest</code>.
      * 
      * @param mat
