@@ -28,11 +28,15 @@ public final class Runtime {
 //#ifndef __GWT__
     public static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();
     public static final boolean HAS_doubleToRawLongBits = hasDoubleToRawLongBits();
+//#endif
+//#ifdef __HAS_MATH_FMA__
     public static final boolean HAS_Math_fma = hasMathFma();
+//#endif
 
     private Runtime() {
     }
 
+//#ifndef __GWT__
     private static boolean hasFloatToRawIntBits() {
         try {
             Float.class.getDeclaredMethod("floatToRawIntBits", new Class[] { float.class });

@@ -358,21 +358,17 @@ public class Math {
     }
 
     public static float fma(float a, float b, float c) {
-//#ifndef __GWT__
 //#ifdef __HAS_MATH_FMA__
         if (Runtime.HAS_Math_fma)
             return java.lang.Math.fma(a, b, c);
-//#endif
 //#endif
         return a * b + c;
     }
 
     public static double fma(double a, double b, double c) {
-//#ifndef __GWT__
 //#ifdef __HAS_MATH_FMA__
         if (Runtime.HAS_Math_fma)
             return java.lang.Math.fma(a, b, c);
-//#endif
 //#endif
         return a * b + c;
     }
