@@ -1872,9 +1872,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#lerp(org.joml.Vector3fc, float, org.joml.Vector3f)
      */
     public Vector3f lerp(Vector3fc other, float t, Vector3f dest) {
-        dest.x = x + (other.x() - x) * t;
-        dest.y = y + (other.y() - y) * t;
-        dest.z = z + (other.z() - z) * t;
+        dest.x = Math.fma(other.x() - x, t, x);
+        dest.y = Math.fma(other.y() - y, t, y);
+        dest.z = Math.fma(other.z() - z, t, z);
         return dest;
     }
 

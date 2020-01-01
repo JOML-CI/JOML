@@ -1618,10 +1618,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#lerp(org.joml.Vector4fc, float, org.joml.Vector4f)
      */
     public Vector4f lerp(Vector4fc other, float t, Vector4f dest) {
-        dest.x = x + (other.x() - x) * t;
-        dest.y = y + (other.y() - y) * t;
-        dest.z = z + (other.z() - z) * t;
-        dest.w = w + (other.w() - w) * t;
+        dest.x = Math.fma(other.x() - x, t, x);
+        dest.y = Math.fma(other.y() - y, t, y);
+        dest.z = Math.fma(other.z() - z, t, z);
+        dest.w = Math.fma(other.w() - w, t, w);
         return dest;
     }
 

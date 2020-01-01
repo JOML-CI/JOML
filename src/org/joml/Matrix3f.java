@@ -3919,15 +3919,15 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @see org.joml.Matrix3fc#lerp(org.joml.Matrix3fc, float, org.joml.Matrix3f)
      */
     public Matrix3f lerp(Matrix3fc other, float t, Matrix3f dest) {
-        dest.m00 = m00 + (other.m00() - m00) * t;
-        dest.m01 = m01 + (other.m01() - m01) * t;
-        dest.m02 = m02 + (other.m02() - m02) * t;
-        dest.m10 = m10 + (other.m10() - m10) * t;
-        dest.m11 = m11 + (other.m11() - m11) * t;
-        dest.m12 = m12 + (other.m12() - m12) * t;
-        dest.m20 = m20 + (other.m20() - m20) * t;
-        dest.m21 = m21 + (other.m21() - m21) * t;
-        dest.m22 = m22 + (other.m22() - m22) * t;
+        dest.m00 = Math.fma(other.m00() - m00, t, m00);
+        dest.m01 = Math.fma(other.m01() - m01, t, m01);
+        dest.m02 = Math.fma(other.m02() - m02, t, m02);
+        dest.m10 = Math.fma(other.m10() - m10, t, m10);
+        dest.m11 = Math.fma(other.m11() - m11, t, m11);
+        dest.m12 = Math.fma(other.m12() - m12, t, m12);
+        dest.m20 = Math.fma(other.m20() - m20, t, m20);
+        dest.m21 = Math.fma(other.m21() - m21, t, m21);
+        dest.m22 = Math.fma(other.m22() - m22, t, m22);
         return dest;
     }
 

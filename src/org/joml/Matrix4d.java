@@ -15268,22 +15268,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#lerp(org.joml.Matrix4dc, double, org.joml.Matrix4d)
      */
     public Matrix4d lerp(Matrix4dc other, double t, Matrix4d dest) {
-        dest.m00 = m00 + (other.m00() - m00) * t;
-        dest.m01 = m01 + (other.m01() - m01) * t;
-        dest.m02 = m02 + (other.m02() - m02) * t;
-        dest.m03 = m03 + (other.m03() - m03) * t;
-        dest.m10 = m10 + (other.m10() - m10) * t;
-        dest.m11 = m11 + (other.m11() - m11) * t;
-        dest.m12 = m12 + (other.m12() - m12) * t;
-        dest.m13 = m13 + (other.m13() - m13) * t;
-        dest.m20 = m20 + (other.m20() - m20) * t;
-        dest.m21 = m21 + (other.m21() - m21) * t;
-        dest.m22 = m22 + (other.m22() - m22) * t;
-        dest.m23 = m23 + (other.m23() - m23) * t;
-        dest.m30 = m30 + (other.m30() - m30) * t;
-        dest.m31 = m31 + (other.m31() - m31) * t;
-        dest.m32 = m32 + (other.m32() - m32) * t;
-        dest.m33 = m33 + (other.m33() - m33) * t;
+        dest.m00 = Math.fma(other.m00() - m00, t, m00);
+        dest.m01 = Math.fma(other.m01() - m01, t, m01);
+        dest.m02 = Math.fma(other.m02() - m02, t, m02);
+        dest.m03 = Math.fma(other.m03() - m03, t, m03);
+        dest.m10 = Math.fma(other.m10() - m10, t, m10);
+        dest.m11 = Math.fma(other.m11() - m11, t, m11);
+        dest.m12 = Math.fma(other.m12() - m12, t, m12);
+        dest.m13 = Math.fma(other.m13() - m13, t, m13);
+        dest.m20 = Math.fma(other.m20() - m20, t, m20);
+        dest.m21 = Math.fma(other.m21() - m21, t, m21);
+        dest.m22 = Math.fma(other.m22() - m22, t, m22);
+        dest.m23 = Math.fma(other.m23() - m23, t, m23);
+        dest.m30 = Math.fma(other.m30() - m30, t, m30);
+        dest.m31 = Math.fma(other.m31() - m31, t, m31);
+        dest.m32 = Math.fma(other.m32() - m32, t, m32);
+        dest.m33 = Math.fma(other.m33() - m33, t, m33);
         dest.properties = properties & other.properties();
         return dest;
     }

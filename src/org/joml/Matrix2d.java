@@ -1668,10 +1668,10 @@ public class Matrix2d implements Externalizable, Matrix2dc {
      * @see org.joml.Matrix2dc#lerp(org.joml.Matrix2dc, double, org.joml.Matrix2d)
      */
     public Matrix2d lerp(Matrix2dc other, double t, Matrix2d dest) {
-        dest.m00 = m00 + (other.m00() - m00) * t;
-        dest.m01 = m01 + (other.m01() - m01) * t;
-        dest.m10 = m10 + (other.m10() - m10) * t;
-        dest.m11 = m11 + (other.m11() - m11) * t;
+        dest.m00 = Math.fma(other.m00() - m00, t, m00);
+        dest.m01 = Math.fma(other.m01() - m01, t, m01);
+        dest.m10 = Math.fma(other.m10() - m10, t, m10);
+        dest.m11 = Math.fma(other.m11() - m11, t, m11);
         return dest;
     }
 
