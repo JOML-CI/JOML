@@ -590,6 +590,16 @@ public interface Vector2dc {
     boolean isFinite();
 
     /**
+     * Compute the absolute of each of this vector's components
+     * and store the result into <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d absolute(Vector2d dest);
+
+    /**
      * Compare the vector components of <code>this</code> vector with the given vector using the given <code>delta</code>
      * and return whether all of them are equal within a maximum difference of <code>delta</code>.
      * <p>

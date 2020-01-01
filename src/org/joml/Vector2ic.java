@@ -339,6 +339,16 @@ public interface Vector2ic {
     int minComponent();
 
     /**
+     * Compute the absolute of each of this vector's components
+     * and store the result into <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2i absolute(Vector2i dest);
+
+    /**
      * Get the value of the specified component of this vector.
      * 
      * @param component

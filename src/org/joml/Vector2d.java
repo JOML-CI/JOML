@@ -1257,4 +1257,18 @@ public class Vector2d implements Externalizable, Vector2dc {
         return Math.isFinite(x) && Math.isFinite(y);
     }
 
+    /**
+     * Set <code>this</code> vector's components to their respective absolute values.
+     * 
+     * @return a vector holding the result
+     */
+    public Vector2d absolute() {
+        return absolute(thisOrNew());
+    }
+
+    public Vector2d absolute(Vector2d dest) {
+        dest.x = Math.abs(this.x);
+        dest.y = Math.abs(this.y);
+        return dest;
+    }
 }

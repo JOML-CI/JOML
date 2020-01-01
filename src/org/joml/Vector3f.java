@@ -1677,10 +1677,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return absolute(thisOrNew());
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Vector3fc#absolute(org.joml.Vector3f)
-     */
     public Vector3f absolute(Vector3f dest) {
         dest.x = Math.abs(this.x);
         dest.y = Math.abs(this.y);

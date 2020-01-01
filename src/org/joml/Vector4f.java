@@ -1753,4 +1753,17 @@ public class Vector4f implements Externalizable, Vector4fc {
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
     }
+
+    /**
+     * Compute the absolute of each of this vector's components.
+     * 
+     * @return this
+     */
+    public Vector4f absolute() {
+        return absolute(this);
+    }
+
+    public Vector4f absolute(Vector4f dest) {
+        return dest.set(Math.abs(x), Math.abs(y), Math.abs(z), Math.abs(w));
+    }
 }

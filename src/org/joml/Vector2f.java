@@ -1191,4 +1191,19 @@ public class Vector2f implements Externalizable, Vector2fc {
         return Math.isFinite(x) && Math.isFinite(y);
     }
 
+    /**
+     * Set <code>this</code> vector's components to their respective absolute values.
+     * 
+     * @return a vector holding the result
+     */
+    public Vector2f absolute() {
+        return absolute(thisOrNew());
+    }
+
+    public Vector2f absolute(Vector2f dest) {
+        dest.x = Math.abs(this.x);
+        dest.y = Math.abs(this.y);
+        return dest;
+    }
+
 }

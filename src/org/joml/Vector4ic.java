@@ -398,6 +398,16 @@ public interface Vector4ic {
     int minComponent();
 
     /**
+     * Compute the absolute of each of this vector's components
+     * and store the result into <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4i absolute(Vector4i dest);
+
+    /**
      * Compare the vector components of <code>this</code> vector with the given <code>(x, y, z, w)</code>
      * and return whether all of them are equal.
      *

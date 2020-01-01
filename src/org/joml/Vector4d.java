@@ -1878,4 +1878,17 @@ public class Vector4d implements Externalizable, Vector4dc {
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
     }
+
+    /**
+     * Compute the absolute of each of this vector's components.
+     * 
+     * @return this
+     */
+    public Vector4d absolute() {
+        return absolute(this);
+    }
+
+    public Vector4d absolute(Vector4d dest) {
+        return dest.set(Math.abs(x), Math.abs(y), Math.abs(z), Math.abs(w));
+    }
 }

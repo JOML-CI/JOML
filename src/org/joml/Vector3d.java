@@ -2082,10 +2082,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return absolute(thisOrNew());
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Vector3dc#absolute(org.joml.Vector3d)
-     */
     public Vector3d absolute(Vector3d dest) {
         dest.x = Math.abs(this.x);
         dest.y = Math.abs(this.y);

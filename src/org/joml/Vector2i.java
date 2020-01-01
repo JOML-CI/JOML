@@ -846,6 +846,21 @@ public class Vector2i implements Externalizable, Vector2ic {
         return 1;
     }
 
+    /**
+     * Set <code>this</code> vector's components to their respective absolute values.
+     * 
+     * @return a vector holding the result
+     */
+    public Vector2i absolute() {
+        return absolute(thisOrNew());
+    }
+
+    public Vector2i absolute(Vector2i dest) {
+        dest.x = Math.abs(this.x);
+        dest.y = Math.abs(this.y);
+        return dest;
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;

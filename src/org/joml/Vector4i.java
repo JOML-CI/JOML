@@ -1096,6 +1096,19 @@ public class Vector4i implements Externalizable, Vector4ic {
         return dest;
     }
 
+    /**
+     * Compute the absolute of each of this vector's components.
+     * 
+     * @return this
+     */
+    public Vector4i absolute() {
+        return absolute(this);
+    }
+
+    public Vector4i absolute(Vector4i dest) {
+        return dest.set(Math.abs(x), Math.abs(y), Math.abs(z), Math.abs(w));
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
