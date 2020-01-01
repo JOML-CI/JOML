@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2017-2020 JOML
+ * Copyright (c) 2020 JOML
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,38 +38,38 @@ import org.joml.internal.Runtime;
  * 
  * @author Kai Burjack
  */
-public class Rectangled implements Externalizable {
+public class Rectanglei implements Externalizable {
 
     /**
      * The x coordinate of the minimum corner.
      */
-    public double minX;
+    public int minX;
     /**
      * The y coordinate of the minimum corner.
      */
-    public double minY;
+    public int minY;
     /**
      * The x coordinate of the maximum corner.
      */
-    public double maxX;
+    public int maxX;
     /**
      * The y coordinate of the maximum corner.
      */
-    public double maxY;
+    public int maxY;
 
     /**
-     * Create a new {@link Rectangled} with a minimum and maximum corner of <code>(0, 0)</code>.
+     * Create a new {@link Rectanglei} with a minimum and maximum corner of <code>(0, 0)</code>.
      */
-    public Rectangled() {
+    public Rectanglei() {
     }
 
     /**
-     * Create a new {@link Rectangled} as a copy of the given <code>source</code>.
+     * Create a new {@link Rectanglei} as a copy of the given <code>source</code>.
      * 
      * @param source
-     *          the {@link Rectangled} to copy from
+     *          the {@link Rectanglei} to copy from
      */
-    public Rectangled(Rectangled source) {
+    public Rectanglei(Rectanglei source) {
         this.minX = source.minX;
         this.minY = source.minY;
         this.maxX = source.maxX;
@@ -77,14 +77,14 @@ public class Rectangled implements Externalizable {
     }
 
     /**
-     * Create a new {@link Rectangled} with the given <code>min</code> and <code>max</code> corner coordinates.
+     * Create a new {@link Rectanglei} with the given <code>min</code> and <code>max</code> corner coordinates.
      * 
      * @param min
      *          the minimum coordinates
      * @param max
      *          the maximum coordinates
      */
-    public Rectangled(Vector2dc min, Vector2dc max) {
+    public Rectanglei(Vector2ic min, Vector2ic max) {
         this.minX = min.x();
         this.minY = min.y();
         this.maxX = max.x();
@@ -92,7 +92,7 @@ public class Rectangled implements Externalizable {
     }
 
     /**
-     * Create a new {@link Rectangled} with the given minimum and maximum corner coordinates.
+     * Create a new {@link Rectanglei} with the given minimum and maximum corner coordinates.
      * 
      * @param minX
      *          the x coordinate of the minimum corner
@@ -103,8 +103,7 @@ public class Rectangled implements Externalizable {
      * @param maxY
      *          the y coordinate of the maximum corner
      */
-    public Rectangled(double minX, double minY, double maxX, double maxY) {
-        super();
+    public Rectanglei(int minX, int minY, int maxX, int maxY) {
         this.minX = minX;
         this.minY = minY;
         this.maxX = maxX;
@@ -118,7 +117,7 @@ public class Rectangled implements Externalizable {
      *          the other rectangle
      * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
      */
-    public boolean intersects(Rectangled other) {
+    public boolean intersects(Rectanglei other) {
         return minX < other.maxX && maxX >= other.minX &&
                maxY >= other.minY && minY < other.maxY;
     }
@@ -130,7 +129,7 @@ public class Rectangled implements Externalizable {
      *          the point to test
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
-    public boolean contains(Vector2dc point) {
+    public boolean contains(Vector2ic point) {
         return contains(point.x(), point.y());
     }
 
@@ -143,7 +142,7 @@ public class Rectangled implements Externalizable {
      *          the y coordinate of the point to check
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
-    public boolean contains(double x, double y) {
+    public boolean contains(int x, int y) {
         return x >= minX && y >= minX && x < maxX && y < maxY;
     }
 
@@ -154,7 +153,7 @@ public class Rectangled implements Externalizable {
      *          the vector to translate by
      * @return this
      */
-    public Rectangled translate(Vector2dc xy) {
+    public Rectanglei translate(Vector2ic xy) {
         return translate(xy.x(), xy.y(), this);
     }
 
@@ -167,31 +166,7 @@ public class Rectangled implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Rectangled translate(Vector2dc xy, Rectangled dest) {
-        return translate(xy.x(), xy.y(), dest);
-    }
-
-    /**
-     * Translate <code>this</code> by the given vector <code>xy</code>.
-     * 
-     * @param xy
-     *          the vector to translate by
-     * @return this
-     */
-    public Rectangled translate(Vector2fc xy) {
-        return translate(xy.x(), xy.y(), this);
-    }
-
-    /**
-     * Translate <code>this</code> by the given vector <code>xy</code> and store the result in <code>dest</code>.
-     * 
-     * @param xy
-     *          the vector to translate by
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Rectangled translate(Vector2fc xy, Rectangled dest) {
+    public Rectanglei translate(Vector2ic xy, Rectanglei dest) {
         return translate(xy.x(), xy.y(), dest);
     }
 
@@ -204,7 +179,7 @@ public class Rectangled implements Externalizable {
      *          the y coordinate to translate by
      * @return this
      */
-    public Rectangled translate(double x, double y) {
+    public Rectanglei translate(int x, int y) {
         return translate(x, y, this);
     }
 
@@ -219,7 +194,7 @@ public class Rectangled implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Rectangled translate(double x, double y, Rectangled dest) {
+    public Rectanglei translate(int x, int y, Rectanglei dest) {
         dest.minX = minX + x;
         dest.minY = minY + y;
         dest.maxX = maxX + x;
@@ -230,15 +205,10 @@ public class Rectangled implements Externalizable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        long temp;
-        temp = Double.doubleToLongBits(maxX);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(maxY);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(minX);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(minY);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + maxX;
+        result = prime * result + maxY;
+        result = prime * result + minX;
+        result = prime * result + minY;
         return result;
     }
 
@@ -249,14 +219,14 @@ public class Rectangled implements Externalizable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Rectangled other = (Rectangled) obj;
-        if (Double.doubleToLongBits(maxX) != Double.doubleToLongBits(other.maxX))
+        Rectanglei other = (Rectanglei) obj;
+        if (maxX != other.maxX)
             return false;
-        if (Double.doubleToLongBits(maxY) != Double.doubleToLongBits(other.maxY))
+        if (maxY != other.maxY)
             return false;
-        if (Double.doubleToLongBits(minX) != Double.doubleToLongBits(other.minX))
+        if (minX != other.minX)
             return false;
-        if (Double.doubleToLongBits(minY) != Double.doubleToLongBits(other.minY))
+        if (minY != other.minY)
             return false;
         return true;
     }
@@ -285,17 +255,17 @@ public class Rectangled implements Externalizable {
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeDouble(minX);
-        out.writeDouble(minY);
-        out.writeDouble(maxX);
-        out.writeDouble(maxY);
+        out.writeFloat(minX);
+        out.writeFloat(minY);
+        out.writeFloat(maxX);
+        out.writeFloat(maxY);
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        minX = in.readDouble();
-        minY = in.readDouble();
-        maxX = in.readDouble();
-        maxY = in.readDouble();
+        minX = in.readInt();
+        minY = in.readInt();
+        maxX = in.readInt();
+        maxY = in.readInt();
     }
 
 }

@@ -130,8 +130,8 @@ public class Rectanglef implements Externalizable {
      *          the point to test
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
-    public boolean contains(Vector2f point) {
-        return contains(point.x, point.y);
+    public boolean contains(Vector2fc point) {
+        return contains(point.x(), point.y());
     }
 
     /**
