@@ -28,6 +28,7 @@ public final class Runtime {
 //#ifndef __GWT__
     public static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();
     public static final boolean HAS_doubleToRawLongBits = hasDoubleToRawLongBits();
+    public static final boolean HAS_Long_rotateLeft = hasLongRotateLeft();
 //#endif
 //#ifdef __HAS_MATH_FMA__
     public static final boolean HAS_Math_fma = hasMathFma();
@@ -58,6 +59,15 @@ public final class Runtime {
     private static boolean hasMathFma() {
         try {
             java.lang.Math.class.getDeclaredMethod("fma", new Class[] { float.class, float.class, float.class });
+            return true;
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+    }
+
+    private static boolean hasLongRotateLeft() {
+        try {
+            Long.class.getDeclaredMethod("rotateLeft", new Class[] { long.class, int.class });
             return true;
         } catch (NoSuchMethodException e) {
             return false;
