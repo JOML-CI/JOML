@@ -844,10 +844,10 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#fma(org.joml.Vector4dc, org.joml.Vector4dc, org.joml.Vector4d)
      */
     public Vector4d fma(Vector4dc a, Vector4dc b, Vector4d dest) {
-        dest.x = x + a.x() * b.x();
-        dest.y = y + a.y() * b.y();
-        dest.z = z + a.z() * b.z();
-        dest.w = w + a.w() * b.w();
+        dest.x = Math.fma(a.x(), b.x(), x);
+        dest.y = Math.fma(a.y(), b.y(), y);
+        dest.z = Math.fma(a.z(), b.z(), z);
+        dest.w = Math.fma(a.w(), b.w(), w);
         return dest;
     }
 
@@ -855,10 +855,10 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#fma(double, org.joml.Vector4dc, org.joml.Vector4d)
      */
     public Vector4d fma(double a, Vector4dc b, Vector4d dest) {
-        dest.x = x + a * b.x();
-        dest.y = y + a * b.y();
-        dest.z = z + a * b.z();
-        dest.w = w + a * b.w();
+        dest.x = Math.fma(a, b.x(), x);
+        dest.y = Math.fma(a, b.y(), y);
+        dest.z = Math.fma(a, b.z(), z);
+        dest.w = Math.fma(a, b.w(), w);
         return dest;
     }
 

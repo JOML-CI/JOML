@@ -651,9 +651,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#fma(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3f fma(Vector3fc a, Vector3fc b, Vector3f dest) {
-        dest.x = x + a.x() * b.x();
-        dest.y = y + a.y() * b.y();
-        dest.z = z + a.z() * b.z();
+        dest.x = Math.fma(a.x(), b.x(), x);
+        dest.y = Math.fma(a.y(), b.y(), y);
+        dest.z = Math.fma(a.z(), b.z(), z);
         return dest;
     }
 
@@ -661,9 +661,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#fma(float, org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3f fma(float a, Vector3fc b, Vector3f dest) {
-        dest.x = x + a * b.x();
-        dest.y = y + a * b.y();
-        dest.z = z + a * b.z();
+        dest.x = Math.fma(a, b.x(), x);
+        dest.y = Math.fma(a, b.y(), y);
+        dest.z = Math.fma(a, b.z(), z);
         return dest;
     }
 

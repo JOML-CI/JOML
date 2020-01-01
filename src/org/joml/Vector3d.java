@@ -727,9 +727,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#fma(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3d fma(Vector3fc a, Vector3fc b, Vector3d dest) {
-        dest.x = x + a.x() * b.x();
-        dest.y = y + a.y() * b.y();
-        dest.z = z + a.z() * b.z();
+        dest.x = Math.fma(a.x(), b.x(), x);
+        dest.y = Math.fma(a.y(), b.y(), y);
+        dest.z = Math.fma(a.z(), b.z(), z);
         return dest;
     }
 
@@ -750,9 +750,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#fma(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d fma(Vector3dc a, Vector3dc b, Vector3d dest) {
-        dest.x = x + a.x() * b.x();
-        dest.y = y + a.y() * b.y();
-        dest.z = z + a.z() * b.z();
+        dest.x = Math.fma(a.x(), b.x(), x);
+        dest.y = Math.fma(a.y(), b.y(), y);
+        dest.z = Math.fma(a.z(), b.z(), z);
         return dest;
     }
 
@@ -760,9 +760,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#fma(double, org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d fma(double a, Vector3dc b, Vector3d dest) {
-        dest.x = x + a * b.x();
-        dest.y = y + a * b.y();
-        dest.z = z + a * b.z();
+        dest.x = Math.fma(a, b.x(), x);
+        dest.y = Math.fma(a, b.y(), y);
+        dest.z = Math.fma(a, b.z(), z);
         return dest;
     }
 
@@ -770,9 +770,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#fma(org.joml.Vector3dc, org.joml.Vector3fc, org.joml.Vector3d)
      */
     public Vector3d fma(Vector3dc a, Vector3fc b, Vector3d dest) {
-        dest.x = x + a.x() * b.x();
-        dest.y = y + a.y() * b.y();
-        dest.z = z + a.z() * b.z();
+        dest.x = Math.fma(a.x(), b.x(), x);
+        dest.y = Math.fma(a.y(), b.y(), y);
+        dest.z = Math.fma(a.z(), b.z(), z);
         return dest;
     }
 
@@ -780,9 +780,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#fma(double, org.joml.Vector3fc, org.joml.Vector3d)
      */
     public Vector3d fma(double a, Vector3fc b, Vector3d dest) {
-        dest.x = x + a * b.x();
-        dest.y = y + a * b.y();
-        dest.z = z + a * b.z();
+        dest.x = Math.fma(a, b.x(), x);
+        dest.y = Math.fma(a, b.y(), y);
+        dest.z = Math.fma(a, b.z(), z);
         return dest;
     }
 
