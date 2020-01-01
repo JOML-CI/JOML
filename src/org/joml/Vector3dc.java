@@ -1195,6 +1195,18 @@ public interface Vector3dc {
     double get(int component) throws IllegalArgumentException;
 
     /**
+     * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector
+     * using the given {@link RoundingMode}.
+     *
+     * @param mode
+     *          the {@link RoundingMode} to use
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3i get(int mode, Vector3i dest);
+
+    /**
      * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector.
      * 
      * @param dest

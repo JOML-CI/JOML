@@ -393,6 +393,10 @@ public class Vector2f implements Externalizable, Vector2fc {
         }
     }
 
+    public Vector2i get(int mode, Vector2i dest) {
+        return dest.set(this, mode);
+    }
+
     public Vector2f get(Vector2f dest) {
         return dest.set(this);
     }

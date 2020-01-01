@@ -1894,6 +1894,10 @@ public class Vector3f implements Externalizable, Vector3fc {
         }
     }
 
+    public Vector3i get(int mode, Vector3i dest) {
+        return dest.set(this, mode);
+    }
+
     public Vector3f get(Vector3f dest) {
         return dest.set(this);
     }

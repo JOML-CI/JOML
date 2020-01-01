@@ -1768,6 +1768,10 @@ public class Vector4d implements Externalizable, Vector4dc {
         }
     }
 
+    public Vector4i get(int mode, Vector4i dest) {
+        return dest.set(this, mode);
+    }
+
     public Vector4f get(Vector4f dest) {
         return dest.set(this);
     }

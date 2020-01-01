@@ -102,6 +102,34 @@ public class Vector2i implements Externalizable, Vector2ic {
         y = v.y();
     }
 
+    /**
+     * Create a new {@link Vector2i} and initialize its components to the rounded value of
+     * the given vector.
+     *
+     * @param v
+     *          the {@link Vector2fc} to round and copy the values from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector2i(Vector2fc v, int mode) {
+        x = Math.roundUsing(v.x(), mode);
+        y = Math.roundUsing(v.y(), mode);
+    }
+
+    /**
+     * Create a new {@link Vector2i} and initialize its components to the rounded value of
+     * the given vector.
+     *
+     * @param v
+     *          the {@link Vector2dc} to round and copy the values from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector2i(Vector2dc v, int mode) {
+        x = Math.roundUsing(v.x(), mode);
+        y = Math.roundUsing(v.y(), mode);
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2i} and read this vector from the supplied
@@ -232,7 +260,7 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 
     /**
-     * Set this {@link Vector2i} to the values of v.
+     * Set this {@link Vector2i} to the values of v using {@link RoundingMode#TRUNCATE} rounding.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components
      * in double-precision, there is the possibility to lose precision.
@@ -243,6 +271,38 @@ public class Vector2i implements Externalizable, Vector2ic {
      */
     public Vector2i set(Vector2dc v) {
         return set((int) v.x(), (int) v.y());
+    }
+
+    /**
+     * Set this {@link Vector2i} to the values of v using the given {@link RoundingMode}.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components
+     * in double-precision, there is the possibility to lose precision.
+     *
+     * @param v
+     *          the vector to copy from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     * @return this
+     */
+    public Vector2i set(Vector2dc v, int mode) {
+        return set(Math.roundUsing(v.x(), mode), Math.roundUsing(v.y(), mode));
+    }
+
+    /**
+     * Set this {@link Vector2i} to the values of v using the given {@link RoundingMode}.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components
+     * in double-precision, there is the possibility to lose precision.
+     *
+     * @param v
+     *          the vector to copy from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     * @return this
+     */
+    public Vector2i set(Vector2fc v, int mode) {
+        return set(Math.roundUsing(v.x(), mode), Math.roundUsing(v.y(), mode));
     }
 
 //#ifdef __HAS_NIO__

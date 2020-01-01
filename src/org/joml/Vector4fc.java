@@ -659,6 +659,18 @@ public interface Vector4fc {
     float get(int component) throws IllegalArgumentException;
 
     /**
+     * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector
+     * using the given {@link RoundingMode}.
+     *
+     * @param mode
+     *          the {@link RoundingMode} to use
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4i get(int mode, Vector4i dest);
+
+    /**
      * Set the components of the given vector <code>dest</code> to those of <code>this</code> vector.
      * 
      * @param dest

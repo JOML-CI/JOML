@@ -121,6 +121,56 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 
     /**
+     * Create a new {@link Vector4i} with the first three components from the
+     * given <code>v</code> and the given <code>w</code> and round using the given {@link RoundingMode}.
+     *
+     * @param v
+     *          the {@link Vector3fc} to copy the values from
+     * @param w
+     *          the w component
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector4i(Vector3fc v, float w, int mode) {
+        x = Math.roundUsing(v.x(), mode);
+        y = Math.roundUsing(v.y(), mode);
+        z = Math.roundUsing(v.z(), mode);
+        w = Math.roundUsing(w, mode);
+    }
+
+    /**
+     * Create a new {@link Vector4i} and initialize its components to the rounded value of
+     * the given vector.
+     *
+     * @param v
+     *          the {@link Vector4fc} to round and copy the values from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector4i(Vector4fc v, int mode) {
+        x = Math.roundUsing(v.x(), mode);
+        y = Math.roundUsing(v.y(), mode);
+        z = Math.roundUsing(v.z(), mode);
+        w = Math.roundUsing(v.w(), mode);
+    }
+
+    /**
+     * Create a new {@link Vector4i} and initialize its components to the rounded value of
+     * the given vector.
+     *
+     * @param v
+     *          the {@link Vector4dc} to round and copy the values from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector4i(Vector4dc v, int mode) {
+        x = Math.roundUsing(v.x(), mode);
+        y = Math.roundUsing(v.y(), mode);
+        z = Math.roundUsing(v.z(), mode);
+        w = Math.roundUsing(v.w(), mode);
+    }
+
+    /**
      * Create a new {@link Vector4i} and initialize all four components with the
      * given value.
      *
@@ -273,6 +323,54 @@ public class Vector4i implements Externalizable, Vector4ic {
             this.w = v.w();
         }
         return this;
+    }
+
+    /**
+     * Set this {@link Vector4i} to the values of v using {@link RoundingMode#TRUNCATE} rounding.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components
+     * in double-precision, there is the possibility to lose precision.
+     *
+     * @param v
+     *          the vector to copy from
+     * @return this
+     */
+    public Vector4i set(Vector4dc v) {
+        return set((int) v.x(), (int) v.y(), (int) v.z(), (int) v.w());
+    }
+
+    /**
+     * Set this {@link Vector4i} to the values of v using the given {@link RoundingMode}.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components
+     * in double-precision, there is the possibility to lose precision.
+     *
+     * @param v
+     *          the vector to copy from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     * @return this
+     */
+    public Vector4i set(Vector4dc v, int mode) {
+        return set(Math.roundUsing(v.x(), mode), Math.roundUsing(v.y(), mode),
+                   Math.roundUsing(v.z(), mode), Math.roundUsing(v.w(), mode));
+    }
+
+    /**
+     * Set this {@link Vector4i} to the values of v using the given {@link RoundingMode}.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components
+     * in double-precision, there is the possibility to lose precision.
+     *
+     * @param v
+     *          the vector to copy from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     * @return this
+     */
+    public Vector4i set(Vector4fc v, int mode) {
+        return set(Math.roundUsing(v.x(), mode), Math.roundUsing(v.y(), mode),
+                   Math.roundUsing(v.z(), mode), Math.roundUsing(v.w(), mode));
     }
 
     /**

@@ -120,6 +120,70 @@ public class Vector3i implements Externalizable, Vector3ic {
         this(v.x(), v.y(), z);
     }
 
+    /**
+     * Create a new {@link Vector3i} with the first two components from the
+     * given <code>v</code> and the given <code>z</code> and round using the given {@link RoundingMode}.
+     *
+     * @param v
+     *          the {@link Vector2fc} to copy the values from
+     * @param z
+     *          the z component
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector3i(Vector2fc v, float z, int mode) {
+        x = Math.roundUsing(v.x(), mode);
+        y = Math.roundUsing(v.y(), mode);
+        z = Math.roundUsing(z, mode);
+    }
+
+    /**
+     * Create a new {@link Vector3i} and initialize its components to the rounded value of
+     * the given vector.
+     *
+     * @param v
+     *          the {@link Vector3fc} to round and copy the values from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector3i(Vector3fc v, int mode) {
+        x = Math.roundUsing(v.x(), mode);
+        y = Math.roundUsing(v.y(), mode);
+        z = Math.roundUsing(v.z(), mode);
+    }
+
+    /**
+     * Create a new {@link Vector3i} with the first two components from the
+     * given <code>v</code> and the given <code>z</code> and round using the given {@link RoundingMode}.
+     *
+     * @param v
+     *          the {@link Vector2dc} to copy the values from
+     * @param z
+     *          the z component
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector3i(Vector2dc v, float z, int mode) {
+        x = Math.roundUsing(v.x(), mode);
+        y = Math.roundUsing(v.y(), mode);
+        z = Math.roundUsing(z, mode);
+    }
+
+    /**
+     * Create a new {@link Vector3i} and initialize its components to the rounded value of
+     * the given vector.
+     *
+     * @param v
+     *          the {@link Vector3dc} to round and copy the values from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector3i(Vector3dc v, int mode) {
+        x = Math.roundUsing(v.x(), mode);
+        y = Math.roundUsing(v.y(), mode);
+        z = Math.roundUsing(v.z(), mode);
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector3i} and read this vector from the supplied
@@ -234,17 +298,49 @@ public class Vector3i implements Externalizable, Vector3ic {
     }
 
     /**
-     * Set the x, y and z components to match the supplied vector.
+     * Set this {@link Vector3i} to the values of v using {@link RoundingMode#TRUNCATE} rounding.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components
      * in double-precision, there is the possibility to lose precision.
      *
      * @param v
-     *          contains the values of x, y and z to set
+     *          the vector to copy from
      * @return this
      */
     public Vector3i set(Vector3dc v) {
         return set((int) v.x(), (int) v.y(), (int) v.z());
+    }
+
+    /**
+     * Set this {@link Vector3i} to the values of v using the given {@link RoundingMode}.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components
+     * in double-precision, there is the possibility to lose precision.
+     *
+     * @param v
+     *          the vector to copy from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     * @return this
+     */
+    public Vector3i set(Vector3dc v, int mode) {
+        return set(Math.roundUsing(v.x(), mode), Math.roundUsing(v.y(), mode), Math.roundUsing(v.z(), mode));
+    }
+
+    /**
+     * Set this {@link Vector3i} to the values of v using the given {@link RoundingMode}.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components
+     * in double-precision, there is the possibility to lose precision.
+     *
+     * @param v
+     *          the vector to copy from
+     * @param mode
+     *          the {@link RoundingMode} to use
+     * @return this
+     */
+    public Vector3i set(Vector3fc v, int mode) {
+        return set(Math.roundUsing(v.x(), mode), Math.roundUsing(v.y(), mode), Math.roundUsing(v.z(), mode));
     }
 
     /**

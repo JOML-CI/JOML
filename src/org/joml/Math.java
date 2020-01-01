@@ -372,4 +372,61 @@ public class Math {
 //#endif
         return a * b + c;
     }
+
+    public static int roundUsing(float v, int mode) {
+        switch (mode) {
+        case RoundingMode.TRUNCATE:
+            return (int) v;
+        case RoundingMode.CEILING:
+            return (int) java.lang.Math.ceil(v);
+        case RoundingMode.FLOOR:
+            return (int) java.lang.Math.floor(v);
+        case RoundingMode.HALF_DOWN:
+            return roundHalfDown(v);
+        case RoundingMode.HALF_UP:
+            return roundHalfUp(v);
+        case RoundingMode.HALF_EVEN:
+            return roundHalfEven(v);
+        default:
+            throw new UnsupportedOperationException();
+        }
+    }
+    public static int roundUsing(double v, int mode) {
+        switch (mode) {
+        case RoundingMode.TRUNCATE:
+            return (int) v;
+        case RoundingMode.CEILING:
+            return (int) java.lang.Math.ceil(v);
+        case RoundingMode.FLOOR:
+            return (int) java.lang.Math.floor(v);
+        case RoundingMode.HALF_DOWN:
+            return roundHalfDown(v);
+        case RoundingMode.HALF_UP:
+            return roundHalfUp(v);
+        case RoundingMode.HALF_EVEN:
+            return roundHalfEven(v);
+        default:
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    public static int roundHalfEven(float v) {
+        return (int) java.lang.Math.rint(v);
+    }
+    public static int roundHalfDown(float v) {
+        return (v > 0) ? (int) java.lang.Math.ceil(v - 0.5d) : (int) java.lang.Math.floor(v + 0.5d);
+    }
+    public static int roundHalfUp(float v) {
+        return (v > 0) ? (int) java.lang.Math.floor(v + 0.5d) : (int) java.lang.Math.ceil(v - 0.5d);
+    }
+
+    public static int roundHalfEven(double v) {
+        return (int) java.lang.Math.rint(v);
+    }
+    public static int roundHalfDown(double v) {
+        return (v > 0) ? (int) java.lang.Math.ceil(v - 0.5d) : (int) java.lang.Math.floor(v + 0.5d);
+    }
+    public static int roundHalfUp(double v) {
+        return (v > 0) ? (int) java.lang.Math.floor(v + 0.5d) : (int) java.lang.Math.ceil(v - 0.5d);
+    }
 }

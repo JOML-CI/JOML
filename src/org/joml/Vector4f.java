@@ -1643,6 +1643,10 @@ public class Vector4f implements Externalizable, Vector4fc {
         }
     }
 
+    public Vector4i get(int mode, Vector4i dest) {
+        return dest.set(this, mode);
+    }
+
     public Vector4f get(Vector4f dest) {
         return dest.set(this);
     }

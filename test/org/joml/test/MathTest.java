@@ -24,13 +24,9 @@
 package org.joml.test;
 
 import junit.framework.TestCase;
+
+import org.joml.*;
 import org.joml.Math;
-import org.joml.Vector2d;
-import org.joml.Vector2f;
-import org.joml.Vector3d;
-import org.joml.Vector3f;
-import org.joml.Vector4d;
-import org.joml.Vector4f;
 
 /**
  * Tests for Math.vecLength - addressing <a href="https://github.com/JOML-CI/JOML/issues/131">Issue #131</a>
@@ -61,5 +57,62 @@ public class MathTest extends TestCase {
         assertEquals((float) Math.sqrt(.41f), Vector2f.length(.4f, -.5f), .0001f);
         assertEquals((float) Math.sqrt(.3f), Vector3f.length(.1f, -.5f, .2f), .0001f);
         assertEquals(1.f, Vector4f.length(.5f, .5f, .5f, .5f), .0001f);
+    }
+
+    public static void testRoundUsing() {
+        // TRUNCATE
+        assertEquals(0, Math.roundUsing(0.2f, RoundingMode.TRUNCATE));
+        assertEquals(0, Math.roundUsing(0.5f, RoundingMode.TRUNCATE));
+        assertEquals(0, Math.roundUsing(0.9f, RoundingMode.TRUNCATE));
+        assertEquals(1, Math.roundUsing(1.0f, RoundingMode.TRUNCATE));
+        assertEquals(0, Math.roundUsing(-0.2f, RoundingMode.TRUNCATE));
+        assertEquals(0, Math.roundUsing(-0.5f, RoundingMode.TRUNCATE));
+        assertEquals(0, Math.roundUsing(-0.9f, RoundingMode.TRUNCATE));
+        assertEquals(-1, Math.roundUsing(-1.0f, RoundingMode.TRUNCATE));
+        // CEILING
+        assertEquals(1, Math.roundUsing(0.2f, RoundingMode.CEILING));
+        assertEquals(1, Math.roundUsing(0.5f, RoundingMode.CEILING));
+        assertEquals(1, Math.roundUsing(0.9f, RoundingMode.CEILING));
+        assertEquals(1, Math.roundUsing(1.0f, RoundingMode.CEILING));
+        assertEquals(0, Math.roundUsing(-0.2f, RoundingMode.CEILING));
+        assertEquals(0, Math.roundUsing(-0.5f, RoundingMode.CEILING));
+        assertEquals(0, Math.roundUsing(-0.9f, RoundingMode.CEILING));
+        assertEquals(-1, Math.roundUsing(-1.0f, RoundingMode.CEILING));
+        // FLOOR
+        assertEquals(0, Math.roundUsing(0.2f, RoundingMode.FLOOR));
+        assertEquals(0, Math.roundUsing(0.5f, RoundingMode.FLOOR));
+        assertEquals(0, Math.roundUsing(0.9f, RoundingMode.FLOOR));
+        assertEquals(1, Math.roundUsing(1.0f, RoundingMode.FLOOR));
+        assertEquals(-1, Math.roundUsing(-0.2f, RoundingMode.FLOOR));
+        assertEquals(-1, Math.roundUsing(-0.5f, RoundingMode.FLOOR));
+        assertEquals(-1, Math.roundUsing(-0.9f, RoundingMode.FLOOR));
+        assertEquals(-1, Math.roundUsing(-1.0f, RoundingMode.FLOOR));
+        // HALF_DOWN
+        assertEquals(0, Math.roundUsing(0.2f, RoundingMode.HALF_DOWN));
+        assertEquals(0, Math.roundUsing(0.5f, RoundingMode.HALF_DOWN));
+        assertEquals(1, Math.roundUsing(0.9f, RoundingMode.HALF_DOWN));
+        assertEquals(1, Math.roundUsing(1.0f, RoundingMode.HALF_DOWN));
+        assertEquals(0, Math.roundUsing(-0.2f, RoundingMode.HALF_DOWN));
+        assertEquals(0, Math.roundUsing(-0.5f, RoundingMode.HALF_DOWN));
+        assertEquals(-1, Math.roundUsing(-0.9f, RoundingMode.HALF_DOWN));
+        assertEquals(-1, Math.roundUsing(-1.0f, RoundingMode.HALF_DOWN));
+        // HALF_UP
+        assertEquals(0, Math.roundUsing(0.2f, RoundingMode.HALF_UP));
+        assertEquals(1, Math.roundUsing(0.5f, RoundingMode.HALF_UP));
+        assertEquals(1, Math.roundUsing(0.9f, RoundingMode.HALF_UP));
+        assertEquals(1, Math.roundUsing(1.0f, RoundingMode.HALF_UP));
+        assertEquals(0, Math.roundUsing(-0.2f, RoundingMode.HALF_UP));
+        assertEquals(-1, Math.roundUsing(-0.5f, RoundingMode.HALF_UP));
+        assertEquals(-1, Math.roundUsing(-0.9f, RoundingMode.HALF_UP));
+        assertEquals(-1, Math.roundUsing(-1.0f, RoundingMode.HALF_UP));
+        // HALF_EVEN
+        assertEquals(0, Math.roundUsing(0.2f, RoundingMode.HALF_EVEN));
+        assertEquals(0, Math.roundUsing(0.5f, RoundingMode.HALF_EVEN));
+        assertEquals(1, Math.roundUsing(0.9f, RoundingMode.HALF_EVEN));
+        assertEquals(1, Math.roundUsing(1.0f, RoundingMode.HALF_EVEN));
+        assertEquals(0, Math.roundUsing(-0.2f, RoundingMode.HALF_EVEN));
+        assertEquals(0, Math.roundUsing(-0.5f, RoundingMode.HALF_EVEN));
+        assertEquals(-1, Math.roundUsing(-0.9f, RoundingMode.HALF_EVEN));
+        assertEquals(-1, Math.roundUsing(-1.0f, RoundingMode.HALF_EVEN));
     }
 }
