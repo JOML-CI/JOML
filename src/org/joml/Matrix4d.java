@@ -310,6 +310,85 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
+     * Create a new {@link Matrix4d} and initialize its upper-left 3x3 submatrix from the
+     * given {@link Matrix3dc}, its m30-m32 components from the given {@link Vector3dc}
+     * and its m33 component to 1.0.
+     * 
+     * @param rotationScale
+     *          will be used to initialize the upper-left 3x3 submatrix of <code>this</code>
+     * @param translation
+     *          will be used to initialize the m30-m32 components of <code>this</code>
+     */
+    public Matrix4d(Matrix3dc rotationScale, Vector3dc translation) {
+        set3x3(rotationScale);
+        setTranslation(translation);
+        m33 = 1.0;
+        determineProperties();
+    }
+
+    /**
+     * Create a new {@link Matrix4d} and initialize its upper-left 3x3 submatrix from the
+     * given {@link Matrix3dc}, its m30-m32 components from the given parameters and 
+     * its m33 component to 1.0.
+     * 
+     * @param rotationScale
+     *          will be used to initialize the upper-left 3x3 submatrix of <code>this</code>
+     * @param m30
+     *          will be used to initialize the m30 component of <code>this</code>
+     * @param m31
+     *          will be used to initialize the m31 component of <code>this</code>
+     * @param m32
+     *          will be used to initialize the m32 component of <code>this</code>
+     */
+    public Matrix4d(Matrix3dc rotationScale, double m30, double m31, double m32) {
+        set3x3(rotationScale);
+        setTranslation(m30, m31, m32);
+        m33 = 1.0;
+        determineProperties();
+    }
+
+    /**
+     * Create a new {@link Matrix4d} and initialize its upper-left 3x3 submatrix from the
+     * given {@link Matrix3dc}, its m30-m32 components from the given {@link Vector3dc}
+     * and its m33 component from the given <code>m33</code>.
+     * 
+     * @param rotationScale
+     *          will be used to initialize the upper-left 3x3 submatrix of <code>this</code>
+     * @param translation
+     *          will be used to initialize the m30-m32 components of <code>this</code>
+     * @param m33
+     *          will be used to initialize the m33 component of <code>this</code>
+     */
+    public Matrix4d(Matrix3dc rotationScale, Vector3dc translation, double m33) {
+        set3x3(rotationScale);
+        setTranslation(translation);
+        m33(m33);
+        determineProperties();
+    }
+
+    /**
+     * Create a new {@link Matrix4d} and initialize its upper-left 3x3 submatrix from the
+     * given {@link Matrix3dc} and its m30-m33 components from the given parameters.
+     * 
+     * @param rotationScale
+     *          will be used to initialize the upper-left 3x3 submatrix of <code>this</code>
+     * @param m30
+     *          will be used to initialize the m30 component of <code>this</code>
+     * @param m31
+     *          will be used to initialize the m31 component of <code>this</code>
+     * @param m32
+     *          will be used to initialize the m32 component of <code>this</code>
+     * @param m33
+     *          will be used to initialize the m33 component of <code>this</code>
+     */
+    public Matrix4d(Matrix3dc rotationScale, double m30, double m31, double m32, double m33) {
+        set3x3(rotationScale);
+        setTranslation(m30, m31, m32);
+        m33(m33);
+        determineProperties();
+    }
+
+    /**
      * Assume the given properties about this matrix.
      * <p>
      * Use one or multiple of 0, {@link Matrix4dc#PROPERTY_IDENTITY},
