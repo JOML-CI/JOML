@@ -3527,6 +3527,118 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         throw new IllegalArgumentException();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix3fc#getRowColumn(int, int)
+     */
+    public float getRowColumn(int row, int column) {
+        switch (row) {
+        case 0:
+            switch (column) {
+            case 0:
+                return m00;
+            case 1:
+                return m01;
+            case 2:
+                return m02;
+            default:
+                break;
+            }
+            break;
+        case 1:
+            switch (column) {
+            case 0:
+                return m10;
+            case 1:
+                return m11;
+            case 2:
+                return m12;
+            default:
+                break;
+            }
+            break;
+        case 2:
+            switch (column) {
+            case 0:
+                return m20;
+            case 1:
+                return m21;
+            case 2:
+                return m22;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * Set the matrix element at the given row and column to the specified value.
+     * 
+     * @param row
+     *          the row index in <code>[0..2]</code>
+     * @param column
+     *          the colum index in <code>[0..2]</code>
+     * @param value
+     *          the value
+     * @return this
+     */
+    public Matrix3f setRowColumn(int row, int column, float value) {
+        switch (row) {
+        case 0:
+            switch (column) {
+            case 0:
+                this.m00 = value;
+                return this;
+            case 1:
+                this.m01 = value;
+                return this;
+            case 2:
+                this.m02 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        case 1:
+            switch (column) {
+            case 0:
+                this.m10 = value;
+                return this;
+            case 1:
+                this.m11 = value;
+                return this;
+            case 2:
+                this.m12 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        case 2:
+            switch (column) {
+            case 0:
+                this.m20 = value;
+                return this;
+            case 1:
+                this.m21 = value;
+                return this;
+            case 2:
+                this.m22 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
+        throw new IllegalArgumentException();
+    }
+
     /**
      * Set <code>this</code> matrix to its own normal matrix.
      * <p>

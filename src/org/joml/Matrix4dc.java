@@ -2793,6 +2793,28 @@ public interface Matrix4dc {
     Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException;
 
     /**
+     * Get the matrix element value at the given column and row.
+     * 
+     * @param column
+     *          the colum index in <code>[0..3]</code>
+     * @param row
+     *          the row index in <code>[0..3]</code>
+     * @return the element value
+     */
+    double get(int column, int row);
+
+    /**
+     * Get the matrix element value at the given row and column.
+     * 
+     * @param row
+     *          the row index in <code>[0..3]</code>
+     * @param column
+     *          the colum index in <code>[0..3]</code>
+     * @return the element value
+     */
+    double getRowColumn(int row, int column);
+
+    /**
      * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
      * and store it into the upper left 3x3 submatrix of <code>dest</code>.
      * All other values of <code>dest</code> will be set to identity.

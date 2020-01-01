@@ -1117,6 +1117,17 @@ public interface Matrix3fc {
     float get(int column, int row);
 
     /**
+     * Get the matrix element value at the given row and column.
+     * 
+     * @param row
+     *          the row index in <code>[0..2]</code>
+     * @param column
+     *          the colum index in <code>[0..2]</code>
+     * @return the element value
+     */
+    float getRowColumn(int row, int column);
+
+    /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
      * <p>
      * The normal matrix of <code>m</code> is the transpose of the inverse of <code>m</code>.

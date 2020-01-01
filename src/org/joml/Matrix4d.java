@@ -8964,6 +8964,324 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix4dc#get(int, int)
+     */
+    public double get(int column, int row) {
+        switch (column) {
+        case 0:
+            switch (row) {
+            case 0:
+                return m00;
+            case 1:
+                return m01;
+            case 2:
+                return m02;
+            case 3:
+                return m03;
+            default:
+                break;
+            }
+            break;
+        case 1:
+            switch (row) {
+            case 0:
+                return m10;
+            case 1:
+                return m11;
+            case 2:
+                return m12;
+            case 3:
+                return m13;
+            default:
+                break;
+            }
+            break;
+        case 2:
+            switch (row) {
+            case 0:
+                return m20;
+            case 1:
+                return m21;
+            case 2:
+                return m22;
+            case 3:
+                return m23;
+            default:
+                break;
+            }
+            break;
+        case 3:
+            switch (row) {
+            case 0:
+                return m30;
+            case 1:
+                return m31;
+            case 2:
+                return m32;
+            case 3:
+                return m33;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * Set the matrix element at the given column and row to the specified value.
+     * 
+     * @param column
+     *          the colum index in <code>[0..3]</code>
+     * @param row
+     *          the row index in <code>[0..3]</code>
+     * @param value
+     *          the value
+     * @return this
+     */
+    public Matrix4d set(int column, int row, double value) {
+        switch (column) {
+        case 0:
+            switch (row) {
+            case 0:
+                this.m00 = value;
+                return this;
+            case 1:
+                this.m01 = value;
+                return this;
+            case 2:
+                this.m02 = value;
+                return this;
+            case 3:
+                this.m03 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        case 1:
+            switch (row) {
+            case 0:
+                this.m10 = value;
+                return this;
+            case 1:
+                this.m11 = value;
+                return this;
+            case 2:
+                this.m12 = value;
+                return this;
+            case 3:
+                this.m13 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        case 2:
+            switch (row) {
+            case 0:
+                this.m20 = value;
+                return this;
+            case 1:
+                this.m21 = value;
+                return this;
+            case 2:
+                this.m22 = value;
+                return this;
+            case 3:
+                this.m23 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        case 3:
+            switch (row) {
+            case 0:
+                this.m30 = value;
+                return this;
+            case 1:
+                this.m31 = value;
+                return this;
+            case 2:
+                this.m32 = value;
+                return this;
+            case 3:
+                this.m33 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix4dc#getRowColumn(int, int)
+     */
+    public double getRowColumn(int row, int column) {
+        switch (row) {
+        case 0:
+            switch (column) {
+            case 0:
+                return m00;
+            case 1:
+                return m01;
+            case 2:
+                return m02;
+            case 3:
+                return m03;
+            default:
+                break;
+            }
+            break;
+        case 1:
+            switch (column) {
+            case 0:
+                return m10;
+            case 1:
+                return m11;
+            case 2:
+                return m12;
+            case 3:
+                return m13;
+            default:
+                break;
+            }
+            break;
+        case 2:
+            switch (column) {
+            case 0:
+                return m20;
+            case 1:
+                return m21;
+            case 2:
+                return m22;
+            case 3:
+                return m23;
+            default:
+                break;
+            }
+            break;
+        case 3:
+            switch (column) {
+            case 0:
+                return m30;
+            case 1:
+                return m31;
+            case 2:
+                return m32;
+            case 3:
+                return m33;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * Set the matrix element at the given row and column to the specified value.
+     * 
+     * @param row
+     *          the row index in <code>[0..3]</code>
+     * @param column
+     *          the colum index in <code>[0..3]</code>
+     * @param value
+     *          the value
+     * @return this
+     */
+    public Matrix4d setRowColumn(int row, int column, double value) {
+        switch (row) {
+        case 0:
+            switch (column) {
+            case 0:
+                this.m00 = value;
+                return this;
+            case 1:
+                this.m01 = value;
+                return this;
+            case 2:
+                this.m02 = value;
+                return this;
+            case 3:
+                this.m03 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        case 1:
+            switch (column) {
+            case 0:
+                this.m10 = value;
+                return this;
+            case 1:
+                this.m11 = value;
+                return this;
+            case 2:
+                this.m12 = value;
+                return this;
+            case 3:
+                this.m13 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        case 2:
+            switch (column) {
+            case 0:
+                this.m20 = value;
+                return this;
+            case 1:
+                this.m21 = value;
+                return this;
+            case 2:
+                this.m22 = value;
+                return this;
+            case 3:
+                this.m23 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        case 3:
+            switch (column) {
+            case 0:
+                this.m30 = value;
+                return this;
+            case 1:
+                this.m31 = value;
+                return this;
+            case 2:
+                this.m32 = value;
+                return this;
+            case 3:
+                this.m33 = value;
+                return this;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
+        throw new IllegalArgumentException();
+    }
+
     /**
      * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
      * and store it into the upper left 3x3 submatrix of <code>this</code>.
