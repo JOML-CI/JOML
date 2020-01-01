@@ -769,6 +769,52 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @return a vector holding the result
+     */
+    public Vector4f mulAdd(Vector4fc a, Vector4fc b) {
+        return mulAdd(a, b, thisOrNew());
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @return a vector holding the result
+     */
+    public Vector4f mulAdd(float a, Vector4fc b) {
+        return mulAdd(a, b, thisOrNew());
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#mulAdd(org.joml.Vector4fc, org.joml.Vector4fc, org.joml.Vector4f)
+     */
+    public Vector4f mulAdd(Vector4fc a, Vector4fc b, Vector4f dest) {
+        dest.x = Math.fma(x, a.x(), b.x());
+        dest.y = Math.fma(y, a.y(), b.y());
+        dest.z = Math.fma(z, a.z(), b.z());
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#mulAdd(float, org.joml.Vector4fc, org.joml.Vector4f)
+     */
+    public Vector4f mulAdd(float a, Vector4fc b, Vector4f dest) {
+        dest.x = Math.fma(x, a, b.x());
+        dest.y = Math.fma(y, a, b.y());
+        dest.z = Math.fma(z, a, b.z());
+        return dest;
+    }
+
+    /**
      * Multiply this Vector4f component-wise by another Vector4f.
      * 
      * @param v

@@ -348,6 +348,48 @@ public interface Vector3dc {
     Vector3d fma(double a, Vector3fc b, Vector3d dest);
 
     /**
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the multiplicand
+     * @param b
+     *          the addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d mulAdd(Vector3dc a, Vector3dc b, Vector3d dest);
+
+    /**
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the multiplicand
+     * @param b
+     *          the addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d mulAdd(double a, Vector3dc b, Vector3d dest);
+
+    /**
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the multiplicand
+     * @param b
+     *          the addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d mulAdd(Vector3fc a, Vector3dc b, Vector3d dest);
+
+    /**
      * Multiply this Vector3d component-wise by another Vector3f and store the result in <code>dest</code>.
      * 
      * @param v

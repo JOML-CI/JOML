@@ -215,6 +215,34 @@ public interface Vector3fc {
     Vector3f fma(float a, Vector3fc b, Vector3f dest);
 
     /**
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the multiplicand
+     * @param b
+     *          the addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f mulAdd(Vector3fc a, Vector3fc b, Vector3f dest);
+
+    /**
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the multiplicand
+     * @param b
+     *          the addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f mulAdd(float a, Vector3fc b, Vector3f dest);
+
+    /**
      * Multiply this Vector3f component-wise by another Vector3f and store the result in <code>dest</code>.
      * 
      * @param v

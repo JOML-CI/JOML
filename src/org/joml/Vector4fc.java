@@ -220,6 +220,34 @@ public interface Vector4fc {
     Vector4f fma(float a, Vector4fc b, Vector4f dest);
 
     /**
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the multiplicand
+     * @param b
+     *          the addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f mulAdd(Vector4fc a, Vector4fc b, Vector4f dest);
+
+    /**
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the multiplicand
+     * @param b
+     *          the addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f mulAdd(float a, Vector4fc b, Vector4f dest);
+
+    /**
      * Multiply this Vector4f component-wise by another Vector4f and store the result in <code>dest</code>.
      * 
      * @param v
