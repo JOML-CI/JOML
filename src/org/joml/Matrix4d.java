@@ -2127,22 +2127,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#fma4x3(org.joml.Matrix4dc, double, org.joml.Matrix4d)
      */
     public Matrix4d fma4x3(Matrix4dc other, double otherFactor, Matrix4d dest) {
-        dest.m00 = m00 + other.m00() * otherFactor;
-        dest.m01 = m01 + other.m01() * otherFactor;
-        dest.m02 = m02 + other.m02() * otherFactor;
-        dest.m03 = m03;
-        dest.m10 = m10 + other.m10() * otherFactor;
-        dest.m11 = m11 + other.m11() * otherFactor;
-        dest.m12 = m12 + other.m12() * otherFactor;
-        dest.m13 = m13;
-        dest.m20 = m20 + other.m20() * otherFactor;
-        dest.m21 = m21 + other.m21() * otherFactor;
-        dest.m22 = m22 + other.m22() * otherFactor;
-        dest.m23 = m23;
-        dest.m30 = m30 + other.m30() * otherFactor;
-        dest.m31 = m31 + other.m31() * otherFactor;
-        dest.m32 = m32 + other.m32() * otherFactor;
-        dest.m33 = m33;
+        dest._m00(Math.fma(other.m00(), otherFactor, m00));
+        dest._m01(Math.fma(other.m01(), otherFactor, m01));
+        dest._m02(Math.fma(other.m02(), otherFactor, m02));
+        dest._m03(m03);
+        dest._m10(Math.fma(other.m10(), otherFactor, m10));
+        dest._m11(Math.fma(other.m11(), otherFactor, m11));
+        dest._m12(Math.fma(other.m12(), otherFactor, m12));
+        dest._m13(m13);
+        dest._m20(Math.fma(other.m20(), otherFactor, m20));
+        dest._m21(Math.fma(other.m21(), otherFactor, m21));
+        dest._m22(Math.fma(other.m22(), otherFactor, m22));
+        dest._m23(m23);
+        dest._m30(Math.fma(other.m30(), otherFactor, m30));
+        dest._m31(Math.fma(other.m31(), otherFactor, m31));
+        dest._m32(Math.fma(other.m32(), otherFactor, m32));
+        dest._m33(m33);
         dest.properties = 0;
         return dest;
     }
