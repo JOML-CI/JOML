@@ -216,6 +216,34 @@ public class Vector4d implements Externalizable, Vector4dc {
         this.w = w;
     }
 
+    /**
+     * Create a new {@link Vector4d} and initialize its four components from the first
+     * four elements of the given array.
+     * 
+     * @param xyzw
+     *          the array containing at least four elements
+     */
+    public Vector4d(float[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
+    }
+
+    /**
+     * Create a new {@link Vector4d} and initialize its four components from the first
+     * four elements of the given array.
+     * 
+     * @param xyzw
+     *          the array containing at least four elements
+     */
+    public Vector4d(double[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector4d} and read this vector from the supplied {@link ByteBuffer}
@@ -463,6 +491,36 @@ public class Vector4d implements Externalizable, Vector4dc {
         this.y = y;
         this.z = z;
         this.w = w;
+        return this;
+    }
+
+    /**
+     * Set the four components of this vector to the first four elements of the given array.
+     * 
+     * @param xyzw
+     *          the array containing at least four elements
+     * @return this
+     */
+    public Vector4d set(double[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[2];
+        return this;
+    }
+
+    /**
+     * Set the four components of this vector to the first four elements of the given array.
+     * 
+     * @param xyzw
+     *          the array containing at least four elements
+     * @return this
+     */
+    public Vector4d set(float[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[2];
         return this;
     }
 

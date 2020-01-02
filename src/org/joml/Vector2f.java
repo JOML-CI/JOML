@@ -110,6 +110,18 @@ public class Vector2f implements Externalizable, Vector2fc {
         y = v.y();
     }
 
+    /**
+     * Create a new {@link Vector2f} and initialize its two components from the first
+     * two elements of the given array.
+     * 
+     * @param xy
+     *          the array containing at least two elements
+     */
+    public Vector2f(float[] xy) {
+        this.x = xy[0];
+        this.y = xy[1];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
@@ -281,6 +293,19 @@ public class Vector2f implements Externalizable, Vector2fc {
      */
     public Vector2f set(Vector2dc v) {
         return set((float) v.x(), (float) v.y());
+    }
+
+    /**
+     * Set the two components of this vector to the first two elements of the given array.
+     * 
+     * @param xy
+     *          the array containing at least two elements
+     * @return this
+     */
+    public Vector2f set(float[] xy) {
+        this.x = xy[0];
+        this.y = xy[1];
+        return this;
     }
 
 //#ifdef __HAS_NIO__

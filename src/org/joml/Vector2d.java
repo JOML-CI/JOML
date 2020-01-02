@@ -121,6 +121,30 @@ public class Vector2d implements Externalizable, Vector2dc {
         y = v.y();
     }
 
+    /**
+     * Create a new {@link Vector2d} and initialize its two components from the first
+     * two elements of the given array.
+     * 
+     * @param xy
+     *          the array containing at least three elements
+     */
+    public Vector2d(double[] xy) {
+        this.x = xy[0];
+        this.y = xy[1];
+    }
+
+    /**
+     * Create a new {@link Vector2d} and initialize its two components from the first
+     * two elements of the given array.
+     * 
+     * @param xy
+     *          the array containing at least two elements
+     */
+    public Vector2d(float[] xy) {
+        this.x = xy[0];
+        this.y = xy[1];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
@@ -264,6 +288,32 @@ public class Vector2d implements Externalizable, Vector2dc {
      */
     public Vector2d set(Vector2ic v) {
         return set(v.x(), v.y());
+    }
+
+    /**
+     * Set the two components of this vector to the first two elements of the given array.
+     * 
+     * @param xy
+     *          the array containing at least three elements
+     * @return this
+     */
+    public Vector2d set(double[] xy) {
+        this.x = xy[0];
+        this.y = xy[1];
+        return this;
+    }
+
+    /**
+     * Set the two components of this vector to the first two elements of the given array.
+     * 
+     * @param xy
+     *          the array containing at least two elements
+     * @return this
+     */
+    public Vector2d set(float[] xy) {
+        this.x = xy[0];
+        this.y = xy[1];
+        return this;
     }
 
 //#ifdef __HAS_NIO__

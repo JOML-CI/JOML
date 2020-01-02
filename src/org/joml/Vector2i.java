@@ -130,6 +130,18 @@ public class Vector2i implements Externalizable, Vector2ic {
         y = Math.roundUsing(v.y(), mode);
     }
 
+    /**
+     * Create a new {@link Vector2i} and initialize its two components from the first
+     * two elements of the given array.
+     * 
+     * @param xy
+     *          the array containing at least three elements
+     */
+    public Vector2i(int[] xy) {
+        this.x = xy[0];
+        this.y = xy[1];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2i} and read this vector from the supplied
@@ -303,6 +315,19 @@ public class Vector2i implements Externalizable, Vector2ic {
      */
     public Vector2i set(Vector2fc v, int mode) {
         return set(Math.roundUsing(v.x(), mode), Math.roundUsing(v.y(), mode));
+    }
+
+    /**
+     * Set the two components of this vector to the first two elements of the given array.
+     * 
+     * @param xy
+     *          the array containing at least two elements
+     * @return this
+     */
+    public Vector2i set(int[] xy) {
+        this.x = xy[0];
+        this.y = xy[1];
+        return this;
     }
 
 //#ifdef __HAS_NIO__

@@ -184,6 +184,19 @@ public class Vector3i implements Externalizable, Vector3ic {
         z = Math.roundUsing(v.z(), mode);
     }
 
+    /**
+     * Create a new {@link Vector3i} and initialize its three components from the first
+     * three elements of the given array.
+     * 
+     * @param xyz
+     *          the array containing at least three elements
+     */
+    public Vector3i(int[] xyz) {
+        this.x = xyz[0];
+        this.y = xyz[1];
+        this.z = xyz[2];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector3i} and read this vector from the supplied
@@ -383,6 +396,20 @@ public class Vector3i implements Externalizable, Vector3ic {
         this.x = x;
         this.y = y;
         this.z = z;
+        return this;
+    }
+
+    /**
+     * Set the three components of this vector to the first three elements of the given array.
+     * 
+     * @param xyz
+     *          the array containing at least three elements
+     * @return this
+     */
+    public Vector3i set(int[] xyz) {
+        this.x = xyz[0];
+        this.y = xyz[1];
+        this.z = xyz[2];
         return this;
     }
 

@@ -164,6 +164,32 @@ public class Vector3d implements Externalizable, Vector3dc {
         this(v.x(), v.y(), z);
     }
 
+    /**
+     * Create a new {@link Vector3d} and initialize its three components from the first
+     * three elements of the given array.
+     * 
+     * @param xyz
+     *          the array containing at least three elements
+     */
+    public Vector3d(double[] xyz) {
+        this.x = xyz[0];
+        this.y = xyz[1];
+        this.z = xyz[2];
+    }
+
+    /**
+     * Create a new {@link Vector3d} and initialize its three components from the first
+     * three elements of the given array.
+     * 
+     * @param xyz
+     *          the array containing at least three elements
+     */
+    public Vector3d(float[] xyz) {
+        this.x = xyz[0];
+        this.y = xyz[1];
+        this.z = xyz[2];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector3d} and read this vector from the supplied {@link ByteBuffer}
@@ -352,6 +378,34 @@ public class Vector3d implements Externalizable, Vector3dc {
         this.x = x;
         this.y = y;
         this.z = z;
+        return this;
+    }
+
+    /**
+     * Set the three components of this vector to the first three elements of the given array.
+     * 
+     * @param xyz
+     *          the array containing at least three elements
+     * @return this
+     */
+    public Vector3d set(double[] xyz) {
+        this.x = xyz[0];
+        this.y = xyz[1];
+        this.z = xyz[2];
+        return this;
+    }
+
+    /**
+     * Set the three components of this vector to the first three elements of the given array.
+     * 
+     * @param xyz
+     *          the array containing at least three elements
+     * @return this
+     */
+    public Vector3d set(float[] xyz) {
+        this.x = xyz[0];
+        this.y = xyz[1];
+        this.z = xyz[2];
         return this;
     }
 

@@ -141,6 +141,19 @@ public class Vector3f implements Externalizable, Vector3fc {
         this(v.x(), v.y(), z);
     }
 
+    /**
+     * Create a new {@link Vector3f} and initialize its three components from the first
+     * three elements of the given array.
+     * 
+     * @param xyz
+     *          the array containing at least three elements
+     */
+    public Vector3f(float[] xyz) {
+        this.x = xyz[0];
+        this.y = xyz[1];
+        this.z = xyz[2];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer}
@@ -361,6 +374,20 @@ public class Vector3f implements Externalizable, Vector3fc {
         this.x = (float) x;
         this.y = (float) y;
         this.z = (float) z;
+        return this;
+    }
+
+    /**
+     * Set the three components of this vector to the first three elements of the given array.
+     * 
+     * @param xyz
+     *          the array containing at least three elements
+     * @return this
+     */
+    public Vector3f set(float[] xyz) {
+        this.x = xyz[0];
+        this.y = xyz[1];
+        this.z = xyz[2];
         return this;
     }
 

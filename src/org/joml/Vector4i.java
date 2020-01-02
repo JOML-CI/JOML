@@ -200,6 +200,20 @@ public class Vector4i implements Externalizable, Vector4ic {
         this.w = w;
     }
 
+    /**
+     * Create a new {@link Vector4i} and initialize its four components from the first
+     * four elements of the given array.
+     * 
+     * @param xyzw
+     *          the array containing at least four elements
+     */
+    public Vector4i(int[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector4i} and read this vector from the supplied
@@ -434,6 +448,21 @@ public class Vector4i implements Externalizable, Vector4ic {
         this.y = y;
         this.z = z;
         this.w = w;
+        return this;
+    }
+
+    /**
+     * Set the four components of this vector to the first four elements of the given array.
+     * 
+     * @param xyzw
+     *          the array containing at least four elements
+     * @return this
+     */
+    public Vector4i set(int[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[2];
         return this;
     }
 
