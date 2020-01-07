@@ -1487,7 +1487,7 @@ public interface Quaternionfc {
      *          will hold the result
      * @return dest
      */
-    Quaternionf difference(Quaternionf other, Quaternionf dest);
+    Quaternionf difference(Quaternionfc other, Quaternionf dest);
 
     /**
      * Obtain the direction of <code>+X</code> before the rotation transformation represented by <code>this</code> quaternion is applied.
