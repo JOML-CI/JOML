@@ -1056,9 +1056,9 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#mulAffine(org.joml.Matrix4dc, org.joml.Vector4d)
      */
     public Vector4d mulAffine(Matrix4dc mat, Vector4d dest) {
-        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
-        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
-        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1067,10 +1067,10 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     private Vector4d mulGeneric(Matrix4dc mat, Vector4d dest) {
-        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
-        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
-        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
-        double rw = mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
+        double rw = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1094,9 +1094,9 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#mul(org.joml.Matrix4x3dc, org.joml.Vector4d)
      */
     public Vector4d mul(Matrix4x3dc mat, Vector4d dest) {
-        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
-        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
-        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1120,9 +1120,9 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#mul(org.joml.Matrix4x3fc, org.joml.Vector4d)
      */
     public Vector4d mul(Matrix4x3fc mat, Vector4d dest) {
-        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
-        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
-        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1150,9 +1150,9 @@ public class Vector4d implements Externalizable, Vector4dc {
         return mulGeneric(mat, dest);
     }
     private Vector4d mulAffine(Matrix4fc mat, Vector4d dest) {
-        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
-        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
-        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1160,10 +1160,10 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
     private Vector4d mulGeneric(Matrix4fc mat, Vector4d dest) {
-        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
-        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
-        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
-        double rw = mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
+        double rw = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1175,10 +1175,10 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#mulProject(org.joml.Matrix4dc, org.joml.Vector4d)
      */
     public Vector4d mulProject(Matrix4dc mat, Vector4d dest) {
-        double invW = 1.0 / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
-        double rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW;
-        double ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW;
-        double rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW;
+        double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1201,10 +1201,10 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#mulProject(org.joml.Matrix4dc, org.joml.Vector3d)
      */
     public Vector3d mulProject(Matrix4dc mat, Vector3d dest) {
-        double invW = 1.0 / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
-        double rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW;
-        double ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW;
-        double rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW;
+        double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;

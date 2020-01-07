@@ -34,6 +34,7 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.joml.Math;
 import org.joml.internal.MemUtil;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
@@ -786,10 +787,10 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulProject(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public Vector3f mulProject(Matrix4fc mat, Vector3f dest) {
-        float invW = 1.0f / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33());
-        float rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30()) * invW;
-        float ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31()) * invW;
-        float rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32()) * invW;
+        float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30()))) * invW;
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31()))) * invW;
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32()))) * invW;
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -797,13 +798,13 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulProject(org.joml.Matrix4fc, float, org.joml.Vector3f)
+     * @see org.joml.Vector3fc#mulProject(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public Vector3f mulProject(Matrix4fc mat, float w, Vector3f dest) {
-        float invW = 1.0f / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
-        float rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW;
-        float ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW;
-        float rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW;
+        float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -838,9 +839,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mul(org.joml.Matrix3fc, org.joml.Vector3f)
      */
     public Vector3f mul(Matrix3fc mat, Vector3f dest) {
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z;
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z;
-        float rz = mat.m02() * x + mat.m12() * y + mat.m22() * z;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -862,9 +863,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mul(org.joml.Matrix3dc, org.joml.Vector3f)
      */
     public Vector3f mul(Matrix3dc mat, Vector3f dest) {
-        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z;
-        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z;
-        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
         dest.x = (float) rx;
         dest.y = (float) ry;
         dest.z = (float) rz;
@@ -886,8 +887,8 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mul(org.joml.Matrix3x2fc, org.joml.Vector3f)
      */
     public Vector3f mul(Matrix3x2fc mat, Vector3f dest) {
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z;
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
         dest.x = rx;
         dest.y = ry;
         dest.z = z;
@@ -909,9 +910,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulTranspose(org.joml.Matrix3fc, org.joml.Vector3f)
      */
     public Vector3f mulTranspose(Matrix3fc mat, Vector3f dest) {
-        float rx = mat.m00() * x + mat.m01() * y + mat.m02() * z;
-        float ry = mat.m10() * x + mat.m11() * y + mat.m12() * z;
-        float rz = mat.m20() * x + mat.m21() * y + mat.m22() * z;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
+        float ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
+        float rz = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -948,9 +949,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulPosition(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public Vector3f mulPosition(Matrix4fc mat, Vector3f dest) {
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30();
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31();
-        float rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32();
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -961,9 +962,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulPosition(org.joml.Matrix4x3fc, org.joml.Vector3f)
      */
     public Vector3f mulPosition(Matrix4x3fc mat, Vector3f dest) {
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30();
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31();
-        float rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32();
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -987,9 +988,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulTransposePosition(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public Vector3f mulTransposePosition(Matrix4fc mat, Vector3f dest) {
-        float rx = mat.m00() * x + mat.m01() * y + mat.m02() * z + mat.m03();
-        float ry = mat.m10() * x + mat.m11() * y + mat.m12() * z + mat.m13();
-        float rz = mat.m20() * x + mat.m21() * y + mat.m22() * z + mat.m23();
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03())));
+        float ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13())));
+        float rz = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23())));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1014,10 +1015,10 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulPositionW(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public float mulPositionW(Matrix4fc mat, Vector3f dest) {
-        float w = mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33();
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30();
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31();
-        float rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32();
+        float w = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1067,9 +1068,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulDirection(org.joml.Matrix4dc, org.joml.Vector3f)
      */
     public Vector3f mulDirection(Matrix4dc mat, Vector3f dest) {
-        double rx = mat.m00() * x + mat.m10() * y + mat.m20() * z;
-        double ry = mat.m01() * x + mat.m11() * y + mat.m21() * z;
-        double rz = mat.m02() * x + mat.m12() * y + mat.m22() * z;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
         dest.x = (float) rx;
         dest.y = (float) ry;
         dest.z = (float) rz;
@@ -1080,9 +1081,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulDirection(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public Vector3f mulDirection(Matrix4fc mat, Vector3f dest) {
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z;
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z;
-        float rz = mat.m02() * x + mat.m12() * y + mat.m22() * z;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1093,9 +1094,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulDirection(org.joml.Matrix4x3fc, org.joml.Vector3f)
      */
     public Vector3f mulDirection(Matrix4x3fc mat, Vector3f dest) {
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z;
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z;
-        float rz = mat.m02() * x + mat.m12() * y + mat.m22() * z;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1119,9 +1120,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#mulTransposeDirection(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public Vector3f mulTransposeDirection(Matrix4fc mat, Vector3f dest) {
-        float rx = mat.m00() * x + mat.m01() * y + mat.m02() * z;
-        float ry = mat.m10() * x + mat.m11() * y + mat.m12() * z;
-        float rz = mat.m20() * x + mat.m21() * y + mat.m22() * z;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
+        float ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
+        float rz = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1490,9 +1491,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#cross(org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3f cross(Vector3fc v, Vector3f dest) {
-        float rx = y * v.z() - z * v.y();
-        float ry = z * v.x() - x * v.z();
-        float rz = x * v.y() - y * v.x();
+        float rx = Math.fma(y, v.z(), -z * v.y());
+        float ry = Math.fma(z, v.x(), -x * v.z());
+        float rz = Math.fma(x, v.y(), -y * v.x());
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1503,9 +1504,9 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#cross(float, float, float, org.joml.Vector3f)
      */
     public Vector3f cross(float x, float y, float z, Vector3f dest) {
-        float rx = this.y * z - this.z * y;
-        float ry = this.z * x - this.x * z;
-        float rz = this.x * y - this.y * x;
+        float rx = Math.fma(this.y, z, -this.z * y);
+        float ry = Math.fma(this.z, x, -this.x * z);
+        float rz = Math.fma(this.x, y, -this.y * x);
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;

@@ -912,9 +912,9 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#mulAffine(org.joml.Matrix4fc, org.joml.Vector4f)
      */
     public Vector4f mulAffine(Matrix4fc mat, Vector4f dest) {
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
-        float rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -923,10 +923,10 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     private Vector4f mulGeneric(Matrix4fc mat, Vector4f dest) {
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
-        float rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
-        float rw = mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
+        float rw = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -950,9 +950,9 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#mul(org.joml.Matrix4x3fc, org.joml.Vector4f)
      */
     public Vector4f mul(Matrix4x3fc mat, Vector4f dest) {
-        float rx = mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w;
-        float ry = mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w;
-        float rz = mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -964,10 +964,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#mulProject(org.joml.Matrix4fc, org.joml.Vector4f)
      */
     public Vector4f mulProject(Matrix4fc mat, Vector4f dest) {
-        float invW = 1.0f / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
-        float rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW;
-        float ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW;
-        float rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW;
+        float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -990,10 +990,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#mulProject(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public Vector3f mulProject(Matrix4fc mat, Vector3f dest) {
-        float invW = 1.0f / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
-        float rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW;
-        float ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW;
-        float rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW;
+        float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
