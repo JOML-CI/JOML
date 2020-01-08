@@ -686,7 +686,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @see org.joml.Vector2fc#normalize(org.joml.Vector2f)
      */
     public Vector2f normalize(Vector2f dest) {
-        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
+        float invLength = Math.invsqrt(x * x + y * y);
         dest.x = x * invLength;
         dest.y = y * invLength;
         return dest;

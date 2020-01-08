@@ -239,7 +239,7 @@ public class Intersectiond {
             double a, double b, double c, double d,
             double centerX, double centerY, double centerZ, double radius,
             Vector4d intersectionCenterAndRadius) {
-        double invDenom = 1.0 / Math.sqrt(a * a + b * b + c * c);
+        double invDenom = Math.invsqrt(a * a + b * b + c * c);
         double dist = (a * centerX + b * centerY + c * centerZ + d) * invDenom;
         if (-radius <= dist && dist <= radius) {
             intersectionCenterAndRadius.x = centerX + dist * a * invDenom;
@@ -1491,7 +1491,7 @@ public class Intersectiond {
             b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
             c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
             computed = true;
-            double invLen = 1.0 / Math.sqrt(a*a + b*b + c*c);
+            double invLen = Math.invsqrt(a*a + b*b + c*c);
             a *= invLen; b *= invLen; c *= invLen;
             nd = -(a * v0X + b * v0Y + c * v0Z);
             d = (a * aX + b * aY + c * aZ + nd);
@@ -1515,7 +1515,7 @@ public class Intersectiond {
                 a = v1Y0Y * v2Z0Z - v2Y0Y * v1Z0Z;
                 b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
                 c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
-                double invLen = 1.0 / Math.sqrt(a*a + b*b + c*c);
+                double invLen = Math.invsqrt(a*a + b*b + c*c);
                 a *= invLen; b *= invLen; c *= invLen;
                 nd = -(a * v0X + b * v0Y + c * v0Z);
             }
@@ -1809,7 +1809,7 @@ public class Intersectiond {
         double b = v10Z * v20X - v20Z * v10X;
         double c = v10X * v20Y - v20X * v10Y;
         double d = -(a * v0X + b * v0Y + c * v0Z);
-        double invLen = 1.0 / Math.sqrt(a * a + b * b + c * c);
+        double invLen = Math.invsqrt(a * a + b * b + c * c);
         double signedDist = (a * centerX + b * centerY + c * centerZ + d) * invLen;
         double dot = (a * velX + b * velY + c * velZ) * invLen;
         if (dot < epsilon && dot > -epsilon)
@@ -3431,7 +3431,7 @@ public class Intersectiond {
      * @return <code>true</code> iff the line intersects the circle; <code>false</code> otherwise
      */
     public static boolean intersectLineCircle(double a, double b, double c, double centerX, double centerY, double radius, Vector3d intersectionCenterAndHL) {
-        double invDenom = 1.0 / Math.sqrt(a * a + b * b);
+        double invDenom = Math.invsqrt(a * a + b * b);
         double dist = (a * centerX + b * centerY + c) * invDenom;
         if (-radius <= dist && dist <= radius) {
             intersectionCenterAndHL.x = centerX + dist * a * invDenom;

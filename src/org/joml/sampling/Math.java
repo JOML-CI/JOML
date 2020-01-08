@@ -28,12 +28,12 @@ package org.joml.sampling;
  * 
  * @author Kai Burjack
  */
-class Math {
+class Math extends org.joml.Math {
 
     static final double PI = java.lang.Math.PI;
     static final double PI2 = PI * 2.0;
     static final double PIHalf = PI * 0.5;
-    static final double PI_INV = 1.0 / PI;
+    private static final double ONE_OVER_PI = 1.0 / PI;
     private static final double s5 = Double.longBitsToDouble(4523227044276562163L);
     private static final double s4 = Double.longBitsToDouble(-4671934770969572232L);
     private static final double s3 = Double.longBitsToDouble(4575957211482072852L);
@@ -47,7 +47,7 @@ class Math {
      * @author roquendm
      */
     static double sin_roquen_9(double v) {
-        double i = java.lang.Math.rint(v * PI_INV);
+        double i = java.lang.Math.rint(v * ONE_OVER_PI);
         double x = v - i * Math.PI;
         double qs = 1 - 2 * ((int) i & 1);
         double x2 = x * x;
@@ -59,40 +59,6 @@ class Math {
         r = r * x2 + s2;
         r = r * x2 + s1;
         return x * r;
-    }
-
-    static double acos(double a) {
-        //return java.lang.Math.acos(a);
-        /*
-         * http://stackoverflow.com/questions/3380628/fast-arc-cos-algorithm#answer-3380723
-         */
-        return (-0.69813170079773212 * a * a - 0.87266462599716477) * a + 1.5707963267948966;
-    }
-
-    /* Other math functions not yet approximated */
-
-    static double sqrt(double r) {
-        return java.lang.Math.sqrt(r);
-    }
-
-    static float min(float a, float b) {
-        return a < b ? a : b;
-    }
-
-    static int min(int a, int b) {
-        return a < b ? a : b;
-    }
-
-    static int max(int a, int b) {
-        return a > b ? a : b;
-    }
-
-    static float max(float a, float b) {
-        return a > b ? a : b;
-    }
-
-    static float abs(float r) {
-        return java.lang.Math.abs(r);
     }
 
 }

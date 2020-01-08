@@ -1350,7 +1350,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#normalize3(org.joml.Vector4f)
      */
     public Vector4f normalize3(Vector4f dest) {
-        float invLength = 1.0f / (float) Math.sqrt(x * x + y * y + z * z);
+        float invLength = Math.invsqrt(x * x + y * y + z * z);
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;

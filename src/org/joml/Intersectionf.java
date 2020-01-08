@@ -239,7 +239,7 @@ public class Intersectionf {
             float a, float b, float c, float d,
             float centerX, float centerY, float centerZ, float radius,
             Vector4f intersectionCenterAndRadius) {
-        float invDenom = 1.0f / (float) Math.sqrt(a * a + b * b + c * c);
+        float invDenom = Math.invsqrt(a * a + b * b + c * c);
         float dist = (a * centerX + b * centerY + c * centerZ + d) * invDenom;
         if (-radius <= dist && dist <= radius) {
             intersectionCenterAndRadius.x = centerX + dist * a * invDenom;
@@ -1491,7 +1491,7 @@ public class Intersectionf {
             b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
             c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
             computed = true;
-            float invLen = 1.0f / (float) Math.sqrt(a*a + b*b + c*c);
+            float invLen = Math.invsqrt(a*a + b*b + c*c);
             a *= invLen; b *= invLen; c *= invLen;
             nd = -(a * v0X + b * v0Y + c * v0Z);
             d = (a * aX + b * aY + c * aZ + nd);
@@ -1515,7 +1515,7 @@ public class Intersectionf {
                 a = v1Y0Y * v2Z0Z - v2Y0Y * v1Z0Z;
                 b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
                 c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
-                float invLen = 1.0f / (float) Math.sqrt(a*a + b*b + c*c);
+                float invLen = Math.invsqrt(a*a + b*b + c*c);
                 a *= invLen; b *= invLen; c *= invLen;
                 nd = -(a * v0X + b * v0Y + c * v0Z);
             }
@@ -1809,7 +1809,7 @@ public class Intersectionf {
         float b = v10Z * v20X - v20Z * v10X;
         float c = v10X * v20Y - v20X * v10Y;
         float d = -(a * v0X + b * v0Y + c * v0Z);
-        float invLen = (float) (1.0 / Math.sqrt(a * a + b * b + c * c));
+        float invLen = Math.invsqrt(a * a + b * b + c * c);
         float signedDist = (a * centerX + b * centerY + c * centerZ + d) * invLen;
         float dot = (a * velX + b * velY + c * velZ) * invLen;
         if (dot < epsilon && dot > -epsilon)
@@ -3431,7 +3431,7 @@ public class Intersectionf {
      * @return <code>true</code> iff the line intersects the circle; <code>false</code> otherwise
      */
     public static boolean intersectLineCircle(float a, float b, float c, float centerX, float centerY, float radius, Vector3f intersectionCenterAndHL) {
-        float invDenom = 1.0f / (float) Math.sqrt(a * a + b * b);
+        float invDenom = Math.invsqrt(a * a + b * b);
         float dist = (a * centerX + b * centerY + c) * invDenom;
         if (-radius <= dist && dist <= radius) {
             intersectionCenterAndHL.x = centerX + dist * a * invDenom;

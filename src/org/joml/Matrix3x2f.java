@@ -2456,16 +2456,16 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
     public boolean testCircle(float x, float y, float r) {
         float invl;
         float nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
-        invl = (float) (1.0 / Math.sqrt(nxX * nxX + nxY * nxY));
+        invl = Math.invsqrt(nxX * nxX + nxY * nxY);
         nxX *= invl; nxY *= invl; nxW *= invl;
         float pxX = -m00, pxY = -m10, pxW = 1.0f - m20;
-        invl = (float) (1.0 / Math.sqrt(pxX * pxX + pxY * pxY));
+        invl = Math.invsqrt(pxX * pxX + pxY * pxY);
         pxX *= invl; pxY *= invl; pxW *= invl;
         float nyX = +m01, nyY = +m11, nyW = 1.0f + m21;
-        invl = (float) (1.0 / Math.sqrt(nyX * nyX + nyY * nyY));
+        invl = Math.invsqrt(nyX * nyX + nyY * nyY);
         nyX *= invl; nyY *= invl; nyW *= invl;
         float pyX = -m01, pyY = -m11, pyW = 1.0f - m21;
-        invl = (float) (1.0 / Math.sqrt(pyX * pyX + pyY * pyY));
+        invl = Math.invsqrt(pyX * pyX + pyY * pyY);
         pyX *= invl; pyY *= invl; pyW *= invl;
         return nxX * x + nxY * y + nxW >= -r && pxX * x + pxY * y + pxW >= -r &&
                nyX * x + nyY * y + nyW >= -r && pyX * x + pyY * y + pyW >= -r;

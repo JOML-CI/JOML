@@ -2023,7 +2023,7 @@ public class Vector3f implements Externalizable, Vector3fc {
             ry = -v.z();
             rz = v.y();
         }
-        float invLen = 1.0f / (float) Math.sqrt(rx * rx + ry * ry + rz * rz);
+        float invLen = Math.invsqrt(rx * rx + ry * ry + rz * rz);
         dest.x = rx * invLen;
         dest.y = ry * invLen;
         dest.z = rz * invLen;

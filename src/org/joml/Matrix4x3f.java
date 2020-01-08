@@ -6113,7 +6113,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             return setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
 
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= -invDirLength;
         dirY *= -invDirLength;
         dirZ *= -invDirLength;
@@ -6123,7 +6123,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         leftY = upZ * dirX - upX * dirZ;
         leftZ = upX * dirY - upY * dirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -6259,7 +6259,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      */
     public Matrix4x3f setLookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= -invDirLength;
         dirY *= -invDirLength;
         dirZ *= -invDirLength;
@@ -6269,7 +6269,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         leftY = upZ * dirX - upX * dirZ;
         leftZ = upX * dirY - upY * dirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -6360,7 +6360,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dirY = eyeY - centerY;
         dirZ = eyeZ - centerZ;
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
@@ -6370,7 +6370,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         leftY = upZ * dirX - upX * dirZ;
         leftZ = upX * dirY - upY * dirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -6505,7 +6505,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dirY = eyeY - centerY;
         dirZ = eyeZ - centerZ;
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
@@ -6515,7 +6515,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         leftY = upZ * dirX - upX * dirZ;
         leftZ = upX * dirY - upY * dirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -6670,7 +6670,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
@@ -6680,7 +6680,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         leftY = upZ * dirX - upX * dirZ;
         leftZ = upX * dirY - upY * dirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -6813,7 +6813,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
@@ -6823,7 +6823,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         leftY = upZ * dirX - upX * dirZ;
         leftZ = upX * dirY - upY * dirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -7398,7 +7398,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @see org.joml.Matrix4x3fc#reflect(float, float, float, float, float, float, org.joml.Matrix4x3f)
      */
     public Matrix4x3f reflect(float nx, float ny, float nz, float px, float py, float pz, Matrix4x3f dest) {
-        float invLength = 1.0f / (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+        float invLength = Math.invsqrt(nx * nx + ny * ny + nz * nz);
         float nnx = nx * invLength;
         float nny = ny * invLength;
         float nnz = nz * invLength;
@@ -7523,7 +7523,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f reflection(float nx, float ny, float nz, float px, float py, float pz) {
-        float invLength = 1.0f / (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+        float invLength = Math.invsqrt(nx * nx + ny * ny + nz * nz);
         float nnx = nx * invLength;
         float nny = ny * invLength;
         float nnz = nz * invLength;
@@ -7916,9 +7916,9 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @see org.joml.Matrix4x3fc#normalize3x3(org.joml.Matrix4x3f)
      */
     public Matrix4x3f normalize3x3(Matrix4x3f dest) {
-        float invXlen = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
-        float invYlen = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
-        float invZlen = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
+        float invXlen = Math.invsqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        float invYlen = Math.invsqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        float invZlen = Math.invsqrt(m20 * m20 + m21 * m21 + m22 * m22);
         dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
         dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
         dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
@@ -7930,9 +7930,9 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @see org.joml.Matrix4x3fc#normalize3x3(org.joml.Matrix3f)
      */
     public Matrix3f normalize3x3(Matrix3f dest) {
-        float invXlen = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
-        float invYlen = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
-        float invZlen = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
+        float invXlen = Math.invsqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        float invYlen = Math.invsqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        float invZlen = Math.invsqrt(m20 * m20 + m21 * m21 + m22 * m22);
         dest.m00(m00 * invXlen); dest.m01(m01 * invXlen); dest.m02(m02 * invXlen);
         dest.m10(m10 * invYlen); dest.m11(m11 * invYlen); dest.m12(m12 * invYlen);
         dest.m20(m20 * invZlen); dest.m21(m21 * invZlen); dest.m22(m22 * invZlen);
@@ -8120,7 +8120,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      */
     public Matrix4x3f shadow(float lightX, float lightY, float lightZ, float lightW, float a, float b, float c, float d, Matrix4x3f dest) {
         // normalize plane
-        float invPlaneLen = (float) (1.0 / Math.sqrt(a*a + b*b + c*c));
+        float invPlaneLen = Math.invsqrt(a*a + b*b + c*c);
         float an = a * invPlaneLen;
         float bn = b * invPlaneLen;
         float cn = c * invPlaneLen;
@@ -8273,7 +8273,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         float leftY = up.z() * dirX - up.x() * dirZ;
         float leftZ = up.x() * dirY - up.y() * dirX;
         // normalize left
-        float invLeftLen = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLen = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLen;
         leftY *= invLeftLen;
         leftZ *= invLeftLen;
@@ -8283,7 +8283,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dirY = leftZ * up.x() - leftX * up.z();
         dirZ = leftX * up.y() - leftY * up.x();
         // normalize dir
-        float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLen = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
@@ -8329,7 +8329,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         float dirY = targetPos.y() - objPos.y();
         float dirZ = targetPos.z() - objPos.z();
         // normalize dir
-        float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLen = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
@@ -8338,7 +8338,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         float leftY = up.z() * dirX - up.x() * dirZ;
         float leftZ = up.x() * dirY - up.y() * dirX;
         // normalize left
-        float invLeftLen = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLen = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLen;
         leftY *= invLeftLen;
         leftZ *= invLeftLen;
@@ -8388,7 +8388,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         float x = -toDirY;
         float y = toDirX;
         float w = (float) Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ) + toDirZ;
-        float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + w * w));
+        float invNorm = Math.invsqrt(x * x + y * y + w * w);
         x *= invNorm;
         y *= invNorm;
         w *= invNorm;
@@ -8902,7 +8902,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      */
     public Matrix4x3f rotateTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix4x3f dest) {
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float ndirX = dirX * invDirLength;
         float ndirY = dirY * invDirLength;
         float ndirZ = dirZ * invDirLength;
@@ -8912,7 +8912,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         leftY = upZ * ndirX - upX * ndirZ;
         leftZ = upX * ndirY - upY * ndirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -9001,7 +9001,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      */
     public Matrix4x3f rotationTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float ndirX = dirX * invDirLength;
         float ndirY = dirY * invDirLength;
         float ndirZ = dirZ * invDirLength;
@@ -9011,7 +9011,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         leftY = upZ * ndirX - upX * ndirZ;
         leftZ = upX * ndirY - upY * ndirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -9089,7 +9089,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      */
     public Matrix4x3f translationRotateTowards(float posX, float posY, float posZ, float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float ndirX = dirX * invDirLength;
         float ndirY = dirY * invDirLength;
         float ndirZ = dirZ * invDirLength;
@@ -9099,7 +9099,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         leftY = upZ * ndirX - upX * ndirZ;
         leftZ = upX * ndirY - upY * ndirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -9275,7 +9275,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         float x = upX * m01 + upY * m11 + upZ * m21;
         if ((properties & PROPERTY_ORTHONORMAL) == 0)
             x *= (float) Math.sqrt(m01 * m01 + m11 * m11 + m21 * m21);
-        float invsqrt = 1.0f / (float) Math.sqrt(y * y + x * x);
+        float invsqrt = Math.invsqrt(y * y + x * x);
         float c = x * invsqrt, s = y * invsqrt;
         float nm00 = c * m00 - s * m01, nm10 = c * m10 - s * m11, nm20 = c * m20 - s * m21, nm31 = s * m30 + c * m31;
         float nm01 = s * m00 + c * m01, nm11 = s * m10 + c * m11, nm21 = s * m20 + c * m21, nm30 = c * m30 - s * m31;

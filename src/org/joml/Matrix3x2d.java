@@ -2452,16 +2452,16 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     public boolean testCircle(double x, double y, double r) {
         double invl;
         double nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
-        invl = 1.0 / Math.sqrt(nxX * nxX + nxY * nxY);
+        invl = Math.invsqrt(nxX * nxX + nxY * nxY);
         nxX *= invl; nxY *= invl; nxW *= invl;
         double pxX = -m00, pxY = -m10, pxW = 1.0f - m20;
-        invl = 1.0 / Math.sqrt(pxX * pxX + pxY * pxY);
+        invl = Math.invsqrt(pxX * pxX + pxY * pxY);
         pxX *= invl; pxY *= invl; pxW *= invl;
         double nyX = +m01, nyY = +m11, nyW = 1.0f + m21;
-        invl = 1.0 / Math.sqrt(nyX * nyX + nyY * nyY);
+        invl = Math.invsqrt(nyX * nyX + nyY * nyY);
         nyX *= invl; nyY *= invl; nyW *= invl;
         double pyX = -m01, pyY = -m11, pyW = 1.0f - m21;
-        invl = 1.0 / Math.sqrt(pyX * pyX + pyY * pyY);
+        invl = Math.invsqrt(pyX * pyX + pyY * pyY);
         pyX *= invl; pyY *= invl; pyW *= invl;
         return nxX * x + nxY * y + nxW >= -r && pxX * x + pxY * y + pxW >= -r &&
                nyX * x + nyY * y + nyW >= -r && pyX * x + pyY * y + pyW >= -r;

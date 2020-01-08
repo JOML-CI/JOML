@@ -558,7 +558,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         float y = axisAngle.y;
         float z = axisAngle.z;
         float angle = axisAngle.angle;
-        float invLength = (float) (1.0 / Math.sqrt(x*x + y*y + z*z));
+        float invLength = Math.invsqrt(x*x + y*y + z*z);
         x *= invLength;
         y *= invLength;
         z *= invLength;
@@ -3097,7 +3097,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     public Matrix3f lookAlong(float dirX, float dirY, float dirZ,
                               float upX, float upY, float upZ, Matrix3f dest) {
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= -invDirLength;
         dirY *= -invDirLength;
         dirZ *= -invDirLength;
@@ -3107,7 +3107,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         leftY = upZ * dirX - upX * dirZ;
         leftZ = upX * dirY - upY * dirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -3228,7 +3228,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     public Matrix3f setLookAlong(float dirX, float dirY, float dirZ,
                                  float upX, float upY, float upZ) {
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= -invDirLength;
         dirY *= -invDirLength;
         dirZ *= -invDirLength;
@@ -3238,7 +3238,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         leftY = upZ * dirX - upX * dirZ;
         leftZ = upX * dirY - upY * dirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -4171,7 +4171,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      */
     public Matrix3f rotateTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix3f dest) {
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float ndirX = dirX * invDirLength;
         float ndirY = dirY * invDirLength;
         float ndirZ = dirZ * invDirLength;
@@ -4181,7 +4181,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         leftY = upZ * ndirX - upX * ndirZ;
         leftZ = upX * ndirY - upY * ndirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -4266,7 +4266,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      */
     public Matrix3f rotationTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float ndirX = dirX * invDirLength;
         float ndirY = dirY * invDirLength;
         float ndirZ = dirZ * invDirLength;
@@ -4276,7 +4276,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         leftY = upZ * ndirX - upX * ndirZ;
         leftZ = upX * ndirY - upY * ndirX;
         // normalize left
-        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;

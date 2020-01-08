@@ -195,7 +195,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf normalize() {
-        float invNorm = (float) (1.0 / Math.sqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)))));
+        float invNorm = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
         x *= invNorm;
         y *= invNorm;
         z *= invNorm;
@@ -207,7 +207,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#normalize(org.joml.Quaternionf)
      */
     public Quaternionf normalize(Quaternionf dest) {
-        float invNorm = (float) (1.0 / Math.sqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)))));
+        float invNorm = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
         dest.x = x * invNorm;
         dest.y = y * invNorm;
         dest.z = z * invNorm;
@@ -338,7 +338,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float z = this.z;
         float w = this.w;
         if (w > 1.0f) {
-            float invNorm = (float) (1.0 / Math.sqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)))));
+            float invNorm = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
             x *= invNorm;
             y *= invNorm;
             z *= invNorm;
@@ -368,7 +368,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float z = this.z;
         float w = this.w;
         if (w > 1.0f) {
-            float invNorm = (float) (1.0 / Math.sqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)))));
+            float invNorm = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
             x *= invNorm;
             y *= invNorm;
             z *= invNorm;
@@ -616,7 +616,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf rotationAxis(float angle, float axisX, float axisY, float axisZ) {
         float hangle = angle / 2.0f;
         float sinAngle = (float) Math.sin(hangle);
-        float invVLength = (float) (1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ));
+        float invVLength = Math.invsqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
         x = axisX * invVLength * sinAngle;
         y = axisY * invVLength * sinAngle;
@@ -696,9 +696,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float nm00 = m00, nm01 = m01, nm02 = m02;
         float nm10 = m10, nm11 = m11, nm12 = m12;
         float nm20 = m20, nm21 = m21, nm22 = m22;
-        float lenX = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
-        float lenY = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
-        float lenZ = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
+        float lenX = Math.invsqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        float lenY = Math.invsqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        float lenZ = Math.invsqrt(m20 * m20 + m21 * m21 + m22 * m22);
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
@@ -745,9 +745,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         double nm00 = m00, nm01 = m01, nm02 = m02;
         double nm10 = m10, nm11 = m11, nm12 = m12;
         double nm20 = m20, nm21 = m21, nm22 = m22;
-        double lenX = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        double lenY = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        double lenZ = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        double lenX = Math.invsqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        double lenY = Math.invsqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        double lenZ = Math.invsqrt(m20 * m20 + m21 * m21 + m22 * m22);
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
@@ -1681,16 +1681,15 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#div(org.joml.Quaternionfc, org.joml.Quaternionf)
      */
     public Quaternionf div(Quaternionfc b, Quaternionf dest) {
-        float invNorm = 1.0f / (b.x() * b.x() + b.y() * b.y() + b.z() * b.z() + b.w() * b.w());
+        float invNorm = 1.0f / Math.fma(b.x(), b.x(), Math.fma(b.y(), b.y(), Math.fma(b.z(), b.z(), b.w() * b.w())));
         float x = -b.x() * invNorm;
         float y = -b.y() * invNorm;
         float z = -b.z() * invNorm;
         float w = b.w() * invNorm;
-        dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
-                 Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
-                 Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
-                 Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
-        return dest;
+        return dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
+                        Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
+                        Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
+                        Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
     }
 
     /**
@@ -2034,12 +2033,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#slerp(org.joml.Quaternionfc, float, org.joml.Quaternionf)
      */
     public Quaternionf slerp(Quaternionfc target, float alpha, Quaternionf dest) {
-        float cosom = x * target.x() + y * target.y() + z * target.z() + w * target.w();
+        float cosom = Math.fma(x, target.x(), Math.fma(y, target.y(), Math.fma(z, target.z(), w * target.w())));
         float absCosom = Math.abs(cosom);
         float scale0, scale1;
         if (1.0f - absCosom > 1E-6f) {
             float sinSqr = 1.0f - absCosom * absCosom;
-            float sinom = (float) (1.0 / Math.sqrt(sinSqr));
+            float sinom = Math.invsqrt(sinSqr);
             float omega = (float) Math.atan2(sinSqr * sinom, absCosom);
             scale0 = (float) (Math.sin((1.0 - alpha) * omega) * sinom);
             scale1 = (float) (Math.sin(alpha * omega) * sinom);
@@ -2199,14 +2198,14 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#nlerp(org.joml.Quaternionfc, float, org.joml.Quaternionf)
      */
     public Quaternionf nlerp(Quaternionfc q, float factor, Quaternionf dest) {
-        float cosom = x * q.x() + y * q.y() + z * q.z() + w * q.w();
+        float cosom = Math.fma(x, q.x(), Math.fma(y, q.y(), Math.fma(z, q.z(), w * q.w())));
         float scale0 = 1.0f - factor;
         float scale1 = (cosom >= 0.0f) ? factor : -factor;
-        dest.x = scale0 * x + scale1 * q.x();
-        dest.y = scale0 * y + scale1 * q.y();
-        dest.z = scale0 * z + scale1 * q.z();
-        dest.w = scale0 * w + scale1 * q.w();
-        float s = (float) (1.0 / Math.sqrt(dest.x * dest.x + dest.y * dest.y + dest.z * dest.z + dest.w * dest.w));
+        dest.x = Math.fma(scale0, x, scale1 * q.x());
+        dest.y = Math.fma(scale0, y, scale1 * q.y());
+        dest.z = Math.fma(scale0, z, scale1 * q.z());
+        dest.w = Math.fma(scale0, w, scale1 * q.w());
+        float s = Math.invsqrt(Math.fma(dest.x, dest.x, Math.fma(dest.y, dest.y, Math.fma(dest.z, dest.z, dest.w * dest.w))));
         dest.x *= s;
         dest.y *= s;
         dest.z *= s;
@@ -2250,7 +2249,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf nlerpIterative(Quaternionfc q, float alpha, float dotThreshold, Quaternionf dest) {
         float q1x = x, q1y = y, q1z = z, q1w = w;
         float q2x = q.x(), q2y = q.y(), q2z = q.z(), q2w = q.w();
-        float dot = q1x * q2x + q1y * q2y + q1z * q2z + q1w * q2w;
+        float dot = Math.fma(q1x, q2x, Math.fma(q1y, q2y, Math.fma(q1z, q2z, q1w * q2w)));
         float absDot = Math.abs(dot);
         if (1.0f - 1E-6f < absDot) {
             return dest.set(this);
@@ -2260,38 +2259,38 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             float scale0 = 0.5f;
             float scale1 = dot >= 0.0f ? 0.5f : -0.5f;
             if (alphaN < 0.5f) {
-                q2x = scale0 * q2x + scale1 * q1x;
-                q2y = scale0 * q2y + scale1 * q1y;
-                q2z = scale0 * q2z + scale1 * q1z;
-                q2w = scale0 * q2w + scale1 * q1w;
-                float s = (float) (1.0 / Math.sqrt(q2x * q2x + q2y * q2y + q2z * q2z + q2w * q2w));
+                q2x = Math.fma(scale0, q2x, scale1 * q1x);
+                q2y = Math.fma(scale0, q2y, scale1 * q1y);
+                q2z = Math.fma(scale0, q2z, scale1 * q1z);
+                q2w = Math.fma(scale0, q2w, scale1 * q1w);
+                float s = Math.invsqrt(Math.fma(q2x, q2x, Math.fma(q2y, q2y, Math.fma(q2z, q2z, q2w * q2w))));
                 q2x *= s;
                 q2y *= s;
                 q2z *= s;
                 q2w *= s;
                 alphaN = alphaN + alphaN;
             } else {
-                q1x = scale0 * q1x + scale1 * q2x;
-                q1y = scale0 * q1y + scale1 * q2y;
-                q1z = scale0 * q1z + scale1 * q2z;
-                q1w = scale0 * q1w + scale1 * q2w;
-                float s = (float) (1.0 / Math.sqrt(q1x * q1x + q1y * q1y + q1z * q1z + q1w * q1w));
+                q1x = Math.fma(scale0, q1x, scale1 * q2x);
+                q1y = Math.fma(scale0, q1y, scale1 * q2y);
+                q1z = Math.fma(scale0, q1z, scale1 * q2z);
+                q1w = Math.fma(scale0, q1w, scale1 * q2w);
+                float s = Math.invsqrt(Math.fma(q1x, q1x, Math.fma(q1y, q1y, Math.fma(q1z, q1z, q1w * q1w))));
                 q1x *= s;
                 q1y *= s;
                 q1z *= s;
                 q1w *= s;
                 alphaN = alphaN + alphaN - 1.0f;
             }
-            dot = q1x * q2x + q1y * q2y + q1z * q2z + q1w * q2w;
+            dot = Math.fma(q1x, q2x, Math.fma(q1y, q2y, Math.fma(q1z, q2z, q1w * q2w)));
             absDot = Math.abs(dot);
         }
         float scale0 = 1.0f - alphaN;
         float scale1 = dot >= 0.0f ? alphaN : -alphaN;
-        float resX = scale0 * q1x + scale1 * q2x;
-        float resY = scale0 * q1y + scale1 * q2y;
-        float resZ = scale0 * q1z + scale1 * q2z;
-        float resW = scale0 * q1w + scale1 * q2w;
-        float s = (float) (1.0 / Math.sqrt(resX * resX + resY * resY + resZ * resZ + resW * resW));
+        float resX = Math.fma(scale0, q1x, scale1 * q2x);
+        float resY = Math.fma(scale0, q1y, scale1 * q2y);
+        float resZ = Math.fma(scale0, q1z, scale1 * q2z);
+        float resW = Math.fma(scale0, q1w, scale1 * q2w);
+        float s = Math.invsqrt(Math.fma(resX, resX, Math.fma(resY, resY, Math.fma(resZ, resZ, resW * resW))));
         dest.x = resX * s;
         dest.y = resY * s;
         dest.z = resZ * s;
@@ -2427,7 +2426,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      */
     public Quaternionf lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternionf dest) {
         // Normalize direction
-        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
+        float invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float dirnX = -dirX * invDirLength;
         float dirnY = -dirY * invDirLength;
         float dirnZ = -dirZ * invDirLength;
@@ -2437,7 +2436,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         leftY = upZ * dirnX - upX * dirnZ;
         leftZ = upX * dirnY - upY * dirnX;
         // normalize left
-        float invLeftLength = (float) (1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ));
+        float invLeftLength = Math.invsqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
@@ -2571,7 +2570,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             z = cz * isd2;
             w = sd2 * 0.5f;
         }
-        float norm2 = 1.0f / (float) Math.sqrt(x*x + y*y + z*z + w*w);
+        float norm2 = Math.invsqrt(x*x + y*y + z*z + w*w);
         x *= norm2;
         y *= norm2;
         z *= norm2;
@@ -2825,7 +2824,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf rotateAxis(float angle, float axisX, float axisY, float axisZ, Quaternionf dest) {
         float hangle = angle / 2.0f;
         float sinAngle = (float) Math.sin(hangle);
-        float invVLength = (float) (1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ));
+        float invVLength = Math.invsqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
         float rx = axisX * invVLength * sinAngle;
         float ry = axisY * invVLength * sinAngle;
         float rz = axisZ * invVLength * sinAngle;

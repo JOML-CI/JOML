@@ -1500,7 +1500,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#normalize3(org.joml.Vector4d)
      */
     public Vector4d normalize3(Vector4d dest) {
-        double invLength = 1.0 / Math.sqrt(x * x + y * y + z * z);
+        double invLength = Math.invsqrt(x * x + y * y + z * z);
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;

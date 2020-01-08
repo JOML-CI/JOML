@@ -2469,7 +2469,7 @@ public class Vector3d implements Externalizable, Vector3dc {
             ry = -v.z();
             rz = v.y();
         }
-        double invLen = 1.0 / Math.sqrt(rx * rx + ry * ry + rz * rz);
+        double invLen = Math.invsqrt(rx * rx + ry * ry + rz * rz);
         dest.x = rx * invLen;
         dest.y = ry * invLen;
         dest.z = rz * invLen;

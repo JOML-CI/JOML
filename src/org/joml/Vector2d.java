@@ -924,7 +924,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#normalize(org.joml.Vector2d)
      */
     public Vector2d normalize(Vector2d dest) {
-        double invLength = 1.0 / Math.sqrt(x * x + y * y);
+        double invLength = Math.invsqrt(x * x + y * y);
         dest.x = x * invLength;
         dest.y = y * invLength;
         return dest;
@@ -945,7 +945,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#normalize(double, org.joml.Vector2d)
      */
     public Vector2d normalize(double length, Vector2d dest) {
-        double invLength = 1.0 / Math.sqrt(x * x + y * y) * length;
+        double invLength = Math.invsqrt(x * x + y * y) * length;
         dest.x = x * invLength;
         dest.y = y * invLength;
         return dest;

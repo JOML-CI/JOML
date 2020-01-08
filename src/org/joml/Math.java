@@ -236,6 +236,14 @@ public class Math {
         return java.lang.Math.sqrt(r);
     }
 
+    public static float invsqrt(float r) {
+        return 1.0f / (float) java.lang.Math.sqrt(r);
+    }
+
+    public static double invsqrt(double r) {
+        return 1.0 / java.lang.Math.sqrt(r);
+    }
+
     public static double tan(double r) {
         return java.lang.Math.tan(r);
     }

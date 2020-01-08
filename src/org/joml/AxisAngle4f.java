@@ -91,7 +91,7 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f(Quaternionfc q) {
         float acos = (float) Math.safeAcos(q.w());
-        float invSqrt = (float) (1.0 / Math.sqrt(1.0 - q.w() * q.w()));
+        float invSqrt = Math.invsqrt(1.0f - q.w() * q.w());
         this.x = q.x() * invSqrt;
         this.y = q.y() * invSqrt;
         this.z = q.z() * invSqrt;
@@ -203,7 +203,7 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f set(Quaternionfc q) {
         double acos = Math.safeAcos(q.w());
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
+        double invSqrt = Math.invsqrt(1.0 - q.w() * q.w());
         this.x = (float) (q.x() * invSqrt);
         this.y = (float) (q.y() * invSqrt);
         this.z = (float) (q.z() * invSqrt);
@@ -221,7 +221,7 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f set(Quaterniondc q) {
         double acos = Math.safeAcos(q.w());
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
+        double invSqrt = Math.invsqrt(1.0 - q.w() * q.w());
         this.x = (float) (q.x() * invSqrt);
         this.y = (float) (q.y() * invSqrt);
         this.z = (float) (q.z() * invSqrt);
@@ -243,9 +243,9 @@ public class AxisAngle4f implements Externalizable {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
         double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
-        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
-        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
-        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        double lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
@@ -295,9 +295,9 @@ public class AxisAngle4f implements Externalizable {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
         double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
-        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
-        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
-        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        double lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
@@ -347,9 +347,9 @@ public class AxisAngle4f implements Externalizable {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
         double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
-        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
-        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
-        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        double lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
@@ -399,9 +399,9 @@ public class AxisAngle4f implements Externalizable {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
         double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
-        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
-        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
-        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        double lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
@@ -451,9 +451,9 @@ public class AxisAngle4f implements Externalizable {
         double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
         double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
         double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
-        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
-        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
-        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        double lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
@@ -609,7 +609,7 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f normalize() {
-        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y + z * z));
+        float invLength = Math.invsqrt(x * x + y * y + z * z);
         x *= invLength;
         y *= invLength;
         z *= invLength;

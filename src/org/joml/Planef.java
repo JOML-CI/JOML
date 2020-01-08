@@ -169,7 +169,7 @@ public class Planef implements Externalizable {
      * @return dest
      */
     public Planef normalize(Planef dest) {
-        float invLength = 1.0f / (float) Math.sqrt(a * a + b * b + c * c);
+        float invLength = Math.invsqrt(a * a + b * b + c * c);
         dest.a = a * invLength;
         dest.b = b * invLength;
         dest.c = c * invLength;
