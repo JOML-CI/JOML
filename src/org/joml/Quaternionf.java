@@ -1783,11 +1783,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float y = cx*sycz - sx*cysz;
         float z = cx*cysz + sx*sycz;
         // right-multiply
-        dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
-                 Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
-                 Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
-                 Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
-        return dest;
+        return dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
+                        Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
+                        Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
+                        Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
     }
 
     /**
@@ -1833,11 +1832,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float y = cx*sycz + sx*cysz;
         float z = cx*cysz - sx*sycz;
         // right-multiply
-        dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
-                 Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
-                 Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
-                 Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
-        return dest;
+        return dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
+                        Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
+                        Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
+                        Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
     }
 
     /**
@@ -1883,11 +1881,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float z = yw * sz - yz * cz;
         float w = yw * cz + yz * sz;
         // right-multiply
-        dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
-                 Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
-                 Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
-                 Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
-        return dest;
+        return dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
+                        Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
+                        Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
+                        Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
     }
 
     /* (non-Javadoc)
@@ -2824,7 +2821,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf rotateAxis(float angle, float axisX, float axisY, float axisZ, Quaternionf dest) {
         float hangle = angle / 2.0f;
         float sinAngle = (float) Math.sin(hangle);
-        float invVLength = Math.invsqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        float invVLength = Math.invsqrt(Math.fma(axisX, axisX, Math.fma(axisY, axisY, axisZ * axisZ)));
         float rx = axisX * invVLength * sinAngle;
         float ry = axisY * invVLength * sinAngle;
         float rz = axisZ * invVLength * sinAngle;
@@ -2976,7 +2973,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#difference(org.joml.Quaternionfc, org.joml.Quaternionf)
      */
     public Quaternionf difference(Quaternionfc other, Quaternionf dest) {
-        float invNorm = 1.0f / Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
+        float invNorm = 1.0f / lengthSquared();
         float x = -this.x * invNorm;
         float y = -this.y * invNorm;
         float z = -this.z * invNorm;
@@ -2992,7 +2989,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#positiveX(org.joml.Vector3f)
      */
     public Vector3f positiveX(Vector3f dir) {
-        float invNorm = 1.0f / Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
+        float invNorm = 1.0f / lengthSquared();
         float nx = -x * invNorm;
         float ny = -y * invNorm;
         float nz = -z * invNorm;
@@ -3021,7 +3018,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#positiveY(org.joml.Vector3f)
      */
     public Vector3f positiveY(Vector3f dir) {
-        float invNorm = 1.0f / Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
+        float invNorm = 1.0f / lengthSquared();
         float nx = -x * invNorm;
         float ny = -y * invNorm;
         float nz = -z * invNorm;
@@ -3052,7 +3049,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#positiveZ(org.joml.Vector3f)
      */
     public Vector3f positiveZ(Vector3f dir) {
-        float invNorm = 1.0f / Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
+        float invNorm = 1.0f / lengthSquared();
         float nx = -x * invNorm;
         float ny = -y * invNorm;
         float nz = -z * invNorm;
@@ -3101,17 +3098,15 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return dest
      */
     public Quaternionf conjugateBy(Quaternionfc q, Quaternionf dest) {
-        float invNorm = 1.0f / (q.x() * q.x() + q.y() * q.y() + q.z() * q.z() + q.w() * q.w());
+        float invNorm = 1.0f / q.lengthSquared();
         float qix = -q.x() * invNorm, qiy = -q.y() * invNorm, qiz = -q.z() * invNorm, qiw = q.w() * invNorm;
-        float qpx = q.w() * x + q.x() * w + q.y() * z - q.z() * y;
-        float qpy = q.w() * y - q.x() * z + q.y() * w + q.z() * x;
-        float qpz = q.w() * z + q.x() * y - q.y() * x + q.z() * w;
-        float qpw = q.w() * w - q.x() * x - q.y() * y - q.z() * z;
-        dest.x = qpw * qix + qpx * qiw + qpy * qiz - qpz * qiy;
-        dest.y = qpw * qiy - qpx * qiz + qpy * qiw + qpz * qix;
-        dest.z = qpw * qiz + qpx * qiy - qpy * qix + qpz * qiw;
-        dest.w = qpw * qiw - qpx * qix - qpy * qiy - qpz * qiz;
-        return dest;
+        float qpx = Math.fma(q.w(), x, Math.fma(q.x(), w, Math.fma(q.y(), z, -q.z() * y)));
+        float qpy = Math.fma(q.w(), y, Math.fma(-q.x(), z, Math.fma(q.y(), w, q.z() * x)));
+        float qpz = Math.fma(q.w(), z, Math.fma(q.x(), y, Math.fma(-q.y(), x, q.z() * w)));
+        float qpw = Math.fma(q.w(), w, Math.fma(-q.x(), x, Math.fma(-q.y(), y, -q.z() * z)));
+        return dest.set(Math.fma(qpw, qix, Math.fma(qpx, qiw, Math.fma(qpy, qiz, -qpz * qiy))),
+                        Math.fma(qpw, qiy, Math.fma(-qpx, qiz, Math.fma(qpy, qiw, qpz * qix))),
+                        Math.fma(qpw, qiz, Math.fma(qpx, qiy, Math.fma(-qpy, qix, qpz * qiw))),
+                        Math.fma(qpw, qiw, Math.fma(-qpx, qix, Math.fma(-qpy, qiy, -qpz * qiz))));
     }
-
 }
