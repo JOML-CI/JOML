@@ -1263,11 +1263,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @author F. Neurath
      */
     public static float lengthSquared(float x, float y, float z, float w) {
-        return x * x + y * y + z * z + w * w;
+        return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
 
     public static float lengthSquared(int x, int y, int z, int w) {
-        return x * x + y * y + z * z + w * w;
+        return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
 
     /* (non-Javadoc)
@@ -1290,7 +1290,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @author F. Neurath
      */
     public static float length(float x, float y, float z, float w) {
-        return (float) Math.sqrt(x * x + y * y + z * z + w * w);
+        return (float) Math.sqrt(lengthSquared(x, y, z, w));
     }
 
     /**
@@ -1350,7 +1350,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#normalize3(org.joml.Vector4f)
      */
     public Vector4f normalize3(Vector4f dest) {
-        float invLength = Math.invsqrt(x * x + y * y + z * z);
+        float invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;
@@ -1387,7 +1387,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         float dy = this.y - y;
         float dz = this.z - z;
         float dw = this.w - w;
-        return dx * dx + dy * dy + dz * dz + dw * dw;
+        return Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw)));
     }
 
     /**
@@ -1441,31 +1441,31 @@ public class Vector4f implements Externalizable, Vector4fc {
         float dy = y1 - y2;
         float dz = z1 - z2;
         float dw = w1 - w2;
-        return dx * dx + dy * dy + dz * dz + dw * dw;
+        return Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw)));
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#dot(org.joml.Vector4fc)
      */
     public float dot(Vector4fc v) {
-        return x * v.x() + y * v.y() + z * v.z() + w * v.w();
+        return dot(v.x(), v.y(), v.z(), v.w());
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#dot(float, float, float, float)
      */
     public float dot(float x, float y, float z, float w) {
-        return this.x * x + this.y * y + this.z * z + this.w * w;
+        return Math.fma(this.x, x, Math.fma(this.y, y, Math.fma(this.z, z, this.w * w)));
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#angleCos(org.joml.Vector4fc)
      */
     public float angleCos(Vector4fc v) {
-        double length1Squared = x * x + y * y + z * z + w * w;
-        double length2Squared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z() + v.w() * v.w();
-        double dot = x * v.x() + y * v.y() + z * v.z() + w * v.w();
-        return (float) (dot / (Math.sqrt(length1Squared * length2Squared)));
+        float length1Squared = Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
+        float length2Squared = Math.fma(v.x(), v.x(), Math.fma(v.y(), v.y(), Math.fma(v.z(), v.z(), v.w() * v.w())));
+        float dot = Math.fma(x, v.x(), Math.fma(y, v.y(), Math.fma(z, v.z(), w * v.w())));
+        return dot / (float) Math.sqrt(length1Squared * length2Squared);
     }
 
     /* (non-Javadoc)

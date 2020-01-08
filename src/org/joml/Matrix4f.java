@@ -6799,10 +6799,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
     private Matrix4f translateGeneric(float x, float y, float z, Matrix4f dest) {
         MemUtil.INSTANCE.copy(this, dest);
-        dest._m30(m00 * x + m10 * y + m20 * z + m30);
-        dest._m31(m01 * x + m11 * y + m21 * z + m31);
-        dest._m32(m02 * x + m12 * y + m22 * z + m32);
-        dest._m33(m03 * x + m13 * y + m23 * z + m33);
+        dest._m30(Math.fma(m00, x, Math.fma(m10, y, Math.fma(m20, z, m30))));
+        dest._m31(Math.fma(m01, x, Math.fma(m11, y, Math.fma(m21, z, m31))));
+        dest._m32(Math.fma(m02, x, Math.fma(m12, y, Math.fma(m22, z, m32))));
+        dest._m33(Math.fma(m03, x, Math.fma(m13, y, Math.fma(m23, z, m33))));
         dest._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY));
         return dest;
     }
@@ -6832,10 +6832,13 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f translate(float x, float y, float z) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return translation(x, y, z);
-        this._m30(m00 * x + m10 * y + m20 * z + m30);
-        this._m31(m01 * x + m11 * y + m21 * z + m31);
-        this._m32(m02 * x + m12 * y + m22 * z + m32);
-        this._m33(m03 * x + m13 * y + m23 * z + m33);
+        return translateGeneric(x, y, z);
+    }
+    private Matrix4f translateGeneric(float x, float y, float z) {
+        this._m30(Math.fma(m00, x, Math.fma(m10, y, Math.fma(m20, z, m30))));
+        this._m31(Math.fma(m01, x, Math.fma(m11, y, Math.fma(m21, z, m31))));
+        this._m32(Math.fma(m02, x, Math.fma(m12, y, Math.fma(m22, z, m32))));
+        this._m33(Math.fma(m03, x, Math.fma(m13, y, Math.fma(m23, z, m33))));
         properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
         return this;
     }

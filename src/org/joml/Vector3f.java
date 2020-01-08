@@ -1394,7 +1394,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @author F. Neurath
      */
     public static float lengthSquared(float x, float y, float z) {
-        return x * x + y * y + z * z;
+        return Math.fma(x, x, Math.fma(y, y, z * z));
     }
 
     /* (non-Javadoc)
@@ -1524,10 +1524,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#distance(float, float, float)
      */
     public float distance(float x, float y, float z) {
-        float dx = this.x - x;
-        float dy = this.y - y;
-        float dz = this.z - z;
-        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
+        return (float) Math.sqrt(distanceSquared(x, y, z));
     }
 
     /* (non-Javadoc)
@@ -1544,7 +1541,7 @@ public class Vector3f implements Externalizable, Vector3fc {
         float dx = this.x - x;
         float dy = this.y - y;
         float dz = this.z - z;
-        return dx * dx + dy * dy + dz * dz;
+        return Math.fma(dx, dx, Math.fma(dy, dy, dz * dz));
     }
 
     /**
@@ -1589,7 +1586,7 @@ public class Vector3f implements Externalizable, Vector3fc {
         float dx = x1 - x2;
         float dy = y1 - y2;
         float dz = z1 - z2;
-        return dx * dx + dy * dy + dz * dz;
+        return Math.fma(dx, dx, Math.fma(dy, dy, dz * dz));
     }
 
     /* (non-Javadoc)
@@ -1603,17 +1600,17 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#dot(float, float, float)
      */
     public float dot(float x, float y, float z) {
-        return this.x * x + this.y * y + this.z * z;
+        return Math.fma(this.x, x, Math.fma(this.y, y, this.z * z));
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector3fc#angleCos(org.joml.Vector3fc)
      */
     public float angleCos(Vector3fc v) {
-        double length1Squared = x * x + y * y + z * z;
-        double length2Squared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z();
-        double dot = x * v.x() + y * v.y() + z * v.z();
-        return (float) (dot / (Math.sqrt(length1Squared * length2Squared)));
+        float length1Squared = Math.fma(x, x, Math.fma(y, y, z * z));
+        float length2Squared = Math.fma(v.x(), v.x(), Math.fma(v.y(), v.y(), v.z() * v.z()));
+        float dot = Math.fma(x, v.x(), Math.fma(y, v.y(), z * v.z()));
+        return dot / (float)Math.sqrt(length1Squared * length2Squared);
     }
 
     /* (non-Javadoc)

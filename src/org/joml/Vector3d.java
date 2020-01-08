@@ -1839,7 +1839,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @author F. Neurath
      */
     public static double lengthSquared(double x, double y, double z) {
-        return x * x + y * y + z * z;
+        return Math.fma(x, x, Math.fma(y, y, z * z));
     }
 
     /* (non-Javadoc)
@@ -1936,9 +1936,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#cross(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d cross(Vector3dc v, Vector3d dest) {
-        double rx = y * v.z() - z * v.y();
-        double ry = z * v.x() - x * v.z();
-        double rz = x * v.y() - y * v.x();
+        double rx = Math.fma(y, v.z(), -z * v.y());
+        double ry = Math.fma(z, v.x(), -x * v.z());
+        double rz = Math.fma(x, v.y(), -y * v.x());
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1949,9 +1949,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#cross(double, double, double, org.joml.Vector3d)
      */
     public Vector3d cross(double x, double y, double z, Vector3d dest) {
-        double rx = this.y * z - this.z * y;
-        double ry = this.z * x - this.x * z;
-        double rz = this.x * y - this.y * x;
+        double rx = Math.fma(this.y, z, -this.z * y);
+        double ry = Math.fma(this.z, x, -this.x * z);
+        double rz = Math.fma(this.x, y, -this.y * x);
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
@@ -1986,7 +1986,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         double dx = this.x - x;
         double dy = this.y - y;
         double dz = this.z - z;
-        return dx * dx + dy * dy + dz * dz;
+        return Math.fma(dx, dx, Math.fma(dy, dy, dz * dz));
     }
 
     /**
@@ -2031,7 +2031,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         double dx = x1 - x2;
         double dy = y1 - y2;
         double dz = z1 - z2;
-        return dx * dx + dy * dy + dz * dz;
+        return Math.fma(dx, dx, Math.fma(dy, dy, dz * dz));
     }
 
     /* (non-Javadoc)
@@ -2045,17 +2045,17 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#dot(float, float, float)
      */
     public double dot(double x, double y, double z) {
-        return this.x * x + this.y * y + this.z * z;
+        return Math.fma(this.x, x, Math.fma(this.y, y, this.z * z));
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#angleCos(org.joml.Vector3dc)
      */
     public double angleCos(Vector3dc v) {
-        double length1Squared = x * x + y * y + z * z;
-        double length2Squared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z();
-        double dot = x * v.x() + y * v.y() + z * v.z();
-        return dot / (Math.sqrt(length1Squared * length2Squared));
+        double length1Squared = Math.fma(x, x, Math.fma(y, y, z * z));
+        double length2Squared = Math.fma(v.x(), v.x(), Math.fma(v.y(), v.y(), v.z() * v.z()));
+        double dot = Math.fma(x, v.x(), Math.fma(y, v.y(), z * v.z()));
+        return dot / Math.sqrt(length1Squared * length2Squared);
     }
 
     /* (non-Javadoc)

@@ -1417,7 +1417,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @author F. Neurath
      */
     public static double lengthSquared(double x, double y, double z, double w) {
-        return x * x + y * y + z * z + w * w;
+        return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
 
     /* (non-Javadoc)
@@ -1500,7 +1500,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#normalize3(org.joml.Vector4d)
      */
     public Vector4d normalize3(Vector4d dest) {
-        double invLength = Math.invsqrt(x * x + y * y + z * z);
+        double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;
@@ -1537,7 +1537,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         double dy = this.y - y;
         double dz = this.z - z;
         double dw = this.w - w;
-        return dx * dx + dy * dy + dz * dz + dw * dw;
+        return Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw)));
     }
 
     /**
@@ -1591,7 +1591,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         double dy = y1 - y2;
         double dz = z1 - z2;
         double dw = w1 - w2;
-        return dx * dx + dy * dy + dz * dz + dw * dw;
+        return Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw)));
     }
 
     /* (non-Javadoc)
@@ -1605,17 +1605,17 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#dot(double, double, double, double)
      */
     public double dot(double x, double y, double z, double w) {
-        return this.x * x + this.y * y + this.z * z + this.w * w;
+        return Math.fma(this.x, x, Math.fma(this.y, y, Math.fma(this.z, z, this.w * w)));
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4dc#angleCos(org.joml.Vector4dc)
      */
     public double angleCos(Vector4dc v) {
-        double length1Squared = x * x + y * y + z * z + w * w;
-        double length2Squared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z() + v.w() * v.w();
-        double dot = x * v.x() + y * v.y() + z * v.z() + w * v.w();
-        return dot / (Math.sqrt(length1Squared * length2Squared));
+        double length1Squared = Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
+        double length2Squared = Math.fma(v.x(), v.x(), Math.fma(v.y(), v.y(), Math.fma(v.z(), v.z(), v.w() * v.w())));
+        double dot = Math.fma(x, v.x(), Math.fma(y, v.y(), Math.fma(z, v.z(), w * v.w())));
+        return dot / Math.sqrt(length1Squared * length2Squared);
     }
 
     /* (non-Javadoc)

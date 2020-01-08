@@ -5646,10 +5646,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m21 = m21;
         dest.m22 = m22;
         dest.m23 = m23;
-        dest.m30 = m00 * x + m10 * y + m20 * z + m30;
-        dest.m31 = m01 * x + m11 * y + m21 * z + m31;
-        dest.m32 = m02 * x + m12 * y + m22 * z + m32;
-        dest.m33 = m03 * x + m13 * y + m23 * z + m33;
+        dest._m30(Math.fma(m00, x, Math.fma(m10, y, Math.fma(m20, z, m30))));
+        dest._m31(Math.fma(m01, x, Math.fma(m11, y, Math.fma(m21, z, m31))));
+        dest._m32(Math.fma(m02, x, Math.fma(m12, y, Math.fma(m22, z, m32))));
+        dest._m33(Math.fma(m03, x, Math.fma(m13, y, Math.fma(m23, z, m33))));
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
         return dest;
     }
@@ -5679,12 +5679,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d translate(double x, double y, double z) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return translation(x, y, z);
-        Matrix4d c = this;
-        c.m30 = c.m00 * x + c.m10 * y + c.m20 * z + c.m30;
-        c.m31 = c.m01 * x + c.m11 * y + c.m21 * z + c.m31;
-        c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
-        c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
-        c.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
+        this._m30(Math.fma(m00, x, Math.fma(m10, y, Math.fma(m20, z, m30))));
+        this._m31(Math.fma(m01, x, Math.fma(m11, y, Math.fma(m21, z, m31))));
+        this._m32(Math.fma(m02, x, Math.fma(m12, y, Math.fma(m22, z, m32))));
+        this._m33(Math.fma(m03, x, Math.fma(m13, y, Math.fma(m23, z, m33))));
+        this.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
         return this;
     }
 
