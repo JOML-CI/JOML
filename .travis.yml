@@ -1,6 +1,6 @@
 language: java
 dist: trusty
-sudo: false
+os: linux
 git:
   depth: 1
 cache:
@@ -14,14 +14,11 @@ env:
     - secure: "CTXe/8wI8l+kMAnujvmMISAESV+3sQWGvz/SOzsoAby6xwIpAQRjzVVEmbovFS8sb78VP2qmmm84hJAq37VffCVrgywS7zHiG/ny4V4QvjqemxyBR7Ft8X1LzI5kGXFxv+DPGRWOzWc5IJ0FI9pf8ML7GVV7fvIz+lqsnYl9IWI="
     - secure: "TvzL53KDcjCgddNSZiByNipetAffHwpWIORXSxscKly86CrvacCERc0eHHAKPNsYq+1Y0sm2HUPuazVXIuAGsvAm46AYDA8ZG7x2dxr+Fpc1T7zilCS8yNzwwjWv/F9t2d9UC2nstmvX2HyA+1yeC1NamtVyBuvURTFdIzbWSqo="
     - secure: "fPGWnjcUM1rP26dvDaL1SPlrB1yRlsZKrTTb011GA0fq9aIXEMXfUN9F4p0gYG2vxLOFD+hUArky81kgSqSI1XVJTQMnTTO9OEAiIk+4w1ZsS/5pWU01YnSMo1/yyNlYvnZGZIIS+OZFs2zeJbn/tWrDuXeQ4ddv5AsEhi0DabY="
-matrix:
+jobs:
   include:
-    - os: linux
-      jdk: openjdk7
-    - os: linux
-      jdk: openjdk8
-    - os: linux
-      jdk: openjdk9
+    - jdk: openjdk7
+    - jdk: openjdk8
+    - jdk: openjdk9
       after_success:
         - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && 
           openssl aes-256-cbc -pass pass:$ENCRYPTION_KEY -in .travis/pubring.asc.enc -out ./pubring.asc -d &&
@@ -31,16 +28,11 @@ matrix:
           ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Djdk3  -Dmaven.test.skip=true -f pom-jdk3.xml &&
           ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Djdk8  -Dmaven.test.skip=true -f pom-jdk8.xml &&
           ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Dgraal -Dmaven.test.skip=true -f pom-graal.xml
-    - os: linux
-      jdk: openjdk10
-    - os: linux
-      jdk: openjdk11
-    - os: linux
-      jdk: openjdk12
-    - os: linux
-      jdk: openjdk13
-    - os: linux
-      jdk: openjdk-ea
+    - jdk: openjdk10
+    - jdk: openjdk11
+    - jdk: openjdk12
+    - jdk: openjdk13
+    - jdk: openjdk-ea
 script: 
   - ./mvnw clean package -Dmaven.javadoc.skip=false
   - sed 's;<artifactId>joml</artifactId>;<artifactId>joml-gwt</artifactId>;'  pom.xml > pom-gwt.xml  && ./mvnw clean package -Dmaven.javadoc.skip=false -Dgwt  -f pom-gwt.xml
