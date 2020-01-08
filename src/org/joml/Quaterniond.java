@@ -2958,7 +2958,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      *          the {@link Quaterniondc} to conjugate <code>this</code> by
      * @return this
      */
-    public Quaterniond conjugate(Quaterniondc q) {
+    public Quaterniond conjugateBy(Quaterniondc q) {
         return conjugateBy(q, this);
     }
 
