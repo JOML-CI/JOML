@@ -32,6 +32,43 @@ public final class Runtime {
 //#endif
 //#ifdef __HAS_MATH_FMA__
     public static final boolean HAS_Math_fma = hasMathFma();
+
+    private static boolean hasCpuLikelyFma3() {
+        /*
+         * The idea here is to do a time measurement to see whether
+         * we enter the veeeery slow BigDecimal-based fallback implementation
+         * of java.lang.Math.fma(double, double, double) when the CPU does not
+         * support the FMA3 extension.
+         * Doing this is relatively safe because the fallback implementation
+         * is around 1000x slower than the native FMA3 instruction and we can
+         * use a large error margin in the test.
+         * All the magic constants below are empirically determined based on
+         * a test on JDK-14 on an i7-3820QM which does not support FMA3 and
+         * on an i7-7700K which does support it.
+         */
+        double a = Math.random(), b = Math.random(), c = Math.random();
+        double ret = Math.fma(a, b, c); // <- initialize BigDecimal
+        long t1 = System.nanoTime();
+        int N = 100;
+        for (int i = 0; i < N; i++)
+            ret += Math.fma(a, b, c);
+        long t2 = System.nanoTime();
+        for (int i = 0; i < N; i++)
+            ret += a * b + c;
+        long t3 = System.nanoTime();
+        long dt1 = t2 - t1, dt2 = t3 - t2;
+        double f = (dt1 - dt2) / (double) dt2;
+        return ret > 0 && f < 30.0;
+    }
+
+    private static boolean hasMathFma() {
+        try {
+            java.lang.Math.class.getDeclaredMethod("fma", new Class[] { float.class, float.class, float.class });
+            return hasCpuLikelyFma3();
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+    }
 //#endif
 
     private Runtime() {
@@ -50,15 +87,6 @@ public final class Runtime {
     private static boolean hasDoubleToRawLongBits() {
         try {
             Double.class.getDeclaredMethod("doubleToRawLongBits", new Class[] { double.class });
-            return true;
-        } catch (NoSuchMethodException e) {
-            return false;
-        }
-    }
-
-    private static boolean hasMathFma() {
-        try {
-            java.lang.Math.class.getDeclaredMethod("fma", new Class[] { float.class, float.class, float.class });
             return true;
         } catch (NoSuchMethodException e) {
             return false;
