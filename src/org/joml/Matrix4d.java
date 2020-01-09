@@ -1580,7 +1580,85 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
+        else if ((properties & PROPERTY_TRANSLATION) != 0)
+            return mulTranslation(right, dest);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return mulAffine(right, dest);
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0)
+            return mulPerspectiveAffine(right, dest);
         return mulGeneric(right, dest);
+    }
+    private Matrix4d mulTranslation(Matrix4x3dc right, Matrix4d dest) {
+        double nm00 = right.m00();
+        double nm01 = right.m01();
+        double nm02 = right.m02();
+        double nm03 = m03;
+        double nm10 = right.m10();
+        double nm11 = right.m11();
+        double nm12 = right.m12();
+        double nm13 = m13;
+        double nm20 = right.m20();
+        double nm21 = right.m21();
+        double nm22 = right.m22();
+        double nm23 = m23;
+        double nm30 = right.m30() + m30;
+        double nm31 = right.m31() + m31;
+        double nm32 = right.m32() + m32;
+        double nm33 = m33;
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
+        dest.properties = PROPERTY_AFFINE | (right.properties() & PROPERTY_ORTHONORMAL);
+        return dest;
+    }
+    private Matrix4d mulAffine(Matrix4x3dc right, Matrix4d dest) {
+        double nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
+        double nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
+        double nm02 = Math.fma(m02, right.m00(), Math.fma(m12, right.m01(), m22 * right.m02()));
+        double nm03 = m03;
+        double nm10 = Math.fma(m00, right.m10(), Math.fma(m10, right.m11(), m20 * right.m12()));
+        double nm11 = Math.fma(m01, right.m10(), Math.fma(m11, right.m11(), m21 * right.m12()));
+        double nm12 = Math.fma(m02, right.m10(), Math.fma(m12, right.m11(), m22 * right.m12()));
+        double nm13 = m13;
+        double nm20 = Math.fma(m00, right.m20(), Math.fma(m10, right.m21(), m20 * right.m22()));
+        double nm21 = Math.fma(m01, right.m20(), Math.fma(m11, right.m21(), m21 * right.m22()));
+        double nm22 = Math.fma(m02, right.m20(), Math.fma(m12, right.m21(), m22 * right.m22()));
+        double nm23 = m23;
+        double nm30 = Math.fma(m00, right.m30(), Math.fma(m10, right.m31(), Math.fma(m20, right.m32(), m30)));
+        double nm31 = Math.fma(m01, right.m30(), Math.fma(m11, right.m31(), Math.fma(m21, right.m32(), m31)));
+        double nm32 = Math.fma(m02, right.m30(), Math.fma(m12, right.m31(), Math.fma(m22, right.m32(), m32)));
+        double nm33 = m33;
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
+        dest.properties = PROPERTY_AFFINE | (this.properties & right.properties() & PROPERTY_ORTHONORMAL);
+        return dest;
     }
     private Matrix4d mulGeneric(Matrix4x3dc right, Matrix4d dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
@@ -1599,23 +1677,59 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
         double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
         double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
-        dest.m22 = nm22;
-        dest.m23 = nm23;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.m33 = nm33;
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
         dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
+        return dest;
+    }
+    public Matrix4d mulPerspectiveAffine(Matrix4x3dc view, Matrix4d dest) {
+        double nm00 = m00 * view.m00();
+        double nm01 = m11 * view.m01();
+        double nm02 = m22 * view.m02();
+        double nm03 = m23 * view.m02();
+        double nm10 = m00 * view.m10();
+        double nm11 = m11 * view.m11();
+        double nm12 = m22 * view.m12();
+        double nm13 = m23 * view.m12();
+        double nm20 = m00 * view.m20();
+        double nm21 = m11 * view.m21();
+        double nm22 = m22 * view.m22();
+        double nm23 = m23 * view.m22();
+        double nm30 = m00 * view.m30();
+        double nm31 = m11 * view.m31();
+        double nm32 = m22 * view.m32() + m32;
+        double nm33 = m23 * view.m32();
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
+        dest.properties = 0;
         return dest;
     }
 

@@ -413,6 +413,22 @@ public interface Matrix4dc {
     Matrix4d mulPerspectiveAffine(Matrix4dc view, Matrix4d dest);
 
     /**
+     * Multiply <code>this</code> symmetric perspective projection matrix by the supplied <code>view</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>P</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>P * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>P * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the matrix to multiply <code>this</code> symmetric perspective projection matrix by
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    Matrix4d mulPerspectiveAffine(Matrix4x3dc view, Matrix4d dest);
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
      * <p>
      * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <code>(0, 0, 0, 1)</code>)

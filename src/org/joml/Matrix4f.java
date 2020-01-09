@@ -1511,9 +1511,85 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
+        else if ((properties & PROPERTY_TRANSLATION) != 0)
+            return mulTranslation(right, dest);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return mulAffine(right, dest);
         else if ((properties & PROPERTY_PERSPECTIVE) != 0)
             return mulPerspectiveAffine(right, dest);
         return mulGeneric(right, dest);
+    }
+    private Matrix4f mulTranslation(Matrix4x3fc right, Matrix4f dest) {
+        float nm00 = right.m00();
+        float nm01 = right.m01();
+        float nm02 = right.m02();
+        float nm03 = m03;
+        float nm10 = right.m10();
+        float nm11 = right.m11();
+        float nm12 = right.m12();
+        float nm13 = m13;
+        float nm20 = right.m20();
+        float nm21 = right.m21();
+        float nm22 = right.m22();
+        float nm23 = m23;
+        float nm30 = right.m30() + m30;
+        float nm31 = right.m31() + m31;
+        float nm32 = right.m32() + m32;
+        float nm33 = m33;
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
+        dest._properties(PROPERTY_AFFINE | (right.properties() & PROPERTY_ORTHONORMAL));
+        return dest;
+    }
+    private Matrix4f mulAffine(Matrix4x3fc right, Matrix4f dest) {
+        float nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
+        float nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
+        float nm02 = Math.fma(m02, right.m00(), Math.fma(m12, right.m01(), m22 * right.m02()));
+        float nm03 = m03;
+        float nm10 = Math.fma(m00, right.m10(), Math.fma(m10, right.m11(), m20 * right.m12()));
+        float nm11 = Math.fma(m01, right.m10(), Math.fma(m11, right.m11(), m21 * right.m12()));
+        float nm12 = Math.fma(m02, right.m10(), Math.fma(m12, right.m11(), m22 * right.m12()));
+        float nm13 = m13;
+        float nm20 = Math.fma(m00, right.m20(), Math.fma(m10, right.m21(), m20 * right.m22()));
+        float nm21 = Math.fma(m01, right.m20(), Math.fma(m11, right.m21(), m21 * right.m22()));
+        float nm22 = Math.fma(m02, right.m20(), Math.fma(m12, right.m21(), m22 * right.m22()));
+        float nm23 = m23;
+        float nm30 = Math.fma(m00, right.m30(), Math.fma(m10, right.m31(), Math.fma(m20, right.m32(), m30)));
+        float nm31 = Math.fma(m01, right.m30(), Math.fma(m11, right.m31(), Math.fma(m21, right.m32(), m31)));
+        float nm32 = Math.fma(m02, right.m30(), Math.fma(m12, right.m31(), Math.fma(m22, right.m32(), m32)));
+        float nm33 = m33;
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
+        dest._properties(PROPERTY_AFFINE | (this.properties & right.properties() & PROPERTY_ORTHONORMAL));
+        return dest;
     }
     private Matrix4f mulGeneric(Matrix4x3fc right, Matrix4f dest) {
         float nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
