@@ -66,8 +66,10 @@
 		<hasNio>__HAS_NIO__</hasNio>
 		<hasUnsafe>__HAS_UNSAFE__</hasUnsafe>
 		<hasMathFma>__HAS_MATH_FMA__</hasMathFma>
+		<hasJni>__HAS_JNI__</hasJni>
 		<javaExclude>org/joml/jre/**</javaExclude>
 		<moduleInfoExclude></moduleInfoExclude>
+		<nativeExcludes></nativeExcludes>
 		<variant>joml</variant>
 	</properties>
 	<distributionManagement>
@@ -298,9 +300,11 @@
 				<hasNio>__NHAS_NIO__</hasNio>
 				<hasUnsafe>__NHAS_UNSAFE__</hasUnsafe>
 				<hasMathFma>__NHAS_MATH_FMA__</hasMathFma>
+				<hasJni>__NHAS_JNI__</hasJni>
 				<variant>joml-gwt</variant>
 				<javaExclude></javaExclude>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
+				<nativeExcludes>*</nativeExcludes>
 			</properties>
 			<build>
 				<!-- Add the sources to the jar artifact -->
@@ -332,8 +336,10 @@
 			<properties>
 				<platform>__GRAAL__</platform>
 				<hasUnsafe>__NHAS_UNSAFE__</hasUnsafe>
+				<hasJni>__NHAS_JNI__</hasJni>
 				<variant>joml-graal</variant>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
+				<nativeExcludes>*</nativeExcludes>
 			</properties>
 			<build>
 				<!-- Add the sources to the jar artifact -->
@@ -460,6 +466,15 @@
 	</profiles>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<resources> 
+      <resource>  
+        <directory>native/build</directory> 
+        <filtering>false</filtering>  
+        <excludes>  
+          <exclude>${nativeExcludes}</exclude>  
+        </excludes> 
+      </resource> 
+    </resources>
 		<testSourceDirectory>test</testSourceDirectory>
 		<finalName>${variant}-${project.version}</finalName>
 		<plugins>
@@ -538,6 +553,10 @@
 							<name>${hasUnsafe}</name>
 							<value>1</value>
 						</property>
+						<property>
+              <name>${hasJni}</name>
+              <value>1</value>
+            </property>
 					</globalVars>
 				</configuration>
 			</plugin>
@@ -650,6 +669,8 @@
 						<!-- Exclude GWT config -->
 						<exclude>org/joml/JOML.gwt.xml</exclude>
 					</excludes>
+					<!-- Exclude the natives --> 
+          <excludeResources>true</excludeResources>
 				</configuration>
 				<executions>
 					<execution>

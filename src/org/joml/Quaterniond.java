@@ -1521,9 +1521,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#lengthSquared()
      */
     public double lengthSquared() {
-        return x * x + y * y + z * z + w * w;
+        return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
-
 
     /**
      * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.

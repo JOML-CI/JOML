@@ -30,8 +30,27 @@ public final class Runtime {
     public static final boolean HAS_doubleToRawLongBits = hasDoubleToRawLongBits();
     public static final boolean HAS_Long_rotateLeft = hasLongRotateLeft();
 //#endif
+//#ifdef __HAS_JNI__
+    private static boolean loadJni() {
+        try {
+            SharedLibraryLoader.load();
+            return true;
+        } catch (Throwable e) {
+            return false;
+        }
+    }
+    private static final native boolean hasCpuFma3();
+    private static final boolean jniLoaded = loadJni();
+//#endif
 //#ifdef __HAS_MATH_FMA__
-    public static final boolean HAS_Math_fma = hasMathFma();
+    private static boolean hasFma3() {
+        boolean ret = false;
+//#ifdef __HAS_JNI__
+        ret = jniLoaded && hasCpuFma3();
+//#endif
+        return ret;
+    }
+    public static final boolean HAS_Math_fma = hasMathFma() && hasFma3();
 //#endif
 
     private Runtime() {

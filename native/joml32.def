@@ -1,0 +1,3 @@
+LIBRARY joml32
+EXPORTS
+   Java_org_joml_internal_Runtime_hasCpuFma3 @1
