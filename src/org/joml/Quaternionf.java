@@ -138,8 +138,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          the {@link AxisAngle4f}
      */
     public Quaternionf(AxisAngle4f axisAngle) {
-        float sin = (float) Math.sin(axisAngle.angle * 0.5);
-        float cos = (float) Math.cosFromSin(sin, axisAngle.angle * 0.5);
+        float sin = Math.sin(axisAngle.angle * 0.5f);
+        float cos = Math.cosFromSin(sin, axisAngle.angle * 0.5f);
         x = axisAngle.x * sin;
         y = axisAngle.y * sin;
         z = axisAngle.z * sin;
@@ -153,8 +153,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          the {@link AxisAngle4d}
      */
     public Quaternionf(AxisAngle4d axisAngle) {
-        double sin = Math.sin(axisAngle.angle * 0.5);
-        double cos = Math.cosFromSin(sin, axisAngle.angle * 0.5);
+        double sin = Math.sin(axisAngle.angle * 0.5f);
+        double cos = Math.cosFromSin(sin, axisAngle.angle * 0.5f);
         x = (float) (axisAngle.x * sin);
         y = (float) (axisAngle.y * sin);
         z = (float) (axisAngle.z * sin);
@@ -195,12 +195,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf normalize() {
-        float invNorm = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
-        x *= invNorm;
-        y *= invNorm;
-        z *= invNorm;
-        w *= invNorm;
-        return this;
+        return normalize(this);
     }
 
     /* (non-Javadoc)
@@ -251,11 +246,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf add(Quaternionfc q2) {
-        x += q2.x();
-        y += q2.y();
-        z += q2.z();
-        w += q2.w();
-        return this;
+        return add(q2, this);
     }
 
     /* (non-Javadoc)
@@ -345,7 +336,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             w *= invNorm;
         }
         dest.angle = (float) (2.0f * Math.acos(w));
-        float s = (float) Math.sqrt(1.0 - w * w);
+        float s = Math.sqrt(1.0f - w * w);
         if (s < 0.001f) {
             dest.x = x;
             dest.y = y;
@@ -375,7 +366,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             w *= invNorm;
         }
         dest.angle = (float) (2.0f * Math.acos(w));
-        float s = (float) Math.sqrt(1.0 - w * w);
+        float s = Math.sqrt(1.0f - w * w);
         if (s < 0.001f) {
             dest.x = x;
             dest.y = y;
@@ -553,11 +544,11 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf setAngleAxis(float angle, float x, float y, float z) {
-        float s = (float) Math.sin(angle * 0.5);
+        float s = Math.sin(angle * 0.5f);
         this.x = x * s;
         this.y = y * s;
         this.z = z * s;
-        this.w = (float) Math.cosFromSin(s, angle * 0.5);
+        this.w = Math.cosFromSin(s, angle * 0.5f);
         return this;
     }
 
@@ -578,11 +569,11 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf setAngleAxis(double angle, double x, double y, double z) {
-        double s = Math.sin(angle * 0.5);
+        double s = Math.sin(angle * 0.5f);
         this.x = (float) (x * s);
         this.y = (float) (y * s);
         this.z = (float) (z * s);
-        this.w = (float) Math.cosFromSin(s, angle * 0.5);
+        this.w = (float) Math.cosFromSin(s, angle * 0.5f);
         return this;
     }
 
@@ -615,14 +606,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      */
     public Quaternionf rotationAxis(float angle, float axisX, float axisY, float axisZ) {
         float hangle = angle / 2.0f;
-        float sinAngle = (float) Math.sin(hangle);
+        float sinAngle = Math.sin(hangle);
         float invVLength = Math.invsqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-
         x = axisX * invVLength * sinAngle;
         y = axisY * invVLength * sinAngle;
         z = axisZ * invVLength * sinAngle;
-        w = (float) Math.cosFromSin(sinAngle, hangle);
-
+        w = Math.cosFromSin(sinAngle, hangle);
         return this;
     }
 
@@ -649,8 +638,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf rotationX(float angle) {
-        float sin = (float) Math.sin(angle * 0.5);
-        float cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float sin = Math.sin(angle * 0.5f);
+        float cos = Math.cosFromSin(sin, angle * 0.5f);
         w = cos;
         x = sin;
         y = 0.0f;
@@ -666,8 +655,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf rotationY(float angle) {
-        float sin = (float) Math.sin(angle * 0.5);
-        float cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float sin = Math.sin(angle * 0.5f);
+        float cos = Math.cosFromSin(sin, angle * 0.5f);
         w = cos;
         x = 0.0f;
         y = sin;
@@ -683,8 +672,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf rotationZ(float angle) {
-        float sin = (float) Math.sin(angle * 0.5);
-        float cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float sin = Math.sin(angle * 0.5f);
+        float cos = Math.cosFromSin(sin, angle * 0.5f);
         w = cos;
         x = 0.0f;
         y = 0.0f;
@@ -709,7 +698,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float t;
         float tr = m00 + m11 + m22;
         if (tr >= 0.0f) {
-            t = (float) Math.sqrt(tr + 1.0f);
+            t = Math.sqrt(tr + 1.0f);
             w = t * 0.5f;
             t = 0.5f / t;
             x = (m12 - m21) * t;
@@ -717,21 +706,21 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             z = (m01 - m10) * t;
         } else {
             if (m00 >= m11 && m00 >= m22) {
-                t = (float) Math.sqrt(m00 - (m11 + m22) + 1.0);
+                t = Math.sqrt(m00 - (m11 + m22) + 1.0f);
                 x = t * 0.5f;
                 t = 0.5f / t;
                 y = (m10 + m01) * t;
                 z = (m02 + m20) * t;
                 w = (m12 - m21) * t;
             } else if (m11 > m22) {
-                t = (float) Math.sqrt(m11 - (m22 + m00) + 1.0);
+                t = Math.sqrt(m11 - (m22 + m00) + 1.0f);
                 y = t * 0.5f;
                 t = 0.5f / t;
                 z = (m21 + m12) * t;
                 x = (m10 + m01) * t;
                 w = (m20 - m02) * t;
             } else {
-                t = (float) Math.sqrt(m22 - (m00 + m11) + 1.0);
+                t = Math.sqrt(m22 - (m00 + m11) + 1.0f);
                 z = t * 0.5f;
                 t = 0.5f / t;
                 x = (m02 + m20) * t;
@@ -773,14 +762,14 @@ public class Quaternionf implements Externalizable, Quaternionfc {
                 z = (float) ((m02 + m20) * t);
                 w = (float) ((m12 - m21) * t);
             } else if (m11 > m22) {
-                t = (float) Math.sqrt(m11 - (m22 + m00) + 1.0);
+                t = Math.sqrt(m11 - (m22 + m00) + 1.0);
                 y = (float) (t * 0.5);
                 t = 0.5 / t;
                 z = (float) ((m21 + m12) * t);
                 x = (float) ((m10 + m01) * t);
                 w = (float) ((m20 - m02) * t);
             } else {
-                t = (float) Math.sqrt(m22 - (m00 + m11) + 1.0);
+                t = Math.sqrt(m22 - (m00 + m11) + 1.0);
                 z = (float) (t * 0.5);
                 t = 0.5 / t;
                 x = (float) ((m02 + m20) * t);
@@ -986,12 +975,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      */
     public Quaternionf fromAxisAngleRad(float axisX, float axisY, float axisZ, float angle) {
         float hangle = angle / 2.0f;
-        float sinAngle = (float) Math.sin(hangle);
-        float vLength = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        float sinAngle = Math.sin(hangle);
+        float vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
         x = axisX / vLength * sinAngle;
         y = axisY / vLength * sinAngle;
         z = axisZ / vLength * sinAngle;
-        w = (float) Math.cosFromSin(sinAngle, hangle);
+        w = Math.cosFromSin(sinAngle, hangle);
         return this;
     }
 
@@ -1006,7 +995,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf fromAxisAngleDeg(Vector3fc axis, float angle) {
-        return fromAxisAngleRad(axis.x(), axis.y(), axis.z(), (float) Math.toRadians(angle));
+        return fromAxisAngleRad(axis.x(), axis.y(), axis.z(), Math.toRadians(angle));
     }
 
     /**
@@ -1024,7 +1013,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf fromAxisAngleDeg(float axisX, float axisY, float axisZ, float angle) {
-        return fromAxisAngleRad(axisX, axisY, axisZ, (float) Math.toRadians(angle));
+        return fromAxisAngleRad(axisX, axisY, axisZ, Math.toRadians(angle));
     }
 
     /**
@@ -1713,10 +1702,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf conjugate() {
-        x = -x;
-        y = -y;
-        z = -z;
-        return this;
+        return conjugate(this);
     }
 
     /* (non-Javadoc)
@@ -1767,12 +1753,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#rotateXYZ(float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf rotateXYZ(float angleX, float angleY, float angleZ, Quaternionf dest) {
-        float sx = (float) Math.sin(angleX * 0.5);
-        float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
-        float sy = (float) Math.sin(angleY * 0.5);
-        float cy = (float) Math.cosFromSin(sy, angleY * 0.5);
-        float sz = (float) Math.sin(angleZ * 0.5);
-        float cz = (float) Math.cosFromSin(sz, angleZ * 0.5);
+        float sx = Math.sin(angleX * 0.5f);
+        float cx = Math.cosFromSin(sx, angleX * 0.5f);
+        float sy = Math.sin(angleY * 0.5f);
+        float cy = Math.cosFromSin(sy, angleY * 0.5f);
+        float sz = Math.sin(angleZ * 0.5f);
+        float cz = Math.cosFromSin(sz, angleZ * 0.5f);
 
         float cycz = cy * cz;
         float sysz = sy * sz;
@@ -1816,12 +1802,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#rotateZYX(float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf rotateZYX(float angleZ, float angleY, float angleX, Quaternionf dest) {
-        float sx = (float) Math.sin(angleX * 0.5);
-        float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
-        float sy = (float) Math.sin(angleY * 0.5);
-        float cy = (float) Math.cosFromSin(sy, angleY * 0.5);
-        float sz = (float) Math.sin(angleZ * 0.5);
-        float cz = (float) Math.cosFromSin(sz, angleZ * 0.5);
+        float sx = Math.sin(angleX * 0.5f);
+        float cx = Math.cosFromSin(sx, angleX * 0.5f);
+        float sy = Math.sin(angleY * 0.5f);
+        float cy = Math.cosFromSin(sy, angleY * 0.5f);
+        float sz = Math.sin(angleZ * 0.5f);
+        float cz = Math.cosFromSin(sz, angleZ * 0.5f);
 
         float cycz = cy * cz;
         float sysz = sy * sz;
@@ -1865,12 +1851,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#rotateYXZ(float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf rotateYXZ(float angleY, float angleX, float angleZ, Quaternionf dest) {
-        float sx = (float) Math.sin(angleX * 0.5);
-        float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
-        float sy = (float) Math.sin(angleY * 0.5);
-        float cy = (float) Math.cosFromSin(sy, angleY * 0.5);
-        float sz = (float) Math.sin(angleZ * 0.5);
-        float cz = (float) Math.cosFromSin(sz, angleZ * 0.5);
+        float sx = Math.sin(angleX * 0.5f);
+        float cx = Math.cosFromSin(sx, angleX * 0.5f);
+        float sy = Math.sin(angleY * 0.5f);
+        float cy = Math.cosFromSin(sy, angleY * 0.5f);
+        float sz = Math.sin(angleZ * 0.5f);
+        float cz = Math.cosFromSin(sz, angleZ * 0.5f);
 
         float yx = cy * sx;
         float yy = sy * cx;
@@ -1891,9 +1877,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#getEulerAnglesXYZ(org.joml.Vector3f)
      */
     public Vector3f getEulerAnglesXYZ(Vector3f eulerAngles) {
-        eulerAngles.x = (float) Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y));
-        eulerAngles.y = (float) Math.asin(2.0 * (x*z + y*w));
-        eulerAngles.z = (float) Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z));
+        eulerAngles.x = Math.atan2(2.0f * (x*w - y*z), 1.0f - 2.0f * (x*x + y*y));
+        eulerAngles.y = Math.asin(2.0f * (x*z + y*w));
+        eulerAngles.z = Math.atan2(2.0f * (z*w - x*y), 1.0f - 2.0f * (y*y + z*z));
         return eulerAngles;
     }
 
@@ -1920,12 +1906,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf rotationXYZ(float angleX, float angleY, float angleZ) {
-        float sx = (float) Math.sin(angleX * 0.5);
-        float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
-        float sy = (float) Math.sin(angleY * 0.5);
-        float cy = (float) Math.cosFromSin(sy, angleY * 0.5);
-        float sz = (float) Math.sin(angleZ * 0.5);
-        float cz = (float) Math.cosFromSin(sz, angleZ * 0.5);
+        float sx = Math.sin(angleX * 0.5f);
+        float cx = Math.cosFromSin(sx, angleX * 0.5f);
+        float sy = Math.sin(angleY * 0.5f);
+        float cy = Math.cosFromSin(sy, angleY * 0.5f);
+        float sz = Math.sin(angleZ * 0.5f);
+        float cz = Math.cosFromSin(sz, angleZ * 0.5f);
 
         float cycz = cy * cz;
         float sysz = sy * sz;
@@ -1955,12 +1941,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf rotationZYX(float angleZ, float angleY, float angleX) {
-        float sx = (float) Math.sin(angleX * 0.5);
-        float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
-        float sy = (float) Math.sin(angleY * 0.5);
-        float cy = (float) Math.cosFromSin(sy, angleY * 0.5);
-        float sz = (float) Math.sin(angleZ * 0.5);
-        float cz = (float) Math.cosFromSin(sz, angleZ * 0.5);
+        float sx = Math.sin(angleX * 0.5f);
+        float cx = Math.cosFromSin(sx, angleX * 0.5f);
+        float sy = Math.sin(angleY * 0.5f);
+        float cy = Math.cosFromSin(sy, angleY * 0.5f);
+        float sz = Math.sin(angleZ * 0.5f);
+        float cz = Math.cosFromSin(sz, angleZ * 0.5f);
 
         float cycz = cy * cz;
         float sysz = sy * sz;
@@ -1990,12 +1976,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf rotationYXZ(float angleY, float angleX, float angleZ) {
-        float sx = (float) Math.sin(angleX * 0.5);
-        float cx = (float) Math.cosFromSin(sx, angleX * 0.5);
-        float sy = (float) Math.sin(angleY * 0.5);
-        float cy = (float) Math.cosFromSin(sy, angleY * 0.5);
-        float sz = (float) Math.sin(angleZ * 0.5);
-        float cz = (float) Math.cosFromSin(sz, angleZ * 0.5);
+        float sx = Math.sin(angleX * 0.5f);
+        float cx = Math.cosFromSin(sx, angleX * 0.5f);
+        float sy = Math.sin(angleY * 0.5f);
+        float cy = Math.cosFromSin(sy, angleY * 0.5f);
+        float sz = Math.sin(angleZ * 0.5f);
+        float cz = Math.cosFromSin(sz, angleZ * 0.5f);
 
         float x = cy * sx;
         float y = sy * cx;
@@ -2036,7 +2022,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         if (1.0f - absCosom > 1E-6f) {
             float sinSqr = 1.0f - absCosom * absCosom;
             float sinom = Math.invsqrt(sinSqr);
-            float omega = (float) Math.atan2(sinSqr * sinom, absCosom);
+            float omega = Math.atan2(sinSqr * sinom, absCosom);
             scale0 = (float) (Math.sin((1.0 - alpha) * omega) * sinom);
             scale1 = (float) (Math.sin(alpha * omega) * sinom);
         } else {
@@ -2098,7 +2084,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#scale(float, org.joml.Quaternionf)
      */
     public Quaternionf scale(float factor, Quaternionf dest) {
-        float sqrt = (float) Math.sqrt(factor);
+        float sqrt = Math.sqrt(factor);
         dest.x = sqrt * x;
         dest.y = sqrt * y;
         dest.z = sqrt * z;
@@ -2115,7 +2101,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf scaling(float factor) {
-        float sqrt = (float) Math.sqrt(factor);
+        float sqrt = Math.sqrt(factor);
         this.x = 0.0f;
         this.y = 0.0f;
         this.z = 0.0f;
@@ -2162,10 +2148,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             dqW = 1.0f - thetaMagSq * 0.5f;
             s = 1.0f - thetaMagSq / 6.0f;
         } else {
-            float thetaMag = (float) Math.sqrt(thetaMagSq);
-            float sin = (float) Math.sin(thetaMag);
+            float thetaMag = Math.sqrt(thetaMagSq);
+            float sin = Math.sin(thetaMag);
             s = sin / thetaMag;
-            dqW = (float) Math.cosFromSin(sin, thetaMag);
+            dqW = Math.cosFromSin(sin, thetaMag);
         }
         dqX = thetaX * s;
         dqY = thetaY * s;
@@ -2514,7 +2500,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             if (x*x + y*y == 0.0f)
                 x = 0.0f; y = toDirZ; z = -toDirY; w = 0.0f;
         } else {
-            float sd2 = (float) Math.sqrt((1.0 + dot) * 2.0);
+            float sd2 = Math.sqrt((1.0f + dot) * 2.0f);
             float isd2 = 1.0f / sd2;
             float cx = fromDirY * toDirZ - fromDirZ * toDirY;
             float cy = fromDirZ * toDirX - fromDirX * toDirZ;
@@ -2557,7 +2543,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             if (x*x + y*y == 0.0f)
                 x = 0.0f; y = toDirZ; z = -toDirY; w = 0.0f;
         } else {
-            float sd2 = (float) Math.sqrt((1.0 + dot) * 2.0);
+            float sd2 = Math.sqrt((1.0f + dot) * 2.0f);
             float isd2 = 1.0f / sd2;
             float cx = fromDirY * toDirZ - fromDirZ * toDirY;
             float cy = fromDirZ * toDirX - fromDirX * toDirZ;
@@ -2658,8 +2644,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#rotateX(float, org.joml.Quaternionf)
      */
     public Quaternionf rotateX(float angle, Quaternionf dest) {
-        float sin = (float) Math.sin(angle * 0.5);
-        float cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float sin = Math.sin(angle * 0.5f);
+        float cos = Math.cosFromSin(sin, angle * 0.5f);
         dest.set(w * sin + x * cos,
                  y * cos + z * sin,
                  z * cos - y * sin,
@@ -2687,8 +2673,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#rotateY(float, org.joml.Quaternionf)
      */
     public Quaternionf rotateY(float angle, Quaternionf dest) {
-        float sin = (float) Math.sin(angle * 0.5);
-        float cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float sin = Math.sin(angle * 0.5f);
+        float cos = Math.cosFromSin(sin, angle * 0.5f);
         dest.set(x * cos - z * sin,
                  w * sin + y * cos,
                  x * sin + z * cos,
@@ -2716,8 +2702,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#rotateZ(float, org.joml.Quaternionf)
      */
     public Quaternionf rotateZ(float angle, Quaternionf dest) {
-        float sin = (float) Math.sin(angle * 0.5);
-        float cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float sin = Math.sin(angle * 0.5f);
+        float cos = Math.cosFromSin(sin, angle * 0.5f);
         dest.set(x * cos + y * sin,
                  y * cos - x * sin,
                  w * sin + z * cos,
@@ -2746,8 +2732,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      */
     public Quaternionf rotateLocalX(float angle, Quaternionf dest) {
         float hangle = angle * 0.5f;
-        float s = (float) Math.sin(hangle);
-        float c = (float) Math.cosFromSin(s, hangle);
+        float s = Math.sin(hangle);
+        float c = Math.cosFromSin(s, hangle);
         dest.set(c * x + s * w,
                  c * y - s * z,
                  c * z + s * y,
@@ -2776,8 +2762,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      */
     public Quaternionf rotateLocalY(float angle, Quaternionf dest) {
         float hangle = angle * 0.5f;
-        float s = (float) Math.sin(hangle);
-        float c = (float) Math.cosFromSin(s, hangle);
+        float s = Math.sin(hangle);
+        float c = Math.cosFromSin(s, hangle);
         dest.set(c * x + s * z,
                  c * y + s * w,
                  c * z - s * x,
@@ -2806,8 +2792,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      */
     public Quaternionf rotateLocalZ(float angle, Quaternionf dest) {
         float hangle = angle * 0.5f;
-        float s = (float) Math.sin(hangle);
-        float c = (float) Math.cosFromSin(s, hangle);
+        float s = Math.sin(hangle);
+        float c = Math.cosFromSin(s, hangle);
         dest.set(c * x - s * y,
                  c * y + s * x,
                  c * z + s * w,
@@ -2820,12 +2806,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      */
     public Quaternionf rotateAxis(float angle, float axisX, float axisY, float axisZ, Quaternionf dest) {
         float hangle = angle / 2.0f;
-        float sinAngle = (float) Math.sin(hangle);
+        float sinAngle = Math.sin(hangle);
         float invVLength = Math.invsqrt(Math.fma(axisX, axisX, Math.fma(axisY, axisY, axisZ * axisZ)));
         float rx = axisX * invVLength * sinAngle;
         float ry = axisY * invVLength * sinAngle;
         float rz = axisZ * invVLength * sinAngle;
-        float rw = (float) Math.cosFromSin(sinAngle, hangle);
+        float rw = Math.cosFromSin(sinAngle, hangle);
         return dest.set(Math.fma(this.w, rx, Math.fma(this.x, rw, Math.fma(this.y, rz, -this.z * ry))),
                         Math.fma(this.w, ry, Math.fma(-this.x, rz, Math.fma(this.y, rw, this.z * rx))),
                         Math.fma(this.w, rz, Math.fma(this.x, ry, Math.fma(-this.y, rx, this.z * rw))),

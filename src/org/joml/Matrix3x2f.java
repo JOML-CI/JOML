@@ -1642,8 +1642,8 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      * @return this
      */
     public Matrix3x2f rotation(float angle) {
-        float cos = (float) Math.cos(angle);
-        float sin = (float) Math.sin(angle);
+        float cos = Math.cos(angle);
+        float sin = Math.sin(angle);
         m00 = cos;
         m10 = -sin;
         m20 = 0.0f;
@@ -1888,8 +1888,8 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      * @return dest
      */
     public Matrix3x2f rotate(float ang, Matrix3x2f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float cos = Math.cos(ang);
+        float sin = Math.sin(ang);
         float rm00 = cos;
         float rm01 = sin;
         float rm10 = -sin;
@@ -1927,8 +1927,8 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      * @return dest
      */
     public Matrix3x2f rotateLocal(float ang, Matrix3x2f dest) {
-        float sin = (float) Math.sin(ang);
-        float cos = (float) Math.cosFromSin(sin, ang);
+        float sin = Math.sin(ang);
+        float cos = Math.cosFromSin(sin, ang);
         float nm00 = cos * m00 - sin * m01;
         float nm01 = sin * m00 + cos * m01;
         float nm10 = cos * m10 - sin * m11;
@@ -2018,8 +2018,8 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
     public Matrix3x2f rotateAbout(float ang, float x, float y, Matrix3x2f dest) {
         float tm20 = m00 * x + m10 * y + m20;
         float tm21 = m01 * x + m11 * y + m21;
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float cos = Math.cos(ang);
+        float sin = Math.sin(ang);
         float nm00 = m00 * cos + m10 * sin;
         float nm01 = m01 * cos + m11 * sin;
         dest.m10 = m00 * -sin + m10 * cos;

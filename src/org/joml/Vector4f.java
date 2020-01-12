@@ -1154,9 +1154,9 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
     private Vector4f rotateAxisInternal(float angle, float aX, float aY, float aZ, Vector4f dest) {
         float hangle = angle * 0.5f;
-        float sinAngle = (float) Math.sin(hangle);
+        float sinAngle = Math.sin(hangle);
         float qx = aX * sinAngle, qy = aY * sinAngle, qz = aZ * sinAngle;
-        float qw = (float) Math.cosFromSin(sinAngle, hangle);
+        float qw = Math.cosFromSin(sinAngle, hangle);
         float w2 = qw * qw, x2 = qx * qx, y2 = qy * qy, z2 = qz * qz, zw = qz * qw;
         float xy = qx * qy, xz = qx * qz, yw = qy * qw, yz = qy * qz, xw = qx * qw;
         float nx = (w2 + x2 - z2 - y2) * x + (-zw + xy - zw + xy) * y + (yw + xz + xz + yw) * z;
@@ -1183,7 +1183,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#rotateX(float, org.joml.Vector4f)
      */
     public Vector4f rotateX(float angle, Vector4f dest) {
-        float sin = (float) Math.sin(angle), cos = (float) Math.cosFromSin(sin, angle);
+        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float y = this.y * cos - this.z * sin;
         float z = this.y * sin + this.z * cos;
         dest.x = this.x;
@@ -1208,7 +1208,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#rotateY(float, org.joml.Vector4f)
      */
     public Vector4f rotateY(float angle, Vector4f dest) {
-        float sin = (float) Math.sin(angle), cos = (float) Math.cosFromSin(sin, angle);
+        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float x =  this.x * cos + this.z * sin;
         float z = -this.x * sin + this.z * cos;
         dest.x = x;
@@ -1233,7 +1233,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#rotateZ(float, org.joml.Vector4f)
      */
     public Vector4f rotateZ(float angle, Vector4f dest) {
-        float sin = (float) Math.sin(angle), cos = (float) Math.cosFromSin(sin, angle);
+        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float x = this.x * cos - this.y * sin;
         float y = this.x * sin + this.y * cos;
         dest.x = x;
@@ -1274,7 +1274,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#length()
      */
     public float length() {
-        return (float) Math.sqrt(lengthSquared());
+        return Math.sqrt(lengthSquared());
     }
 
     /**
@@ -1290,7 +1290,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @author F. Neurath
      */
     public static float length(float x, float y, float z, float w) {
-        return (float) Math.sqrt(lengthSquared(x, y, z, w));
+        return Math.sqrt(lengthSquared(x, y, z, w));
     }
 
     /**
@@ -1369,7 +1369,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#distance(float, float, float, float)
      */
     public float distance(float x, float y, float z, float w) {
-        return (float) Math.sqrt(distanceSquared(x, y, z, w));
+        return Math.sqrt(distanceSquared(x, y, z, w));
     }
 
     /* (non-Javadoc)
@@ -1412,7 +1412,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return the euclidean distance
      */
     public static float distance(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2) {
-        return (float) Math.sqrt(distanceSquared(x1, y1, z1, w1, x2, y2, z2, w2));
+        return Math.sqrt(distanceSquared(x1, y1, z1, w1, x2, y2, z2, w2));
     }
 
     /**
@@ -1465,7 +1465,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         float length1Squared = Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
         float length2Squared = Math.fma(v.x(), v.x(), Math.fma(v.y(), v.y(), Math.fma(v.z(), v.z(), v.w() * v.w())));
         float dot = Math.fma(x, v.x(), Math.fma(y, v.y(), Math.fma(z, v.z(), w * v.w())));
-        return dot / (float) Math.sqrt(length1Squared * length2Squared);
+        return dot / Math.sqrt(length1Squared * length2Squared);
     }
 
     /* (non-Javadoc)
@@ -1476,7 +1476,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = cos < 1 ? cos : 1;
         cos = cos > -1 ? cos : -1;
-        return (float) Math.acos(cos);
+        return Math.acos(cos);
     }
 
     /**

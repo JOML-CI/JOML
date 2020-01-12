@@ -585,7 +585,7 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      * @see org.joml.Matrix2fc#getRotation()
      */
     public float getRotation() {
-        return (float) Math.atan2(m01, m11);
+        return Math.atan2(m01, m11);
     }
 
 //#ifdef __GWT__
@@ -962,8 +962,8 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      * @return this
      */
     public Matrix2f rotation(float angle) {
-        float sin = (float) Math.sin(angle);
-        float cos = (float) Math.cosFromSin(sin, angle);
+        float sin = Math.sin(angle);
+        float cos = Math.cosFromSin(sin, angle);
         m00 = cos;
         m01 = sin;
         m10 = -sin;
@@ -1057,8 +1057,8 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      * @see org.joml.Matrix2fc#rotate(float, org.joml.Matrix2f)
      */
     public Matrix2f rotate(float angle, Matrix2f dest) {
-        float s = (float) Math.sin(angle);
-        float c = (float) Math.cosFromSin(s, angle);
+        float s = Math.sin(angle);
+        float c = Math.cosFromSin(s, angle);
         // rotation matrix elements:
         // m00 = c, m01 = s, m10 = -s, m11 = c
         float nm00 = m00 * c + m10 * s;
@@ -1101,8 +1101,8 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      * @see org.joml.Matrix2fc#rotateLocal(float, org.joml.Matrix2f)
      */
     public Matrix2f rotateLocal(float angle, Matrix2f dest) {
-        float s = (float) Math.sin(angle);
-        float c = (float) Math.cosFromSin(s, angle);
+        float s = Math.sin(angle);
+        float c = Math.cosFromSin(s, angle);
         // rotation matrix elements:
         // m00 = c, m01 = s, m10 = -s, m11 = c
         float nm00 = c * m00 - s * m01;
@@ -1360,8 +1360,8 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      * @see org.joml.Matrix2fc#getScale(org.joml.Vector2f)
      */
     public Vector2f getScale(Vector2f dest) {
-        dest.x = (float) Math.sqrt(m00 * m00 + m01 * m01);
-        dest.y = (float) Math.sqrt(m10 * m10 + m11 * m11);
+        dest.x = Math.sqrt(m00 * m00 + m01 * m01);
+        dest.y = Math.sqrt(m10 * m10 + m11 * m11);
         return dest;
     }
 

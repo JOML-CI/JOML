@@ -1289,9 +1289,9 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
     private Vector3f rotateAxisInternal(float angle, float aX, float aY, float aZ, Vector3f dest) {
         float hangle = angle * 0.5f;
-        float sinAngle = (float) Math.sin(hangle);
+        float sinAngle = Math.sin(hangle);
         float qx = aX * sinAngle, qy = aY * sinAngle, qz = aZ * sinAngle;
-        float qw = (float) Math.cosFromSin(sinAngle, hangle);
+        float qw = Math.cosFromSin(sinAngle, hangle);
         float w2 = qw * qw, x2 = qx * qx, y2 = qy * qy, z2 = qz * qz, zw = qz * qw;
         float xy = qx * qy, xz = qx * qz, yw = qy * qw, yz = qy * qz, xw = qx * qw;
         float nx = (w2 + x2 - z2 - y2) * x + (-zw + xy - zw + xy) * y + (yw + xz + xz + yw) * z;
@@ -1318,7 +1318,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#rotateX(float, org.joml.Vector3f)
      */
     public Vector3f rotateX(float angle, Vector3f dest) {
-        float sin = (float) Math.sin(angle), cos = (float) Math.cosFromSin(sin, angle);
+        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float y = this.y * cos - this.z * sin;
         float z = this.y * sin + this.z * cos;
         dest.x = this.x;
@@ -1342,7 +1342,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#rotateY(float, org.joml.Vector3f)
      */
     public Vector3f rotateY(float angle, Vector3f dest) {
-        float sin = (float) Math.sin(angle), cos = (float) Math.cosFromSin(sin, angle);
+        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float x =  this.x * cos + this.z * sin;
         float z = -this.x * sin + this.z * cos;
         dest.x = x;
@@ -1366,7 +1366,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#rotateZ(float, org.joml.Vector3f)
      */
     public Vector3f rotateZ(float angle, Vector3f dest) {
-        float sin = (float) Math.sin(angle), cos = (float) Math.cosFromSin(sin, angle);
+        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float x = this.x * cos - this.y * sin;
         float y = this.x * sin + this.y * cos;
         dest.x = x;
@@ -1401,7 +1401,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#length()
      */
     public float length() {
-        return (float) Math.sqrt(lengthSquared());
+        return Math.sqrt(lengthSquared());
     }
 
     /**
@@ -1416,7 +1416,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @author F. Neurath
      */
     public static float length(float x, float y, float z) {
-        return (float) Math.sqrt(lengthSquared(x, y, z));
+        return Math.sqrt(lengthSquared(x, y, z));
     }
 
     /**
@@ -1524,7 +1524,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#distance(float, float, float)
      */
     public float distance(float x, float y, float z) {
-        return (float) Math.sqrt(distanceSquared(x, y, z));
+        return Math.sqrt(distanceSquared(x, y, z));
     }
 
     /* (non-Javadoc)
@@ -1562,7 +1562,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return the euclidean distance
      */
     public static float distance(float x1, float y1, float z1, float x2, float y2, float z2) {
-        return (float) Math.sqrt(distanceSquared(x1, y1, z1, x2, y2, z2));
+        return Math.sqrt(distanceSquared(x1, y1, z1, x2, y2, z2));
     }
 
     /**
@@ -1621,7 +1621,7 @@ public class Vector3f implements Externalizable, Vector3fc {
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = cos < 1 ? cos : 1;
         cos = cos > -1 ? cos : -1;
-        return (float) Math.acos(cos);
+        return Math.acos(cos);
     }
 
     /* (non-Javadoc)
@@ -1635,7 +1635,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#angleSigned(float, float, float, float, float, float)
      */
     public float angleSigned(float x, float y, float z, float nx, float ny, float nz) {
-        return (float) Math.atan2(
+        return Math.atan2(
                 (this.y * z - this.z * y) * nx + (this.z * x - this.x * z) * ny + (this.x * y - this.y * x) * nz,
                 this.x * x + this.y * y + this.z * z);
     }

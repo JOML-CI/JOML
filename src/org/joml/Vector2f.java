@@ -560,7 +560,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     public float angle(Vector2fc v) {
         float dot = x*v.x() + y*v.y();
         float det = x*v.y() - y*v.x();
-        return (float) Math.atan2(det, dot);
+        return Math.atan2(det, dot);
     }
 
     /* (non-Javadoc)
@@ -588,7 +588,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @see org.joml.Vector2fc#length()
      */
     public float length() {
-        return (float) Math.sqrt(lengthSquared());
+        return Math.sqrt(lengthSquared());
     }
 
     /**
@@ -602,7 +602,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @author F. Neurath
      */
     public static float length(float x, float y) {
-        return (float) Math.sqrt(lengthSquared(x, y));
+        return Math.sqrt(lengthSquared(x, y));
     }
 
     /* (non-Javadoc)
@@ -625,7 +625,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     public float distance(float x, float y) {
         float dx = this.x - x;
         float dy = this.y - y;
-        return (float) Math.sqrt(dx * dx + dy * dy);
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /* (non-Javadoc)
@@ -651,7 +651,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return the euclidean distance
      */
     public static float distance(float x1, float y1, float x2, float y2) {
-        return (float) Math.sqrt(distanceSquared(x1, y1, x2, y2));
+        return Math.sqrt(distanceSquared(x1, y1, x2, y2));
     }
 
     /**
