@@ -32,6 +32,7 @@ jobs:
     - jdk: openjdk11
     - jdk: openjdk12
     - jdk: openjdk13
+    - jdk: openjdk14
     - jdk: openjdk-ea
 script: 
   - ./mvnw clean package -Dmaven.javadoc.skip=false
