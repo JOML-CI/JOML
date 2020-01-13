@@ -58,7 +58,7 @@
 		<buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<httpclient.version>4.5.10</httpclient.version>
-		<asm.version>7.2</asm.version>
+		<asm.version>7.3.1</asm.version>
 		<gwt-user.version>2.5.0</gwt-user.version>
 		<junit.version>3.8.2</junit.version>
 		<jcp.version>6.1.4</jcp.version>
