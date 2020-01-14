@@ -3756,7 +3756,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m00 = x;
         m11 = y;
         m22 = z;
-        boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
+        boolean one = Math.absEqualsOne(x) && Math.absEqualsOne(y) && Math.absEqualsOne(z);
         properties = PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0);
         return this;
     }
@@ -3801,11 +3801,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d rotation(double angle, double x, double y, double z) {
-        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+        if (y == 0.0 && z == 0.0 && Math.absEqualsOne(x))
             return rotationX(x * angle);
-        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+        else if (x == 0.0 && z == 0.0 && Math.absEqualsOne(y))
             return rotationY(y * angle);
-        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+        else if (x == 0.0 && y == 0.0 && Math.absEqualsOne(z))
             return rotationZ(z * angle);
         return rotationInternal(angle, x, y, z);
     }
@@ -4563,7 +4563,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
+        boolean one = Math.absEqualsOne(x) && Math.absEqualsOne(y) && Math.absEqualsOne(z);
         dest.properties = properties
                 & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | (one ? 0 : PROPERTY_ORTHONORMAL));
         return dest;
@@ -4664,7 +4664,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = -m01 * ox - m11 * oy - m21 * oz + nm31;
         dest.m32 = -m02 * ox - m12 * oy - m22 * oz + nm32;
         dest.m33 = -m03 * ox - m13 * oy - m23 * oz + nm33;
-        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        boolean one = Math.absEqualsOne(sx) && Math.absEqualsOne(sy) && Math.absEqualsOne(sz);
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
                 | (one ? 0 : PROPERTY_ORTHONORMAL));
         return dest;
@@ -4772,7 +4772,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        boolean one = Math.abs(x) == 1.0 && Math.abs(y) == 1.0 && Math.abs(z) == 1.0;
+        boolean one = Math.absEqualsOne(x) && Math.absEqualsOne(y) && Math.absEqualsOne(z);
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
                 | (one ? 0 : PROPERTY_ORTHONORMAL));
         return dest;
@@ -4842,7 +4842,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m31 = sy * (m31 - oy * m33) + oy * m33;
         dest.m32 = sz * (m32 - oz * m33) + oz * m33;
         dest.m33 = m33;
-        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        boolean one = Math.absEqualsOne(sx) && Math.absEqualsOne(sy) && Math.absEqualsOne(sz);
         dest.properties = properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
                 | (one ? 0 : PROPERTY_ORTHONORMAL));
         return dest;
@@ -4922,11 +4922,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateGeneric(ang, x, y, z, dest);
     }
     private Matrix4d rotateGeneric(double ang, double x, double y, double z, Matrix4d dest) {
-        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+        if (y == 0.0 && z == 0.0 && Math.absEqualsOne(x))
             return rotateX(x * ang, dest);
-        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+        else if (x == 0.0 && z == 0.0 && Math.absEqualsOne(y))
             return rotateY(y * ang, dest);
-        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+        else if (x == 0.0 && y == 0.0 && Math.absEqualsOne(z))
             return rotateZ(z * ang, dest);
         return rotateGenericInternal(ang, x, y, z, dest);
     }
@@ -5044,11 +5044,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d rotateTranslation(double ang, double x, double y, double z, Matrix4d dest) {
         double tx = m30, ty = m31, tz = m32;
-        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+        if (y == 0.0 && z == 0.0 && Math.absEqualsOne(x))
             return dest.rotationX(x * ang).setTranslation(tx, ty, tz);
-        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+        else if (x == 0.0 && z == 0.0 && Math.absEqualsOne(y))
             return dest.rotationY(y * ang).setTranslation(tx, ty, tz);
-        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+        else if (x == 0.0 && y == 0.0 && Math.absEqualsOne(z))
             return dest.rotationZ(z * ang).setTranslation(tx, ty, tz);
         return rotateTranslationInternal(ang, x, y, z, dest);
     }
@@ -5133,11 +5133,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return dest
      */
     public Matrix4d rotateAffine(double ang, double x, double y, double z, Matrix4d dest) {
-        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+        if (y == 0.0 && z == 0.0 && Math.absEqualsOne(x))
             return rotateX(x * ang, dest);
-        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+        else if (x == 0.0 && z == 0.0 && Math.absEqualsOne(y))
             return rotateY(y * ang, dest);
-        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+        else if (x == 0.0 && y == 0.0 && Math.absEqualsOne(z))
             return rotateZ(z * ang, dest);
         return rotateAffineInternal(ang, x, y, z, dest);
     }
@@ -5444,11 +5444,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateLocalGeneric(ang, x, y, z, dest);
     }
     private Matrix4d rotateLocalGeneric(double ang, double x, double y, double z, Matrix4d dest) {
-        if (y == 0.0 && z == 0.0 && Math.abs(x) == 1.0)
+        if (y == 0.0 && z == 0.0 && Math.absEqualsOne(x))
             return rotateLocalX(x * ang, dest);
-        else if (x == 0.0 && z == 0.0 && Math.abs(y) == 1.0)
+        else if (x == 0.0 && z == 0.0 && Math.absEqualsOne(y))
             return rotateLocalY(y * ang, dest);
-        else if (x == 0.0 && y == 0.0 && Math.abs(z) == 1.0)
+        else if (x == 0.0 && y == 0.0 && Math.absEqualsOne(z))
             return rotateLocalZ(z * ang, dest);
         return rotateLocalGenericInternal(ang, x, y, z, dest);
     }
@@ -7289,7 +7289,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = ty;
         m32 = tz;
         m33 = 1.0;
-        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        boolean one = Math.absEqualsOne(sx) && Math.absEqualsOne(sy) && Math.absEqualsOne(sz);
         properties = PROPERTY_AFFINE | (one ? PROPERTY_ORTHONORMAL : 0);
         return this;
     }
@@ -7498,7 +7498,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d translationRotateScaleInvert(double tx, double ty, double tz, 
                                                  double qx, double qy, double qz, double qw, 
                                                  double sx, double sy, double sz) {
-        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        boolean one = Math.absEqualsOne(sx) && Math.absEqualsOne(sy) && Math.absEqualsOne(sz);
         if (one)
             return translationRotateScale(tx, ty, tz, qx, qy, qz, qw, sx, sy, sz).invertOrthonormal(this);
         double nqx = -qx, nqy = -qy, nqz = -qz;
@@ -7721,7 +7721,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         this.m30 = m30;
         this.m31 = m31;
         this.m33 = 1.0;
-        boolean one = Math.abs(sx) == 1.0 && Math.abs(sy) == 1.0 && Math.abs(sz) == 1.0;
+        boolean one = Math.absEqualsOne(sx) && Math.absEqualsOne(sy) && Math.absEqualsOne(sz);
         properties = PROPERTY_AFFINE | (one && (m.properties & PROPERTY_ORTHONORMAL) != 0 ? PROPERTY_ORTHONORMAL : 0);
         return this;
     }

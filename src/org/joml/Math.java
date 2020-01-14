@@ -339,6 +339,13 @@ public class Math {
         return java.lang.Math.abs(r);
     }
 
+    static boolean absEqualsOne(float r) {
+        return (Float.floatToRawIntBits(r) & 0x7FFFFFFF) == 0x3F800000;
+    }
+    static boolean absEqualsOne(double r) {
+        return (Double.doubleToRawLongBits(r) & 0x7FFFFFFFFFFFFFFFL) == 0x3FF0000000000000L;
+    }
+
     public static int abs(int r) {
         return java.lang.Math.abs(r);
     }

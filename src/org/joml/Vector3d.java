@@ -1676,11 +1676,11 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#rotateAxis(double, double, double, double, org.joml.Vector3d)
      */
     public Vector3d rotateAxis(double angle, double aX, double aY, double aZ, Vector3d dest) {
-        if (aY == 0.0 && aZ == 0.0 && Math.abs(aX) == 1.0)
+        if (aY == 0.0 && aZ == 0.0 && Math.absEqualsOne(aX))
             return rotateX(aX * angle, dest);
-        else if (aX == 0.0 && aZ == 0.0 && Math.abs(aY) == 1.0)
+        else if (aX == 0.0 && aZ == 0.0 && Math.absEqualsOne(aY))
             return rotateY(aY * angle, dest);
-        else if (aX == 0.0 && aY == 0.0 && Math.abs(aZ) == 1.0)
+        else if (aX == 0.0 && aY == 0.0 && Math.absEqualsOne(aZ))
             return rotateZ(aZ * angle, dest);
         return rotateAxisInternal(angle, aX, aY, aZ, dest);
     }
