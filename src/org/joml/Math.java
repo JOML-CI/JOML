@@ -227,6 +227,9 @@ public class Math {
     public static float cosFromSin(float sin, float angle) {
         if (Options.FASTMATH)
             return sin(angle + PIHalf_f);
+        return cosFromSinInternal(sin, angle);
+    }
+    private static float cosFromSinInternal(float sin, float angle) {
         // sin(x)^2 + cos(x)^2 = 1
         float cos = sqrt(1.0f - sin * sin);
         float a = angle + PIHalf_f;
