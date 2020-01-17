@@ -765,7 +765,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m00(double m00) {
+    Matrix4d _m00(double m00) {
         this.m00 = m00;
         return this;
     }
@@ -776,7 +776,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m01(double m01) {
+    Matrix4d _m01(double m01) {
         this.m01 = m01;
         return this;
     }
@@ -787,7 +787,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m02(double m02) {
+    Matrix4d _m02(double m02) {
         this.m02 = m02;
         return this;
     }
@@ -798,7 +798,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m03(double m03) {
+    Matrix4d _m03(double m03) {
         this.m03 = m03;
         return this;
     }
@@ -809,7 +809,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m10(double m10) {
+    Matrix4d _m10(double m10) {
         this.m10 = m10;
         return this;
     }
@@ -820,7 +820,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m11(double m11) {
+    Matrix4d _m11(double m11) {
         this.m11 = m11;
         return this;
     }
@@ -831,7 +831,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m12(double m12) {
+    Matrix4d _m12(double m12) {
         this.m12 = m12;
         return this;
     }
@@ -842,7 +842,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m13(double m13) {
+    Matrix4d _m13(double m13) {
         this.m13 = m13;
         return this;
     }
@@ -853,7 +853,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m20(double m20) {
+    Matrix4d _m20(double m20) {
         this.m20 = m20;
         return this;
     }
@@ -864,7 +864,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m21(double m21) {
+    Matrix4d _m21(double m21) {
         this.m21 = m21;
         return this;
     }
@@ -875,7 +875,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m22(double m22) {
+    Matrix4d _m22(double m22) {
         this.m22 = m22;
         return this;
     }
@@ -886,7 +886,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m23(double m23) {
+    Matrix4d _m23(double m23) {
         this.m23 = m23;
         return this;
     }
@@ -897,7 +897,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m30(double m30) {
+    Matrix4d _m30(double m30) {
         this.m30 = m30;
         return this;
     }
@@ -908,7 +908,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m31(double m31) {
+    Matrix4d _m31(double m31) {
         this.m31 = m31;
         return this;
     }
@@ -919,7 +919,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m32(double m32) {
+    Matrix4d _m32(double m32) {
         this.m32 = m32;
         return this;
     }
@@ -930,7 +930,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the new value
      * @return this
      */
-    public Matrix4d _m33(double m33) {
+    Matrix4d _m33(double m33) {
         this.m33 = m33;
         return this;
     }

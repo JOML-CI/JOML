@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.joml.internal;
+package org.joml;
 
 //#ifndef __GWT__
 import java.lang.reflect.Field;
@@ -30,26 +30,7 @@ import java.lang.reflect.Field;
 import java.nio.*;
 //#endif
 
-import org.joml.Matrix2f;
-import org.joml.Matrix2d;
-import org.joml.Matrix3d;
-import org.joml.Matrix3f;
-import org.joml.Matrix3x2d;
-import org.joml.Matrix3x2f;
-import org.joml.Matrix4d;
-import org.joml.Matrix4f;
-import org.joml.Matrix4x3d;
-import org.joml.Matrix4x3f;
-import org.joml.Quaternionf;
-import org.joml.Vector2d;
-import org.joml.Vector2f;
-import org.joml.Vector2i;
-import org.joml.Vector3d;
-import org.joml.Vector3f;
-import org.joml.Vector3i;
-import org.joml.Vector4d;
-import org.joml.Vector4f;
-import org.joml.Vector4i;
+import org.joml.internal.Options;
 
 /**
  * Helper class to do efficient memory operations on all JOML objects, NIO buffers and primitive arrays.
@@ -59,7 +40,7 @@ import org.joml.Vector4i;
  * @author The LWJGL authors
  * @author Kai Burjack
  */
-public abstract class MemUtil {
+abstract class MemUtil {
     public static final MemUtil INSTANCE = createInstance();
     private static MemUtil createInstance() {
         MemUtil accessor;

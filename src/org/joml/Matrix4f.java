@@ -724,7 +724,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m00(float m00) {
+    Matrix4f _m00(float m00) {
         this.m00 = m00;
         return this;
     }
@@ -735,7 +735,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m01(float m01) {
+    Matrix4f _m01(float m01) {
         this.m01 = m01;
         return this;
     }
@@ -746,7 +746,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m02(float m02) {
+    Matrix4f _m02(float m02) {
         this.m02 = m02;
         return this;
     }
@@ -757,7 +757,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m03(float m03) {
+    Matrix4f _m03(float m03) {
         this.m03 = m03;
         return this;
     }
@@ -768,7 +768,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m10(float m10) {
+    Matrix4f _m10(float m10) {
         this.m10 = m10;
         return this;
     }
@@ -779,7 +779,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m11(float m11) {
+    Matrix4f _m11(float m11) {
         this.m11 = m11;
         return this;
     }
@@ -790,7 +790,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m12(float m12) {
+    Matrix4f _m12(float m12) {
         this.m12 = m12;
         return this;
     }
@@ -801,7 +801,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m13(float m13) {
+    Matrix4f _m13(float m13) {
         this.m13 = m13;
         return this;
     }
@@ -812,7 +812,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m20(float m20) {
+    Matrix4f _m20(float m20) {
         this.m20 = m20;
         return this;
     }
@@ -823,7 +823,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m21(float m21) {
+    Matrix4f _m21(float m21) {
         this.m21 = m21;
         return this;
     }
@@ -834,7 +834,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m22(float m22) {
+    Matrix4f _m22(float m22) {
         this.m22 = m22;
         return this;
     }
@@ -845,7 +845,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m23(float m23) {
+    Matrix4f _m23(float m23) {
         this.m23 = m23;
         return this;
     }
@@ -856,7 +856,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m30(float m30) {
+    Matrix4f _m30(float m30) {
         this.m30 = m30;
         return this;
     }
@@ -867,7 +867,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m31(float m31) {
+    Matrix4f _m31(float m31) {
         this.m31 = m31;
         return this;
     }
@@ -878,7 +878,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m32(float m32) {
+    Matrix4f _m32(float m32) {
         this.m32 = m32;
         return this;
     }
@@ -890,7 +890,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the new value
      * @return this
      */
-    public Matrix4f _m33(float m33) {
+    Matrix4f _m33(float m33) {
         this.m33 = m33;
         return this;
     }

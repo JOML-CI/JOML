@@ -30,7 +30,6 @@ import com.google.gwt.typedarrays.shared.Float64Array;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 //#endif
-import org.joml.internal.MemUtil;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
@@ -249,7 +248,7 @@ public class Matrix2d implements Externalizable, Matrix2dc {
      *          the new value
      * @return this
      */
-    public Matrix2d _m00(double m00) {
+    Matrix2d _m00(double m00) {
         this.m00 = m00;
         return this;
     }
@@ -260,7 +259,7 @@ public class Matrix2d implements Externalizable, Matrix2dc {
      *          the new value
      * @return this
      */
-    public Matrix2d _m01(double m01) {
+    Matrix2d _m01(double m01) {
         this.m01 = m01;
         return this;
     }
@@ -271,7 +270,7 @@ public class Matrix2d implements Externalizable, Matrix2dc {
      *          the new value
      * @return this
      */
-    public Matrix2d _m10(double m10) {
+    Matrix2d _m10(double m10) {
         this.m10 = m10;
         return this;
     }
@@ -282,7 +281,7 @@ public class Matrix2d implements Externalizable, Matrix2dc {
      *          the new value
      * @return this
      */
-    public Matrix2d _m11(double m11) {
+    Matrix2d _m11(double m11) {
         this.m11 = m11;
         return this;
     }

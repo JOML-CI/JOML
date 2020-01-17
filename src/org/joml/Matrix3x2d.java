@@ -198,7 +198,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          the new value
      * @return this
      */
-    public Matrix3x2d _m00(double m00) {
+    Matrix3x2d _m00(double m00) {
         this.m00 = m00;
         return this;
     }
@@ -209,7 +209,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          the new value
      * @return this
      */
-    public Matrix3x2d _m01(double m01) {
+    Matrix3x2d _m01(double m01) {
         this.m01 = m01;
         return this;
     }
@@ -220,7 +220,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          the new value
      * @return this
      */
-    public Matrix3x2d _m10(double m10) {
+    Matrix3x2d _m10(double m10) {
         this.m10 = m10;
         return this;
     }
@@ -231,7 +231,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          the new value
      * @return this
      */
-    public Matrix3x2d _m11(double m11) {
+    Matrix3x2d _m11(double m11) {
         this.m11 = m11;
         return this;
     }
@@ -242,7 +242,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          the new value
      * @return this
      */
-    public Matrix3x2d _m20(double m20) {
+    Matrix3x2d _m20(double m20) {
         this.m20 = m20;
         return this;
     }
@@ -253,7 +253,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          the new value
      * @return this
      */
-    public Matrix3x2d _m21(double m21) {
+    Matrix3x2d _m21(double m21) {
         this.m21 = m21;
         return this;
     }

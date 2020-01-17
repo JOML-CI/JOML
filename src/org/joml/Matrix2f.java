@@ -30,7 +30,6 @@ import com.google.gwt.typedarrays.shared.Float32Array;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 //#endif
-import org.joml.internal.MemUtil;
 import org.joml.internal.Options;
 import org.joml.internal.Runtime;
 
@@ -225,7 +224,7 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      *          the new value
      * @return this
      */
-    public Matrix2f _m00(float m00) {
+    Matrix2f _m00(float m00) {
         this.m00 = m00;
         return this;
     }
@@ -236,7 +235,7 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      *          the new value
      * @return this
      */
-    public Matrix2f _m01(float m01) {
+    Matrix2f _m01(float m01) {
         this.m01 = m01;
         return this;
     }
@@ -247,7 +246,7 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      *          the new value
      * @return this
      */
-    public Matrix2f _m10(float m10) {
+    Matrix2f _m10(float m10) {
         this.m10 = m10;
         return this;
     }
@@ -258,7 +257,7 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      *          the new value
      * @return this
      */
-    public Matrix2f _m11(float m11) {
+    Matrix2f _m11(float m11) {
         this.m11 = m11;
         return this;
     }

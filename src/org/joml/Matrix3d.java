@@ -409,7 +409,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the new value
      * @return this
      */
-    public Matrix3d _m00(double m00) {
+    Matrix3d _m00(double m00) {
         this.m00 = m00;
         return this;
     }
@@ -420,7 +420,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the new value
      * @return this
      */
-    public Matrix3d _m01(double m01) {
+    Matrix3d _m01(double m01) {
         this.m01 = m01;
         return this;
     }
@@ -431,7 +431,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the new value
      * @return this
      */
-    public Matrix3d _m02(double m02) {
+    Matrix3d _m02(double m02) {
         this.m02 = m02;
         return this;
     }
@@ -442,7 +442,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the new value
      * @return this
      */
-    public Matrix3d _m10(double m10) {
+    Matrix3d _m10(double m10) {
         this.m10 = m10;
         return this;
     }
@@ -453,7 +453,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the new value
      * @return this
      */
-    public Matrix3d _m11(double m11) {
+    Matrix3d _m11(double m11) {
         this.m11 = m11;
         return this;
     }
@@ -464,7 +464,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the new value
      * @return this
      */
-    public Matrix3d _m12(double m12) {
+    Matrix3d _m12(double m12) {
         this.m12 = m12;
         return this;
     }
@@ -475,7 +475,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the new value
      * @return this
      */
-    public Matrix3d _m20(double m20) {
+    Matrix3d _m20(double m20) {
         this.m20 = m20;
         return this;
     }
@@ -486,7 +486,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the new value
      * @return this
      */
-    public Matrix3d _m21(double m21) {
+    Matrix3d _m21(double m21) {
         this.m21 = m21;
         return this;
     }
@@ -497,7 +497,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the new value
      * @return this
      */
-    public Matrix3d _m22(double m22) {
+    Matrix3d _m22(double m22) {
         this.m22 = m22;
         return this;
     }

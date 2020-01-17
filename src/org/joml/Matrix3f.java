@@ -349,7 +349,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the new value
      * @return this
      */
-    public Matrix3f _m00(float m00) {
+    Matrix3f _m00(float m00) {
         this.m00 = m00;
         return this;
     }
@@ -360,7 +360,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the new value
      * @return this
      */
-    public Matrix3f _m01(float m01) {
+    Matrix3f _m01(float m01) {
         this.m01 = m01;
         return this;
     }
@@ -371,7 +371,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the new value
      * @return this
      */
-    public Matrix3f _m02(float m02) {
+    Matrix3f _m02(float m02) {
         this.m02 = m02;
         return this;
     }
@@ -382,7 +382,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the new value
      * @return this
      */
-    public Matrix3f _m10(float m10) {
+    Matrix3f _m10(float m10) {
         this.m10 = m10;
         return this;
     }
@@ -393,7 +393,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the new value
      * @return this
      */
-    public Matrix3f _m11(float m11) {
+    Matrix3f _m11(float m11) {
         this.m11 = m11;
         return this;
     }
@@ -404,7 +404,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the new value
      * @return this
      */
-    public Matrix3f _m12(float m12) {
+    Matrix3f _m12(float m12) {
         this.m12 = m12;
         return this;
     }
@@ -415,7 +415,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the new value
      * @return this
      */
-    public Matrix3f _m20(float m20) {
+    Matrix3f _m20(float m20) {
         this.m20 = m20;
         return this;
     }
@@ -426,7 +426,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the new value
      * @return this
      */
-    public Matrix3f _m21(float m21) {
+    Matrix3f _m21(float m21) {
         this.m21 = m21;
         return this;
     }
@@ -437,7 +437,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the new value
      * @return this
      */
-    public Matrix3f _m22(float m22) {
+    Matrix3f _m22(float m22) {
         this.m22 = m22;
         return this;
     }
