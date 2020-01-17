@@ -23,8 +23,6 @@
  */
 package org.joml;
 
-import org.joml.internal.Runtime;
-
 /**
  * Pseudo-random number generator.
  * 

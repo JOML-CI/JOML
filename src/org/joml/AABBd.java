@@ -31,8 +31,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import org.joml.Math;
-import org.joml.internal.Options;
-import org.joml.internal.Runtime;
 
 /**
  * Represents an axis-aligned box defined via the minimum and maximum corner coordinates.

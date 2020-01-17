@@ -30,9 +30,6 @@ import com.google.gwt.typedarrays.shared.Float64Array;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 //#endif
-import org.joml.internal.Options;
-import org.joml.internal.Runtime;
-
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;

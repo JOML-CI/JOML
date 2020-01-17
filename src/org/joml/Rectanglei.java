@@ -30,9 +30,6 @@ import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.internal.Options;
-import org.joml.internal.Runtime;
-
 /**
  * Represents a 2D axis-aligned rectangle.
  * 

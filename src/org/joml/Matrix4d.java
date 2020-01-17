@@ -36,8 +36,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import org.joml.Math;
-import org.joml.internal.*;
-import org.joml.internal.Runtime;
+import org.joml.Runtime;
 
 /**
  * Contains the definition of a 4x4 Matrix of doubles, and associated functions to transform

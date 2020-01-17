@@ -23,8 +23,6 @@
  */
 package org.joml;
 
-import org.joml.internal.Runtime;
-
 /**
  * Contains intersection and distance tests for some 2D and 3D geometric primitives.
  * 

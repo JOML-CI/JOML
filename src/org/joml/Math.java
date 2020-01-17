@@ -23,9 +23,6 @@
  */
 package org.joml;
 
-import org.joml.internal.Options;
-import org.joml.internal.Runtime;
-
 /**
  * Contains fast approximations of some {@link java.lang.Math} operations.
  * <p>
@@ -490,5 +487,9 @@ public class Math {
     }
     public static int roundHalfUp(double v) {
         return (v > 0) ? (int) java.lang.Math.floor(v + 0.5d) : (int) java.lang.Math.ceil(v - 0.5d);
+    }
+
+    public static double random() {
+        return java.lang.Math.random();
     }
 }

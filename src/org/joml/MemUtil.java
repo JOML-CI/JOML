@@ -30,8 +30,6 @@ import java.lang.reflect.Field;
 import java.nio.*;
 //#endif
 
-import org.joml.internal.Options;
-
 /**
  * Helper class to do efficient memory operations on all JOML objects, NIO buffers and primitive arrays.
  * This class is used internally throughout JOML, is undocumented and is subject to change.

@@ -34,9 +34,6 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.internal.Options;
-import org.joml.internal.Runtime;
-
 /**
  * Quaternion of 4 single-precision floats which can represent rotation and uniform scaling.
  *

@@ -36,8 +36,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import org.joml.Math;
-import org.joml.internal.*;
-import org.joml.internal.Runtime;
+import org.joml.Runtime;
 
 /**
  * Contains the definition of an affine 4x3 matrix (4 columns, 3 rows) of doubles, and associated functions to transform

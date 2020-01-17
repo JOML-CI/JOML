@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.joml.internal;
+package org.joml;
 
-public final class Runtime {
+final class Runtime {
 
 //#ifndef __GWT__
     public static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();

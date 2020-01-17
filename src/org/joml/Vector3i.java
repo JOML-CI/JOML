@@ -35,8 +35,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import org.joml.Math;
-import org.joml.internal.Options;
-import org.joml.internal.Runtime;
 
 /**
  * Contains the definition of a Vector comprising 3 ints and associated

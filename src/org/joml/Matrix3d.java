@@ -35,8 +35,7 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.internal.*;
-import org.joml.internal.Runtime;
+import org.joml.Runtime;
 
 /**
  * Contains the definition of a 3x3 matrix of doubles, and associated functions to transform

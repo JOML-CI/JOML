@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.joml.internal;
+package org.joml;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -35,7 +35,7 @@ import java.util.Locale;
  * 
  * @author Kai Burjack
  */
-public final class Options {
+final class Options {
 
     /**
      * Whether certain debugging checks should be made, such as that only direct NIO Buffers are used when Unsafe is active,
