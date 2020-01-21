@@ -968,6 +968,30 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
+     * Store the values of the transpose of the given matrix <code>m</code> into <code>this</code> matrix.
+     * 
+     * @param m
+     *          the matrix to copy the transposed values from
+     * @return this
+     */
+    public Matrix4f setTransposed(Matrix4fc m) {
+        if ((m.properties() & PROPERTY_IDENTITY) != 0)
+            return this.identity();
+        return setTransposedInternal(m);
+    }
+    private Matrix4f setTransposedInternal(Matrix4fc m) {
+        float nm10 = m.m01(), nm12 = m.m21(), nm13 = m.m31();
+        float nm20 = m.m02(), nm21 = m.m12(), nm30 = m.m03();
+        float nm31 = m.m13(), nm32 = m.m23();
+        return this
+        ._m00(m.m00())._m01(m.m10())._m02(m.m20())._m03(m.m30())
+        ._m10(nm10)._m11(m.m11())._m12(nm12)._m13(nm13)
+        ._m20(nm20)._m21(nm21)._m22(m.m22())._m23(m.m32())
+        ._m30(nm30)._m31(nm31)._m32(nm32)._m33(m.m33())
+        ._properties(m.properties() & PROPERTY_IDENTITY);
+    }
+
+    /**
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix
      * and set the other matrix elements to identity.
      * 
