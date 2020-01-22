@@ -9,11 +9,11 @@ cache:
 install: true
 env:
   global:
-    - secure: "bAYEubjYV/4Zw6TKWapaqBg7+/fIu7SEStNGxYW2w2yZbZnE0DoWDvTCjRyTC1ugjI5ibYu8hdbC0nbSJxpaoB42fZ9jY1lRWz63VsMzNK1vdEjGUwTY1ENWgeOMCK0W2x3khd+EHenzbcJy0ZCN3kst9UsEZwYuZ4VENumAK4o="
-    - secure: "KPb8H6zydtkjmXT05rkKf+VGOqDPrfFI1tTt5zJ3EpP+GjiAAmb7PhgPapUu4ognsGj/duMKrF/02XqDF0B28WSZ+98qL9UkTFqicjfWdH7mAifOe7WDArFdOiXytgjHRNYuqHVNZEvskUIvKOAOdeKKcbdMdOwXTksIeWzV3Zo="
-    - secure: "CTXe/8wI8l+kMAnujvmMISAESV+3sQWGvz/SOzsoAby6xwIpAQRjzVVEmbovFS8sb78VP2qmmm84hJAq37VffCVrgywS7zHiG/ny4V4QvjqemxyBR7Ft8X1LzI5kGXFxv+DPGRWOzWc5IJ0FI9pf8ML7GVV7fvIz+lqsnYl9IWI="
-    - secure: "TvzL53KDcjCgddNSZiByNipetAffHwpWIORXSxscKly86CrvacCERc0eHHAKPNsYq+1Y0sm2HUPuazVXIuAGsvAm46AYDA8ZG7x2dxr+Fpc1T7zilCS8yNzwwjWv/F9t2d9UC2nstmvX2HyA+1yeC1NamtVyBuvURTFdIzbWSqo="
-    - secure: "fPGWnjcUM1rP26dvDaL1SPlrB1yRlsZKrTTb011GA0fq9aIXEMXfUN9F4p0gYG2vxLOFD+hUArky81kgSqSI1XVJTQMnTTO9OEAiIk+4w1ZsS/5pWU01YnSMo1/yyNlYvnZGZIIS+OZFs2zeJbn/tWrDuXeQ4ddv5AsEhi0DabY="
+    - secure: "MtoN2aezAyjNoVbQAnCaYfkXFyd5zYLoOCEQWkU6DQAGgeiPXWSDf6ZEBJsyFtZoet4cMMmhp47eznVkJs99chG1Ky3bLGNN99h7yQp8SW0XMlfyy+RsGgA+zGmZzPnRtyM98h+D1FIW0z65JByjrzXNS520ErE2MTJ7x6Xrx1A="
+    - secure: "fM+VfobzmOtcjcQcVdG60LWNwfiN+jZxAq5le69pHhrGImGAWlurWP8iOZcTUZqCpkmia0fca+YVODaVscM1t+DztnnrVVkiz9x/wFaKKeZkR1NyY94HtL0DxMk+iX1KZXR6nJdP0fD5mQjAxJkPM5hO3AQAiyvLbhI2sGsiNQY="
+    - secure: "RL7ewIRj4+fjM/X126xRs1m+ji3KIR4evgqBCxTOqkN6+9nNQnaPMW/ZukNnpvwyqJWTUw52hpPRVhXjnuJXoniG02/gWSy3SwH/Uk9QflciyfXYUONxWdWUBVctzyQzAfr8xgyDHr6nCckSVHbU+jeDPDX5/1Y6UAlQ+UbbwW8="
+    - secure: "OlWvcGoTiQhq1PH2+4hM0A43AUGqTn/ydEaIx7Ht9w3QcOoryjYq77GiTwZpihMuR4xPb2krFwE4dVwrxv/VqgF7cVP83k/Vacwms1eM2xYRDTFkPea7M6YZxzOQiQXhZTO9UQ4wbB6pTrTOKnFxE9luBFhmAoDZ5i9jPIPbLmY="
+    - secure: "XjfHWxZ58JpJFDDTRy/BXO/BG3+lpePWV1JtSh75GYXGMWiMeueEnZi7VWY7fkNb4wCrGrgLDZP4EaGJGeJDfnphTBOEWBeJZ+RhY/E6HbmxVN4EAp9tg91vAl1hFiv2dnRxiYrTXhZzPnfR/rsFrpy7lvjN6+Suq5ZmYrKcA7U="
 jobs:
   include:
     - jdk: openjdk7
