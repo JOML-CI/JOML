@@ -8892,34 +8892,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d setRow(int row, Vector4dc src) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
-            this.m00 = src.x();
-            this.m10 = src.y();
-            this.m20 = src.z();
-            this.m30 = src.w();
-            break;
+            return _m00(src.x())._m10(src.y())._m20(src.z())._m30(src.w())._properties(0);
         case 1:
-            this.m01 = src.x();
-            this.m11 = src.y();
-            this.m21 = src.z();
-            this.m31 = src.w();
-            break;
+            return _m01(src.x())._m11(src.y())._m21(src.z())._m31(src.w())._properties(0);
         case 2:
-            this.m02 = src.x();
-            this.m12 = src.y();
-            this.m22 = src.z();
-            this.m32 = src.w();
-            break;
+            return _m02(src.x())._m12(src.y())._m22(src.z())._m32(src.w())._properties(0);
         case 3:
-            this.m03 = src.x();
-            this.m13 = src.y();
-            this.m23 = src.z();
-            this.m33 = src.w();
-            break;
+            return _m03(src.x())._m13(src.y())._m23(src.z())._m33(src.w())._properties(0);
         default:
             throw new IndexOutOfBoundsException();
         }
-        properties = 0;
-        return this;
     }
 
     /* (non-Javadoc)
@@ -9001,34 +8983,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d setColumn(int column, Vector4dc src) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
-            this.m00 = src.x();
-            this.m01 = src.y();
-            this.m02 = src.z();
-            this.m03 = src.w();
-            break;
+            return _m00(src.x())._m01(src.y())._m02(src.z())._m03(src.w())._properties(0);
         case 1:
-            this.m10 = src.x();
-            this.m11 = src.y();
-            this.m12 = src.z();
-            this.m13 = src.w();
-            break;
+            return _m10(src.x())._m11(src.y())._m12(src.z())._m13(src.w())._properties(0);
         case 2:
-            this.m20 = src.x();
-            this.m21 = src.y();
-            this.m22 = src.z();
-            this.m23 = src.w();
-            break;
+            return _m20(src.x())._m21(src.y())._m22(src.z())._m23(src.w())._properties(0);
         case 3:
-            this.m30 = src.x();
-            this.m31 = src.y();
-            this.m32 = src.z();
-            this.m33 = src.w();
-            break;
+            return _m30(src.x())._m31(src.y())._m32(src.z())._m33(src.w())._properties(0);
         default:
             throw new IndexOutOfBoundsException();
         }
-        properties = 0;
-        return this;
     }
 
     /*
@@ -9115,17 +9079,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         case 0:
             switch (row) {
             case 0:
-                this.m00 = value;
-                return this;
+                return m00(value);
             case 1:
-                this.m01 = value;
-                return this;
+                return m01(value);
             case 2:
-                this.m02 = value;
-                return this;
+                return m02(value);
             case 3:
-                this.m03 = value;
-                return this;
+                return m03(value);
             default:
                 break;
             }
@@ -9133,17 +9093,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         case 1:
             switch (row) {
             case 0:
-                this.m10 = value;
-                return this;
+                return m10(value);
             case 1:
-                this.m11 = value;
-                return this;
+                return m11(value);
             case 2:
-                this.m12 = value;
-                return this;
+                return m12(value);
             case 3:
-                this.m13 = value;
-                return this;
+                return m13(value);
             default:
                 break;
             }
@@ -9151,17 +9107,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         case 2:
             switch (row) {
             case 0:
-                this.m20 = value;
-                return this;
+                return m20(value);
             case 1:
-                this.m21 = value;
-                return this;
+                return m21(value);
             case 2:
-                this.m22 = value;
-                return this;
+                return m22(value);
             case 3:
-                this.m23 = value;
-                return this;
+                return m23(value);
             default:
                 break;
             }
@@ -9169,17 +9121,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         case 3:
             switch (row) {
             case 0:
-                this.m30 = value;
-                return this;
+                return m30(value);
             case 1:
-                this.m31 = value;
-                return this;
+                return m31(value);
             case 2:
-                this.m32 = value;
-                return this;
+                return m32(value);
             case 3:
-                this.m33 = value;
-                return this;
+                return m33(value);
             default:
                 break;
             }
