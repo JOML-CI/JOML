@@ -281,28 +281,9 @@ abstract class MemUtil {
     public abstract void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest);
 //#endif
 
-    public abstract void set(Matrix4f dest, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3);
     public abstract void set(Matrix4x3f dest, Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3);
     public abstract void set(Matrix3f dest, Vector3f col0, Vector3f col1, Vector3f col2);
     public abstract void set(Matrix2f dest, Vector2f col0, Vector2f col1);
-
-    public abstract void putColumn0(Matrix4f src, Vector4f dest);
-    public abstract void putColumn1(Matrix4f src, Vector4f dest);
-    public abstract void putColumn2(Matrix4f src, Vector4f dest);
-    public abstract void putColumn3(Matrix4f src, Vector4f dest);
-
-    public abstract void putColumn0(Matrix4f src, Vector3f dest);
-    public abstract void putColumn1(Matrix4f src, Vector3f dest);
-    public abstract void putColumn2(Matrix4f src, Vector3f dest);
-    public abstract void putColumn3(Matrix4f src, Vector3f dest);
-
-    public abstract void getColumn0(Matrix4f dest, Vector4f src);
-    public abstract void getColumn1(Matrix4f dest, Vector4f src);
-    public abstract void getColumn2(Matrix4f dest, Vector4f src);
-    public abstract void getColumn3(Matrix4f dest, Vector4f src);
-
-    public abstract void broadcast(float c, Vector4f dest);
-    public abstract void broadcast(int c, Vector4i dest);
 
     public static class MemUtilNIO extends MemUtil {
 //#ifdef __HAS_NIO__
@@ -3191,100 +3172,6 @@ abstract class MemUtil {
             ._m01(col0.y)
             ._m10(col1.x)
             ._m11(col1.y);
-        }
-
-        public void putColumn0(Matrix4f src, Vector4f dest) {
-            dest.x = src.m00();
-            dest.y = src.m01();
-            dest.z = src.m02();
-            dest.w = src.m03();
-        }
-
-        public void putColumn1(Matrix4f src, Vector4f dest) {
-            dest.x = src.m10();
-            dest.y = src.m11();
-            dest.z = src.m12();
-            dest.w = src.m13();
-        }
-
-        public void putColumn2(Matrix4f src, Vector4f dest) {
-            dest.x = src.m20();
-            dest.y = src.m21();
-            dest.z = src.m22();
-            dest.w = src.m23();
-        }
-
-        public void putColumn3(Matrix4f src, Vector4f dest) {
-            dest.x = src.m30();
-            dest.y = src.m31();
-            dest.z = src.m32();
-            dest.w = src.m33();
-        }
-
-        public void putColumn0(Matrix4f src, Vector3f dest) {
-            dest.x = src.m00();
-            dest.y = src.m01();
-            dest.z = src.m02();
-        }
-
-        public void putColumn1(Matrix4f src, Vector3f dest) {
-            dest.x = src.m10();
-            dest.y = src.m11();
-            dest.z = src.m12();
-        }
-
-        public void putColumn2(Matrix4f src, Vector3f dest) {
-            dest.x = src.m20();
-            dest.y = src.m21();
-            dest.z = src.m22();
-        }
-
-        public void putColumn3(Matrix4f src, Vector3f dest) {
-            dest.x = src.m30();
-            dest.y = src.m31();
-            dest.z = src.m32();
-        }
-
-        public void getColumn0(Matrix4f dest, Vector4f src) {
-            dest._m00(src.x)
-            ._m01(src.y)
-            ._m02(src.z)
-            ._m03(src.w);
-        }
-
-        public void getColumn1(Matrix4f dest, Vector4f src) {
-            dest._m10(src.x)
-            ._m11(src.y)
-            ._m12(src.z)
-            ._m13(src.w);
-        }
-
-        public void getColumn2(Matrix4f dest, Vector4f src) {
-            dest._m20(src.x)
-            ._m21(src.y)
-            ._m22(src.z)
-            ._m23(src.w);
-        }
-
-        public void getColumn3(Matrix4f dest, Vector4f src) {
-            dest._m30(src.x)
-            ._m31(src.y)
-            ._m32(src.z)
-            ._m33(src.w);
-        }
-
-        public void broadcast(float c, Vector4f dest) {
-            dest.x = c;
-            dest.y = c;
-            dest.z = c;
-            dest.w = c;
-        }
-
-        public void broadcast(int c, Vector4i dest) {
-            dest.x = c;
-            dest.y = c;
-            dest.z = c;
-            dest.w = c;
         }
     }
 

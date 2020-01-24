@@ -175,7 +175,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          scalar value of all four components
      */
     public Vector4i(int s) {
-        MemUtil.INSTANCE.broadcast(s, this);
+        set(s);
     }
 
     /**
@@ -423,8 +423,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(int s) {
-        MemUtil.INSTANCE.broadcast(s, this);
-        return this;
+        return set(s, s, s, s);
     }
 
     /**
