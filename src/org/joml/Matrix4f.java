@@ -2748,24 +2748,22 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
         float vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
         float vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
-        float nm00 = view.m00() * pm00, nm01 = view.m10() * pm00, nm02 = view.m20() * pm00;
-        float nm10 = view.m01() * pm11, nm11 = view.m11() * pm11, nm12 = view.m21() * pm11;
-        float nm20 = vm30 * pm23, nm21 = vm31 * pm23, nm22 = vm32 * pm23;
+        float nm10 = view.m01() * pm11;
         float nm30 = view.m02() * pm32 + vm30 * pm33;
         float nm31 = view.m12() * pm32 + vm31 * pm33;
         float nm32 = view.m22() * pm32 + vm32 * pm33;
         return dest
-        ._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
+        ._m00(view.m00() * pm00)
+        ._m01(view.m10() * pm00)
+        ._m02(view.m20() * pm00)
         ._m03(0.0f)
         ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
+        ._m11(view.m11() * pm11)
+        ._m12(view.m21() * pm11)
         ._m13(0.0f)
-        ._m20(nm20)
-        ._m21(nm21)
-        ._m22(nm22)
+        ._m20(vm30 * pm23)
+        ._m21(vm31 * pm23)
+        ._m22(vm32 * pm23)
         ._m23(pm23)
         ._m30(nm30)
         ._m31(nm31)
@@ -2806,28 +2804,22 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
         float vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
         float vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
-        float nm00 = view.m00() * pm00, nm01 = view.m10() * pm00, nm02 = view.m20() * pm00;
-        float nm10 = view.m01() * pm11, nm11 = view.m11() * pm11, nm12 = view.m21() * pm11;
-        float nm20 = vm30 * pm23, nm21 = vm31 * pm23, nm22 = vm32 * pm23;
-        float nm30 = view.m02() * pm32 + vm30 * pm33;
-        float nm31 = view.m12() * pm32 + vm31 * pm33;
-        float nm32 = view.m22() * pm32 + vm32 * pm33;
         return dest
-        ._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
+        ._m00(view.m00() * pm00)
+        ._m01(view.m10() * pm00)
+        ._m02(view.m20() * pm00)
         ._m03(0.0f)
-        ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
+        ._m10(view.m01() * pm11)
+        ._m11(view.m11() * pm11)
+        ._m12(view.m21() * pm11)
         ._m13(0.0f)
-        ._m20(nm20)
-        ._m21(nm21)
-        ._m22(nm22)
+        ._m20(vm30 * pm23)
+        ._m21(vm31 * pm23)
+        ._m22(vm32 * pm23)
         ._m23(pm23)
-        ._m30(nm30)
-        ._m31(nm31)
-        ._m32(nm32)
+        ._m30(view.m02() * pm32 + vm30 * pm33)
+        ._m31(view.m12() * pm32 + vm31 * pm33)
+        ._m32(view.m22() * pm32 + vm32 * pm33)
         ._m33(pm33)
         ._properties(0);
     }
@@ -2844,32 +2836,22 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
         float m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
         float m21m00 = m21 * m00, m22m01 = m22 * m01, m22m00 = m22 * m00;
-        float nm00 = (m11m22 - m12m21) * s;
-        float nm01 = (m21m02 - m22m01) * s;
-        float nm02 = (m12m01 - m11m02) * s;
-        float nm10 = (m12m20 - m10m22) * s;
-        float nm11 = (m22m00 - m20m02) * s;
-        float nm12 = (m10m02 - m12m00) * s;
-        float nm20 = (m10m21 - m11m20) * s;
-        float nm21 = (m20m01 - m21m00) * s;
-        float nm22 = (m11m00 - m10m01) * s;
-        float nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
         float nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
         float nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
         return dest
-        ._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
+        ._m00((m11m22 - m12m21) * s)
+        ._m01((m21m02 - m22m01) * s)
+        ._m02((m12m01 - m11m02) * s)
         ._m03(0.0f)
-        ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
+        ._m10((m12m20 - m10m22) * s)
+        ._m11((m22m00 - m20m02) * s)
+        ._m12((m10m02 - m12m00) * s)
         ._m13(0.0f)
-        ._m20(nm20)
-        ._m21(nm21)
-        ._m22(nm22)
+        ._m20((m10m21 - m11m20) * s)
+        ._m21((m20m01 - m21m00) * s)
+        ._m22((m11m00 - m10m01) * s)
         ._m23(0.0f)
-        ._m30(nm30)
+        ._m30((m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s)
         ._m31(nm31)
         ._m32(nm32)
         ._m33(1.0f)
@@ -6349,29 +6331,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateLocalX(float ang, Matrix4f dest) {
         float sin = Math.sin(ang);
         float cos = Math.cosFromSin(sin, ang);
-        float nm01 = cos * m01 - sin * m02;
         float nm02 = sin * m01 + cos * m02;
-        float nm11 = cos * m11 - sin * m12;
         float nm12 = sin * m11 + cos * m12;
-        float nm21 = cos * m21 - sin * m22;
         float nm22 = sin * m21 + cos * m22;
-        float nm31 = cos * m31 - sin * m32;
         float nm32 = sin * m31 + cos * m32;
         return dest
         ._m00(m00)
-        ._m01(nm01)
+        ._m01(cos * m01 - sin * m02)
         ._m02(nm02)
         ._m03(m03)
         ._m10(m10)
-        ._m11(nm11)
+        ._m11(cos * m11 - sin * m12)
         ._m12(nm12)
         ._m13(m13)
         ._m20(m20)
-        ._m21(nm21)
+        ._m21(cos * m21 - sin * m22)
         ._m22(nm22)
         ._m23(m23)
         ._m30(m30)
-        ._m31(nm31)
+        ._m31(cos * m31 - sin * m32)
         ._m32(nm32)
         ._m33(m33)
         ._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
@@ -6433,28 +6411,24 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateLocalY(float ang, Matrix4f dest) {
         float sin = Math.sin(ang);
         float cos = Math.cosFromSin(sin, ang);
-        float nm00 =  cos * m00 + sin * m02;
         float nm02 = -sin * m00 + cos * m02;
-        float nm10 =  cos * m10 + sin * m12;
         float nm12 = -sin * m10 + cos * m12;
-        float nm20 =  cos * m20 + sin * m22;
         float nm22 = -sin * m20 + cos * m22;
-        float nm30 =  cos * m30 + sin * m32;
         float nm32 = -sin * m30 + cos * m32;
         return dest
-        ._m00(nm00)
+        ._m00(cos * m00 + sin * m02)
         ._m01(m01)
         ._m02(nm02)
         ._m03(m03)
-        ._m10(nm10)
+        ._m10(cos * m10 + sin * m12)
         ._m11(m11)
         ._m12(nm12)
         ._m13(m13)
-        ._m20(nm20)
+        ._m20(cos * m20 + sin * m22)
         ._m21(m21)
         ._m22(nm22)
         ._m23(m23)
-        ._m30(nm30)
+        ._m30(cos * m30 + sin * m32)
         ._m31(m31)
         ._m32(nm32)
         ._m33(m33)
@@ -6517,28 +6491,24 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateLocalZ(float ang, Matrix4f dest) {
         float sin = Math.sin(ang);
         float cos = Math.cosFromSin(sin, ang);
-        float nm00 = cos * m00 - sin * m01;
         float nm01 = sin * m00 + cos * m01;
-        float nm10 = cos * m10 - sin * m11;
         float nm11 = sin * m10 + cos * m11;
-        float nm20 = cos * m20 - sin * m21;
         float nm21 = sin * m20 + cos * m21;
-        float nm30 = cos * m30 - sin * m31;
         float nm31 = sin * m30 + cos * m31;
         return dest
-        ._m00(nm00)
+        ._m00(cos * m00 - sin * m01)
         ._m01(nm01)
         ._m02(m02)
         ._m03(m03)
-        ._m10(nm10)
+        ._m10(cos * m10 - sin * m11)
         ._m11(nm11)
         ._m12(m12)
         ._m13(m13)
-        ._m20(nm20)
+        ._m20(cos * m20 - sin * m21)
         ._m21(nm21)
         ._m22(m22)
         ._m23(m23)
-        ._m30(nm30)
+        ._m30(cos * m30 - sin * m31)
         ._m31(nm31)
         ._m32(m32)
         ._m33(m33)
@@ -6862,8 +6832,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             ._m30(in.readFloat())
             ._m31(in.readFloat())
             ._m32(in.readFloat())
-            ._m33(in.readFloat());
-        determineProperties();
+            ._m33(in.readFloat())
+            .determineProperties();
     }
 
     /**
@@ -8357,20 +8327,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;
-        // up = direction x left
-        float upnX = dirY * leftZ - dirZ * leftY;
-        float upnY = dirZ * leftX - dirX * leftZ;
-        float upnZ = dirX * leftY - dirY * leftX;
         this._m00(leftX)
-            ._m01(upnX)
+            ._m01(dirY * leftZ - dirZ * leftY)
             ._m02(dirX)
             ._m03(0.0f)
             ._m10(leftY)
-            ._m11(upnY)
+            ._m11(dirZ * leftX - dirX * leftZ)
             ._m12(dirY)
             ._m13(0.0f)
             ._m20(leftZ)
-            ._m21(upnZ)
+            ._m21(dirX * leftY - dirY * leftX)
             ._m22(dirZ)
             ._m23(0.0f)
             ._m30(0.0f)

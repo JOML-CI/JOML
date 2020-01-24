@@ -289,23 +289,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the fourth column
      */
     public Matrix4d(Vector4d col0, Vector4d col1, Vector4d col2, Vector4d col3) {
-        this.m00 = col0.x;
-        this.m01 = col0.y;
-        this.m02 = col0.z;
-        this.m03 = col0.w;
-        this.m10 = col1.x;
-        this.m11 = col1.y;
-        this.m12 = col1.z;
-        this.m13 = col1.w;
-        this.m20 = col2.x;
-        this.m21 = col2.y;
-        this.m22 = col2.z;
-        this.m23 = col2.w;
-        this.m30 = col3.x;
-        this.m31 = col3.y;
-        this.m32 = col3.z;
-        this.m33 = col3.w;
-        determineProperties();
+        set(col0, col1, col2, col3);
     }
 
     /**
@@ -2746,24 +2730,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set(Vector4d col0, Vector4d col1, Vector4d col2, Vector4d col3) {
-        this.m00 = col0.x;
-        this.m01 = col0.y;
-        this.m02 = col0.z;
-        this.m03 = col0.w;
-        this.m10 = col1.x;
-        this.m11 = col1.y;
-        this.m12 = col1.z;
-        this.m13 = col1.w;
-        this.m20 = col2.x;
-        this.m21 = col2.y;
-        this.m22 = col2.z;
-        this.m23 = col2.w;
-        this.m30 = col3.x;
-        this.m31 = col3.y;
-        this.m32 = col3.z;
-        this.m33 = col3.w;
-        this.properties = 0;
-        return this;
+        return
+        _m00(col0.x()).
+        _m01(col0.y()).
+        _m02(col0.z()).
+        _m03(col0.w()).
+        _m10(col1.x()).
+        _m11(col1.y()).
+        _m12(col1.z()).
+        _m13(col1.w()).
+        _m20(col2.x()).
+        _m21(col2.y()).
+        _m22(col2.z()).
+        _m23(col2.w()).
+        _m30(col3.x()).
+        _m31(col3.y()).
+        _m32(col3.z()).
+        _m33(col3.w()).
+        determineProperties();
     }
 
     /* (non-Javadoc)
@@ -3055,30 +3039,28 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
         double vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
         double vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
-        double nm00 = view.m00() * pm00, nm01 = view.m10() * pm00, nm02 = view.m20() * pm00;
-        double nm10 = view.m01() * pm11, nm11 = view.m11() * pm11, nm12 = view.m21() * pm11;
-        double nm20 = vm30 * pm23, nm21 = vm31 * pm23, nm22 = vm32 * pm23;
+        double nm10 = view.m01() * pm11;
         double nm30 = view.m02() * pm32 + vm30 * pm33;
         double nm31 = view.m12() * pm32 + vm31 * pm33;
         double nm32 = view.m22() * pm32 + vm32 * pm33;
-        dest._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
+        return dest
+        ._m00(view.m00() * pm00)
+        ._m01(view.m10() * pm00)
+        ._m02(view.m20() * pm00)
         ._m03(0.0)
         ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
+        ._m11(view.m11() * pm11)
+        ._m12(view.m21() * pm11)
         ._m13(0.0)
-        ._m20(nm20)
-        ._m21(nm21)
-        ._m22(nm22)
+        ._m20(vm30 * pm23)
+        ._m21(vm31 * pm23)
+        ._m22(vm32 * pm23)
         ._m23(pm23)
         ._m30(nm30)
         ._m31(nm31)
         ._m32(nm32)
         ._m33(pm33)
         ._properties(0);
-        return dest;
     }
 
     /* (non-Javadoc)
@@ -3095,30 +3077,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
         double vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
         double vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
-        double nm00 = view.m00() * pm00, nm01 = view.m10() * pm00, nm02 = view.m20() * pm00;
-        double nm10 = view.m01() * pm11, nm11 = view.m11() * pm11, nm12 = view.m21() * pm11;
-        double nm20 = vm30 * pm23, nm21 = vm31 * pm23, nm22 = vm32 * pm23;
-        double nm30 = view.m02() * pm32 + vm30 * pm33;
-        double nm31 = view.m12() * pm32 + vm31 * pm33;
-        double nm32 = view.m22() * pm32 + vm32 * pm33;
-        dest._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
+        return dest
+        ._m00(view.m00() * pm00)
+        ._m01(view.m10() * pm00)
+        ._m02(view.m20() * pm00)
         ._m03(0.0)
-        ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
+        ._m10(view.m01() * pm11)
+        ._m11(view.m11() * pm11)
+        ._m12(view.m21() * pm11)
         ._m13(0.0)
-        ._m20(nm20)
-        ._m21(nm21)
-        ._m22(nm22)
+        ._m20(vm30 * pm23)
+        ._m21(vm31 * pm23)
+        ._m22(vm32 * pm23)
         ._m23(pm23)
-        ._m30(nm30)
-        ._m31(nm31)
-        ._m32(nm32)
+        ._m30(view.m02() * pm32 + vm30 * pm33)
+        ._m31(view.m12() * pm32 + vm31 * pm33)
+        ._m32(view.m22() * pm32 + vm32 * pm33)
         ._m33(pm33)
         ._properties(0);
-        return dest;
     }
 
     /* (non-Javadoc)
@@ -4273,11 +4249,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#transform(double, double, double, double, org.joml.Vector4d)
      */
     public Vector4d transform(double x, double y, double z, double w, Vector4d dest) {
-        dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
-                 m01 * x + m11 * y + m21 * z + m31 * w,
-                 m02 * x + m12 * y + m22 * z + m32 * w,
-                 m03 * x + m13 * y + m23 * z + m33 * w);
-       return dest;
+        return dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
+                        m01 * x + m11 * y + m21 * z + m31 * w,
+                        m02 * x + m12 * y + m22 * z + m32 * w,
+                        m03 * x + m13 * y + m23 * z + m33 * w);
     }
 
     /* (non-Javadoc)
@@ -4299,11 +4274,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Vector4d transformProject(double x, double y, double z, double w, Vector4d dest) {
         double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33 * w);
-        dest.set((m00 * x + m10 * y + m20 * z + m30 * w) * invW,
-                 (m01 * x + m11 * y + m21 * z + m31 * w) * invW,
-                 (m02 * x + m12 * y + m22 * z + m32 * w) * invW,
-                 1.0);
-        return dest;
+        return dest.set((m00 * x + m10 * y + m20 * z + m30 * w) * invW,
+                        (m01 * x + m11 * y + m21 * z + m31 * w) * invW,
+                        (m02 * x + m12 * y + m22 * z + m32 * w) * invW,
+                        1.0);
     }
 
     /* (non-Javadoc)
@@ -4325,10 +4299,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Vector3d transformProject(double x, double y, double z, Vector3d dest) {
         double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33);
-        dest.set((m00 * x + m10 * y + m20 * z + m30) * invW,
-                 (m01 * x + m11 * y + m21 * z + m31) * invW,
-                 (m02 * x + m12 * y + m22 * z + m32) * invW);
-        return dest;
+        return dest.set((m00 * x + m10 * y + m20 * z + m30) * invW,
+                        (m01 * x + m11 * y + m21 * z + m31) * invW,
+                        (m02 * x + m12 * y + m22 * z + m32) * invW);
     }
 
     /* (non-Javadoc)
@@ -4352,10 +4325,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#transformPosition(org.joml.Vector3d)
      */
     public Vector3d transformPosition(Vector3d dest) {
-        dest.set(m00 * dest.x + m10 * dest.y + m20 * dest.z + m30,
-                 m01 * dest.x + m11 * dest.y + m21 * dest.z + m31,
-                 m02 * dest.x + m12 * dest.y + m22 * dest.z + m32);
-        return dest;
+        return dest.set(m00 * dest.x + m10 * dest.y + m20 * dest.z + m30,
+                        m01 * dest.x + m11 * dest.y + m21 * dest.z + m31,
+                        m02 * dest.x + m12 * dest.y + m22 * dest.z + m32);
     }
 
     /* (non-Javadoc)
@@ -4369,40 +4341,36 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#transformPosition(double, double, double, org.joml.Vector3d)
      */
     public Vector3d transformPosition(double x, double y, double z, Vector3d dest) {
-        dest.set(m00 * x + m10 * y + m20 * z + m30,
-                 m01 * x + m11 * y + m21 * z + m31,
-                 m02 * x + m12 * y + m22 * z + m32);
-        return dest;
+        return dest.set(m00 * x + m10 * y + m20 * z + m30,
+                        m01 * x + m11 * y + m21 * z + m31,
+                        m02 * x + m12 * y + m22 * z + m32);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformDirection(org.joml.Vector3d)
      */
     public Vector3d transformDirection(Vector3d dest) {
-        dest.set(m00 * dest.x + m10 * dest.y + m20 * dest.z,
-                 m01 * dest.x + m11 * dest.y + m21 * dest.z,
-                 m02 * dest.x + m12 * dest.y + m22 * dest.z);
-        return dest;
+        return dest.set(m00 * dest.x + m10 * dest.y + m20 * dest.z,
+                        m01 * dest.x + m11 * dest.y + m21 * dest.z,
+                        m02 * dest.x + m12 * dest.y + m22 * dest.z);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformDirection(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d transformDirection(Vector3dc v, Vector3d dest) {
-        dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z(),
-                 m01 * v.x() + m11 * v.y() + m21 * v.z(),
-                 m02 * v.x() + m12 * v.y() + m22 * v.z());
-        return dest;
+        return dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z(),
+                        m01 * v.x() + m11 * v.y() + m21 * v.z(),
+                        m02 * v.x() + m12 * v.y() + m22 * v.z());
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformDirection(double, double, double, org.joml.Vector3d)
      */
     public Vector3d transformDirection(double x, double y, double z, Vector3d dest) {
-        dest.set(m00 * x + m10 * y + m20 * z,
-                 m01 * x + m11 * y + m21 * z,
-                 m02 * x + m12 * y + m22 * z);
-        return dest;
+        return dest.set(m00 * x + m10 * y + m20 * z,
+                        m01 * x + m11 * y + m21 * z,
+                        m02 * x + m12 * y + m22 * z);
     }
 
     /* (non-Javadoc)
@@ -4468,6 +4436,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set3x3(Matrix3dc mat) {
+        return
         _m00(mat.m00()).
         _m01(mat.m01()).
         _m02(mat.m02()).
@@ -4477,8 +4446,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m20(mat.m20()).
         _m21(mat.m21()).
         _m22(mat.m22()).
-        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
-        return this;
+        _properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
     }
 
     /* (non-Javadoc)
@@ -5970,28 +5938,25 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d rotateLocalX(double ang, Matrix4d dest) {
         double sin = Math.sin(ang);
         double cos = Math.cosFromSin(sin, ang);
-        double nm01 = cos * m01 - sin * m02;
         double nm02 = sin * m01 + cos * m02;
-        double nm11 = cos * m11 - sin * m12;
         double nm12 = sin * m11 + cos * m12;
-        double nm21 = cos * m21 - sin * m22;
         double nm22 = sin * m21 + cos * m22;
-        double nm31 = cos * m31 - sin * m32;
         double nm32 = sin * m31 + cos * m32;
-        dest._m00(m00)
-        ._m01(nm01)
+        dest
+        ._m00(m00)
+        ._m01(cos * m01 - sin * m02)
         ._m02(nm02)
         ._m03(m03)
         ._m10(m10)
-        ._m11(nm11)
+        ._m11(cos * m11 - sin * m12)
         ._m12(nm12)
         ._m13(m13)
         ._m20(m20)
-        ._m21(nm21)
+        ._m21(cos * m21 - sin * m22)
         ._m22(nm22)
         ._m23(m23)
         ._m30(m30)
-        ._m31(nm31)
+        ._m31(cos * m31 - sin * m32)
         ._m32(nm32)
         ._m33(m33)
         ._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
@@ -6054,27 +6019,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d rotateLocalY(double ang, Matrix4d dest) {
         double sin = Math.sin(ang);
         double cos = Math.cosFromSin(sin, ang);
-        double nm00 =  cos * m00 + sin * m02;
         double nm02 = -sin * m00 + cos * m02;
-        double nm10 =  cos * m10 + sin * m12;
         double nm12 = -sin * m10 + cos * m12;
-        double nm20 =  cos * m20 + sin * m22;
         double nm22 = -sin * m20 + cos * m22;
-        double nm30 =  cos * m30 + sin * m32;
         double nm32 = -sin * m30 + cos * m32;
-        dest._m00(nm00)
+        dest
+        ._m00(cos * m00 + sin * m02)
         ._m01(m01)
         ._m02(nm02)
         ._m03(m03)
-        ._m10(nm10)
+        ._m10(cos * m10 + sin * m12)
         ._m11(m11)
         ._m12(nm12)
         ._m13(m13)
-        ._m20(nm20)
+        ._m20(cos * m20 + sin * m22)
         ._m21(m21)
         ._m22(nm22)
         ._m23(m23)
-        ._m30(nm30)
+        ._m30(cos * m30 + sin * m32)
         ._m31(m31)
         ._m32(nm32)
         ._m33(m33)
@@ -6138,27 +6100,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d rotateLocalZ(double ang, Matrix4d dest) {
         double sin = Math.sin(ang);
         double cos = Math.cosFromSin(sin, ang);
-        double nm00 = cos * m00 - sin * m01;
         double nm01 = sin * m00 + cos * m01;
-        double nm10 = cos * m10 - sin * m11;
         double nm11 = sin * m10 + cos * m11;
-        double nm20 = cos * m20 - sin * m21;
         double nm21 = sin * m20 + cos * m21;
-        double nm30 = cos * m30 - sin * m31;
         double nm31 = sin * m30 + cos * m31;
-        dest._m00(nm00)
+        dest
+        ._m00(cos * m00 - sin * m01)
         ._m01(nm01)
         ._m02(m02)
         ._m03(m03)
-        ._m10(nm10)
+        ._m10(cos * m10 - sin * m11)
         ._m11(nm11)
         ._m12(m12)
         ._m13(m13)
-        ._m20(nm20)
+        ._m20(cos * m20 - sin * m21)
         ._m21(nm21)
         ._m22(m22)
         ._m23(m23)
-        ._m30(nm30)
+        ._m30(cos * m30 - sin * m31)
         ._m31(nm31)
         ._m32(m32)
         ._m33(m33)

@@ -604,11 +604,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float hangle = angle / 2.0f;
         float sinAngle = Math.sin(hangle);
         float invVLength = Math.invsqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-        x = axisX * invVLength * sinAngle;
-        y = axisY * invVLength * sinAngle;
-        z = axisZ * invVLength * sinAngle;
-        w = Math.cosFromSin(sinAngle, hangle);
-        return this;
+        return set(axisX * invVLength * sinAngle,
+                   axisY * invVLength * sinAngle,
+                   axisZ * invVLength * sinAngle,
+                   Math.cosFromSin(sinAngle, hangle));
     }
 
     /**
@@ -636,11 +635,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf rotationX(float angle) {
         float sin = Math.sin(angle * 0.5f);
         float cos = Math.cosFromSin(sin, angle * 0.5f);
-        w = cos;
-        x = sin;
-        y = 0.0f;
-        z = 0.0f;
-        return this;
+        return set(sin, 0, 0, cos);
     }
 
     /**
@@ -653,11 +648,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf rotationY(float angle) {
         float sin = Math.sin(angle * 0.5f);
         float cos = Math.cosFromSin(sin, angle * 0.5f);
-        w = cos;
-        x = 0.0f;
-        y = sin;
-        z = 0.0f;
-        return this;
+        return set(0, sin, 0, cos);
     }
 
     /**
@@ -670,11 +661,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf rotationZ(float angle) {
         float sin = Math.sin(angle * 0.5f);
         float cos = Math.cosFromSin(sin, angle * 0.5f);
-        w = cos;
-        x = 0.0f;
-        y = 0.0f;
-        z = sin;
-        return this;
+        return set(0, 0, sin, cos);
     }
 
     private void setFromUnnormalized(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22) {
@@ -1293,12 +1280,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
         float xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
         float zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
-        float m00 = (xx - yy - zz + ww) * k, m01 = 2 * (xy + zw) * k, m02 = 2 * (xz - yw) * k;
-        float m10 = 2 * (xy - zw) * k, m11 = (yy - xx - zz + ww) * k, m12 = 2 * (yz + xw) * k;
-        float m20 = 2 * (xz + yw) * k, m21 = 2 * (yz - xw) * k, m22 = (zz - xx - yy + ww) * k;
-        return dest.set(Math.fma(m00, x, Math.fma(m10, y, m20 * z)),
-                        Math.fma(m01, x, Math.fma(m11, y, m21 * z)),
-                        Math.fma(m02, x, Math.fma(m12, y, m22 * z)));
+        return dest.set(Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy - zw) * k, y, (2 * (xz + yw) * k) * z)),
+                        Math.fma(2 * (xy + zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz - xw) * k) * z)),
+                        Math.fma(2 * (xz - yw) * k, x, Math.fma(2 * (yz + xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
     }
 
     public Vector3f transformUnit(Vector3f vec) {
@@ -1313,13 +1297,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float xx = this.x * this.x, xy = this.x * this.y, xz = this.x * this.z;
         float xw = this.x * this.w, yy = this.y * this.y, yz = this.y * this.z;
         float yw = this.y * this.w, zz = this.z * this.z, zw = this.z * this.w;
-        float m00 = Math.fma(-2, yy + zz, 1), m10 = 2 * (xy - zw), m20 = 2 * (xz + yw);
-        float m01 = 2 * (xy + zw), m11 = Math.fma(-2, xx + zz, 1), m21 = 2 * (yz - xw);
-        float m02 = 2 * (xz - yw), m12 = 2 * (yz + xw), m22 = Math.fma(-2, xx + yy, 1);
-        dest.x = Math.fma(m00, x, Math.fma(m10, y, m20 * z));
-        dest.y = Math.fma(m01, x, Math.fma(m11, y, m21 * z));
-        dest.z = Math.fma(m02, x, Math.fma(m12, y, m22 * z));
-        return dest;
+        return dest.set(Math.fma(Math.fma(-2, yy + zz, 1), x, Math.fma(2 * (xy - zw), y, (2 * (xz + yw)) * z)),
+                        Math.fma(2 * (xy + zw), x, Math.fma(Math.fma(-2, xx + zz, 1), y, (2 * (yz - xw)) * z)),
+                        Math.fma(2 * (xz - yw), x, Math.fma(2 * (yz + xw), y, Math.fma(-2, xx + yy, 1) * z)));
     }
 
     /* (non-Javadoc)
@@ -1336,12 +1316,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
         float xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
         float zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
-        float m00 = (xx - yy - zz + ww) * k, m01 = 2 * (xy + zw) * k, m02 = 2 * (xz - yw) * k;
-        float m10 = 2 * (xy - zw) * k, m11 = (yy - xx - zz + ww) * k, m12 = 2 * (yz + xw) * k;
-        float m20 = 2 * (xz + yw) * k, m21 = 2 * (yz - xw) * k, m22 = (zz - xx - yy + ww) * k;
-        return dest.set(Math.fma(m00, x, Math.fma(m10, y, m20 * z)),
-                        Math.fma(m01, x, Math.fma(m11, y, m21 * z)),
-                        Math.fma(m02, x, Math.fma(m12, y, m22 * z)), dest.w);
+        return dest.set(Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy - zw) * k, y, (2 * (xz + yw) * k) * z)),
+                        Math.fma(2 * (xy + zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz - xw) * k) * z)),
+                        Math.fma(2 * (xz - yw) * k, x, Math.fma(2 * (yz + xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
     }
 
     /* (non-Javadoc)
@@ -1363,12 +1340,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float xx = this.x * this.x, xy = this.x * this.y, xz = this.x * this.z;
         float xw = this.x * this.w, yy = this.y * this.y, yz = this.y * this.z;
         float yw = this.y * this.w, zz = this.z * this.z, zw = this.z * this.w;
-        float m00 = Math.fma(-2, yy + zz, 1), m10 = 2 * (xy - zw), m20 = 2 * (xz + yw);
-        float m01 = 2 * (xy + zw), m11 = Math.fma(-2, xx + zz, 1), m21 = 2 * (yz - xw);
-        float m02 = 2 * (xz - yw), m12 = 2 * (yz + xw), m22 = Math.fma(-2, xx + yy, 1);
-        return dest.set(Math.fma(m00, x, Math.fma(m10, y, m20 * z)),
-                        Math.fma(m01, x, Math.fma(m11, y, m21 * z)),
-                        Math.fma(m02, x, Math.fma(m12, y, m22 * z)), dest.w);
+        return dest.set(Math.fma(Math.fma(-2, yy + zz, 1), x, Math.fma(2 * (xy - zw), y, (2 * (xz + yw)) * z)),
+                        Math.fma(2 * (xy + zw), x, Math.fma(Math.fma(-2, xx + zz, 1), y, (2 * (yz - xw)) * z)),
+                        Math.fma(2 * (xz - yw), x, Math.fma(2 * (yz + xw), y, Math.fma(-2, xx + yy, 1) * z)));
     }
 
     public Vector3d transformPositiveX(Vector3d dest) {
@@ -1567,12 +1541,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
         float xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
         float zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
-        float m00 = (xx - yy - zz + ww) * k, m01 = 2 * (xy + zw) * k, m02 = 2 * (xz - yw) * k;
-        float m10 = 2 * (xy - zw) * k, m11 = (yy - xx - zz + ww) * k, m12 = 2 * (yz + xw) * k;
-        float m20 = 2 * (xz + yw) * k, m21 = 2 * (yz - xw) * k, m22 = (zz - xx - yy + ww) * k;
-        return dest.set(Math.fma(m00, x, Math.fma(m10, y, m20 * z)),
-                        Math.fma(m01, x, Math.fma(m11, y, m21 * z)),
-                        Math.fma(m02, x, Math.fma(m12, y, m22 * z)));
+        return dest.set(Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy - zw) * k, y, (2 * (xz + yw) * k) * z)),
+                        Math.fma(2 * (xy + zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz - xw) * k) * z)),
+                        Math.fma(2 * (xz - yw) * k, x, Math.fma(2 * (yz + xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
     }
 
     /* (non-Javadoc)
@@ -1589,12 +1560,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
         float xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
         float zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
-        float m00 = (xx - yy - zz + ww) * k, m01 = 2 * (xy + zw) * k, m02 = 2 * (xz - yw) * k;
-        float m10 = 2 * (xy - zw) * k, m11 = (yy - xx - zz + ww) * k, m12 = 2 * (yz + xw) * k;
-        float m20 = 2 * (xz + yw) * k, m21 = 2 * (yz - xw) * k, m22 = (zz - xx - yy + ww) * k;
-        return dest.set(Math.fma(m00, x, Math.fma(m10, y, m20 * z)),
-                        Math.fma(m01, x, Math.fma(m11, y, m21 * z)),
-                        Math.fma(m02, x, Math.fma(m12, y, m22 * z)), dest.w);
+        return dest.set(Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy - zw) * k, y, (2 * (xz + yw) * k) * z)),
+                        Math.fma(2 * (xy + zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz - xw) * k) * z)),
+                        Math.fma(2 * (xz - yw) * k, x, Math.fma(2 * (yz + xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
     }
 
     public Vector4d transformUnit(Vector4d vec){
@@ -1613,12 +1581,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float xx = this.x * this.x, xy = this.x * this.y, xz = this.x * this.z;
         float xw = this.x * this.w, yy = this.y * this.y, yz = this.y * this.z;
         float yw = this.y * this.w, zz = this.z * this.z, zw = this.z * this.w;
-        float m00 = Math.fma(-2, yy + zz, 1), m10 = 2 * (xy - zw), m20 = 2 * (xz + yw);
-        float m01 = 2 * (xy + zw), m11 = Math.fma(-2, xx + zz, 1), m21 = 2 * (yz - xw);
-        float m02 = 2 * (xz - yw), m12 = 2 * (yz + xw), m22 = Math.fma(-2, xx + yy, 1);
-        return dest.set(Math.fma(m00, x, Math.fma(m10, y, m20 * z)),
-                        Math.fma(m01, x, Math.fma(m11, y, m21 * z)),
-                        Math.fma(m02, x, Math.fma(m12, y, m22 * z)));
+        return dest.set(Math.fma(Math.fma(-2, yy + zz, 1), x, Math.fma(2 * (xy - zw), y, (2 * (xz + yw)) * z)),
+                        Math.fma(2 * (xy + zw), x, Math.fma(Math.fma(-2, xx + zz, 1), y, (2 * (yz - xw)) * z)),
+                        Math.fma(2 * (xz - yw), x, Math.fma(2 * (yz + xw), y, Math.fma(-2, xx + yy, 1) * z)));
     }
 
     public Vector4d transformUnit(Vector4dc vec, Vector4d dest) {
@@ -1629,12 +1594,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         float xx = this.x * this.x, xy = this.x * this.y, xz = this.x * this.z;
         float xw = this.x * this.w, yy = this.y * this.y, yz = this.y * this.z;
         float yw = this.y * this.w, zz = this.z * this.z, zw = this.z * this.w;
-        float m00 = Math.fma(-2, yy + zz, 1), m10 = 2 * (xy - zw), m20 = 2 * (xz + yw);
-        float m01 = 2 * (xy + zw), m11 = Math.fma(-2, xx + zz, 1), m21 = 2 * (yz - xw);
-        float m02 = 2 * (xz - yw), m12 = 2 * (yz + xw), m22 = Math.fma(-2, xx + yy, 1);
-        return dest.set(Math.fma(m00, x, Math.fma(m10, y, m20 * z)),
-                        Math.fma(m01, x, Math.fma(m11, y, m21 * z)),
-                        Math.fma(m02, x, Math.fma(m12, y, m22 * z)), dest.w);
+        return dest.set(Math.fma(Math.fma(-2, yy + zz, 1), x, Math.fma(2 * (xy - zw), y, (2 * (xz + yw)) * z)),
+                        Math.fma(2 * (xy + zw), x, Math.fma(Math.fma(-2, xx + zz, 1), y, (2 * (yz - xw)) * z)),
+                        Math.fma(2 * (xz - yw), x, Math.fma(2 * (yz + xw), y, Math.fma(-2, xx + yy, 1) * z)));
     }
 
     /* (non-Javadoc)
@@ -2642,11 +2604,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf rotateX(float angle, Quaternionf dest) {
         float sin = Math.sin(angle * 0.5f);
         float cos = Math.cosFromSin(sin, angle * 0.5f);
-        dest.set(w * sin + x * cos,
-                 y * cos + z * sin,
-                 z * cos - y * sin,
-                 w * cos - x * sin);
-        return dest;
+        return dest.set(w * sin + x * cos,
+                        y * cos + z * sin,
+                        z * cos - y * sin,
+                        w * cos - x * sin);
     }
 
     /**
@@ -2671,11 +2632,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf rotateY(float angle, Quaternionf dest) {
         float sin = Math.sin(angle * 0.5f);
         float cos = Math.cosFromSin(sin, angle * 0.5f);
-        dest.set(x * cos - z * sin,
-                 w * sin + y * cos,
-                 x * sin + z * cos,
-                 w * cos - y * sin);
-        return dest;
+        return dest.set(x * cos - z * sin,
+                        w * sin + y * cos,
+                        x * sin + z * cos,
+                        w * cos - y * sin);
     }
 
     /**
@@ -2700,11 +2660,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionf rotateZ(float angle, Quaternionf dest) {
         float sin = Math.sin(angle * 0.5f);
         float cos = Math.cosFromSin(sin, angle * 0.5f);
-        dest.set(x * cos + y * sin,
-                 y * cos - x * sin,
-                 w * sin + z * cos,
-                 w * cos - z * sin);
-        return dest;
+        return dest.set(x * cos + y * sin,
+                        y * cos - x * sin,
+                        w * sin + z * cos,
+                        w * cos - z * sin);
     }
 
     /**
