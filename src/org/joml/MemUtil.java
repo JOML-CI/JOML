@@ -3483,18 +3483,18 @@ abstract class MemUtil {
         }
 
 //#ifdef __HAS_NIO__
-        public long addressOf(Buffer buffer) {
+        public static long addressOf(Buffer buffer) {
             return UNSAFE.getLong(buffer, ADDRESS);
         }
 //#endif
 
-        public void put(Matrix4f m, long destAddr) {
+        public static void put(Matrix4f m, long destAddr) {
             for (int i = 0; i < 8; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
             }
         }
 
-        public void put4x3(Matrix4f m, long destAddr) {
+        public static void put4x3(Matrix4f m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             for (int i = 0; i < 4; i++) {
                 u.putLong(null, destAddr + 12 * i, u.getLong(m, Matrix4f_m00 + (i << 4)));
@@ -3505,19 +3505,19 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 44, m.m32());
         }
 
-        public void put3x4(Matrix4f m, long destAddr) {
+        public static void put3x4(Matrix4f m, long destAddr) {
             for (int i = 0; i < 6; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
             }
         }
 
-        public void put(Matrix4x3f m, long destAddr) {
+        public static void put(Matrix4x3f m, long destAddr) {
             for (int i = 0; i < 6; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4x3f_m00 + (i << 3)));
             }
         }
 
-        public void put4x4(Matrix4x3f m, long destAddr) {
+        public static void put4x4(Matrix4x3f m, long destAddr) {
             for (int i = 0; i < 4; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 4), UNSAFE.getLong(m, Matrix4x3f_m00 + 12 * i));
                 long lng = UNSAFE.getInt(m, Matrix4x3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
@@ -3526,7 +3526,7 @@ abstract class MemUtil {
             UNSAFE.putFloat(null, destAddr + 60, 1.0f);
         }
 
-        public void put3x4(Matrix4x3f m, long destAddr) {
+        public static void put3x4(Matrix4x3f m, long destAddr) {
             for (int i = 0; i < 3; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 4), UNSAFE.getLong(m, Matrix4x3f_m00 + 12 * i));
                 UNSAFE.putFloat(null, destAddr + (i << 4) + 8, UNSAFE.getFloat(m, Matrix4x3f_m00 + 8 + 12 * i));
@@ -3534,7 +3534,7 @@ abstract class MemUtil {
             }
         }
 
-        public void put4x4(Matrix4x3d m, long destAddr) {
+        public static void put4x4(Matrix4x3d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,       m.m00());
             u.putDouble(null, destAddr + 8,   m.m01());
@@ -3554,7 +3554,7 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 120, 1.0);
         }
 
-        public void put4x4(Matrix3x2f m, long destAddr) {
+        public static void put4x4(Matrix3x2f m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putLong(null, destAddr,    u.getLong(m, Matrix3x2f_m00));
             u.putLong(null, destAddr+8,  0L);
@@ -3566,7 +3566,7 @@ abstract class MemUtil {
             u.putLong(null, destAddr+56, 0x3F80000000000000L);
         }
 
-        public void put4x4(Matrix3x2d m, long destAddr) {
+        public static void put4x4(Matrix3x2d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,       m.m00());
             u.putDouble(null, destAddr + 8,   m.m01());
@@ -3586,7 +3586,7 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 120, 1.0);
         }
 
-        public void put3x3(Matrix3x2f m, long destAddr) {
+        public static void put3x3(Matrix3x2f m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putLong( null, destAddr,    u.getLong(m, Matrix3x2f_m00));
             u.putInt(  null, destAddr+8,  0);
@@ -3596,7 +3596,7 @@ abstract class MemUtil {
             u.putFloat(null, destAddr+32, 0.0f);
         }
 
-        public void put3x3(Matrix3x2d m, long destAddr) {
+        public static void put3x3(Matrix3x2d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,      m.m00());
             u.putDouble(null, destAddr + 8,  m.m01());
@@ -3609,7 +3609,7 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 64, 1.0);
         }
 
-        public void putTransposed(Matrix4f m, long destAddr) {
+        public static void putTransposed(Matrix4f m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putFloat(null, destAddr,      m.m00());
             u.putFloat(null, destAddr + 4,  m.m10());
@@ -3629,7 +3629,7 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 60, m.m33());
         }
 
-        public void put4x3Transposed(Matrix4f m, long destAddr) {
+        public static void put4x3Transposed(Matrix4f m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putFloat(null, destAddr,      m.m00());
             u.putFloat(null, destAddr + 4,  m.m10());
@@ -3645,7 +3645,7 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 44, m.m32());
         }
 
-        public void putTransposed(Matrix4x3f m, long destAddr) {
+        public static void putTransposed(Matrix4x3f m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putFloat(null, destAddr,      m.m00());
             u.putFloat(null, destAddr + 4,  m.m10());
@@ -3661,7 +3661,7 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 44, m.m32());
         }
 
-        public void putTransposed(Matrix3f m, long destAddr) {
+        public static void putTransposed(Matrix3f m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putFloat(null, destAddr,      m.m00());
             u.putFloat(null, destAddr + 4,  m.m10());
@@ -3674,14 +3674,14 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 32, m.m22());
         }
 
-        public void putTransposed(Matrix2f m, long destAddr) {
+        public static void putTransposed(Matrix2f m, long destAddr) {
             UNSAFE.putFloat(null, destAddr,      m.m00());
             UNSAFE.putFloat(null, destAddr + 4,  m.m10());
             UNSAFE.putFloat(null, destAddr + 8,  m.m01());
             UNSAFE.putFloat(null, destAddr + 12, m.m11());
         }
 
-        public void put(Matrix4d m, long destAddr) {
+        public static void put(Matrix4d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,       m.m00());
             u.putDouble(null, destAddr + 8,   m.m01());
@@ -3701,7 +3701,7 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 120, m.m33());
         }
 
-        public void put(Matrix4x3d m, long destAddr) {
+        public static void put(Matrix4x3d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,      m.m00());
             u.putDouble(null, destAddr + 8,  m.m01());
@@ -3717,7 +3717,7 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 88, m.m32());
         }
 
-        public void putTransposed(Matrix4d m, long destAddr) {
+        public static void putTransposed(Matrix4d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,       m.m00());
             u.putDouble(null, destAddr + 8,   m.m10());
@@ -3737,7 +3737,7 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 120, m.m33());
         }
 
-        public void putfTransposed(Matrix4d m, long destAddr) {
+        public static void putfTransposed(Matrix4d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putFloat(null, destAddr,      (float)m.m00());
             u.putFloat(null, destAddr + 4,  (float)m.m10());
@@ -3757,7 +3757,7 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 60, (float)m.m33());
         }
 
-        public void put4x3Transposed(Matrix4d m, long destAddr) {
+        public static void put4x3Transposed(Matrix4d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,      m.m00());
             u.putDouble(null, destAddr + 8,  m.m10());
@@ -3773,7 +3773,7 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 88, m.m32());
         }
 
-        public void putTransposed(Matrix4x3d m, long destAddr) {
+        public static void putTransposed(Matrix4x3d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,      m.m00());
             u.putDouble(null, destAddr + 8,  m.m10());
@@ -3789,14 +3789,14 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 88, m.m32());
         }
 
-        public void putTransposed(Matrix2d m, long destAddr) {
+        public static void putTransposed(Matrix2d m, long destAddr) {
             UNSAFE.putDouble(null, destAddr,      m.m00());
             UNSAFE.putDouble(null, destAddr + 8,  m.m10());
             UNSAFE.putDouble(null, destAddr + 16, m.m10());
             UNSAFE.putDouble(null, destAddr + 24, m.m10());
         }
 
-        public void putfTransposed(Matrix4x3d m, long destAddr) {
+        public static void putfTransposed(Matrix4x3d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putFloat(null, destAddr,      (float)m.m00());
             u.putFloat(null, destAddr + 4,  (float)m.m10());
@@ -3812,14 +3812,14 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 44, (float)m.m32());
         }
 
-        public void putfTransposed(Matrix2d m, long destAddr) {
+        public static void putfTransposed(Matrix2d m, long destAddr) {
             UNSAFE.putFloat(null, destAddr,      (float)m.m00());
             UNSAFE.putFloat(null, destAddr + 4,  (float)m.m00());
             UNSAFE.putFloat(null, destAddr + 8,  (float)m.m00());
             UNSAFE.putFloat(null, destAddr + 12, (float)m.m00());
         }
 
-        public void putf(Matrix4d m, long destAddr) {
+        public static void putf(Matrix4d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putFloat(null, destAddr,      (float)m.m00());
             u.putFloat(null, destAddr + 4,  (float)m.m01());
@@ -3839,7 +3839,7 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 60, (float)m.m33());
         }
 
-        public void putf(Matrix4x3d m, long destAddr) {
+        public static void putf(Matrix4x3d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putFloat(null, destAddr,      (float)m.m00());
             u.putFloat(null, destAddr + 4,  (float)m.m01());
@@ -3855,14 +3855,14 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 44, (float)m.m32());
         }
 
-        public void put(Matrix3f m, long destAddr) {
+        public static void put(Matrix3f m, long destAddr) {
             for (int i = 0; i < 4; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3f_m00 + (i << 3)));
             }
             UNSAFE.putFloat(null, destAddr + 32, m.m22());
         }
 
-        public void put3x4(Matrix3f m, long destAddr) {
+        public static void put3x4(Matrix3f m, long destAddr) {
             for (int i = 0; i < 3; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 4), UNSAFE.getLong(m, Matrix3f_m00 + 12 * i));
                 UNSAFE.putFloat(null, destAddr + (i << 4) + 8, UNSAFE.getFloat(m, Matrix3f_m00 + 8 + 12 * i));
@@ -3870,7 +3870,7 @@ abstract class MemUtil {
             }
         }
 
-        public void put(Matrix3d m, long destAddr) {
+        public static void put(Matrix3d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,      m.m00());
             u.putDouble(null, destAddr + 8,  m.m01());
@@ -3883,13 +3883,13 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 64, m.m22());
         }
 
-        public void put(Matrix3x2f m, long destAddr) {
+        public static void put(Matrix3x2f m, long destAddr) {
             for (int i = 0; i < 3; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3x2f_m00 + (i << 3)));
             }
         }
 
-        public void put(Matrix3x2d m, long destAddr) {
+        public static void put(Matrix3x2d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putDouble(null, destAddr,      m.m00());
             u.putDouble(null, destAddr + 8,  m.m01());
@@ -3899,7 +3899,7 @@ abstract class MemUtil {
             u.putDouble(null, destAddr + 40, m.m21());
         }
 
-        public void putf(Matrix3d m, long destAddr) {
+        public static void putf(Matrix3d m, long destAddr) {
             sun.misc.Unsafe u = UNSAFE;
             u.putFloat(null, destAddr,      (float)m.m00());
             u.putFloat(null, destAddr + 4,  (float)m.m01());
@@ -3912,105 +3912,105 @@ abstract class MemUtil {
             u.putFloat(null, destAddr + 32, (float)m.m22());
         }
 
-        public void put(Matrix2f m, long destAddr) {
+        public static void put(Matrix2f m, long destAddr) {
             UNSAFE.putLong(null, destAddr,     UNSAFE.getLong(m, Matrix2f_m00));
             UNSAFE.putLong(null, destAddr + 8, UNSAFE.getLong(m, Matrix2f_m00 + 8));
         }
 
-        public void put(Matrix2d m, long destAddr) {
+        public static void put(Matrix2d m, long destAddr) {
             UNSAFE.putDouble(null, destAddr,      m.m00());
             UNSAFE.putDouble(null, destAddr + 8,  m.m01());
             UNSAFE.putDouble(null, destAddr + 16, m.m10());
             UNSAFE.putDouble(null, destAddr + 24, m.m11());
         }
 
-        public void putf(Matrix2d m, long destAddr) {
+        public static void putf(Matrix2d m, long destAddr) {
             UNSAFE.putFloat(null, destAddr,      (float)m.m00());
             UNSAFE.putFloat(null, destAddr + 4,  (float)m.m01());
             UNSAFE.putFloat(null, destAddr + 8,  (float)m.m10());
             UNSAFE.putFloat(null, destAddr + 12, (float)m.m11());
         }
 
-        public void put(Vector4d src, long destAddr) {
+        public static void put(Vector4d src, long destAddr) {
             UNSAFE.putDouble(null, destAddr,    src.x);
             UNSAFE.putDouble(null, destAddr+8,  src.y);
             UNSAFE.putDouble(null, destAddr+16, src.z);
             UNSAFE.putDouble(null, destAddr+24, src.w);
         }
 
-        public void putf(Vector4d src, long destAddr) {
+        public static void putf(Vector4d src, long destAddr) {
             UNSAFE.putFloat(null, destAddr,    (float) src.x);
             UNSAFE.putFloat(null, destAddr+4,  (float) src.y);
             UNSAFE.putFloat(null, destAddr+8,  (float) src.z);
             UNSAFE.putFloat(null, destAddr+12, (float) src.w);
         }
 
-        public void put(Vector4f src, long destAddr) {
+        public static void put(Vector4f src, long destAddr) {
             UNSAFE.putFloat(null, destAddr,    src.x);
             UNSAFE.putFloat(null, destAddr+4,  src.y);
             UNSAFE.putFloat(null, destAddr+8,  src.z);
             UNSAFE.putFloat(null, destAddr+12, src.w);
         }
 
-        public void put(Vector4i src, long destAddr) {
+        public static void put(Vector4i src, long destAddr) {
             UNSAFE.putInt(null, destAddr,    src.x);
             UNSAFE.putInt(null, destAddr+4,  src.y);
             UNSAFE.putInt(null, destAddr+8,  src.z);
             UNSAFE.putInt(null, destAddr+12, src.w);
         }
 
-        public void put(Vector3f src, long destAddr) {
+        public static void put(Vector3f src, long destAddr) {
             UNSAFE.putFloat(null, destAddr,   src.x);
             UNSAFE.putFloat(null, destAddr+4, src.y);
             UNSAFE.putFloat(null, destAddr+8, src.z);
         }
 
-        public void put(Vector3d src, long destAddr) {
+        public static void put(Vector3d src, long destAddr) {
             UNSAFE.putDouble(null, destAddr,    src.x);
             UNSAFE.putDouble(null, destAddr+8,  src.y);
             UNSAFE.putDouble(null, destAddr+16, src.z);
         }
 
-        public void putf(Vector3d src, long destAddr) {
+        public static void putf(Vector3d src, long destAddr) {
             UNSAFE.putFloat(null, destAddr,   (float) src.x);
             UNSAFE.putFloat(null, destAddr+4, (float) src.y);
             UNSAFE.putFloat(null, destAddr+8, (float) src.z);
         }
 
-        public void put(Vector3i src, long destAddr) {
+        public static void put(Vector3i src, long destAddr) {
             UNSAFE.putInt(null, destAddr,   src.x);
             UNSAFE.putInt(null, destAddr+4, src.y);
             UNSAFE.putInt(null, destAddr+8, src.z);
         }
 
-        public void put(Vector2f src, long destAddr) {
+        public static void put(Vector2f src, long destAddr) {
             UNSAFE.putFloat(null, destAddr,   src.x);
             UNSAFE.putFloat(null, destAddr+4, src.y);
         }
 
-        public void put(Vector2d src, long destAddr) {
+        public static void put(Vector2d src, long destAddr) {
             UNSAFE.putDouble(null, destAddr,   UNSAFE.getDouble(src, Vector2d_x));
             UNSAFE.putDouble(null, destAddr+8, UNSAFE.getDouble(src, Vector2d_x+8));
         }
 
-        public void put(Vector2i src, long destAddr) {
+        public static void put(Vector2i src, long destAddr) {
             UNSAFE.putInt(null, destAddr,   src.x);
             UNSAFE.putInt(null, destAddr+4, src.y);
         }
 
-        public void get(Matrix4f m, long srcAddr) {
+        public static void get(Matrix4f m, long srcAddr) {
             for (int i = 0; i < 8; i++) {
                 UNSAFE.putLong(m, Matrix4f_m00 + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
             }
         }
 
-        public void get(Matrix4x3f m, long srcAddr) {
+        public static void get(Matrix4x3f m, long srcAddr) {
             for (int i = 0; i < 6; i++) {
                 UNSAFE.putLong(m, Matrix4x3f_m00 + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
             }
         }
 
-        public void get(Matrix4d m, long srcAddr) {
+        public static void get(Matrix4d m, long srcAddr) {
             sun.misc.Unsafe u = UNSAFE;
             m._m00(u.getDouble(null, srcAddr))
             ._m01(u.getDouble(null, srcAddr+8))
@@ -4030,7 +4030,7 @@ abstract class MemUtil {
             ._m33(u.getDouble(null, srcAddr+120));
         }
 
-        public void get(Matrix4x3d m, long srcAddr) {
+        public static void get(Matrix4x3d m, long srcAddr) {
             sun.misc.Unsafe u = UNSAFE;
             m._m00(u.getDouble(null, srcAddr))
             ._m01(u.getDouble(null, srcAddr+8))
@@ -4046,7 +4046,7 @@ abstract class MemUtil {
             ._m32(u.getDouble(null, srcAddr+88));
         }
 
-        public void getf(Matrix4d m, long srcAddr) {
+        public static void getf(Matrix4d m, long srcAddr) {
             sun.misc.Unsafe u = UNSAFE;
             m._m00(u.getFloat(null, srcAddr))
             ._m01(u.getFloat(null, srcAddr+4))
@@ -4066,7 +4066,7 @@ abstract class MemUtil {
             ._m33(u.getFloat(null, srcAddr+60));
         }
 
-        public void getf(Matrix4x3d m, long srcAddr) {
+        public static void getf(Matrix4x3d m, long srcAddr) {
             sun.misc.Unsafe u = UNSAFE;
             m._m00(u.getFloat(null, srcAddr))
             ._m01(u.getFloat(null, srcAddr+4))
@@ -4082,14 +4082,14 @@ abstract class MemUtil {
             ._m32(u.getFloat(null, srcAddr+44));
         }
 
-        public void get(Matrix3f m, long srcAddr) {
+        public static void get(Matrix3f m, long srcAddr) {
             for (int i = 0; i < 4; i++) {
                 UNSAFE.putLong(m, Matrix3f_m00 + (i << 3), UNSAFE.getLong(null, srcAddr + (i << 3)));
             }
             m._m22(UNSAFE.getFloat(null, srcAddr+32));
         }
 
-        public void get(Matrix3d m, long srcAddr) {
+        public static void get(Matrix3d m, long srcAddr) {
             sun.misc.Unsafe u = UNSAFE;
             m._m00(u.getDouble(null, srcAddr))
             ._m01(u.getDouble(null, srcAddr+8))
@@ -4102,13 +4102,13 @@ abstract class MemUtil {
             ._m22(u.getDouble(null, srcAddr+64));
         }
 
-        public void get(Matrix3x2f m, long srcAddr) {
+        public static void get(Matrix3x2f m, long srcAddr) {
             for (int i = 0; i < 3; i++) {
                 UNSAFE.putLong(m, Matrix3x2f_m00 + (i << 3), UNSAFE.getLong(null, srcAddr + (i << 3)));
             }
         }
 
-        public void get(Matrix3x2d m, long srcAddr) {
+        public static void get(Matrix3x2d m, long srcAddr) {
             sun.misc.Unsafe u = UNSAFE;
             m._m00(u.getDouble(null, srcAddr))
             ._m01(u.getDouble(null, srcAddr+8))
@@ -4118,7 +4118,7 @@ abstract class MemUtil {
             ._m21(u.getDouble(null, srcAddr+40));
         }
 
-        public void getf(Matrix3d m, long srcAddr) {
+        public static void getf(Matrix3d m, long srcAddr) {
             sun.misc.Unsafe u = UNSAFE;
             m._m00(u.getFloat(null, srcAddr))
             ._m01(u.getFloat(null, srcAddr+4))
@@ -4131,80 +4131,80 @@ abstract class MemUtil {
             ._m22(u.getFloat(null, srcAddr+32));
         }
 
-        public void get(Matrix2f m, long srcAddr) {
+        public static void get(Matrix2f m, long srcAddr) {
             UNSAFE.putLong(m, Matrix2f_m00,     UNSAFE.getLong(null, srcAddr));
             UNSAFE.putLong(m, Matrix2f_m00 + 8, UNSAFE.getLong(null, srcAddr + 8));
         }
 
-        public void get(Matrix2d m, long srcAddr) {
+        public static void get(Matrix2d m, long srcAddr) {
             m._m00(UNSAFE.getDouble(null, srcAddr))
             ._m01(UNSAFE.getDouble(null, srcAddr+8))
             ._m10(UNSAFE.getDouble(null, srcAddr+16))
             ._m11(UNSAFE.getDouble(null, srcAddr+24));
         }
 
-        public void getf(Matrix2d m, long srcAddr) {
+        public static void getf(Matrix2d m, long srcAddr) {
             m._m00(UNSAFE.getFloat(null, srcAddr))
             ._m01(UNSAFE.getFloat(null, srcAddr+4))
             ._m10(UNSAFE.getFloat(null, srcAddr+8))
             ._m11(UNSAFE.getFloat(null, srcAddr+12));
         }
 
-        public void get(Vector4d dst, long srcAddr) {
+        public static void get(Vector4d dst, long srcAddr) {
             dst.x = UNSAFE.getDouble(null, srcAddr);
             dst.y = UNSAFE.getDouble(null, srcAddr+8);
             dst.z = UNSAFE.getDouble(null, srcAddr+16);
             dst.w = UNSAFE.getDouble(null, srcAddr+24);
         }
 
-        public void get(Vector4f dst, long srcAddr) {
+        public static void get(Vector4f dst, long srcAddr) {
             dst.x = UNSAFE.getFloat(null, srcAddr);
             dst.y = UNSAFE.getFloat(null, srcAddr+4);
             dst.z = UNSAFE.getFloat(null, srcAddr+8);
             dst.w = UNSAFE.getFloat(null, srcAddr+12);
         }
 
-        public void get(Vector4i dst, long srcAddr) {
+        public static void get(Vector4i dst, long srcAddr) {
             dst.x = UNSAFE.getInt(null, srcAddr);
             dst.y = UNSAFE.getInt(null, srcAddr+4);
             dst.z = UNSAFE.getInt(null, srcAddr+8);
             dst.w = UNSAFE.getInt(null, srcAddr+12);
         }
 
-        public void get(Vector3f dst, long srcAddr) {
+        public static void get(Vector3f dst, long srcAddr) {
             dst.x = UNSAFE.getFloat(null, srcAddr);
             dst.y = UNSAFE.getFloat(null, srcAddr+4);
             dst.z = UNSAFE.getFloat(null, srcAddr+8);
         }
 
-        public void get(Vector3d dst, long srcAddr) {
+        public static void get(Vector3d dst, long srcAddr) {
             dst.x = UNSAFE.getDouble(null, srcAddr);
             dst.y = UNSAFE.getDouble(null, srcAddr+8);
             dst.z = UNSAFE.getDouble(null, srcAddr+16);
         }
 
-        public void get(Vector3i dst, long srcAddr) {
+        public static void get(Vector3i dst, long srcAddr) {
             dst.x = UNSAFE.getInt(null, srcAddr);
             dst.y = UNSAFE.getInt(null, srcAddr+4);
             dst.z = UNSAFE.getInt(null, srcAddr+8);
         }
 
-        public void get(Vector2f dst, long srcAddr) {
+        public static void get(Vector2f dst, long srcAddr) {
             dst.x = UNSAFE.getFloat(null, srcAddr);
             dst.y = UNSAFE.getFloat(null, srcAddr+4);
         }
 
-        public void get(Vector2d dst, long srcAddr) {
+        public static void get(Vector2d dst, long srcAddr) {
             dst.x = UNSAFE.getDouble(null, srcAddr);
             dst.y = UNSAFE.getDouble(null, srcAddr+8);
         }
 
-        public void get(Vector2i dst, long srcAddr) {
+        public static void get(Vector2i dst, long srcAddr) {
             dst.x = UNSAFE.getInt(null, srcAddr);
             dst.y = UNSAFE.getInt(null, srcAddr+4);
         }
 
-        public void putMatrix3f(Quaternionf q, long addr) {
+        public static void putMatrix3f(Quaternionf q, long addr) {
             float dx = q.x + q.x;
             float dy = q.y + q.y;
             float dz = q.z + q.z;
@@ -4229,7 +4229,7 @@ abstract class MemUtil {
             u.putFloat(null, addr + 32, 1.0f - q11 - q00); 
         }
 
-        public void putMatrix4f(Quaternionf q, long addr) {
+        public static void putMatrix4f(Quaternionf q, long addr) {
             float dx = q.x + q.x;
             float dy = q.y + q.y;
             float dz = q.z + q.z;
@@ -4256,7 +4256,7 @@ abstract class MemUtil {
             u.putLong(null, addr + 56, 0x3F80000000000000L);
         }
 
-        public void putMatrix4x3f(Quaternionf q, long addr) {
+        public static void putMatrix4x3f(Quaternionf q, long addr) {
             float dx = q.x + q.x;
             float dy = q.y + q.y;
             float dz = q.z + q.z;
