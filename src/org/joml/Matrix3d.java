@@ -756,15 +756,15 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      * @see org.joml.Matrix3dc#mul(org.joml.Matrix3dc, org.joml.Matrix3d)
      */
     public Matrix3d mul(Matrix3dc right, Matrix3d dest) {
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        double nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
+        double nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
+        double nm02 = Math.fma(m02, right.m00(), Math.fma(m12, right.m01(), m22 * right.m02()));
+        double nm10 = Math.fma(m00, right.m10(), Math.fma(m10, right.m11(), m20 * right.m12()));
+        double nm11 = Math.fma(m01, right.m10(), Math.fma(m11, right.m11(), m21 * right.m12()));
+        double nm12 = Math.fma(m02, right.m10(), Math.fma(m12, right.m11(), m22 * right.m12()));
+        double nm20 = Math.fma(m00, right.m20(), Math.fma(m10, right.m21(), m20 * right.m22()));
+        double nm21 = Math.fma(m01, right.m20(), Math.fma(m11, right.m21(), m21 * right.m22()));
+        double nm22 = Math.fma(m02, right.m20(), Math.fma(m12, right.m21(), m22 * right.m22()));
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -839,15 +839,15 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      * @see org.joml.Matrix3dc#mul(org.joml.Matrix3fc, org.joml.Matrix3d)
      */
     public Matrix3d mul(Matrix3fc right, Matrix3d dest) {
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        double nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
+        double nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
+        double nm02 = Math.fma(m02, right.m00(), Math.fma(m12, right.m01(), m22 * right.m02()));
+        double nm10 = Math.fma(m00, right.m10(), Math.fma(m10, right.m11(), m20 * right.m12()));
+        double nm11 = Math.fma(m01, right.m10(), Math.fma(m11, right.m11(), m21 * right.m12()));
+        double nm12 = Math.fma(m02, right.m10(), Math.fma(m12, right.m11(), m22 * right.m12()));
+        double nm20 = Math.fma(m00, right.m20(), Math.fma(m10, right.m21(), m20 * right.m22()));
+        double nm21 = Math.fma(m01, right.m20(), Math.fma(m11, right.m21(), m21 * right.m22()));
+        double nm22 = Math.fma(m02, right.m20(), Math.fma(m12, right.m21(), m22 * right.m22()));
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -2100,18 +2100,16 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      * @see org.joml.Matrix3dc#transform(org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3f transform(Vector3fc v, Vector3f dest) {
-        v.mul(this, dest);
-        return dest;
+        return v.mul(this, dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix3dc#transform(double, double, double, org.joml.Vector3d)
      */
     public Vector3d transform(double x, double y, double z, Vector3d dest) {
-        dest.set(m00 * x + m10 * y + m20 * z,
-                 m01 * x + m11 * y + m21 * z,
-                 m02 * x + m12 * y + m22 * z);
-        return dest;
+        return dest.set(Math.fma(m00, x, Math.fma(m10, y, m20 * z)),
+                        Math.fma(m01, x, Math.fma(m11, y, m21 * z)),
+                        Math.fma(m02, x, Math.fma(m12, y, m22 * z)));
     }
 
     /* (non-Javadoc)
@@ -2125,18 +2123,16 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      * @see org.joml.Matrix3dc#transformTranspose(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d transformTranspose(Vector3dc v, Vector3d dest) {
-        v.mulTranspose(this, dest);
-        return dest;
+        return v.mulTranspose(this, dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix3dc#transformTranspose(double, double, double, org.joml.Vector3d)
      */
     public Vector3d transformTranspose(double x, double y, double z, Vector3d dest) {
-        dest.set(m00 * x + m01 * y + m02 * z,
-                 m10 * x + m11 * y + m12 * z,
-                 m20 * x + m21 * y + m22 * z);
-        return dest;
+        return dest.set(Math.fma(m00, x, Math.fma(m01, y, m02 * z)),
+                        Math.fma(m10, x, Math.fma(m11, y, m12 * z)),
+                        Math.fma(m20, x, Math.fma(m21, y, m22 * z)));
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -2190,7 +2186,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         dest.m00 = m00;
         dest.m01 = m01;
         dest.m02 = m02;
-
         return dest;
     }
 
@@ -2243,7 +2238,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         dest.m10 = m10;
         dest.m11 = m11;
         dest.m12 = m12;
-
         return dest;
     }
 
@@ -2296,7 +2290,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         dest.m20 = m20;
         dest.m21 = m21;
         dest.m22 = m22;
-
         return dest;
     }
 
@@ -2612,7 +2605,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-
         return dest;
     }
 
@@ -3549,24 +3541,14 @@ public class Matrix3d implements Externalizable, Matrix3dc {
     public Vector3d getRow(int row, Vector3d dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
-            dest.x = m00;
-            dest.y = m10;
-            dest.z = m20;
-            break;
+            return dest.set(m00, m10, m20);
         case 1:
-            dest.x = m01;
-            dest.y = m11;
-            dest.z = m21;
-            break;
+            return dest.set(m01, m11, m21);
         case 2:
-            dest.x = m02;
-            dest.y = m12;
-            dest.z = m22;
-            break;
+            return dest.set(m02, m12, m22);
         default:
             throw new IndexOutOfBoundsException();
         }
-        return dest;
     }
 
     /**
@@ -3626,24 +3608,14 @@ public class Matrix3d implements Externalizable, Matrix3dc {
     public Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
-            dest.x = m00;
-            dest.y = m01;
-            dest.z = m02;
-            break;
+            return dest.set(m00, m01, m02);
         case 1:
-            dest.x = m10;
-            dest.y = m11;
-            dest.z = m12;
-            break;
+            return dest.set(m10, m11, m12);
         case 2:
-            dest.x = m20;
-            dest.y = m21;
-            dest.z = m22;
-            break;
+            return dest.set(m20, m21, m22);
         default:
             throw new IndexOutOfBoundsException();
         }
-        return dest;
     }
 
     /**
@@ -4160,7 +4132,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-
         return dest;
     }
 
