@@ -77,11 +77,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the {@link Matrix2fc}
      */
     public Matrix3f(Matrix2fc mat) {
-        if (mat instanceof Matrix2f) {
-            MemUtil.INSTANCE.copy((Matrix2f) mat, this);
-        } else {
-            setMatrix2fc(mat);
-        }
+        set(mat);
     }
 
     /**
@@ -91,11 +87,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the {@link Matrix3fc} to copy the values from
      */
     public Matrix3f(Matrix3fc mat) {
-        if (mat instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy((Matrix3f) mat, this);
-        } else {
-            setMatrix3fc(mat);
-        }
+        set(mat);
     }
 
     /**
@@ -105,11 +97,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the {@link Matrix4fc} to copy the values from
      */
     public Matrix3f(Matrix4fc mat) {
-        if (mat instanceof Matrix4f) {
-            MemUtil.INSTANCE.copy((Matrix4f) mat, this);
-        } else {
-            setMatrix4fc(mat);
-        }
+        set(mat);
     }
 
     /**
@@ -177,13 +165,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the third column
      */
     public Matrix3f(Vector3fc col0, Vector3fc col1, Vector3fc col2) {
-        if (col0 instanceof Vector3f &&
-            col1 instanceof Vector3f &&
-            col2 instanceof Vector3f) {
-            MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2);
-        } else {
-            setVector3fc(col0, col1, col2);
-        }
+        set(col0, col1, col2);
     }
 
     /* (non-Javadoc)
@@ -449,23 +431,16 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f set(Matrix3fc m) {
-        if (m instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy((Matrix3f) m, this);
-        } else {
-            setMatrix3fc(m);
-        }
-        return this;
-    }
-    private void setMatrix3fc(Matrix3fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+        return 
+        _m00(m.m00()).
+        _m01(m.m01()).
+        _m02(m.m02()).
+        _m10(m.m10()).
+        _m11(m.m11()).
+        _m12(m.m12()).
+        _m20(m.m20()).
+        _m21(m.m21()).
+        _m22(m.m22());
     }
 
     /**
@@ -512,14 +487,6 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f set(Matrix4fc mat) {
-        if (mat instanceof Matrix4f) {
-            MemUtil.INSTANCE.copy((Matrix4f) mat, this);
-        } else {
-            setMatrix4fc(mat);
-        }
-        return this;
-    }
-    private void setMatrix4fc(Matrix4fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
@@ -529,6 +496,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         m20 = mat.m20();
         m21 = mat.m21();
         m22 = mat.m22();
+        return this;
     }
 
     /**
@@ -542,14 +510,6 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f set(Matrix2fc mat) {
-        if (mat instanceof Matrix2f) {
-            MemUtil.INSTANCE.copy((Matrix2f) mat, this);
-        } else {
-            setMatrix2fc(mat);
-        }
-        return this;
-    }
-    private void setMatrix2fc(Matrix2fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = 0.0f;
@@ -559,6 +519,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         m20 = 0.0f;
         m21 = 0.0f;
         m22 = 1.0f;
+        return this;
     }
 
     /**
@@ -838,16 +799,6 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f set(Vector3fc col0, Vector3fc col1, Vector3fc col2) {
-        if (col0 instanceof Vector3f &&
-            col1 instanceof Vector3f &&
-            col2 instanceof Vector3f) {
-            MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2);
-        } else {
-            setVector3fc(col0, col1, col2);
-        }
-        return this;
-    }
-    private void setVector3fc(Vector3fc col0, Vector3fc col1, Vector3fc col2) {
         this.m00 = col0.x();
         this.m01 = col0.y();
         this.m02 = col0.z();
@@ -857,6 +808,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         this.m20 = col2.x();
         this.m21 = col2.y();
         this.m22 = col2.z();
+        return this;
     }
 
     /* (non-Javadoc)

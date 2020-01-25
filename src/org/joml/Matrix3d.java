@@ -73,11 +73,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the {@link Matrix2dc}
      */
     public Matrix3d(Matrix2dc mat) {
-        if (mat instanceof Matrix2d) {
-            MemUtil.INSTANCE.copy((Matrix2d) mat, this);
-        } else {
-            setMatrix2dc(mat);
-        }
+        set(mat);
     }
 
     /**
@@ -88,15 +84,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the {@link Matrix2fc}
      */
     public Matrix3d(Matrix2fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = 0.0;
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = 1.0;
+        set(mat);
     }
 
     /**
@@ -106,15 +94,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the matrix to initialize this matrix with
      */
     public Matrix3d(Matrix3dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+        set(mat);
     }
 
     /**
@@ -124,15 +104,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the matrix to initialize this matrix with
      */
     public Matrix3d(Matrix3fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+        set(mat);
     }
 
     /**
@@ -142,15 +114,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the {@link Matrix4fc} to copy the values from
      */
     public Matrix3d(Matrix4fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+        set(mat);
     }
 
     /**
@@ -160,15 +124,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the {@link Matrix4dc} to copy the values from
      */
     public Matrix3d(Matrix4dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+        set(mat);
     }
 
     /**
@@ -235,15 +191,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the third column
      */
     public Matrix3d(Vector3dc col0, Vector3dc col1, Vector3dc col2) {
-        this.m00 = col0.x();
-        this.m01 = col0.y();
-        this.m02 = col0.z();
-        this.m10 = col1.x();
-        this.m11 = col1.y();
-        this.m12 = col1.z();
-        this.m20 = col2.x();
-        this.m21 = col2.y();
-        this.m22 = col2.z();
+        set(col0, col1, col2);
     }
 
     /* (non-Javadoc)
@@ -667,14 +615,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      * @return this
      */
     public Matrix3d set(Matrix2dc mat) {
-        if (mat instanceof Matrix2d) {
-            MemUtil.INSTANCE.copy((Matrix2d) mat, this);
-        } else {
-            setMatrix2dc(mat);
-        }
-        return this;
-    }
-    private void setMatrix2dc(Matrix2dc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = 0.0;
@@ -684,6 +624,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         m20 = 0.0;
         m21 = 0.0;
         m22 = 1.0;
+        return this;
     }
 
     /**
