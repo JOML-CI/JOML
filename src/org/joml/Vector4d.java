@@ -492,6 +492,24 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
+     * Set the x, y, z components to the supplied values.
+     * 
+     * @param x
+     *          the x component
+     * @param y
+     *          the y component
+     * @param z
+     *          the z component
+     * @return this
+     */
+    public Vector4d set(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        return this;
+    }
+
+    /**
      * Set the four components of this vector to the first four elements of the given array.
      * 
      * @param xyzw
