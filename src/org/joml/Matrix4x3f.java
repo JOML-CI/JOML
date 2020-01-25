@@ -476,8 +476,9 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return this;
     }
 
-    void _properties(int properties) {
+    Matrix4x3f _properties(int properties) {
         this.properties = properties;
+        return this;
     }
 
     /**
@@ -989,21 +990,32 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return mulGeneric(right, dest);
     }
     private Matrix4x3f mulGeneric(Matrix4x3fc right, Matrix4x3f dest) {
-        float lm00 = m00, lm01 = m01, lm02 = m02, lm10 = m10, lm11 = m11, lm12 = m12, lm20 = m20, lm21 = m21, lm22 = m22;
-        dest.m00 = Math.fma(m00, right.m00(), Math.fma(lm10, right.m01(), lm20 * right.m02()));
-        dest.m01 = Math.fma(m01, right.m00(), Math.fma(lm11, right.m01(), lm21 * right.m02()));
-        dest.m02 = Math.fma(m02, right.m00(), Math.fma(lm12, right.m01(), lm22 * right.m02()));
-        dest.m10 = Math.fma(lm00, right.m10(), Math.fma(lm10, right.m11(), lm20 * right.m12()));
-        dest.m11 = Math.fma(lm01, right.m10(), Math.fma(lm11, right.m11(), lm21 * right.m12()));
-        dest.m12 = Math.fma(lm02, right.m10(), Math.fma(lm12, right.m11(), lm22 * right.m12()));
-        dest.m20 = Math.fma(lm00, right.m20(), Math.fma(lm10, right.m21(), lm20 * right.m22()));
-        dest.m21 = Math.fma(lm01, right.m20(), Math.fma(lm11, right.m21(), lm21 * right.m22()));
-        dest.m22 = Math.fma(lm02, right.m20(), Math.fma(lm12, right.m21(), lm22 * right.m22()));
-        dest.m30 = Math.fma(lm00, right.m30(), Math.fma(lm10, right.m31(), Math.fma(lm20, right.m32(), m30)));
-        dest.m31 = Math.fma(lm01, right.m30(), Math.fma(lm11, right.m31(), Math.fma(lm21, right.m32(), m31)));
-        dest.m32 = Math.fma(lm02, right.m30(), Math.fma(lm12, right.m31(), Math.fma(lm22, right.m32(), m32)));
-        dest.properties = this.properties & right.properties() & PROPERTY_ORTHONORMAL;
-        return dest;
+        float nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
+        float nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
+        float nm02 = Math.fma(m02, right.m00(), Math.fma(m12, right.m01(), m22 * right.m02()));
+        float nm10 = Math.fma(m00, right.m10(), Math.fma(m10, right.m11(), m20 * right.m12()));
+        float nm11 = Math.fma(m01, right.m10(), Math.fma(m11, right.m11(), m21 * right.m12()));
+        float nm12 = Math.fma(m02, right.m10(), Math.fma(m12, right.m11(), m22 * right.m12()));
+        float nm20 = Math.fma(m00, right.m20(), Math.fma(m10, right.m21(), m20 * right.m22()));
+        float nm21 = Math.fma(m01, right.m20(), Math.fma(m11, right.m21(), m21 * right.m22()));
+        float nm22 = Math.fma(m02, right.m20(), Math.fma(m12, right.m21(), m22 * right.m22()));
+        float nm30 = Math.fma(m00, right.m30(), Math.fma(m10, right.m31(), Math.fma(m20, right.m32(), m30)));
+        float nm31 = Math.fma(m01, right.m30(), Math.fma(m11, right.m31(), Math.fma(m21, right.m32(), m31)));
+        float nm32 = Math.fma(m02, right.m30(), Math.fma(m12, right.m31(), Math.fma(m22, right.m32(), m32)));
+        return dest
+        ._m00(nm00)
+        ._m01(nm01)
+        ._m02(nm02)
+        ._m10(nm10)
+        ._m11(nm11)
+        ._m12(nm12)
+        ._m20(nm20)
+        ._m21(nm21)
+        ._m22(nm22)
+        ._m30(nm30)
+        ._m31(nm31)
+        ._m32(nm32)
+        ._properties(properties & right.properties() & PROPERTY_ORTHONORMAL);
     }
 
     /* (non-Javadoc)
