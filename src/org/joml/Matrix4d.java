@@ -79,23 +79,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the {@link Matrix4dc} to copy the values from
      */
     public Matrix4d(Matrix4dc mat) {
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
-        _m03(mat.m03()).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
-        _m13(mat.m13()).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
-        _m23(mat.m23()).
-        _m30(mat.m30()).
-        _m31(mat.m31()).
-        _m32(mat.m32()).
-        _m33(mat.m33()).
-        properties = mat.properties();
+        set(mat);
     }
 
     /**
@@ -105,23 +89,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the {@link Matrix4fc} to copy the values from
      */
     public Matrix4d(Matrix4fc mat) {
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
-        _m03(mat.m03()).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
-        _m13(mat.m13()).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
-        _m23(mat.m23()).
-        _m30(mat.m30()).
-        _m31(mat.m31()).
-        _m32(mat.m32()).
-        _m33(mat.m33()).
-        properties = mat.properties();
+        set(mat);
     }
 
     /**
@@ -132,20 +100,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the {@link Matrix4x3dc} to copy the values from
      */
     public Matrix4d(Matrix4x3dc mat) {
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
-        _m30(mat.m30()).
-        _m31(mat.m31()).
-        _m32(mat.m32()).
-        _m33(1.0).
-        properties = mat.properties() | PROPERTY_AFFINE;
+        set(mat);
     }
 
     /**
@@ -156,20 +111,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the {@link Matrix4x3fc} to copy the values from
      */
     public Matrix4d(Matrix4x3fc mat) {
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
-        _m30(mat.m30()).
-        _m31(mat.m31()).
-        _m32(mat.m32()).
-        _m33(1.0).
-        properties = mat.properties() | PROPERTY_AFFINE;
+        set(mat);
     }
 
     /**
@@ -180,17 +122,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the {@link Matrix3dc}
      */
     public Matrix4d(Matrix3dc mat) {
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
-        _m33(1.0).
-        properties = PROPERTY_AFFINE;
+        set(mat);
     }
 
     /**
@@ -987,6 +919,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set(Matrix4dc m) {
+        return
         _m00(m.m00()).
         _m01(m.m01()).
         _m02(m.m02()).
@@ -1003,8 +936,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m31(m.m31()).
         _m32(m.m32()).
         _m33(m.m33()).
-        properties = m.properties();
-        return this;
+        _properties(m.properties());
     }
 
     /**
@@ -1017,6 +949,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set(Matrix4fc m) {
+        return
         _m00(m.m00()).
         _m01(m.m01()).
         _m02(m.m02()).
@@ -1033,8 +966,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m31(m.m31()).
         _m32(m.m32()).
         _m33(m.m33()).
-        properties = m.properties();
-        return this;
+        _properties(m.properties());
     }
 
     /**
@@ -1072,6 +1004,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set(Matrix4x3dc m) {
+        return
         _m00(m.m00()).
         _m01(m.m01()).
         _m02(m.m02()).
@@ -1088,8 +1021,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m31(m.m31()).
         _m32(m.m32()).
         _m33(1.0).
-        properties = m.properties() | PROPERTY_AFFINE;
-        return this;
+        _properties(m.properties() | PROPERTY_AFFINE);
     }
 
     /**
@@ -1103,6 +1035,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set(Matrix4x3fc m) {
+        return
         _m00(m.m00()).
         _m01(m.m01()).
         _m02(m.m02()).
@@ -1119,8 +1052,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m31(m.m31()).
         _m32(m.m32()).
         _m33(1.0).
-        properties = m.properties() | PROPERTY_AFFINE;
-        return this;
+        _properties(m.properties() | PROPERTY_AFFINE);
     }
 
     /**
@@ -1134,6 +1066,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set(Matrix3dc mat) {
+        return
         _m00(mat.m00()).
         _m01(mat.m01()).
         _m02(mat.m02()).
@@ -1150,8 +1083,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m31(0.0).
         _m32(0.0).
         _m33(1.0).
-        properties = PROPERTY_AFFINE;
-        return this;
+        _properties(PROPERTY_AFFINE);
     }
 
     /**
@@ -1163,6 +1095,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set3x3(Matrix4dc mat) {
+        return
         _m00(mat.m00()).
         _m01(mat.m01()).
         _m02(mat.m02()).
@@ -1172,8 +1105,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m20(mat.m20()).
         _m21(mat.m21()).
         _m22(mat.m22()).
-        properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
-        return this;
+        _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
     }
 
     /**
@@ -1187,6 +1119,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set4x3(Matrix4x3dc mat) {
+        return
         _m00(mat.m00()).
         _m01(mat.m01()).
         _m02(mat.m02()).
@@ -1199,8 +1132,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m30(mat.m30()).
         _m31(mat.m31()).
         _m32(mat.m32()).
-        properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
-        return this;
+        _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
     }
 
     /**
@@ -1214,6 +1146,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set4x3(Matrix4x3fc mat) {
+        return
         _m00(mat.m00()).
         _m01(mat.m01()).
         _m02(mat.m02()).
@@ -1226,8 +1159,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m30(mat.m30()).
         _m31(mat.m31()).
         _m32(mat.m32()).
-        properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
-        return this;
+        _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
     }
 
     /**
@@ -1239,6 +1171,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set4x3(Matrix4dc mat) {
+        return
         _m00(mat.m00()).
         _m01(mat.m01()).
         _m02(mat.m02()).
@@ -1251,8 +1184,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m30(mat.m30()).
         _m31(mat.m31()).
         _m32(mat.m32()).
-        properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
-        return this;
+        _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
     }
 
     /**
@@ -1601,36 +1533,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return mulGeneric(right, dest);
     }
     private Matrix4d mulTranslation(Matrix4x3dc right, Matrix4d dest) {
-        double nm00 = right.m00();
-        double nm01 = right.m01();
-        double nm02 = right.m02();
-        double nm10 = right.m10();
-        double nm11 = right.m11();
-        double nm12 = right.m12();
-        double nm20 = right.m20();
-        double nm21 = right.m21();
-        double nm22 = right.m22();
-        double nm30 = right.m30() + m30;
-        double nm31 = right.m31() + m31;
-        double nm32 = right.m32() + m32;
-        dest._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
+        return dest
+        ._m00(right.m00())
+        ._m01(right.m01())
+        ._m02(right.m02())
         ._m03(m03)
-        ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
+        ._m10(right.m10())
+        ._m11(right.m11())
+        ._m12(right.m12())
         ._m13(m13)
-        ._m20(nm20)
-        ._m21(nm21)
-        ._m22(nm22)
+        ._m20(right.m20())
+        ._m21(right.m21())
+        ._m22(right.m22())
         ._m23(m23)
-        ._m30(nm30)
-        ._m31(nm31)
-        ._m32(nm32)
+        ._m30(right.m30() + m30)
+        ._m31(right.m31() + m31)
+        ._m32(right.m32() + m32)
         ._m33(m33)
         ._properties(PROPERTY_AFFINE | (right.properties() & PROPERTY_ORTHONORMAL));
-        return dest;
     }
     private Matrix4d mulAffine(Matrix4x3dc right, Matrix4d dest) {
         double nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));

@@ -81,11 +81,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      *          the {@link Matrix3fc}
      */
     public Matrix4x3f(Matrix3fc mat) {
-        if (mat instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy((Matrix3f) mat, this);
-        } else {
-            set3x3Matrix3fc(mat);
-        }
+        set(mat).
         determineProperties();
     }
 
@@ -96,12 +92,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      *          the {@link Matrix4x3fc} to copy the values from
      */
     public Matrix4x3f(Matrix4x3fc mat) {
-        if (mat instanceof Matrix4x3f) {
-            MemUtil.INSTANCE.copy((Matrix4x3f) mat, this);
-        } else {
-            setMatrix4x3fc(mat);
-        }
-        properties = mat.properties();
+        set(mat).
+        _properties(mat.properties());
     }
 
     /**
@@ -182,14 +174,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      *          the fourth column
      */
     public Matrix4x3f(Vector3fc col0, Vector3fc col1, Vector3fc col2, Vector3fc col3) {
-        if (col0 instanceof Vector3f &&
-            col1 instanceof Vector3f &&
-            col2 instanceof Vector3f &&
-            col3 instanceof Vector3f) {
-            MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2, (Vector3f) col3);
-        } else {
-            setVector3fc(col0, col1, col2, col3);
-        }
+        set(col0, col1, col2, col3).
         determineProperties();
     }
 
@@ -656,27 +641,20 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f set(Matrix4x3fc m) {
-        if (m instanceof Matrix4x3f) {
-            MemUtil.INSTANCE.copy((Matrix4x3f) m, this);
-        } else {
-            setMatrix4x3fc(m);
-        }
+        m00 = m.m00();
+        m01 = m.m01();
+        m02 = m.m02();
+        m10 = m.m10();
+        m11 = m.m11();
+        m12 = m.m12();
+        m20 = m.m20();
+        m21 = m.m21();
+        m22 = m.m22();
+        m30 = m.m30();
+        m31 = m.m31();
+        m32 = m.m32();
         properties = m.properties();
         return this;
-    }
-    private void setMatrix4x3fc(Matrix4x3fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
     }
 
     /**
@@ -689,27 +667,20 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f set(Matrix4fc m) {
-        if (m instanceof Matrix4f) {
-            MemUtil.INSTANCE.copy((Matrix4f) m, this);
-        } else {
-            setMatrix4fc(m);
-        }
+        m00 = m.m00();
+        m01 = m.m01();
+        m02 = m.m02();
+        m10 = m.m10();
+        m11 = m.m11();
+        m12 = m.m12();
+        m20 = m.m20();
+        m21 = m.m21();
+        m22 = m.m22();
+        m30 = m.m30();
+        m31 = m.m31();
+        m32 = m.m32();
         properties = m.properties() & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
         return this;
-    }
-    private void setMatrix4fc(Matrix4fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
     }
 
     /* (non-Javadoc)
@@ -737,15 +708,6 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f set(Matrix3fc mat) {
-        if (mat instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy((Matrix3f) mat, this);
-        } else {
-            setMatrix3fc(mat);
-        }
-        properties = 0;
-        return this;
-    }
-    private void setMatrix3fc(Matrix3fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
@@ -758,6 +720,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         m30 = 0.0f;
         m31 = 0.0f;
         m32 = 0.0f;
+        return determineProperties();
     }
 
     /**
@@ -906,18 +869,6 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f set(Vector3fc col0, Vector3fc col1, Vector3fc col2, Vector3fc col3) {
-        if (col0 instanceof Vector3f &&
-            col1 instanceof Vector3f &&
-            col2 instanceof Vector3f &&
-            col3 instanceof Vector3f) {
-            MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2, (Vector3f) col3);
-        } else {
-            setVector3fc(col0, col1, col2, col3);
-        }
-        this.properties = 0;
-        return this;
-    }
-    private void setVector3fc(Vector3fc col0, Vector3fc col1, Vector3fc col2, Vector3fc col3) {
         this.m00 = col0.x();
         this.m01 = col0.y();
         this.m02 = col0.z();
@@ -930,6 +881,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         this.m30 = col3.x();
         this.m31 = col3.y();
         this.m32 = col3.z();
+        return determineProperties();
     }
 
     /**
@@ -941,15 +893,6 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f set3x3(Matrix4x3fc mat) {
-        if (mat instanceof Matrix4x3f) {
-            MemUtil.INSTANCE.copy3x3((Matrix4x3f) mat, this);
-        } else {
-            set3x3Matrix4x3fc(mat);
-        }
-        properties &= mat.properties();
-        return this;
-    }
-    private void set3x3Matrix4x3fc(Matrix4x3fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
@@ -959,6 +902,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         m20 = mat.m20();
         m21 = mat.m21();
         m22 = mat.m22();
+        properties &= mat.properties();
+        return this;
     }
 
     /**
@@ -1022,32 +967,20 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @see org.joml.Matrix4x3fc#mulTranslation(org.joml.Matrix4x3fc, org.joml.Matrix4x3f)
      */
     public Matrix4x3f mulTranslation(Matrix4x3fc right, Matrix4x3f dest) {
-        float nm00 = right.m00();
-        float nm01 = right.m01();
-        float nm02 = right.m02();
-        float nm10 = right.m10();
-        float nm11 = right.m11();
-        float nm12 = right.m12();
-        float nm20 = right.m20();
-        float nm21 = right.m21();
-        float nm22 = right.m22();
-        float nm30 = right.m30() + m30;
-        float nm31 = right.m31() + m31;
-        float nm32 = right.m32() + m32;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
-        dest.m22 = nm22;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.properties = right.properties() & PROPERTY_ORTHONORMAL;
-        return dest;
+        return dest
+        ._m00(right.m00())
+        ._m01(right.m01())
+        ._m02(right.m02())
+        ._m10(right.m10())
+        ._m11(right.m11())
+        ._m12(right.m12())
+        ._m20(right.m20())
+        ._m21(right.m21())
+        ._m22(right.m22())
+        ._m30(right.m30() + m30)
+        ._m31(right.m31() + m31)
+        ._m32(right.m32() + m32)
+        ._properties(right.properties() & PROPERTY_ORTHONORMAL);
     }
 
     /**
@@ -1094,7 +1027,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties = 0;
+        dest.properties = (this.properties & view.properties() & PROPERTY_ORTHONORMAL);
         return dest;
     }
 

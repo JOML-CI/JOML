@@ -271,8 +271,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the fourth column
      */
     public Matrix4f(Vector4fc col0, Vector4fc col1, Vector4fc col2, Vector4fc col3) {
-        setVector4fc(col0, col1, col2, col3).
-        determineProperties();
+        set(col0, col1, col2, col3);
     }
 
     /**
@@ -1294,11 +1293,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f set4x3(Matrix4x3fc mat) {
         return
-        set4x3Matrix4x3fc(mat).
-        _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
-    }
-    private Matrix4f set4x3Matrix4x3fc(Matrix4x3fc mat) {
-        return
         _m00(mat.m00()).
         _m01(mat.m01()).
         _m02(mat.m02()).
@@ -1310,7 +1304,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         _m22(mat.m22()).
         _m30(mat.m30()).
         _m31(mat.m31()).
-        _m32(mat.m32());
+        _m32(mat.m32()).
+        _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
     }
 
     /**
@@ -1557,34 +1552,22 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return mulGeneric(right, dest);
     }
     private Matrix4f mulTranslation(Matrix4x3fc right, Matrix4f dest) {
-        float nm00 = right.m00();
-        float nm01 = right.m01();
-        float nm02 = right.m02();
-        float nm10 = right.m10();
-        float nm11 = right.m11();
-        float nm12 = right.m12();
-        float nm20 = right.m20();
-        float nm21 = right.m21();
-        float nm22 = right.m22();
-        float nm30 = right.m30() + m30;
-        float nm31 = right.m31() + m31;
-        float nm32 = right.m32() + m32;
         return dest
-        ._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
+        ._m00(right.m00())
+        ._m01(right.m01())
+        ._m02(right.m02())
         ._m03(m03)
-        ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
+        ._m10(right.m10())
+        ._m11(right.m11())
+        ._m12(right.m12())
         ._m13(m13)
-        ._m20(nm20)
-        ._m21(nm21)
-        ._m22(nm22)
+        ._m20(right.m20())
+        ._m21(right.m21())
+        ._m22(right.m22())
         ._m23(m23)
-        ._m30(nm30)
-        ._m31(nm31)
-        ._m32(nm32)
+        ._m30(right.m30() + m30)
+        ._m31(right.m31() + m31)
+        ._m32(right.m32() + m32)
         ._m33(m33)
         ._properties(PROPERTY_AFFINE | (right.properties() & PROPERTY_ORTHONORMAL));
     }
@@ -2395,11 +2378,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f set(Vector4fc col0, Vector4fc col1, Vector4fc col2, Vector4fc col3) {
-        setVector4fc(col0, col1, col2, col3).
-        _properties(0);
-        return this;
-    }
-    private Matrix4f setVector4fc(Vector4fc col0, Vector4fc col1, Vector4fc col2, Vector4fc col3) {
         return
         _m00(col0.x()).
         _m01(col0.y()).
@@ -2416,7 +2394,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         _m30(col3.x()).
         _m31(col3.y()).
         _m32(col3.z()).
-        _m33(col3.w());
+        _m33(col3.w()).
+        determineProperties();
     }
 
     /* (non-Javadoc)
