@@ -102,6 +102,17 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
+     * Create a new {@link Matrix4x3d} by setting its left 3x3 submatrix to the values of the given {@link Matrix3fc}
+     * and the rest to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix3dc}
+     */
+    public Matrix4x3d(Matrix3fc mat) {
+        set(mat);
+    }
+
+    /**
      * Create a new 4x4 matrix using the supplied double values.
      * 
      * @param m00
@@ -721,6 +732,32 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return this
      */
     public Matrix4x3d set(Matrix3dc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        return determineProperties();
+    }
+
+    /**
+     * Set the left 3x3 submatrix of this {@link Matrix4x3d} to the given {@link Matrix3fc} 
+     * and the rest to identity.
+     * 
+     * @see #Matrix4x3d(Matrix3fc)
+     * 
+     * @param mat
+     *          the {@link Matrix3fc}
+     * @return this
+     */
+    public Matrix4x3d set(Matrix3fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
