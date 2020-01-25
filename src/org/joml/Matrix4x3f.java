@@ -81,8 +81,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      *          the {@link Matrix3fc}
      */
     public Matrix4x3f(Matrix3fc mat) {
-        set(mat).
-        determineProperties();
+        set(mat);
     }
 
     /**
@@ -92,8 +91,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      *          the {@link Matrix4x3fc} to copy the values from
      */
     public Matrix4x3f(Matrix4x3fc mat) {
-        set(mat).
-        _properties(mat.properties());
+        set(mat);
     }
 
     /**

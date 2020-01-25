@@ -275,9 +275,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          will be used to initialize the m33 component of <code>this</code>
      */
     public Matrix4d(Matrix3dc rotationScale, Vector3dc translation, double m33) {
-        set3x3(rotationScale);
-        setTranslation(translation);
-        m33(m33);
+        set3x3(rotationScale).
+        setTranslation(translation).
+        _m33(m33).
         determineProperties();
     }
 
@@ -297,9 +297,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          will be used to initialize the m33 component of <code>this</code>
      */
     public Matrix4d(Matrix3dc rotationScale, double m30, double m31, double m32, double m33) {
-        set3x3(rotationScale);
-        setTranslation(m30, m31, m32);
-        m33(m33);
+        set3x3(rotationScale).
+        setTranslation(m30, m31, m32).
+        _m33(m33).
         determineProperties();
     }
 

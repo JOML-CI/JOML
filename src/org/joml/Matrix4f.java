@@ -83,17 +83,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the {@link Matrix3fc}
      */
     public Matrix4f(Matrix3fc mat) {
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
-        _m33(1.0f).
-        _properties(PROPERTY_AFFINE);
+        set(mat);
     }
 
     /**
@@ -103,23 +93,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the {@link Matrix4fc} to copy the values from
      */
     public Matrix4f(Matrix4fc mat) {
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
-        _m03(mat.m03()).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
-        _m13(mat.m13()).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
-        _m23(mat.m23()).
-        _m30(mat.m30()).
-        _m31(mat.m31()).
-        _m32(mat.m32()).
-        _m33(mat.m33()).
-        _properties(mat.properties());
+        set(mat);
     }
 
     /**
@@ -130,20 +104,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the {@link Matrix4x3fc} to copy the values from
      */
     public Matrix4f(Matrix4x3fc mat) {
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
-        _m30(mat.m30()).
-        _m31(mat.m31()).
-        _m32(mat.m32()).
-        _m33(1.0f).
-        _properties(mat.properties() | PROPERTY_AFFINE);
+        set(mat);
     }
 
     /**
@@ -156,23 +117,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the {@link Matrix4dc} to copy the values from
      */
     public Matrix4f(Matrix4dc mat) {
-        this._m00((float) mat.m00())
-            ._m01((float) mat.m01())
-            ._m02((float) mat.m02())
-            ._m03((float) mat.m03())
-            ._m10((float) mat.m10())
-            ._m11((float) mat.m11())
-            ._m12((float) mat.m12())
-            ._m13((float) mat.m13())
-            ._m20((float) mat.m20())
-            ._m21((float) mat.m21())
-            ._m22((float) mat.m22())
-            ._m23((float) mat.m23())
-            ._m30((float) mat.m30())
-            ._m31((float) mat.m31())
-            ._m32((float) mat.m32())
-            ._m33((float) mat.m33())
-            ._properties(mat.properties());
+        set(mat);
     }
 
     /**
@@ -968,27 +913,23 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f set(Matrix4fc m) {
         return
-        setMatrix4fc(m).
+        _m00(m.m00()).
+        _m01(m.m01()).
+        _m02(m.m02()).
+        _m03(m.m03()).
+        _m10(m.m10()).
+        _m11(m.m11()).
+        _m12(m.m12()).
+        _m13(m.m13()).
+        _m20(m.m20()).
+        _m21(m.m21()).
+        _m22(m.m22()).
+        _m23(m.m23()).
+        _m30(m.m30()).
+        _m31(m.m31()).
+        _m32(m.m32()).
+        _m33(m.m33()).
         _properties(m.properties());
-    }
-    private Matrix4f setMatrix4fc(Matrix4fc mat) {
-        return
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
-        _m03(mat.m03()).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
-        _m13(mat.m13()).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
-        _m23(mat.m23()).
-        _m30(mat.m30()).
-        _m31(mat.m31()).
-        _m32(mat.m32()).
-        _m33(mat.m33());
     }
 
     /**
@@ -1027,27 +968,23 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f set(Matrix4x3fc m) {
         return
-        setMatrix4x3fc(m).
-        _properties(m.properties() | PROPERTY_AFFINE);
-    }
-    private Matrix4f setMatrix4x3fc(Matrix4x3fc mat) {
-        return
-        _m00(mat.m00()).
-        _m01(mat.m01()).
-        _m02(mat.m02()).
+        _m00(m.m00()).
+        _m01(m.m01()).
+        _m02(m.m02()).
         _m03(0.0f).
-        _m10(mat.m10()).
-        _m11(mat.m11()).
-        _m12(mat.m12()).
+        _m10(m.m10()).
+        _m11(m.m11()).
+        _m12(m.m12()).
         _m13(0.0f).
-        _m20(mat.m20()).
-        _m21(mat.m21()).
-        _m22(mat.m22()).
+        _m20(m.m20()).
+        _m21(m.m21()).
+        _m22(m.m22()).
         _m23(0.0f).
-        _m30(mat.m30()).
-        _m31(mat.m31()).
-        _m32(mat.m32()).
-        _m33(1.0f);
+        _m30(m.m30()).
+        _m31(m.m31()).
+        _m32(m.m32()).
+        _m33(1.0f).
+        _properties(m.properties() | PROPERTY_AFFINE);
     }
 
     /**
@@ -1095,11 +1032,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f set(Matrix3fc mat) {
-        return
-        setMatrix3fc(mat).
-        _properties(PROPERTY_AFFINE);
-    }
-    private Matrix4f setMatrix3fc(Matrix3fc mat) {
         return this
         ._m00(mat.m00())
         ._m01(mat.m01())
@@ -1116,7 +1048,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         ._m30(0.0f)
         ._m31(0.0f)
         ._m32(0.0f)
-        ._m33(1.0f);
+        ._m33(1.0f).
+        _properties(PROPERTY_AFFINE);
     }
 
     /**
