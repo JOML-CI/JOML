@@ -3358,7 +3358,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#get(java.nio.DoubleBuffer)
      */
     public DoubleBuffer get(DoubleBuffer dest) {
-        return get(dest.position(), dest);
+        MemUtil.INSTANCE.put(this, dest.position(), dest);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -3373,7 +3374,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#get(java.nio.FloatBuffer)
      */
     public FloatBuffer get(FloatBuffer dest) {
-        return get(dest.position(), dest);
+        MemUtil.INSTANCE.putf(this, dest.position(), dest);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -3388,7 +3390,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#get(java.nio.ByteBuffer)
      */
     public ByteBuffer get(ByteBuffer dest) {
-        return get(dest.position(), dest);
+        MemUtil.INSTANCE.put(this, dest.position(), dest);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -3403,7 +3406,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#getFloats(java.nio.ByteBuffer)
      */
     public ByteBuffer getFloats(ByteBuffer dest) {
-        return getFloats(dest.position(), dest);
+        MemUtil.INSTANCE.putf(this, dest.position(), dest);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -3488,7 +3492,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#getTransposed(java.nio.DoubleBuffer)
      */
     public DoubleBuffer getTransposed(DoubleBuffer dest) {
-        return getTransposed(dest.position(), dest);
+        MemUtil.INSTANCE.putTransposed(this, dest.position(), dest);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -3503,7 +3508,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#getTransposed(java.nio.ByteBuffer)
      */
     public ByteBuffer getTransposed(ByteBuffer dest) {
-        return getTransposed(dest.position(), dest);
+        MemUtil.INSTANCE.putTransposed(this, dest.position(), dest);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -3518,7 +3524,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#get4x3Transposed(java.nio.DoubleBuffer)
      */
     public DoubleBuffer get4x3Transposed(DoubleBuffer dest) {
-        return get4x3Transposed(dest.position(), dest);
+        MemUtil.INSTANCE.put4x3Transposed(this, dest.position(), dest);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -3533,7 +3540,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#get4x3Transposed(java.nio.ByteBuffer)
      */
     public ByteBuffer get4x3Transposed(ByteBuffer dest) {
-        return get4x3Transposed(dest.position(), dest);
+        MemUtil.INSTANCE.put4x3Transposed(this, dest.position(), dest);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -3551,6 +3559,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d zero() {
+        return
         _m00(0.0).
         _m01(0.0).
         _m02(0.0).
@@ -3567,8 +3576,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m31(0.0).
         _m32(0.0).
         _m33(0.0).
-        properties = 0;
-        return this;
+        _properties(0);
     }
 
     /**

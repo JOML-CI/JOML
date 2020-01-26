@@ -3154,7 +3154,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#get(java.nio.FloatBuffer)
      */
     public FloatBuffer get(FloatBuffer buffer) {
-        return get(buffer.position(), buffer);
+        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3169,7 +3170,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#get(java.nio.ByteBuffer)
      */
     public ByteBuffer get(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
+        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3184,7 +3186,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#get4x3(java.nio.FloatBuffer)
      */
     public FloatBuffer get4x3(FloatBuffer buffer) {
-        return get4x3(buffer.position(), buffer);
+        MemUtil.INSTANCE.put4x3(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3199,7 +3202,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#get4x3(java.nio.ByteBuffer)
      */
     public ByteBuffer get4x3(ByteBuffer buffer) {
-        return get4x3(buffer.position(), buffer);
+        MemUtil.INSTANCE.put4x3(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3214,7 +3218,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#get3x4(java.nio.FloatBuffer)
      */
     public FloatBuffer get3x4(FloatBuffer buffer) {
-        return get3x4(buffer.position(), buffer);
+        MemUtil.INSTANCE.put3x4(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3229,7 +3234,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#get3x4(java.nio.ByteBuffer)
      */
     public ByteBuffer get3x4(ByteBuffer buffer) {
-        return get3x4(buffer.position(), buffer);
+        MemUtil.INSTANCE.put3x4(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3244,7 +3250,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#getTransposed(java.nio.FloatBuffer)
      */
     public FloatBuffer getTransposed(FloatBuffer buffer) {
-        return getTransposed(buffer.position(), buffer);
+        MemUtil.INSTANCE.putTransposed(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3259,7 +3266,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#getTransposed(java.nio.ByteBuffer)
      */
     public ByteBuffer getTransposed(ByteBuffer buffer) {
-        return getTransposed(buffer.position(), buffer);
+        MemUtil.INSTANCE.putTransposed(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3274,7 +3282,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#get4x3Transposed(java.nio.FloatBuffer)
      */
     public FloatBuffer get4x3Transposed(FloatBuffer buffer) {
-        return get4x3Transposed(buffer.position(), buffer);
+        MemUtil.INSTANCE.put4x3Transposed(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3289,7 +3298,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#get4x3Transposed(java.nio.ByteBuffer)
      */
     public ByteBuffer get4x3Transposed(ByteBuffer buffer) {
-        return get4x3Transposed(buffer.position(), buffer);
+        MemUtil.INSTANCE.put4x3Transposed(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -3321,7 +3331,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#get(float[])
      */
     public float[] get(float[] arr) {
-        return get(arr, 0);
+        MemUtil.INSTANCE.copy(this, arr, 0);
+        return arr;
     }
 
     /**
@@ -3331,8 +3342,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f zero() {
         MemUtil.INSTANCE.zero(this);
-        _properties(0);
-        return this;
+        return _properties(0);
     }
 
     /**

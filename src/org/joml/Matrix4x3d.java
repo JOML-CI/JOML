@@ -6139,8 +6139,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     private Matrix4x3d normalOrthonormal(Matrix4x3d dest) {
         if (dest != this)
             dest.set(this);
-        dest.properties = PROPERTY_ORTHONORMAL;
-        return dest;
+        return dest._properties(PROPERTY_ORTHONORMAL);
     }
     private Matrix4x3d normalGeneric(Matrix4x3d dest) {
         double m00m11 = m00 * m11;
@@ -6186,8 +6185,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return normalGeneric(dest);
     }
     private Matrix3d normalOrthonormal(Matrix3d dest) {
-        dest.set(this);
-        return dest;
+        return dest.set(this);
     }
     private Matrix3d normalGeneric(Matrix3d dest) {
         double m00m11 = m00 * m11;

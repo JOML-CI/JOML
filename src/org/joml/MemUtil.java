@@ -228,7 +228,6 @@ abstract class MemUtil {
     public abstract void copy4x3(Matrix4x3f src, Matrix4f dest);
     public abstract void copy(Vector4f src, Vector4f dst);
     public abstract void copy(Vector4i src, Vector4i dst);
-    public abstract void copy(Quaternionf src, Quaternionf dst);
     public abstract void copy(float[] arr, int off, Matrix4f dest);
     public abstract void copy(float[] arr, int off, Matrix3f dest);
     public abstract void copy(float[] arr, int off, Matrix4x3f dest);
@@ -256,7 +255,6 @@ abstract class MemUtil {
     public abstract void identity(Matrix3x2f dest);
     public abstract void identity(Matrix3x2d dest);
     public abstract void identity(Matrix2f dest);
-    public abstract void identity(Quaternionf dest);
     public abstract void swap(Matrix4f m1, Matrix4f m2);
     public abstract void swap(Matrix4x3f m1, Matrix4x3f m2);
     public abstract void swap(Matrix3f m1, Matrix3f m2);
@@ -2380,13 +2378,6 @@ abstract class MemUtil {
             dst.w = src.w;
         }
 
-        public void copy(Quaternionf src, Quaternionf dst) {
-            dst.x = src.x;
-            dst.y = src.y;
-            dst.z = src.z;
-            dst.w = src.w;
-        }
-
         public void copy4x3(Matrix4f src, Matrix4f dest) {
             dest._m00(src.m00())
             ._m01(src.m01())
@@ -2807,10 +2798,6 @@ abstract class MemUtil {
             ._m01(0.0f)
             ._m10(0.0f)
             ._m11(1.0f);
-        }
-
-        public void identity(Quaternionf dest) {
-            dest.set(0.0f, 0.0f, 0.0f, 1.0f);
         }
 
         public void swap(Matrix4f m1, Matrix4f m2) {

@@ -7686,8 +7686,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     private Matrix4x3f normalOrthonormal(Matrix4x3f dest) {
         if (dest != this)
             dest.set(this);
-        dest.properties = PROPERTY_ORTHONORMAL;
-        return dest;
+        return dest._properties(PROPERTY_ORTHONORMAL);
     }
     private Matrix4x3f normalGeneric(Matrix4x3f dest) {
         float m00m11 = m00 * m11;
@@ -7733,8 +7732,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return normalGeneric(dest);
     }
     private Matrix3f normalOrthonormal(Matrix3f dest) {
-        dest.set(this);
-        return dest;
+        return dest.set(this);
     }
     private Matrix3f normalGeneric(Matrix3f dest) {
         float m00m11 = m00 * m11;

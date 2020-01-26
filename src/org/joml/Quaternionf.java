@@ -475,14 +475,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf set(Quaternionfc q) {
-        if (q instanceof Quaternionf)
-            MemUtil.INSTANCE.copy((Quaternionf) q, this);
-        else {
-            this.x = q.x();
-            this.y = q.y();
-            this.z = q.z();
-            this.w = q.w();
-        }
+        this.x = q.x();
+        this.y = q.y();
+        this.z = q.z();
+        this.w = q.w();
         return this;
     }
 
@@ -1680,7 +1676,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf identity() {
-        MemUtil.INSTANCE.identity(this);
+        x = 0;
+        y = 0;
+        z = 0;
+        w = 1;
         return this;
     }
 
