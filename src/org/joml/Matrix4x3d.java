@@ -966,31 +966,26 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return mulGeneric(right, dest);
     }
     private Matrix4x3d mulGeneric(Matrix4x3dc right, Matrix4x3d dest) {
-        double nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
-        double nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
-        double nm02 = Math.fma(m02, right.m00(), Math.fma(m12, right.m01(), m22 * right.m02()));
-        double nm10 = Math.fma(m00, right.m10(), Math.fma(m10, right.m11(), m20 * right.m12()));
-        double nm11 = Math.fma(m01, right.m10(), Math.fma(m11, right.m11(), m21 * right.m12()));
-        double nm12 = Math.fma(m02, right.m10(), Math.fma(m12, right.m11(), m22 * right.m12()));
-        double nm20 = Math.fma(m00, right.m20(), Math.fma(m10, right.m21(), m20 * right.m22()));
-        double nm21 = Math.fma(m01, right.m20(), Math.fma(m11, right.m21(), m21 * right.m22()));
-        double nm22 = Math.fma(m02, right.m20(), Math.fma(m12, right.m21(), m22 * right.m22()));
-        double nm30 = Math.fma(m00, right.m30(), Math.fma(m10, right.m31(), Math.fma(m20, right.m32(), m30)));
-        double nm31 = Math.fma(m01, right.m30(), Math.fma(m11, right.m31(), Math.fma(m21, right.m32(), m31)));
-        double nm32 = Math.fma(m02, right.m30(), Math.fma(m12, right.m31(), Math.fma(m22, right.m32(), m32)));
+        double m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        double m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        double m20 = this.m20, m21 = this.m21, m22 = this.m22;
+        double rm00 = right.m00(), rm01 = right.m01(), rm02 = right.m02();
+        double rm10 = right.m10(), rm11 = right.m11(), rm12 = right.m12();
+        double rm20 = right.m20(), rm21 = right.m21(), rm22 = right.m22();
+        double rm30 = right.m30(), rm31 = right.m31(), rm32 = right.m32();
         return dest
-        ._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
-        ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
-        ._m20(nm20)
-        ._m21(nm21)
-        ._m22(nm22)
-        ._m30(nm30)
-        ._m31(nm31)
-        ._m32(nm32)
+        ._m00(Math.fma(m00, rm00, Math.fma(m10, rm01, m20 * rm02)))
+        ._m01(Math.fma(m01, rm00, Math.fma(m11, rm01, m21 * rm02)))
+        ._m02(Math.fma(m02, rm00, Math.fma(m12, rm01, m22 * rm02)))
+        ._m10(Math.fma(m00, rm10, Math.fma(m10, rm11, m20 * rm12)))
+        ._m11(Math.fma(m01, rm10, Math.fma(m11, rm11, m21 * rm12)))
+        ._m12(Math.fma(m02, rm10, Math.fma(m12, rm11, m22 * rm12)))
+        ._m20(Math.fma(m00, rm20, Math.fma(m10, rm21, m20 * rm22)))
+        ._m21(Math.fma(m01, rm20, Math.fma(m11, rm21, m21 * rm22)))
+        ._m22(Math.fma(m02, rm20, Math.fma(m12, rm21, m22 * rm22)))
+        ._m30(Math.fma(m00, rm30, Math.fma(m10, rm31, Math.fma(m20, rm32, m30))))
+        ._m31(Math.fma(m01, rm30, Math.fma(m11, rm31, Math.fma(m21, rm32, m31))))
+        ._m32(Math.fma(m02, rm30, Math.fma(m12, rm31, Math.fma(m22, rm32, m32))))
         ._properties(properties & right.properties() & PROPERTY_ORTHONORMAL);
     }
 
@@ -1023,31 +1018,26 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return mulGeneric(right, dest);
     }
     private Matrix4x3d mulGeneric(Matrix4x3fc right, Matrix4x3d dest) {
-        double nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
-        double nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
-        double nm02 = Math.fma(m02, right.m00(), Math.fma(m12, right.m01(), m22 * right.m02()));
-        double nm10 = Math.fma(m00, right.m10(), Math.fma(m10, right.m11(), m20 * right.m12()));
-        double nm11 = Math.fma(m01, right.m10(), Math.fma(m11, right.m11(), m21 * right.m12()));
-        double nm12 = Math.fma(m02, right.m10(), Math.fma(m12, right.m11(), m22 * right.m12()));
-        double nm20 = Math.fma(m00, right.m20(), Math.fma(m10, right.m21(), m20 * right.m22()));
-        double nm21 = Math.fma(m01, right.m20(), Math.fma(m11, right.m21(), m21 * right.m22()));
-        double nm22 = Math.fma(m02, right.m20(), Math.fma(m12, right.m21(), m22 * right.m22()));
-        double nm30 = Math.fma(m00, right.m30(), Math.fma(m10, right.m31(), Math.fma(m20, right.m32(), m30)));
-        double nm31 = Math.fma(m01, right.m30(), Math.fma(m11, right.m31(), Math.fma(m21, right.m32(), m31)));
-        double nm32 = Math.fma(m02, right.m30(), Math.fma(m12, right.m31(), Math.fma(m22, right.m32(), m32)));
+        double m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        double m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        double m20 = this.m20, m21 = this.m21, m22 = this.m22;
+        double rm00 = right.m00(), rm01 = right.m01(), rm02 = right.m02();
+        double rm10 = right.m10(), rm11 = right.m11(), rm12 = right.m12();
+        double rm20 = right.m20(), rm21 = right.m21(), rm22 = right.m22();
+        double rm30 = right.m30(), rm31 = right.m31(), rm32 = right.m32();
         return dest
-        ._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
-        ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
-        ._m20(nm20)
-        ._m21(nm21)
-        ._m22(nm22)
-        ._m30(nm30)
-        ._m31(nm31)
-        ._m32(nm32)
+        ._m00(Math.fma(m00, rm00, Math.fma(m10, rm01, m20 * rm02)))
+        ._m01(Math.fma(m01, rm00, Math.fma(m11, rm01, m21 * rm02)))
+        ._m02(Math.fma(m02, rm00, Math.fma(m12, rm01, m22 * rm02)))
+        ._m10(Math.fma(m00, rm10, Math.fma(m10, rm11, m20 * rm12)))
+        ._m11(Math.fma(m01, rm10, Math.fma(m11, rm11, m21 * rm12)))
+        ._m12(Math.fma(m02, rm10, Math.fma(m12, rm11, m22 * rm12)))
+        ._m20(Math.fma(m00, rm20, Math.fma(m10, rm21, m20 * rm22)))
+        ._m21(Math.fma(m01, rm20, Math.fma(m11, rm21, m21 * rm22)))
+        ._m22(Math.fma(m02, rm20, Math.fma(m12, rm21, m22 * rm22)))
+        ._m30(Math.fma(m00, rm30, Math.fma(m10, rm31, Math.fma(m20, rm32, m30))))
+        ._m31(Math.fma(m01, rm30, Math.fma(m11, rm31, Math.fma(m21, rm32, m31))))
+        ._m32(Math.fma(m02, rm30, Math.fma(m12, rm31, Math.fma(m22, rm32, m32))))
         ._properties(properties & right.properties() & PROPERTY_ORTHONORMAL);
     }
 
