@@ -851,7 +851,7 @@ abstract class MemUtil {
             .putDouble(offset+64, 1.0);
         }
 
-        public void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
+        private void putTransposedN(Matrix4f m, int offset, FloatBuffer dest) {
             dest.put(offset,    m.m00())
             .put(offset+1,  m.m10())
             .put(offset+2,  m.m20())
@@ -869,8 +869,32 @@ abstract class MemUtil {
             .put(offset+14, m.m23())
             .put(offset+15, m.m33());
         }
+        private void putTransposed0(Matrix4f m, FloatBuffer dest) {
+            dest.put(0,    m.m00())
+            .put(1,  m.m10())
+            .put(2,  m.m20())
+            .put(3,  m.m30())
+            .put(4,  m.m01())
+            .put(5,  m.m11())
+            .put(6,  m.m21())
+            .put(7,  m.m31())
+            .put(8,  m.m02())
+            .put(9,  m.m12())
+            .put(10, m.m22())
+            .put(11, m.m32())
+            .put(12, m.m03())
+            .put(13, m.m13())
+            .put(14, m.m23())
+            .put(15, m.m33());
+        }
+        public void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
+            if (offset == 0)
+                putTransposed0(m, dest);
+            else
+                putTransposedN(m, offset, dest);
+        }
 
-        public void putTransposed(Matrix4f m, int offset, ByteBuffer dest) {
+        private void putTransposedN(Matrix4f m, int offset, ByteBuffer dest) {
             dest.putFloat(offset,    m.m00())
             .putFloat(offset+4,  m.m10())
             .putFloat(offset+8,  m.m20())
@@ -887,6 +911,30 @@ abstract class MemUtil {
             .putFloat(offset+52, m.m13())
             .putFloat(offset+56, m.m23())
             .putFloat(offset+60, m.m33());
+        }
+        private void putTransposed0(Matrix4f m, ByteBuffer dest) {
+            dest.putFloat(0,    m.m00())
+            .putFloat(4,  m.m10())
+            .putFloat(8,  m.m20())
+            .putFloat(12, m.m30())
+            .putFloat(16, m.m01())
+            .putFloat(20, m.m11())
+            .putFloat(24, m.m21())
+            .putFloat(28, m.m31())
+            .putFloat(32, m.m02())
+            .putFloat(36, m.m12())
+            .putFloat(40, m.m22())
+            .putFloat(44, m.m32())
+            .putFloat(48, m.m03())
+            .putFloat(52, m.m13())
+            .putFloat(56, m.m23())
+            .putFloat(60, m.m33());
+        }
+        public void putTransposed(Matrix4f m, int offset, ByteBuffer dest) {
+            if (offset == 0)
+                putTransposed0(m, dest);
+            else
+                putTransposedN(m, offset, dest);
         }
 
         public void put4x3Transposed(Matrix4f m, int offset, FloatBuffer dest) {
