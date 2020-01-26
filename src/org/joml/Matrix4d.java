@@ -2407,7 +2407,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         this.m13 = m13;
         this.m23 = m23;
         this.m33 = m33;
-        properties = 0;
+        determineProperties();
         return this;
     }
 
