@@ -2407,8 +2407,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         this.m13 = m13;
         this.m23 = m23;
         this.m33 = m33;
-        determineProperties();
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -2430,6 +2429,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set(double m[], int off) {
+        return
         _m00(m[off+0]).
         _m01(m[off+1]).
         _m02(m[off+2]).
@@ -2446,8 +2446,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m31(m[off+13]).
         _m32(m[off+14]).
         _m33(m[off+15]).
-        properties = 0;
-        return this;
+        determineProperties();
     }
 
     /**
@@ -2489,6 +2488,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set(float m[], int off) {
+        return
         _m00(m[off+0]).
         _m01(m[off+1]).
         _m02(m[off+2]).
@@ -2505,8 +2505,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         _m31(m[off+13]).
         _m32(m[off+14]).
         _m33(m[off+15]).
-        properties = 0;
-        return this;
+        determineProperties();
     }
 
     /**
@@ -2544,8 +2543,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d set(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -2562,8 +2560,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d set(FloatBuffer buffer) {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -2580,8 +2577,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d set(ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -2598,8 +2594,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d setFloats(ByteBuffer buffer) {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 //#endif
 
@@ -2620,8 +2615,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
         MemUtil.MemUtilUnsafe.get(this, address);
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 //#endif
 

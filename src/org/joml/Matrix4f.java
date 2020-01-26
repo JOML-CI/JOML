@@ -2180,7 +2180,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         ._m13(m13)
         ._m23(m23)
         ._m33(m33)
-        ._properties(0);
+        .determineProperties();
     }
 
     /**
@@ -2203,8 +2203,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f set(float m[], int off) {
         MemUtil.INSTANCE.copy(m, off, this);
-        _properties(0);
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -2242,8 +2241,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f set(FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
-        _properties(0);
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -2260,8 +2258,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f set(ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
-        _properties(0);
-        return this;
+        return determineProperties();
     }
 //#endif
 
@@ -2282,8 +2279,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
         MemUtil.MemUtilUnsafe.get(this, address);
-        _properties(0);
-        return this;
+        return determineProperties();
     }
 //#endif
 

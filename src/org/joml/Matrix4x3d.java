@@ -1409,8 +1409,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         this.m12 = m12;
         this.m22 = m22;
         this.m32 = m32;
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -1443,8 +1442,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = m[off+9];
         m31 = m[off+10];
         m32 = m[off+11];
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -1496,8 +1494,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = m[off+9];
         m31 = m[off+10];
         m32 = m[off+11];
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -1534,8 +1531,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d set(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -1552,8 +1548,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d set(FloatBuffer buffer) {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -1570,8 +1565,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d set(ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 
     /**
@@ -1588,8 +1582,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public Matrix4x3d setFloats(ByteBuffer buffer) {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
-        properties = 0;
-        return this;
+        return determineProperties();
     }
 //#endif
 
