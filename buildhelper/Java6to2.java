@@ -27,7 +27,9 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.objectweb.asm.ClassReader;
@@ -58,7 +60,7 @@ public class Java6to2 implements Opcodes {
         ClassVisitor cv = new ClassVisitor(ASM7, cw) {
             String internalName;
             boolean classLookupMethodGenerated;
-            Set fieldsGenerated = new HashSet();
+            Map classToSyntheticField = new HashMap();
 
             public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
                 /* Change class file version to 1.2 */
@@ -133,16 +135,17 @@ public class Java6to2 implements Opcodes {
                     public void visitLdcInsn(Object cst) {
                         if (cst instanceof Type) {
                             Type t = (Type) cst;
-                            String syntheticField = "class$" + t.getInternalName().replace('/', '$').replace("[", "");
                             if (!classLookupMethodGenerated) {
                                 /* Emit the synthetic "class$" method, used to lookup classes via Class.forName() */
                                 generateSyntheticClassLookupMethod();
                                 classLookupMethodGenerated = true;
                             }
-                            if (!fieldsGenerated.contains(syntheticField)) {
+                            String syntheticField = (String) classToSyntheticField.get(t.getInternalName());
+                            if (syntheticField == null) {
+                                syntheticField = "class$" + classToSyntheticField.size();
                                 /* Generate a synthetic field holding the resolved Class object */
                                 cv.visitField(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, syntheticField, "Ljava/lang/Class;", null, null);
-                                fieldsGenerated.add(syntheticField);
+                                classToSyntheticField.put(t.getInternalName(), syntheticField);
                             }
                             mv.visitFieldInsn(GETSTATIC, internalName, syntheticField, "Ljava/lang/Class;");
                             Label nonNull = new Label();
