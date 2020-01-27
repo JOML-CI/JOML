@@ -2116,7 +2116,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return a vector holding the result
      */
     public Vector3d normalize() {
-        double invLength = 1.0 / Math.sqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
+        double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
         this.x = x * invLength;
         this.y = y * invLength;
         this.z = z * invLength;
@@ -2127,7 +2127,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#normalize(org.joml.Vector3d)
      */
     public Vector3d normalize(Vector3d dest) {
-        double invLength = 1.0 / Math.sqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
+        double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;
@@ -2142,7 +2142,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return a vector holding the result
      */
     public Vector3d normalize(double length) {
-        double invLength = 1.0 / Math.sqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
+        double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
         this.x = x * invLength;
         this.y = y * invLength;
         this.z = z * invLength;
@@ -2153,7 +2153,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#normalize(double, org.joml.Vector3d)
      */
     public Vector3d normalize(double length, Vector3d dest) {
-        double invLength = 1.0 / Math.sqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
+        double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;

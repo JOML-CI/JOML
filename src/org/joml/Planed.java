@@ -187,7 +187,7 @@ public class Planed implements Externalizable {
      * @return dest
      */
     public Planed normalize(Planed dest) {
-        double invLength = 1.0 / Math.sqrt(a * a + b * b + c * c);
+        double invLength = Math.invsqrt(a * a + b * b + c * c);
         dest.a = a * invLength;
         dest.b = b * invLength;
         dest.c = c * invLength;

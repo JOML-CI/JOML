@@ -69,7 +69,8 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the value of both components
      */
     public Vector2d(double d) {
-        this(d, d);
+        this.x = d;
+        this.y = d;
     }
 
     /**
@@ -158,7 +159,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see #Vector2d(int, ByteBuffer)
      */
     public Vector2d(ByteBuffer buffer) {
-        this(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -191,7 +192,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see #Vector2d(int, DoubleBuffer)
      */
     public Vector2d(DoubleBuffer buffer) {
-        this(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -209,10 +210,6 @@ public class Vector2d implements Externalizable, Vector2dc {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
 //#endif
-
-    private Vector2d thisOrNew() {
-        return this;
-    }
 
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#x()
@@ -236,7 +233,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d set(double d) {
-        return set(d, d);
+        this.x = d;
+        this.y = d;
+        return this;
     }
 
     /**
@@ -262,7 +261,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d set(Vector2dc v) {
-        return set(v.x(), v.y());
+        this.x = v.x();
+        this.y = v.y();
+        return this;
     }
 
     /**
@@ -273,7 +274,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d set(Vector2fc v) {
-        return set(v.x(), v.y());
+        this.x = v.x();
+        this.y = v.y();
+        return this;
     }
 
     /**
@@ -284,7 +287,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d set(Vector2ic v) {
-        return set(v.x(), v.y());
+        this.x = v.x();
+        this.y = v.y();
+        return this;
     }
 
     /**
@@ -330,7 +335,8 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see #set(int, ByteBuffer)
      */
     public Vector2d set(ByteBuffer buffer) {
-        return set(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        return this;
     }
 
     /**
@@ -366,7 +372,8 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see #set(int, DoubleBuffer)
      */
     public Vector2d set(DoubleBuffer buffer) {
-        return set(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        return this;
     }
 
     /**
@@ -423,15 +430,21 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     public Vector2i get(int mode, Vector2i dest) {
-        return dest.set(this, mode);
+        dest.x = Math.roundUsing(this.x(), mode);
+        dest.y = Math.roundUsing(this.y(), mode);
+        return dest;
     }
 
     public Vector2f get(Vector2f dest) {
-        return dest.set(this);
+        dest.x = (float) this.x();
+        dest.y = (float) this.y();
+        return dest;
     }
 
     public Vector2d get(Vector2d dest) {
-        return dest.set(this);
+        dest.x = this.x();
+        dest.y = this.y();
+        return dest;
     }
 
     /**
@@ -463,7 +476,8 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#get(java.nio.ByteBuffer)
      */
     public ByteBuffer get(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
+        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -478,7 +492,8 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#get(java.nio.DoubleBuffer)
      */
     public DoubleBuffer get(DoubleBuffer buffer) {
-        return get(buffer.position(), buffer);
+        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -505,7 +520,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d perpendicular() {
-        return set(y, x * -1);
+        this.x = y;
+        this.y = x * -1;
+        return this;
     }
 
     /**
@@ -516,7 +533,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d sub(Vector2dc v) {
-        return sub(v, thisOrNew());
+        this.x = x - v.x();
+        this.y = y - v.y();
+        return this;
     }
 
     /**
@@ -529,7 +548,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d sub(double x, double y) {
-        return sub(x, y, thisOrNew());
+        this.x = this.x - x;
+        this.y = this.y - y;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -549,7 +570,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d sub(Vector2fc v) {
-        return sub(v, thisOrNew());
+        this.x = x - v.x();
+        this.y = y - v.y();
+        return this;
     }
 
     /* (non-Javadoc)
@@ -578,7 +601,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d mul(double scalar) {
-        return mul(scalar, thisOrNew());
+        this.x = x * scalar;
+        this.y = y * scalar;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -600,7 +625,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d mul(double x, double y) {
-        return mul(x, y, thisOrNew());
+        this.x = this.x * x;
+        this.y = this.y * y;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -620,7 +647,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d mul(Vector2dc v) {
-        return mul(v, thisOrNew());
+        this.x = x * v.x();
+        this.y = y * v.y();
+        return this;
     }
 
     /* (non-Javadoc)
@@ -640,7 +669,11 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d mul(Matrix2fc mat) {
-        return mul(mat, thisOrNew());
+        double rx = mat.m00() * x + mat.m10() * y;
+        double ry = mat.m01() * x + mat.m11() * y;
+        this.x = rx;
+        this.y = ry;
+        return this;
     }
 
     /**
@@ -651,7 +684,11 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d mul(Matrix2dc mat) {
-        return mul(mat, thisOrNew());
+        double rx = mat.m00() * x + mat.m10() * y;
+        double ry = mat.m01() * x + mat.m11() * y;
+        this.x = rx;
+        this.y = ry;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -684,7 +721,11 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d mulTranspose(Matrix2dc mat) {
-        return mulTranspose(mat, thisOrNew());
+        double rx = mat.m00() * x + mat.m01() * y;
+        double ry = mat.m10() * x + mat.m11() * y;
+        this.x = rx;
+        this.y = ry;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -706,7 +747,11 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d mulTranspose(Matrix2fc mat) {
-        return mulTranspose(mat, thisOrNew());
+        double rx = mat.m00() * x + mat.m01() * y;
+        double ry = mat.m10() * x + mat.m11() * y;
+        this.x = rx;
+        this.y = ry;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -730,7 +775,11 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d mulPosition(Matrix3x2dc mat) {
-        return mulPosition(mat, thisOrNew());
+        double rx = mat.m00() * x + mat.m10() * y + mat.m20();
+        double ry = mat.m01() * x + mat.m11() * y + mat.m21();
+        this.x = rx;
+        this.y = ry;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -754,7 +803,11 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d mulDirection(Matrix3x2dc mat) {
-        return mulDirection(mat, thisOrNew());
+        double rx = mat.m00() * x + mat.m10() * y;
+        double ry = mat.m01() * x + mat.m11() * y;
+        this.x = rx;
+        this.y = ry;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -788,7 +841,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#lengthSquared()
      */
     public double lengthSquared() {
-        return lengthSquared(x, y);
+        return x * x + y * y;
     }
 
     /**
@@ -809,7 +862,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#length()
      */
     public double length() {
-        return Math.sqrt(lengthSquared());
+        return Math.sqrt(x * x + y * y);
     }
 
     /**
@@ -823,14 +876,14 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @author F. Neurath
      */
     public static double length(double x, double y) {
-        return Math.sqrt(lengthSquared(x, y));
+        return Math.sqrt(x * x + y * y);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#distance(org.joml.Vector2dc)
      */
     public double distance(Vector2dc v) {
-        return distance(v.x(), v.y());
+        return Math.sqrt(distanceSquared(v.x(), v.y()));
     }
 
     /* (non-Javadoc)
@@ -844,7 +897,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#distance(org.joml.Vector2fc)
      */
     public double distance(Vector2fc v) {
-        return distance(v.x(), v.y());
+        return Math.sqrt(distanceSquared(v.x(), v.y()));
     }
 
     /* (non-Javadoc)
@@ -912,7 +965,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d normalize() {
-        return normalize(thisOrNew());
+        double invLength = Math.invsqrt(x * x + y * y);
+        this.x = x * invLength;
+        this.y = y * invLength;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -933,7 +989,10 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d normalize(double length) {
-        return normalize(length, thisOrNew());
+        double invLength = Math.invsqrt(x * x + y * y) * length;
+        this.x = x * invLength;
+        this.y = y * invLength;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -954,7 +1013,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d add(Vector2dc v) {
-        return add(v, thisOrNew());
+        this.x = x + v.x();
+        this.y = y + v.y();
+        return this;
     }
 
     /**
@@ -967,7 +1028,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d add(double x, double y) {
-        return add(x, y, thisOrNew());
+        this.x = this.x + x;
+        this.y = this.y + y;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -987,7 +1050,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d add(Vector2fc v) {
-        return add(v, thisOrNew());
+        this.x = x + v.x();
+        this.y = y + v.y();
+        return this;
     }
 
     /* (non-Javadoc)
@@ -1014,7 +1079,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d zero() {
-        return thisOrNew().set(0, 0);
+        this.x = 0;
+        this.y = 0;
+        return this;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -1034,7 +1101,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d negate() {
-        return negate(thisOrNew());
+        this.x = -x;
+        this.y = -y;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -1060,7 +1129,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d lerp(Vector2dc other, double t) {
-        return lerp(other, t, thisOrNew());
+        this.x = x + (other.x() - x) * t;
+        this.y = y + (other.y() - y) * t;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -1155,7 +1226,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d fma(Vector2dc a, Vector2dc b) {
-        return fma(a, b, thisOrNew());
+        this.x = x + a.x() * b.x();
+        this.y = y + a.y() * b.y();
+        return this;
     }
 
     /**
@@ -1168,7 +1241,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d fma(double a, Vector2dc b) {
-        return fma(a, b, thisOrNew());
+        this.x = x + a * b.x();
+        this.y = y + a * b.y();
+        return this;
     }
 
     /* (non-Javadoc)
@@ -1197,7 +1272,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d min(Vector2dc v) {
-        return min(v, thisOrNew());
+        this.x = x < v.x() ? x : v.x();
+        this.y = y < v.y() ? y : v.y();
+        return this;
     }
 
     public Vector2d min(Vector2dc v, Vector2d dest) {
@@ -1214,7 +1291,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d max(Vector2dc v) {
-        return max(v, thisOrNew());
+        this.x = x > v.x() ? x : v.x();
+        this.y = y > v.y() ? y : v.y();
+        return this;
     }
 
     public Vector2d max(Vector2dc v, Vector2d dest) {
@@ -1253,7 +1332,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d floor() {
-        return floor(thisOrNew());
+        this.x = Math.floor(x);
+        this.y = Math.floor(y);
+        return this;
     }
 
     public Vector2d floor(Vector2d dest) {
@@ -1270,7 +1351,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d ceil() {
-        return ceil(thisOrNew());
+        this.x = Math.ceil(x);
+        this.y = Math.ceil(y);
+        return this;
     }
 
     public Vector2d ceil(Vector2d dest) {
@@ -1286,7 +1369,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d round() {
-        return round(thisOrNew());
+        this.x = Math.round(x);
+        this.y = Math.round(y);
+        return this;
     }
 
     public Vector2d round(Vector2d dest) {
@@ -1308,7 +1393,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return a vector holding the result
      */
     public Vector2d absolute() {
-        return absolute(thisOrNew());
+        this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+        return this;
     }
 
     public Vector2d absolute(Vector2d dest) {

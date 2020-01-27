@@ -79,14 +79,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the {@link Vector4ic} to copy the values from
      */
     public Vector4i(Vector4ic v) {
-        if (v instanceof Vector4i) {
-            MemUtil.INSTANCE.copy((Vector4i) v, this);            
-        } else {
-            this.x = v.x();
-            this.y = v.y();
-            this.z = v.z();
-            this.w = v.w();
-        }
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = v.w();
     }
 
     /**
@@ -99,7 +95,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the w component
      */
     public Vector4i(Vector3ic v, int w) {
-        this(v.x(), v.y(), v.z(), w);
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = w;
     }
 
     /**
@@ -114,7 +113,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the w component
      */
     public Vector4i(Vector2ic v, int z, int w) {
-        this(v.x(), v.y(), z, w);
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+        this.w = w;
     }
 
     /**
@@ -175,7 +177,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          scalar value of all four components
      */
     public Vector4i(int s) {
-        set(s);
+        this.x = s;
+        this.y = s;
+        this.z = s;
+        this.w = s;
     }
 
     /**
@@ -229,7 +234,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          values will be read in <code>x, y, z, w</code> order
      */
     public Vector4i(ByteBuffer buffer) {
-        this(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -265,7 +270,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          values will be read in <code>x, y, z, w</code> order
      */
     public Vector4i(IntBuffer buffer) {
-        this(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -284,10 +289,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
 //#endif
-
-    private Vector4i thisOrNew() {
-        return this;
-    }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#x()
@@ -325,14 +326,10 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(Vector4ic v) {
-        if (v instanceof Vector4i) {
-            MemUtil.INSTANCE.copy((Vector4i) v, this);            
-        } else {
-            this.x = v.x();
-            this.y = v.y();
-            this.z = v.z();
-            this.w = v.w();
-        }
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = v.w();
         return this;
     }
 
@@ -347,7 +344,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(Vector4dc v) {
-        return set((int) v.x(), (int) v.y(), (int) v.z(), (int) v.w());
+        this.x = (int) v.x();
+        this.y = (int) v.y();
+        this.z = (int) v.z();
+        this.w = (int) v.w();
+        return this;
     }
 
     /**
@@ -363,8 +364,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(Vector4dc v, int mode) {
-        return set(Math.roundUsing(v.x(), mode), Math.roundUsing(v.y(), mode),
-                   Math.roundUsing(v.z(), mode), Math.roundUsing(v.w(), mode));
+        this.x = Math.roundUsing(v.x(), mode);
+        this.y = Math.roundUsing(v.y(), mode);
+        this.z = Math.roundUsing(v.z(), mode);
+        this.w = Math.roundUsing(v.w(), mode);
+        return this;
     }
 
     /**
@@ -380,8 +384,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(Vector4fc v, int mode) {
-        return set(Math.roundUsing(v.x(), mode), Math.roundUsing(v.y(), mode),
-                   Math.roundUsing(v.z(), mode), Math.roundUsing(v.w(), mode));
+        this.x = Math.roundUsing(v.x(), mode);
+        this.y = Math.roundUsing(v.y(), mode);
+        this.z = Math.roundUsing(v.z(), mode);
+        this.w = Math.roundUsing(v.w(), mode);
+        return this;
     }
 
     /**
@@ -395,7 +402,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(Vector3ic v, int w) {
-        return set(v.x(), v.y(), v.z(), w);
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = w;
+        return this;
     }
 
     /**
@@ -412,7 +423,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(Vector2ic v, int z, int w) {
-        return set(v.x(), v.y(), z, w);
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+        this.w = w;
+        return this;
     }
 
     /**
@@ -423,7 +438,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(int s) {
-        return set(s, s, s, s);
+        this.x = s;
+        this.y = s;
+        this.z = s;
+        this.w = s;
+        return this;
     }
 
     /**
@@ -480,7 +499,8 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(ByteBuffer buffer) {
-        return set(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        return this;
     }
 
     /**
@@ -517,7 +537,8 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i set(IntBuffer buffer) {
-        return set(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        return this;
     }
 
     /**
@@ -648,7 +669,8 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#get(java.nio.IntBuffer)
      */
     public IntBuffer get(IntBuffer buffer) {
-        return get(buffer.position(), buffer);
+        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -663,7 +685,8 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#get(java.nio.ByteBuffer)
      */
     public ByteBuffer get(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
+        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)
@@ -692,7 +715,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i sub(Vector4ic v) {
-        return sub(v, thisOrNew());
+        this.x = this.x - v.x();
+        this.y = this.y - v.y();
+        this.z = this.z - v.z();
+        this.w = this.w - v.w();
+        return this;
     }
 
     /**
@@ -709,14 +736,22 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i sub(int x, int y, int z, int w) {
-        return sub(x, y, z, w, thisOrNew());
+        this.x = this.x - x;
+        this.y = this.y - y;
+        this.z = this.z - z;
+        this.w = this.w - w;
+        return this;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#sub(org.joml.Vector4ic, org.joml.Vector4i)
      */
     public Vector4i sub(Vector4ic v, Vector4i dest) {
-        return sub(v.x(), v.y(), v.z(), v.w(), dest);
+        dest.x = this.x - v.x();
+        dest.y = this.y - v.y();
+        dest.z = this.z - v.z();
+        dest.w = this.w - v.w();
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -738,14 +773,22 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i add(Vector4ic v) {
-        return add(v, thisOrNew());
+        this.x = this.x + v.x();
+        this.y = this.y + v.y();
+        this.z = this.z + v.z();
+        this.w = this.w + v.w();
+        return this;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#add(org.joml.Vector4ic, org.joml.Vector4i)
      */
     public Vector4i add(Vector4ic v, Vector4i dest) {
-        return add(v.x(), v.y(), v.z(), v.w(), dest);
+        dest.x = this.x + v.x();
+        dest.y = this.y + v.y();
+        dest.z = this.z + v.z();
+        dest.w = this.w + v.w();
+        return dest;
     }
 
     /**
@@ -762,7 +805,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i add(int x, int y, int z, int w) {
-        return add(x, y, z, w, thisOrNew());
+        this.x = this.x + x;
+        this.y = this.y + y;
+        this.z = this.z + z;
+        this.w = this.w + w;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -784,7 +831,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i mul(Vector4ic v) {
-        return mul(v, thisOrNew());
+        this.x = x * v.x();
+        this.y = y * v.y();
+        this.z = z * v.z();
+        this.w = w * v.w();
+        return this;
     }
 
     /* (non-Javadoc)
@@ -806,7 +857,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i div(Vector4ic v) {
-        return div(v, thisOrNew());
+        this.x = x / v.x();
+        this.y = y / v.y();
+        this.z = z / v.z();
+        this.w = w / v.w();
+        return this;
     }
 
     /* (non-Javadoc)
@@ -829,7 +884,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i mul(int scalar) {
-        return mul(scalar, thisOrNew());
+        this.x = x * scalar;
+        this.y = y * scalar;
+        this.z = z * scalar;
+        this.w = w * scalar;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -851,17 +910,22 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i div(int scalar) {
-        return div(scalar, thisOrNew());
+        this.x = x / scalar;
+        this.y = y / scalar;
+        this.z = z / scalar;
+        this.w = w / scalar;
+        return this;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#div(float, org.joml.Vector4i)
      */
     public Vector4i div(float scalar, Vector4i dest) {
-        dest.x = (int) (x / scalar);
-        dest.y = (int) (y / scalar);
-        dest.z = (int) (z / scalar);
-        dest.w = (int) (w / scalar);
+        float invscalar = 1.0f / scalar;
+        dest.x = (int) (x * invscalar);
+        dest.y = (int) (y * invscalar);
+        dest.z = (int) (z * invscalar);
+        dest.w = (int) (w * invscalar);
         return dest;
     }
 
@@ -869,7 +933,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#lengthSquared()
      */
     public long lengthSquared() {
-        return lengthSquared(x, y, z, w);
+        return x * x + y * y + z * z + w * w;
     }
 
     /**
@@ -890,7 +954,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#length()
      */
     public double length() {
-        return Math.sqrt(lengthSquared());
+        return Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     /**
@@ -904,14 +968,14 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return the length squared of the given vector
      */
     public static double length(int x, int y, int z, int w) {
-        return Math.sqrt(lengthSquared(x, y, z, w));
+        return Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#distance(org.joml.Vector4ic)
      */
     public double distance(Vector4ic v) {
-        return distance(v.x(), v.y(), v.z(), v.w());
+        return Math.sqrt(distanceSquared(v.x(), v.y(), v.z(), v.w()));
     }
 
     /* (non-Javadoc)
@@ -1020,9 +1084,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i zero() {
-        Vector4i dest = thisOrNew();
-        MemUtil.INSTANCE.zero(dest);
-        return dest;
+        x = 0;
+        y = 0;
+        z = 0;
+        w = 0;
+        return this;
     }
 
     /**
@@ -1031,7 +1097,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i negate() {
-        return negate(thisOrNew());
+        this.x = -x;
+        this.y = -y;
+        this.z = -z;
+        this.w = -w;
+        return this;
     }
 
     /* (non-Javadoc)
@@ -1089,7 +1159,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i min(Vector4ic v) {
-        return min(v, thisOrNew());
+        this.x = x < v.x() ? x : v.x();
+        this.y = y < v.y() ? y : v.y();
+        this.z = z < v.z() ? z : v.z();
+        this.w = w < v.w() ? w : v.w();
+        return this;
     }
 
     public Vector4i min(Vector4ic v, Vector4i dest) {
@@ -1108,7 +1182,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return a vector holding the result
      */
     public Vector4i max(Vector4ic v) {
-        return max(v, thisOrNew());
+        this.x = x > v.x() ? x : v.x();
+        this.y = y > v.y() ? y : v.y();
+        this.z = z > v.z() ? z : v.z();
+        this.w = w > v.w() ? w : v.w();
+        return this;
     }
 
     public Vector4i max(Vector4ic v, Vector4i dest) {
@@ -1125,11 +1203,19 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return this
      */
     public Vector4i absolute() {
-        return absolute(this);
+        this.x = Math.abs(x);
+        this.y = Math.abs(y);
+        this.z = Math.abs(z);
+        this.w = Math.abs(w);
+        return this;
     }
 
     public Vector4i absolute(Vector4i dest) {
-        return dest.set(Math.abs(x), Math.abs(y), Math.abs(z), Math.abs(w));
+        dest.x = Math.abs(x);
+        dest.y = Math.abs(y);
+        dest.z = Math.abs(z);
+        dest.w = Math.abs(w);
+        return dest;
     }
 
     public int hashCode() {
