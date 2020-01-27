@@ -198,6 +198,12 @@ abstract class MemUtil {
     public abstract void get(Vector2d dst, int offset, ByteBuffer src);
     public abstract void get(Vector2i dst, int offset, IntBuffer src);
     public abstract void get(Vector2i dst, int offset, ByteBuffer src);
+    public abstract void putMatrix3f(Quaternionf q, int position, ByteBuffer dest);
+    public abstract void putMatrix3f(Quaternionf q, int position, FloatBuffer dest);
+    public abstract void putMatrix4f(Quaternionf q, int position, ByteBuffer dest);
+    public abstract void putMatrix4f(Quaternionf q, int position, FloatBuffer dest);
+    public abstract void putMatrix4x3f(Quaternionf q, int position, ByteBuffer dest);
+    public abstract void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest);
 //#endif
 
     public abstract void copy(Matrix4f src, Matrix4f dest);
@@ -226,8 +232,6 @@ abstract class MemUtil {
     public abstract void copy3x3(Matrix3f src, Matrix4f dest);
     public abstract void copy4x3(Matrix4f src, Matrix4f dest);
     public abstract void copy4x3(Matrix4x3f src, Matrix4f dest);
-    public abstract void copy(Vector4f src, Vector4f dst);
-    public abstract void copy(Vector4i src, Vector4i dst);
     public abstract void copy(float[] arr, int off, Matrix4f dest);
     public abstract void copy(float[] arr, int off, Matrix3f dest);
     public abstract void copy(float[] arr, int off, Matrix4x3f dest);
@@ -267,21 +271,6 @@ abstract class MemUtil {
     public abstract void zero(Matrix3x2d dest);
     public abstract void zero(Matrix2f dest);
     public abstract void zero(Matrix2d dest);
-    public abstract void zero(Vector4f dest);
-    public abstract void zero(Vector4i dest);
-
-//#ifdef __HAS_NIO__
-    public abstract void putMatrix3f(Quaternionf q, int position, ByteBuffer dest);
-    public abstract void putMatrix3f(Quaternionf q, int position, FloatBuffer dest);
-    public abstract void putMatrix4f(Quaternionf q, int position, ByteBuffer dest);
-    public abstract void putMatrix4f(Quaternionf q, int position, FloatBuffer dest);
-    public abstract void putMatrix4x3f(Quaternionf q, int position, ByteBuffer dest);
-    public abstract void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest);
-//#endif
-
-    public abstract void set(Matrix4x3f dest, Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3);
-    public abstract void set(Matrix3f dest, Vector3f col0, Vector3f col1, Vector3f col2);
-    public abstract void set(Matrix2f dest, Vector2f col0, Vector2f col1);
 
     public static class MemUtilNIO extends MemUtil {
 //#ifdef __HAS_NIO__
@@ -2412,20 +2401,6 @@ abstract class MemUtil {
             ._m32(src.m32());
         }
 
-        public void copy(Vector4f src, Vector4f dst) {
-            dst.x = src.x;
-            dst.y = src.y;
-            dst.z = src.z;
-            dst.w = src.w;
-        }
-
-        public void copy(Vector4i src, Vector4i dst) {
-            dst.x = src.x;
-            dst.y = src.y;
-            dst.z = src.z;
-            dst.w = src.w;
-        }
-
         public void copy4x3(Matrix4f src, Matrix4f dest) {
             dest._m00(src.m00())
             ._m01(src.m01())
@@ -2991,20 +2966,6 @@ abstract class MemUtil {
             ._m11(0.0);
         }
 
-        public void zero(Vector4f dest) {
-            dest.x = 0.0f;
-            dest.y = 0.0f;
-            dest.z = 0.0f;
-            dest.w = 0.0f;
-        }
-
-        public void zero(Vector4i dest) {
-            dest.x = 0;
-            dest.y = 0;
-            dest.z = 0;
-            dest.w = 0;
-        }
-
 //#ifdef __HAS_NIO__
         public void putMatrix3f(Quaternionf q, int position, ByteBuffer dest) {
             float w2 = q.w * q.w;
@@ -3155,59 +3116,6 @@ abstract class MemUtil {
             .put(position + 11, 0.0f);
         }
 //#endif
-
-        public void set(Matrix4f m, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
-            m._m00(col0.x)
-            ._m01(col0.y)
-            ._m02(col0.z)
-            ._m03(col0.w)
-            ._m10(col1.x)
-            ._m11(col1.y)
-            ._m12(col1.z)
-            ._m13(col1.w)
-            ._m20(col2.x)
-            ._m21(col2.y)
-            ._m22(col2.z)
-            ._m23(col2.w)
-            ._m30(col3.x)
-            ._m31(col3.y)
-            ._m32(col3.z)
-            ._m33(col3.w);
-        }
-
-        public void set(Matrix4x3f m, Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3) {
-            m._m00(col0.x)
-            ._m01(col0.y)
-            ._m02(col0.z)
-            ._m10(col1.x)
-            ._m11(col1.y)
-            ._m12(col1.z)
-            ._m20(col2.x)
-            ._m21(col2.y)
-            ._m22(col2.z)
-            ._m30(col3.x)
-            ._m31(col3.y)
-            ._m32(col3.z);
-        }
-
-        public void set(Matrix3f m, Vector3f col0, Vector3f col1, Vector3f col2) {
-            m._m00(col0.x)
-            ._m01(col0.y)
-            ._m02(col0.z)
-            ._m10(col1.x)
-            ._m11(col1.y)
-            ._m12(col1.z)
-            ._m20(col2.x)
-            ._m21(col2.y)
-            ._m22(col2.z);
-        }
-
-        public void set(Matrix2f m, Vector2f col0, Vector2f col1) {
-            m._m00(col0.x)
-            ._m01(col0.y)
-            ._m10(col1.x)
-            ._m11(col1.y);
-        }
     }
 
 //#ifdef __HAS_UNSAFE__
@@ -3223,13 +3131,10 @@ abstract class MemUtil {
         public static final long Matrix4x3f_m00;
         public static final long Matrix3x2f_m00;
         public static final long Vector4f_x;
-        public static final long Vector4d_x;
         public static final long Vector4i_x;
         public static final long Vector3f_x;
-        public static final long Vector3d_x;
         public static final long Vector3i_x;
         public static final long Vector2f_x;
-        public static final long Vector2d_x;
         public static final long Vector2i_x;
         public static final long Quaternionf_x;
         public static final long floatArrayOffset;
@@ -3246,13 +3151,10 @@ abstract class MemUtil {
                 Matrix3x2f_m00 = checkMatrix3x2f();
                 Matrix2f_m00 = checkMatrix2f();
                 Vector4f_x = checkVector4f();
-                Vector4d_x = checkVector4d();
                 Vector4i_x = checkVector4i();
                 Vector3f_x = checkVector3f();
-                Vector3d_x = checkVector3d();
                 Vector3i_x = checkVector3i();
                 Vector2f_x = checkVector2f();
-                Vector2d_x = checkVector2d();
                 Vector2i_x = checkVector2i();
                 Quaternionf_x = checkQuaternionf();
                 floatArrayOffset = UNSAFE.arrayBaseOffset(float[].class);
@@ -3365,20 +3267,6 @@ abstract class MemUtil {
             return Vector4f_x;
         }
 
-        private static long checkVector4d() throws NoSuchFieldException, SecurityException {
-            Field f = Vector4d.class.getDeclaredField("x");
-            long Vector4d_x = UNSAFE.objectFieldOffset(f);
-            // Validate expected field offsets
-            String[] names = {"y", "z", "w"};
-            for (int i = 1; i < 4; i++) {
-                f = Vector4d.class.getDeclaredField(names[i-1]);
-                long offset = UNSAFE.objectFieldOffset(f);
-                if (offset != Vector4d_x + (i << 3))
-                    throw new UnsupportedOperationException("Unexpected Vector4d element offset");
-            }
-            return Vector4d_x;
-        }
-
         private static long checkVector4i() throws NoSuchFieldException, SecurityException {
             Field f = Vector4i.class.getDeclaredField("x");
             long Vector4i_x = UNSAFE.objectFieldOffset(f);
@@ -3407,20 +3295,6 @@ abstract class MemUtil {
             return Vector3f_x;
         }
 
-        private static long checkVector3d() throws NoSuchFieldException, SecurityException {
-            Field f = Vector3d.class.getDeclaredField("x");
-            long Vector3d_x = UNSAFE.objectFieldOffset(f);
-            // Validate expected field offsets
-            String[] names = {"y", "z"};
-            for (int i = 1; i < 3; i++) {
-                f = Vector3d.class.getDeclaredField(names[i-1]);
-                long offset = UNSAFE.objectFieldOffset(f);
-                if (offset != Vector3d_x + (i << 3))
-                    throw new UnsupportedOperationException("Unexpected Vector3d element offset");
-            }
-            return Vector3d_x;
-        }
-
         private static long checkVector3i() throws NoSuchFieldException, SecurityException {
             Field f = Vector3i.class.getDeclaredField("x");
             long Vector3i_x = UNSAFE.objectFieldOffset(f);
@@ -3444,17 +3318,6 @@ abstract class MemUtil {
             if (offset != Vector2f_x + (1 << 2))
                 throw new UnsupportedOperationException("Unexpected Vector2f element offset");
             return Vector2f_x;
-        }
-
-        private static long checkVector2d() throws NoSuchFieldException, SecurityException {
-            Field f = Vector2d.class.getDeclaredField("x");
-            long Vector2d_x = UNSAFE.objectFieldOffset(f);
-            // Validate expected field offsets
-            f = Vector2d.class.getDeclaredField("y");
-            long offset = UNSAFE.objectFieldOffset(f);
-            if (offset != Vector2d_x + (1 << 3))
-                throw new UnsupportedOperationException("Unexpected Vector2d element offset");
-            return Vector2d_x;
         }
 
         private static long checkVector2i() throws NoSuchFieldException, SecurityException {
@@ -3981,22 +3844,17 @@ abstract class MemUtil {
         }
 
         public static void put(Vector4f src, long destAddr) {
-            UNSAFE.putFloat(null, destAddr,    src.x);
-            UNSAFE.putFloat(null, destAddr+4,  src.y);
-            UNSAFE.putFloat(null, destAddr+8,  src.z);
-            UNSAFE.putFloat(null, destAddr+12, src.w);
+            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector4f_x));
+            UNSAFE.putLong(null, destAddr+8, UNSAFE.getLong(src, Vector4f_x+8));
         }
 
         public static void put(Vector4i src, long destAddr) {
-            UNSAFE.putInt(null, destAddr,    src.x);
-            UNSAFE.putInt(null, destAddr+4,  src.y);
-            UNSAFE.putInt(null, destAddr+8,  src.z);
-            UNSAFE.putInt(null, destAddr+12, src.w);
+            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector4i_x));
+            UNSAFE.putLong(null, destAddr+8, UNSAFE.getLong(src, Vector4i_x+8));
         }
 
         public static void put(Vector3f src, long destAddr) {
-            UNSAFE.putFloat(null, destAddr,   src.x);
-            UNSAFE.putFloat(null, destAddr+4, src.y);
+            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector3f_x));
             UNSAFE.putFloat(null, destAddr+8, src.z);
         }
 
@@ -4013,24 +3871,21 @@ abstract class MemUtil {
         }
 
         public static void put(Vector3i src, long destAddr) {
-            UNSAFE.putInt(null, destAddr,   src.x);
-            UNSAFE.putInt(null, destAddr+4, src.y);
+            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector3i_x));
             UNSAFE.putInt(null, destAddr+8, src.z);
         }
 
         public static void put(Vector2f src, long destAddr) {
-            UNSAFE.putFloat(null, destAddr,   src.x);
-            UNSAFE.putFloat(null, destAddr+4, src.y);
+            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector2f_x));
         }
 
         public static void put(Vector2d src, long destAddr) {
-            UNSAFE.putDouble(null, destAddr,   UNSAFE.getDouble(src, Vector2d_x));
-            UNSAFE.putDouble(null, destAddr+8, UNSAFE.getDouble(src, Vector2d_x+8));
+            UNSAFE.putDouble(null, destAddr,   src.x);
+            UNSAFE.putDouble(null, destAddr+8, src.y);
         }
 
         public static void put(Vector2i src, long destAddr) {
-            UNSAFE.putInt(null, destAddr,   src.x);
-            UNSAFE.putInt(null, destAddr+4, src.y);
+            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector2i_x));
         }
 
         public static void get(Matrix4f m, long srcAddr) {

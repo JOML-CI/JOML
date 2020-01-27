@@ -136,12 +136,10 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      *          the second column
      */
     public Matrix2f(Vector2fc col0, Vector2fc col1) {
-        if (col0 instanceof Vector2f &&
-            col1 instanceof Vector2f) {
-            MemUtil.INSTANCE.set(this, (Vector2f) col0, (Vector2f) col1);
-        } else {
-            setVector2fc(col0, col1);
-        }
+        m00 = col0.x();
+        m01 = col0.y();
+        m10 = col1.x();
+        m11 = col1.y();
     }
 
     /* (non-Javadoc)
@@ -441,19 +439,11 @@ public class Matrix2f implements Externalizable, Matrix2fc {
      * @return this
      */
     public Matrix2f set(Vector2fc col0, Vector2fc col1) {
-        if (col0 instanceof Vector2f &&
-            col1 instanceof Vector2f) {
-            MemUtil.INSTANCE.set(this, (Vector2f) col0, (Vector2f) col1);
-        } else {
-            setVector2fc(col0, col1);
-        }
-        return this;
-    }
-    private void setVector2fc(Vector2fc col0, Vector2fc col1) {
         m00 = col0.x();
         m01 = col0.y();
         m10 = col1.x();
         m11 = col1.y();
+        return this;
     }
 
     /* (non-Javadoc)
