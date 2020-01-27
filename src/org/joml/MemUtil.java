@@ -1354,7 +1354,18 @@ abstract class MemUtil {
             .putFloat(offset+60, (float)m.m33());
         }
 
-        public void put(Matrix3f m, int offset, FloatBuffer dest) {
+        public void put0(Matrix3f m, FloatBuffer dest) {
+            dest.put(0,   m.m00())
+            .put(1, m.m01())
+            .put(2, m.m02())
+            .put(3, m.m10())
+            .put(4, m.m11())
+            .put(5, m.m12())
+            .put(6, m.m20())
+            .put(7, m.m21())
+            .put(8, m.m22());
+        }
+        public void putN(Matrix3f m, int offset, FloatBuffer dest) {
             dest.put(offset,   m.m00())
             .put(offset+1, m.m01())
             .put(offset+2, m.m02())
@@ -1365,8 +1376,25 @@ abstract class MemUtil {
             .put(offset+7, m.m21())
             .put(offset+8, m.m22());
         }
+        public void put(Matrix3f m, int offset, FloatBuffer dest) {
+            if (offset == 0)
+                put0(m, dest);
+            else
+                putN(m, offset, dest);
+        }
 
-        public void put(Matrix3f m, int offset, ByteBuffer dest) {
+        public void put0(Matrix3f m, ByteBuffer dest) {
+            dest.putFloat(0,    m.m00())
+            .putFloat(4,  m.m01())
+            .putFloat(8,  m.m02())
+            .putFloat(12, m.m10())
+            .putFloat(16, m.m11())
+            .putFloat(20, m.m12())
+            .putFloat(24, m.m20())
+            .putFloat(28, m.m21())
+            .putFloat(32, m.m22());
+        }
+        public void putN(Matrix3f m, int offset, ByteBuffer dest) {
             dest.putFloat(offset,    m.m00())
             .putFloat(offset+4,  m.m01())
             .putFloat(offset+8,  m.m02())
@@ -1376,6 +1404,12 @@ abstract class MemUtil {
             .putFloat(offset+24, m.m20())
             .putFloat(offset+28, m.m21())
             .putFloat(offset+32, m.m22());
+        }
+        public void put(Matrix3f m, int offset, ByteBuffer dest) {
+            if (offset == 0)
+                put0(m, dest);
+            else
+                putN(m, offset, dest);
         }
 
         public void put3x4_0(Matrix3f m, ByteBuffer dest) {
