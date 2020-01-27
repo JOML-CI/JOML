@@ -794,6 +794,50 @@ public class Vector3i implements Externalizable, Vector3ic {
         return dest;
     }
 
+    /**
+     * Divide all components of this {@link Vector3i} by the given scalar value.
+     *
+     * @param scalar
+     *          the scalar to divide by
+     * @return a vector holding the result
+     */
+    public Vector3i div(float scalar) {
+        float invscalar = 1.0f / scalar;
+        this.x = (int) (x * invscalar);
+        this.y = (int) (y * invscalar);
+        this.z = (int) (z * invscalar);
+        return this;
+    }
+
+    public Vector3i div(float scalar, Vector3i dest) {
+        float invscalar = 1.0f / scalar;
+        dest.x = (int) (x * invscalar);
+        dest.y = (int) (y * invscalar);
+        dest.z = (int) (z * invscalar);
+        return dest;
+    }
+
+    /**
+     * Divide all components of this {@link Vector3i} by the given scalar value.
+     *
+     * @param scalar
+     *          the scalar to divide by
+     * @return a vector holding the result
+     */
+    public Vector3i div(int scalar) {
+        this.x = x / scalar;
+        this.y = y / scalar;
+        this.z = z / scalar;
+        return this;
+    }
+
+    public Vector3i div(int scalar, Vector3i dest) {
+        dest.x = x / scalar;
+        dest.y = y / scalar;
+        dest.z = z / scalar;
+        return dest;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3ic#lengthSquared()
      */

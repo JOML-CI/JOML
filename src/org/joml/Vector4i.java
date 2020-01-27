@@ -903,6 +903,31 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 
     /**
+     * Divide all components of this {@link Vector3i} by the given scalar value.
+     *
+     * @param scalar
+     *          the scalar to divide by
+     * @return a vector holding the result
+     */
+    public Vector4i div(float scalar) {
+        float invscalar = 1.0f / scalar;
+        this.x = (int) (x * invscalar);
+        this.y = (int) (y * invscalar);
+        this.z = (int) (z * invscalar);
+        this.w = (int) (w * invscalar);
+        return this;
+    }
+
+    public Vector4i div(float scalar, Vector4i dest) {
+        float invscalar = 1.0f / scalar;
+        dest.x = (int) (x * invscalar);
+        dest.y = (int) (y * invscalar);
+        dest.z = (int) (z * invscalar);
+        dest.w = (int) (w * invscalar);
+        return dest;
+    }
+
+    /**
      * Divide all components of this {@link Vector4i} by the given scalar value.
      *
      * @param scalar
@@ -917,15 +942,11 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#div(float, org.joml.Vector4i)
-     */
-    public Vector4i div(float scalar, Vector4i dest) {
-        float invscalar = 1.0f / scalar;
-        dest.x = (int) (x * invscalar);
-        dest.y = (int) (y * invscalar);
-        dest.z = (int) (z * invscalar);
-        dest.w = (int) (w * invscalar);
+    public Vector4i div(int scalar, Vector4i dest) {
+        dest.x = x / scalar;
+        dest.y = y / scalar;
+        dest.z = z / scalar;
+        dest.w = w / scalar;
         return dest;
     }
 

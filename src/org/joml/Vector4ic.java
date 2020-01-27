@@ -245,6 +245,18 @@ public interface Vector4ic {
     Vector4i div(float scalar, Vector4i dest);
 
     /**
+     * Divide all components of this {@link Vector4i} by the given scalar value
+     * and store the result in <code>dest</code>.
+     *
+     * @param scalar
+     *          the scalar to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4i div(int scalar, Vector4i dest);
+
+    /**
      * Return the length squared of this vector.
      *
      * @return the length squared
