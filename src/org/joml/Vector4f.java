@@ -206,7 +206,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the array containing at least four elements
      */
     public Vector4f(float[] xyzw) {
-        this(xyzw[0], xyzw[1], xyzw[2], xyzw[3]);
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
     }
 
 //#ifdef __HAS_NIO__
@@ -225,7 +228,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see #Vector4f(int, ByteBuffer)
      */
     public Vector4f(ByteBuffer buffer) {
-        this(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -258,7 +261,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see #Vector4f(int, FloatBuffer)
      */
     public Vector4f(FloatBuffer buffer) {
-        this(buffer.position(), buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
 
     /**
