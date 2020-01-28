@@ -3414,12 +3414,6 @@ abstract class MemUtil {
             throw new UnsupportedOperationException();
         }
 
-//#ifdef __HAS_NIO__
-        public static long addressOf(Buffer buffer) {
-            return UNSAFE.getLong(buffer, ADDRESS);
-        }
-//#endif
-
         public static void put(Matrix4f m, long destAddr) {
             for (int i = 0; i < 8; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
@@ -4214,13 +4208,13 @@ abstract class MemUtil {
 //#ifdef __HAS_NIO__
         public void putMatrix3f(Quaternionf q, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
-            long addr = addressOf(dest) + offset;
+            long addr = UNSAFE.getLong(dest, ADDRESS) + offset;
             putMatrix3f(q, addr);
         }
 
         public void putMatrix3f(Quaternionf q, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
-            long addr = addressOf(dest) + (offset << 2);
+            long addr = UNSAFE.getLong(dest, ADDRESS) + (offset << 2);
             putMatrix3f(q, addr);
         }
 
@@ -4233,551 +4227,551 @@ abstract class MemUtil {
 
         public void putMatrix4f(Quaternionf q, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
-            long addr = addressOf(dest) + offset;
+            long addr = UNSAFE.getLong(dest, ADDRESS) + offset;
             putMatrix4f(q, addr);
         }
 
         public void putMatrix4f(Quaternionf q, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            long addr = addressOf(dest) + (offset << 2);
+            long addr = UNSAFE.getLong(dest, ADDRESS) + (offset << 2);
             putMatrix4f(q, addr);
         }
 
         public void putMatrix4x3f(Quaternionf q, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            long addr = addressOf(dest) + offset;
+            long addr = UNSAFE.getLong(dest, ADDRESS) + offset;
             putMatrix4x3f(q, addr);
         }
 
         public void putMatrix4x3f(Quaternionf q, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            long addr = addressOf(dest) + (offset << 2);
+            long addr = UNSAFE.getLong(dest, ADDRESS) + (offset << 2);
             putMatrix4x3f(q, addr);
         }
 
         public void put(Matrix4f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            put(m, addressOf(dest) + (offset << 2));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Matrix4f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put4x3(Matrix4f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            put4x3(m, addressOf(dest) + (offset << 2));
+            put4x3(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put4x3(Matrix4f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            put4x3(m, addressOf(dest) + offset);
+            put4x3(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put3x4(Matrix4f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            put3x4(m, addressOf(dest) + (offset << 2));
+            put3x4(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put3x4(Matrix4f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            put3x4(m, addressOf(dest) + offset);
+            put3x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Matrix4x3f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            put(m, addressOf(dest) + (offset << 2));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Matrix4x3f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put4x4(Matrix4x3f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            put4x4(m, addressOf(dest) + (offset << 2));
+            put4x4(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put4x4(Matrix4x3f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
-            put4x4(m, addressOf(dest) + offset);
+            put4x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put3x4(Matrix4x3f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            put3x4(m, addressOf(dest) + (offset << 2));
+            put3x4(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put3x4(Matrix4x3f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            put3x4(m, addressOf(dest) + offset);
+            put3x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put4x4(Matrix4x3d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            put4x4(m, addressOf(dest) + (offset << 3));
+            put4x4(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put4x4(Matrix4x3d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 3);
-            put4x4(m, addressOf(dest) + offset);
+            put4x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put4x4(Matrix3x2f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            put4x4(m, addressOf(dest) + (offset << 2));
+            put4x4(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put4x4(Matrix3x2f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
-            put4x4(m, addressOf(dest) + offset);
+            put4x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put4x4(Matrix3x2d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            put4x4(m, addressOf(dest) + (offset << 3));
+            put4x4(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put4x4(Matrix3x2d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 3);
-            put4x4(m, addressOf(dest) + offset);
+            put4x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put3x3(Matrix3x2f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
-            put3x3(m, addressOf(dest) + (offset << 2));
+            put3x3(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put3x3(Matrix3x2f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
-            put3x3(m, addressOf(dest) + offset);
+            put3x3(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put3x3(Matrix3x2d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
-            put3x3(m, addressOf(dest) + (offset << 3));
+            put3x3(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put3x3(Matrix3x2d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 3);
-            put3x3(m, addressOf(dest) + offset);
+            put3x3(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            putTransposed(m, addressOf(dest) + (offset << 2));
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putTransposed(Matrix4f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
-            putTransposed(m, addressOf(dest) + offset);
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put4x3Transposed(Matrix4f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            put4x3Transposed(m, addressOf(dest) + (offset << 2));
+            put4x3Transposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put4x3Transposed(Matrix4f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            put4x3Transposed(m, addressOf(dest) + offset);
+            put4x3Transposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putTransposed(Matrix4x3f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            putTransposed(m, addressOf(dest) + (offset << 2));
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putTransposed(Matrix4x3f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            putTransposed(m, addressOf(dest) + offset);
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putTransposed(Matrix3f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
-            putTransposed(m, addressOf(dest) + (offset << 2));
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putTransposed(Matrix3f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
-            putTransposed(m, addressOf(dest) + offset);
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putTransposed(Matrix2f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            putTransposed(m, addressOf(dest) + (offset << 2));
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putTransposed(Matrix2f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
-            putTransposed(m, addressOf(dest) + offset);
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Matrix4d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            put(m, addressOf(dest) + (offset << 3));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put(Matrix4d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 3);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Matrix4x3d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            put(m, addressOf(dest) + (offset << 3));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put(Matrix4x3d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 3);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putf(Matrix4d m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            putf(m, addressOf(dest) + (offset << 2));
+            putf(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putf(Matrix4d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
-            putf(m, addressOf(dest) + offset);
+            putf(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putf(Matrix4x3d m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            putf(m, addressOf(dest) + (offset << 2));
+            putf(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putf(Matrix4x3d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            putf(m, addressOf(dest) + offset);
+            putf(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putTransposed(Matrix4d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            putTransposed(m, addressOf(dest) + (offset << 3));
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void putTransposed(Matrix4d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 3);
-            putTransposed(m, addressOf(dest) + offset);
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put4x3Transposed(Matrix4d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            put4x3Transposed(m, addressOf(dest) + (offset << 3));
+            put4x3Transposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put4x3Transposed(Matrix4d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 3);
-            put4x3Transposed(m, addressOf(dest) + offset);
+            put4x3Transposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putTransposed(Matrix4x3d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            putTransposed(m, addressOf(dest) + (offset << 3));
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void putTransposed(Matrix4x3d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 3);
-            putTransposed(m, addressOf(dest) + offset);
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putTransposed(Matrix2d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            putTransposed(m, addressOf(dest) + (offset << 3));
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void putTransposed(Matrix2d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 3);
-            putTransposed(m, addressOf(dest) + offset);
+            putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putfTransposed(Matrix4d m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            putfTransposed(m, addressOf(dest) + (offset << 2));
+            putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putfTransposed(Matrix4d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
-            putfTransposed(m, addressOf(dest) + offset);
+            putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putfTransposed(Matrix4x3d m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            putfTransposed(m, addressOf(dest) + (offset << 2));
+            putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putfTransposed(Matrix4x3d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            putfTransposed(m, addressOf(dest) + offset);
+            putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putfTransposed(Matrix2d m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            putfTransposed(m, addressOf(dest) + (offset << 2));
+            putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putfTransposed(Matrix2d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
-            putfTransposed(m, addressOf(dest) + offset);
+            putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Matrix3f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
-            put(m, addressOf(dest) + (offset << 2));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Matrix3f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put3x4(Matrix3f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            put3x4(m, addressOf(dest) + (offset << 2));
+            put3x4(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put3x4(Matrix3f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            put3x4(m, addressOf(dest) + offset);
+            put3x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Matrix3d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
-            put(m, addressOf(dest) + (offset << 3));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put(Matrix3d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 3);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Matrix3x2f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6);
-            put(m, addressOf(dest) + (offset << 2));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Matrix3x2f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6 << 2);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Matrix3x2d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6);
-            put(m, addressOf(dest) + (offset << 3));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put(Matrix3x2d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6 << 3);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putf(Matrix3d m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
-            putf(m, addressOf(dest) + (offset << 2));
+            putf(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putf(Matrix3d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
-            putf(m, addressOf(dest) + offset);
+            putf(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Matrix2f m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            put(m, addressOf(dest) + (offset << 2));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Matrix2f m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Matrix2d m, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            put(m, addressOf(dest) + (offset << 3));
+            put(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put(Matrix2d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2 << 3);
-            put(m, addressOf(dest) + offset);
+            put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putf(Matrix2d m, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            putf(m, addressOf(dest) + (offset << 2));
+            putf(m, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putf(Matrix2d m, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
-            putf(m, addressOf(dest) + offset);
+            putf(m, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Vector4d src, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            put(src, addressOf(dest) + (offset << 3));
+            put(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put(Vector4d src, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            putf(src, addressOf(dest) + (offset << 2));
+            putf(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Vector4d src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 3);
-            put(src, addressOf(dest) + offset);
+            put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putf(Vector4d src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
-            putf(src, addressOf(dest) + offset);
+            putf(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Vector4f src, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            put(src, addressOf(dest) + (offset << 2));
+            put(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Vector4f src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
-            put(src, addressOf(dest) + offset);
+            put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Vector4i src, int offset, IntBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
-            put(src, addressOf(dest) + (offset << 2));
+            put(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Vector4i src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
-            put(src, addressOf(dest) + offset);
+            put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Vector3f src, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3);
-            put(src, addressOf(dest) + (offset << 2));
+            put(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Vector3f src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3 << 2);
-            put(src, addressOf(dest) + offset);
+            put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Vector3d src, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3);
-            put(src, addressOf(dest) + (offset << 3));
+            put(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put(Vector3d src, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3);
-            putf(src, addressOf(dest) + (offset << 2));
+            putf(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Vector3d src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3 << 3);
-            put(src, addressOf(dest) + offset);
+            put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putf(Vector3d src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3 << 2);
-            putf(src, addressOf(dest) + offset);
+            putf(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Vector3i src, int offset, IntBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3);
-            put(src, addressOf(dest) + (offset << 2));
+            put(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Vector3i src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3 << 2);
-            put(src, addressOf(dest) + offset);
+            put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Vector2f src, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2);
-            put(src, addressOf(dest) + (offset << 2));
+            put(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Vector2f src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2 << 2);
-            put(src, addressOf(dest) + offset);
+            put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Vector2d src, int offset, DoubleBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2);
-            put(src, addressOf(dest) + (offset << 3));
+            put(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 3));
         }
 
         public void put(Vector2d src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2 << 3);
-            put(src, addressOf(dest) + offset);
+            put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void put(Vector2i src, int offset, IntBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2);
-            put(src, addressOf(dest) + (offset << 2));
+            put(src, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Vector2i src, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2 << 2);
-            put(src, addressOf(dest) + offset);
+            put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void get(Matrix4f m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16);
-            get(m, addressOf(src) + (offset << 2));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Matrix4f m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16 << 2);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Matrix4x3f m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12);
-            get(m, addressOf(src) + (offset << 2));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Matrix4x3f m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12 << 2);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Matrix4d m, int offset, DoubleBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16);
-            get(m, addressOf(src) + (offset << 3));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 3));
         }
 
         public void get(Matrix4d m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16 << 3);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Matrix4x3d m, int offset, DoubleBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12);
-            get(m, addressOf(src) + (offset << 3));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 3));
         }
 
         public void get(Matrix4x3d m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12 << 3);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void getf(Matrix4d m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16);
-            getf(m, addressOf(src) + (offset << 2));
+            getf(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void getf(Matrix4d m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16 << 2);
-            getf(m, addressOf(src) + offset);
+            getf(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void getf(Matrix4x3d m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12);
-            getf(m, addressOf(src) + (offset << 2));
+            getf(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         private static void checkGet(int offset, boolean direct, int capacity, int i) {
@@ -4789,177 +4783,177 @@ abstract class MemUtil {
 
         public void getf(Matrix4x3d m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12 << 2);
-            getf(m, addressOf(src) + offset);
+            getf(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Matrix3f m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9);
-            get(m, addressOf(src) + (offset << 2));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Matrix3f m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9 << 2);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Matrix3d m, int offset, DoubleBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9);
-            get(m, addressOf(src) + (offset << 3));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 3));
         }
 
         public void get(Matrix3d m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9 << 3);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Matrix3x2f m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 6);
-            get(m, addressOf(src) + (offset << 2));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Matrix3x2f m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 6 << 2);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Matrix3x2d m, int offset, DoubleBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 6);
-            get(m, addressOf(src) + (offset << 3));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 3));
         }
 
         public void get(Matrix3x2d m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 6 << 3);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void getf(Matrix3d m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9);
-            getf(m, addressOf(src) + (offset << 2));
+            getf(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void getf(Matrix3d m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9 << 2);
-            getf(m, addressOf(src) + offset);
+            getf(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Matrix2f m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
-            get(m, addressOf(src) + (offset << 2));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Matrix2f m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 2);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Matrix2d m, int offset, DoubleBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
-            get(m, addressOf(src) + (offset << 3));
+            get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 3));
         }
 
         public void get(Matrix2d m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 3);
-            get(m, addressOf(src) + offset);
+            get(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void getf(Matrix2d m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
-            getf(m, addressOf(src) + (offset << 2));
+            getf(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void getf(Matrix2d m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 2);
-            getf(m, addressOf(src) + offset);
+            getf(m, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Vector4d dst, int offset, DoubleBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
-            get(dst, addressOf(src) + (offset << 3));
+            get(dst, UNSAFE.getLong(src, ADDRESS) + (offset << 3));
         }
 
         public void get(Vector4d dst, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 3);
-            get(dst, addressOf(src) + offset);
+            get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Vector4f dst, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
-            get(dst, addressOf(src) + (offset << 2));
+            get(dst, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Vector4f dst, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 2);
-            get(dst, addressOf(src) + offset);
+            get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Vector4i dst, int offset, IntBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
-            get(dst, addressOf(src) + (offset << 2));
+            get(dst, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Vector4i dst, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 2);
-            get(dst, addressOf(src) + offset);
+            get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Vector3f dst, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3);
-            get(dst, addressOf(src) + (offset << 2));
+            get(dst, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Vector3f dst, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3 << 2);
-            get(dst, addressOf(src) + offset);
+            get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Vector3d dst, int offset, DoubleBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3);
-            get(dst, addressOf(src) + (offset << 3));
+            get(dst, UNSAFE.getLong(src, ADDRESS) + (offset << 3));
         }
 
         public void get(Vector3d dst, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3 << 3);
-            get(dst, addressOf(src) + offset);
+            get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Vector3i dst, int offset, IntBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3);
-            get(dst, addressOf(src) + (offset << 2));
+            get(dst, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Vector3i dst, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3 << 2);
-            get(dst, addressOf(src) + offset);
+            get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Vector2f dst, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2);
-            get(dst, addressOf(src) + (offset << 2));
+            get(dst, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Vector2f dst, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2 << 2);
-            get(dst, addressOf(src) + offset);
+            get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Vector2d dst, int offset, DoubleBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2);
-            get(dst, addressOf(src) + (offset << 3));
+            get(dst, UNSAFE.getLong(src, ADDRESS) + (offset << 3));
         }
 
         public void get(Vector2d dst, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2 << 3);
-            get(dst, addressOf(src) + offset);
+            get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 
         public void get(Vector2i dst, int offset, IntBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2);
-            get(dst, addressOf(src) + (offset << 2));
+            get(dst, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
         }
 
         public void get(Vector2i dst, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2 << 2);
-            get(dst, addressOf(src) + offset);
+            get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
         }
 //#endif
     }
