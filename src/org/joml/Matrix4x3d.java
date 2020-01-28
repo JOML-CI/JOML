@@ -1603,7 +1603,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
         MemUtil.MemUtilUnsafe.get(this, address);
-        return this;
+        return determineProperties();
     }
 //#endif
 
