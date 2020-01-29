@@ -602,14 +602,18 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @see org.joml.Vector2ic#distance(org.joml.Vector2ic)
      */
     public double distance(Vector2ic v) {
-        return Math.sqrt(distanceSquared(v));
+        int dx = this.x - v.x();
+        int dy = this.y - v.y();
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector2ic#distance(int, int)
      */
     public double distance(int x, int y) {
-        return Math.sqrt(distanceSquared(x, y));
+        int dx = this.x - x;
+        int dy = this.y - y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /* (non-Javadoc)
@@ -660,7 +664,9 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return the euclidean distance
      */
     public static double distance(int x1, int y1, int x2, int y2) {
-        return Math.sqrt(distanceSquared(x1, y1, x2, y2));
+        int dx = x1 - x2;
+        int dy = y1 - y2;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /**

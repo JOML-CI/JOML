@@ -1631,14 +1631,20 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#distance(org.joml.Vector3fc)
      */
     public float distance(Vector3fc v) {
-        return Math.sqrt(distanceSquared(v.x(), v.y(), v.z()));
+        float dx = this.x - v.x();
+        float dy = this.y - v.y();
+        float dz = this.z - v.z();
+        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, dz * dz)));
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector3fc#distance(float, float, float)
      */
     public float distance(float x, float y, float z) {
-        return Math.sqrt(distanceSquared(x, y, z));
+        float dx = this.x - x;
+        float dy = this.y - y;
+        float dz = this.z - z;
+        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, dz * dz)));
     }
 
     /* (non-Javadoc)

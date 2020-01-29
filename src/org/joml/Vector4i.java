@@ -996,14 +996,22 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#distance(org.joml.Vector4ic)
      */
     public double distance(Vector4ic v) {
-        return Math.sqrt(distanceSquared(v.x(), v.y(), v.z(), v.w()));
+        int dx = this.x - v.x();
+        int dy = this.y - v.y();
+        int dz = this.z - v.z();
+        int dw = this.w - v.w();
+        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#distance(int, int, int, int)
      */
     public double distance(int x, int y, int z, int w) {
-        return Math.sqrt(distanceSquared(x, y, z, w));
+        int dx = this.x - x;
+        int dy = this.y - y;
+        int dz = this.z - z;
+        int dw = this.w - w;
+        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
     /* (non-Javadoc)
@@ -1024,7 +1032,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @see org.joml.Vector4ic#distanceSquared(org.joml.Vector4ic)
      */
     public int distanceSquared(Vector4ic v) {
-        return distanceSquared(v.x(), v.y(), v.z(), v.w());
+        int dx = this.x - v.x();
+        int dy = this.y - v.y();
+        int dz = this.z - v.z();
+        int dw = this.w - v.w();
+        return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
     /* (non-Javadoc)
@@ -1060,7 +1072,11 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return the euclidean distance
      */
     public static double distance(int x1, int y1, int z1, int w1, int x2, int y2, int z2, int w2) {
-        return Math.sqrt(distanceSquared(x1, y1, z1, w1, x2, y2, z2, w2));
+        int dx = x1 - x2;
+        int dy = y1 - y2;
+        int dz = z1 - z2;
+        int dw = w1 - w2;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
     /**

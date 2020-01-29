@@ -1499,14 +1499,22 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#distance(org.joml.Vector4fc)
      */
     public float distance(Vector4fc v) {
-        return Math.sqrt(distanceSquared(v.x(), v.y(), v.z(), v.w()));
+        float dx = this.x - v.x();
+        float dy = this.y - v.y();
+        float dz = this.z - v.z();
+        float dw = this.w - v.w();
+        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#distance(float, float, float, float)
      */
     public float distance(float x, float y, float z, float w) {
-        return Math.sqrt(distanceSquared(x, y, z, w));
+        float dx = this.x - x;
+        float dy = this.y - y;
+        float dz = this.z - z;
+        float dw = this.w - w;
+        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
     /* (non-Javadoc)
@@ -1553,7 +1561,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return the euclidean distance
      */
     public static float distance(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2) {
-        return Math.sqrt(distanceSquared(x1, y1, z1, w1, x2, y2, z2, w2));
+        float dx = x1 - x2;
+        float dy = y1 - y2;
+        float dz = z1 - z2;
+        float dw = w1 - w2;
+        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
     /**

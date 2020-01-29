@@ -883,35 +883,45 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @see org.joml.Vector2dc#distance(org.joml.Vector2dc)
      */
     public double distance(Vector2dc v) {
-        return Math.sqrt(distanceSquared(v.x(), v.y()));
+        double dx = this.x - v.x();
+        double dy = this.y - v.y();
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#distanceSquared(org.joml.Vector2dc)
      */
     public double distanceSquared(Vector2dc v) {
-        return distanceSquared(v.x(), v.y());
+        double dx = this.x - v.x();
+        double dy = this.y - v.y();
+        return dx * dx + dy * dy;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#distance(org.joml.Vector2fc)
      */
     public double distance(Vector2fc v) {
-        return Math.sqrt(distanceSquared(v.x(), v.y()));
+        double dx = this.x - v.x();
+        double dy = this.y - v.y();
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#distanceSquared(org.joml.Vector2fc)
      */
     public double distanceSquared(Vector2fc v) {
-        return distanceSquared(v.x(), v.y());
+        double dx = this.x - v.x();
+        double dy = this.y - v.y();
+        return dx * dx + dy * dy;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#distance(double, double)
      */
     public double distance(double x, double y) {
-        return Math.sqrt(distanceSquared(x, y));
+        double dx = this.x - x;
+        double dy = this.y - y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /* (non-Javadoc)
@@ -937,7 +947,9 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return the euclidean distance
      */
     public static double distance(double x1, double y1, double x2, double y2) {
-        return Math.sqrt(distanceSquared(x1, y1, x2, y2));
+        double dx = x1 - x2;
+        double dy = y1 - y2;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /**

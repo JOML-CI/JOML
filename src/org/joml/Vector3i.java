@@ -882,14 +882,20 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @see org.joml.Vector3ic#distance(org.joml.Vector3ic)
      */
     public double distance(Vector3ic v) {
-        return Math.sqrt(distanceSquared(v.x(), v.y(), v.z()));
+        int dx = this.x - v.x();
+        int dy = this.y - v.y();
+        int dz = this.z - v.z();
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector3ic#distance(int, int, int)
      */
     public double distance(int x, int y, int z) {
-        return Math.sqrt(distanceSquared(x, y, z));
+        int dx = this.x - x;
+        int dy = this.y - y;
+        int dz = this.z - z;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -912,7 +918,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @see org.joml.Vector3ic#distanceSquared(org.joml.Vector3ic)
      */
     public long distanceSquared(Vector3ic v) {
-        return distanceSquared(v.x(), v.y(), v.z());
+        int dx = this.x - v.x();
+        int dy = this.y - v.y();
+        int dz = this.z - v.z();
+        return dx * dx + dy * dy + dz * dz;
     }
 
     /* (non-Javadoc)

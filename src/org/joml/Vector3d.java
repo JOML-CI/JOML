@@ -2228,14 +2228,20 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#distance(org.joml.Vector3dc)
      */
     public double distance(Vector3dc v) {
-        return Math.sqrt(distanceSquared(v.x(), v.y(), v.z()));
+        double dx = this.x - v.x();
+        double dy = this.y - v.y();
+        double dz = this.z - v.z();
+        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, dz * dz)));
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#distance(double, double, double)
      */
     public double distance(double x, double y, double z) {
-        return Math.sqrt(distanceSquared(x, y, z));
+        double dx = this.x - x;
+        double dy = this.y - y;
+        double dz = this.z - z;
+        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, dz * dz)));
     }
 
     /* (non-Javadoc)
