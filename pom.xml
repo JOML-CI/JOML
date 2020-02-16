@@ -56,9 +56,11 @@
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<maven-source-plugin.version>3.2.0</maven-source-plugin.version>
 		<buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
+		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<httpclient.version>4.5.10</httpclient.version>
 		<asm.version>7.3.1</asm.version>
+		<javassist.version>3.26.0-GA</javassist.version>
 		<gwt-user.version>2.5.0</gwt-user.version>
 		<junit.version>3.8.2</junit.version>
 		<jcp.version>6.1.4</jcp.version>
@@ -453,6 +455,97 @@
 							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 							<autoReleaseAfterClose>true</autoReleaseAfterClose>
 						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>buildhelper</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>${build-helper-maven-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>add-source</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>${basedir}/buildhelper</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.javassist</groupId>
+					<artifactId>javassist</artifactId>
+					<version>${javassist.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.ow2.asm</groupId>
+					<artifactId>asm</artifactId>
+					<version>${asm.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+					<version>${httpclient.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>inlinecheck</id>
+			<activation>
+				<property>
+					<name>inlinecheck</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-plugin.version}</version>
+						<executions>
+							<execution>
+								<configuration>
+									<target>
+										<mkdir dir="${project.build.directory}/buildhelper" />
+										<javac srcdir="buildhelper"
+											destdir="${project.build.directory}/buildhelper"
+											includeantruntime="false">
+											<include name="InlineAdvisor.java" />
+											<classpath refid="maven.plugin.classpath" />
+										</javac>
+										<java classname="InlineAdvisor"
+											classpathref="maven.plugin.classpath"
+											fork="true">
+											<classpath>
+												<pathelement
+													location="${project.build.directory}/buildhelper" />
+											</classpath>
+											<arg value="${project.build.outputDirectory}" />
+											<jvmarg value="-DInlineAdvisor.FreqInlineThreshold=325"/>
+										</java>
+									</target>
+								</configuration>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.javassist</groupId>
+								<artifactId>javassist</artifactId>
+								<version>${javassist.version}</version>
+							</dependency>
+						</dependencies>
 					</plugin>
 				</plugins>
 			</build>

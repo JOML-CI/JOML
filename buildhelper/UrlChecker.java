@@ -72,7 +72,7 @@ public class UrlChecker {
     }
 
     public static void main(String[] args) throws Exception {
-        boolean disabled = Boolean.valueOf(System.getProperty("urlcheck.disabled", "false"));
+        boolean disabled = Boolean.valueOf(System.getProperty("urlcheck.disabled", "false")).booleanValue();
         if (disabled) {
             System.out.println("Disabled URL checking.");
             return;

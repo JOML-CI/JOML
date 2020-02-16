@@ -28,9 +28,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -64,7 +62,7 @@ public class Java6to2 implements Opcodes {
 
             public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
                 /* Change class file version to 1.2 */
-                cv.visit(V1_2, access, name, signature, superName, interfaces);
+                super.cv.visit(V1_2, access, name, signature, superName, interfaces);
                 this.internalName = name;
             }
 
@@ -72,7 +70,7 @@ public class Java6to2 implements Opcodes {
              * Generates the synthetic "class$" method, used to lookup classes via Class.forName(). This uses the exact same code as does JDK8 javac for target 1.2.
              */
             void generateSyntheticClassLookupMethod() {
-                MethodVisitor mv = cv.visitMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "class$", "(Ljava/lang/String;)Ljava/lang/Class;", null, null);
+                MethodVisitor mv = super.cv.visitMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "class$", "(Ljava/lang/String;)Ljava/lang/Class;", null, null);
                 {
                     Label start = new Label();
                     Label end = new Label();
@@ -106,9 +104,9 @@ public class Java6to2 implements Opcodes {
                      */
                     public void visitTypeInsn(int opcode, String type) {
                         if (opcode == NEW && "java/lang/StringBuilder".equals(type)) {
-                            mv.visitTypeInsn(opcode, "java/lang/StringBuffer");
+                            super.mv.visitTypeInsn(opcode, "java/lang/StringBuffer");
                         } else {
-                            mv.visitTypeInsn(opcode, type);
+                            super.mv.visitTypeInsn(opcode, type);
                         }
                     }
 
@@ -118,9 +116,9 @@ public class Java6to2 implements Opcodes {
                      */
                     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
                         if ("java/lang/StringBuilder".equals(owner)) {
-                            mv.visitMethodInsn(opcode, "java/lang/StringBuffer", name, desc.replace("java/lang/StringBuilder", "java/lang/StringBuffer"), itf);
+                            super.mv.visitMethodInsn(opcode, "java/lang/StringBuffer", name, desc.replace("java/lang/StringBuilder", "java/lang/StringBuffer"), itf);
                         } else {
-                            mv.visitMethodInsn(opcode, owner, name, desc, itf);
+                            super.mv.visitMethodInsn(opcode, owner, name, desc, itf);
                         }
                     }
 
@@ -147,20 +145,20 @@ public class Java6to2 implements Opcodes {
                                 cv.visitField(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, syntheticField, "Ljava/lang/Class;", null, null);
                                 classToSyntheticField.put(t.getInternalName(), syntheticField);
                             }
-                            mv.visitFieldInsn(GETSTATIC, internalName, syntheticField, "Ljava/lang/Class;");
+                            super.mv.visitFieldInsn(GETSTATIC, internalName, syntheticField, "Ljava/lang/Class;");
                             Label nonNull = new Label();
-                            mv.visitJumpInsn(IFNONNULL, nonNull);
-                            mv.visitLdcInsn(t.getInternalName().replace('/', '.'));
-                            mv.visitMethodInsn(INVOKESTATIC, internalName, "class$", "(Ljava/lang/String;)Ljava/lang/Class;", false);
-                            mv.visitInsn(DUP);
-                            mv.visitFieldInsn(PUTSTATIC, internalName, syntheticField, "Ljava/lang/Class;");
+                            super.mv.visitJumpInsn(IFNONNULL, nonNull);
+                            super.mv.visitLdcInsn(t.getInternalName().replace('/', '.'));
+                            super.mv.visitMethodInsn(INVOKESTATIC, internalName, "class$", "(Ljava/lang/String;)Ljava/lang/Class;", false);
+                            super.mv.visitInsn(DUP);
+                            super.mv.visitFieldInsn(PUTSTATIC, internalName, syntheticField, "Ljava/lang/Class;");
                             Label cnt = new Label();
-                            mv.visitJumpInsn(GOTO, cnt);
-                            mv.visitLabel(nonNull);
-                            mv.visitFieldInsn(GETSTATIC, internalName, syntheticField, "Ljava/lang/Class;");
-                            mv.visitLabel(cnt);
+                            super.mv.visitJumpInsn(GOTO, cnt);
+                            super.mv.visitLabel(nonNull);
+                            super.mv.visitFieldInsn(GETSTATIC, internalName, syntheticField, "Ljava/lang/Class;");
+                            super.mv.visitLabel(cnt);
                         } else {
-                            mv.visitLdcInsn(cst);
+                            super.mv.visitLdcInsn(cst);
                         }
                     }
                 };
