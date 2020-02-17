@@ -1247,6 +1247,148 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
+     * Multiply this matrix by the matrix with the supplied elements.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix whose 
+     * elements are supplied via the parameters, then the new matrix will be <code>M * R</code>.
+     * So when transforming a vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param r00
+     *          the m00 element of the right matrix
+     * @param r01
+     *          the m01 element of the right matrix
+     * @param r02
+     *          the m02 element of the right matrix
+     * @param r03
+     *          the m03 element of the right matrix
+     * @param r10
+     *          the m10 element of the right matrix
+     * @param r11
+     *          the m11 element of the right matrix
+     * @param r12
+     *          the m12 element of the right matrix
+     * @param r13
+     *          the m13 element of the right matrix
+     * @param r20
+     *          the m20 element of the right matrix
+     * @param r21
+     *          the m21 element of the right matrix
+     * @param r22
+     *          the m22 element of the right matrix
+     * @param r23
+     *          the m23 element of the right matrix
+     * @param r30
+     *          the m30 element of the right matrix
+     * @param r31
+     *          the m31 element of the right matrix
+     * @param r32
+     *          the m32 element of the right matrix
+     * @param r33
+     *          the m33 element of the right matrix
+     * @return this
+     */
+    public Matrix4f mul(
+            float r00, float r01, float r02, float r03,
+            float r10, float r11, float r12, float r13,
+            float r20, float r21, float r22, float r23,
+            float r30, float r31, float r32, float r33) {
+        return mul(r00, r01, r02, r03, r10, r11, r12, r13, r20, r21, r22, r23, r30, r31, r32, r33, this);
+    }
+
+    public Matrix4f mul(
+            float r00, float r01, float r02, float r03,
+            float r10, float r11, float r12, float r13,
+            float r20, float r21, float r22, float r23,
+            float r30, float r31, float r32, float r33, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(r00, r01, r02, r03, r10, r11, r12, r13, r20, r21, r22, r23, r30, r31, r32, r33);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return mulAffineL(r00, r01, r02, r03, r10, r11, r12, r13, r20, r21, r22, r23, r30, r31, r32, r33, dest);
+        return mulGeneric(r00, r01, r02, r03, r10, r11, r12, r13, r20, r21, r22, r23, r30, r31, r32, r33, dest);
+    }
+    private Matrix4f mulAffineL(
+            float r00, float r01, float r02, float r03,
+            float r10, float r11, float r12, float r13,
+            float r20, float r21, float r22, float r23,
+            float r30, float r31, float r32, float r33, Matrix4f dest) {
+        float nm00 = Math.fma(m00, r00, Math.fma(m10, r01, Math.fma(m20, r02, m30 * r03)));
+        float nm01 = Math.fma(m01, r00, Math.fma(m11, r01, Math.fma(m21, r02, m31 * r03)));
+        float nm02 = Math.fma(m02, r00, Math.fma(m12, r01, Math.fma(m22, r02, m32 * r03)));
+        float nm03 = r03;
+        float nm10 = Math.fma(m00, r10, Math.fma(m10, r11, Math.fma(m20, r12, m30 * r13)));
+        float nm11 = Math.fma(m01, r10, Math.fma(m11, r11, Math.fma(m21, r12, m31 * r13)));
+        float nm12 = Math.fma(m02, r10, Math.fma(m12, r11, Math.fma(m22, r12, m32 * r13)));
+        float nm13 = r13;
+        float nm20 = Math.fma(m00, r20, Math.fma(m10, r21, Math.fma(m20, r22, m30 * r23)));
+        float nm21 = Math.fma(m01, r20, Math.fma(m11, r21, Math.fma(m21, r22, m31 * r23)));
+        float nm22 = Math.fma(m02, r20, Math.fma(m12, r21, Math.fma(m22, r22, m32 * r23)));
+        float nm23 = r23;
+        float nm30 = Math.fma(m00, r30, Math.fma(m10, r31, Math.fma(m20, r32, m30 * r33)));
+        float nm31 = Math.fma(m01, r30, Math.fma(m11, r31, Math.fma(m21, r32, m31 * r33)));
+        float nm32 = Math.fma(m02, r30, Math.fma(m12, r31, Math.fma(m22, r32, m32 * r33)));
+        float nm33 = r33;
+        return dest
+        ._m00(nm00)
+        ._m01(nm01)
+        ._m02(nm02)
+        ._m03(nm03)
+        ._m10(nm10)
+        ._m11(nm11)
+        ._m12(nm12)
+        ._m13(nm13)
+        ._m20(nm20)
+        ._m21(nm21)
+        ._m22(nm22)
+        ._m23(nm23)
+        ._m30(nm30)
+        ._m31(nm31)
+        ._m32(nm32)
+        ._m33(nm33)
+        ._properties(PROPERTY_AFFINE);
+    }
+    private Matrix4f mulGeneric(
+            float r00, float r01, float r02, float r03,
+            float r10, float r11, float r12, float r13,
+            float r20, float r21, float r22, float r23,
+            float r30, float r31, float r32, float r33, Matrix4f dest) {
+        float nm00 = Math.fma(m00, r00, Math.fma(m10, r01, Math.fma(m20, r02, m30 * r03)));
+        float nm01 = Math.fma(m01, r00, Math.fma(m11, r01, Math.fma(m21, r02, m31 * r03)));
+        float nm02 = Math.fma(m02, r00, Math.fma(m12, r01, Math.fma(m22, r02, m32 * r03)));
+        float nm03 = Math.fma(m03, r00, Math.fma(m13, r01, Math.fma(m23, r02, m33 * r03)));
+        float nm10 = Math.fma(m00, r10, Math.fma(m10, r11, Math.fma(m20, r12, m30 * r13)));
+        float nm11 = Math.fma(m01, r10, Math.fma(m11, r11, Math.fma(m21, r12, m31 * r13)));
+        float nm12 = Math.fma(m02, r10, Math.fma(m12, r11, Math.fma(m22, r12, m32 * r13)));
+        float nm13 = Math.fma(m03, r10, Math.fma(m13, r11, Math.fma(m23, r12, m33 * r13)));
+        float nm20 = Math.fma(m00, r20, Math.fma(m10, r21, Math.fma(m20, r22, m30 * r23)));
+        float nm21 = Math.fma(m01, r20, Math.fma(m11, r21, Math.fma(m21, r22, m31 * r23)));
+        float nm22 = Math.fma(m02, r20, Math.fma(m12, r21, Math.fma(m22, r22, m32 * r23)));
+        float nm23 = Math.fma(m03, r20, Math.fma(m13, r21, Math.fma(m23, r22, m33 * r23)));
+        float nm30 = Math.fma(m00, r30, Math.fma(m10, r31, Math.fma(m20, r32, m30 * r33)));
+        float nm31 = Math.fma(m01, r30, Math.fma(m11, r31, Math.fma(m21, r32, m31 * r33)));
+        float nm32 = Math.fma(m02, r30, Math.fma(m12, r31, Math.fma(m22, r32, m32 * r33)));
+        float nm33 = Math.fma(m03, r30, Math.fma(m13, r31, Math.fma(m23, r32, m33 * r33)));
+        return dest
+        ._m00(nm00)
+        ._m01(nm01)
+        ._m02(nm02)
+        ._m03(nm03)
+        ._m10(nm10)
+        ._m11(nm11)
+        ._m12(nm12)
+        ._m13(nm13)
+        ._m20(nm20)
+        ._m21(nm21)
+        ._m22(nm22)
+        ._m23(nm23)
+        ._m30(nm30)
+        ._m31(nm31)
+        ._m32(nm32)
+        ._m33(nm33)
+        ._properties(0);
+    }
+
+    /**
      * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>this</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,

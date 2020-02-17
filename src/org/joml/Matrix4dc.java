@@ -275,6 +275,56 @@ public interface Matrix4dc {
     Matrix4d mul(Matrix4dc right, Matrix4d dest);
 
     /**
+     * Multiply this matrix by the matrix with the supplied elements and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix whose 
+     * elements are supplied via the parameters, then the new matrix will be <code>M * R</code>.
+     * So when transforming a vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param r00
+     *          the m00 element of the right matrix
+     * @param r01
+     *          the m01 element of the right matrix
+     * @param r02
+     *          the m02 element of the right matrix
+     * @param r03
+     *          the m03 element of the right matrix
+     * @param r10
+     *          the m10 element of the right matrix
+     * @param r11
+     *          the m11 element of the right matrix
+     * @param r12
+     *          the m12 element of the right matrix
+     * @param r13
+     *          the m13 element of the right matrix
+     * @param r20
+     *          the m20 element of the right matrix
+     * @param r21
+     *          the m21 element of the right matrix
+     * @param r22
+     *          the m22 element of the right matrix
+     * @param r23
+     *          the m23 element of the right matrix
+     * @param r30
+     *          the m30 element of the right matrix
+     * @param r31
+     *          the m31 element of the right matrix
+     * @param r32
+     *          the m32 element of the right matrix
+     * @param r33
+     *          the m33 element of the right matrix
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    Matrix4d mul(
+            double r00, double r01, double r02, double r03,
+            double r10, double r11, double r12, double r13,
+            double r20, double r21, double r22, double r23,
+            double r30, double r31, double r32, double r33, Matrix4d dest);
+
+    /**
      * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
