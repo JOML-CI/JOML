@@ -1389,6 +1389,85 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
+     * Multiply this matrix by the 3x3 matrix with the supplied elements expanded to a 4x4 matrix with 
+     * all other matrix elements set to identity.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix whose 
+     * elements are supplied via the parameters, then the new matrix will be <code>M * R</code>.
+     * So when transforming a vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param r00
+     *          the m00 element of the right matrix
+     * @param r01
+     *          the m01 element of the right matrix
+     * @param r02
+     *          the m02 element of the right matrix
+     * @param r10
+     *          the m10 element of the right matrix
+     * @param r11
+     *          the m11 element of the right matrix
+     * @param r12
+     *          the m12 element of the right matrix
+     * @param r20
+     *          the m20 element of the right matrix
+     * @param r21
+     *          the m21 element of the right matrix
+     * @param r22
+     *          the m22 element of the right matrix
+     * @return this
+     */
+    public Matrix4f mul3x3(
+            float r00, float r01, float r02,
+            float r10, float r11, float r12,
+            float r20, float r21, float r22) {
+        return mul3x3(r00, r01, r02, r10, r11, r12, r20, r21, r22, this);
+    }
+    public Matrix4f mul3x3(
+            float r00, float r01, float r02,
+            float r10, float r11, float r12,
+            float r20, float r21, float r22, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(r00, r01, r02, 0, r10, r11, r12, 0, r20, r21, r22, 0, 0, 0, 0, 1);
+        return mulGeneric3x3(r00, r01, r02, r10, r11, r12, r20, r21, r22, dest);
+    }
+    private Matrix4f mulGeneric3x3(
+            float r00, float r01, float r02,
+            float r10, float r11, float r12,
+            float r20, float r21, float r22, Matrix4f dest) {
+        float nm00 = Math.fma(m00, r00, Math.fma(m10, r01, m20 * r02));
+        float nm01 = Math.fma(m01, r00, Math.fma(m11, r01, m21 * r02));
+        float nm02 = Math.fma(m02, r00, Math.fma(m12, r01, m22 * r02));
+        float nm03 = Math.fma(m03, r00, Math.fma(m13, r01, m23 * r02));
+        float nm10 = Math.fma(m00, r10, Math.fma(m10, r11, m20 * r12));
+        float nm11 = Math.fma(m01, r10, Math.fma(m11, r11, m21 * r12));
+        float nm12 = Math.fma(m02, r10, Math.fma(m12, r11, m22 * r12));
+        float nm13 = Math.fma(m03, r10, Math.fma(m13, r11, m23 * r12));
+        float nm20 = Math.fma(m00, r20, Math.fma(m10, r21, m20 * r22));
+        float nm21 = Math.fma(m01, r20, Math.fma(m11, r21, m21 * r22));
+        float nm22 = Math.fma(m02, r20, Math.fma(m12, r21, m22 * r22));
+        float nm23 = Math.fma(m03, r20, Math.fma(m13, r21, m23 * r22));
+        return dest
+        ._m00(nm00)
+        ._m01(nm01)
+        ._m02(nm02)
+        ._m03(nm03)
+        ._m10(nm10)
+        ._m11(nm11)
+        ._m12(nm12)
+        ._m13(nm13)
+        ._m20(nm20)
+        ._m21(nm21)
+        ._m22(nm22)
+        ._m23(nm23)
+        ._m30(m30)
+        ._m31(m31)
+        ._m32(m32)
+        ._m33(m33)
+        ._properties(this.properties & PROPERTY_AFFINE);
+    }
+
+    /**
      * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>this</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,

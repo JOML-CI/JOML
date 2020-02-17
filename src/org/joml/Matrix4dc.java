@@ -325,6 +325,42 @@ public interface Matrix4dc {
             double r30, double r31, double r32, double r33, Matrix4d dest);
 
     /**
+     * Multiply this matrix by the 3x3 matrix with the supplied elements expanded to a 4x4 matrix with 
+     * all other matrix elements set to identity, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix whose 
+     * elements are supplied via the parameters, then the new matrix will be <code>M * R</code>.
+     * So when transforming a vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param r00
+     *          the m00 element of the right matrix
+     * @param r01
+     *          the m01 element of the right matrix
+     * @param r02
+     *          the m02 element of the right matrix
+     * @param r10
+     *          the m10 element of the right matrix
+     * @param r11
+     *          the m11 element of the right matrix
+     * @param r12
+     *          the m12 element of the right matrix
+     * @param r20
+     *          the m20 element of the right matrix
+     * @param r21
+     *          the m21 element of the right matrix
+     * @param r22
+     *          the m22 element of the right matrix
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return this
+     */
+    Matrix4d mul3x3(
+            double r00, double r01, double r02,
+            double r10, double r11, double r12,
+            double r20, double r21, double r22, Matrix4d dest);
+
+    /**
      * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
