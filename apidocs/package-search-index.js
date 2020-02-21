@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"org.joml"},{"l":"org.joml.internal"},{"l":"org.joml.sampling"}]
+packageSearchIndex = [{"l":"org.joml"},{"l":"org.joml.sampling"}]
