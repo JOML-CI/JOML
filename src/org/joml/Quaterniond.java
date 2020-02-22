@@ -1113,9 +1113,11 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     public Vector3d transformInverse(double x, double y, double z, Vector3d dest) {
-        double xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
-        double xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
-        double zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
+        double n = 1.0 / Math.fma(this.x, this.x, Math.fma(this.y, this.y, Math.fma(this.z, this.z, this.w * this.w)));
+        double qx = this.x * n, qy = this.y * n, qz = this.z * n, qw = this.w * n;
+        double xx = qx * qx, yy = qy * qy, zz = qz * qz, ww = qw * qw;
+        double xy = qx * qy, xz = qx * qz, yz = qy * qz, xw = qx * qw;
+        double zw = qz * qw, yw = qy * qw, k = 1 / (xx + yy + zz + ww);
         return dest.set(Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy + zw) * k, y, (2 * (xz - yw) * k) * z)),
                         Math.fma(2 * (xy - zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz + xw) * k) * z)),
                         Math.fma(2 * (xz + yw) * k, x, Math.fma(2 * (yz - xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
@@ -1145,12 +1147,14 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     public Vector4d transformInverse(double x, double y, double z, Vector4d dest) {
-        double xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
-        double xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
-        double zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
+        double n = 1.0 / Math.fma(this.x, this.x, Math.fma(this.y, this.y, Math.fma(this.z, this.z, this.w * this.w)));
+        double qx = this.x * n, qy = this.y * n, qz = this.z * n, qw = this.w * n;
+        double xx = qx * qx, yy = qy * qy, zz = qz * qz, ww = qw * qw;
+        double xy = qx * qy, xz = qx * qz, yz = qy * qz, xw = qx * qw;
+        double zw = qz * qw, yw = qy * qw, k = 1 / (xx + yy + zz + ww);
         return dest.set(Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy + zw) * k, y, (2 * (xz - yw) * k) * z)),
                         Math.fma(2 * (xy - zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz + xw) * k) * z)),
-                        Math.fma(2 * (xz + yw) * k, x, Math.fma(2 * (yz - xw) * k, y, ((zz - xx - yy + ww) * k) * z)), dest.w);
+                        Math.fma(2 * (xz + yw) * k, x, Math.fma(2 * (yz - xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
     }
 
     public Vector3f transform(Vector3f vec){
@@ -1434,9 +1438,11 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     public Vector3f transformInverse(double x, double y, double z, Vector3f dest) {
-        double xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
-        double xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
-        double zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
+        double n = 1.0 / Math.fma(this.x, this.x, Math.fma(this.y, this.y, Math.fma(this.z, this.z, this.w * this.w)));
+        double qx = this.x * n, qy = this.y * n, qz = this.z * n, qw = this.w * n;
+        double xx = qx * qx, yy = qy * qy, zz = qz * qz, ww = qw * qw;
+        double xy = qx * qy, xz = qx * qz, yz = qy * qz, xw = qx * qw;
+        double zw = qz * qw, yw = qy * qw, k = 1 / (xx + yy + zz + ww);
         return dest.set(Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy + zw) * k, y, (2 * (xz - yw) * k) * z)),
                         Math.fma(2 * (xy - zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz + xw) * k) * z)),
                         Math.fma(2 * (xz + yw) * k, x, Math.fma(2 * (yz - xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
@@ -1466,12 +1472,14 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     public Vector4f transformInverse(double x, double y, double z, Vector4f dest) {
-        double xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
-        double xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
-        double zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
-        return dest.set((float) Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy + zw) * k, y, (2 * (xz - yw) * k) * z)),
-                        (float) Math.fma(2 * (xy - zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz + xw) * k) * z)),
-                        (float) Math.fma(2 * (xz + yw) * k, x, Math.fma(2 * (yz - xw) * k, y, ((zz - xx - yy + ww) * k) * z)), dest.w);
+        double n = 1.0 / Math.fma(this.x, this.x, Math.fma(this.y, this.y, Math.fma(this.z, this.z, this.w * this.w)));
+        double qx = this.x * n, qy = this.y * n, qz = this.z * n, qw = this.w * n;
+        double xx = qx * qx, yy = qy * qy, zz = qz * qz, ww = qw * qw;
+        double xy = qx * qy, xz = qx * qz, yz = qy * qz, xw = qx * qw;
+        double zw = qz * qw, yw = qy * qw, k = 1 / (xx + yy + zz + ww);
+        return dest.set(Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy + zw) * k, y, (2 * (xz - yw) * k) * z)),
+                        Math.fma(2 * (xy - zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz + xw) * k) * z)),
+                        Math.fma(2 * (xz + yw) * k, x, Math.fma(2 * (yz - xw) * k, y, ((zz - xx - yy + ww) * k) * z)), dest.w);
     }
 
     public Vector4f transformUnit(Vector4f vec){
