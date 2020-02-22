@@ -541,6 +541,19 @@ public interface Quaternionfc {
     Vector4f transform(Vector4f vec);
 
     /**
+     * Transform the given vector by the inverse of this quaternion.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and modified.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @return vec
+     */
+    Vector4f transformInverse(Vector4f vec);
+
+    /**
      * Transform the given vector by this quaternion
      * and store the result in <code>dest</code>.
      * <p>
@@ -553,6 +566,20 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector3f transform(Vector3fc vec, Vector3f dest);
+
+    /**
+     * Transform the given vector by the inverse of quaternion
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformInverse(Vector3fc vec, Vector3f dest);
 
     /**
      * Transform the given vector <code>(x, y, z)</code> by this quaternion
@@ -573,6 +600,24 @@ public interface Quaternionfc {
     Vector3f transform(float x, float y, float z, Vector3f dest);
 
     /**
+     * Transform the given vector <code>(x, y, z)</code> by the inverse of this quaternion
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformInverse(float x, float y, float z, Vector3f dest);
+
+    /**
      * Transform the given vector by this unit quaternion
      * and store the result in <code>dest</code>.
      * <p>
@@ -587,6 +632,22 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector3f transformUnit(Vector3fc vec, Vector3f dest);
+
+    /**
+     * Transform the given vector by the inverse of this unit quaternion
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformInverseUnit(Vector3fc vec, Vector3f dest);
 
     /**
      * Transform the given vector <code>(x, y, z)</code> by this unit quaternion
@@ -609,6 +670,26 @@ public interface Quaternionfc {
     Vector3f transformUnit(float x, float y, float z, Vector3f dest);
 
     /**
+     * Transform the given vector <code>(x, y, z)</code> by the inverse of this unit quaternion
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformInverseUnit(float x, float y, float z, Vector3f dest);
+
+    /**
      * Transform the given vector by this quaternion and store the result in <code>dest</code>.
      * <p>
      * This will apply the rotation described by this quaternion to the given vector.
@@ -622,6 +703,21 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector4f transform(Vector4fc vec, Vector4f dest);
+
+    /**
+     * Transform the given vector by the inverse of this quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and set on the destination.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformInverse(Vector4fc vec, Vector4f dest);
 
     /**
      * Transform the given vector <code>(x, y, z)</code> by this quaternion and store the result in <code>dest</code>.
@@ -641,6 +737,24 @@ public interface Quaternionfc {
     Vector4f transform(float x, float y, float z, Vector4f dest);
 
     /**
+     * Transform the given vector <code>(x, y, z)</code> by the inverse of
+     * this quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformInverse(float x, float y, float z, Vector4f dest);
+
+    /**
      * Transform the given vector by this unit quaternion and store the result in <code>dest</code>.
      * <p>
      * This will apply the rotation described by this quaternion to the given vector.
@@ -656,6 +770,23 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector4f transformUnit(Vector4fc vec, Vector4f dest);
+
+    /**
+     * Transform the given vector by the inverse of this unit quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and set on the destination.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformInverseUnit(Vector4fc vec, Vector4f dest);
 
     /**
      * Transform the given vector <code>(x, y, z)</code> by this unit quaternion and store the result in <code>dest</code>.
@@ -677,6 +808,26 @@ public interface Quaternionfc {
     Vector4f transformUnit(float x, float y, float z, Vector4f dest);
 
     /**
+     * Transform the given vector <code>(x, y, z)</code> by the inverse of
+     * this unit quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f transformInverseUnit(float x, float y, float z, Vector4f dest);
+
+    /**
      * Transform the given vector by this quaternion.
      * <p>
      * This will apply the rotation described by this quaternion to the given vector.
@@ -686,6 +837,17 @@ public interface Quaternionfc {
      * @return vec
      */
     Vector3d transform(Vector3d vec);
+
+    /**
+     * Transform the given vector by the inverse of this quaternion.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @return vec
+     */
+    Vector3d transformInverse(Vector3d vec);
 
     /**
      * Transform the vector <code>(1, 0, 0)</code> by this quaternion.
@@ -845,6 +1007,19 @@ public interface Quaternionfc {
     Vector4d transform(Vector4d vec);
 
     /**
+     * Transform the given vector by the inverse of this quaternion.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and modified.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @return vec
+     */
+    Vector4d transformInverse(Vector4d vec);
+
+    /**
      * Transform the given vector by this quaternion and store the result in <code>dest</code>.
      * <p>
      * This will apply the rotation described by this quaternion to the given vector.
@@ -856,6 +1031,19 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector3d transform(Vector3dc vec, Vector3d dest);
+
+    /**
+     * Transform the given vector by the inverse of this quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d transformInverse(Vector3dc vec, Vector3d dest);
 
     /**
      * Transform the given vector <code>(x, y, z)</code> by this quaternion and store the result in <code>dest</code>.
@@ -875,6 +1063,24 @@ public interface Quaternionfc {
     Vector3d transform(double x, double y, double z, Vector3d dest);
 
     /**
+     * Transform the given vector <code>(x, y, z)</code> by the inverse of
+     * this quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d transformInverse(double x, double y, double z, Vector3d dest);
+
+    /**
      * Transform the given vector by this quaternion and store the result in <code>dest</code>.
      * <p>
      * This will apply the rotation described by this quaternion to the given vector.
@@ -888,6 +1094,21 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector4d transform(Vector4dc vec, Vector4d dest);
+
+    /**
+     * Transform the given vector by the inverse of this quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and set on the destination.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d transformInverse(Vector4dc vec, Vector4d dest);
 
     /**
      * Transform the given vector <code>(x, y, z)</code> by this quaternion and store the result in <code>dest</code>.
@@ -907,6 +1128,24 @@ public interface Quaternionfc {
     Vector4d transform(double x, double y, double z, Vector4d dest);
 
     /**
+     * Transform the given vector <code>(x, y, z)</code> by the inverse of
+     * this quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d transformInverse(double x, double y, double z, Vector4d dest);
+
+    /**
      * Transform the given vector by this unit quaternion.
      * <p>
      * This will apply the rotation described by this quaternion to the given vector.
@@ -922,6 +1161,21 @@ public interface Quaternionfc {
     Vector4d transformUnit(Vector4d vec);
 
     /**
+     * Transform the given vector by the inverse of this unit quaternion.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and modified.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @return vec
+     */
+    Vector4d transformInverseUnit(Vector4d vec);
+
+    /**
      * Transform the given vector by this unit quaternion and store the result in <code>dest</code>.
      * <p>
      * This will apply the rotation described by this quaternion to the given vector.
@@ -935,6 +1189,21 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector3d transformUnit(Vector3dc vec, Vector3d dest);
+
+    /**
+     * Transform the given vector by the inverse of this unit quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d transformInverseUnit(Vector3dc vec, Vector3d dest);
 
     /**
      * Transform the given vector <code>(x, y, z)</code> by this unit quaternion and store the result in <code>dest</code>.
@@ -956,6 +1225,26 @@ public interface Quaternionfc {
     Vector3d transformUnit(double x, double y, double z, Vector3d dest);
 
     /**
+     * Transform the given vector <code>(x, y, z)</code> by the inverse of
+     * this unit quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d transformInverseUnit(double x, double y, double z, Vector3d dest);
+
+    /**
      * Transform the given vector by this unit quaternion and store the result in <code>dest</code>.
      * <p>
      * This will apply the rotation described by this quaternion to the given vector.
@@ -971,6 +1260,23 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector4d transformUnit(Vector4dc vec, Vector4d dest);
+
+    /**
+     * Transform the given vector by the inverse of this unit quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and set on the destination.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d transformInverseUnit(Vector4dc vec, Vector4d dest);
 
     /**
      * Transform the given vector <code>(x, y, z)</code> by this unit quaternion and store the result in <code>dest</code>.
@@ -990,6 +1296,26 @@ public interface Quaternionfc {
      * @return dest
      */
     Vector4d transformUnit(double x, double y, double z, Vector4d dest);
+
+    /**
+     * Transform the given vector <code>(x, y, z)</code> by the inverse of
+     * this unit quaternion and store the result in <code>dest</code>.
+     * <p>
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * This method is only applicable when <code>this</code> is a unit quaternion.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d transformInverseUnit(double x, double y, double z, Vector4d dest);
 
     /**
      * Invert this quaternion and store the {@link #normalize(Quaternionf) normalized} result in <code>dest</code>.
