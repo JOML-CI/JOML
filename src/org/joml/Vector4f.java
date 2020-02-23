@@ -1296,8 +1296,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      */
     public Vector4f rotateX(float angle) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        this.y = this.y * cos - this.z * sin;
-        this.z = this.y * sin + this.z * cos;
+        float y = this.y * cos - this.z * sin;
+        float z = this.y * sin + this.z * cos;
+        this.y = y;
+        this.z = z;
         return this;
     }
 
@@ -1306,9 +1308,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      */
     public Vector4f rotateX(float angle, Vector4f dest) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
+        float y = this.y * cos - this.z * sin;
+        float z = this.y * sin + this.z * cos;
         dest.x = this.x;
-        dest.y = this.y * cos - this.z * sin;
-        dest.z = this.y * sin + this.z * cos;
+        dest.y = y;
+        dest.z = z;
         dest.w = this.w;
         return dest;
     }
@@ -1322,8 +1326,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      */
     public Vector4f rotateY(float angle) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        this.x = this.x * cos + this.z * sin;
-        this.z = -this.x * sin + this.z * cos;
+        float x =  this.x * cos + this.z * sin;
+        float z = -this.x * sin + this.z * cos;
+        this.x = x;
+        this.z = z;
         return this;
     }
 
@@ -1332,9 +1338,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      */
     public Vector4f rotateY(float angle, Vector4f dest) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        dest.x = this.x * cos + this.z * sin;
+        float x =  this.x * cos + this.z * sin;
+        float z = -this.x * sin + this.z * cos;
+        dest.x = x;
         dest.y = this.y;
-        dest.z = -this.x * sin + this.z * cos;
+        dest.z = z;
         dest.w = this.w;
         return dest;
     }
@@ -1348,8 +1356,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      */
     public Vector4f rotateZ(float angle) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        this.x = this.x * cos - this.y * sin;
-        this.y = this.x * sin + this.y * cos;
+        float x = this.x * cos - this.y * sin;
+        float y = this.x * sin + this.y * cos;
+        this.x = x;
+        this.y = y;
         return this;
     }
 
@@ -1358,8 +1368,10 @@ public class Vector4f implements Externalizable, Vector4fc {
      */
     public Vector4f rotateZ(float angle, Vector4f dest) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        dest.x = this.x * cos - this.y * sin;
-        dest.y = this.x * sin + this.y * cos;
+        float x = this.x * cos - this.y * sin;
+        float y = this.x * sin + this.y * cos;
+        dest.x = x;
+        dest.y = y;
         dest.z = this.z;
         dest.w = this.w;
         return dest;
