@@ -1503,4 +1503,14 @@ public interface Matrix3fc {
      */
     Matrix3f reflect(Vector3fc normal, Matrix3f dest);
 
+    /**
+     * Determine whether all matrix elements are finite floating-point values, that
+     * is, they are not {@link Float#isNaN() NaN} and not
+     * {@link Float#isInfinite() infinity}.
+     *
+     * @return {@code true} if all components are finite floating-point values;
+     *         {@code false} otherwise
+     */
+    boolean isFinite();
+
 }

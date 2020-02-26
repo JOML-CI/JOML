@@ -1197,4 +1197,14 @@ public interface Matrix3x2fc {
      */
     boolean equals(Matrix3x2fc m, float delta);
 
+    /**
+     * Determine whether all matrix elements are finite floating-point values, that
+     * is, they are not {@link Float#isNaN() NaN} and not
+     * {@link Float#isInfinite() infinity}.
+     *
+     * @return {@code true} if all components are finite floating-point values;
+     *         {@code false} otherwise
+     */
+    boolean isFinite();
+
 }

@@ -2547,4 +2547,10 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return true;
     }
 
+    public boolean isFinite() {
+        return Math.isFinite(m00) && Math.isFinite(m01) &&
+               Math.isFinite(m10) && Math.isFinite(m11) &&
+               Math.isFinite(m20) && Math.isFinite(m21);
+    }
+
 }

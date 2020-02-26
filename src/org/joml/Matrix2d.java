@@ -1669,4 +1669,9 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return dest;
     }
 
+    public boolean isFinite() {
+        return Math.isFinite(m00) && Math.isFinite(m01) &&
+               Math.isFinite(m10) && Math.isFinite(m11);
+    }
+
 }

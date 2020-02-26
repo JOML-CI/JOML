@@ -1920,4 +1920,14 @@ public interface Quaternionfc {
      */
     Quaternionf conjugateBy(Quaternionfc q, Quaternionf dest);
 
+    /**
+     * Determine whether all components are finite floating-point values, that
+     * is, they are not {@link Float#isNaN() NaN} and not
+     * {@link Float#isInfinite() infinity}.
+     *
+     * @return {@code true} if all components are finite floating-point values;
+     *         {@code false} otherwise
+     */
+    boolean isFinite();
+
 }

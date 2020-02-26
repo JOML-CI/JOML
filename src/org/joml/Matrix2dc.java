@@ -743,4 +743,14 @@ public interface Matrix2dc {
      */
     boolean equals(Matrix2dc m, double delta);
 
+    /**
+     * Determine whether all matrix elements are finite floating-point values, that
+     * is, they are not {@link Double#isNaN() NaN} and not
+     * {@link Double#isInfinite() infinity}.
+     *
+     * @return {@code true} if all components are finite floating-point values;
+     *         {@code false} otherwise
+     */
+    boolean isFinite();
+
 }

@@ -4506,4 +4506,10 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         return reflection(normalX, normalY, normalZ);
     }
 
+    public boolean isFinite() {
+        return Math.isFinite(m00) && Math.isFinite(m01) && Math.isFinite(m02) &&
+               Math.isFinite(m10) && Math.isFinite(m11) && Math.isFinite(m12) &&
+               Math.isFinite(m20) && Math.isFinite(m21) && Math.isFinite(m22);
+    }
+
 }

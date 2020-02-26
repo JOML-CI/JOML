@@ -529,8 +529,8 @@ public interface Vector2fc {
 
     /**
      * Determine whether all components are finite floating-point values, that
-     * is, they are not {@link Double#isNaN() NaN} and not
-     * {@link Double#isInfinite() infinity}.
+     * is, they are not {@link Float#isNaN() NaN} and not
+     * {@link Float#isInfinite() infinity}.
      *
      * @return {@code true} if all components are finite floating-point values;
      *         {@code false} otherwise

@@ -1906,4 +1906,14 @@ public interface Quaterniondc {
      */
     Quaterniond conjugateBy(Quaterniondc q, Quaterniond dest);
 
+    /**
+     * Determine whether all components are finite floating-point values, that
+     * is, they are not {@link Double#isNaN() NaN} and not
+     * {@link Double#isInfinite() infinity}.
+     *
+     * @return {@code true} if all components are finite floating-point values;
+     *         {@code false} otherwise
+     */
+    boolean isFinite();
+
 }
