@@ -2012,7 +2012,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
                 q1y *= s;
                 q1z *= s;
                 q1w *= s;
-                alphaN = alphaN + alphaN - 1.0f;
+                alphaN = alphaN + alphaN - 1.0;
             }
             dot = Math.fma(q1x, q2x, Math.fma(q1y, q2y, Math.fma(q1z, q2z, q1w * q2w)));
             absDot = Math.abs(dot);
@@ -2349,25 +2349,44 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @return this
      */
     public Quaterniond rotationTo(double fromDirX, double fromDirY, double fromDirZ, double toDirX, double toDirY, double toDirZ) {
-        double dot = fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ;
-        if (dot >= 1.0)
-            return identity();
+        double fn = Math.invsqrt(Math.fma(fromDirX, fromDirX, Math.fma(fromDirY, fromDirY, fromDirZ * fromDirZ)));
+        double tn = Math.invsqrt(Math.fma(toDirX, toDirX, Math.fma(toDirY, toDirY, toDirZ * toDirZ)));
+        double fx = fromDirX * fn, fy = fromDirY * fn, fz = fromDirZ * fn;
+        double tx = toDirX * tn, ty = toDirY * tn, tz = toDirZ * tn;
+        double dot = fx * tx + fy * ty + fz * tz;
+        double x, y, z, w;
         if (dot < -1.0 + 1E-6) {
-            x = toDirY; y = -toDirX; z = 0.0; w = 0.0;
-            if (x*x + y*y == 0.0)
-                x = 0.0; y = toDirZ; z = -toDirY; w = 0.0;
+            x = fy;
+            y = -fx;
+            z = 0.0;
+            w = 0.0;
+            if (x * x + y * y == 0.0) {
+                x = 0.0;
+                y = fz;
+                z = -fy;
+                w = 0.0;
+            }
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = 0;
         } else {
             double sd2 = Math.sqrt((1.0 + dot) * 2.0);
             double isd2 = 1.0 / sd2;
-            double cx = fromDirY * toDirZ - fromDirZ * toDirY;
-            double cy = fromDirZ * toDirX - fromDirX * toDirZ;
-            double cz = fromDirX * toDirY - fromDirY * toDirX;
+            double cx = fy * tz - fz * ty;
+            double cy = fz * tx - fx * tz;
+            double cz = fx * ty - fy * tx;
             x = cx * isd2;
             y = cy * isd2;
             z = cz * isd2;
             w = sd2 * 0.5;
+            double n2 = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
+            this.x = x * n2;
+            this.y = y * n2;
+            this.z = z * n2;
+            this.w = w * n2;
         }
-        return normalize();
+        return this;
     }
 
     /**
@@ -2392,30 +2411,39 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      */
     public Quaterniond rotateTo(double fromDirX, double fromDirY, double fromDirZ,
                                 double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
-        double dot = fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ;
-        if (dot >= 1.0)
-            return dest.identity();
+        double fn = Math.invsqrt(Math.fma(fromDirX, fromDirX, Math.fma(fromDirY, fromDirY, fromDirZ * fromDirZ)));
+        double tn = Math.invsqrt(Math.fma(toDirX, toDirX, Math.fma(toDirY, toDirY, toDirZ * toDirZ)));
+        double fx = fromDirX * fn, fy = fromDirY * fn, fz = fromDirZ * fn;
+        double tx = toDirX * tn, ty = toDirY * tn, tz = toDirZ * tn;
+        double dot = fx * tx + fy * ty + fz * tz;
         double x, y, z, w;
         if (dot < -1.0 + 1E-6) {
-            x = toDirY; y = -toDirX; z = 0.0; w = 0.0;
-            if (x*x + y*y == 0.0)
-                x = 0.0; y = toDirZ; z = -toDirY; w = 0.0;
+            x = fy;
+            y = -fx;
+            z = 0.0;
+            w = 0.0;
+            if (x * x + y * y == 0.0) {
+                x = 0.0;
+                y = fz;
+                z = -fy;
+                w = 0.0;
+            }
         } else {
             double sd2 = Math.sqrt((1.0 + dot) * 2.0);
             double isd2 = 1.0 / sd2;
-            double cx = fromDirY * toDirZ - fromDirZ * toDirY;
-            double cy = fromDirZ * toDirX - fromDirX * toDirZ;
-            double cz = fromDirX * toDirY - fromDirY * toDirX;
+            double cx = fy * tz - fz * ty;
+            double cy = fz * tx - fx * tz;
+            double cz = fx * ty - fy * tx;
             x = cx * isd2;
             y = cy * isd2;
             z = cz * isd2;
             w = sd2 * 0.5;
+            double n2 = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
+            x *= n2;
+            y *= n2;
+            z *= n2;
+            w *= n2;
         }
-        double norm2 = Math.invsqrt(x*x + y*y + z*z + w*w);
-        x *= norm2;
-        y *= norm2;
-        z *= norm2;
-        w *= norm2;
         /* Multiply */
         return dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
                         Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),

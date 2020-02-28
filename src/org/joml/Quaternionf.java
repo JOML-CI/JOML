@@ -2597,25 +2597,44 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return this
      */
     public Quaternionf rotationTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
-        float dot = fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ;
-        if (dot >= 1.0f)
-            return identity();
+        float fn = Math.invsqrt(Math.fma(fromDirX, fromDirX, Math.fma(fromDirY, fromDirY, fromDirZ * fromDirZ)));
+        float tn = Math.invsqrt(Math.fma(toDirX, toDirX, Math.fma(toDirY, toDirY, toDirZ * toDirZ)));
+        float fx = fromDirX * fn, fy = fromDirY * fn, fz = fromDirZ * fn;
+        float tx = toDirX * tn, ty = toDirY * tn, tz = toDirZ * tn;
+        float dot = fx * tx + fy * ty + fz * tz;
+        float x, y, z, w;
         if (dot < -1.0f + 1E-6f) {
-            x = toDirY; y = -toDirX; z = 0.0f; w = 0.0f;
-            if (x*x + y*y == 0.0f)
-                x = 0.0f; y = toDirZ; z = -toDirY; w = 0.0f;
+            x = fy;
+            y = -fx;
+            z = 0.0f;
+            w = 0.0f;
+            if (x * x + y * y == 0.0f) {
+                x = 0.0f;
+                y = fz;
+                z = -fy;
+                w = 0.0f;
+            }
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = 0;
         } else {
             float sd2 = Math.sqrt((1.0f + dot) * 2.0f);
             float isd2 = 1.0f / sd2;
-            float cx = fromDirY * toDirZ - fromDirZ * toDirY;
-            float cy = fromDirZ * toDirX - fromDirX * toDirZ;
-            float cz = fromDirX * toDirY - fromDirY * toDirX;
+            float cx = fy * tz - fz * ty;
+            float cy = fz * tx - fx * tz;
+            float cz = fx * ty - fy * tx;
             x = cx * isd2;
             y = cy * isd2;
             z = cz * isd2;
             w = sd2 * 0.5f;
+            float n2 = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
+            this.x = x * n2;
+            this.y = y * n2;
+            this.z = z * n2;
+            this.w = w * n2;
         }
-        return normalize();
+        return this;
     }
 
     /**
@@ -2639,30 +2658,39 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#rotateTo(float, float, float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
-        float dot = fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ;
-        if (dot >= 1.0f)
-            return dest.identity();
+        float fn = Math.invsqrt(Math.fma(fromDirX, fromDirX, Math.fma(fromDirY, fromDirY, fromDirZ * fromDirZ)));
+        float tn = Math.invsqrt(Math.fma(toDirX, toDirX, Math.fma(toDirY, toDirY, toDirZ * toDirZ)));
+        float fx = fromDirX * fn, fy = fromDirY * fn, fz = fromDirZ * fn;
+        float tx = toDirX * tn, ty = toDirY * tn, tz = toDirZ * tn;
+        float dot = fx * tx + fy * ty + fz * tz;
         float x, y, z, w;
         if (dot < -1.0f + 1E-6f) {
-            x = toDirY; y = -toDirX; z = 0.0f; w = 0.0f;
-            if (x*x + y*y == 0.0f)
-                x = 0.0f; y = toDirZ; z = -toDirY; w = 0.0f;
+            x = fy;
+            y = -fx;
+            z = 0.0f;
+            w = 0.0f;
+            if (x * x + y * y == 0.0f) {
+                x = 0.0f;
+                y = fz;
+                z = -fy;
+                w = 0.0f;
+            }
         } else {
             float sd2 = Math.sqrt((1.0f + dot) * 2.0f);
             float isd2 = 1.0f / sd2;
-            float cx = fromDirY * toDirZ - fromDirZ * toDirY;
-            float cy = fromDirZ * toDirX - fromDirX * toDirZ;
-            float cz = fromDirX * toDirY - fromDirY * toDirX;
+            float cx = fy * tz - fz * ty;
+            float cy = fz * tx - fx * tz;
+            float cz = fx * ty - fy * tx;
             x = cx * isd2;
             y = cy * isd2;
             z = cz * isd2;
             w = sd2 * 0.5f;
+            float n2 = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
+            x *= n2;
+            y *= n2;
+            z *= n2;
+            w *= n2;
         }
-        float norm2 = Math.invsqrt(x*x + y*y + z*z + w*w);
-        x *= norm2;
-        y *= norm2;
-        z *= norm2;
-        w *= norm2;
         /* Multiply */
         return dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
                         Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),

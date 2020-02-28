@@ -31,7 +31,7 @@ import org.joml.*;
  * Test class for {@link Quaternionf}.
  * @author Sebastian Fellner
  */
-public class QuaternionTest extends TestCase {
+public class QuaternionfTest extends TestCase {
     
     public static void testMulQuaternionQuaternionQuaternion() {
         // Multiplication with the identity quaternion should change nothing
@@ -126,9 +126,33 @@ public class QuaternionTest extends TestCase {
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public static void testRotateTo() {
+    public static void testRotateToUnit() {
         Vector3f v1 = new Vector3f(1, 2, 3).normalize();
         Vector3f v2 = new Vector3f(5, -2, -1).normalize();
+        Quaternionf rotation = new Quaternionf().rotateTo(v1, v2);
+        rotation.transform(v1);
+        TestUtil.assertVector3fEquals(v1, v2, 1E-6f);
+    }
+
+    public static void testRotateToNonUnit() {
+        Vector3f v1 = new Vector3f(1, 2, 3).normalize().mul(3);
+        Vector3f v2 = new Vector3f(5, -2, -1).normalize().mul(3);
+        Quaternionf rotation = new Quaternionf().rotateTo(v1, v2);
+        rotation.transform(v1);
+        TestUtil.assertVector3fEquals(v1, v2, 1E-6f);
+    }
+
+    public static void testRotateToUnitOpposite() {
+        Vector3f v1 = new Vector3f(1, 2, 3).normalize();
+        Vector3f v2 = new Vector3f(-1, -2, -3).normalize();
+        Quaternionf rotation = new Quaternionf().rotateTo(v1, v2);
+        rotation.transform(v1);
+        TestUtil.assertVector3fEquals(v1, v2, 1E-6f);
+    }
+
+    public static void testRotateToNonUnitOpposite() {
+        Vector3f v1 = new Vector3f(1, 2, 3);
+        Vector3f v2 = new Vector3f(-1, -2, -3);
         Quaternionf rotation = new Quaternionf().rotateTo(v1, v2);
         rotation.transform(v1);
         TestUtil.assertVector3fEquals(v1, v2, 1E-6f);
