@@ -913,9 +913,9 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return formatter.format(m00) + " " + formatter.format(m10) + " " + formatter.format(m20) + "\n"
-             + formatter.format(m01) + " " + formatter.format(m11) + " " + formatter.format(m21) + "\n"
-             + formatter.format(m02) + " " + formatter.format(m12) + " " + formatter.format(m22) + "\n";
+        return Runtime.format(m00, formatter) + " " + Runtime.format(m10, formatter) + " " + Runtime.format(m20, formatter) + "\n"
+             + Runtime.format(m01, formatter) + " " + Runtime.format(m11, formatter) + " " + Runtime.format(m21, formatter) + "\n"
+             + Runtime.format(m02, formatter) + " " + Runtime.format(m12, formatter) + " " + Runtime.format(m22, formatter) + "\n";
     }
 
     /**

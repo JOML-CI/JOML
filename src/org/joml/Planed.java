@@ -333,7 +333,7 @@ public class Planed implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "[" + formatter.format(a) + " " + formatter.format(b) + " " + formatter.format(c) + " " + formatter.format(d) + "]";
+        return "[" + Runtime.format(a, formatter) + " " + Runtime.format(b, formatter) + " " + Runtime.format(c, formatter) + " " + Runtime.format(d, formatter) + "]";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

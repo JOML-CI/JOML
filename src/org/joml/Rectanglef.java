@@ -248,8 +248,8 @@ public class Rectanglef implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(minX) + " " + formatter.format(minY) + ") < "
-             + "(" + formatter.format(maxX) + " " + formatter.format(maxY) + ")";
+        return "(" + Runtime.format(minX, formatter) + " " + Runtime.format(minY, formatter) + ") < "
+             + "(" + Runtime.format(maxX, formatter) + " " + Runtime.format(maxY, formatter) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

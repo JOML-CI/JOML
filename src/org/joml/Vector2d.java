@@ -1225,7 +1225,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
+        return "(" + Runtime.format(x, formatter) + " " + Runtime.format(y, formatter) + ")";
     }
 
     /**

@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import java.text.NumberFormat;
+
 final class Runtime {
 
 //#ifndef __GWT__
@@ -152,6 +154,24 @@ final class Runtime {
             res.append(c);
         }
         return res.toString();
+    }
+
+    static String format(double number, NumberFormat format) {
+        if (Double.isNaN(number)) {
+            return padLeft(format, " NaN");
+        } else if (Double.isInfinite(number)) {
+            return padLeft(format, number > 0.0 ? " +Inf" : " -Inf");
+        }
+        return format.format(number);
+    }
+
+    private static String padLeft(NumberFormat format, String str) {
+        int len = format.format(0.0).length();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < len - str.length() + 1; i++) {
+            sb.append(" ");
+        }
+        return sb.append(str).toString();
     }
 
     /*

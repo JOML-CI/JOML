@@ -812,8 +812,8 @@ public class AABBd implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(minX) + " " + formatter.format(minY) + " " + formatter.format(minZ) + ") < "
-             + "(" + formatter.format(maxX) + " " + formatter.format(maxY) + " " + formatter.format(maxZ) + ")";
+        return "(" + Runtime.format(minX, formatter) + " " + Runtime.format(minY, formatter) + " " + Runtime.format(minZ, formatter) + ") < "
+             + "(" + Runtime.format(maxX, formatter) + " " + Runtime.format(maxY, formatter) + " " + Runtime.format(maxZ, formatter) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

@@ -185,7 +185,7 @@ public class Circlef implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(r) + ")";
+        return "(" + Runtime.format(x, formatter) + " " + Runtime.format(y, formatter) + " " + Runtime.format(r, formatter) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

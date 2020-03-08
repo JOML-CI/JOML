@@ -2438,7 +2438,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + ")";
+        return "(" + Runtime.format(x, formatter) + " " + Runtime.format(y, formatter) + " " + Runtime.format(z, formatter) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

@@ -3434,10 +3434,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return formatter.format(m00) + " " + formatter.format(m10) + " " + formatter.format(m20) + " " + formatter.format(m30) + "\n"
-             + formatter.format(m01) + " " + formatter.format(m11) + " " + formatter.format(m21) + " " + formatter.format(m31) + "\n"
-             + formatter.format(m02) + " " + formatter.format(m12) + " " + formatter.format(m22) + " " + formatter.format(m32) + "\n"
-             + formatter.format(m03) + " " + formatter.format(m13) + " " + formatter.format(m23) + " " + formatter.format(m33) + "\n";
+        return Runtime.format(m00, formatter) + " " + Runtime.format(m10, formatter) + " " + Runtime.format(m20, formatter) + " " + Runtime.format(m30, formatter) + "\n"
+             + Runtime.format(m01, formatter) + " " + Runtime.format(m11, formatter) + " " + Runtime.format(m21, formatter) + " " + Runtime.format(m31, formatter) + "\n"
+             + Runtime.format(m02, formatter) + " " + Runtime.format(m12, formatter) + " " + Runtime.format(m22, formatter) + " " + Runtime.format(m32, formatter) + "\n"
+             + Runtime.format(m03, formatter) + " " + Runtime.format(m13, formatter) + " " + Runtime.format(m23, formatter) + " " + Runtime.format(m33, formatter) + "\n";
     }
 
     /* (non-Javadoc)

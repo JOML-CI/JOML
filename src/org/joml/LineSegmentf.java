@@ -180,8 +180,8 @@ public class LineSegmentf implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(aX) + " " + formatter.format(aY) + " " + formatter.format(aZ) + ") - "
-             + "(" + formatter.format(bX) + " " + formatter.format(bY) + " " + formatter.format(bZ) + ")";
+        return "(" + Runtime.format(aX, formatter) + " " + Runtime.format(aY, formatter) + " " + Runtime.format(aZ, formatter) + ") - "
+             + "(" + Runtime.format(bX, formatter) + " " + Runtime.format(bY, formatter) + " " + Runtime.format(bZ, formatter) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

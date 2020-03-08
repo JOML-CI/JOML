@@ -179,8 +179,8 @@ public class Rayf implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(oX) + " " + formatter.format(oY) + " " + formatter.format(oZ) + ") -> "
-             + "(" + formatter.format(dX) + " " + formatter.format(dY) + " " + formatter.format(dZ) + ")";
+        return "(" + Runtime.format(oX, formatter) + " " + Runtime.format(oY, formatter) + " " + Runtime.format(oZ, formatter) + ") -> "
+             + "(" + Runtime.format(dX, formatter) + " " + Runtime.format(dY, formatter) + " " + Runtime.format(dZ, formatter) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
