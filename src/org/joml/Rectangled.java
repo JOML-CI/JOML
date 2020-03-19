@@ -224,6 +224,249 @@ public class Rectangled implements Externalizable {
         return dest;
     }
 
+    /**
+     * Scale <code>this</code> about the origin.
+     *
+     * @param sf
+     *          the scaling factor in the x and y axis.
+     * @return this
+     */
+    public Rectangled scale(double sf) {
+        return scale(sf, sf);
+    }
+
+    /**
+     * Scale <code>this</code> about the origin and store the result in <code>dest</code>.
+     *
+     * @param sf
+     *          the scaling factor in the x and y axis
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectangled scale(double sf, Rectangled dest) {
+        return scale(sf, sf, dest);
+    }
+
+    /**
+     * Scale <code>this</code> about an anchor.
+     * <p>
+     * This is effectively equivalent to <br>
+     * <pre>
+     *     translate(-ax, -ay);
+     *     scale(sf);
+     *     translate(ax, ay);
+     * </pre>
+     *
+     * @param sf
+     *          the scaling factor in the x and y axis
+     * @param ax
+     *          the x coordinate of the anchor
+     * @param ay
+     *          the y coordinate of the anchor
+     * @return this
+     */
+    public Rectangled scale(double sf, double ax, double ay) {
+        return scale(sf, sf, ax, ay);
+    }
+
+    /**
+     * Scale <code>this</code> about an anchor and store the result in <code>dest</code>.
+     * <p>
+     * This is effectively equivalent to <br>
+     * <pre>
+     *     translate(-ax, -ay);
+     *     scale(sf);
+     *     translate(ax, ay);
+     * </pre>
+     *
+     * @param sf
+     *          the scaling factor in the x and y axis
+     * @param ax
+     *          the x coordinate of the anchor
+     * @param ay
+     *          the y coordinate of the anchor
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectangled scale(double sf, double ax, double ay, Rectangled dest) {
+        return scale(sf, sf, ax, ay, dest);
+    }
+
+    /**
+     * Scale <code>this</code> about an anchor.
+     * <p>
+     * This is effectively equivalent to <br>
+     * <pre>
+     *     translate(anchor.negate());
+     *     scale(sf);
+     *     translate(anchor.negate());
+     * </pre>
+     *
+     * @param sf
+     *          the scaling factor in the x and y axis
+     * @param anchor
+     *          the location of the anchor
+     * @return this
+     */
+    public Rectangled scale(double sf, Vector2dc anchor) {
+        return scale(sf, anchor.x(), anchor.y());
+    }
+
+    /**
+     * Scale <code>this</code> about an anchor and store the result in <code>dest</code>.
+     * <p>
+     * This is effectively equivalent to <br>
+     * <pre>
+     *     translate(anchor.negate());
+     *     scale(sf);
+     *     translate(anchor.negate());
+     * </pre>
+     *
+     * @param sf
+     *          the scaling factor in the x and y axis
+     * @param anchor
+     *          the location of the anchor
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectangled scale(double sf, Vector2dc anchor, Rectangled dest) {
+        return scale(sf, anchor.x(), anchor.y(), dest);
+    }
+
+    /**
+     * Scale <code>this</code> about the origin.
+     *
+     * @param sx
+     *          the scaling factor on the x axis
+     * @param sy
+     *          the scaling factor on the y axis
+     * @return this
+     */
+    public Rectangled scale(double sx, double sy) {
+        return scale(sx, sy, 0d, 0d);
+    }
+
+    /**
+     * Scale <code>this</code> about the origin and store the result in <code>dest</code>.
+     *
+     * @param sx
+     *          the scaling factor on the x axis
+     * @param sy
+     *          the scaling factor on the y axis
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectangled scale(double sx, double sy, Rectangled dest) {
+        return scale(sx, sy, 0d, 0d, dest);
+    }
+
+    /**
+     * Scale <code>this</code> about an anchor.
+     * This is equivalent to <br>
+     * <pre>
+     *     translate(-ax, -ay);
+     *     scale(sx, sy);
+     *     translate(ax, ay);
+     * </pre>
+     *
+     * @param sx
+     *          the scaling factor on the x axis
+     * @param sy
+     *          the scaling factor on the y axis
+     * @param ax
+     *          the x coordinate of the anchor
+     * @param ay
+     *          the y coordinate of the anchor
+     * @return this
+     */
+    public Rectangled scale(double sx, double sy, double ax, double ay) {
+        minX = (minX - ax) * sx + ax;
+        minY = (minY - ay) * sy + ay;
+        maxX = (maxX - ax) * sx + ax;
+        maxY = (maxY - ax) * sy + ay;
+        return this;
+    }
+
+    /**
+     * Scale <code>this</code> about an anchor.
+     * <p>
+     * This is equivalent to <br>
+     * <pre>
+     *     translate(anchor.negate());
+     *     scale(sx, sy);
+     *     translate(anchor.negate());
+     * </pre>
+     *
+     * @param sx
+     *          the scaling factor on the x axis
+     * @param sy
+     *          the scaling factor on the y axis
+     * @param anchor
+     *          the location of the anchor
+     * @return this
+     */
+    public Rectangled scale(double sx, double sy, Vector2dc anchor) {
+        return scale(sx, sy, anchor.x(), anchor.y());
+    }
+
+    /**
+     * Scale <code>this</code> about an anchor and store the result in <code>dest</code>.
+     * <p>
+     * This is equivalent to <br>
+     * <pre>
+     *     translate(-ax, -ay);
+     *     scale(sx, sy);
+     *     translate(ax, ay);
+     * </pre>
+     *
+     * @param sx
+     *          the scaling factor on the x axis
+     * @param sy
+     *          the scaling factor on the y axis
+     * @param ax
+     *          the x coordinate of the anchor
+     * @param ay
+     *          the y coordinate of the anchor
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectangled scale(double sx, double sy, double ax, double ay, Rectangled dest) {
+        dest.minX = (minX - ax) * sx + ax;
+        dest.minY = (minY - ay) * sy + ay;
+        dest.maxX = (maxX - ax) * sx + ax;
+        dest.maxY = (maxY - ax) * sy + ay;
+        return dest;
+    }
+
+    /**
+     * Scale <code>this</code> about an anchor and store the result in <code>dest</code>.
+     * <p>
+     * This is equivalent to <br>
+     * <pre>
+     *     translate(anchor.negate());
+     *     scale(sx, sy);
+     *     translate(anchor.negate());
+     * </pre>
+     *
+     * @param sx
+     *          the scaling factor on the x axis
+     * @param sy
+     *          the scaling factor on the y axis
+     * @param anchor
+     *          the location of the anchor
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectangled scale(double sx, double sy, Vector2dc anchor, Rectangled dest) {
+        return scale(sx, sy, anchor.x(), anchor.y(), dest);
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
