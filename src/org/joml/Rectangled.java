@@ -387,7 +387,7 @@ public class Rectangled implements Externalizable {
         minX = (minX - ax) * sx + ax;
         minY = (minY - ay) * sy + ay;
         maxX = (maxX - ax) * sx + ax;
-        maxY = (maxY - ax) * sy + ay;
+        maxY = (maxY - ay) * sy + ay;
         return this;
     }
 
@@ -439,7 +439,7 @@ public class Rectangled implements Externalizable {
         dest.minX = (minX - ax) * sx + ax;
         dest.minY = (minY - ay) * sy + ay;
         dest.maxX = (maxX - ax) * sx + ax;
-        dest.maxY = (maxY - ax) * sy + ay;
+        dest.maxY = (maxY - ay) * sy + ay;
         return dest;
     }
 
