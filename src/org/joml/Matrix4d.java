@@ -3213,10 +3213,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
     private Matrix4d transposeGeneric(Matrix4d dest) {
         double nm10 = m01;
-        double nm12 = m21;
-        double nm13 = m31;
         double nm20 = m02;
+        double nm21 = m12;
         double nm30 = m03;
+        double nm31 = m13;
         double nm32 = m23;
         return dest
         ._m00(m00)
@@ -3225,14 +3225,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         ._m03(m30)
         ._m10(nm10)
         ._m11(m11)
-        ._m12(nm12)
-        ._m13(nm13)
+        ._m12(m21)
+        ._m13(m31)
         ._m20(nm20)
-        ._m21(m12)
+        ._m21(nm21)
         ._m22(m22)
         ._m23(m32)
         ._m30(nm30)
-        ._m31(m13)
+        ._m31(nm31)
         ._m32(nm32)
         ._m33(m33)
         ._properties(0);
