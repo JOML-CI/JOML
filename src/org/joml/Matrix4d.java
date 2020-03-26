@@ -14507,61 +14507,58 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#positiveZ(org.joml.Vector3d)
      */
-    public Vector3d positiveZ(Vector3d dest) {
-        dest.x = m10 * m21 - m11 * m20;
-        dest.y = m20 * m01 - m21 * m00;
-        dest.z = m00 * m11 - m01 * m10;
-        return dest.normalize(dest);
+    public Vector3d positiveZ(Vector3d dir) {
+        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return normalizedPositiveZ(dir);
+        return positiveZGeneric(dir);
+    }
+    private Vector3d positiveZGeneric(Vector3d dir) {
+        return dir.set(m10 * m21 - m11 * m20, m20 * m01 - m21 * m00, m00 * m11 - m01 * m10).normalize();
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#normalizedPositiveZ(org.joml.Vector3d)
      */
-    public Vector3d normalizedPositiveZ(Vector3d dest) {
-        dest.x = m02;
-        dest.y = m12;
-        dest.z = m22;
-        return dest;
+    public Vector3d normalizedPositiveZ(Vector3d dir) {
+        return dir.set(m02, m12, m22);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#positiveX(org.joml.Vector3d)
      */
-    public Vector3d positiveX(Vector3d dest) {
-        dest.x = m11 * m22 - m12 * m21;
-        dest.y = m02 * m21 - m01 * m22;
-        dest.z = m01 * m12 - m02 * m11;
-        return dest.normalize(dest);
+    public Vector3d positiveX(Vector3d dir) {
+        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return normalizedPositiveX(dir);
+        return positiveXGeneric(dir);
+    }
+    private Vector3d positiveXGeneric(Vector3d dir) {
+        return dir.set(m11 * m22 - m12 * m21, m02 * m21 - m01 * m22, m01 * m12 - m02 * m11).normalize();
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#normalizedPositiveX(org.joml.Vector3d)
      */
-    public Vector3d normalizedPositiveX(Vector3d dest) {
-        dest.x = m00;
-        dest.y = m10;
-        dest.z = m20;
-        return dest;
+    public Vector3d normalizedPositiveX(Vector3d dir) {
+        return dir.set(m00, m10, m20);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#positiveY(org.joml.Vector3d)
      */
-    public Vector3d positiveY(Vector3d dest) {
-        dest.x = m12 * m20 - m10 * m22;
-        dest.y = m00 * m22 - m02 * m20;
-        dest.z = m02 * m10 - m00 * m12;
-        return dest.normalize(dest);
+    public Vector3d positiveY(Vector3d dir) {
+        if ((properties & PROPERTY_ORTHONORMAL) != 0)
+            return normalizedPositiveY(dir);
+        return positiveYGeneric(dir);
+    }
+    private Vector3d positiveYGeneric(Vector3d dir) {
+        return dir.set(m12 * m20 - m10 * m22, m00 * m22 - m02 * m20, m02 * m10 - m00 * m12).normalize();
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#normalizedPositiveY(org.joml.Vector3d)
      */
-    public Vector3d normalizedPositiveY(Vector3d dest) {
-        dest.x = m01;
-        dest.y = m11;
-        dest.z = m21;
-        return dest;
+    public Vector3d normalizedPositiveY(Vector3d dir) {
+        return dir.set(m01, m11, m21);
     }
 
     /* (non-Javadoc)
