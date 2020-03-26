@@ -331,6 +331,12 @@ public class Math {
     public static double asin(double r) {
         return java.lang.Math.asin(r);
     }
+    public static float safeAsin(float r) {
+        return r <= -1.0f ? -PIHalf_f : r >= 1.0f ? PIHalf_f : asin(r);
+    }
+    public static double safeAsin(double r) {
+        return r <= -1.0 ? -PIHalf : r >= 1.0 ? PIHalf : asin(r);
+    }
 
     public static float abs(float r) {
         return java.lang.Math.abs(r);

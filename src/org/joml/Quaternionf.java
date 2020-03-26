@@ -1983,7 +1983,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      */
     public Vector3f getEulerAnglesXYZ(Vector3f eulerAngles) {
         eulerAngles.x = Math.atan2(2.0f * (x*w - y*z), 1.0f - 2.0f * (x*x + y*y));
-        eulerAngles.y = Math.asin(2.0f * (x*z + y*w));
+        eulerAngles.y = Math.safeAsin(2.0f * (x*z + y*w));
         eulerAngles.z = Math.atan2(2.0f * (z*w - x*y), 1.0f - 2.0f * (y*y + z*z));
         return eulerAngles;
     }

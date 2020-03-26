@@ -2912,7 +2912,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      */
     public Vector3d getEulerAnglesXYZ(Vector3d eulerAngles) {
         eulerAngles.x = Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y));
-        eulerAngles.y = Math.asin(2.0 * (x*z + y*w));
+        eulerAngles.y = Math.safeAsin(2.0 * (x*z + y*w));
         eulerAngles.z = Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z));
         return eulerAngles;
     }
