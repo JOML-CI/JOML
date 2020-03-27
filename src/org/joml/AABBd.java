@@ -30,8 +30,6 @@ import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.Math;
-
 /**
  * Represents an axis-aligned box defined via the minimum and maximum corner coordinates.
  * 

@@ -33,8 +33,6 @@ import java.nio.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.Math;
-
 /**
  * Contains the definition of a Vector comprising 4 doubles and associated transformations.
  * 

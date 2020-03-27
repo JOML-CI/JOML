@@ -30,8 +30,6 @@ import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.Math;
-
 /**
  * Quaternion of 4 double-precision floats which can represent rotation and uniform scaling.
  *

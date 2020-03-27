@@ -30,8 +30,6 @@ import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.Runtime;
-
 /**
  * Represents a 3D rotation of a given radians about an axis represented as an
  * unit 3D vector.

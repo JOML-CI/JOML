@@ -34,8 +34,6 @@ import java.nio.IntBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.Math;
-
 /**
  * Contains the definition of a Vector comprising 4 ints and associated
  * transformations.

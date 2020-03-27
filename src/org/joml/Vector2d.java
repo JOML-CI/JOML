@@ -34,8 +34,6 @@ import java.nio.DoubleBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.Math;
-
 /**
  * Represents a 2D vector with double-precision.
  *

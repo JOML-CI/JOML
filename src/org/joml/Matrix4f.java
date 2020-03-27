@@ -34,9 +34,6 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.joml.Math;
-import org.joml.Runtime;
-
 //#ifdef __GWT__
 import com.google.gwt.typedarrays.shared.Float32Array;
 //#endif
