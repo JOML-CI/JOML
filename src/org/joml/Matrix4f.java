@@ -2909,9 +2909,31 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f transpose(Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.identity();
-        return transposeGeneric(dest);
+        else if (this != dest)
+            return transposeNonThisGeneric(dest);
+        return transposeThisGeneric(dest);
     }
-    private Matrix4f transposeGeneric(Matrix4f dest) {
+    private Matrix4f transposeNonThisGeneric(Matrix4f dest) {
+        return dest
+        ._m00(m00)
+        ._m01(m10)
+        ._m02(m20)
+        ._m03(m30)
+        ._m10(m01)
+        ._m11(m11)
+        ._m12(m21)
+        ._m13(m31)
+        ._m20(m02)
+        ._m21(m12)
+        ._m22(m22)
+        ._m23(m32)
+        ._m30(m03)
+        ._m31(m13)
+        ._m32(m23)
+        ._m33(m33)
+        ._properties(0);
+    }
+    private Matrix4f transposeThisGeneric(Matrix4f dest) {
         float nm10 = m01;
         float nm20 = m02;
         float nm21 = m12;
@@ -2919,22 +2941,18 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float nm31 = m13;
         float nm32 = m23;
         return dest
-        ._m00(m00)
         ._m01(m10)
         ._m02(m20)
         ._m03(m30)
         ._m10(nm10)
-        ._m11(m11)
         ._m12(m21)
         ._m13(m31)
         ._m20(nm20)
         ._m21(nm21)
-        ._m22(m22)
         ._m23(m32)
         ._m30(nm30)
         ._m31(nm31)
         ._m32(nm32)
-        ._m33(m33)
         ._properties(0);
     }
 
