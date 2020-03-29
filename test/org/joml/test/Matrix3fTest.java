@@ -49,6 +49,17 @@ public class Matrix3fTest extends TestCase {
         assertEquals(inRow, outRow);
     }
 
+    public static void testMatrix3fTranspose() {
+        float m00 = 1, m01 = 2, m02 = 3;
+        float m10 = 5, m11 = 6, m12 = 7;
+        float m20 = 9, m21 = 10, m22 = 11;
+
+        Matrix3f m = new Matrix3f(m00, m01, m02, m10, m11, m12, m20, m21, m22);
+        Matrix3f expect = new Matrix3f(m00, m10, m20, m01, m11, m21, m02, m12, m22);
+        TestUtil.assertMatrix3fEquals(new Matrix3f(m).transpose(), expect, 1E-5f);
+        TestUtil.assertMatrix3fEquals(new Matrix3f(m).transpose(new Matrix3f()), expect, 1E-5f);
+    }
+
     public static void testInvert() {
         Matrix3f invm = new Matrix3f();
         Matrix3f m = new Matrix3f();
