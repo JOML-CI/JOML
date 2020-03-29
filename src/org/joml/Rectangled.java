@@ -251,12 +251,7 @@ public class Rectangled implements Externalizable {
     /**
      * Scale <code>this</code> about an anchor.
      * <p>
-     * This is effectively equivalent to <br>
-     * <pre>
-     *     translate(-ax, -ay);
-     *     scale(sf);
-     *     translate(ax, ay);
-     * </pre>
+     * This is equivalent to <code>translate(-ax, -ay).scale(sf).translate(ax, ay)</code>
      *
      * @param sf
      *          the scaling factor in the x and y axis
@@ -273,12 +268,7 @@ public class Rectangled implements Externalizable {
     /**
      * Scale <code>this</code> about an anchor and store the result in <code>dest</code>.
      * <p>
-     * This is effectively equivalent to <br>
-     * <pre>
-     *     translate(-ax, -ay);
-     *     scale(sf);
-     *     translate(ax, ay);
-     * </pre>
+     * This is equivalent to <code>translate(-ax, -ay, dest).scale(sf).translate(ax, ay)</code>
      *
      * @param sf
      *          the scaling factor in the x and y axis
@@ -297,12 +287,7 @@ public class Rectangled implements Externalizable {
     /**
      * Scale <code>this</code> about an anchor.
      * <p>
-     * This is effectively equivalent to <br>
-     * <pre>
-     *     translate(anchor.negate());
-     *     scale(sf);
-     *     translate(anchor.negate());
-     * </pre>
+     * This is equivalent to <code>translate(anchor.negate()).scale(sf).translate(anchor.negate())</code>
      *
      * @param sf
      *          the scaling factor in the x and y axis
@@ -317,12 +302,7 @@ public class Rectangled implements Externalizable {
     /**
      * Scale <code>this</code> about an anchor and store the result in <code>dest</code>.
      * <p>
-     * This is effectively equivalent to <br>
-     * <pre>
-     *     translate(anchor.negate());
-     *     scale(sf);
-     *     translate(anchor.negate());
-     * </pre>
+     * This is equivalent to <code>translate(anchor.negate(), dest).scale(sf).translate(anchor.negate())</code>
      *
      * @param sf
      *          the scaling factor in the x and y axis
@@ -366,12 +346,8 @@ public class Rectangled implements Externalizable {
 
     /**
      * Scale <code>this</code> about an anchor.
-     * This is equivalent to <br>
-     * <pre>
-     *     translate(-ax, -ay);
-     *     scale(sx, sy);
-     *     translate(ax, ay);
-     * </pre>
+     * <p>
+     * This is equivalent to <code>translate(-ax, -ay).scale(sx, sy).translate(ax, ay)</code>
      *
      * @param sx
      *          the scaling factor on the x axis
@@ -394,12 +370,7 @@ public class Rectangled implements Externalizable {
     /**
      * Scale <code>this</code> about an anchor.
      * <p>
-     * This is equivalent to <br>
-     * <pre>
-     *     translate(anchor.negate());
-     *     scale(sx, sy);
-     *     translate(anchor.negate());
-     * </pre>
+     * This is equivalent to <code>translate(anchor.negate()).scale(sx, sy).translate(anchor.negate())</code>
      *
      * @param sx
      *          the scaling factor on the x axis
@@ -416,12 +387,7 @@ public class Rectangled implements Externalizable {
     /**
      * Scale <code>this</code> about an anchor and store the result in <code>dest</code>.
      * <p>
-     * This is equivalent to <br>
-     * <pre>
-     *     translate(-ax, -ay);
-     *     scale(sx, sy);
-     *     translate(ax, ay);
-     * </pre>
+     * This is equivalent to <code>translate(-ax, -ay, dest).scale(sx, sy).translate(ax, ay)</code>
      *
      * @param sx
      *          the scaling factor on the x axis
@@ -446,12 +412,7 @@ public class Rectangled implements Externalizable {
     /**
      * Scale <code>this</code> about an anchor and store the result in <code>dest</code>.
      * <p>
-     * This is equivalent to <br>
-     * <pre>
-     *     translate(anchor.negate());
-     *     scale(sx, sy);
-     *     translate(anchor.negate());
-     * </pre>
+     * This is equivalent to <code>translate(anchor.negate(), dest).scale(sx, sy).translate(anchor.negate())</code>
      *
      * @param sx
      *          the scaling factor on the x axis
