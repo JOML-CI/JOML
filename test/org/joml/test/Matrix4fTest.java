@@ -25,6 +25,7 @@ package org.joml.test;
 
 import junit.framework.TestCase;
 
+import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;
@@ -151,6 +152,33 @@ public class Matrix4fTest extends TestCase {
         m.frustumRayDir(1, 1, dir);
         expectedDir = new Vector3f((float)Math.sqrt(2), 0, -1).normalize();
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+    }
+
+    public static void testMatrix4fTranspose() {
+        float m00 = 1, m01 = 2, m02 = 3, m03 = 4;
+        float m10 = 5, m11 = 6, m12 = 7, m13 = 8;
+        float m20 = 9, m21 = 10, m22 = 11, m23 = 12;
+        float m30 = 13, m31 = 14, m32 = 15, m33 = 16;
+
+        Matrix4f m = new Matrix4f(m00,m01,m02,m03,m10,m11,m12,m13,m20,m21,m22,m23,m30,m31,m32,m33);
+        Matrix4f expect = new Matrix4f(m00,m10,m20,m30,m01,m11,m21,m31,m02,m12,m22,m32,m03,m13,m23,m33);
+        TestUtil.assertMatrix4fEquals(new Matrix4f(m).transpose(),expect, 1E-5f);
+        TestUtil.assertMatrix4fEquals(new Matrix4f(m).transpose(new Matrix4f()),expect, 1E-5f);
+    }
+
+    public static void testMatrix4f3fTranspose() {
+        float m00 = 1, m01 = 2, m02 = 3, m03 = 4;
+        float m10 = 5, m11 = 6, m12 = 7, m13 = 8;
+        float m20 = 9, m21 = 10, m22 = 11, m23 = 12;
+        float m30 = 13, m31 = 14, m32 = 15, m33 = 16;
+
+        Matrix4f m = new Matrix4f(m00,m01,m02,m03,m10,m11,m12,m13,m20,m21,m22,m23,m30,m31,m32,m33);
+        Matrix4f expect = new Matrix4f(m00,m10,m20,m03,m01,m11,m21,m13,m02,m12,m22,m23,m30,m31,m32,m33);
+        TestUtil.assertMatrix4fEquals(new Matrix4f(m).transpose3x3(),expect, 1E-5f);
+        Matrix3f expect1 = new Matrix3f(m00,m10,m20,m01,m11,m21,m02,m12,m22);
+        Matrix4f expect2 = new Matrix4f(expect1);
+        TestUtil.assertMatrix4fEquals(new Matrix4f(m).transpose3x3(new Matrix4f()),expect2, 1E-5f);
+        TestUtil.assertMatrix3fEquals(new Matrix4f(m).transpose3x3(new Matrix3f()),expect1, 1E-5f);
     }
 
     public static void testPositiveXRotateY() {
