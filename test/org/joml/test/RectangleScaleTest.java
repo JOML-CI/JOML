@@ -1,3 +1,26 @@
+/*
+ * The MIT License
+ *
+ * Copyright (c) 2020 JOML.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package org.joml.test;
 
 import junit.framework.TestCase;
@@ -11,18 +34,7 @@ import org.joml.Rectanglei;
  */
 public class RectangleScaleTest extends TestCase {
 
-    static final float  F32_EPSILON = 1e-7f;
-    static final double F64_EPSILON = 1e-16d;
-
-    static boolean fpEqual (float a, float b) {
-        return Math.abs (a - b) <= F32_EPSILON;
-    }
-
-    static boolean fpEqual (double a, double b) {
-        return Math.abs (a - b) <= F64_EPSILON;
-    }
-
-    public void testNonUniformAnchoredScalingNoDestination () {
+    public static void testNonUniformAnchoredScalingNoDestination () {
         Rectangled testA = new Rectangled (-1, -1, +1, +1);
         Rectanglef testB = new Rectanglef (-1, -1, +1, +1);
         Rectanglei testC = new Rectanglei (-1, -1, +1, +1);
@@ -32,7 +44,7 @@ public class RectangleScaleTest extends TestCase {
         assertEquals (new Rectanglei (-1, -1, +3, +5), testC.scale (2, 3, -1, -1));
     }
 
-    public void testNonUniformAnchoredScalingWithDestination () {
+    public static void testNonUniformAnchoredScalingWithDestination () {
         Rectangled testASubject = new Rectangled (-1, -1, +1, +1);
         Rectangled testATarget  = new Rectangled ( 0,  0,  0,  0);
 
