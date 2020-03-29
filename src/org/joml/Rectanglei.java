@@ -126,6 +126,15 @@ public class Rectanglei implements Externalizable {
     }
 
     /**
+     * Return the area of the rectangle
+     *
+     * @return area
+     */
+    public int area() {
+        return this.width() * this.height();
+    }
+
+    /**
      * Check if this and the given rectangle intersect.
      * 
      * @param other
