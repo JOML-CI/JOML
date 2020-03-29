@@ -108,6 +108,24 @@ public class Rectanglei implements Externalizable {
     }
 
     /**
+     * Return the width of the rectangle
+     *
+     * @return width
+     */
+    public int width() {
+        return this.maxX - this.minX;
+    }
+
+    /**
+     * Return the height of the rectangle
+     *
+     * @return width
+     */
+    public int height() {
+        return this.maxY - this.minY;
+    }
+
+    /**
      * Check if this and the given rectangle intersect.
      * 
      * @param other
