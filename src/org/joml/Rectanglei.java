@@ -107,22 +107,6 @@ public class Rectanglei implements Externalizable {
         this.maxY = maxY;
     }
 
-    public int left() {
-        return Math.min(this.minX, this.maxX);
-    }
-
-    public int right() {
-        return Math.max(this.minX, this.maxX);
-    }
-
-    public int top() {
-        return Math.max(this.minY, this.maxY);
-    }
-
-    public int bottom() {
-        return Math.min(this.minY, this.maxY);
-    }
-
     public int width() {
         return maxX - minX;
     }
@@ -132,16 +116,32 @@ public class Rectanglei implements Externalizable {
     }
 
     public Vector2i size() {
-        return new Vector2i(width(),height());
+        return new Vector2i(maxX - minX, maxY - minY);
     }
 
     public int area() {
-        return Math.abs(width() * height());
+        return Math.abs((maxY - minY) * (maxY - minY));
     }
 
     public boolean empty() {
-        return width() == 0 && height() == 0;
+        return (maxX - minX) == 0 && (maxY - minY) == 0;
     }
+
+    public Rectanglei correctBounds() {
+        int tmp;
+        if (this.minX > this.maxX) {
+            tmp = this.minX;
+            this.minX = this.maxX;
+            this.maxX = tmp;
+        }
+        if (this.minY > this.maxY) {
+            tmp = this.minY;
+            this.minY = this.maxY;
+            this.maxY = tmp;
+        }
+        return this;
+    }
+
 
     /**
      * Check if this and the given rectangle intersect.
@@ -151,34 +151,11 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
      */
     public boolean contains(Rectanglei other) {
-        return left() <= other.left() &&
-            right() >= other.right() &&
-            top() >= other.top() &&
-            bottom() >= other.bottom();
+        return minX <= other.minX &&
+            maxX >= other.maxX &&
+            minY <= other.minY &&
+            maxY >= other.maxX;
     }
-
-    public Rectanglei intersect(Rectanglei other) {
-        int minX = Math.max(left(), other.left());
-        int maxX = Math.min(right(), other.right());
-        int minY = Math.max(bottom(), other.bottom());
-        int maxY = Math.min(top(), other.top());
-        return new Rectanglei(minX, minY, maxX, maxY);
-    }
-
-    public boolean overlaps(Rectanglei other) {
-        if (!(empty() || other.empty())) {
-            int minX = Math.max(left(), other.left());
-            int maxX = Math.min(right(), other.right());
-            if (minX > maxX) {
-                return false;
-            }
-            int minY = Math.max(bottom(), other.bottom());
-            int maxY = Math.min(top(), other.top());
-            return minY <= maxY;
-        }
-        return false;
-    }
-
 
     /**
      * Check if this rectangle contains the given <code>point</code>.
@@ -201,8 +178,32 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
     public boolean contains(int x, int y) {
-        return x >= left() && x <= right() && y >= bottom() && y <= top();
+        return x >= minX && x <= maxX && y >= minY && y <= maxY;
     }
+
+    public Rectanglei intersect(Rectanglei other) {
+        int minX = Math.max(this.minX, other.minX);
+        int maxX = Math.min(this.maxX, other.maxX);
+        int minY = Math.max(this.minY, other.minY);
+        int maxY = Math.min(this.maxY, other.maxY);
+        return new Rectanglei(minX, minY, maxX, maxY);
+    }
+
+    public boolean overlaps(Rectanglei other) {
+        if (!(empty() || other.empty())) {
+            int minX = Math.max(this.minX, other.minX);
+            int maxX = Math.min(this.maxX, other.maxX);
+            if (minX > maxX) {
+                return false;
+            }
+            int minY = Math.max(this.minY, other.minY);
+            int maxY = Math.min(this.maxY, other.maxY);
+            return minY <= maxY;
+        }
+        return false;
+    }
+
+
 
     /**
      * Translate <code>this</code> by the given vector <code>xy</code>.
