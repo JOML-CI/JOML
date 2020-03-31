@@ -109,6 +109,33 @@ public class Rectangled implements Externalizable {
     }
 
     /**
+     * Return the width of the rectangle
+     *
+     * @return width
+     */
+    public double width() {
+        return this.maxX - this.minX;
+    }
+
+    /**
+     * Return the height of the rectangle
+     *
+     * @return width
+     */
+    public double height() {
+        return this.maxY - this.minY;
+    }
+
+    /**
+     * Return the area of the rectangle
+     *
+     * @return area
+     */
+    public double area() {
+        return this.width() * this.height();
+    }
+
+    /**
      * Check if this and the given rectangle intersect.
      * 
      * @param other
