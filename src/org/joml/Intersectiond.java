@@ -101,7 +101,7 @@ public class Intersectiond {
      * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point lies on the face of the triangle.
      */
-    public static final int POINT_ON_TRIANGLE_FACE = 2;
+    public static final int POINT_ON_TRIANGLE_FACE = 7;
 
     /**
      * Return value of {@link #intersectRayAar(double, double, double, double, double, double, double, double, Vector2d)} and
