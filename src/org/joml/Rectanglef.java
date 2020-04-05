@@ -101,7 +101,6 @@ public class Rectanglef implements Externalizable {
      *          the y coordinate of the maximum corner
      */
     public Rectanglef(float minX, float minY, float maxX, float maxY) {
-        super();
         this.minX = minX;
         this.minY = minY;
         this.maxX = maxX;
@@ -109,21 +108,21 @@ public class Rectanglef implements Externalizable {
     }
 
     /**
-     * Return the width of the rectangle
+     * Return the length of the rectangle in the X dimension.
      *
-     * @return width
+     * @return length in the X dimension
      */
-    public float width() {
-        return this.maxX - this.minX;
+    public float lengthX() {
+        return maxX - minX;
     }
 
     /**
-     * Return the height of the rectangle
+     * Return the length of the rectangle in the Y dimension.
      *
-     * @return width
+     * @return length in the Y dimension
      */
-    public float height() {
-        return this.maxY - this.minY;
+    public float lengthY() {
+        return maxY - minY;
     }
 
     /**
@@ -132,9 +131,8 @@ public class Rectanglef implements Externalizable {
      * @return area
      */
     public float area() {
-        return this.width() * this.height();
+        return lengthX() * lengthY();
     }
-
 
     /**
      * Check if this and the given rectangle intersect.
@@ -146,6 +144,166 @@ public class Rectanglef implements Externalizable {
     public boolean intersects(Rectangled other) {
         return minX < other.maxX && maxX >= other.minX &&
                maxY >= other.minY && minY < other.maxY;
+    }
+
+    /**
+     * Check if this and the given rectangle intersect.
+     * 
+     * @param other
+     *          the other rectangle
+     * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
+     */
+    public boolean intersects(Rectanglef other) {
+        return minX < other.maxX && maxX >= other.minX &&
+               maxY >= other.minY && minY < other.maxY;
+    }
+
+    /**
+     * Check if this and the given rectangle intersect.
+     * 
+     * @param other
+     *          the other rectangle
+     * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
+     */
+    public boolean intersects(Rectanglei other) {
+        return minX < other.maxX && maxX >= other.minX &&
+               maxY >= other.minY && minY < other.maxY;
+    }
+
+    private Rectanglef validate() {
+        if (!isValid()) {
+            minX = Float.NaN;
+            minY = Float.NaN;
+            maxX = Float.NaN;
+            maxY = Float.NaN;
+        }
+        return this;
+    }
+
+    /**
+     * Check whether <code>this</code> rectangle represents a valid rectangle.
+     * 
+     * @return <code>true</code> iff this rectangle is valid; <code>false</code> otherwise
+     */
+    public boolean isValid() {
+        return minX <= maxX && minY <= maxY;
+    }
+
+    /**
+     * Compute the rectangle of intersection between <code>this</code> and the given rectangle.
+     * <p>
+     * If the two rectangles do not intersect, then {@link Float#NaN} is stored in each component
+     * of <code>dest</code>.
+     * 
+     * @param other
+     *          the other rectangle
+     * @return this
+     */
+    public Rectanglef intersection(Rectanglef other) {
+        return intersection(other, this);
+    }
+
+    /**
+     * Compute the rectangle of intersection between <code>this</code> and the given rectangle.
+     * <p>
+     * If the two rectangles do not intersect, then {@link Float#NaN} is stored in each component
+     * of <code>dest</code>.
+     * 
+     * @param other
+     *          the other rectangle
+     * @return this
+     */
+    public Rectanglef intersection(Rectanglei other) {
+        return intersection(other, this);
+    }
+
+    /**
+     * Compute the rectangle of intersection between <code>this</code> and the given rectangle and
+     * store the result in <code>dest</code>.
+     * <p>
+     * If the two rectangles do not intersect, then {@link Float#NaN} is stored in each component
+     * of <code>dest</code>.
+     * 
+     * @param other
+     *          the other rectangle
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglef intersection(Rectanglef other, Rectanglef dest) {
+        dest.minX = Math.max(minX, other.minX);
+        dest.minY = Math.max(minY, other.minY);
+        dest.maxX = Math.min(maxX, other.maxX);
+        dest.maxY = Math.min(maxY, other.maxY);
+        return dest.validate();
+    }
+
+    /**
+     * Compute the rectangle of intersection between <code>this</code> and the given rectangle and
+     * store the result in <code>dest</code>.
+     * <p>
+     * If the two rectangles do not intersect, then {@link Double#NaN} is stored in each component
+     * of <code>dest</code>.
+     * 
+     * @param other
+     *          the other rectangle
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglef intersection(Rectanglei other, Rectanglef dest) {
+        dest.minX = Math.max(minX, other.minX);
+        dest.minY = Math.max(minY, other.minY);
+        dest.maxX = Math.min(maxX, other.maxX);
+        dest.maxY = Math.min(maxY, other.maxY);
+        return dest.validate();
+    }
+
+    /**
+     * Return the length of this rectangle in the X and Y dimensions and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f lengths(Vector2f dest) {
+        return dest.set(lengthX(), lengthY());
+    }
+
+    /**
+     * Check if this rectangle contains the given <code>rectangle</code>.
+     * 
+     * @param rectangle
+     *          the rectangle to test
+     * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
+     */
+    public boolean contains(Rectangled rectangle) {
+        return rectangle.minX >= minX && rectangle.maxX <= maxX &&
+               rectangle.minY >= minY && rectangle.maxY <= maxY;
+    }
+
+    /**
+     * Check if this rectangle contains the given <code>rectangle</code>.
+     * 
+     * @param rectangle
+     *          the rectangle to test
+     * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
+     */
+    public boolean contains(Rectanglef rectangle) {
+        return rectangle.minX >= minX && rectangle.maxX <= maxX &&
+               rectangle.minY >= minY && rectangle.maxY <= maxY;
+    }
+
+    /**
+     * Check if this rectangle contains the given <code>rectangle</code>.
+     * 
+     * @param rectangle
+     *          the rectangle to test
+     * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
+     */
+    public boolean contains(Rectanglei rectangle) {
+        return rectangle.minX >= minX && rectangle.maxX <= maxX &&
+               rectangle.minY >= minY && rectangle.maxY <= maxY;
     }
 
     /**
