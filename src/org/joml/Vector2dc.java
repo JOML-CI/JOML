@@ -196,6 +196,52 @@ public interface Vector2dc {
     Vector2d mul(Vector2dc v, Vector2d dest);
 
     /**
+     * Divide this Vector2d by the given scalar value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *          the scalar to divide this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d div(double scalar, Vector2d dest);
+
+    /**
+     * Divide the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to divide this vector by
+     * @param y
+     *          the y component to divide this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d div(double x, double y, Vector2d dest);
+
+    /**
+     * Divide this Vector2d component-wise by another Vector2f and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d div(Vector2fc v, Vector2d dest);
+
+    /**
+     * Divide this by <code>v</code> component-wise and store the result into <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d div(Vector2dc v, Vector2d dest);
+
+    /**
      * Multiply the given matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      *

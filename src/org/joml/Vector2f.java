@@ -896,6 +896,68 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 
     /**
+     * Divide this Vector3f component-wise by another Vector3fc.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @return a vector holding the result
+     */
+    public Vector2f div(Vector2fc v) {
+        this.x = this.x / v.x();
+        this.y = this.y / v.y();
+        return this;
+    }
+
+    public Vector2f div(Vector2fc v, Vector2f dest) {
+        dest.x = x / v.x();
+        dest.y = y / v.y();
+        return dest;
+    }
+
+    /**
+     * Divide all components of this {@link Vector2f} by the given scalar
+     * value.
+     * 
+     * @param scalar
+     *          the scalar to divide by
+     * @return a vector holding the result
+     */
+    public Vector2f div(float scalar) {
+        float inv = 1.0f / scalar;
+        this.x = this.x * inv;
+        this.y = this.y * inv;
+        return this;
+    }
+
+    public Vector2f div(float scalar, Vector2f dest) {
+        float inv = 1.0f / scalar;
+        dest.x = this.x * inv;
+        dest.y = this.y * inv;
+        return dest;
+    }
+
+    /**
+     * Divide the components of this Vector2f by the given scalar values and store the result in <code>this</code>.
+     * 
+     * @param x
+     *          the x component to divide this vector by
+     * @param y
+     *          the y component to divide this vector by
+     * @return a vector holding the result
+     */
+    public Vector2f div(float x, float y) {
+        this.x = this.x / x;
+        this.y = this.y / y;
+        return this;
+    }
+
+    public Vector2f div(float x, float y, Vector2f dest) {
+        dest.x = this.x / x;
+        dest.y = this.y / y;
+        return dest;
+    }
+
+    /**
      * Multiply the given matrix with this Vector2f and store the result in <code>this</code>.
      *
      * @param mat

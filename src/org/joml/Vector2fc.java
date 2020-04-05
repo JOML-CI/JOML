@@ -311,6 +311,31 @@ public interface Vector2fc {
     Vector2f mul(Vector2fc v, Vector2f dest);
 
     /**
+     * Divide all components of this {@link Vector2f} by the given scalar
+     * value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *          the scalar to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f div(float scalar, Vector2f dest);
+
+    /**
+     * Divide the components of this Vector2f by the given scalar values and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to divide this vector by
+     * @param y
+     *          the y component to divide this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f div(float x, float y, Vector2f dest);
+
+    /**
      * Multiply the given matrix with this Vector2f and store the result in <code>dest</code>.
      *
      * @param mat

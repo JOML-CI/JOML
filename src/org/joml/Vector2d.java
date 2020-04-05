@@ -660,6 +660,86 @@ public class Vector2d implements Externalizable, Vector2dc {
     }
 
     /**
+     * Divide this Vector2d by the given scalar value.
+     * 
+     * @param scalar
+     *          the scalar to divide this vector by
+     * @return a vector holding the result
+     */
+    public Vector2d div(double scalar) {
+        double inv = 1.0 / scalar;
+        this.x = x * inv;
+        this.y = y * inv;
+        return this;
+    }
+
+    public Vector2d div(double scalar, Vector2d dest) {
+        double inv = 1.0 / scalar;
+        dest.x = x * inv;
+        dest.y = y * inv;
+        return dest;
+    }
+
+    /**
+     * Divide the components of this Vector2d by the given scalar values and store the result in <code>this</code>.
+     * 
+     * @param x
+     *          the x component to divide this vector by
+     * @param y
+     *          the y component to divide this vector by
+     * @return a vector holding the result
+     */
+    public Vector2d div(double x, double y) {
+        this.x = this.x / x;
+        this.y = this.y / y;
+        return this;
+    }
+
+    public Vector2d div(double x, double y, Vector2d dest) {
+        dest.x = this.x / x;
+        dest.y = this.y / y;
+        return dest;
+    }
+
+    /**
+     * Divide this Vector2d component-wise by another Vector2dc.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @return a vector holding the result
+     */
+    public Vector2d div(Vector2d v) {
+        this.x = x / v.x();
+        this.y = y / v.y();
+        return this;
+    }
+
+    /**
+     * Divide this Vector3d component-wise by another Vector2fc.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @return a vector holding the result
+     */
+    public Vector2d div(Vector2fc v) {
+        this.x = x / v.x();
+        this.y = y / v.y();
+        return this;
+    }
+
+    public Vector2d div(Vector2fc v, Vector2d dest) {
+        dest.x = x / v.x();
+        dest.y = y / v.y();
+        return dest;
+    }
+
+    public Vector2d div(Vector2dc v, Vector2d dest) {
+        dest.x = x / v.x();
+        dest.y = y / v.y();
+        return dest;
+    }
+
+    /**
      * Multiply the given matrix <code>mat</code> with this Vector2d.
      *
      * @param mat
