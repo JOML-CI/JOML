@@ -107,26 +107,51 @@ public class Rectanglei implements Externalizable {
         this.maxY = maxY;
     }
 
+    /**
+     *
+     * @return width of the rectangle
+     */
     public int width() {
         return maxX - minX;
     }
 
+    /**
+     *
+     * @return height of the rectangle
+     */
     public int height() {
         return maxY - minY;
     }
 
-    public Vector2i size() {
-        return new Vector2i(maxX - minX, maxY - minY);
+    /**
+     * retrieves the size of the rectangle
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2i size(Vector2i dest) {
+        return dest.set(maxX - minX, maxY - minY);
     }
 
+    /**
+     * @return area of the rectangle
+     */
     public int area() {
-        return Math.abs((maxY - minY) * (maxY - minY));
+        return (maxY - minY) * (maxY - minY);
     }
 
-    public boolean empty() {
-        return (maxX - minX) == 0 && (maxY - minY) == 0;
+    /**
+     * @return <code>true</code> iff rectangle is valid where minX <= maxX and minY <= maxY; <code>false</code> otherwise.
+     */
+    public boolean isValid() {
+        return this.minX <= this.maxX && this.minY <= this.maxY;
     }
 
+    /**
+     * flips min and max if min is greater then max
+     *
+     * @return this
+     */
     public Rectanglei correctBounds() {
         int tmp;
         if (this.minX > this.maxX) {
@@ -181,16 +206,24 @@ public class Rectanglei implements Externalizable {
         return x >= minX && x <= maxX && y >= minY && y <= maxY;
     }
 
-    public Rectanglei intersect(Rectanglei other) {
-        int minX = Math.max(this.minX, other.minX);
-        int maxX = Math.min(this.maxX, other.maxX);
-        int minY = Math.max(this.minY, other.minY);
-        int maxY = Math.min(this.maxY, other.maxY);
-        return new Rectanglei(minX, minY, maxX, maxY);
+    /**
+     * finds the rectangle that is contained between two overlapping other rectangles. if neither intersect then <code>dest</code> rectangle will be invalid.
+     * @param other
+     *          rectangle to intersect with
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Rectanglei intersect(Rectanglei other, Rectanglei dest) {
+        dest.minX = Math.max(this.minX, other.minX);
+        dest.maxX = Math.min(this.maxX, other.maxX);
+        dest.minY = Math.max(this.minY, other.minY);
+        dest.maxY = Math.min(this.maxY, other.maxY);
+        return dest;
     }
 
     public boolean overlaps(Rectanglei other) {
-        if (!(empty() || other.empty())) {
+        if (this.area() > 0 && other.area() > 0) {
             int minX = Math.max(this.minX, other.minX);
             int maxX = Math.min(this.maxX, other.maxX);
             if (minX > maxX) {
