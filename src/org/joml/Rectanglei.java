@@ -167,7 +167,6 @@ public class Rectanglei implements Externalizable {
         return this;
     }
 
-
     /**
      * Check if this and the given rectangle intersect.
      *
