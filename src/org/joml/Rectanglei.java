@@ -186,7 +186,7 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff this rectangle is valid; <code>false</code> otherwise
      */
     public boolean isValid() {
-        return minX <= maxX && minY <= maxY;
+        return minX < maxX && minY < maxY;
     }
 
     /**
