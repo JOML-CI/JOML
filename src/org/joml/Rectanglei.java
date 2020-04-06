@@ -190,6 +190,21 @@ public class Rectanglei implements Externalizable {
     }
 
     /**
+     * Compute the rectangle of intersection between <code>this</code> and the given rectangle.
+     * <p>
+     * If the two rectangles do not intersect, then the minimum coordinates of <code>this</code>
+     * will have a value of {@link Integer#MAX_VALUE} and the maximum coordinates will have a value of 
+     * {@link Integer#MIN_VALUE}.
+     * 
+     * @param other
+     *          the other rectangle
+     * @return this
+     */
+    public Rectanglei intersection(Rectanglei other) {
+        return intersection(other, this);
+    }
+
+    /**
      * Compute the rectangle of intersection between <code>this</code> and the given rectangle and
      * store the result in <code>dest</code>.
      * <p>
