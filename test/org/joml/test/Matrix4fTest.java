@@ -531,4 +531,12 @@ public class Matrix4fTest extends TestCase {
         assertFalse(m.testAab(10.001f*0.5f, 0, 0, 10, 1, 1));
     }
 
+    public static void testTransformTranspose() {
+        Matrix4f m = new Matrix4f(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+        TestUtil.assertVector4fEquals(
+                m.transformTranspose(new Vector4f(4, 5, 6, 7)), 
+                m.transpose(new Matrix4f()).transform(new Vector4f(4, 5, 6, 7)), 
+                1E-6f);
+    }
+
 }

@@ -1391,6 +1391,47 @@ public interface Matrix4fc {
     Vector4f transform(float x, float y, float z, float w, Vector4f dest);
 
     /**
+     * Transform/multiply the given vector by the transpose of this matrix and store the result in that vector.
+     * 
+     * @see Vector4f#mulTranspose(Matrix4fc)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    Vector4f transformTranspose(Vector4f v);
+
+    /**
+     * Transform/multiply the given vector by the transpose of this matrix and store the result in <code>dest</code>.
+     * 
+     * @see Vector4f#mulTranspose(Matrix4fc, Vector4f)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    Vector4f transformTranspose(Vector4fc v, Vector4f dest);
+
+    /**
+     * Transform/multiply the vector <code>(x, y, z, w)</code> by the transpose of this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param w
+     *          the w coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    Vector4f transformTranspose(float x, float y, float z, float w, Vector4f dest);
+
+    /**
      * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
      * 
      * @see Vector4f#mulProject(Matrix4fc)

@@ -4611,6 +4611,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
        return dest.set(x, y, z, w).mul(this);
     }
 
+    public Vector4f transformTranspose(Vector4f v) {
+        return v.mulTranspose(this);
+    }
+    public Vector4f transformTranspose(Vector4fc v, Vector4f dest) {
+        return v.mulTranspose(this, dest);
+    }
+    public Vector4f transformTranspose(float x, float y, float z, float w, Vector4f dest) {
+       return dest.set(x, y, z, w).mulTranspose(this);
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Matrix4fc#transformProject(org.joml.Vector4f)
      */

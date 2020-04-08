@@ -994,14 +994,29 @@ public class Vector4f implements Externalizable, Vector4fc {
             return mulAffine(mat, this);
         return mulGeneric(mat, this);
     }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mul(org.joml.Matrix4fc, org.joml.Vector4f)
-     */
     public Vector4f mul(Matrix4fc mat, Vector4f dest) {
         if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
             return mulAffine(mat, dest);
         return mulGeneric(mat, dest);
+    }
+
+    /**
+     * Multiply the transpose of the given matrix <code>mat</code> with this Vector4f and store the result in
+     * <code>this</code>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply the vector with
+     * @return a vector holding the result
+     */
+    public Vector4f mulTranspose(Matrix4fc mat) {
+        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
+            return mulAffineTranspose(mat, this);
+        return mulGenericTranspose(mat, this);
+    }
+    public Vector4f mulTranspose(Matrix4fc mat, Vector4f dest) {
+        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
+            return mulAffineTranspose(mat, dest);
+        return mulGenericTranspose(mat, dest);
     }
 
     /* (non-Javadoc)
@@ -1022,6 +1037,23 @@ public class Vector4f implements Externalizable, Vector4fc {
         dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
         dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
         dest.w = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
+        return dest;
+    }
+
+    public Vector4f mulAffineTranspose(Matrix4fc mat, Vector4f dest) {
+        float x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03() * w)));
+        dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13() * w)));
+        dest.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23() * w)));
+        dest.w = w;
+        return dest;
+    }
+    private Vector4f mulGenericTranspose(Matrix4fc mat, Vector4f dest) {
+        float x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03() * w)));
+        dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13() * w)));
+        dest.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23() * w)));
+        dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, Math.fma(mat.m32(), z, mat.m33() * w)));
         return dest;
     }
 

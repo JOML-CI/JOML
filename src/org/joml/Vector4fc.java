@@ -282,6 +282,18 @@ public interface Vector4fc {
     Vector4f mul(Matrix4fc mat, Vector4f dest);
 
     /**
+     * Multiply the transpose of the given matrix <code>mat</code> with this Vector4f and store the result in
+     * <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply the vector with
+     * @param dest
+     *          the destination vector to hold the result
+     * @return dest
+     */
+    Vector4f mulTranspose(Matrix4fc mat, Vector4f dest);
+
+    /**
      * Multiply the given affine matrix mat with this Vector4f and store the result in
      * <code>dest</code>.
      * 
@@ -292,6 +304,18 @@ public interface Vector4fc {
      * @return dest
      */
     Vector4f mulAffine(Matrix4fc mat, Vector4f dest);
+
+    /**
+     * Multiply the transpose of the given affine matrix <code>mat</code> with this Vector4f and store the result in
+     * <code>dest</code>.
+     * 
+     * @param mat
+     *          the affine matrix whose transpose to multiply the vector with
+     * @param dest
+     *          the destination vector to hold the result
+     * @return dest
+     */
+    Vector4f mulAffineTranspose(Matrix4fc mat, Vector4f dest);
 
     /**
      * Multiply the given matrix mat with this Vector4f and store the result in
