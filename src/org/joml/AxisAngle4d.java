@@ -302,8 +302,16 @@ public class AxisAngle4d implements Externalizable {
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+        double epsilon = 1E-4, epsilon2 = 1E-3;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
             angle = Math.PI;
             double xx = (nm00 + 1) / 2;
             double yy = (nm11 + 1) / 2;
@@ -354,8 +362,16 @@ public class AxisAngle4d implements Externalizable {
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+        double epsilon = 1E-4, epsilon2 = 1E-3;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
             angle = Math.PI;
             double xx = (nm00 + 1) / 2;
             double yy = (nm11 + 1) / 2;
@@ -406,8 +422,16 @@ public class AxisAngle4d implements Externalizable {
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+        double epsilon = 1E-4, epsilon2 = 1E-3;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
             angle = Math.PI;
             double xx = (nm00 + 1) / 2;
             double yy = (nm11 + 1) / 2;
@@ -458,8 +482,16 @@ public class AxisAngle4d implements Externalizable {
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+        double epsilon = 1E-4, epsilon2 = 1E-3;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
             angle = Math.PI;
             double xx = (nm00 + 1) / 2;
             double yy = (nm11 + 1) / 2;
@@ -510,8 +542,16 @@ public class AxisAngle4d implements Externalizable {
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+        double epsilon = 1E-4, epsilon2 = 1E-3;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
             angle = Math.PI;
             double xx = (nm00 + 1) / 2;
             double yy = (nm11 + 1) / 2;

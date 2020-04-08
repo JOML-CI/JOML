@@ -240,44 +240,52 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f set(Matrix3fc m) {
-        double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
-        double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
-        double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
-        double lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
-        double lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
-        double lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        float nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
+        float nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
+        float nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
+        float lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        float lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        float lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
-            angle = (float) Math.PI;
-            double xx = (nm00 + 1) / 2;
-            double yy = (nm11 + 1) / 2;
-            double zz = (nm22 + 1) / 2;
-            double xy = (nm10 + nm01) / 4;
-            double xz = (nm20 + nm02) / 4;
-            double yz = (nm21 + nm12) / 4;
+        float epsilon = 1E-4f, epsilon2 = 1E-3f;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
+            angle = Math.PI_f;
+            float xx = (nm00 + 1) / 2;
+            float yy = (nm11 + 1) / 2;
+            float zz = (nm22 + 1) / 2;
+            float xy = (nm10 + nm01) / 4;
+            float xz = (nm20 + nm02) / 4;
+            float yz = (nm21 + nm12) / 4;
             if ((xx > yy) && (xx > zz)) {
-                x = (float) Math.sqrt(xx);
-                y = (float) (xy / x);
-                z = (float) (xz / x);
+                x = Math.sqrt(xx);
+                y = xy / x;
+                z = xz / x;
             } else if (yy > zz) {
-                y = (float) Math.sqrt(yy);
-                x = (float) (xy / y);
-                z = (float) (yz / y);
+                y = Math.sqrt(yy);
+                x = xy / y;
+                z = yz / y;
             } else {
-                z = (float) Math.sqrt(zz);
-                x = (float) (xz / z);
-                y = (float) (yz / z);
+                z = Math.sqrt(zz);
+                x = xz / z;
+                y = yz / z;
             }
             return this;
         }
-        double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
-        angle = (float) Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
-        x = (float) ((nm12 - nm21) / s);
-        y = (float) ((nm20 - nm02) / s);
-        z = (float) ((nm01 - nm10) / s);
+        float s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
+        angle = Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        x = (nm12 - nm21) / s;
+        y = (nm20 - nm02) / s;
+        z = (nm01 - nm10) / s;
         return this;
     }
 
@@ -301,8 +309,16 @@ public class AxisAngle4f implements Externalizable {
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+        double epsilon = 1E-4, epsilon2 = 1E-3;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
             angle = (float) Math.PI;
             double xx = (nm00 + 1) / 2;
             double yy = (nm11 + 1) / 2;
@@ -344,44 +360,52 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f set(Matrix4fc m) {
-        double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
-        double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
-        double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
-        double lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
-        double lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
-        double lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        float nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
+        float nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
+        float nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
+        float lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        float lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        float lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
-            angle = (float) Math.PI;
-            double xx = (nm00 + 1) / 2;
-            double yy = (nm11 + 1) / 2;
-            double zz = (nm22 + 1) / 2;
-            double xy = (nm10 + nm01) / 4;
-            double xz = (nm20 + nm02) / 4;
-            double yz = (nm21 + nm12) / 4;
+        float epsilon = 1E-4f, epsilon2 = 1E-3f;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
+            angle = Math.PI_f;
+            float xx = (nm00 + 1) / 2;
+            float yy = (nm11 + 1) / 2;
+            float zz = (nm22 + 1) / 2;
+            float xy = (nm10 + nm01) / 4;
+            float xz = (nm20 + nm02) / 4;
+            float yz = (nm21 + nm12) / 4;
             if ((xx > yy) && (xx > zz)) {
-                x = (float) Math.sqrt(xx);
-                y = (float) (xy / x);
-                z = (float) (xz / x);
+                x = Math.sqrt(xx);
+                y = xy / x;
+                z = xz / x;
             } else if (yy > zz) {
-                y = (float) Math.sqrt(yy);
-                x = (float) (xy / y);
-                z = (float) (yz / y);
+                y = Math.sqrt(yy);
+                x = xy / y;
+                z = yz / y;
             } else {
-                z = (float) Math.sqrt(zz);
-                x = (float) (xz / z);
-                y = (float) (yz / z);
+                z = Math.sqrt(zz);
+                x = xz / z;
+                y = yz / z;
             }
             return this;
         }
-        double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
-        angle = (float) Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
-        x = (float) ((nm12 - nm21) / s);
-        y = (float) ((nm20 - nm02) / s);
-        z = (float) ((nm01 - nm10) / s);
+        float s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
+        angle = Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        x = (nm12 - nm21) / s;
+        y = (nm20 - nm02) / s;
+        z = (nm01 - nm10) / s;
         return this;
     }
 
@@ -396,44 +420,52 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f set(Matrix4x3fc m) {
-        double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
-        double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
-        double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
-        double lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
-        double lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
-        double lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        float nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
+        float nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
+        float nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
+        float lenX = Math.invsqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        float lenY = Math.invsqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        float lenZ = Math.invsqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
-            angle = (float) Math.PI;
-            double xx = (nm00 + 1) / 2;
-            double yy = (nm11 + 1) / 2;
-            double zz = (nm22 + 1) / 2;
-            double xy = (nm10 + nm01) / 4;
-            double xz = (nm20 + nm02) / 4;
-            double yz = (nm21 + nm12) / 4;
+        float epsilon = 1E-4f, epsilon2 = 1E-3f;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
+            angle = Math.PI_f;
+            float xx = (nm00 + 1) / 2;
+            float yy = (nm11 + 1) / 2;
+            float zz = (nm22 + 1) / 2;
+            float xy = (nm10 + nm01) / 4;
+            float xz = (nm20 + nm02) / 4;
+            float yz = (nm21 + nm12) / 4;
             if ((xx > yy) && (xx > zz)) {
-                x = (float) Math.sqrt(xx);
-                y = (float) (xy / x);
-                z = (float) (xz / x);
+                x = Math.sqrt(xx);
+                y = xy / x;
+                z = xz / x;
             } else if (yy > zz) {
-                y = (float) Math.sqrt(yy);
-                x = (float) (xy / y);
-                z = (float) (yz / y);
+                y = Math.sqrt(yy);
+                x = xy / y;
+                z = yz / y;
             } else {
-                z = (float) Math.sqrt(zz);
-                x = (float) (xz / z);
-                y = (float) (yz / z);
+                z = Math.sqrt(zz);
+                x = xz / z;
+                y = yz / z;
             }
             return this;
         }
-        double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
-        angle = (float) Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
-        x = (float) ((nm12 - nm21) / s);
-        y = (float) ((nm20 - nm02) / s);
-        z = (float) ((nm01 - nm10) / s);
+        float s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
+        angle = Math.safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        x = (nm12 - nm21) / s;
+        y = (nm20 - nm02) / s;
+        z = (nm01 - nm10) / s;
         return this;
     }
 
@@ -457,8 +489,16 @@ public class AxisAngle4f implements Externalizable {
         nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
         nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
         nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
-        double epsilon = 1E-4;
-        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+        double epsilon = 1E-4, epsilon2 = 1E-3;
+        if (Math.abs(nm10 - nm01) < epsilon && Math.abs(nm20 - nm02) < epsilon && Math.abs(nm21 - nm12) < epsilon) {
+            if (Math.abs(nm10 + nm01) < epsilon2 && Math.abs(nm20 + nm02) < epsilon2 && Math.abs(nm21 + nm12) < epsilon2
+                    && Math.abs(nm00 + nm11 + nm22 - 3) < epsilon2) {
+                x = 0;
+                y = 0;
+                z = 1;
+                angle = 0;
+                return this;
+            }
             angle = (float) Math.PI;
             double xx = (nm00 + 1) / 2;
             double yy = (nm11 + 1) / 2;
