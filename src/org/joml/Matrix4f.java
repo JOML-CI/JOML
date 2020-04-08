@@ -5347,14 +5347,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <code>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</code>
+     * This method is equivalent to calling: <code>rotateX(angles.x()).rotateY(angles.y()).rotateZ(angles.z())</code>
      * 
      * @param angles
      *            the Euler angles
      * @return this
      */
-    public Matrix4f rotateXYZ(Vector3f angles) {
-        return rotateXYZ(angles.x, angles.y, angles.z);
+    public Matrix4f rotateXYZ(Vector3fc angles) {
+        return rotateXYZ(angles.x(), angles.y(), angles.z());
     }
 
     /**
