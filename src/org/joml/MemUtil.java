@@ -3982,6 +3982,25 @@ abstract class MemUtil {
             }
         }
 
+        public static void getTransposed(Matrix4f m, long srcAddr) {
+            m._m00(UNSAFE.getFloat(srcAddr))
+             ._m10(UNSAFE.getFloat(srcAddr + 4))
+             ._m20(UNSAFE.getFloat(srcAddr + 8))
+             ._m30(UNSAFE.getFloat(srcAddr + 12))
+             ._m01(UNSAFE.getFloat(srcAddr + 16))
+             ._m11(UNSAFE.getFloat(srcAddr + 20))
+             ._m21(UNSAFE.getFloat(srcAddr + 24))
+             ._m31(UNSAFE.getFloat(srcAddr + 28))
+             ._m02(UNSAFE.getFloat(srcAddr + 32))
+             ._m12(UNSAFE.getFloat(srcAddr + 36))
+             ._m22(UNSAFE.getFloat(srcAddr + 40))
+             ._m32(UNSAFE.getFloat(srcAddr + 44))
+             ._m03(UNSAFE.getFloat(srcAddr + 48))
+             ._m13(UNSAFE.getFloat(srcAddr + 52))
+             ._m23(UNSAFE.getFloat(srcAddr + 56))
+             ._m33(UNSAFE.getFloat(srcAddr + 60));
+        }
+
         public static void get(Matrix4x3f m, long srcAddr) {
             for (int i = 0; i < 6; i++) {
                 UNSAFE.putLong(m, Matrix4x3f_m00 + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
