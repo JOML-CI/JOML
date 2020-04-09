@@ -211,16 +211,10 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#x()
-     */
     public int x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#y()
-     */
     public int y() {
         return this.y;
     }
@@ -430,9 +424,6 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(int)
-     */
     public int get(int component) throws IllegalArgumentException {
         switch (component) {
         case 0:
@@ -469,33 +460,21 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(java.nio.IntBuffer)
-     */
     public IntBuffer get(IntBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(int, java.nio.IntBuffer)
-     */
     public IntBuffer get(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
@@ -525,9 +504,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#sub(org.joml.Vector2ic, org.joml.Vector2i)
-     */
     public Vector2i sub(Vector2ic v, Vector2i dest) {
         dest.x = x - v.x();
         dest.y = y - v.y();
@@ -549,18 +525,12 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#sub(int, int, org.joml.Vector2i)
-     */
     public Vector2i sub(int x, int y, Vector2i dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#lengthSquared()
-     */
     public long lengthSquared() {
         return x * x + y * y;
     }
@@ -577,9 +547,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return x * x + y * y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#length()
-     */
     public double length() {
         return Math.sqrt(x * x + y * y);
     }
@@ -596,54 +563,34 @@ public class Vector2i implements Externalizable, Vector2ic {
         return Math.sqrt(x * x + y * y);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distance(org.joml.Vector2ic)
-     */
     public double distance(Vector2ic v) {
         int dx = this.x - v.x();
         int dy = this.y - v.y();
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distance(int, int)
-     */
     public double distance(int x, int y) {
         int dx = this.x - x;
         int dy = this.y - y;
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distanceSquared(org.joml.Vector2ic)
-     */
     public long distanceSquared(Vector2ic v) {
         int dx = this.x - v.x();
         int dy = this.y - v.y();
         return dx * dx + dy * dy;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distanceSquared(int, int)
-     */
     public long distanceSquared(int x, int y) {
         int dx = this.x - x;
         int dy = this.y - y;
         return dx * dx + dy * dy;
     }
 
-    /**
-     * (non-Javadoc)
-     * @see org.joml.Vector2ic#gridDistance(org.joml.Vector2ic)
-     */
     public long gridDistance(Vector2ic v) {
         return Math.abs(v.x() - x()) + Math.abs(v.y() - y());
     }
 
-    /**
-     * (non-Javadoc)
-     * @see org.joml.Vector2ic#gridDistance(int, int)
-     */
     public long gridDistance(int x, int y) {
         return Math.abs(x - x()) + Math.abs(y - y());
     }
@@ -699,9 +646,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#add(org.joml.Vector2ic, org.joml.Vector2i)
-     */
     public Vector2i add(Vector2ic v, Vector2i dest) {
         dest.x = x + v.x();
         dest.y = y + v.y();
@@ -723,9 +667,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#add(int, int, org.joml.Vector2i)
-     */
     public Vector2i add(int x, int y, Vector2i dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
@@ -746,9 +687,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#mul(int, org.joml.Vector2i)
-     */
     public Vector2i mul(int scalar, Vector2i dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
@@ -768,9 +706,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#mul(org.joml.Vector2ic, org.joml.Vector2i)
-     */
     public Vector2i mul(Vector2ic v, Vector2i dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -792,9 +727,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#mul(int, int, org.joml.Vector2i)
-     */
     public Vector2i mul(int x, int y, Vector2i dest) {
         dest.x = this.x * x;
         dest.y = this.y * y;
@@ -833,9 +765,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#negate(org.joml.Vector2i)
-     */
     public Vector2i negate(Vector2i dest) {
         dest.x = -x;
         dest.y = -y;
@@ -880,9 +809,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#maxComponent()
-     */
     public int maxComponent() {
         int absX = Math.abs(x);
         int absY = Math.abs(y);
@@ -891,9 +817,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return 1;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#minComponent()
-     */
     public int minComponent() {
         int absX = Math.abs(x);
         int absY = Math.abs(y);
@@ -947,9 +870,6 @@ public class Vector2i implements Externalizable, Vector2ic {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#equals(int, int)
-     */
     public boolean equals(int x, int y) {
         if (this.x != x)
             return false;

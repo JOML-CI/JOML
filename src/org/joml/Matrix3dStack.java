@@ -137,9 +137,6 @@ public class Matrix3dStack extends Matrix3d {
      * - Matrix3dStack.equals(Matrix3d) is true iff all the 9 matrix elements are equal
      * - Matrix3dStack.equals(Matrix3dStack) is true iff all 9 matrix elements are equal AND the matrix arrays as well as the stack pointer are equal
      * - everything else is inequal
-     * 
-     * (non-Javadoc)
-     * @see org.joml.Matrix3d#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
         if (this == obj)

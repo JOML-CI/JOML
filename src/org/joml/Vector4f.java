@@ -278,30 +278,18 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#x()
-     */
     public float x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#y()
-     */
     public float y() {
         return this.y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#z()
-     */
     public float z() {
         return this.z;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#w()
-     */
     public float w() {
         return this.w;
     }
@@ -663,33 +651,21 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#get(java.nio.FloatBuffer)
-     */
     public FloatBuffer get(FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#get(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
@@ -741,9 +717,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#sub(org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f sub(Vector4fc v, Vector4f dest) {
         dest.x = this.x - v.x();
         dest.y = this.y - v.y();
@@ -752,9 +725,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#sub(float, float, float, float, org.joml.Vector4f)
-     */
     public Vector4f sub(float x, float y, float z, float w, Vector4f dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
@@ -778,9 +748,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#add(org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f add(Vector4fc v, Vector4f dest) {
         dest.x = x + v.x();
         dest.y = y + v.y();
@@ -810,9 +777,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#add(float, float, float, float, org.joml.Vector4f)
-     */
     public Vector4f add(float x, float y, float z, float w, Vector4f dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
@@ -855,9 +819,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#fma(org.joml.Vector4fc, org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f fma(Vector4fc a, Vector4fc b, Vector4f dest) {
         dest.x = Math.fma(a.x(), b.x(), x);
         dest.y = Math.fma(a.y(), b.y(), y);
@@ -866,9 +827,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#fma(float, org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f fma(float a, Vector4fc b, Vector4f dest) {
         dest.x = Math.fma(a, b.x(), x);
         dest.y = Math.fma(a, b.y(), y);
@@ -909,9 +867,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mulAdd(org.joml.Vector4fc, org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f mulAdd(Vector4fc a, Vector4fc b, Vector4f dest) {
         dest.x = Math.fma(x, a.x(), b.x());
         dest.y = Math.fma(y, a.y(), b.y());
@@ -919,9 +874,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mulAdd(float, org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f mulAdd(float a, Vector4fc b, Vector4f dest) {
         dest.x = Math.fma(x, a, b.x());
         dest.y = Math.fma(y, a, b.y());
@@ -944,9 +896,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mul(org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f mul(Vector4fc v, Vector4f dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -970,9 +919,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#div(org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f div(Vector4fc v, Vector4f dest) {
         dest.x = x / v.x();
         dest.y = y / v.y();
@@ -1019,9 +965,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return mulGenericTranspose(mat, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mulAffine(org.joml.Matrix4fc, org.joml.Vector4f)
-     */
     public Vector4f mulAffine(Matrix4fc mat, Vector4f dest) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
@@ -1074,9 +1017,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mul(org.joml.Matrix4x3fc, org.joml.Vector4f)
-     */
     public Vector4f mul(Matrix4x3fc mat, Vector4f dest) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
@@ -1086,9 +1026,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mulProject(org.joml.Matrix4fc, org.joml.Vector4f)
-     */
     public Vector4f mulProject(Matrix4fc mat, Vector4f dest) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
         float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
@@ -1116,9 +1053,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mulProject(org.joml.Matrix4fc, org.joml.Vector3f)
-     */
     public Vector3f mulProject(Matrix4fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
         float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
@@ -1144,9 +1078,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mul(float, org.joml.Vector4f)
-     */
     public Vector4f mul(float scalar, Vector4f dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
@@ -1176,9 +1107,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mul(float, float, float, float, org.joml.Vector4f)
-     */
     public Vector4f mul(float x, float y, float z, float w, Vector4f dest) {
         dest.x = this.x * x;
         dest.y = this.y * y;
@@ -1204,9 +1132,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#div(float, org.joml.Vector4f)
-     */
     public Vector4f div(float scalar, Vector4f dest) {
         float inv = 1.0f / scalar;
         dest.x = x * inv;
@@ -1237,9 +1162,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#div(float, float, float, float, org.joml.Vector4f)
-     */
     public Vector4f div(float x, float y, float z, float w, Vector4f dest) {
         dest.x = this.x / x;
         dest.y = this.y / y;
@@ -1261,9 +1183,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return quat.transform(this, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#rotate(org.joml.Quaternionf, org.joml.Vector4f)
-     */
     public Vector4f rotate(Quaternionfc quat, Vector4f dest) {
         return quat.transform(this, dest);
     }
@@ -1291,9 +1210,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return rotateAxisInternal(angle, x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#rotateAxis(float, float, float, float, org.joml.Vector4f)
-     */
     public Vector4f rotateAxis(float angle, float aX, float aY, float aZ, Vector4f dest) {
         if (aY == 0.0f && aZ == 0.0f && Math.absEqualsOne(aX))
             return rotateX(aX * angle, dest);
@@ -1333,9 +1249,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#rotateX(float, org.joml.Vector4f)
-     */
     public Vector4f rotateX(float angle, Vector4f dest) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float y = this.y * cos - this.z * sin;
@@ -1363,9 +1276,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#rotateY(float, org.joml.Vector4f)
-     */
     public Vector4f rotateY(float angle, Vector4f dest) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float x =  this.x * cos + this.z * sin;
@@ -1393,9 +1303,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#rotateZ(float, org.joml.Vector4f)
-     */
     public Vector4f rotateZ(float angle, Vector4f dest) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float x = this.x * cos - this.y * sin;
@@ -1407,9 +1314,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#lengthSquared()
-     */
     public float lengthSquared() {
         return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
@@ -1434,9 +1338,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#length()
-     */
     public float length() {
         return Math.sqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
     }
@@ -1471,9 +1372,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#normalize(org.joml.Vector4f)
-     */
     public Vector4f normalize(Vector4f dest) {
         float invLength = 1.0f / length();
         dest.x = x * invLength;
@@ -1499,9 +1397,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#normalize(float, org.joml.Vector4f)
-     */
     public Vector4f normalize(float length, Vector4f dest) {
         float invLength = 1.0f / length() * length;
         dest.x = x * invLength;
@@ -1525,9 +1420,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#normalize3(org.joml.Vector4f)
-     */
     public Vector4f normalize3(Vector4f dest) {
         float invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
         dest.x = x * invLength;
@@ -1537,9 +1429,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#distance(org.joml.Vector4fc)
-     */
     public float distance(Vector4fc v) {
         float dx = this.x - v.x();
         float dy = this.y - v.y();
@@ -1548,9 +1437,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#distance(float, float, float, float)
-     */
     public float distance(float x, float y, float z, float w) {
         float dx = this.x - x;
         float dy = this.y - y;
@@ -1559,9 +1445,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#distanceSquared(org.joml.Vector4fc)
-     */
     public float distanceSquared(Vector4fc v) {
         float dx = this.x - v.x();
         float dy = this.y - v.y();
@@ -1570,9 +1453,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#distanceSquared(float, float, float, float)
-     */
     public float distanceSquared(float x, float y, float z, float w) {
         float dx = this.x - x;
         float dy = this.y - y;
@@ -1639,23 +1519,14 @@ public class Vector4f implements Externalizable, Vector4fc {
         return Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#dot(org.joml.Vector4fc)
-     */
     public float dot(Vector4fc v) {
         return Math.fma(this.x, v.x(), Math.fma(this.y, v.y(), Math.fma(this.z, v.z(), this.w * v.w())));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#dot(float, float, float, float)
-     */
     public float dot(float x, float y, float z, float w) {
         return Math.fma(this.x, x, Math.fma(this.y, y, Math.fma(this.z, z, this.w * w)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#angleCos(org.joml.Vector4fc)
-     */
     public float angleCos(Vector4fc v) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
         float length1Squared = Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
@@ -1664,9 +1535,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dot / Math.sqrt(length1Squared * length2Squared);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#angle(org.joml.Vector4fc)
-     */
     public float angle(Vector4fc v) {
         float cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
@@ -1701,9 +1569,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#negate(org.joml.Vector4f)
-     */
     public Vector4f negate(Vector4f dest) {
         dest.x = -x;
         dest.y = -y;
@@ -1842,9 +1707,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#equals(float, float, float, float)
-     */
     public boolean equals(float x, float y, float z, float w) {
         if (Float.floatToIntBits(this.x) != Float.floatToIntBits(x))
             return false;
@@ -1857,9 +1719,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#smoothStep(org.joml.Vector4fc, float, org.joml.Vector4f)
-     */
     public Vector4f smoothStep(Vector4fc v, float t, Vector4f dest) {
         float t2 = t * t;
         float t3 = t2 * t;
@@ -1871,9 +1730,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#hermite(org.joml.Vector4fc, org.joml.Vector4fc, org.joml.Vector4fc, float, org.joml.Vector4f)
-     */
     public Vector4f hermite(Vector4fc t0, Vector4fc v1, Vector4fc t1, float t, Vector4f dest) {
         float t2 = t * t;
         float t3 = t2 * t;
@@ -1906,9 +1762,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#lerp(org.joml.Vector4fc, float, org.joml.Vector4f)
-     */
     public Vector4f lerp(Vector4fc other, float t, Vector4f dest) {
         dest.x = Math.fma(other.x() - x, t, x);
         dest.y = Math.fma(other.y() - y, t, y);
@@ -1917,9 +1770,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#get(int)
-     */
     public float get(int component) throws IllegalArgumentException {
         switch (component) {
         case 0:
@@ -1959,9 +1809,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#maxComponent()
-     */
     public int maxComponent() {
         float absX = Math.abs(x);
         float absY = Math.abs(y);
@@ -1977,9 +1824,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return 3;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#minComponent()
-     */
     public int minComponent() {
         float absX = Math.abs(x);
         float absY = Math.abs(y);
@@ -2063,9 +1907,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4fc#isFinite()
-     */
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
     }

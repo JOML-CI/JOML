@@ -288,30 +288,18 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#x()
-     */
     public int x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#y()
-     */
     public int y() {
         return this.y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#z()
-     */
     public int z() {
         return this.z;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#w()
-     */
     public int w() {
         return this.w;
     }
@@ -578,9 +566,6 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#get(int)
-     */
     public int get(int component) throws IllegalArgumentException {
         switch (component) {
         case 0:
@@ -596,9 +581,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#maxComponent()
-     */
     public int maxComponent() {
         int absX = Math.abs(x);
         int absY = Math.abs(y);
@@ -614,9 +596,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return 3;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#minComponent()
-     */
     public int minComponent() {
         int absX = Math.abs(x);
         int absY = Math.abs(y);
@@ -663,33 +642,21 @@ public class Vector4i implements Externalizable, Vector4ic {
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#get(java.nio.IntBuffer)
-     */
     public IntBuffer get(IntBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#get(int, java.nio.IntBuffer)
-     */
     public IntBuffer get(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
@@ -741,9 +708,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#sub(org.joml.Vector4ic, org.joml.Vector4i)
-     */
     public Vector4i sub(Vector4ic v, Vector4i dest) {
         dest.x = this.x - v.x();
         dest.y = this.y - v.y();
@@ -752,9 +716,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#sub(int, int, int, int, org.joml.Vector4i)
-     */
     public Vector4i sub(int x, int y, int z, int w, Vector4i dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
@@ -778,9 +739,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#add(org.joml.Vector4ic, org.joml.Vector4i)
-     */
     public Vector4i add(Vector4ic v, Vector4i dest) {
         dest.x = this.x + v.x();
         dest.y = this.y + v.y();
@@ -810,9 +768,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#add(int, int, int, int, org.joml.Vector4i)
-     */
     public Vector4i add(int x, int y, int z, int w, Vector4i dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
@@ -836,9 +791,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#mul(org.joml.Vector4ic, org.joml.Vector4i)
-     */
     public Vector4i mul(Vector4ic v, Vector4i dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -862,9 +814,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#div(org.joml.Vector4ic, org.joml.Vector4i)
-     */
     public Vector4i div(Vector4ic v, Vector4i dest) {
         dest.x = x / v.x();
         dest.y = y / v.y();
@@ -889,9 +838,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#mul(int, org.joml.Vector4i)
-     */
     public Vector4i mul(int scalar, Vector4i dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
@@ -948,9 +894,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#lengthSquared()
-     */
     public long lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
@@ -969,9 +912,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return x * x + y * y + z * z + w * w;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#length()
-     */
     public double length() {
         return Math.sqrt(x * x + y * y + z * z + w * w);
     }
@@ -990,9 +930,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distance(org.joml.Vector4ic)
-     */
     public double distance(Vector4ic v) {
         int dx = this.x - v.x();
         int dy = this.y - v.y();
@@ -1001,9 +938,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distance(int, int, int, int)
-     */
     public double distance(int x, int y, int z, int w) {
         int dx = this.x - x;
         int dy = this.y - y;
@@ -1012,23 +946,14 @@ public class Vector4i implements Externalizable, Vector4ic {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distanceSquared(org.joml.Vector4ic)
-     */
     public long gridDistance(Vector4ic v) {
         return Math.abs(v.x() - x()) + Math.abs(v.y() - y())  + Math.abs(v.z() - z())  + Math.abs(v.w() - w());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distanceSquared(int, int, int, int)
-     */
     public long gridDistance(int x, int y, int z, int w) {
         return Math.abs(x - x()) + Math.abs(y - y()) + Math.abs(z - z()) + Math.abs(w - w());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distanceSquared(org.joml.Vector4ic)
-     */
     public int distanceSquared(Vector4ic v) {
         int dx = this.x - v.x();
         int dy = this.y - v.y();
@@ -1037,9 +962,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#distanceSquared(int, int, int, int)
-     */
     public int distanceSquared(int x, int y, int z, int w) {
         int dx = this.x - x;
         int dy = this.y - y;
@@ -1106,9 +1028,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#dot(org.joml.Vector4ic)
-     */
     public int dot(Vector4ic v) {
         return x * v.x() + y * v.y() + z * v.z() + w * v.w();
     }
@@ -1139,9 +1058,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#negate(org.joml.Vector4i)
-     */
     public Vector4i negate(Vector4i dest) {
         dest.x = -x;
         dest.y = -y;
@@ -1289,9 +1205,6 @@ public class Vector4i implements Externalizable, Vector4ic {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4ic#equals(int, int, int, int)
-     */
     public boolean equals(int x, int y, int z, int w) {
         if (this.x != x)
             return false;

@@ -261,23 +261,14 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#x()
-     */
     public double x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#y()
-     */
     public double y() {
         return this.y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#z()
-     */
     public double z() {
         return this.z;
     }
@@ -560,65 +551,41 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(int, java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#getf(java.nio.ByteBuffer)
-     */
     public ByteBuffer getf(ByteBuffer buffer) {
         MemUtil.INSTANCE.putf(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#getf(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer getf(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(java.nio.FloatBuffer)
-     */
     public FloatBuffer get(FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
@@ -648,9 +615,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#sub(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d sub(Vector3dc v, Vector3d dest) {
         dest.x = x - v.x();
         dest.y = y - v.y();
@@ -672,9 +636,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#sub(org.joml.Vector3fc, org.joml.Vector3d)
-     */
     public Vector3d sub(Vector3fc v, Vector3d dest) {
         dest.x = x - v.x();
         dest.y = y - v.y();
@@ -700,9 +661,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#sub(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d sub(double x, double y, double z, Vector3d dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
@@ -724,9 +682,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#add(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d add(Vector3dc v, Vector3d dest) {
         dest.x = x + v.x();
         dest.y = y + v.y();
@@ -748,9 +703,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#add(org.joml.Vector3fc, org.joml.Vector3d)
-     */
     public Vector3d add(Vector3fc v, Vector3d dest) {
         dest.x = x + v.x();
         dest.y = y + v.y();
@@ -776,9 +728,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#add(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d add(double x, double y, double z, Vector3d dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
@@ -834,9 +783,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#fma(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3d fma(Vector3fc a, Vector3fc b, Vector3d dest) {
         dest.x = Math.fma(a.x(), b.x(), x);
         dest.y = Math.fma(a.y(), b.y(), y);
@@ -860,9 +806,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#fma(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d fma(Vector3dc a, Vector3dc b, Vector3d dest) {
         dest.x = Math.fma(a.x(), b.x(), x);
         dest.y = Math.fma(a.y(), b.y(), y);
@@ -870,9 +813,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#fma(double, org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d fma(double a, Vector3dc b, Vector3d dest) {
         dest.x = Math.fma(a, b.x(), x);
         dest.y = Math.fma(a, b.y(), y);
@@ -880,9 +820,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#fma(org.joml.Vector3dc, org.joml.Vector3fc, org.joml.Vector3d)
-     */
     public Vector3d fma(Vector3dc a, Vector3fc b, Vector3d dest) {
         dest.x = Math.fma(a.x(), b.x(), x);
         dest.y = Math.fma(a.y(), b.y(), y);
@@ -890,9 +827,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#fma(double, org.joml.Vector3fc, org.joml.Vector3d)
-     */
     public Vector3d fma(double a, Vector3fc b, Vector3d dest) {
         dest.x = Math.fma(a, b.x(), x);
         dest.y = Math.fma(a, b.y(), y);
@@ -932,9 +866,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulAdd(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d mulAdd(Vector3dc a, Vector3dc b, Vector3d dest) {
         dest.x = Math.fma(x, a.x(), b.x());
         dest.y = Math.fma(y, a.y(), b.y());
@@ -942,9 +873,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulAdd(double, org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d mulAdd(double a, Vector3dc b, Vector3d dest) {
         dest.x = Math.fma(x, a, b.x());
         dest.y = Math.fma(y, a, b.y());
@@ -952,9 +880,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulAdd(org.joml.Vector3fc, org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d mulAdd(Vector3fc a, Vector3dc b, Vector3d dest) {
         dest.x = Math.fma(x, a.x(), b.x());
         dest.y = Math.fma(y, a.y(), b.y());
@@ -990,9 +915,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Vector3fc, org.joml.Vector3d)
-     */
     public Vector3d mul(Vector3fc v, Vector3d dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -1000,9 +922,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d mul(Vector3dc v, Vector3d dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -1038,9 +957,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(org.joml.Vector3fc, org.joml.Vector3d)
-     */
     public Vector3d div(Vector3fc v, Vector3d dest) {
         dest.x = x / v.x();
         dest.y = y / v.y();
@@ -1048,9 +964,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d div(Vector3dc v, Vector3d dest) {
         dest.x = x / v.x();
         dest.y = y / v.y();
@@ -1058,9 +971,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulProject(org.joml.Matrix4dc, float, org.joml.Vector3d)
-     */
     public Vector3d mulProject(Matrix4dc mat, double w, Vector3d dest) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
@@ -1072,9 +982,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulProject(org.joml.Matrix4dc, org.joml.Vector3d)
-     */
     public Vector3d mulProject(Matrix4dc mat, Vector3d dest) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30()))) * invW;
@@ -1106,9 +1013,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulProject(org.joml.Matrix4fc, org.joml.Vector3d)
-     */
     public Vector3d mulProject(Matrix4fc mat, Vector3d dest) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
         double rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30()) * invW;
@@ -1174,9 +1078,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Matrix3dc, org.joml.Vector3d)
-     */
     public Vector3d mul(Matrix3dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
@@ -1187,9 +1088,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Matrix3dc, org.joml.Vector3f)
-     */
     public Vector3f mul(Matrix3dc mat, Vector3f dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
@@ -1200,9 +1098,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Matrix3fc, org.joml.Vector3d)
-     */
     public Vector3d mul(Matrix3fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
@@ -1229,9 +1124,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Matrix3x2dc, org.joml.Vector3d)
-     */
     public Vector3d mul(Matrix3x2dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
@@ -1257,9 +1149,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Matrix3x2fc, org.joml.Vector3d)
-     */
     public Vector3d mul(Matrix3x2fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
@@ -1286,9 +1175,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTranspose(org.joml.Matrix3dc, org.joml.Vector3d)
-     */
     public Vector3d mulTranspose(Matrix3dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
         double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
@@ -1316,9 +1202,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTranspose(org.joml.Matrix3fc, org.joml.Vector3d)
-     */
     public Vector3d mulTranspose(Matrix3fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
         double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
@@ -1405,9 +1288,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4dc, org.joml.Vector3d)
-     */
     public Vector3d mulPosition(Matrix4dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
@@ -1418,9 +1298,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4fc, org.joml.Vector3d)
-     */
     public Vector3d mulPosition(Matrix4fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
@@ -1431,9 +1308,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4x3dc, org.joml.Vector3d)
-     */
     public Vector3d mulPosition(Matrix4x3dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
@@ -1444,9 +1318,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4x3fc, org.joml.Vector3d)
-     */
     public Vector3d mulPosition(Matrix4x3fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
@@ -1476,9 +1347,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTransposePosition(org.joml.Matrix4dc, org.joml.Vector3d)
-     */
     public Vector3d mulTransposePosition(Matrix4dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03())));
         double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13())));
@@ -1508,9 +1376,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTransposePosition(org.joml.Matrix4fc, org.joml.Vector3d)
-     */
     public Vector3d mulTransposePosition(Matrix4fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03())));
         double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13())));
@@ -1542,9 +1407,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return w;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPositionW(org.joml.Matrix4fc, org.joml.Vector3d)
-     */
     public double mulPositionW(Matrix4fc mat, Vector3d dest) {
         double w = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
@@ -1577,9 +1439,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return w;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPositionW(org.joml.Matrix4dc, org.joml.Vector3d)
-     */
     public double mulPositionW(Matrix4dc mat, Vector3d dest) {
         double w = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
@@ -1667,9 +1526,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4dc, org.joml.Vector3d)
-     */
     public Vector3d mulDirection(Matrix4dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
@@ -1680,9 +1536,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4fc, org.joml.Vector3d)
-     */
     public Vector3d mulDirection(Matrix4fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
@@ -1693,9 +1546,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4x3dc, org.joml.Vector3d)
-     */
     public Vector3d mulDirection(Matrix4x3dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
@@ -1706,9 +1556,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4x3fc, org.joml.Vector3d)
-     */
     public Vector3d mulDirection(Matrix4x3fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
@@ -1738,9 +1585,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTransposeDirection(org.joml.Matrix4dc, org.joml.Vector3d)
-     */
     public Vector3d mulTransposeDirection(Matrix4dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
         double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
@@ -1770,9 +1614,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTransposeDirection(org.joml.Matrix4fc, org.joml.Vector3d)
-     */
     public Vector3d mulTransposeDirection(Matrix4fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
         double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
@@ -1797,9 +1638,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(double, org.joml.Vector3d)
-     */
     public Vector3d mul(double scalar, Vector3d dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
@@ -1825,9 +1663,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d mul(double x, double y, double z, Vector3d dest) {
         dest.x = this.x * x;
         dest.y = this.y * y;
@@ -1848,25 +1683,14 @@ public class Vector3d implements Externalizable, Vector3dc {
         return quat.transform(this, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#rotate(org.joml.Quaterniondc, org.joml.Vector3d)
-     */
     public Vector3d rotate(Quaterniondc quat, Vector3d dest) {
         return quat.transform(this, dest);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Vector3dc#rotationTo(org.joml.Vector3dc, org.joml.Quaterniond)
-     */
     public Quaterniond rotationTo(Vector3dc toDir, Quaterniond dest) {
         return dest.rotationTo(this, toDir);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Vector3dc#rotationTo(double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond rotationTo(double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
         return dest.rotationTo(x, y, z, toDirX, toDirY, toDirZ);
     }
@@ -1894,9 +1718,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return rotateAxisInternal(angle, x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#rotateAxis(double, double, double, double, org.joml.Vector3d)
-     */
     public Vector3d rotateAxis(double angle, double aX, double aY, double aZ, Vector3d dest) {
         if (aY == 0.0 && aZ == 0.0 && Math.absEqualsOne(aX))
             return rotateX(aX * angle, dest);
@@ -1939,9 +1760,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#rotateX(double, org.joml.Vector3d)
-     */
     public Vector3d rotateX(double angle, Vector3d dest) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         double y = this.y * cos - this.z * sin;
@@ -1968,9 +1786,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#rotateY(double, org.joml.Vector3d)
-     */
     public Vector3d rotateY(double angle, Vector3d dest) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         double x =  this.x * cos + this.z * sin;
@@ -1997,9 +1812,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#rotateZ(double, org.joml.Vector3d)
-     */
     public Vector3d rotateZ(double angle, Vector3d dest) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         double x = this.x * cos - this.y * sin;
@@ -2025,9 +1837,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(double, org.joml.Vector3d)
-     */
     public Vector3d div(double scalar, Vector3d dest) {
         double inv = 1.0 / scalar;
         dest.x = x * inv;
@@ -2054,9 +1863,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d div(double x, double y, double z, Vector3d dest) {
         dest.x = this.x / x;
         dest.y = this.y / y;
@@ -2064,9 +1870,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#lengthSquared()
-     */
     public double lengthSquared() {
         return Math.fma(x, x, Math.fma(y, y, z * z));
     }
@@ -2086,9 +1889,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return Math.fma(x, x, Math.fma(y, y, z * z));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#length()
-     */
     public double length() {
         return Math.sqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
     }
@@ -2121,9 +1921,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#normalize(org.joml.Vector3d)
-     */
     public Vector3d normalize(Vector3d dest) {
         double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
         dest.x = x * invLength;
@@ -2147,9 +1944,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#normalize(double, org.joml.Vector3d)
-     */
     public Vector3d normalize(double length, Vector3d dest) {
         double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
         dest.x = x * invLength;
@@ -2196,9 +1990,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#cross(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d cross(Vector3dc v, Vector3d dest) {
         double rx = Math.fma(y, v.z(), -z * v.y());
         double ry = Math.fma(z, v.x(), -x * v.z());
@@ -2209,9 +2000,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#cross(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d cross(double x, double y, double z, Vector3d dest) {
         double rx = Math.fma(this.y, z, -this.z * y);
         double ry = Math.fma(this.z, x, -this.x * z);
@@ -2222,9 +2010,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distance(org.joml.Vector3dc)
-     */
     public double distance(Vector3dc v) {
         double dx = this.x - v.x();
         double dy = this.y - v.y();
@@ -2232,9 +2017,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, dz * dz)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distance(double, double, double)
-     */
     public double distance(double x, double y, double z) {
         double dx = this.x - x;
         double dy = this.y - y;
@@ -2242,9 +2024,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, dz * dz)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distanceSquared(org.joml.Vector3dc)
-     */
     public double distanceSquared(Vector3dc v) {
         double dx = this.x - v.x();
         double dy = this.y - v.y();
@@ -2252,9 +2031,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return Math.fma(dx, dx, Math.fma(dy, dy, dz * dz));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distanceSquared(double, double, double)
-     */
     public double distanceSquared(double x, double y, double z) {
         double dx = this.x - x;
         double dy = this.y - y;
@@ -2307,23 +2083,14 @@ public class Vector3d implements Externalizable, Vector3dc {
         return Math.fma(dx, dx, Math.fma(dy, dy, dz * dz));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#dot(org.joml.Vector3dc)
-     */
     public double dot(Vector3dc v) {
         return Math.fma(this.x, v.x(), Math.fma(this.y, v.y(), this.z * v.z()));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#dot(float, float, float)
-     */
     public double dot(double x, double y, double z) {
         return Math.fma(this.x, x, Math.fma(this.y, y, this.z * z));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#angleCos(org.joml.Vector3dc)
-     */
     public double angleCos(Vector3dc v) {
         double length1Squared = Math.fma(x, x, Math.fma(y, y, z * z));
         double length2Squared = Math.fma(v.x(), v.x(), Math.fma(v.y(), v.y(), v.z() * v.z()));
@@ -2331,9 +2098,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dot / Math.sqrt(length1Squared * length2Squared);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#angle(org.joml.Vector3dc)
-     */
     public double angle(Vector3dc v) {
         double cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
@@ -2342,9 +2106,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return Math.acos(cos);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#angleSigned(org.joml.Vector3dc, org.joml.Vector3dc)
-     */
     public double angleSigned(Vector3dc v, Vector3dc n) {
         double x = v.x();
         double y = v.y();
@@ -2354,9 +2115,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         this.x * x + this.y * y + this.z * z);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#angleSigned(double, double, double, double, double, double)
-     */
     public double angleSigned(double x, double y, double z, double nx, double ny, double nz) {
         return Math.atan2(
                 (this.y * z - this.z * y) * nx + (this.z * x - this.x * z) * ny + (this.x * y - this.y * x) * nz,
@@ -2464,9 +2222,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#negate(org.joml.Vector3d)
-     */
     public Vector3d negate(Vector3d dest) {
         dest.x = -x;
         dest.y = -y;
@@ -2539,9 +2294,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#equals(double, double, double)
-     */
     public boolean equals(double x, double y, double z) {
         if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(x))
             return false;
@@ -2589,9 +2341,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#reflect(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d reflect(Vector3dc normal, Vector3d dest) {
         double x = normal.x();
         double y = normal.y();
@@ -2603,9 +2352,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#reflect(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d reflect(double x, double y, double z, Vector3d dest) {
         double dot = Math.fma(this.x, x, Math.fma(this.y, y, this.z * z));
         dest.x = this.x - (dot + dot) * x;
@@ -2640,23 +2386,14 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this.set(this).add(x, y, z).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#half(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d half(Vector3dc other, Vector3d dest) {
         return dest.set(this).add(other.x(), other.y(), other.z()).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#half(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d half(double x, double y, double z, Vector3d dest) {
         return dest.set(this).add(x, y, z).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#smoothStep(org.joml.Vector3dc, double, org.joml.Vector3d)
-     */
     public Vector3d smoothStep(Vector3dc v, double t, Vector3d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
@@ -2666,9 +2403,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#hermite(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Vector3dc, double, org.joml.Vector3d)
-     */
     public Vector3d hermite(Vector3dc t0, Vector3dc v1, Vector3dc t1, double t, Vector3d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
@@ -2698,9 +2432,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#lerp(org.joml.Vector3dc, double, org.joml.Vector3d)
-     */
     public Vector3d lerp(Vector3dc other, double t, Vector3d dest) {
         dest.x = Math.fma(other.x() - x, t, x);
         dest.y = Math.fma(other.y() - y, t, y);
@@ -2708,9 +2439,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(int)
-     */
     public double get(int component) throws IllegalArgumentException {
         switch (component) {
         case 0:
@@ -2745,9 +2473,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#maxComponent()
-     */
     public int maxComponent() {
         double absX = Math.abs(x);
         double absY = Math.abs(y);
@@ -2760,9 +2485,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return 2;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#minComponent()
-     */
     public int minComponent() {
         double absX = Math.abs(x);
         double absY = Math.abs(y);
@@ -2775,9 +2497,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return 2;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#orthogonalize(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d orthogonalize(Vector3dc v, Vector3d dest) {
         /*
          * http://lolengine.net/blog/2013/09/21/picking-orthogonal-vector-combing-coconuts
@@ -2812,9 +2531,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return orthogonalize(v, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#orthogonalizeUnit(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d orthogonalizeUnit(Vector3dc v, Vector3d dest) {
         return orthogonalize(v, dest);
     }
@@ -2896,9 +2612,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#isFinite()
-     */
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z);
     }

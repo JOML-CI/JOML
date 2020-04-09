@@ -137,9 +137,6 @@ public class Matrix4x3dStack extends Matrix4x3d {
      * - Matrix4x3dStack.equals(Matrix4x3d) is true iff all the 12 matrix elements are equal
      * - Matrix4x3dStack.equals(Matrix4x3dStack) is true iff all 12 matrix elements are equal AND the matrix arrays as well as the stack pointer are equal
      * - everything else is inequal
-     * 
-     * (non-Javadoc)
-     * @see org.joml.Matrix4x3d#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
         if (this == obj)

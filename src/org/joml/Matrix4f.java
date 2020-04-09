@@ -267,106 +267,55 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#properties()
-     */
     public int properties() {
         return properties;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m00()
-     */
     public float m00() {
         return m00;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m01()
-     */
     public float m01() {
         return m01;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m02()
-     */
     public float m02() {
         return m02;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m03()
-     */
     public float m03() {
         return m03;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m10()
-     */
     public float m10() {
         return m10;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m11()
-     */
     public float m11() {
         return m11;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m12()
-     */
     public float m12() {
         return m12;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m13()
-     */
     public float m13() {
         return m13;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m20()
-     */
     public float m20() {
         return m20;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m21()
-     */
     public float m21() {
         return m21;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m22()
-     */
     public float m22() {
         return m22;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m23()
-     */
     public float m23() {
         return m23;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m30()
-     */
     public float m30() {
         return m30;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m31()
-     */
     public float m31() {
         return m31;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m32()
-     */
     public float m32() {
         return m32;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#m33()
-     */
     public float m33() {
         return m33;
     }
@@ -1188,9 +1137,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
        return mul(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mul(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mul(Matrix4fc right, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
@@ -1480,9 +1426,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
        return mulLocal(left, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulLocal(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mulLocal(Matrix4fc left, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(left);
@@ -1551,9 +1494,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
        return mulLocalAffine(left, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulLocalAffine(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mulLocalAffine(Matrix4fc left, Matrix4f dest) {
         float nm00 = left.m00() * m00 + left.m10() * m01 + left.m20() * m02;
         float nm01 = left.m01() * m00 + left.m11() * m01 + left.m21() * m02;
@@ -1607,9 +1547,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return mul(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mul(org.joml.Matrix4x3fc, org.joml.Matrix4f)
-     */
     public Matrix4f mul(Matrix4x3fc right, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
@@ -1723,9 +1660,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return mul(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mul(org.joml.Matrix3x2fc, org.joml.Matrix4f)
-     */
     public Matrix4f mul(Matrix3x2fc right, Matrix4f dest) {
         float nm00 = m00 * right.m00() + m10 * right.m01();
         float nm01 = m01 * right.m00() + m11 * right.m01();
@@ -1775,9 +1709,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
        return mulPerspectiveAffine(view, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulPerspectiveAffine(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mulPerspectiveAffine(Matrix4fc view, Matrix4f dest) {
         float lm00 = m00, lm11 = m11, lm22 = m22, lm23 = m23;
         return dest.
@@ -1804,9 +1735,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
        return mulPerspectiveAffine(view, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulPerspectiveAffine(org.joml.Matrix4x3fc, org.joml.Matrix4f)
-     */
     public Matrix4f mulPerspectiveAffine(Matrix4x3fc view, Matrix4f dest) {
         float lm00 = m00, lm11 = m11, lm22 = m22, lm23 = m23;
         return dest.
@@ -1836,9 +1764,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
        return mulAffineR(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulAffineR(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mulAffineR(Matrix4fc right, Matrix4f dest) {
         float nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
         float nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
@@ -1898,9 +1823,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
        return mulAffine(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulAffine(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mulAffine(Matrix4fc right, Matrix4f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
         float m10 = this.m10, m11 = this.m11, m12 = this.m12;
@@ -1929,9 +1851,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         ._properties(PROPERTY_AFFINE | (this.properties & right.properties() & PROPERTY_ORTHONORMAL));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulTranslationAffine(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mulTranslationAffine(Matrix4fc right, Matrix4f dest) {
         return dest
         ._m00(right.m00())
@@ -1969,9 +1888,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return mulOrthoAffine(view, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulOrthoAffine(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mulOrthoAffine(Matrix4fc view, Matrix4f dest) {
         float nm00 = m00 * view.m00();
         float nm01 = m11 * view.m01();
@@ -2022,9 +1938,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return fma4x3(other, otherFactor, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#fma4x3(org.joml.Matrix4fc, float, org.joml.Matrix4f)
-     */
     public Matrix4f fma4x3(Matrix4fc other, float otherFactor, Matrix4f dest) {
         dest._m00(Math.fma(other.m00(), otherFactor, m00))
             ._m01(Math.fma(other.m01(), otherFactor, m01))
@@ -2057,9 +1970,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return add(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#add(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f add(Matrix4fc other, Matrix4f dest) {
         dest._m00(m00 + other.m00())
             ._m01(m01 + other.m01())
@@ -2092,9 +2002,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return sub(subtrahend, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#sub(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f sub(Matrix4fc subtrahend, Matrix4f dest) {
         dest._m00(m00 - subtrahend.m00())
             ._m01(m01 - subtrahend.m01())
@@ -2127,9 +2034,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return mulComponentWise(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulComponentWise(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mulComponentWise(Matrix4fc other, Matrix4f dest) {
         dest._m00(m00 * other.m00())
             ._m01(m01 * other.m01())
@@ -2162,9 +2066,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return add4x3(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#add4x3(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f add4x3(Matrix4fc other, Matrix4f dest) {
         dest._m00(m00 + other.m00())
             ._m01(m01 + other.m01())
@@ -2197,9 +2098,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return sub4x3(subtrahend, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#sub4x3(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f sub4x3(Matrix4fc subtrahend, Matrix4f dest) {
         dest._m00(m00 - subtrahend.m00())
             ._m01(m01 - subtrahend.m01())
@@ -2232,9 +2130,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return mul4x3ComponentWise(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mul4x3ComponentWise(org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f mul4x3ComponentWise(Matrix4fc other, Matrix4f dest) {
         dest._m00(m00 * other.m00())
             ._m01(m01 * other.m01())
@@ -2456,9 +2351,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         determineProperties();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#determinant()
-     */
     public float determinant() {
         if ((properties & PROPERTY_AFFINE) != 0)
             return determinantAffine();
@@ -2470,27 +2362,18 @@ public class Matrix4f implements Externalizable, Matrix4fc {
              + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#determinant3x3()
-     */
     public float determinant3x3() {
         return (m00 * m11 - m01 * m10) * m22
              + (m02 * m10 - m00 * m12) * m21
              + (m01 * m12 - m02 * m11) * m20;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#determinantAffine()
-     */
     public float determinantAffine() {
         return (m00 * m11 - m01 * m10) * m22
              + (m02 * m10 - m00 * m12) * m21
              + (m01 * m12 - m02 * m11) * m20;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#invert(org.joml.Matrix4f)
-     */
     public Matrix4f invert(Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0) {
             return dest.identity();
@@ -2726,9 +2609,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return invertFrustum(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#invertOrtho(org.joml.Matrix4f)
-     */
     public Matrix4f invertOrtho(Matrix4f dest) {
         float invM00 = 1.0f / m00;
         float invM11 = 1.0f / m11;
@@ -2860,9 +2740,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         ._properties(0);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#invertAffine(org.joml.Matrix4f)
-     */
     public Matrix4f invertAffine(Matrix4f dest) {
         float m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
         float m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
@@ -2903,9 +2780,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return invertAffine(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transpose(org.joml.Matrix4f)
-     */
     public Matrix4f transpose(Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.identity();
@@ -2967,9 +2841,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return transpose3x3(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transpose3x3(org.joml.Matrix4f)
-     */
     public Matrix4f transpose3x3(Matrix4f dest) {
         float nm10 = m01, nm20 = m02, nm21 = m12;
         return dest
@@ -2985,9 +2856,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         ._properties(this.properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transpose3x3(org.joml.Matrix3f)
-     */
     public Matrix3f transpose3x3(Matrix3f dest) {
         return dest
         ._m00(m00)
@@ -3096,9 +2964,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return setTranslation(xyz.x(), xyz.y(), xyz.z());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getTranslation(org.joml.Vector3f)
-     */
     public Vector3f getTranslation(Vector3f dest) {
         dest.x = m30;
         dest.y = m31;
@@ -3106,9 +2971,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getScale(org.joml.Vector3f)
-     */
     public Vector3f getScale(Vector3f dest) {
         dest.x = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
         dest.y = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
@@ -3175,9 +3037,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get4x3(org.joml.Matrix4x3f)
-     */
     public Matrix4x3f get4x3(Matrix4x3f dest) {
         return dest.set(this);
     }
@@ -3199,66 +3058,39 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get3x3(org.joml.Matrix3f)
-     */
     public Matrix3f get3x3(Matrix3f dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get3x3(org.joml.Matrix3d)
-     */
     public Matrix3d get3x3(Matrix3d dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getRotation(org.joml.AxisAngle4f)
-     */
     public AxisAngle4f getRotation(AxisAngle4f dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getRotation(org.joml.AxisAngle4d)
-     */
     public AxisAngle4d getRotation(AxisAngle4d dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getUnnormalizedRotation(org.joml.Quaternionf)
-     */
     public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getNormalizedRotation(org.joml.Quaternionf)
-     */
     public Quaternionf getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getUnnormalizedRotation(org.joml.Quaterniond)
-     */
     public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getNormalizedRotation(org.joml.Quaterniond)
-     */
     public Quaterniond getNormalizedRotation(Quaterniond dest) {
         return dest.setFromNormalized(this);
     }
 
 //#ifdef __GWT__
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get(com.google.gwt.typedarrays.shared.Float32Array)
-     */
     public Float32Array get(Float32Array buffer) {
         buffer.set(0,  m00);
         buffer.set(1,  m01);
@@ -3278,9 +3110,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         buffer.set(15, m33);
         return buffer;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get(int, com.google.gwt.typedarrays.shared.Float32Array)
-     */
     public Float32Array get(int index, Float32Array buffer) {
         buffer.set(index+0,  m00);
         buffer.set(index+1,  m01);
@@ -3303,161 +3132,101 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 //#endif
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get(java.nio.FloatBuffer)
-     */
     public FloatBuffer get(FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get4x3(java.nio.FloatBuffer)
-     */
     public FloatBuffer get4x3(FloatBuffer buffer) {
         MemUtil.INSTANCE.put4x3(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get4x3(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get4x3(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put4x3(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get4x3(java.nio.ByteBuffer)
-     */
     public ByteBuffer get4x3(ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x3(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get4x3(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get4x3(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x3(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get3x4(java.nio.FloatBuffer)
-     */
     public FloatBuffer get3x4(FloatBuffer buffer) {
         MemUtil.INSTANCE.put3x4(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get3x4(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get3x4(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put3x4(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get3x4(java.nio.ByteBuffer)
-     */
     public ByteBuffer get3x4(ByteBuffer buffer) {
         MemUtil.INSTANCE.put3x4(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get3x4(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get3x4(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put3x4(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getTransposed(java.nio.FloatBuffer)
-     */
     public FloatBuffer getTransposed(FloatBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getTransposed(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getTransposed(java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposed(ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getTransposed(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get4x3Transposed(java.nio.FloatBuffer)
-     */
     public FloatBuffer get4x3Transposed(FloatBuffer buffer) {
         MemUtil.INSTANCE.put4x3Transposed(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get4x3Transposed(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get4x3Transposed(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get4x3Transposed(java.nio.ByteBuffer)
-     */
     public ByteBuffer get4x3Transposed(ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x3Transposed(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get4x3Transposed(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get4x3Transposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
         return buffer;
@@ -3472,17 +3241,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get(float[], int)
-     */
     public float[] get(float[] arr, int offset) {
         MemUtil.INSTANCE.copy(this, arr, offset);
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#get(float[])
-     */
     public float[] get(float[] arr) {
         MemUtil.INSTANCE.copy(this, arr, 0);
         return arr;
@@ -4590,23 +4353,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         ._m22(mat.m22());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transform(org.joml.Vector4f)
-     */
     public Vector4f transform(Vector4f v) {
         return v.mul(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transform(org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f transform(Vector4fc v, Vector4f dest) {
         return v.mul(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transform(float, float, float, float, org.joml.Vector4f)
-     */
     public Vector4f transform(float x, float y, float z, float w, Vector4f dest) {
        return dest.set(x, y, z, w).mul(this);
     }
@@ -4621,128 +4375,74 @@ public class Matrix4f implements Externalizable, Matrix4fc {
        return dest.set(x, y, z, w).mulTranspose(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformProject(org.joml.Vector4f)
-     */
     public Vector4f transformProject(Vector4f v) {
         return v.mulProject(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformProject(org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f transformProject(Vector4fc v, Vector4f dest) {
         return v.mulProject(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformProject(float, float, float, float, org.joml.Vector4f)
-     */
     public Vector4f transformProject(float x, float y, float z, float w, Vector4f dest) {
         return dest.set(x, y, z, w).mulProject(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformProject(org.joml.Vector4fc, org.joml.Vector3f)
-     */
     public Vector3f transformProject(Vector4fc v, Vector3f dest) {
         return v.mulProject(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformProject(float, float, float, float, org.joml.Vector3f)
-     */
     public Vector3f transformProject(float x, float y, float z, float w, Vector3f dest) {
         return dest.set(x, y, z).mulProject(this, w, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformProject(org.joml.Vector3f)
-     */
     public Vector3f transformProject(Vector3f v) {
         return v.mulProject(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformProject(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f transformProject(Vector3fc v, Vector3f dest) {
         return v.mulProject(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformProject(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f transformProject(float x, float y, float z, Vector3f dest) {
         return dest.set(x, y, z).mulProject(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformPosition(org.joml.Vector3f)
-     */
     public Vector3f transformPosition(Vector3f v) {
         return v.mulPosition(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformPosition(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f transformPosition(Vector3fc v, Vector3f dest) {
         return transformPosition(v.x(), v.y(), v.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformPosition(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f transformPosition(float x, float y, float z, Vector3f dest) {
         return dest.set(x, y, z).mulPosition(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformDirection(org.joml.Vector3f)
-     */
     public Vector3f transformDirection(Vector3f v) {
         return transformDirection(v.x, v.y, v.z, v);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformDirection(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f transformDirection(Vector3fc v, Vector3f dest) {
         return transformDirection(v.x(), v.y(), v.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformDirection(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f transformDirection(float x, float y, float z, Vector3f dest) {
         return dest.set(x, y, z).mulDirection(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformAffine(org.joml.Vector4f)
-     */
     public Vector4f transformAffine(Vector4f v) {
         return v.mulAffine(this, v);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformAffine(org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f transformAffine(Vector4fc v, Vector4f dest) {
         return transformAffine(v.x(), v.y(), v.z(), v.w(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformAffine(float, float, float, float, org.joml.Vector4f)
-     */
     public Vector4f transformAffine(float x, float y, float z, float w, Vector4f dest) {
         return dest.set(x, y, z, w).mulAffine(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scale(org.joml.Vector3fc, org.joml.Matrix4f)
-     */
     public Matrix4f scale(Vector3fc xyz, Matrix4f dest) {
         return scale(xyz.x(), xyz.y(), xyz.z(), dest);
     }
@@ -4764,9 +4464,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return scale(xyz.x(), xyz.y(), xyz.z(), this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scale(float, org.joml.Matrix4f)
-     */
     public Matrix4f scale(float xyz, Matrix4f dest) {
         return scale(xyz, xyz, xyz, dest);
     }
@@ -4791,9 +4488,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return scale(xyz, xyz, xyz);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scaleXY(float, float, org.joml.Matrix4f)
-     */
     public Matrix4f scaleXY(float x, float y, Matrix4f dest) {
         return scale(x, y, 1.0f, dest);
     }
@@ -4816,9 +4510,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return scale(x, y, 1.0f);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scale(float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f scale(float x, float y, float z, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
@@ -4868,9 +4559,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return scale(x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scaleAround(float, float, float, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f scaleAround(float sx, float sy, float sz, float ox, float oy, float oz, Matrix4f dest) {
         float nm30 = m00 * ox + m10 * oy + m20 * oz + m30;
         float nm31 = m01 * ox + m11 * oy + m21 * oz + m31;
@@ -4952,16 +4640,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return scaleAround(factor, factor, factor, ox, oy, oz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scaleAround(float, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f scaleAround(float factor, float ox, float oy, float oz, Matrix4f dest) {
         return scaleAround(factor, factor, factor, ox, oy, oz, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scaleLocal(float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f scaleLocal(float x, float y, float z, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
@@ -5002,9 +4684,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             | (one ? 0 : PROPERTY_ORTHONORMAL)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scaleLocal(float, org.joml.Matrix4f)
-     */
     public Matrix4f scaleLocal(float xyz, Matrix4f dest) {
         return scaleLocal(xyz, xyz, xyz, dest);
     }
@@ -5046,9 +4725,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return scaleLocal(x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scaleAroundLocal(float, float, float, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f scaleAroundLocal(float sx, float sy, float sz, float ox, float oy, float oz, Matrix4f dest) {
         boolean one = Math.absEqualsOne(sx) && Math.absEqualsOne(sy) && Math.absEqualsOne(sz);
         return dest
@@ -5126,16 +4802,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return scaleAroundLocal(factor, factor, factor, ox, oy, oz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#scaleAroundLocal(float, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f scaleAroundLocal(float factor, float ox, float oy, float oz, Matrix4f dest) {
         return scaleAroundLocal(factor, factor, factor, ox, oy, oz, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateX(float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateX(float ang, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationX(ang);
@@ -5190,9 +4860,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateX(ang, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateY(float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateY(float ang, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationY(ang);
@@ -5254,9 +4921,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateY(ang, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateZ(float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateZ(float ang, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZ(ang);
@@ -5314,9 +4978,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateTowardsXY(dirX, dirY, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateTowardsXY(float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateTowardsXY(float dirX, float dirY, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationTowardsXY(dirX, dirY);
@@ -5394,9 +5055,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateXYZ(float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
@@ -5484,9 +5142,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateAffineXYZ(angleX, angleY, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateAffineXYZ(float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateAffineXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
@@ -5590,9 +5245,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateZYX(float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateZYX(float angleZ, float angleY, float angleX, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
@@ -5676,9 +5328,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateAffineZYX(angleZ, angleY, angleX, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateAffineZYX(float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateAffineZYX(float angleZ, float angleY, float angleX, Matrix4f dest) {
         float sinX = Math.sin(angleX);
         float cosX = Math.cosFromSin(sinX, angleX);
@@ -5771,9 +5420,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateYXZ(angleY, angleX, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateYXZ(float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateYXZ(float angleY, float angleX, float angleZ, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
@@ -5857,9 +5503,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateAffineYXZ(angleY, angleX, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateAffineYXZ(float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateAffineYXZ(float angleY, float angleX, float angleZ, Matrix4f dest) {
         float sinX = Math.sin(angleX);
         float cosX = Math.cosFromSin(sinX, angleX);
@@ -11251,9 +10894,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateAround(quat, ox, oy, oz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateAroundAffine(org.joml.Quaternionfc, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateAroundAffine(Quaternionfc quat, float ox, float oy, float oz, Matrix4f dest) {
         float w2 = quat.w() * quat.w(), x2 = quat.x() * quat.x();
         float y2 = quat.y() * quat.y(), z2 = quat.z() * quat.z();
@@ -11298,9 +10938,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateAround(org.joml.Quaternionfc, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateAround(Quaternionfc quat, float ox, float oy, float oz, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return rotationAround(quat, ox, oy, oz);
@@ -11501,9 +11138,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateLocal(quat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#rotateAroundLocal(org.joml.Quaternionfc, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f rotateAroundLocal(Quaternionfc quat, float ox, float oy, float oz, Matrix4f dest) {
         float w2 = quat.w() * quat.w();
         float x2 = quat.x() * quat.x();
@@ -11711,9 +11345,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unproject(float, float, float, int[], org.joml.Vector4f)
-     */
     public Vector4f unproject(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
         float a = m00 * m11 - m01 * m10;
         float b = m00 * m12 - m02 * m10;
@@ -11755,9 +11386,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                         1.0f);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unproject(float, float, float, int[], org.joml.Vector3f)
-     */
     public Vector3f unproject(float winX, float winY, float winZ, int[] viewport, Vector3f dest) {
         float a = m00 * m11 - m01 * m10;
         float b = m00 * m12 - m02 * m10;
@@ -11798,23 +11426,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                         (im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32) * invW);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unproject(org.joml.Vector3fc, int[], org.joml.Vector4f)
-     */
     public Vector4f unproject(Vector3fc winCoords, int[] viewport, Vector4f dest) {
         return unproject(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unproject(org.joml.Vector3fc, int[], org.joml.Vector3f)
-     */
     public Vector3f unproject(Vector3fc winCoords, int[] viewport, Vector3f dest) {
         return unproject(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectRay(float, float, int[], org.joml.Vector3f, org.joml.Vector3f)
-     */
     public Matrix4f unprojectRay(float winX, float winY, int[] viewport, Vector3f originDest, Vector3f dirDest) {
         float a = m00 * m11 - m01 * m10;
         float b = m00 * m12 - m02 * m10;
@@ -11864,23 +11483,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectRay(org.joml.Vector2fc, int[], org.joml.Vector3f, org.joml.Vector3f)
-     */
     public Matrix4f unprojectRay(Vector2fc winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
         return unprojectRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectInv(org.joml.Vector3fc, int[], org.joml.Vector4f)
-     */
     public Vector4f unprojectInv(Vector3fc winCoords, int[] viewport, Vector4f dest) {
         return unprojectInv(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectInv(float, float, float, int[], org.joml.Vector4f)
-     */
     public Vector4f unprojectInv(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
@@ -11892,16 +11502,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                         1.0f);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectInvRay(org.joml.Vector2fc, int[], org.joml.Vector3f, org.joml.Vector3f)
-     */
     public Matrix4f unprojectInvRay(Vector2fc winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
         return unprojectInvRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectInvRay(float, float, int[], org.joml.Vector3f, org.joml.Vector3f)
-     */
     public Matrix4f unprojectInvRay(float winX, float winY, int[] viewport, Vector3f originDest, Vector3f dirDest) {
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
@@ -11921,16 +11525,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectInv(org.joml.Vector3fc, int[], org.joml.Vector3f)
-     */
     public Vector3f unprojectInv(Vector3fc winCoords, int[] viewport, Vector3f dest) {
         return unprojectInv(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectInv(float, float, float, int[], org.joml.Vector3f)
-     */
     public Vector3f unprojectInv(float winX, float winY, float winZ, int[] viewport, Vector3f dest) {
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
@@ -11941,9 +11539,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                         (m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32) * invW);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#project(float, float, float, int[], org.joml.Vector4f)
-     */
     public Vector4f project(float x, float y, float z, int[] viewport, Vector4f winCoordsDest) {
         float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
         float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
@@ -11955,9 +11550,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                                  1.0f);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#project(float, float, float, int[], org.joml.Vector3f)
-     */
     public Vector3f project(float x, float y, float z, int[] viewport, Vector3f winCoordsDest) {
         float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
         float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
@@ -11969,23 +11561,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return winCoordsDest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#project(org.joml.Vector3fc, int[], org.joml.Vector4f)
-     */
     public Vector4f project(Vector3fc position, int[] viewport, Vector4f winCoordsDest) {
         return project(position.x(), position.y(), position.z(), viewport, winCoordsDest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#project(org.joml.Vector3fc, int[], org.joml.Vector3f)
-     */
     public Vector3f project(Vector3fc position, int[] viewport, Vector3f winCoordsDest) {
         return project(position.x(), position.y(), position.z(), viewport, winCoordsDest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#reflect(float, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f reflect(float a, float b, float c, float d, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.reflection(a, b, c, d);
@@ -12130,9 +11713,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return reflect(nx, ny, nz, px, py, pz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#reflect(float, float, float, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f reflect(float nx, float ny, float nz, float px, float py, float pz, Matrix4f dest) {
         float invLength = Math.invsqrt(nx * nx + ny * ny + nz * nz);
         float nnx = nx * invLength;
@@ -12184,9 +11764,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return reflect(orientation, point, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#reflect(org.joml.Quaternionfc, org.joml.Vector3fc, org.joml.Matrix4f)
-     */
     public Matrix4f reflect(Quaternionfc orientation, Vector3fc point, Matrix4f dest) {
         double num1 = orientation.x() + orientation.x();
         double num2 = orientation.y() + orientation.y();
@@ -12197,9 +11774,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return reflect(normalX, normalY, normalZ, point.x(), point.y(), point.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#reflect(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Matrix4f)
-     */
     public Matrix4f reflect(Vector3fc normal, Vector3fc point, Matrix4f dest) {
         return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z(), dest);
     }
@@ -12309,9 +11883,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return reflection(normalX, normalY, normalZ, point.x(), point.y(), point.z());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getRow(int, org.joml.Vector4f)
-     */
     public Vector4f getRow(int row, Vector4f dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
@@ -12327,9 +11898,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getRow(int, org.joml.Vector3f)
-     */
     public Vector3f getRow(int row, Vector3f dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
@@ -12370,9 +11938,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getColumn(int, org.joml.Vector4f)
-     */
     public Vector4f getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
@@ -12388,9 +11953,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#getColumn(int, org.joml.Vector3f)
-     */
     public Vector3f getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
@@ -12431,10 +11993,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix4fc#get(int, int)
-     */
     public float get(int column, int row) {
         switch (column) {
         case 0:
@@ -12574,10 +12132,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         throw new IllegalArgumentException();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix4fc#getRowColumn(int, int)
-     */
     public float getRowColumn(int row, int column) {
         switch (row) {
         case 0:
@@ -12953,9 +12507,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return normalize3x3(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#normalize3x3(org.joml.Matrix4f)
-     */
     public Matrix4f normalize3x3(Matrix4f dest) {
         float invXlen = Math.invsqrt(m00 * m00 + m01 * m01 + m02 * m02);
         float invYlen = Math.invsqrt(m10 * m10 + m11 * m11 + m12 * m12);
@@ -12968,9 +12519,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         ._properties(properties);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#normalize3x3(org.joml.Matrix3f)
-     */
     public Matrix3f normalize3x3(Matrix3f dest) {
         float invXlen = Math.invsqrt(m00 * m00 + m01 * m01 + m02 * m02);
         float invYlen = Math.invsqrt(m10 * m10 + m11 * m11 + m12 * m12);
@@ -12981,9 +12529,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         ._m20(m20 * invZlen)._m21(m21 * invZlen)._m22(m22 * invZlen);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#frustumPlane(int, org.joml.Vector4f)
-     */
     public Vector4f frustumPlane(int plane, Vector4f planeEquation) {
         switch (plane) {
         case PLANE_NX:
@@ -13010,9 +12555,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return planeEquation;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#frustumPlane(int, org.joml.Planef)
-     */
     public Planef frustumPlane(int which, Planef plane) {
         switch (which) {
         case PLANE_NX:
@@ -13039,9 +12581,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return plane;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#frustumCorner(int, org.joml.Vector3f)
-     */
     public Vector3f frustumCorner(int corner, Vector3f point) {
         float d1, d2, d3;
         float n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
@@ -13239,9 +12778,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return m32 / (m22 - m23);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#frustumRayDir(float, float, org.joml.Vector3f)
-     */
     public Vector3f frustumRayDir(float x, float y, Vector3f dir) {
         /*
          * This method works by first obtaining the frustum plane normals,
@@ -13267,9 +12803,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#positiveZ(org.joml.Vector3f)
-     */
     public Vector3f positiveZ(Vector3f dir) {
         if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return normalizedPositiveZ(dir);
@@ -13279,16 +12812,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dir.set(m10 * m21 - m11 * m20, m20 * m01 - m21 * m00, m00 * m11 - m01 * m10).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#normalizedPositiveZ(org.joml.Vector3f)
-     */
     public Vector3f normalizedPositiveZ(Vector3f dir) {
         return dir.set(m02, m12, m22);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#positiveX(org.joml.Vector3f)
-     */
     public Vector3f positiveX(Vector3f dir) {
         if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return normalizedPositiveX(dir);
@@ -13298,16 +12825,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dir.set(m11 * m22 - m12 * m21, m02 * m21 - m01 * m22, m01 * m12 - m02 * m11).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#normalizedPositiveX(org.joml.Vector3f)
-     */
     public Vector3f normalizedPositiveX(Vector3f dir) {
         return dir.set(m00, m10, m20);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#positiveY(org.joml.Vector3f)
-     */
     public Vector3f positiveY(Vector3f dir) {
         if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return normalizedPositiveY(dir);
@@ -13317,16 +12838,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dir.set(m12 * m20 - m10 * m22, m00 * m22 - m02 * m20, m02 * m10 - m00 * m12).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#normalizedPositiveY(org.joml.Vector3f)
-     */
     public Vector3f normalizedPositiveY(Vector3f dir) {
         return dir.set(m01, m11, m21);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#originAffine(org.joml.Vector3f)
-     */
     public Vector3f originAffine(Vector3f origin) {
         float a = m00 * m11 - m01 * m10;
         float b = m00 * m12 - m02 * m10;
@@ -13337,9 +12852,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return origin.set(-m10 * j + m11 * h - m12 * g, m00 * j - m01 * h + m02 * g, -m30 * d + m31 * b - m32 * a);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#origin(org.joml.Vector3f)
-     */
     public Vector3f origin(Vector3f dest) {
         if ((properties & PROPERTY_AFFINE) != 0)
             return originAffine(dest);
@@ -13396,9 +12908,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return shadow(light.x, light.y, light.z, light.w, a, b, c, d, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#shadow(org.joml.Vector4f, float, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f shadow(Vector4f light, float a, float b, float c, float d, Matrix4f dest) {
         return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
     }
@@ -13438,9 +12947,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#shadow(float, float, float, float, float, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, float a, float b, float c, float d, Matrix4f dest) {
         // normalize plane
         float invPlaneLen = Math.invsqrt(a*a + b*b + c*c);
@@ -13502,9 +13008,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#shadow(org.joml.Vector4f, org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f shadow(Vector4f light, Matrix4fc planeTransform, Matrix4f dest) {
         // compute plane equation by transforming (y = 0)
         float a = planeTransform.m10();
@@ -13537,9 +13040,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return shadow(light, planeTransform, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#shadow(float, float, float, float, org.joml.Matrix4fc, org.joml.Matrix4f)
-     */
     public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4fc planeTransform, Matrix4f dest) {
         // compute plane equation by transforming (y = 0)
         float a = planeTransform.m10();
@@ -13861,9 +13361,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#pick(float, float, float, float, int[], org.joml.Matrix4f)
-     */
     public Matrix4f pick(float x, float y, float width, float height, int[] viewport, Matrix4f dest) {
         float sx = viewport[2] / width;
         float sy = viewport[3] / height;
@@ -13905,9 +13402,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return pick(x, y, width, height, viewport, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#isAffine()
-     */
     public boolean isAffine() {
         return m03 == 0.0f && m13 == 0.0f && m23 == 0.0f && m33 == 1.0f;
     }
@@ -13927,9 +13421,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#arcball(float, float, float, float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f arcball(float radius, float centerX, float centerY, float centerZ, float angleX, float angleY, Matrix4f dest) {
         float m30 = m20 * -radius + this.m30;
         float m31 = m21 * -radius + this.m31;
@@ -13975,9 +13466,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#arcball(float, org.joml.Vector3fc, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f arcball(float radius, Vector3fc center, float angleX, float angleY, Matrix4f dest) {
         return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, dest);
     }
@@ -14072,9 +13560,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#projectedGridRange(org.joml.Matrix4fc, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f projectedGridRange(Matrix4fc projector, float sLower, float sUpper, Matrix4f dest) {
         // Compute intersection with frustum edges and plane
         float minX = Float.POSITIVE_INFINITY, minY = Float.POSITIVE_INFINITY;
@@ -14289,9 +13774,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformAab(float, float, float, float, float, float, org.joml.Vector3f, org.joml.Vector3f)
-     */
     public Matrix4f transformAab(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, Vector3f outMin, Vector3f outMax) {
         float xax = m00 * minX, xay = m01 * minX, xaz = m02 * minX;
         float xbx = m00 * maxX, xby = m01 * maxX, xbz = m02 * maxX;
@@ -14373,9 +13855,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#transformAab(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Vector3f, org.joml.Vector3f)
-     */
     public Matrix4f transformAab(Vector3fc min, Vector3fc max, Vector3f outMin, Vector3f outMax) {
         return transformAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), outMin, outMax);
     }
@@ -14397,9 +13876,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return lerp(other, t, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#lerp(org.joml.Matrix4fc, float, org.joml.Matrix4f)
-     */
     public Matrix4f lerp(Matrix4fc other, float t, Matrix4f dest) {
         dest._m00(Math.fma(other.m00() - m00, t, m00))
             ._m01(Math.fma(other.m01() - m01, t, m01))
@@ -14849,10 +14325,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix4fc#testPoint(float, float, float)
-     */
     public boolean testPoint(float x, float y, float z) {
         float nxX = m03 + m00, nxY = m13 + m10, nxZ = m23 + m20, nxW = m33 + m30;
         float pxX = m03 - m00, pxY = m13 - m10, pxZ = m23 - m20, pxW = m33 - m30;
@@ -14865,10 +14337,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                nzX * x + nzY * y + nzZ * z + nzW >= 0 && pzX * x + pzY * y + pzZ * z + pzW >= 0;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix4fc#testSphere(float, float, float, float)
-     */
     public boolean testSphere(float x, float y, float z, float r) {
         float invl;
         float nxX = m03 + m00, nxY = m13 + m10, nxZ = m23 + m20, nxW = m33 + m30;
@@ -14894,10 +14362,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                nzX * x + nzY * y + nzZ * z + nzW >= -r && pzX * x + pzY * y + pzZ * z + pzW >= -r;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix4fc#testAab(float, float, float, float, float, float)
-     */
     public boolean testAab(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
         float nxX = m03 + m00, nxY = m13 + m10, nxZ = m23 + m20, nxW = m33 + m30;
         float pxX = m03 - m00, pxY = m13 - m10, pxZ = m23 - m20, pxW = m33 - m30;
@@ -15085,10 +14549,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return withLookAtUp(up.x(), up.y(), up.z(), this);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix4fc#withLookAtUp(Vector3fc, org.joml.Matrix4f)
-     */
     public Matrix4f withLookAtUp(Vector3fc up, Matrix4f dest) {
         return withLookAtUp(up.x(), up.y(), up.z());
     }
@@ -15117,10 +14577,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return withLookAtUp(upX, upY, upZ, this);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix4fc#withLookAtUp(float, float, float, org.joml.Matrix4f)
-     */
     public Matrix4f withLookAtUp(float upX, float upY, float upZ, Matrix4f dest) {
         float y = (upY * m21 - upZ * m11) * m02 +
                   (upZ * m01 - upX * m21) * m12 +

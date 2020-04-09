@@ -180,9 +180,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#normalize(org.joml.Quaterniond)
-     */
     public Quaterniond normalize(Quaterniond dest) {
         double invNorm = Math.invsqrt(lengthSquared());
         dest.x = x * invNorm;
@@ -209,9 +206,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return add(x, y, z, w, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#add(double, double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond add(double x, double y, double z, double w, Quaterniond dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
@@ -235,9 +229,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#add(org.joml.Quaterniondc, org.joml.Quaterniond)
-     */
     public Quaterniond add(Quaterniondc q2, Quaterniond dest) {
         dest.x = x + q2.x();
         dest.y = y + q2.y();
@@ -246,51 +237,30 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#dot(org.joml.Quaterniondc)
-     */
     public double dot(Quaterniondc otherQuat) {
         return this.x * otherQuat.x() + this.y * otherQuat.y() + this.z * otherQuat.z() + this.w * otherQuat.w();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#angle()
-     */
     public double angle() {
         return 2.0 * Math.safeAcos(w);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#get(org.joml.Matrix3d)
-     */
     public Matrix3d get(Matrix3d dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#get(org.joml.Matrix3f)
-     */
     public Matrix3f get(Matrix3f dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#get(org.joml.Matrix4d)
-     */
     public Matrix4d get(Matrix4d dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#get(org.joml.Matrix4f)
-     */
     public Matrix4f get(Matrix4f dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#get(org.joml.AxisAngle4f)
-     */
     public AxisAngle4f get(AxisAngle4f dest) {
         double x = this.x;
         double y = this.y;
@@ -318,9 +288,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#get(org.joml.AxisAngle4d)
-     */
     public AxisAngle4d get(AxisAngle4d dest) {
         double x = this.x;
         double y = this.y;
@@ -793,9 +760,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return mul(q, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#mul(org.joml.Quaterniondc, org.joml.Quaterniond)
-     */
     public Quaterniond mul(Quaterniondc q, Quaterniond dest) {
         return mul(q.x(), q.y(), q.z(), q.w(), dest);
     }
@@ -825,9 +789,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return mul(qx, qy, qz, qw, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#mul(double, double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond mul(double qx, double qy, double qz, double qw, Quaterniond dest) {
         return dest.set(Math.fma(w, qx, Math.fma(x, qw, Math.fma(y, qz, -z * qy))),
                         Math.fma(w, qy, Math.fma(-x, qz, Math.fma(y, qw, z * qx))),
@@ -852,9 +813,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return premul(q, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#premul(org.joml.Quaterniondc, org.joml.Quaterniond)
-     */
     public Quaterniond premul(Quaterniondc q, Quaterniond dest) {
         return premul(q.x(), q.y(), q.z(), q.w(), dest);
     }
@@ -882,9 +840,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return premul(qx, qy, qz, qw, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#premul(double, double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond premul(double qx, double qy, double qz, double qw, Quaterniond dest) {
         return dest.set(Math.fma(qw, x, Math.fma(qx, w, Math.fma(qy, z, -qz * y))),
                         Math.fma(qw, y, Math.fma(-qx, z, Math.fma(qy, w, qz * x))),
@@ -1076,9 +1031,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(org.joml.Vector4d)
-     */
     public Vector4d transform(Vector4d vec){
         return transform(vec, vec);
     }
@@ -1087,9 +1039,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return transformInverse(vec, vec);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d transform(Vector3dc vec, Vector3d dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
     }
@@ -1098,9 +1047,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return transformInverse(vec.x(), vec.y(), vec.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d transform(double x, double y, double z, Vector3d dest) {
         double xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
         double xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
@@ -1121,9 +1067,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
                         Math.fma(2 * (xz + yw) * k, x, Math.fma(2 * (yz - xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(org.joml.Vector4dc, org.joml.Vector4d)
-     */
     public Vector4d transform(Vector4dc vec, Vector4d dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
     }
@@ -1132,9 +1075,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return transformInverse(vec.x(), vec.y(), vec.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(double, double, double, org.joml.Vector4d)
-     */
     public Vector4d transform(double x, double y, double z, Vector4d dest) {
         double xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
         double xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
@@ -1401,9 +1341,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(org.joml.Vector4f)
-     */
     public Vector4f transform(Vector4f vec){
         return transform(vec, vec);
     }
@@ -1412,9 +1349,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return transformInverse(vec, vec);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f transform(Vector3fc vec, Vector3f dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
     }
@@ -1423,9 +1357,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return transformInverse(vec.x(), vec.y(), vec.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(double, double, double, org.joml.Vector3f)
-     */
     public Vector3f transform(double x, double y, double z, Vector3f dest) {
         double xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
         double xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
@@ -1446,9 +1377,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
                         Math.fma(2 * (xz + yw) * k, x, Math.fma(2 * (yz - xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(org.joml.Vector4fc, org.joml.Vector4f)
-     */
     public Vector4f transform(Vector4fc vec, Vector4f dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
     }
@@ -1457,9 +1385,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return transformInverse(vec.x(), vec.y(), vec.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#transform(double, double, double, org.joml.Vector4f)
-     */
     public Vector4f transform(double x, double y, double z, Vector4f dest) {
         double xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
         double xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
@@ -1540,9 +1465,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
                         (float) Math.fma(2 * (xz + yw), x, Math.fma(2 * (yz - xw), y, Math.fma(-2, xx + yy, 1) * z)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#invert(org.joml.Quaterniond)
-     */
     public Quaterniond invert(Quaterniond dest) {
         double invNorm = 1.0 / lengthSquared();
         dest.x = -x * invNorm;
@@ -1565,9 +1487,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return invert(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#div(org.joml.Quaterniondc, org.joml.Quaterniond)
-     */
     public Quaterniond div(Quaterniondc b, Quaterniond dest) {
         double invNorm = 1.0 / Math.fma(b.x(), b.x(), Math.fma(b.y(), b.y(), Math.fma(b.z(), b.z(), b.w() * b.w())));
         double x = -b.x() * invNorm;
@@ -1607,9 +1526,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#conjugate(org.joml.Quaterniond)
-     */
     public Quaterniond conjugate(Quaterniond dest) {
         dest.x = -x;
         dest.y = -y;
@@ -1631,9 +1547,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#lengthSquared()
-     */
     public double lengthSquared() {
         return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
@@ -1760,9 +1673,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return slerp(target, alpha, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#slerp(org.joml.Quaterniondc, double, org.joml.Quaterniond)
-     */
     public Quaterniond slerp(Quaterniondc target, double alpha, Quaterniond dest) {
         double cosom = Math.fma(x, target.x(), Math.fma(y, target.y(), Math.fma(z, target.z(), w * target.w())));
         double absCosom = Math.abs(cosom);
@@ -1828,9 +1738,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return scale(factor, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#scale(double, org.joml.Quaterniond)
-     */
     public Quaterniond scale(double factor, Quaterniond dest) {
         double sqrt = Math.sqrt(factor);
         dest.x = sqrt * x;
@@ -1882,9 +1789,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return integrate(dt, vx, vy, vz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#integrate(double, double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond integrate(double dt, double vx, double vy, double vz, Quaterniond dest) {
         double thetaX = dt * vx * 0.5;
         double thetaY = dt * vy * 0.5;
@@ -1925,9 +1829,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return nlerp(q, factor, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#nlerp(org.joml.Quaterniondc, double, org.joml.Quaterniond)
-     */
     public Quaterniond nlerp(Quaterniondc q, double factor, Quaterniond dest) {
         double cosom = Math.fma(x, q.x(), Math.fma(y, q.y(), Math.fma(z, q.z(), w * q.w())));
         double scale0 = 1.0 - factor;
@@ -1974,9 +1875,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#nlerpIterative(org.joml.Quaterniondc, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond nlerpIterative(Quaterniondc q, double alpha, double dotThreshold, Quaterniond dest) {
         double q1x = x, q1y = y, q1z = z, q1w = w;
         double q2x = q.x(), q2y = q.y(), q2z = q.z(), q2w = q.w();
@@ -2112,9 +2010,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#lookAlong(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Quaterniond)
-     */
     public Quaterniond lookAlong(Vector3dc dir, Vector3dc up, Quaterniond dest) {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
@@ -2152,9 +2047,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#lookAlong(double, double, double, double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Quaterniond dest) {
         // Normalize direction
         double invDirLength = Math.invsqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
@@ -2309,9 +2201,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return difference(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#difference(org.joml.Quaterniondc, org.joml.Quaterniond)
-     */
     public Quaterniond difference(Quaterniondc other, Quaterniond dest) {
         double invNorm = 1.0 / lengthSquared();
         double x = -this.x * invNorm;
@@ -2404,9 +2293,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotationTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateTo(double, double, double, double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateTo(double fromDirX, double fromDirY, double fromDirZ,
                                 double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
         double fn = Math.invsqrt(Math.fma(fromDirX, fromDirX, Math.fma(fromDirY, fromDirY, fromDirZ * fromDirZ)));
@@ -2555,9 +2441,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateTo(fromDirX, fromDirY, fromDirZ, toDirX, toDirY, toDirZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateTo(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Quaterniond)
-     */
     public Quaterniond rotateTo(Vector3dc fromDir, Vector3dc toDir, Quaterniond dest) {
         return rotateTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z(), dest);
     }
@@ -2600,9 +2483,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateX(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateX(double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateX(double angle, Quaterniond dest) {
         double sin = Math.sin(angle * 0.5);
         double cos = Math.cosFromSin(sin, angle * 0.5);
@@ -2628,9 +2508,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateY(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateY(double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateY(double angle, Quaterniond dest) {
         double sin = Math.sin(angle * 0.5);
         double cos = Math.cosFromSin(sin, angle * 0.5);
@@ -2656,9 +2533,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateZ(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateZ(double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateZ(double angle, Quaterniond dest) {
         double sin = Math.sin(angle * 0.5);
         double cos = Math.cosFromSin(sin, angle * 0.5);
@@ -2684,9 +2558,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateLocalX(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateLocalX(double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateLocalX(double angle, Quaterniond dest) {
         double hangle = angle * 0.5;
         double s = Math.sin(hangle);
@@ -2714,9 +2585,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateLocalY(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateLocalY(double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateLocalY(double angle, Quaterniond dest) {
         double hangle = angle * 0.5;
         double s = Math.sin(hangle);
@@ -2744,9 +2612,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateLocalZ(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateLocalZ(double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateLocalZ(double angle, Quaterniond dest) {
         double hangle = angle * 0.5;
         double s = Math.sin(hangle);
@@ -2781,9 +2646,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateXYZ(double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateXYZ(double angleX, double angleY, double angleZ, Quaterniond dest) {
         double sx =  Math.sin(angleX * 0.5);
         double cx =  Math.cosFromSin(sx, angleX * 0.5);
@@ -2830,9 +2692,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateZYX(double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateZYX(double angleZ, double angleY, double angleX, Quaterniond dest) {
         double sx =  Math.sin(angleX * 0.5);
         double cx =  Math.cosFromSin(sx, angleX * 0.5);
@@ -2879,9 +2738,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateYXZ(angleZ, angleY, angleX, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateYXZ(double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateYXZ(double angleY, double angleX, double angleZ, Quaterniond dest) {
         double sx =  Math.sin(angleX * 0.5);
         double cx =  Math.cosFromSin(sx, angleX * 0.5);
@@ -2905,9 +2761,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
                         Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#getEulerAnglesXYZ(org.joml.Vector3d)
-     */
     public Vector3d getEulerAnglesXYZ(Vector3d eulerAngles) {
         eulerAngles.x = Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y));
         eulerAngles.y = Math.safeAsin(2.0 * (x*z + y*w));
@@ -2915,9 +2768,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return eulerAngles;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateAxis(double, double, double, double, org.joml.Quaterniond)
-     */
     public Quaterniond rotateAxis(double angle, double axisX, double axisY, double axisZ, Quaterniond dest) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
@@ -2932,9 +2782,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
                         Math.fma(this.w, rw, Math.fma(-this.x, rx, Math.fma(-this.y, ry, -this.z * rz))));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#rotateAxis(double, org.joml.Vector3dc, org.joml.Quaterniond)
-     */
     public Quaterniond rotateAxis(double angle, Vector3dc axis, Quaterniond dest) {
         return rotateAxis(angle, axis.x(), axis.y(), axis.z(), dest);
     }
@@ -2983,9 +2830,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return rotateAxis(angle, axisX, axisY, axisZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#positiveX(org.joml.Vector3d)
-     */
     public Vector3d positiveX(Vector3d dir) {
         double invNorm = 1.0 / lengthSquared();
         double nx = -x * invNorm;
@@ -3000,9 +2844,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#normalizedPositiveX(org.joml.Vector3d)
-     */
     public Vector3d normalizedPositiveX(Vector3d dir) {
         double dy = y + y;
         double dz = z + z;
@@ -3012,9 +2853,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#positiveY(org.joml.Vector3d)
-     */
     public Vector3d positiveY(Vector3d dir) {
         double invNorm = 1.0 / lengthSquared();
         double nx = -x * invNorm;
@@ -3030,9 +2868,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#normalizedPositiveY(org.joml.Vector3d)
-     */
     public Vector3d normalizedPositiveY(Vector3d dir) {
         double dx = x + x;
         double dy = y + y;
@@ -3043,9 +2878,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#positiveZ(org.joml.Vector3d)
-     */
     public Vector3d positiveZ(Vector3d dir) {
         double invNorm = 1.0 / lengthSquared();
         double nx = -x * invNorm;
@@ -3061,9 +2893,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Quaterniondc#normalizedPositiveZ(org.joml.Vector3d)
-     */
     public Vector3d normalizedPositiveZ(Vector3d dir) {
         double dx = x + x;
         double dy = y + y;

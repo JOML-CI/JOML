@@ -211,82 +211,43 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3fc#properties()
-     */
     public int properties() {
         return properties;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m00()
-     */
     public double m00() {
         return m00;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m01()
-     */
     public double m01() {
         return m01;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m02()
-     */
     public double m02() {
         return m02;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m10()
-     */
     public double m10() {
         return m10;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m11()
-     */
     public double m11() {
         return m11;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m12()
-     */
     public double m12() {
         return m12;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m20()
-     */
     public double m20() {
         return m20;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m21()
-     */
     public double m21() {
         return m21;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m22()
-     */
     public double m22() {
         return m22;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m30()
-     */
     public double m30() {
         return m30;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m31()
-     */
     public double m31() {
         return m31;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#m32()
-     */
     public double m32() {
         return m32;
     }
@@ -711,9 +672,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(org.joml.Matrix4d)
-     */
     public Matrix4d get(Matrix4d dest) {
         return dest.set4x3(this);
     }
@@ -950,9 +908,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return mul(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#mul(org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d mul(Matrix4x3dc right, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
@@ -1002,9 +957,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return mul(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#mul(org.joml.Matrix4x3fc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d mul(Matrix4x3fc right, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
@@ -1038,9 +990,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         ._properties(properties & right.properties() & PROPERTY_ORTHONORMAL);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#mulTranslation(org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d mulTranslation(Matrix4x3dc right, Matrix4x3d dest) {
         return dest
         ._m00(right.m00())
@@ -1058,9 +1007,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         ._properties(right.properties() & PROPERTY_ORTHONORMAL);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#mulTranslation(org.joml.Matrix4x3fc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d mulTranslation(Matrix4x3fc right, Matrix4x3d dest) {
         return dest
         ._m00(right.m00())
@@ -1094,9 +1040,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return mulOrtho(view, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#mulOrtho(org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d mulOrtho(Matrix4x3dc view, Matrix4x3d dest) {
         double nm00 = m00 * view.m00();
         double nm01 = m11 * view.m01();
@@ -1143,9 +1086,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return fma(other, otherFactor, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#fma(org.joml.Matrix4x3dc, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d fma(Matrix4x3dc other, double otherFactor, Matrix4x3d dest) {
         dest
         ._m00(Math.fma(other.m00(), otherFactor, m00))
@@ -1181,9 +1121,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return fma(other, otherFactor, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#fma(org.joml.Matrix4x3fc, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d fma(Matrix4x3fc other, double otherFactor, Matrix4x3d dest) {
         dest
         ._m00(Math.fma(other.m00(), otherFactor, m00))
@@ -1213,9 +1150,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return add(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#add(org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d add(Matrix4x3dc other, Matrix4x3d dest) {
         dest.m00 = m00 + other.m00();
         dest.m01 = m01 + other.m01();
@@ -1244,9 +1178,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return add(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#add(org.joml.Matrix4x3fc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d add(Matrix4x3fc other, Matrix4x3d dest) {
         dest.m00 = m00 + other.m00();
         dest.m01 = m01 + other.m01();
@@ -1275,9 +1206,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return sub(subtrahend, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#sub(org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d sub(Matrix4x3dc subtrahend, Matrix4x3d dest) {
         dest.m00 = m00 - subtrahend.m00();
         dest.m01 = m01 - subtrahend.m01();
@@ -1306,9 +1234,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return sub(subtrahend, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#sub(org.joml.Matrix4x3fc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d sub(Matrix4x3fc subtrahend, Matrix4x3d dest) {
         dest.m00 = m00 - subtrahend.m00();
         dest.m01 = m01 - subtrahend.m01();
@@ -1337,9 +1262,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return mulComponentWise(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#mulComponentWise(org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d mulComponentWise(Matrix4x3dc other, Matrix4x3d dest) {
         dest.m00 = m00 * other.m00();
         dest.m01 = m01 * other.m01();
@@ -1604,9 +1526,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#determinant()
-     */
     public double determinant() {
         return (m00 * m11 - m01 * m10) * m22
              + (m02 * m10 - m00 * m12) * m21
@@ -1622,9 +1541,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return invert(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#invert(org.joml.Matrix4x3d)
-     */
     public Matrix4x3d invert(Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.identity();
@@ -1690,9 +1606,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#invertOrtho(org.joml.Matrix4x3d)
-     */
     public Matrix4x3d invertOrtho(Matrix4x3d dest) {
         double invM00 = 1.0 / m00;
         double invM11 = 1.0 / m11;
@@ -1725,9 +1638,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return transpose3x3(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transpose3x3(org.joml.Matrix4x3d)
-     */
     public Matrix4x3d transpose3x3(Matrix4x3d dest) {
         double nm00 = m00;
         double nm01 = m10;
@@ -1751,9 +1661,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transpose3x3(org.joml.Matrix3d)
-     */
     public Matrix3d transpose3x3(Matrix3d dest) {
         dest.m00(m00);
         dest.m01(m10);
@@ -1861,9 +1768,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return setTranslation(xyz.x(), xyz.y(), xyz.z());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTranslation(org.joml.Vector3d)
-     */
     public Vector3d getTranslation(Vector3d dest) {
         dest.x = m30;
         dest.y = m31;
@@ -1871,9 +1775,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getScale(org.joml.Vector3d)
-     */
     public Vector3d getScale(Vector3d dest) {
         dest.x = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
         dest.y = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
@@ -1939,90 +1840,54 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getUnnormalizedRotation(org.joml.Quaternionf)
-     */
     public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getNormalizedRotation(org.joml.Quaternionf)
-     */
     public Quaternionf getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getUnnormalizedRotation(org.joml.Quaterniond)
-     */
     public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getNormalizedRotation(org.joml.Quaterniond)
-     */
     public Quaterniond getNormalizedRotation(Quaterniond dest) {
         return dest.setFromNormalized(this);
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(int, java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(java.nio.FloatBuffer)
-     */
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getFloats(java.nio.ByteBuffer)
-     */
     public ByteBuffer getFloats(ByteBuffer buffer) {
         return getFloats(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getFloats(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer getFloats(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
@@ -2037,9 +1902,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(double[], int)
-     */
     public double[] get(double[] arr, int offset) {
         arr[offset+0]  = m00;
         arr[offset+1]  = m01;
@@ -2056,16 +1918,10 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(double[])
-     */
     public double[] get(double[] arr) {
         return get(arr, 0);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(float[], int)
-     */
     public float[] get(float[] arr, int offset) {
         arr[offset+0]  = (float)m00;
         arr[offset+1]  = (float)m01;
@@ -2082,138 +1938,84 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get(float[])
-     */
     public float[] get(float[] arr) {
         return get(arr, 0);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get4x4(float[], int)
-     */
     public float[] get4x4(float[] arr, int offset) {
         MemUtil.INSTANCE.copy4x4(this, arr, offset);
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get4x4(float[])
-     */
     public float[] get4x4(float[] arr) {
         return get4x4(arr, 0);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get4x4(double[], int)
-     */
     public double[] get4x4(double[] arr, int offset) {
         MemUtil.INSTANCE.copy4x4(this, arr, offset);
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get4x4(double[])
-     */
     public double[] get4x4(double[] arr) {
         return get4x4(arr, 0);
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get4x4(java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get4x4(DoubleBuffer buffer) {
         return get4x4(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get4x4(int, java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get4x4(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put4x4(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get4x4(java.nio.ByteBuffer)
-     */
     public ByteBuffer get4x4(ByteBuffer buffer) {
         return get4x4(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#get4x4(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get4x4(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x4(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposed(java.nio.DoubleBuffer)
-     */
     public DoubleBuffer getTransposed(DoubleBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposed(int, java.nio.DoubleBuffer)
-     */
     public DoubleBuffer getTransposed(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposed(java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposed(ByteBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposed(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposed(java.nio.FloatBuffer)
-     */
     public FloatBuffer getTransposed(FloatBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposed(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.putfTransposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposedFloats(java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposedFloats(ByteBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposedFloats(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposedFloats(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putfTransposed(this, index, buffer);
         return buffer;
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposed(double[], int)
-     */
     public double[] getTransposed(double[] arr, int offset) {
         arr[offset+0]  = m00;
         arr[offset+1]  = m10;
@@ -2230,9 +2032,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getTransposed(double[])
-     */
     public double[] getTransposed(double[] arr) {
         return getTransposed(arr, 0);
     }
@@ -2824,23 +2623,14 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return rotation(angle, axis.x(), axis.y(), axis.z());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transform(org.joml.Vector4d)
-     */
     public Vector4d transform(Vector4d v) {
         return v.mul(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transform(org.joml.Vector4dc, org.joml.Vector4d)
-     */
     public Vector4d transform(Vector4dc v, Vector4d dest) {
         return v.mul(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transformPosition(org.joml.Vector3d)
-     */
     public Vector3d transformPosition(Vector3d v) {
         v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
               m01 * v.x + m11 * v.y + m21 * v.z + m31,
@@ -2848,9 +2638,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return v;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transformPosition(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d transformPosition(Vector3dc v, Vector3d dest) {
         dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z() + m30,
                  m01 * v.x() + m11 * v.y() + m21 * v.z() + m31,
@@ -2858,9 +2645,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transformDirection(org.joml.Vector3d)
-     */
     public Vector3d transformDirection(Vector3d v) {
         v.set(m00 * v.x + m10 * v.y + m20 * v.z,
               m01 * v.x + m11 * v.y + m21 * v.z,
@@ -2868,9 +2652,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return v;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transformDirection(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d transformDirection(Vector3dc v, Vector3d dest) {
         dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z(),
                  m01 * v.x() + m11 * v.y() + m21 * v.z(),
@@ -2920,9 +2701,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#scale(org.joml.Vector3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d scale(Vector3dc xyz, Matrix4x3d dest) {
         return scale(xyz.x(), xyz.y(), xyz.z(), dest);
     }
@@ -2944,9 +2722,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return scale(xyz.x(), xyz.y(), xyz.z(), this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#scale(double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d scale(double x, double y, double z, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
@@ -2990,9 +2765,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return scale(x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#scale(double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d scale(double xyz, Matrix4x3d dest) {
         return scale(xyz, xyz, xyz, dest);
     }
@@ -3015,9 +2787,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return scale(xyz, xyz, xyz);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#scaleXY(double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d scaleXY(double x, double y, Matrix4x3d dest) {
         return scale(x, y, 1.0, dest);
     }
@@ -3040,9 +2809,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return scale(x, y, 1.0);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#scaleLocal(double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d scaleLocal(double x, double y, double z, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
@@ -3096,9 +2862,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return scaleLocal(x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#rotate(double, double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d rotate(double ang, double x, double y, double z, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(ang, x, y, z);
@@ -3346,9 +3109,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#rotateAround(org.joml.Quaterniondc, double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d rotateAround(Quaterniondc quat, double ox, double oy, double oz, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return rotationAround(quat, ox, oy, oz);
@@ -4122,9 +3882,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         determineProperties();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#rotateX(double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d rotateX(double ang, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationX(ang);
@@ -4187,9 +3944,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return rotateX(ang, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#rotateY(double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d rotateY(double ang, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationY(ang);
@@ -4252,9 +4006,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return rotateY(ang, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#rotateZ(double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d rotateZ(double ang, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZ(ang);
@@ -4367,9 +4118,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#rotateXYZ(double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d rotateXYZ(double angleX, double angleY, double angleZ, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
@@ -4469,9 +4217,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#rotateZYX(double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d rotateZYX(double angleZ, double angleY, double angleX, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
@@ -4571,9 +4316,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return rotateYXZ(angleY, angleX, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#rotateYXZ(double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d rotateYXZ(double angleY, double angleX, double angleZ, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
@@ -5945,9 +5687,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getRow(int, org.joml.Vector4d)
-     */
     public Vector4d getRow(int row, Vector4d dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
@@ -6011,9 +5750,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getColumn(int, org.joml.Vector3d)
-     */
     public Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
@@ -6166,9 +5902,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#normal(org.joml.Matrix3d)
-     */
     public Matrix3d normal(Matrix3d dest) {
         if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return normalOrthonormal(dest);
@@ -6286,9 +6019,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return normalize3x3(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#normalize3x3(org.joml.Matrix4x3d)
-     */
     public Matrix4x3d normalize3x3(Matrix4x3d dest) {
         double invXlen = Math.invsqrt(m00 * m00 + m01 * m01 + m02 * m02);
         double invYlen = Math.invsqrt(m10 * m10 + m11 * m11 + m12 * m12);
@@ -6299,9 +6029,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#normalize3x3(org.joml.Matrix3d)
-     */
     public Matrix3d normalize3x3(Matrix3d dest) {
         double invXlen = Math.invsqrt(m00 * m00 + m01 * m01 + m02 * m02);
         double invYlen = Math.invsqrt(m10 * m10 + m11 * m11 + m12 * m12);
@@ -6312,9 +6039,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#reflect(double, double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d reflect(double a, double b, double c, double d, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.reflection(a, b, c, d);
@@ -6411,9 +6135,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return reflect(nx, ny, nz, px, py, pz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#reflect(double, double, double, double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d reflect(double nx, double ny, double nz, double px, double py, double pz, Matrix4x3d dest) {
         double invLength = Math.invsqrt(nx * nx + ny * ny + nz * nz);
         double nnx = nx * invLength;
@@ -6465,9 +6186,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return reflect(orientation, point, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#reflect(org.joml.Quaterniondc, org.joml.Vector3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d reflect(Quaterniondc orientation, Vector3dc point, Matrix4x3d dest) {
         double num1 = orientation.x() + orientation.x();
         double num2 = orientation.y() + orientation.y();
@@ -6478,9 +6196,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return reflect(normalX, normalY, normalZ, point.x(), point.y(), point.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#reflect(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d reflect(Vector3dc normal, Vector3dc point, Matrix4x3d dest) {
         return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z(), dest);
     }
@@ -8714,9 +8429,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#frustumPlane(int, org.joml.Planed)
-     */
     public Planed frustumPlane(int which, Planed plane) {
         switch (which) {
         case PLANE_NX:
@@ -8743,9 +8455,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return plane;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#positiveZ(org.joml.Vector3d)
-     */
     public Vector3d positiveZ(Vector3d dir) {
         dir.x = m10 * m21 - m11 * m20;
         dir.y = m20 * m01 - m21 * m00;
@@ -8753,9 +8462,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#normalizedPositiveZ(org.joml.Vector3d)
-     */
     public Vector3d normalizedPositiveZ(Vector3d dir) {
         dir.x = m02;
         dir.y = m12;
@@ -8763,9 +8469,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#positiveX(org.joml.Vector3d)
-     */
     public Vector3d positiveX(Vector3d dir) {
         dir.x = m11 * m22 - m12 * m21;
         dir.y = m02 * m21 - m01 * m22;
@@ -8773,9 +8476,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#normalizedPositiveX(org.joml.Vector3d)
-     */
     public Vector3d normalizedPositiveX(Vector3d dir) {
         dir.x = m00;
         dir.y = m10;
@@ -8783,9 +8483,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#positiveY(org.joml.Vector3d)
-     */
     public Vector3d positiveY(Vector3d dir) {
         dir.x = m12 * m20 - m10 * m22;
         dir.y = m00 * m22 - m02 * m20;
@@ -8793,9 +8490,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#normalizedPositiveY(org.joml.Vector3d)
-     */
     public Vector3d normalizedPositiveY(Vector3d dir) {
         dir.x = m01;
         dir.y = m11;
@@ -8803,9 +8497,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#origin(org.joml.Vector3d)
-     */
     public Vector3d origin(Vector3d origin) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
@@ -8848,9 +8539,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#shadow(org.joml.Vector4dc, double, double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d shadow(Vector4dc light, double a, double b, double c, double d, Matrix4x3d dest) {
         return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
@@ -8890,9 +8578,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#shadow(double, double, double, double, double, double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d shadow(double lightX, double lightY, double lightZ, double lightW, double a, double b, double c, double d, Matrix4x3d dest) {
         // normalize plane
         double invPlaneLen = Math.invsqrt(a*a + b*b + c*c);
@@ -8948,9 +8633,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#shadow(org.joml.Vector4dc, org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d shadow(Vector4dc light, Matrix4x3dc planeTransform, Matrix4x3d dest) {
         // compute plane equation by transforming (y = 0)
         double a = planeTransform.m10();
@@ -8983,9 +8665,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return shadow(light, planeTransform, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#shadow(double, double, double, double, org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d shadow(double lightX, double lightY, double lightZ, double lightW, Matrix4x3dc planeTransform, Matrix4x3d dest) {
         // compute plane equation by transforming (y = 0)
         double a = planeTransform.m10();
@@ -9288,9 +8967,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#pick(double, double, double, double, int[], org.joml.Matrix4x3d)
-     */
     public Matrix4x3d pick(double x, double y, double width, double height, int[] viewport, Matrix4x3d dest) {
         double sx = viewport[2] / width;
         double sy = viewport[3] / height;
@@ -9356,9 +9032,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#arcball(double, double, double, double, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d arcball(double radius, double centerX, double centerY, double centerZ, double angleX, double angleY, Matrix4x3d dest) {
         double m30 = m20 * -radius + this.m30;
         double m31 = m21 * -radius + this.m31;
@@ -9395,9 +9068,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#arcball(double, org.joml.Vector3dc, double, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d arcball(double radius, Vector3dc center, double angleX, double angleY, Matrix4x3d dest) {
         return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, dest);
     }
@@ -9446,9 +9116,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transformAab(double, double, double, double, double, double, org.joml.Vector3d, org.joml.Vector3d)
-     */
     public Matrix4x3d transformAab(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, Vector3d outMin, Vector3d outMax) {
         double xax = m00 * minX, xay = m01 * minX, xaz = m02 * minX;
         double xbx = m00 * maxX, xby = m01 * maxX, xbz = m02 * maxX;
@@ -9530,9 +9197,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#transformAab(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Vector3d, org.joml.Vector3d)
-     */
     public Matrix4x3d transformAab(Vector3dc min, Vector3dc max, Vector3d outMin, Vector3d outMax) {
         return transformAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), outMin, outMax);
     }
@@ -9554,9 +9218,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return lerp(other, t, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#lerp(org.joml.Matrix4x3dc, double, org.joml.Matrix4x3d)
-     */
     public Matrix4x3d lerp(Matrix4x3dc other, double t, Matrix4x3d dest) {
         dest.m00 = Math.fma(other.m00() - m00, t, m00);
         dest.m01 = Math.fma(other.m01() - m01, t, m01);
@@ -9923,9 +9584,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#getEulerAnglesZYX(org.joml.Vector3d)
-     */
     public Vector3d getEulerAnglesZYX(Vector3d dest) {
         dest.x = Math.atan2(m12, m22);
         dest.y = Math.atan2(-m02, Math.sqrt(m12 * m12 + m22 * m22));

@@ -192,57 +192,30 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         set(col0, col1, col2);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#m00()
-     */
     public double m00() {
         return m00;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#m01()
-     */
     public double m01() {
         return m01;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#m02()
-     */
     public double m02() {
         return m02;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#m10()
-     */
     public double m10() {
         return m10;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#m11()
-     */
     public double m11() {
         return m11;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#m12()
-     */
     public double m12() {
         return m12;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#m20()
-     */
     public double m20() {
         return m20;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#m21()
-     */
     public double m21() {
         return m21;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#m22()
-     */
     public double m22() {
         return m22;
     }
@@ -750,9 +723,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return mul(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#mul(org.joml.Matrix3dc, org.joml.Matrix3d)
-     */
     public Matrix3d mul(Matrix3dc right, Matrix3d dest) {
         double nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
         double nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
@@ -791,9 +761,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
        return mulLocal(left, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#mulLocal(org.joml.Matrix3dc, org.joml.Matrix3d)
-     */
     public Matrix3d mulLocal(Matrix3dc left, Matrix3d dest) {
         double nm00 = left.m00() * m00 + left.m10() * m01 + left.m20() * m02;
         double nm01 = left.m01() * m00 + left.m11() * m01 + left.m21() * m02;
@@ -833,9 +800,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return mul(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#mul(org.joml.Matrix3fc, org.joml.Matrix3d)
-     */
     public Matrix3d mul(Matrix3fc right, Matrix3d dest) {
         double nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), m20 * right.m02()));
         double nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), m21 * right.m02()));
@@ -952,9 +916,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#determinant()
-     */
     public double determinant() {
         return (m00 * m11 - m01 * m10) * m22
              + (m02 * m10 - m00 * m12) * m21
@@ -970,9 +931,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return invert(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#invert(org.joml.Matrix3d)
-     */
     public Matrix3d invert(Matrix3d dest) {
         double a = Math.fma(m00, m11, -m01 * m10);
         double b = Math.fma(m02, m10, -m00 * m12);
@@ -1009,9 +967,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return transpose(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#transpose(org.joml.Matrix3d)
-     */
     public Matrix3d transpose(Matrix3d dest) {
         dest.set(m00, m10, m20,
                  m01, m11, m21,
@@ -1077,97 +1032,58 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getRotation(org.joml.AxisAngle4f)
-     */
     public AxisAngle4f getRotation(AxisAngle4f dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getUnnormalizedRotation(org.joml.Quaternionf)
-     */
     public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getNormalizedRotation(org.joml.Quaternionf)
-     */
     public Quaternionf getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getUnnormalizedRotation(org.joml.Quaterniond)
-     */
     public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getNormalizedRotation(org.joml.Quaterniond)
-     */
     public Quaterniond getNormalizedRotation(Quaterniond dest) {
         return dest.setFromNormalized(this);
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(int, java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(java.nio.FloatBuffer)
-     */
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getFloats(java.nio.ByteBuffer)
-     */
     public ByteBuffer getFloats(ByteBuffer buffer) {
         return getFloats(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getFloats(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer getFloats(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
@@ -1183,9 +1099,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(double[], int)
-     */
     public double[] get(double[] arr, int offset) {
         arr[offset+0] = m00;
         arr[offset+1] = m01;
@@ -1199,16 +1112,10 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(double[])
-     */
     public double[] get(double[] arr) {
         return get(arr, 0);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(float[], int)
-     */
     public float[] get(float[] arr, int offset) {
         arr[offset+0] = (float)m00;
         arr[offset+1] = (float)m01;
@@ -1222,9 +1129,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(float[])
-     */
     public float[] get(float[] arr) {
         return get(arr, 0);
     }
@@ -1461,9 +1365,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#scale(org.joml.Vector3dc, org.joml.Matrix3d)
-     */
     public Matrix3d scale(Vector3dc xyz, Matrix3d dest) {
         return scale(xyz.x(), xyz.y(), xyz.z(), dest);
     }
@@ -1485,9 +1386,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return scale(xyz.x(), xyz.y(), xyz.z(), this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#scale(double, double, double, org.joml.Matrix3d)
-     */
     public Matrix3d scale(double x, double y, double z, Matrix3d dest) {
         // scale matrix elements:
         // m00 = x, m11 = y, m22 = z
@@ -1525,9 +1423,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return scale(x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#scale(double, org.joml.Matrix3d)
-     */
     public Matrix3d scale(double xyz, Matrix3d dest) {
         return scale(xyz, xyz, xyz, dest);
     }
@@ -1550,9 +1445,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return scale(xyz, xyz, xyz);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#scaleLocal(double, double, double, org.joml.Matrix3d)
-     */
     public Matrix3d scaleLocal(double x, double y, double z, Matrix3d dest) {
         double nm00 = x * m00;
         double nm01 = y * m01;
@@ -2070,61 +1962,37 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#transform(org.joml.Vector3d)
-     */
     public Vector3d transform(Vector3d v) {
         return v.mul(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#transform(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d transform(Vector3dc v, Vector3d dest) {
         v.mul(this, dest);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#transform(org.joml.Vector3f)
-     */
     public Vector3f transform(Vector3f v) {
         return v.mul(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#transform(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f transform(Vector3fc v, Vector3f dest) {
         return v.mul(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#transform(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d transform(double x, double y, double z, Vector3d dest) {
         return dest.set(Math.fma(m00, x, Math.fma(m10, y, m20 * z)),
                         Math.fma(m01, x, Math.fma(m11, y, m21 * z)),
                         Math.fma(m02, x, Math.fma(m12, y, m22 * z)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#transformTranspose(org.joml.Vector3d)
-     */
     public Vector3d transformTranspose(Vector3d v) {
         return v.mulTranspose(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#transformTranspose(org.joml.Vector3dc, org.joml.Vector3d)
-     */
     public Vector3d transformTranspose(Vector3dc v, Vector3d dest) {
         return v.mulTranspose(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#transformTranspose(double, double, double, org.joml.Vector3d)
-     */
     public Vector3d transformTranspose(double x, double y, double z, Vector3d dest) {
         return dest.set(Math.fma(m00, x, Math.fma(m01, y, m02 * z)),
                         Math.fma(m10, x, Math.fma(m11, y, m12 * z)),
@@ -2155,9 +2023,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         m22 = in.readDouble();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#rotateX(double, org.joml.Matrix3d)
-     */
     public Matrix3d rotateX(double ang, Matrix3d dest) {
         double sin, cos;
         sin = Math.sin(ang);
@@ -2207,9 +2072,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return rotateX(ang, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#rotateY(double, org.joml.Matrix3d)
-     */
     public Matrix3d rotateY(double ang, Matrix3d dest) {
         double sin, cos;
         sin = Math.sin(ang);
@@ -2259,9 +2121,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return rotateY(ang, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#rotateZ(double, org.joml.Matrix3d)
-     */
     public Matrix3d rotateZ(double ang, Matrix3d dest) {
         double sin, cos;
         sin = Math.sin(ang);
@@ -2338,9 +2197,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#rotateXYZ(double, double, double, org.joml.Matrix3d)
-     */
     public Matrix3d rotateXYZ(double angleX, double angleY, double angleZ, Matrix3d dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -2403,9 +2259,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#rotateZYX(double, double, double, org.joml.Matrix3d)
-     */
     public Matrix3d rotateZYX(double angleZ, double angleY, double angleX, Matrix3d dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -2491,9 +2344,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return rotateYXZ(angleY, angleX, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#rotateYXZ(double, double, double, org.joml.Matrix3d)
-     */
     public Matrix3d rotateYXZ(double angleY, double angleX, double angleZ, Matrix3d dest) {
         double sinX = Math.sin(angleX);
         double cosX = Math.cosFromSin(sinX, angleX);
@@ -2560,9 +2410,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return rotate(ang, x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#rotate(double, double, double, double, org.joml.Matrix3d)
-     */
     public Matrix3d rotate(double ang, double x, double y, double z, Matrix3d dest) {
         double s = Math.sin(ang);
         double c = Math.cosFromSin(s, ang);
@@ -3531,9 +3378,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getRow(int, org.joml.Vector3d)
-     */
     public Vector3d getRow(int row, Vector3d dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
@@ -3598,9 +3442,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getColumn(int, org.joml.Vector3d)
-     */
     public Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
@@ -3665,10 +3506,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix3dc#get(int, int)
-     */
     public double get(int column, int row) {
         switch (column) {
         case 0:
@@ -3777,10 +3614,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         throw new IllegalArgumentException();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix3dc#getRowColumn(int, int)
-     */
     public double getRowColumn(int row, int column) {
         switch (row) {
         case 0:
@@ -4242,9 +4075,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#getScale(org.joml.Vector3d)
-     */
     public Vector3d getScale(Vector3d dest) {
         dest.x = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
         dest.y = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
@@ -4252,9 +4082,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#positiveZ(org.joml.Vector3d)
-     */
     public Vector3d positiveZ(Vector3d dir) {
         dir.x = m10 * m21 - m11 * m20;
         dir.y = m20 * m01 - m21 * m00;
@@ -4262,9 +4089,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#normalizedPositiveZ(org.joml.Vector3d)
-     */
     public Vector3d normalizedPositiveZ(Vector3d dir) {
         dir.x = m02;
         dir.y = m12;
@@ -4272,9 +4096,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#positiveX(org.joml.Vector3d)
-     */
     public Vector3d positiveX(Vector3d dir) {
         dir.x = m11 * m22 - m12 * m21;
         dir.y = m02 * m21 - m01 * m22;
@@ -4282,9 +4103,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#normalizedPositiveX(org.joml.Vector3d)
-     */
     public Vector3d normalizedPositiveX(Vector3d dir) {
         dir.x = m00;
         dir.y = m10;
@@ -4292,9 +4110,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#positiveY(org.joml.Vector3d)
-     */
     public Vector3d positiveY(Vector3d dir) {
         dir.x = m12 * m20 - m10 * m22;
         dir.y = m00 * m22 - m02 * m20;
@@ -4302,9 +4117,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#normalizedPositiveY(org.joml.Vector3d)
-     */
     public Vector3d normalizedPositiveY(Vector3d dir) {
         dir.x = m01;
         dir.y = m11;
@@ -4426,9 +4238,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return add(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#add(org.joml.Matrix3dc, org.joml.Matrix3d)
-     */
     public Matrix3d add(Matrix3dc other, Matrix3d dest) {
         dest.m00 = m00 + other.m00();
         dest.m01 = m01 + other.m01();
@@ -4453,9 +4262,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return sub(subtrahend, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#sub(org.joml.Matrix3dc, org.joml.Matrix3d)
-     */
     public Matrix3d sub(Matrix3dc subtrahend, Matrix3d dest) {
         dest.m00 = m00 - subtrahend.m00();
         dest.m01 = m01 - subtrahend.m01();
@@ -4480,9 +4286,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return mulComponentWise(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#mulComponentWise(org.joml.Matrix3dc, org.joml.Matrix3d)
-     */
     public Matrix3d mulComponentWise(Matrix3dc other, Matrix3d dest) {
         dest.m00 = m00 * other.m00();
         dest.m01 = m01 * other.m01();
@@ -4542,9 +4345,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return lerp(other, t, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#lerp(org.joml.Matrix3dc, double, org.joml.Matrix3d)
-     */
     public Matrix3d lerp(Matrix3dc other, double t, Matrix3d dest) {
         dest.m00 = Math.fma(other.m00() - m00, t, m00);
         dest.m01 = Math.fma(other.m01() - m01, t, m01);
@@ -4917,9 +4717,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#reflect(double, double, double, org.joml.Matrix3d)
-     */
     public Matrix3d reflect(double nx, double ny, double nz, Matrix3d dest) {
         double da = nx + nx, db = ny + ny, dc = nz + nz;
         double rm00 = 1.0 - da * nx;
@@ -5008,9 +4805,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return reflect(orientation, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#reflect(org.joml.Quaterniondc, org.joml.Matrix3d)
-     */
     public Matrix3d reflect(Quaterniondc orientation, Matrix3d dest) {
         double num1 = orientation.x() + orientation.x();
         double num2 = orientation.y() + orientation.y();
@@ -5021,9 +4815,6 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return reflect(normalX, normalY, normalZ, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3dc#reflect(org.joml.Vector3dc, org.joml.Matrix3d)
-     */
     public Matrix3d reflect(Vector3dc normal, Matrix3d dest) {
         return reflect(normal.x(), normal.y(), normal.z(), dest);
     }

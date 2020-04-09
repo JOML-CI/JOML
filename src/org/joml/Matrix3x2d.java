@@ -151,39 +151,21 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m00()
-     */
     public double m00() {
         return m00;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m01()
-     */
     public double m01() {
         return m01;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m10()
-     */
     public double m10() {
         return m10;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m11()
-     */
     public double m11() {
         return m11;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m20()
-     */
     public double m20() {
         return m20;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#m21()
-     */
     public double m21() {
         return m21;
     }
@@ -380,9 +362,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
        return mulLocal(left, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#mulLocal(org.joml.Matrix3x2dc, org.joml.Matrix3x2d)
-     */
     public Matrix3x2d mulLocal(Matrix3x2dc left, Matrix3x2d dest) {
         double nm00 = left.m00() * m00 + left.m10() * m01;
         double nm01 = left.m01() * m00 + left.m11() * m01;
@@ -838,9 +817,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
 //#ifdef __GWT__
-      /* (non-Javadoc)
-       * @see org.joml.Matrix3x2dc#get(com.google.gwt.typedarrays.shared.Float64Array)
-       */
       public Float64Array get(Float64Array buffer) {
           buffer.set(0,  m00);
           buffer.set(1,  m01);
@@ -850,9 +826,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
           buffer.set(5,  m21);
           return buffer;
       }
-      /* (non-Javadoc)
-       * @see org.joml.Matrix3x2dc#get(int, com.google.gwt.typedarrays.shared.Float64Array)
-       */
       public Float64Array get(int index, Float64Array buffer) {
           buffer.set(index,    m00);
           buffer.set(index+1,  m01);
@@ -1411,9 +1384,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return scale(xy, xy);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#scaleLocal(double, double, org.joml.Matrix3x2d)
-     */
     public Matrix3x2d scaleLocal(double x, double y, Matrix3x2d dest) {
         dest.m00 = x * m00;
         dest.m01 = y * m01;
@@ -1442,9 +1412,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return scaleLocal(x, y, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#scaleLocal(double, org.joml.Matrix3x2d)
-     */
     public Matrix3x2d scaleLocal(double xy, Matrix3x2d dest) {
         return scaleLocal(xy, xy, dest);
     }
@@ -1574,9 +1541,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return scaleAround(factor, factor, ox, oy, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#scaleAroundLocal(double, double, double, double, double, double, org.joml.Matrix3x2d)
-     */
     public Matrix3x2d scaleAroundLocal(double sx, double sy, double ox, double oy, Matrix3x2d dest) {
         dest.m00 = sx * m00;
         dest.m01 = sy * m01;
@@ -1587,9 +1551,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#scaleAroundLocal(double, double, double, org.joml.Matrix3x2d)
-     */
     public Matrix3x2d scaleAroundLocal(double factor, double ox, double oy, Matrix3x2d dest) {
         return scaleAroundLocal(factor, factor, ox, oy, dest);
     }
@@ -2296,9 +2257,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return area;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#positiveX(org.joml.Vector2d)
-     */
     public Vector2d positiveX(Vector2d dir) {
         double s = m00 * m11 - m01 * m10;
         s = 1.0 / s;
@@ -2307,18 +2265,12 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#normalizedPositiveX(org.joml.Vector2d)
-     */
     public Vector2d normalizedPositiveX(Vector2d dir) {
         dir.x =  m11;
         dir.y = -m01;
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#positiveY(org.joml.Vector2d)
-     */
     public Vector2d positiveY(Vector2d dir) {
         double s = m00 * m11 - m01 * m10;
         s = 1.0 / s;
@@ -2327,9 +2279,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix3x2dc#normalizedPositiveY(org.joml.Vector2d)
-     */
     public Vector2d normalizedPositiveY(Vector2d dir) {
         dir.x = -m10;
         dir.y =  m00;
@@ -2427,10 +2376,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix3x2fc#testPoint(double, double)
-     */
     public boolean testPoint(double x, double y) {
         double nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
         double pxX = -m00, pxY = -m10, pxW = 1.0f - m20;
@@ -2440,10 +2385,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
                nyX * x + nyY * y + nyW >= 0 && pyX * x + pyY * y + pyW >= 0;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix3x2fc#testCircle(double, double, double)
-     */
     public boolean testCircle(double x, double y, double r) {
         double invl;
         double nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
@@ -2462,10 +2403,6 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
                nyX * x + nyY * y + nyW >= -r && pyX * x + pyY * y + pyW >= -r;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix3x2fc#testAar(double, double, double, double)
-     */
     public boolean testAar(double minX, double minY, double maxX, double maxY) {
         double nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
         double pxX = -m00, pxY = -m10, pxW = 1.0f - m20;

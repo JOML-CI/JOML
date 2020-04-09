@@ -332,30 +332,18 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#x()
-     */
     public double x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#y()
-     */
     public double y() {
         return this.y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#z()
-     */
     public double z() {
         return this.z;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#w()
-     */
     public double w() {
         return this.w;
     }
@@ -731,65 +719,41 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#get(java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#get(int, java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#getf(java.nio.ByteBuffer)
-     */
     public ByteBuffer getf(ByteBuffer buffer) {
         MemUtil.INSTANCE.putf(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#getf(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer getf(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#get(java.nio.FloatBuffer)
-     */
     public FloatBuffer get(FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#get(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
@@ -890,9 +854,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#sub(double, double, double, double, org.joml.Vector4d)
-     */
     public Vector4d sub(double x, double y, double z, double w, Vector4d dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
@@ -953,9 +914,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#add(double, double, double, double, org.joml.Vector4d)
-     */
     public Vector4d add(double x, double y, double z, double w, Vector4d dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
@@ -1013,9 +971,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#fma(org.joml.Vector4dc, org.joml.Vector4dc, org.joml.Vector4d)
-     */
     public Vector4d fma(Vector4dc a, Vector4dc b, Vector4d dest) {
         dest.x = Math.fma(a.x(), b.x(), x);
         dest.y = Math.fma(a.y(), b.y(), y);
@@ -1024,9 +979,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#fma(double, org.joml.Vector4dc, org.joml.Vector4d)
-     */
     public Vector4d fma(double a, Vector4dc b, Vector4d dest) {
         dest.x = Math.fma(a, b.x(), x);
         dest.y = Math.fma(a, b.y(), y);
@@ -1067,9 +1019,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mulAdd(org.joml.Vector4dc, org.joml.Vector4dc, org.joml.Vector4d)
-     */
     public Vector4d mulAdd(Vector4dc a, Vector4dc b, Vector4d dest) {
         dest.x = Math.fma(x, a.x(), b.x());
         dest.y = Math.fma(y, a.y(), b.y());
@@ -1077,9 +1026,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mulAdd(float, org.joml.Vector4dc, org.joml.Vector4d)
-     */
     public Vector4d mulAdd(double a, Vector4dc b, Vector4d dest) {
         dest.x = Math.fma(x, a, b.x());
         dest.y = Math.fma(y, a, b.y());
@@ -1102,9 +1048,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mul(org.joml.Vector4dc, org.joml.Vector4d)
-     */
     public Vector4d mul(Vector4dc v, Vector4d dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -1128,9 +1071,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#div(org.joml.Vector4dc, org.joml.Vector4d)
-     */
     public Vector4d div(Vector4dc v, Vector4d dest) {
         dest.x = x / v.x();
         dest.y = y / v.y();
@@ -1154,9 +1094,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#div(org.joml.Vector4fc, org.joml.Vector4d)
-     */
     public Vector4d mul(Vector4fc v, Vector4d dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -1178,18 +1115,12 @@ public class Vector4d implements Externalizable, Vector4dc {
         return mulGeneric(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mul(org.joml.Matrix4dc, org.joml.Vector4d)
-     */
     public Vector4d mul(Matrix4dc mat, Vector4d dest) {
         if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
             return mulAffine(mat, dest);
         return mulGeneric(mat, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mulAffine(org.joml.Matrix4dc, org.joml.Vector4d)
-     */
     public Vector4d mulAffine(Matrix4dc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
@@ -1231,9 +1162,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mul(org.joml.Matrix4x3dc, org.joml.Vector4d)
-     */
     public Vector4d mul(Matrix4x3dc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
@@ -1263,9 +1191,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mul(org.joml.Matrix4x3fc, org.joml.Vector4d)
-     */
     public Vector4d mul(Matrix4x3fc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
@@ -1290,9 +1215,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return mulGeneric(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mul(org.joml.Matrix4fc, org.joml.Vector4d)
-     */
     public Vector4d mul(Matrix4fc mat, Vector4d dest) {
         if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
             return mulAffine(mat, dest);
@@ -1320,9 +1242,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mulProject(org.joml.Matrix4dc, org.joml.Vector4d)
-     */
     public Vector4d mulProject(Matrix4dc mat, Vector4d dest) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
@@ -1354,9 +1273,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mulProject(org.joml.Matrix4dc, org.joml.Vector3d)
-     */
     public Vector3d mulProject(Matrix4dc mat, Vector3d dest) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
@@ -1383,9 +1299,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#mul(double, org.joml.Vector4d)
-     */
     public Vector4d mul(double scalar, Vector4d dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
@@ -1410,9 +1323,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#div(double, org.joml.Vector4d)
-     */
     public Vector4d div(double scalar, Vector4d dest) {
         double inv = 1.0 / scalar;
         dest.x = x * inv;
@@ -1436,9 +1346,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#rotate(org.joml.Quaterniondc, org.joml.Vector4d)
-     */
     public Vector4d rotate(Quaterniondc quat, Vector4d dest) {
         quat.transform(this, dest);
         return dest;
@@ -1467,9 +1374,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return rotateAxisInternal(angle, x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#rotateAxis(double, double, double, double, org.joml.Vector4d)
-     */
     public Vector4d rotateAxis(double angle, double aX, double aY, double aZ, Vector4d dest) {
         if (aY == 0.0 && aZ == 0.0 && Math.absEqualsOne(aX))
             return rotateX(aX * angle, dest);
@@ -1511,9 +1415,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#rotateX(double, org.joml.Vector4d)
-     */
     public Vector4d rotateX(double angle, Vector4d dest) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         double y = this.y * cos - this.z * sin;
@@ -1541,9 +1442,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#rotateY(double, org.joml.Vector4d)
-     */
     public Vector4d rotateY(double angle, Vector4d dest) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         double x =  this.x * cos + this.z * sin;
@@ -1571,9 +1469,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#rotateZ(double, org.joml.Vector4d)
-     */
     public Vector4d rotateZ(double angle, Vector4d dest) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         double x = this.x * cos - this.y * sin;
@@ -1585,9 +1480,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#lengthSquared()
-     */
     public double lengthSquared() {
         return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
@@ -1608,9 +1500,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#length()
-     */
     public double length() {
         return Math.sqrt(Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w))));
     }
@@ -1645,9 +1534,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#normalize(org.joml.Vector4d)
-     */
     public Vector4d normalize(Vector4d dest) {
         double invLength = 1.0 / length();
         dest.x = x * invLength;
@@ -1673,9 +1559,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#normalize(double, org.joml.Vector4d)
-     */
     public Vector4d normalize(double length, Vector4d dest) {
         double invLength = 1.0 / length() * length;
         dest.x = x * invLength;
@@ -1699,9 +1582,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#normalize3(org.joml.Vector4d)
-     */
     public Vector4d normalize3(Vector4d dest) {
         double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
         dest.x = x * invLength;
@@ -1711,9 +1591,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#distance(org.joml.Vector4dc)
-     */
     public double distance(Vector4dc v) {
         double dx = this.x - v.x();
         double dy = this.y - v.y();
@@ -1722,9 +1599,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#distance(double, double, double, double)
-     */
     public double distance(double x, double y, double z, double w) {
         double dx = this.x - x;
         double dy = this.y - y;
@@ -1733,9 +1607,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#distanceSquared(org.joml.Vector4dc)
-     */
     public double distanceSquared(Vector4dc v) {
         double dx = this.x - v.x();
         double dy = this.y - v.y();
@@ -1744,9 +1615,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#distanceSquared(double, double, double, double)
-     */
     public double distanceSquared(double x, double y, double z, double w) {
         double dx = this.x - x;
         double dy = this.y - y;
@@ -1813,23 +1681,14 @@ public class Vector4d implements Externalizable, Vector4dc {
         return Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#dot(org.joml.Vector4dc)
-     */
     public double dot(Vector4dc v) {
         return Math.fma(this.x, v.x(), Math.fma(this.y, v.y(), Math.fma(this.z, v.z(), this.w * v.w())));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#dot(double, double, double, double)
-     */
     public double dot(double x, double y, double z, double w) {
         return Math.fma(this.x, x, Math.fma(this.y, y, Math.fma(this.z, z, this.w * w)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#angleCos(org.joml.Vector4dc)
-     */
     public double angleCos(Vector4dc v) {
         double length1Squared = Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
         double length2Squared = Math.fma(v.x(), v.x(), Math.fma(v.y(), v.y(), Math.fma(v.z(), v.z(), v.w() * v.w())));
@@ -1837,9 +1696,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dot / Math.sqrt(length1Squared * length2Squared);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#angle(org.joml.Vector4dc)
-     */
     public double angle(Vector4dc v) {
         double cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
@@ -1874,9 +1730,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#negate(org.joml.Vector4d)
-     */
     public Vector4d negate(Vector4d dest) {
         dest.x = -x;
         dest.y = -y;
@@ -2020,9 +1873,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#equals(double, double, double, double)
-     */
     public boolean equals(double x, double y, double z, double w) {
         if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(x))
             return false;
@@ -2035,9 +1885,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#smoothStep(org.joml.Vector4dc, double, org.joml.Vector4d)
-     */
     public Vector4d smoothStep(Vector4dc v, double t, Vector4d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
@@ -2048,9 +1895,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#hermite(org.joml.Vector4dc, org.joml.Vector4dc, org.joml.Vector4dc, double, org.joml.Vector4d)
-     */
     public Vector4d hermite(Vector4dc t0, Vector4dc v1, Vector4dc t1, double t, Vector4d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
@@ -2082,9 +1926,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#lerp(org.joml.Vector4dc, double, org.joml.Vector4d)
-     */
     public Vector4d lerp(Vector4dc other, double t, Vector4d dest) {
         dest.x = Math.fma(other.x() - x, t, x);
         dest.y = Math.fma(other.y() - y, t, y);
@@ -2093,9 +1934,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#get(int)
-     */
     public double get(int component) throws IllegalArgumentException {
         switch (component) {
         case 0:
@@ -2135,9 +1973,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#maxComponent()
-     */
     public int maxComponent() {
         double absX = Math.abs(x);
         double absY = Math.abs(y);
@@ -2153,9 +1988,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return 3;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#minComponent()
-     */
     public int minComponent() {
         double absX = Math.abs(x);
         double absY = Math.abs(y);
@@ -2239,9 +2071,6 @@ public class Vector4d implements Externalizable, Vector4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector4dc#isFinite()
-     */
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
     }

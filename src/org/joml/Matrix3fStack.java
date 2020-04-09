@@ -137,9 +137,6 @@ public class Matrix3fStack extends Matrix3f {
      * - Matrix3fStack.equals(Matrix3f) is true iff all the 9 matrix elements are equal
      * - Matrix3fStack.equals(Matrix3fStack) is true iff all 9 matrix elements are equal AND the matrix arrays as well as the stack pointer are equal
      * - everything else is inequal
-     * 
-     * (non-Javadoc)
-     * @see org.joml.Matrix3f#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
         if (this == obj)

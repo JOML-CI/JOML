@@ -137,9 +137,6 @@ public class Matrix3x2dStack extends Matrix3x2d {
      * - Matrix3x2dStack.equals(Matrix3x2d) is true iff all the 6 matrix elements are equal
      * - Matrix3x2dStack.equals(Matrix3x2dStack) is true iff all 6 matrix elements are equal AND the matrix arrays as well as the stack pointer are equal
      * - everything else is inequal
-     * 
-     * (non-Javadoc)
-     * @see org.joml.Matrix3x2d#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
         if (this == obj)

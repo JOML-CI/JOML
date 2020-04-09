@@ -142,27 +142,15 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         m11 = col1.y();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#m00
-     */
     public float m00() {
         return m00;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#m01
-     */
     public float m01() {
         return m01;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#m10
-     */
     public float m10() {
         return m10;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#m11
-     */
     public float m11() {
         return m11;
     }
@@ -339,10 +327,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return mul(right, this);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix2fc#mul(org.joml.Matrix2fc, org.joml.Matrix2fc)
-     */
     public Matrix2f mul(Matrix2fc right, Matrix2f dest) {
         float nm00 = m00 * right.m00() + m10 * right.m01();
         float nm01 = m01 * right.m00() + m11 * right.m01();
@@ -371,10 +355,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return mulLocal(left, this);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix2fc#mulLocal(org.joml.Matrix2fc, org.joml.Matrix2fc)
-     */
     public Matrix2f mulLocal(Matrix2fc left, Matrix2f dest) {
         float nm00 = left.m00() * m00 + left.m10() * m01;
         float nm01 = left.m01() * m00 + left.m11() * m01;
@@ -446,9 +426,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#determinant()
-     */
     public float determinant() {
         return m00 * m11 - m10 * m01;
     }
@@ -462,9 +439,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return invert(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#invert(org.joml.Matrix2f)
-     */
     public Matrix2f invert(Matrix2f dest) {
         float s = 1.0f / determinant();
         float nm00 = m11 * s;
@@ -487,9 +461,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return transpose(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#transpose(org.joml.Matrix2f)
-     */
     public Matrix2f transpose(Matrix2f dest) {
         dest.set(m00, m10,
                  m01, m11);
@@ -553,31 +524,19 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(org.joml.Matrix3x2f)
-     */
     public Matrix3x2f get(Matrix3x2f dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(org.joml.Matrix3f)
-     */
     public Matrix3f get(Matrix3f dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#getRotation()
-     */
     public float getRotation() {
         return Math.atan2(m01, m11);
     }
 
 //#ifdef __GWT__
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(com.google.gwt.typedarrays.shared.Float32Array)
-     */
     public Float32Array get(Float32Array buffer) {
         buffer.set(0, m00);
         buffer.set(1, m01);
@@ -585,9 +544,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         buffer.set(3, m11);
         return buffer;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(int, com.google.gwt.typedarrays.shared.Float32Array)
-     */
     public Float32Array get(int index, Float32Array buffer) {
         buffer.set(index,   m00);
         buffer.set(index+1, m01);
@@ -598,61 +554,37 @@ public class Matrix2f implements Externalizable, Matrix2fc {
 //#endif
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(java.nio.FloatBuffer)
-     */
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#getTransposed(java.nio.FloatBuffer)
-     */
     public FloatBuffer getTransposed(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#getTransposed(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#getTransposed(java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposed(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#getTransposed(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
@@ -667,17 +599,11 @@ public class Matrix2f implements Externalizable, Matrix2fc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(float[], int)
-     */
     public float[] get(float[] arr, int offset) {
         MemUtil.INSTANCE.copy(this, arr, offset);
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(float[])
-     */
     public float[] get(float[] arr) {
         return get(arr, 0);
     }
@@ -759,9 +685,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#scale(org.joml.Vector2fc, org.joml.Matrix2f)
-     */
     public Matrix2f scale(Vector2fc xy, Matrix2f dest) {
         return scale(xy.x(), xy.y(), dest);
     }
@@ -783,9 +706,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return scale(xy.x(), xy.y(), this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#scale(float, float, org.joml.Matrix2f)
-     */
     public Matrix2f scale(float x, float y, Matrix2f dest) {
         // scale matrix elements:
         // m00 = x, m11 = y
@@ -816,9 +736,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return scale(x, y, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#scale(float, org.joml.Matrix2f)
-     */
     public Matrix2f scale(float xy, Matrix2f dest) {
         return scale(xy, xy, dest);
     }
@@ -841,9 +758,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return scale(xy, xy);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#scaleLocal(float, float, org.joml.Matrix2f)
-     */
     public Matrix2f scaleLocal(float x, float y, Matrix2f dest) {
         dest.m00 = x * m00;
         dest.m01 = y * m01;
@@ -955,48 +869,30 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#transform(org.joml.Vector2f)
-     */
     public Vector2f transform(Vector2f v) {
         return v.mul(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#transform(org.joml.Vector2fc, org.joml.Vector2f)
-     */
     public Vector2f transform(Vector2fc v, Vector2f dest) {
         v.mul(this, dest);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#transform(float, float, org.joml.Vector2f)
-     */
     public Vector2f transform(float x, float y, Vector2f dest) {
         dest.set(m00 * x + m10 * y,
                  m01 * x + m11 * y);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#transformTranspose(org.joml.Vector2f)
-     */
     public Vector2f transformTranspose(Vector2f v) {
         return v.mulTranspose(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#transformTranspose(org.joml.Vector2fc, org.joml.Vector2f)
-     */
     public Vector2f transformTranspose(Vector2fc v, Vector2f dest) {
         v.mulTranspose(this, dest);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#transformTranspose(float, float, org.joml.Vector2f)
-     */
     public Vector2f transformTranspose(float x, float y, Vector2f dest) {
         dest.set(m00 * x + m01 * y,
                  m10 * x + m11 * y);
@@ -1037,9 +933,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return rotate(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#rotate(float, org.joml.Matrix2f)
-     */
     public Matrix2f rotate(float angle, Matrix2f dest) {
         float s = Math.sin(angle);
         float c = Math.cosFromSin(s, angle);
@@ -1081,9 +974,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return rotateLocal(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#rotateLocal(float, org.joml.Matrix2f)
-     */
     public Matrix2f rotateLocal(float angle, Matrix2f dest) {
         float s = Math.sin(angle);
         float c = Math.cosFromSin(s, angle);
@@ -1100,9 +990,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#getRow(int, org.joml.Vector2f)
-     */
     public Vector2f getRow(int row, Vector2f dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
@@ -1161,9 +1048,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#getColumn(int, org.joml.Vector2f)
-     */
     public Vector2f getColumn(int column, Vector2f dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
@@ -1222,10 +1106,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix2fc#get(int, int)
-     */
     public float get(int column, int row) {
         switch (column) {
         case 0:
@@ -1340,18 +1220,12 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#getScale(org.joml.Vector2f)
-     */
     public Vector2f getScale(Vector2f dest) {
         dest.x = Math.sqrt(m00 * m00 + m01 * m01);
         dest.y = Math.sqrt(m10 * m10 + m11 * m11);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#positiveX(org.joml.Vector2f)
-     */
     public Vector2f positiveX(Vector2f dir) {
         if (m00 * m11 < m01 * m10) { // negative determinant?
             dir.x = -m11;
@@ -1363,9 +1237,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#normalizedPositiveX(org.joml.Vector2f)
-     */
     public Vector2f normalizedPositiveX(Vector2f dir) {
         if (m00 * m11 < m01 * m10) { // negative determinant?
             dir.x = -m11;
@@ -1377,9 +1248,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#positiveY(org.joml.Vector2f)
-     */
     public Vector2f positiveY(Vector2f dir) {
         if (m00 * m11 < m01 * m10) { // negative determinant?
             dir.x = m10;
@@ -1391,9 +1259,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#normalizedPositiveY(org.joml.Vector2f)
-     */
     public Vector2f normalizedPositiveY(Vector2f dir) {
         if (m00 * m11 < m01 * m10) { // negative determinant?
             dir.x = m10;
@@ -1475,9 +1340,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return add(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#add(org.joml.Matrix2fc, org.joml.Matrix2f)
-     */
     public Matrix2f add(Matrix2fc other, Matrix2f dest) {
         dest.m00 = m00 + other.m00();
         dest.m01 = m01 + other.m01();
@@ -1497,9 +1359,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return sub(subtrahend, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#sub(org.joml.Matrix2fc, org.joml.Matrix2f)
-     */
     public Matrix2f sub(Matrix2fc other, Matrix2f dest) {
         dest.m00 = m00 - other.m00();
         dest.m01 = m01 - other.m01();
@@ -1519,9 +1378,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return sub(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#mulComponentWise(org.joml.Matrix2fc, org.joml.Matrix2f)
-     */
     public Matrix2f mulComponentWise(Matrix2fc other, Matrix2f dest) {
         dest.m00 = m00 * other.m00();
         dest.m01 = m01 * other.m01();
@@ -1547,9 +1403,6 @@ public class Matrix2f implements Externalizable, Matrix2fc {
         return lerp(other, t, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2fc#lerp(org.joml.Matrix2fc, float, org.joml.Matrix2f)
-     */
     public Matrix2f lerp(Matrix2fc other, float t, Matrix2f dest) {
         dest.m00 = Math.fma(other.m00() - m00, t, m00);
         dest.m01 = Math.fma(other.m01() - m01, t, m01);

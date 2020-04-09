@@ -222,23 +222,14 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#x()
-     */
     public float x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#y()
-     */
     public float y() {
         return this.y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#z()
-     */
     public float z() {
         return this.z;
     }
@@ -542,33 +533,21 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#get(java.nio.FloatBuffer)
-     */
     public FloatBuffer get(FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#get(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
@@ -598,9 +577,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#sub(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f sub(Vector3fc v, Vector3f dest) {
         dest.x = x - v.x();
         dest.y = y - v.y();
@@ -626,9 +602,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#sub(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f sub(float x, float y, float z, Vector3f dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
@@ -650,9 +623,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#add(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f add(Vector3fc v, Vector3f dest) {
         dest.x = this.x + v.x();
         dest.y = this.y + v.y();
@@ -678,9 +648,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#add(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f add(float x, float y, float z, Vector3f dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
@@ -720,9 +687,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#fma(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f fma(Vector3fc a, Vector3fc b, Vector3f dest) {
         dest.x = Math.fma(a.x(), b.x(), x);
         dest.y = Math.fma(a.y(), b.y(), y);
@@ -730,9 +694,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#fma(float, org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f fma(float a, Vector3fc b, Vector3f dest) {
         dest.x = Math.fma(a, b.x(), x);
         dest.y = Math.fma(a, b.y(), y);
@@ -772,9 +733,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulAdd(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f mulAdd(Vector3fc a, Vector3fc b, Vector3f dest) {
         dest.x = Math.fma(x, a.x(), b.x());
         dest.y = Math.fma(y, a.y(), b.y());
@@ -782,9 +740,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulAdd(float, org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f mulAdd(float a, Vector3fc b, Vector3f dest) {
         dest.x = Math.fma(x, a, b.x());
         dest.y = Math.fma(y, a, b.y());
@@ -806,9 +761,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mul(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f mul(Vector3fc v, Vector3f dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -830,9 +782,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#div(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f div(Vector3fc v, Vector3f dest) {
         dest.x = x / v.x();
         dest.y = y / v.y();
@@ -840,9 +789,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulProject(org.joml.Matrix4fc, org.joml.Vector3f)
-     */
     public Vector3f mulProject(Matrix4fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
@@ -852,9 +798,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulProject(org.joml.Matrix4fc, org.joml.Vector3f)
-     */
     public Vector3f mulProject(Matrix4fc mat, float w, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
@@ -897,9 +840,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mul(org.joml.Matrix3fc, org.joml.Vector3f)
-     */
     public Vector3f mul(Matrix3fc mat, Vector3f dest) {
         float lx = x, ly = y, lz = z;
         dest.x = Math.fma(mat.m00(), lx, Math.fma(mat.m10(), ly, mat.m20() * lz));
@@ -923,9 +863,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mul(org.joml.Matrix3dc, org.joml.Vector3f)
-     */
     public Vector3f mul(Matrix3dc mat, Vector3f dest) {
         float lx = x, ly = y, lz = z;
         dest.x = (float) Math.fma(mat.m00(), lx, Math.fma(mat.m10(), ly, mat.m20() * lz));
@@ -949,9 +886,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mul(org.joml.Matrix3x2fc, org.joml.Vector3f)
-     */
     public Vector3f mul(Matrix3x2fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -975,9 +909,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulTranspose(org.joml.Matrix3fc, org.joml.Vector3f)
-     */
     public Vector3f mulTranspose(Matrix3fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
@@ -1020,9 +951,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulPosition(org.joml.Matrix4fc, org.joml.Vector3f)
-     */
     public Vector3f mulPosition(Matrix4fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
@@ -1031,9 +959,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulPosition(org.joml.Matrix4x3fc, org.joml.Vector3f)
-     */
     public Vector3f mulPosition(Matrix4x3fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
@@ -1059,9 +984,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulTransposePosition(org.joml.Matrix4fc, org.joml.Vector3f)
-     */
     public Vector3f mulTransposePosition(Matrix4fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03())));
@@ -1089,9 +1011,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return w;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulPositionW(org.joml.Matrix4fc, org.joml.Vector3f)
-     */
     public float mulPositionW(Matrix4fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         float w = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
@@ -1152,9 +1071,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulDirection(org.joml.Matrix4dc, org.joml.Vector3f)
-     */
     public Vector3f mulDirection(Matrix4dc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         dest.x = (float) Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1163,9 +1079,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulDirection(org.joml.Matrix4fc, org.joml.Vector3f)
-     */
     public Vector3f mulDirection(Matrix4fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1174,9 +1087,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulDirection(org.joml.Matrix4x3fc, org.joml.Vector3f)
-     */
     public Vector3f mulDirection(Matrix4x3fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1202,9 +1112,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulTransposeDirection(org.joml.Matrix4fc, org.joml.Vector3f)
-     */
     public Vector3f mulTransposeDirection(Matrix4fc mat, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
@@ -1228,9 +1135,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mul(float, org.joml.Vector3f)
-     */
     public Vector3f mul(float scalar, Vector3f dest) {
         dest.x = this.x * scalar;
         dest.y = this.y * scalar;
@@ -1256,9 +1160,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mul(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f mul(float x, float y, float z, Vector3f dest) {
         dest.x = this.x * x;
         dest.y = this.y * y;
@@ -1282,9 +1183,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#div(float, org.joml.Vector3f)
-     */
     public Vector3f div(float scalar, Vector3f dest) {
         float inv = 1.0f / scalar;
         dest.x = this.x * inv;
@@ -1311,9 +1209,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#div(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f div(float x, float y, float z, Vector3f dest) {
         dest.x = this.x / x;
         dest.y = this.y / y;
@@ -1334,23 +1229,14 @@ public class Vector3f implements Externalizable, Vector3fc {
         return quat.transform(this, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#rotate(org.joml.Quaternionfc, org.joml.Vector3f)
-     */
     public Vector3f rotate(Quaternionfc quat, Vector3f dest) {
         return quat.transform(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#rotationTo(org.joml.Vector3fc, org.joml.Quaternionf)
-     */
     public Quaternionf rotationTo(Vector3fc toDir, Quaternionf dest) {
         return dest.rotationTo(this, toDir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#rotationTo(float, float, float, org.joml.Quaternionf)
-     */
     public Quaternionf rotationTo(float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
         return dest.rotationTo(x, y, z, toDirX, toDirY, toDirZ);
     }
@@ -1378,9 +1264,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return rotateAxisInternal(angle, x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#rotateAxis(float, float, float, float, org.joml.Vector3f)
-     */
     public Vector3f rotateAxis(float angle, float aX, float aY, float aZ, Vector3f dest) {
         if (aY == 0.0f && aZ == 0.0f && Math.absEqualsOne(aX))
             return rotateX(aX * angle, dest);
@@ -1420,9 +1303,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#rotateX(float, org.joml.Vector3f)
-     */
     public Vector3f rotateX(float angle, Vector3f dest) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float y = this.y * cos - this.z * sin;
@@ -1449,9 +1329,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#rotateY(float, org.joml.Vector3f)
-     */
     public Vector3f rotateY(float angle, Vector3f dest) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float x =  this.x * cos + this.z * sin;
@@ -1478,9 +1355,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#rotateZ(float, org.joml.Vector3f)
-     */
     public Vector3f rotateZ(float angle, Vector3f dest) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float x = this.x * cos - this.y * sin;
@@ -1491,9 +1365,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#lengthSquared()
-     */
     public float lengthSquared() {
         return Math.fma(x, x, Math.fma(y, y, z * z));
     }
@@ -1513,9 +1384,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return Math.fma(x, x, Math.fma(y, y, z * z));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#length()
-     */
     public float length() {
         return Math.sqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
     }
@@ -1548,9 +1416,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#normalize(org.joml.Vector3f)
-     */
     public Vector3f normalize(Vector3f dest) {
         float scalar = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
         dest.x = this.x * scalar;
@@ -1574,9 +1439,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#normalize(float, org.joml.Vector3f)
-     */
     public Vector3f normalize(float length, Vector3f dest) {
         float scalar = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
         dest.x = this.x * scalar;
@@ -1623,9 +1485,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#cross(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f cross(Vector3fc v, Vector3f dest) {
         float rx = Math.fma(y, v.z(), -z * v.y());
         float ry = Math.fma(z, v.x(), -x * v.z());
@@ -1636,9 +1495,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#cross(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f cross(float x, float y, float z, Vector3f dest) {
         float rx = Math.fma(this.y, z, -this.z * y);
         float ry = Math.fma(this.z, x, -this.x * z);
@@ -1649,9 +1505,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#distance(org.joml.Vector3fc)
-     */
     public float distance(Vector3fc v) {
         float dx = this.x - v.x();
         float dy = this.y - v.y();
@@ -1659,9 +1512,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, dz * dz)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#distance(float, float, float)
-     */
     public float distance(float x, float y, float z) {
         float dx = this.x - x;
         float dy = this.y - y;
@@ -1669,9 +1519,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, dz * dz)));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#distanceSquared(org.joml.Vector3fc)
-     */
     public float distanceSquared(Vector3fc v) {
         float dx = this.x - v.x();
         float dy = this.y - v.y();
@@ -1679,9 +1526,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return Math.fma(dx, dx, Math.fma(dy, dy, dz * dz));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#distanceSquared(float, float, float)
-     */
     public float distanceSquared(float x, float y, float z) {
         float dx = this.x - x;
         float dy = this.y - y;
@@ -1734,23 +1578,14 @@ public class Vector3f implements Externalizable, Vector3fc {
         return Math.fma(dx, dx, Math.fma(dy, dy, dz * dz));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#dot(org.joml.Vector3fc)
-     */
     public float dot(Vector3fc v) {
         return Math.fma(this.x, v.x(), Math.fma(this.y, v.y(), this.z * v.z()));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#dot(float, float, float)
-     */
     public float dot(float x, float y, float z) {
         return Math.fma(this.x, x, Math.fma(this.y, y, this.z * z));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#angleCos(org.joml.Vector3fc)
-     */
     public float angleCos(Vector3fc v) {
         float x = this.x, y = this.y, z = this.z;
         float length1Squared = Math.fma(x, x, Math.fma(y, y, z * z));
@@ -1759,9 +1594,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dot / (float)Math.sqrt(length1Squared * length2Squared);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#angle(org.joml.Vector3fc)
-     */
     public float angle(Vector3fc v) {
         float cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
@@ -1770,16 +1602,10 @@ public class Vector3f implements Externalizable, Vector3fc {
         return Math.acos(cos);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#angleSigned(org.joml.Vector3fc, org.joml.Vector3fc)
-     */
     public float angleSigned(Vector3fc v, Vector3fc n) {
         return angleSigned(v.x(), v.y(), v.z(), n.x(), n.y(), n.z());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#angleSigned(float, float, float, float, float, float)
-     */
     public float angleSigned(float x, float y, float z, float nx, float ny, float nz) {
         float tx = this.x, ty = this.y, tz = this.z;
         return Math.atan2(
@@ -1890,9 +1716,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#negate(org.joml.Vector3f)
-     */
     public Vector3f negate(Vector3f dest) {
         dest.x = -x;
         dest.y = -y;
@@ -1961,9 +1784,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#equals(float, float, float)
-     */
     public boolean equals(float x, float y, float z) {
         if (Float.floatToIntBits(this.x) != Float.floatToIntBits(x))
             return false;
@@ -2011,16 +1831,10 @@ public class Vector3f implements Externalizable, Vector3fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#reflect(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f reflect(Vector3fc normal, Vector3f dest) {
         return reflect(normal.x(), normal.y(), normal.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#reflect(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f reflect(float x, float y, float z, Vector3f dest) {
         float dot = this.dot(x, y, z);
         dest.x = this.x - (dot + dot) * x;
@@ -2055,23 +1869,14 @@ public class Vector3f implements Externalizable, Vector3fc {
         return half(x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#half(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f half(Vector3fc other, Vector3f dest) {
         return half(other.x(), other.y(), other.z(), dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#half(float, float, float, org.joml.Vector3f)
-     */
     public Vector3f half(float x, float y, float z, Vector3f dest) {
         return dest.set(this).add(x, y, z).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#smoothStep(org.joml.Vector3fc, float, org.joml.Vector3f)
-     */
     public Vector3f smoothStep(Vector3fc v, float t, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         float t2 = t * t;
@@ -2082,9 +1887,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#hermite(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Vector3fc, float, org.joml.Vector3f)
-     */
     public Vector3f hermite(Vector3fc t0, Vector3fc v1, Vector3fc t1, float t, Vector3f dest) {
         float x = this.x, y = this.y, z = this.z;
         float t2 = t * t;
@@ -2112,9 +1914,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return lerp(other, t, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#lerp(org.joml.Vector3fc, float, org.joml.Vector3f)
-     */
     public Vector3f lerp(Vector3fc other, float t, Vector3f dest) {
         dest.x = Math.fma(other.x() - x, t, x);
         dest.y = Math.fma(other.y() - y, t, y);
@@ -2122,9 +1921,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#get(int)
-     */
     public float get(int component) throws IllegalArgumentException {
         switch (component) {
         case 0:
@@ -2159,9 +1955,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#maxComponent()
-     */
     public int maxComponent() {
         float absX = Math.abs(x);
         float absY = Math.abs(y);
@@ -2174,9 +1967,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return 2;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#minComponent()
-     */
     public int minComponent() {
         float absX = Math.abs(x);
         float absY = Math.abs(y);
@@ -2189,9 +1979,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return 2;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#orthogonalize(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f orthogonalize(Vector3fc v, Vector3f dest) {
         /*
          * http://lolengine.net/blog/2013/09/21/picking-orthogonal-vector-combing-coconuts
@@ -2226,9 +2013,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return orthogonalize(v, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#orthogonalizeUnit(org.joml.Vector3fc, org.joml.Vector3f)
-     */
     public Vector3f orthogonalizeUnit(Vector3fc v, Vector3f dest) {
         return orthogonalize(v, dest);
     }
@@ -2301,9 +2085,6 @@ public class Vector3f implements Externalizable, Vector3fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3fc#isFinite()
-     */
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z);
     }

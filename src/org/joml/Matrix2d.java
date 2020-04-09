@@ -168,27 +168,15 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         m11 = col1.y();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#m00
-     */
     public double m00() {
         return m00;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#m01
-     */
     public double m01() {
         return m01;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#m10
-     */
     public double m10() {
         return m10;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#m11
-     */
     public double m11() {
         return m11;
     }
@@ -410,10 +398,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return mul(right, this);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix2dc#mul(org.joml.Matrix2dc, org.joml.Matrix2dc)
-     */
     public Matrix2d mul(Matrix2dc right, Matrix2d dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01();
         double nm01 = m01 * right.m00() + m11 * right.m01();
@@ -442,10 +426,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return mul(right, this);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix2dc#mul(org.joml.Matrix2fc, org.joml.Matrix2dc)
-     */
     public Matrix2d mul(Matrix2fc right, Matrix2d dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01();
         double nm01 = m01 * right.m00() + m11 * right.m01();
@@ -474,10 +454,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return mulLocal(left, this);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix2dc#mulLocal(org.joml.Matrix2dc, org.joml.Matrix2dc)
-     */
     public Matrix2d mulLocal(Matrix2dc left, Matrix2d dest) {
         double nm00 = left.m00() * m00 + left.m10() * m01;
         double nm01 = left.m01() * m00 + left.m11() * m01;
@@ -549,9 +525,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#determinant()
-     */
     public double determinant() {
         return m00 * m11 - m10 * m01;
     }
@@ -565,9 +538,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return invert(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#invert(org.joml.Matrix2d)
-     */
     public Matrix2d invert(Matrix2d dest) {
         double s = 1.0 / determinant();
         double nm00 = m11 * s;
@@ -590,9 +560,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return transpose(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#transpose(org.joml.Matrix2d)
-     */
     public Matrix2d transpose(Matrix2d dest) {
         dest.set(m00, m10,
                 m01, m11);
@@ -656,31 +623,19 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(org.joml.Matrix3x2d)
-     */
     public Matrix3x2d get(Matrix3x2d dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(org.joml.Matrix3d)
-     */
     public Matrix3d get(Matrix3d dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#getRotation()
-     */
     public double getRotation() {
         return (double) Math.atan2(m01, m11);
     }
 
     //#ifdef __GWT__
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(com.google.gwt.typedarrays.shared.Float64Array)
-     */
     public Float64Array get(Float64Array buffer) {
         buffer.set(0, m00);
         buffer.set(1, m01);
@@ -688,9 +643,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         buffer.set(3, m11);
         return buffer;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(int, com.google.gwt.typedarrays.shared.Float64Array)
-     */
     public Float64Array get(int index, Float64Array buffer) {
         buffer.set(index,   m00);
         buffer.set(index+1, m01);
@@ -701,61 +653,37 @@ public class Matrix2d implements Externalizable, Matrix2dc {
 //#endif
 
     //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(int, java.nio.DoubleBuffer)
-     */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#getTransposed(java.nio.DoubleBuffer)
-     */
     public DoubleBuffer getTransposed(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#getTransposed(int, java.nio.DoubleBuffer)
-     */
     public DoubleBuffer getTransposed(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#getTransposed(java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposed(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#getTransposed(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
@@ -771,17 +699,11 @@ public class Matrix2d implements Externalizable, Matrix2dc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(double[], int)
-     */
     public double[] get(double[] arr, int offset) {
         MemUtil.INSTANCE.copy(this, arr, offset);
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(double[])
-     */
     public double[] get(double[] arr) {
         return get(arr, 0);
     }
@@ -865,9 +787,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#scale(org.joml.Vector2dc, org.joml.Matrix2d)
-     */
     public Matrix2d scale(Vector2dc xy, Matrix2d dest) {
         return scale(xy.x(), xy.y(), dest);
     }
@@ -889,9 +808,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return scale(xy.x(), xy.y(), this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#scale(double, double, org.joml.Matrix2d)
-     */
     public Matrix2d scale(double x, double y, Matrix2d dest) {
         // scale matrix elements:
         // m00 = x, m11 = y
@@ -922,9 +838,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return scale(x, y, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#scale(double, org.joml.Matrix2d)
-     */
     public Matrix2d scale(double xy, Matrix2d dest) {
         return scale(xy, xy, dest);
     }
@@ -947,9 +860,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return scale(xy, xy);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#scaleLocal(double, double, org.joml.Matrix2d)
-     */
     public Matrix2d scaleLocal(double x, double y, Matrix2d dest) {
         dest.m00 = x * m00;
         dest.m01 = y * m01;
@@ -1061,48 +971,30 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#transform(org.joml.Vector2d)
-     */
     public Vector2d transform(Vector2d v) {
         return v.mul(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#transform(org.joml.Vector2dc, org.joml.Vector2d)
-     */
     public Vector2d transform(Vector2dc v, Vector2d dest) {
         v.mul(this, dest);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#transform(double, double, org.joml.Vector2d)
-     */
     public Vector2d transform(double x, double y, Vector2d dest) {
         dest.set(m00 * x + m10 * y,
                 m01 * x + m11 * y);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#transformTranspose(org.joml.Vector2d)
-     */
     public Vector2d transformTranspose(Vector2d v) {
         return v.mulTranspose(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#transformTranspose(org.joml.Vector2dc, org.joml.Vector2d)
-     */
     public Vector2d transformTranspose(Vector2dc v, Vector2d dest) {
         v.mulTranspose(this, dest);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#transformTranspose(double, double, org.joml.Vector2d)
-     */
     public Vector2d transformTranspose(double x, double y, Vector2d dest) {
         dest.set(m00 * x + m01 * y,
                 m10 * x + m11 * y);
@@ -1143,9 +1035,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return rotate(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#rotate(double, org.joml.Matrix2d)
-     */
     public Matrix2d rotate(double angle, Matrix2d dest) {
         double s = Math.sin(angle);
         double c = Math.cosFromSin(s, angle);
@@ -1187,9 +1076,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return rotateLocal(angle, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#rotateLocal(double, org.joml.Matrix2d)
-     */
     public Matrix2d rotateLocal(double angle, Matrix2d dest) {
         double s = Math.sin(angle);
         double c = Math.cosFromSin(s, angle);
@@ -1206,9 +1092,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#getRow(int, org.joml.Vector2d)
-     */
     public Vector2d getRow(int row, Vector2d dest) throws IndexOutOfBoundsException {
         switch (row) {
             case 0:
@@ -1267,9 +1150,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#getColumn(int, org.joml.Vector2d)
-     */
     public Vector2d getColumn(int column, Vector2d dest) throws IndexOutOfBoundsException {
         switch (column) {
             case 0:
@@ -1328,10 +1208,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.joml.Matrix2dc#get(int, int)
-     */
     public double get(int column, int row) {
         switch (column) {
             case 0:
@@ -1446,18 +1322,12 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#getScale(org.joml.Vector2d)
-     */
     public Vector2d getScale(Vector2d dest) {
         dest.x = Math.sqrt(m00 * m00 + m01 * m01);
         dest.y = Math.sqrt(m10 * m10 + m11 * m11);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#positiveX(org.joml.Vector2d)
-     */
     public Vector2d positiveX(Vector2d dir) {
         if (m00 * m11 < m01 * m10) { // negative determinant?
             dir.x = -m11;
@@ -1469,9 +1339,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#normalizedPositiveX(org.joml.Vector2d)
-     */
     public Vector2d normalizedPositiveX(Vector2d dir) {
         if (m00 * m11 < m01 * m10) { // negative determinant?
             dir.x = -m11;
@@ -1483,9 +1350,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#positiveY(org.joml.Vector2d)
-     */
     public Vector2d positiveY(Vector2d dir) {
         if (m00 * m11 < m01 * m10) { // negative determinant?
             dir.x = m10;
@@ -1497,9 +1361,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return dir.normalize(dir);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#normalizedPositiveY(org.joml.Vector2d)
-     */
     public Vector2d normalizedPositiveY(Vector2d dir) {
         if (m00 * m11 < m01 * m10) { // negative determinant?
             dir.x = m10;
@@ -1586,9 +1447,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return add(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#add(org.joml.Matrix2dc, org.joml.Matrix2d)
-     */
     public Matrix2d add(Matrix2dc other, Matrix2d dest) {
         dest.m00 = m00 + other.m00();
         dest.m01 = m01 + other.m01();
@@ -1608,9 +1466,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return sub(subtrahend, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#sub(org.joml.Matrix2dc, org.joml.Matrix2d)
-     */
     public Matrix2d sub(Matrix2dc other, Matrix2d dest) {
         dest.m00 = m00 - other.m00();
         dest.m01 = m01 - other.m01();
@@ -1630,9 +1485,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return sub(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#mulComponentWise(org.joml.Matrix2dc, org.joml.Matrix2d)
-     */
     public Matrix2d mulComponentWise(Matrix2dc other, Matrix2d dest) {
         dest.m00 = m00 * other.m00();
         dest.m01 = m01 * other.m01();
@@ -1658,9 +1510,6 @@ public class Matrix2d implements Externalizable, Matrix2dc {
         return lerp(other, t, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix2dc#lerp(org.joml.Matrix2dc, double, org.joml.Matrix2d)
-     */
     public Matrix2d lerp(Matrix2dc other, double t, Matrix2d dest) {
         dest.m00 = Math.fma(other.m00() - m00, t, m00);
         dest.m01 = Math.fma(other.m01() - m01, t, m01);

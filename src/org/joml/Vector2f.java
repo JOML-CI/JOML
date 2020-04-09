@@ -185,16 +185,10 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#x()
-     */
     public float x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#y()
-     */
     public float y() {
         return this.y;
     }
@@ -407,9 +401,6 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 //#endif
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#get(int)
-     */
     public float get(int component) throws IllegalArgumentException {
         switch (component) {
         case 0:
@@ -464,33 +455,21 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 
 //#ifdef __HAS_NIO__
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#get(java.nio.ByteBuffer)
-     */
     public ByteBuffer get(ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#get(int, java.nio.ByteBuffer)
-     */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#get(java.nio.FloatBuffer)
-     */
     public FloatBuffer get(FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, buffer.position(), buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#get(int, java.nio.FloatBuffer)
-     */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
@@ -530,9 +509,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#sub(org.joml.Vector2fc, org.joml.Vector2f)
-     */
     public Vector2f sub(Vector2fc v, Vector2f dest) {
         dest.x = x - v.x();
         dest.y = y - v.y();
@@ -554,34 +530,22 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#sub(float, float, org.joml.Vector2f)
-     */
     public Vector2f sub(float x, float y, Vector2f dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#dot(org.joml.Vector2fc)
-     */
     public float dot(Vector2fc v) {
         return x * v.x() + y * v.y();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#angle(org.joml.Vector2fc)
-     */
     public float angle(Vector2fc v) {
         float dot = x*v.x() + y*v.y();
         float det = x*v.y() - y*v.x();
         return Math.atan2(det, dot);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#lengthSquared()
-     */
     public float lengthSquared() {
         return x * x + y * y;
     }
@@ -600,9 +564,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return x * x + y * y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#length()
-     */
     public float length() {
         return Math.sqrt(x * x + y * y);
     }
@@ -621,36 +582,24 @@ public class Vector2f implements Externalizable, Vector2fc {
         return Math.sqrt(x * x + y * y);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#distance(org.joml.Vector2fc)
-     */
     public float distance(Vector2fc v) {
         float dx = this.x - v.x();
         float dy = this.y - v.y();
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#distanceSquared(org.joml.Vector2fc)
-     */
     public float distanceSquared(Vector2fc v) {
         float dx = this.x - v.x();
         float dy = this.y - v.y();
         return dx * dx + dy * dy;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#distance(float, float)
-     */
     public float distance(float x, float y) {
         float dx = this.x - x;
         float dy = this.y - y;
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#distanceSquared(float, float)
-     */
     public float distanceSquared(float x, float y) {
         float dx = this.x - x;
         float dy = this.y - y;
@@ -707,9 +656,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#normalize(org.joml.Vector2f)
-     */
     public Vector2f normalize(Vector2f dest) {
         float invLength = Math.invsqrt(x * x + y * y);
         dest.x = x * invLength;
@@ -731,9 +677,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#normalize(float, org.joml.Vector2f)
-     */
     public Vector2f normalize(float length, Vector2f dest) {
         float invLength = Math.invsqrt(x * x + y * y) * length;
         dest.x = x * invLength;
@@ -754,9 +697,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#add(org.joml.Vector2fc, org.joml.Vector2f)
-     */
     public Vector2f add(Vector2fc v, Vector2f dest) {
         dest.x = x + v.x();
         dest.y = y + v.y();
@@ -776,9 +716,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return add(x, y, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#add(float, float, org.joml.Vector2f)
-     */
     public Vector2f add(float x, float y, Vector2f dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
@@ -818,9 +755,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#negate(org.joml.Vector2f)
-     */
     public Vector2f negate(Vector2f dest) {
         dest.x = -x;
         dest.y = -y;
@@ -840,9 +774,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mul(float, org.joml.Vector2f)
-     */
     public Vector2f mul(float scalar, Vector2f dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
@@ -864,9 +795,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mul(float, float, org.joml.Vector2f)
-     */
     public Vector2f mul(float x, float y, Vector2f dest) {
         dest.x = this.x * x;
         dest.y = this.y * y;
@@ -886,9 +814,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mul(org.joml.Vector2fc, org.joml.Vector2f)
-     */
     public Vector2f mul(Vector2fc v, Vector2f dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -972,9 +897,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mul(org.joml.Matrix2fc, org.joml.Vector2f)
-     */
     public Vector2f mul(Matrix2fc mat, Vector2f dest) {
         float rx = mat.m00() * x + mat.m10() * y;
         float ry = mat.m01() * x + mat.m11() * y;
@@ -998,9 +920,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mul(org.joml.Matrix2dc, org.joml.Vector2f)
-     */
     public Vector2f mul(Matrix2dc mat, Vector2f dest) {
         double rx = mat.m00() * x + mat.m10() * y;
         double ry = mat.m01() * x + mat.m11() * y;
@@ -1024,9 +943,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mulTranspose(org.joml.Matrix2fc, org.joml.Vector2f)
-     */
     public Vector2f mulTranspose(Matrix2fc mat, Vector2f dest) {
         float rx = mat.m00() * x + mat.m01() * y;
         float ry = mat.m10() * x + mat.m11() * y;
@@ -1050,9 +966,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mulPosition(org.joml.Matrix3x2fc, org.joml.Vector2f)
-     */
     public Vector2f mulPosition(Matrix3x2fc mat, Vector2f dest) {
         dest.x = mat.m00() * x + mat.m10() * y + mat.m20();
         dest.y = mat.m01() * x + mat.m11() * y + mat.m21();
@@ -1074,9 +987,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#mulDirection(org.joml.Matrix3x2fc, org.joml.Vector2f)
-     */
     public Vector2f mulDirection(Matrix3x2fc mat, Vector2f dest) {
         dest.x = mat.m00() * x + mat.m10() * y;
         dest.y = mat.m01() * x + mat.m11() * y;
@@ -1102,9 +1012,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#lerp(org.joml.Vector2fc, float, org.joml.Vector2f)
-     */
     public Vector2f lerp(Vector2fc other, float t, Vector2f dest) {
         dest.x = x + (other.x() - x) * t;
         dest.y = y + (other.y() - y) * t;
@@ -1148,9 +1055,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#equals(float, float)
-     */
     public boolean equals(float x, float y) {
         if (Float.floatToIntBits(this.x) != Float.floatToIntBits(x))
             return false;
@@ -1211,18 +1115,12 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#fma(org.joml.Vector2fc, org.joml.Vector2fc, org.joml.Vector2f)
-     */
     public Vector2f fma(Vector2fc a, Vector2fc b, Vector2f dest) {
         dest.x = x + a.x() * b.x();
         dest.y = y + a.y() * b.y();
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#fma(float, org.joml.Vector2fc, org.joml.Vector2f)
-     */
     public Vector2f fma(float a, Vector2fc b, Vector2f dest) {
         dest.x = x + a * b.x();
         dest.y = y + a * b.y();
@@ -1267,9 +1165,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#maxComponent()
-     */
     public int maxComponent() {
         float absX = Math.abs(x);
         float absY = Math.abs(y);
@@ -1278,9 +1173,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return 1;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#minComponent()
-     */
     public int minComponent() {
         float absX = Math.abs(x);
         float absY = Math.abs(y);
@@ -1343,9 +1235,6 @@ public class Vector2f implements Externalizable, Vector2fc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2fc#isFinite()
-     */
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y);
     }
