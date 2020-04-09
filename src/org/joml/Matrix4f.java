@@ -2260,6 +2260,49 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return set(m, 0);
     }
 
+    /**
+     * Set the values in the matrix using a float array that contains the matrix elements in row-major order.
+     * <p>
+     * The results will look like this:<br><br>
+     * 
+     * 0, 1, 2, 3<br>
+     * 4, 5, 6, 7<br>
+     * 8, 9, 10, 11<br>
+     * 12, 13, 14, 15<br>
+     * 
+     * @see #setTransposed(float[])
+     * 
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix4f setTransposed(float m[], int off) {
+        MemUtil.INSTANCE.copyTransposed(m, off, this);
+        return determineProperties();
+    }
+
+    /**
+     * Set the values in the matrix using a float array that contains the matrix elements in row-major order.
+     * <p>
+     * The results will look like this:<br><br>
+     * 
+     * 0, 1, 2, 3<br>
+     * 4, 5, 6, 7<br>
+     * 8, 9, 10, 11<br>
+     * 12, 13, 14, 15<br>
+     * 
+     * @see #setTransposed(float[], int)
+     * 
+     * @param m
+     *          the array to read the matrix values from
+     * @return this
+     */
+    public Matrix4f setTransposed(float m[]) {
+        return setTransposed(m, 0);
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Set the values of this matrix by reading 16 float values from the given {@link FloatBuffer} in column-major order,
@@ -2292,6 +2335,40 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f set(ByteBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        return determineProperties();
+    }
+
+    /**
+     * Set the values of this matrix by reading 16 float values from the given {@link FloatBuffer} in row-major order,
+     * starting at its current position.
+     * <p>
+     * The FloatBuffer is expected to contain the values in row-major order.
+     * <p>
+     * The position of the FloatBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the FloatBuffer to read the matrix values from in row-major order
+     * @return this
+     */
+    public Matrix4f setTransposed(FloatBuffer buffer) {
+        MemUtil.INSTANCE.getTransposed(this, buffer.position(), buffer);
+        return determineProperties();
+    }
+
+    /**
+     * Set the values of this matrix by reading 16 float values from the given {@link ByteBuffer} in row-major order,
+     * starting at its current position.
+     * <p>
+     * The ByteBuffer is expected to contain the values in row-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in row-major order
+     * @return this
+     */
+    public Matrix4f setTransposed(ByteBuffer buffer) {
+        MemUtil.INSTANCE.getTransposed(this, buffer.position(), buffer);
         return determineProperties();
     }
 //#endif
