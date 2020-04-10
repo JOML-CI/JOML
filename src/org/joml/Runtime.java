@@ -146,56 +146,12 @@ final class Runtime {
         return sb.append(str).toString();
     }
 
-    /*
-     * From the JRE's Float.compare().
-     */
-    private static int compare(float f1, float f2) {
-        if (f1 < f2)
-            return -1;           // Neither val is NaN, thisVal is smaller
-        if (f1 > f2)
-            return 1;            // Neither val is NaN, thisVal is larger
-
-        // Cannot use floatToRawIntBits because of possibility of NaNs.
-        int thisBits    = Float.floatToIntBits(f1);
-        int anotherBits = Float.floatToIntBits(f2);
-
-        return (thisBits == anotherBits ?  0 : // Values are equal
-                (thisBits < anotherBits ? -1 : // (-0.0, 0.0) or (!NaN, NaN)
-                 1));                          // (0.0, -0.0) or (NaN, !NaN)
-    }
-
-    /*
-     * From the JRE's Double.compare().
-     */
-    private static int compare(double d1, double d2) {
-        if (d1 < d2)
-            return -1;           // Neither val is NaN, thisVal is smaller
-        if (d1 > d2)
-            return 1;            // Neither val is NaN, thisVal is larger
-
-        // Cannot use doubleToRawLongBits because of possibility of NaNs.
-        long thisBits    = Double.doubleToLongBits(d1);
-        long anotherBits = Double.doubleToLongBits(d2);
-
-        return (thisBits == anotherBits ?  0 : // Values are equal
-                (thisBits < anotherBits ? -1 : // (-0.0, 0.0) or (!NaN, NaN)
-                 1));                          // (0.0, -0.0) or (NaN, !NaN)
-    }
-
     public static boolean equals(float a, float b, float delta) {
-        if (compare(a, b) == 0)
-            return true;
-        if (Math.abs(a - b) > delta)
-            return false;
-        return true;
+        return Float.floatToIntBits(a) == Float.floatToIntBits(b) || Math.abs(a - b) <= delta;
     }
 
     public static boolean equals(double a, double b, double delta) {
-        if (compare(a, b) == 0)
-            return true;
-        if (Math.abs(a - b) > delta)
-            return false;
-        return true;
+        return Double.doubleToLongBits(a) == Double.doubleToLongBits(b) || Math.abs(a - b) <= delta;
     }
 
 }
