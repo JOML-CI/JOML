@@ -59,7 +59,7 @@
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<httpclient.version>4.5.10</httpclient.version>
-		<asm.version>7.3.1</asm.version>
+		<asm.version>8.0.1</asm.version>
 		<javassist.version>3.26.0-GA</javassist.version>
 		<gwt-user.version>2.5.0</gwt-user.version>
 		<junit.version>3.8.2</junit.version>
