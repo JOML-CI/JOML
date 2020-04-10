@@ -4287,14 +4287,12 @@ abstract class MemUtil {
 //#ifdef __HAS_NIO__
         public void putMatrix3f(Quaternionf q, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
-            long addr = UNSAFE.getLong(dest, ADDRESS) + offset;
-            putMatrix3f(q, addr);
+            putMatrix3f(q, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putMatrix3f(Quaternionf q, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
-            long addr = UNSAFE.getLong(dest, ADDRESS) + (offset << 2);
-            putMatrix3f(q, addr);
+            putMatrix3f(q, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         private static void checkPut(int offset, boolean direct, int capacity, int i) {
@@ -4306,26 +4304,22 @@ abstract class MemUtil {
 
         public void putMatrix4f(Quaternionf q, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
-            long addr = UNSAFE.getLong(dest, ADDRESS) + offset;
-            putMatrix4f(q, addr);
+            putMatrix4f(q, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putMatrix4f(Quaternionf q, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
-            long addr = UNSAFE.getLong(dest, ADDRESS) + (offset << 2);
-            putMatrix4f(q, addr);
+            putMatrix4f(q, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void putMatrix4x3f(Quaternionf q, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
-            long addr = UNSAFE.getLong(dest, ADDRESS) + offset;
-            putMatrix4x3f(q, addr);
+            putMatrix4x3f(q, UNSAFE.getLong(dest, ADDRESS) + offset);
         }
 
         public void putMatrix4x3f(Quaternionf q, int offset, FloatBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
-            long addr = UNSAFE.getLong(dest, ADDRESS) + (offset << 2);
-            putMatrix4x3f(q, addr);
+            putMatrix4x3f(q, UNSAFE.getLong(dest, ADDRESS) + (offset << 2));
         }
 
         public void put(Matrix4f m, int offset, FloatBuffer dest) {
