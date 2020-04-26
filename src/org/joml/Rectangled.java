@@ -334,7 +334,7 @@ public class Rectangled implements Externalizable {
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
     public boolean contains(double x, double y) {
-        return x >= minX && y >= minX && x < maxX && y < maxY;
+        return x >= minX && y >= minY && x < maxX && y < maxY;
     }
 
     /**

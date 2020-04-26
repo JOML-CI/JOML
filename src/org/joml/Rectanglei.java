@@ -294,7 +294,7 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
     public boolean contains(int x, int y) {
-        return x >= minX && y >= minX && x < maxX && y < maxY;
+        return x >= minX && y >= minY && x < maxX && y < maxY;
     }
 
     /**
