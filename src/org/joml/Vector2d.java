@@ -497,7 +497,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d perpendicular() {
-        float xTemp = y;
+        double xTemp = y;
         this.y = x * -1;
         this.x = xTemp;
         return this;
