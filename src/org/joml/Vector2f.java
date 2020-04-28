@@ -491,8 +491,9 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return this
      */
     public Vector2f perpendicular() {
-        this.x = y;
-        this.y = x * -1;
+        float xTemp = y;
+        this.y = this.x * -1;
+        this.x = xTemp;
         return this;
     }
 
