@@ -4070,6 +4070,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
                         m03 * x + m13 * y + m23 * z + m33 * w);
     }
 
+    public Vector4d transformTranspose(Vector4d v) {
+        return v.mulTranspose(this);
+    }
+    public Vector4d transformTranspose(Vector4dc v, Vector4d dest) {
+        return v.mulTranspose(this, dest);
+    }
+    public Vector4d transformTranspose(double x, double y, double z, double w, Vector4d dest) {
+       return dest.set(x, y, z, w).mulTranspose(this);
+    }
+
     public Vector4d transformProject(Vector4d v) {
         return v.mulProject(this);
     }
