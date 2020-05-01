@@ -1121,6 +1121,25 @@ public class Vector4d implements Externalizable, Vector4dc {
         return mulGeneric(mat, dest);
     }
 
+    /**
+     * Multiply the transpose of the given matrix <code>mat</code> with this Vector4f and store the result in
+     * <code>this</code>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply the vector with
+     * @return a vector holding the result
+     */
+    public Vector4d mulTranspose(Matrix4dc mat) {
+        if ((mat.properties() & Matrix4dc.PROPERTY_AFFINE) != 0)
+            return mulAffineTranspose(mat, this);
+        return mulGenericTranspose(mat, this);
+    }
+    public Vector4d mulTranspose(Matrix4dc mat, Vector4d dest) {
+        if ((mat.properties() & Matrix4dc.PROPERTY_AFFINE) != 0)
+            return mulAffineTranspose(mat, dest);
+        return mulGenericTranspose(mat, dest);
+    }
+
     public Vector4d mulAffine(Matrix4dc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
@@ -1141,6 +1160,23 @@ public class Vector4d implements Externalizable, Vector4dc {
         dest.y = ry;
         dest.z = rz;
         dest.w = rw;
+        return dest;
+    }
+
+    public Vector4d mulAffineTranspose(Matrix4dc mat, Vector4d dest) {
+        double x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
+        dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
+        dest.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
+        dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, mat.m32() * z + w));
+        return dest;
+    }
+    private Vector4d mulGenericTranspose(Matrix4dc mat, Vector4d dest) {
+        double x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03() * w)));
+        dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13() * w)));
+        dest.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23() * w)));
+        dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, Math.fma(mat.m32(), z, mat.m33() * w)));
         return dest;
     }
 

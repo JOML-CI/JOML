@@ -396,6 +396,42 @@ public interface Vector4dc {
     Vector4d mul(Matrix4fc mat, Vector4d dest);
 
     /**
+     * Multiply the transpose of the given matrix <code>mat</code> with this Vector4d and store the result in
+     * <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply the vector with
+     * @param dest
+     *          the destination vector to hold the result
+     * @return dest
+     */
+    Vector4d mulTranspose(Matrix4dc mat, Vector4d dest);
+
+    /**
+     * Multiply the given affine matrix mat with this Vector4d and store the result in
+     * <code>dest</code>.
+     * 
+     * @param mat
+     *          the affine matrix to multiply the vector with
+     * @param dest
+     *          the destination vector to hold the result
+     * @return dest
+     */
+    Vector4d mulAffine(Matrix4dc mat, Vector4d dest);
+
+    /**
+     * Multiply the transpose of the given affine matrix <code>mat</code> with this Vector4d and store the result in
+     * <code>dest</code>.
+     * 
+     * @param mat
+     *          the affine matrix whose transpose to multiply the vector with
+     * @param dest
+     *          the destination vector to hold the result
+     * @return dest
+     */
+    Vector4d mulAffineTranspose(Matrix4dc mat, Vector4d dest);
+
+    /**
      * Multiply the given matrix <code>mat</code> with this Vector4d, perform perspective division
      * and store the result in <code>dest</code>.
      * 
