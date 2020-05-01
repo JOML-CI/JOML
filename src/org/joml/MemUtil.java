@@ -208,6 +208,10 @@ abstract class MemUtil {
     public abstract void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest);
 //#endif
 
+    public abstract float get(Matrix4f m, int column, int row);
+    public abstract Matrix4f set(Matrix4f m, int column, int row, float v);
+    public abstract double get(Matrix4d m, int column, int row);
+    public abstract Matrix4d set(Matrix4d m, int column, int row, double v);
     public abstract void copy(Matrix4f src, Matrix4f dest);
     public abstract void copy(Matrix4x3f src, Matrix4x3f dest);
     public abstract void copy(Matrix4f src, Matrix4x3f dest);
@@ -2246,6 +2250,262 @@ abstract class MemUtil {
         }
 //#endif
 
+        public float get(Matrix4f m, int column, int row) {
+            switch (column) {
+            case 0:
+                switch (row) {
+                case 0:
+                    return m.m00;
+                case 1:
+                    return m.m01;
+                case 2:
+                    return m.m02;
+                case 3:
+                    return m.m03;
+                default:
+                    break;
+                }
+                break;
+            case 1:
+                switch (row) {
+                case 0:
+                    return m.m10;
+                case 1:
+                    return m.m11;
+                case 2:
+                    return m.m12;
+                case 3:
+                    return m.m13;
+                default:
+                    break;
+                }
+                break;
+            case 2:
+                switch (row) {
+                case 0:
+                    return m.m20;
+                case 1:
+                    return m.m21;
+                case 2:
+                    return m.m22;
+                case 3:
+                    return m.m23;
+                default:
+                    break;
+                }
+                break;
+            case 3:
+                switch (row) {
+                case 0:
+                    return m.m30;
+                case 1:
+                    return m.m31;
+                case 2:
+                    return m.m32;
+                case 3:
+                    return m.m33;
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+            throw new IllegalArgumentException();
+        }
+
+        public Matrix4f set(Matrix4f m, int column, int row, float value) {
+            switch (column) {
+            case 0:
+                switch (row) {
+                case 0:
+                    return m.m00(value);
+                case 1:
+                    return m.m01(value);
+                case 2:
+                    return m.m02(value);
+                case 3:
+                    return m.m03(value);
+                default:
+                    break;
+                }
+                break;
+            case 1:
+                switch (row) {
+                case 0:
+                    return m.m10(value);
+                case 1:
+                    return m.m11(value);
+                case 2:
+                    return m.m12(value);
+                case 3:
+                    return m.m13(value);
+                default:
+                    break;
+                }
+                break;
+            case 2:
+                switch (row) {
+                case 0:
+                    return m.m20(value);
+                case 1:
+                    return m.m21(value);
+                case 2:
+                    return m.m22(value);
+                case 3:
+                    return m.m23(value);
+                default:
+                    break;
+                }
+                break;
+            case 3:
+                switch (row) {
+                case 0:
+                    return m.m30(value);
+                case 1:
+                    return m.m31(value);
+                case 2:
+                    return m.m32(value);
+                case 3:
+                    return m.m33(value);
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+            throw new IllegalArgumentException();
+        }
+
+        public double get(Matrix4d m, int column, int row) {
+            switch (column) {
+            case 0:
+                switch (row) {
+                case 0:
+                    return m.m00;
+                case 1:
+                    return m.m01;
+                case 2:
+                    return m.m02;
+                case 3:
+                    return m.m03;
+                default:
+                    break;
+                }
+                break;
+            case 1:
+                switch (row) {
+                case 0:
+                    return m.m10;
+                case 1:
+                    return m.m11;
+                case 2:
+                    return m.m12;
+                case 3:
+                    return m.m13;
+                default:
+                    break;
+                }
+                break;
+            case 2:
+                switch (row) {
+                case 0:
+                    return m.m20;
+                case 1:
+                    return m.m21;
+                case 2:
+                    return m.m22;
+                case 3:
+                    return m.m23;
+                default:
+                    break;
+                }
+                break;
+            case 3:
+                switch (row) {
+                case 0:
+                    return m.m30;
+                case 1:
+                    return m.m31;
+                case 2:
+                    return m.m32;
+                case 3:
+                    return m.m33;
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+            throw new IllegalArgumentException();
+        }
+
+        public Matrix4d set(Matrix4d m, int column, int row, double value) {
+            switch (column) {
+            case 0:
+                switch (row) {
+                case 0:
+                    return m.m00(value);
+                case 1:
+                    return m.m01(value);
+                case 2:
+                    return m.m02(value);
+                case 3:
+                    return m.m03(value);
+                default:
+                    break;
+                }
+                break;
+            case 1:
+                switch (row) {
+                case 0:
+                    return m.m10(value);
+                case 1:
+                    return m.m11(value);
+                case 2:
+                    return m.m12(value);
+                case 3:
+                    return m.m13(value);
+                default:
+                    break;
+                }
+                break;
+            case 2:
+                switch (row) {
+                case 0:
+                    return m.m20(value);
+                case 1:
+                    return m.m21(value);
+                case 2:
+                    return m.m22(value);
+                case 3:
+                    return m.m23(value);
+                default:
+                    break;
+                }
+                break;
+            case 3:
+                switch (row) {
+                case 0:
+                    return m.m30(value);
+                case 1:
+                    return m.m31(value);
+                case 2:
+                    return m.m32(value);
+                case 3:
+                    return m.m33(value);
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+            throw new IllegalArgumentException();
+        }
+
         public void copy(Matrix4f src, Matrix4f dest) {
             dest._m00(src.m00()).
             _m01(src.m01()).
@@ -3222,6 +3482,7 @@ abstract class MemUtil {
         public static final long Matrix2f_m00;
         public static final long Matrix3f_m00;
         public static final long Matrix4f_m00;
+        public static final long Matrix4d_m00;
         public static final long Matrix4x3f_m00;
         public static final long Matrix3x2f_m00;
         public static final long Vector4f_x;
@@ -3240,6 +3501,7 @@ abstract class MemUtil {
                 ADDRESS = findBufferAddress();
 //#endif
                 Matrix4f_m00 = checkMatrix4f();
+                Matrix4d_m00 = checkMatrix4d();
                 Matrix4x3f_m00 = checkMatrix4x3f();
                 Matrix3f_m00 = checkMatrix3f();
                 Matrix3x2f_m00 = checkMatrix3x2f();
@@ -3285,6 +3547,21 @@ abstract class MemUtil {
                     throw new UnsupportedOperationException("Unexpected Matrix4f element offset");
             }
             return Matrix4f_m00;
+        }
+
+        private static long checkMatrix4d() throws NoSuchFieldException, SecurityException {
+            Field f = Matrix4d.class.getDeclaredField("m00");
+            long Matrix4d_m00 = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            for (int i = 1; i < 16; i++) {
+                int c = i >>> 2;
+                int r = i & 3;
+                f = Matrix4d.class.getDeclaredField("m" + c + r);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Matrix4d_m00 + (i << 3))
+                    throw new UnsupportedOperationException("Unexpected Matrix4d element offset");
+            }
+            return Matrix4d_m00;
         }
 
         private static long checkMatrix4x3f() throws NoSuchFieldException, SecurityException {
@@ -4800,6 +5077,24 @@ abstract class MemUtil {
         public void get(Matrix4f m, int offset, ByteBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16 << 2);
             get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+        }
+
+        public float get(Matrix4f m, int column, int row) {
+            return UNSAFE.getFloat(m, Matrix4f_m00 + (column << 4) + (row << 2));
+        }
+
+        public Matrix4f set(Matrix4f m, int column, int row, float value) {
+            UNSAFE.putFloat(m, Matrix4f_m00 + (column << 4) + (row << 2), value);
+            return m;
+        }
+
+        public double get(Matrix4d m, int column, int row) {
+            return UNSAFE.getDouble(m, Matrix4d_m00 + (column << 5) + (row << 3));
+        }
+
+        public Matrix4d set(Matrix4d m, int column, int row, double value) {
+            UNSAFE.putDouble(m, Matrix4d_m00 + (column << 5) + (row << 3), value);
+            return m;
         }
 
         public void get(Matrix4x3f m, int offset, FloatBuffer src) {
