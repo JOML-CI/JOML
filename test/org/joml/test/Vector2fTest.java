@@ -45,4 +45,9 @@ public class Vector2fTest extends TestCase {
         angle = testVec1.angle(testVec2);
         assertEquals(java.lang.Math.PI, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
     }
+
+    public static void testPerpendicular(){
+        Vector2f testVec1 = new Vector2f(-9.37f, 5.892f);
+        TestUtil.assertVector2fEquals(new Vector2f(testVec1).perpendicular(),new Vector2f(5.892f,9.37f),0.000001f);
+    }
 }

@@ -140,6 +140,35 @@ public class TestUtil {
             && doubleEqual(a.w, b.w, precision);
     }
 
+
+    /**
+     * Assert that both quaternions are equal with respect to the given delta.
+     *
+     * @param expected
+     * @param actual
+     * @param delta
+     */
+    public static void assertQuaternionfEquals(Quaternionf expected, Quaternionf actual, float delta) {
+        Assert.assertEquals(expected.x, actual.x, delta);
+        Assert.assertEquals(expected.y, actual.y, delta);
+        Assert.assertEquals(expected.z, actual.z, delta);
+        Assert.assertEquals(expected.w, actual.w, delta);
+    }
+
+    /**
+     * Assert that both quaternions are equal with respect to the given delta.
+     *
+     * @param expected
+     * @param actual
+     * @param delta
+     */
+    public static void assertQuaterniondEquals(Quaterniond expected, Quaterniond actual, double delta) {
+        Assert.assertEquals(expected.x, actual.x, delta);
+        Assert.assertEquals(expected.y, actual.y, delta);
+        Assert.assertEquals(expected.z, actual.z, delta);
+        Assert.assertEquals(expected.w, actual.w, delta);
+    }
+
     /**
      * Assert that both matrices are equal with respect to the given delta.
      * 
@@ -245,6 +274,20 @@ public class TestUtil {
 
     /**
      * Assert that both vectors are equal with respect to the given delta.
+     *
+     * @param expected
+     * @param actual
+     * @param delta
+     */
+    public static void assertVector4dEquals(Vector4d expected, Vector4d actual, double delta){
+        Assert.assertEquals(expected.x,actual.x,delta);
+        Assert.assertEquals(expected.y,actual.y,delta);
+        Assert.assertEquals(expected.z,actual.z,delta);
+        Assert.assertEquals(expected.w,actual.w,delta);
+    }
+
+    /**
+     * Assert that both vectors are equal with respect to the given delta.
      * 
      * @param expected
      * @param actual
@@ -257,22 +300,8 @@ public class TestUtil {
     }
 
     /**
-     * Assert that both quaternions are equal with respect to the given delta.
-     * 
-     * @param expected
-     * @param actual
-     * @param delta
-     */
-    public static void assertQuaternionfEquals(Quaternionf expected, Quaternionf actual, float delta) {
-        Assert.assertEquals(expected.x, actual.x, delta);
-        Assert.assertEquals(expected.y, actual.y, delta);
-        Assert.assertEquals(expected.z, actual.z, delta);
-        Assert.assertEquals(expected.w, actual.w, delta);
-    }
-
-    /**
      * Assert that both vectors are equal with respect to the given delta.
-     * 
+     *
      * @param expected
      * @param actual
      * @param delta
@@ -291,6 +320,18 @@ public class TestUtil {
      * @param delta
      */
     public static void assertVector2fEquals(Vector2f expected, Vector2f actual, float delta) {
+        Assert.assertEquals(expected.x, actual.x, delta);
+        Assert.assertEquals(expected.y, actual.y, delta);
+    }
+
+    /**
+     * Assert that both vectors are equal with respect to the given delta.
+     * 
+     * @param expected
+     * @param actual
+     * @param delta
+     */
+    public static void assertVector2dEquals(Vector2d expected, Vector2d actual, double delta) {
         Assert.assertEquals(expected.x, actual.x, delta);
         Assert.assertEquals(expected.y, actual.y, delta);
     }
