@@ -5145,18 +5145,6 @@ abstract class MemUtil {
             return m;
         }
 
-        public Vector4f getColumn(Matrix4f m, int column, Vector4f dest) {
-            UNSAFE.putLong(dest, Vector4f_x, UNSAFE.getLong(m, Matrix4f_m00 + (column << 4)));
-            UNSAFE.putLong(dest, Vector4f_x + 8L, UNSAFE.getLong(m, Matrix4f_m00 + (column << 4) + 8L));
-            return dest;
-        }
-
-        public Matrix4f setColumn(Vector4f v, int column, Matrix4f dest) {
-            UNSAFE.putLong(dest, Matrix4f_m00 + (column << 4), UNSAFE.getLong(v, Vector4f_x));
-            UNSAFE.putLong(dest, Matrix4f_m00 + (column << 4) + 8L, UNSAFE.getLong(v, Vector4f_x + 8L));
-            return dest;
-        }
-
         public void get(Matrix4x3f m, int offset, FloatBuffer src) {
             if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12);
             get(m, UNSAFE.getLong(src, ADDRESS) + (offset << 2));
