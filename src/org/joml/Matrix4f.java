@@ -12035,18 +12035,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     public Vector4f getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException {
-        switch (column) {
-        case 0:
-            return dest.set(m00, m01, m02, m03);
-        case 1:
-            return dest.set(m10, m11, m12, m13);
-        case 2:
-            return dest.set(m20, m21, m22, m23);
-        case 3:
-            return dest.set(m30, m31, m32, m33);
-        default:
-            throw new IndexOutOfBoundsException();
-        }
+        return MemUtil.INSTANCE.getColumn(this, column, dest);
     }
 
     public Vector3f getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException {
@@ -12075,18 +12064,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @throws IndexOutOfBoundsException if <code>column</code> is not in <code>[0..3]</code>
      */
     public Matrix4f setColumn(int column, Vector4fc src) throws IndexOutOfBoundsException {
-        switch (column) {
-        case 0:
-            return _m00(src.x())._m01(src.y())._m02(src.z())._m03(src.w())._properties(0);
-        case 1:
-            return _m10(src.x())._m11(src.y())._m12(src.z())._m13(src.w())._properties(0);
-        case 2:
-            return _m20(src.x())._m21(src.y())._m22(src.z())._m23(src.w())._properties(0);
-        case 3:
-            return _m30(src.x())._m31(src.y())._m32(src.z())._m33(src.w())._properties(0);
-        default:
-            throw new IndexOutOfBoundsException();
-        }
+        if (src instanceof Vector4f)
+            return MemUtil.INSTANCE.setColumn((Vector4f) src, column, this)._properties(0);
+        return MemUtil.INSTANCE.setColumn(src, column, this)._properties(0);
     }
 
     public float get(int column, int row) {

@@ -212,6 +212,9 @@ abstract class MemUtil {
     public abstract Matrix4f set(Matrix4f m, int column, int row, float v);
     public abstract double get(Matrix4d m, int column, int row);
     public abstract Matrix4d set(Matrix4d m, int column, int row, double v);
+    public abstract Vector4f getColumn(Matrix4f m, int column, Vector4f dest);
+    public abstract Matrix4f setColumn(Vector4f v, int column, Matrix4f dest);
+    public abstract Matrix4f setColumn(Vector4fc v, int column, Matrix4f dest);
     public abstract void copy(Matrix4f src, Matrix4f dest);
     public abstract void copy(Matrix4x3f src, Matrix4x3f dest);
     public abstract void copy(Matrix4f src, Matrix4x3f dest);
@@ -2504,6 +2507,51 @@ abstract class MemUtil {
                 break;
             }
             throw new IllegalArgumentException();
+        }
+
+        public Vector4f getColumn(Matrix4f m, int column, Vector4f dest) {
+            switch (column) {
+            case 0:
+                return dest.set(m.m00, m.m01, m.m02, m.m03);
+            case 1:
+                return dest.set(m.m10, m.m11, m.m12, m.m13);
+            case 2:
+                return dest.set(m.m20, m.m21, m.m22, m.m23);
+            case 3:
+                return dest.set(m.m30, m.m31, m.m32, m.m33);
+            default:
+                throw new IndexOutOfBoundsException();
+            }
+        }
+
+        public Matrix4f setColumn(Vector4f v, int column, Matrix4f dest) {
+            switch (column) {
+            case 0:
+                return dest._m00(v.x)._m01(v.y)._m02(v.z)._m03(v.w);
+            case 1:
+                return dest._m10(v.x)._m11(v.y)._m12(v.z)._m13(v.w);
+            case 2:
+                return dest._m20(v.x)._m21(v.y)._m22(v.z)._m23(v.w);
+            case 3:
+                return dest._m30(v.x)._m31(v.y)._m32(v.z)._m33(v.w);
+            default:
+                throw new IndexOutOfBoundsException();
+            }
+        }
+
+        public Matrix4f setColumn(Vector4fc v, int column, Matrix4f dest) {
+            switch (column) {
+            case 0:
+                return dest._m00(v.x())._m01(v.y())._m02(v.z())._m03(v.w());
+            case 1:
+                return dest._m10(v.x())._m11(v.y())._m12(v.z())._m13(v.w());
+            case 2:
+                return dest._m20(v.x())._m21(v.y())._m22(v.z())._m23(v.w());
+            case 3:
+                return dest._m30(v.x())._m31(v.y())._m32(v.z())._m33(v.w());
+            default:
+                throw new IndexOutOfBoundsException();
+            }
         }
 
         public void copy(Matrix4f src, Matrix4f dest) {
@@ -5095,6 +5143,18 @@ abstract class MemUtil {
         public Matrix4d set(Matrix4d m, int column, int row, double value) {
             UNSAFE.putDouble(m, Matrix4d_m00 + (column << 5) + (row << 3), value);
             return m;
+        }
+
+        public Vector4f getColumn(Matrix4f m, int column, Vector4f dest) {
+            UNSAFE.putLong(dest, Vector4f_x, UNSAFE.getLong(m, Matrix4f_m00 + (column << 4)));
+            UNSAFE.putLong(dest, Vector4f_x + 8L, UNSAFE.getLong(m, Matrix4f_m00 + (column << 4) + 8L));
+            return dest;
+        }
+
+        public Matrix4f setColumn(Vector4f v, int column, Matrix4f dest) {
+            UNSAFE.putLong(dest, Matrix4f_m00 + (column << 4), UNSAFE.getLong(v, Vector4f_x));
+            UNSAFE.putLong(dest, Matrix4f_m00 + (column << 4) + 8L, UNSAFE.getLong(v, Vector4f_x + 8L));
+            return dest;
         }
 
         public void get(Matrix4x3f m, int offset, FloatBuffer src) {

@@ -546,4 +546,18 @@ public class Matrix4fTest extends TestCase {
                 assertEquals(c*4+r+1, m.get(c, r), 0);
     }
 
+    public static void testGetColumn() {
+        Matrix4f m = new Matrix4f(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+        Vector4f v = new Vector4f();
+        for (int c = 0; c < 4; c++)
+            TestUtil.assertVector4fEquals(new Vector4f(c*4+1, c*4+2, c*4+3, c*4+4), m.getColumn(c, v), 0);
+    }
+
+    public static void testSetColumn() {
+        TestUtil.assertMatrix4fEquals(new Matrix4f().m00(1).m01(2).m02(3).m03(4), new Matrix4f().setColumn(0, new Vector4f(1, 2, 3, 4)), 0);
+        TestUtil.assertMatrix4fEquals(new Matrix4f().m10(1).m11(2).m12(3).m13(4), new Matrix4f().setColumn(1, new Vector4f(1, 2, 3, 4)), 0);
+        TestUtil.assertMatrix4fEquals(new Matrix4f().m20(1).m21(2).m22(3).m23(4), new Matrix4f().setColumn(2, new Vector4f(1, 2, 3, 4)), 0);
+        TestUtil.assertMatrix4fEquals(new Matrix4f().m30(1).m31(2).m32(3).m33(4), new Matrix4f().setColumn(3, new Vector4f(1, 2, 3, 4)), 0);
+    }
+
 }
