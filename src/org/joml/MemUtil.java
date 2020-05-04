@@ -46,11 +46,15 @@ abstract class MemUtil {
         accessor = new MemUtilNIO();
 //#else
         try {
-            if (Options.NO_UNSAFE)
+            if (Options.NO_UNSAFE && Options.FORCE_UNSAFE)
+                throw new ConfigurationException("Cannot enable both -Djoml.nounsafe and -Djoml.forceUnsafe", null);
+            else if (Options.NO_UNSAFE)
                 accessor = new MemUtilNIO();
             else
                 accessor = new MemUtilUnsafe();
         } catch (Throwable e) {
+            if (Options.FORCE_UNSAFE)
+                throw new ConfigurationException("Unsafe is not supported but its use was forced via -Djoml.forceUnsafe", e);
             accessor = new MemUtilNIO();
         }
 //#endif
