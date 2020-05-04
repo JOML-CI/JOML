@@ -35,6 +35,23 @@ import org.joml.Math;
  */
 public class MathTest extends TestCase {
 
+    public static void testClamp(){
+        // Integer value tests
+        assertEquals(Math.clamp(10,20,0),10);
+        assertEquals(Math.clamp(10,20,12),12);
+        assertEquals(Math.clamp(10,20,30),20);
+
+        // Double value tests
+        assertEquals(Math.clamp(10f,20f,0f),10f,.0001f);
+        assertEquals(Math.clamp(10f,20f,12f),12f,.0001f);
+        assertEquals(Math.clamp(10f,20f,30f),20f,.0001f);
+
+        // Float value tests
+        assertEquals(Math.clamp(10.0,20.0,0.0),10.0,.0001);
+        assertEquals(Math.clamp(10.0,20.0,12.0),12.0,.0001);
+        assertEquals(Math.clamp(10.0,20.0,30.0),20.0,.0001);
+    }
+
     public static void testDoubleVecLength() {
         // Integer value tests
         assertEquals(5., Vector2d.length(4, 3), .0001);

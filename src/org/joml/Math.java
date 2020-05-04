@@ -378,6 +378,16 @@ public class Math {
         return a > b ? a : b;
     }
 
+    public static float clamp(float a, float b, float val){
+        return max(a,min(b,val));
+    }
+    public static double clamp(double a, double b, double val) {
+        return max(a,min(b,val));
+    }
+    public static int clamp(int a, int b, int val) {
+        return max(a, min(b, val));
+    }
+
     public static float toRadians(float angles) {
         return (float) java.lang.Math.toRadians(angles);
     }
