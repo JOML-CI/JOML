@@ -34,7 +34,7 @@ import org.joml.Vector3d;
 public class Matrix3dTest extends TestCase {
 
     /**
-     * Test of setRow method, of class Matrix3f.
+     * Test of setRow method, of class Matrix3d.
      */
     public void testSetRow_4args() {
         int row = 0;
@@ -47,6 +47,25 @@ public class Matrix3dTest extends TestCase {
         Matrix3d result = instance.setRow(row, x, y, z);
         result.getRow(row, outRow);
         assertEquals(inRow, outRow);
+    }
+
+    public static void testGet() {
+        Matrix3d m = new Matrix3d(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        for (int c = 0; c < 3; c++)
+            for (int r = 0; r < 3; r++)
+                assertEquals(c*3+r+1, m.get(c, r), 0);
+    }
+
+    public static void testSet() {
+        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(0, 0, 3), new Matrix3d(3, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(0, 1, 3), new Matrix3d(0, 3, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(0, 2, 3), new Matrix3d(0, 0, 3, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(1, 0, 3), new Matrix3d(0, 0, 0, 3, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(1, 1, 3), new Matrix3d(0, 0, 0, 0, 3, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(1, 2, 3), new Matrix3d(0, 0, 0, 0, 0, 3, 0, 0, 0), 0);
+        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(2, 0, 3), new Matrix3d(0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
+        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(2, 1, 3), new Matrix3d(0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
+        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(2, 2, 3), new Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
     }
 
 }

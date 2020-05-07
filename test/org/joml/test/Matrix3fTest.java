@@ -74,4 +74,23 @@ public class Matrix3fTest extends TestCase {
         TestUtil.assertMatrix3fEquals(m, invm, 1E-3f);
     }
 
+    public static void testGet() {
+        Matrix3f m = new Matrix3f(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        for (int c = 0; c < 3; c++)
+            for (int r = 0; r < 3; r++)
+                assertEquals(c*3+r+1, m.get(c, r), 0);
+    }
+
+    public static void testSet() {
+        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(0, 0, 3), new Matrix3f(3, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(0, 1, 3), new Matrix3f(0, 3, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(0, 2, 3), new Matrix3f(0, 0, 3, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(1, 0, 3), new Matrix3f(0, 0, 0, 3, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(1, 1, 3), new Matrix3f(0, 0, 0, 0, 3, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(1, 2, 3), new Matrix3f(0, 0, 0, 0, 0, 3, 0, 0, 0), 0);
+        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(2, 0, 3), new Matrix3f(0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
+        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(2, 1, 3), new Matrix3f(0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
+        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(2, 2, 3), new Matrix3f(0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
+    }
+
 }

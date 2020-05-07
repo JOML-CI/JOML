@@ -546,4 +546,23 @@ public class Matrix4dTest extends TestCase {
                 assertEquals(c*4+r+1, m.get(c, r), 0);
     }
 
+    public static void testSet() {
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(0, 0, 3), new Matrix4d(3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(0, 1, 3), new Matrix4d(0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(0, 2, 3), new Matrix4d(0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(0, 3, 3), new Matrix4d(0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(1, 0, 3), new Matrix4d(0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(1, 1, 3), new Matrix4d(0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(1, 2, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(1, 3, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(2, 0, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(2, 1, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(2, 2, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(2, 3, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(3, 0, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(3, 1, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(3, 2, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
+        TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(3, 3, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
+    }
+
 }

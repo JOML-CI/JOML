@@ -216,6 +216,10 @@ abstract class MemUtil {
     public abstract Matrix4f set(Matrix4f m, int column, int row, float v);
     public abstract double get(Matrix4d m, int column, int row);
     public abstract Matrix4d set(Matrix4d m, int column, int row, double v);
+    public abstract float get(Matrix3f m, int column, int row);
+    public abstract Matrix3f set(Matrix3f m, int column, int row, float v);
+    public abstract double get(Matrix3d m, int column, int row);
+    public abstract Matrix3d set(Matrix3d m, int column, int row, double v);
     public abstract Vector4f getColumn(Matrix4f m, int column, Vector4f dest);
     public abstract Matrix4f setColumn(Vector4f v, int column, Matrix4f dest);
     public abstract Matrix4f setColumn(Vector4fc v, int column, Matrix4f dest);
@@ -2512,6 +2516,182 @@ abstract class MemUtil {
             }
             throw new IllegalArgumentException();
         }
+        
+        public float get(Matrix3f m, int column, int row) {
+            switch (column) {
+            case 0:
+                switch (row) {
+                case 0:
+                    return m.m00;
+                case 1:
+                    return m.m01;
+                case 2:
+                    return m.m02;
+                default:
+                    break;
+                }
+                break;
+            case 1:
+                switch (row) {
+                case 0:
+                    return m.m10;
+                case 1:
+                    return m.m11;
+                case 2:
+                    return m.m12;
+                default:
+                    break;
+                }
+                break;
+            case 2:
+                switch (row) {
+                case 0:
+                    return m.m20;
+                case 1:
+                    return m.m21;
+                case 2:
+                    return m.m22;
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+            throw new IllegalArgumentException();
+        }
+
+        public Matrix3f set(Matrix3f m, int column, int row, float value) {
+            switch (column) {
+            case 0:
+                switch (row) {
+                case 0:
+                    return m.m00(value);
+                case 1:
+                    return m.m01(value);
+                case 2:
+                    return m.m02(value);
+                default:
+                    break;
+                }
+                break;
+            case 1:
+                switch (row) {
+                case 0:
+                    return m.m10(value);
+                case 1:
+                    return m.m11(value);
+                case 2:
+                    return m.m12(value);
+                default:
+                    break;
+                }
+                break;
+            case 2:
+                switch (row) {
+                case 0:
+                    return m.m20(value);
+                case 1:
+                    return m.m21(value);
+                case 2:
+                    return m.m22(value);
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+            throw new IllegalArgumentException();
+        }
+
+        public double get(Matrix3d m, int column, int row) {
+            switch (column) {
+            case 0:
+                switch (row) {
+                case 0:
+                    return m.m00;
+                case 1:
+                    return m.m01;
+                case 2:
+                    return m.m02;
+                default:
+                    break;
+                }
+                break;
+            case 1:
+                switch (row) {
+                case 0:
+                    return m.m10;
+                case 1:
+                    return m.m11;
+                case 2:
+                    return m.m12;
+                default:
+                    break;
+                }
+                break;
+            case 2:
+                switch (row) {
+                case 0:
+                    return m.m20;
+                case 1:
+                    return m.m21;
+                case 2:
+                    return m.m22;
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+            throw new IllegalArgumentException();
+        }
+
+        public Matrix3d set(Matrix3d m, int column, int row, double value) {
+            switch (column) {
+            case 0:
+                switch (row) {
+                case 0:
+                    return m.m00(value);
+                case 1:
+                    return m.m01(value);
+                case 2:
+                    return m.m02(value);
+                default:
+                    break;
+                }
+                break;
+            case 1:
+                switch (row) {
+                case 0:
+                    return m.m10(value);
+                case 1:
+                    return m.m11(value);
+                case 2:
+                    return m.m12(value);
+                default:
+                    break;
+                }
+                break;
+            case 2:
+                switch (row) {
+                case 0:
+                    return m.m20(value);
+                case 1:
+                    return m.m21(value);
+                case 2:
+                    return m.m22(value);
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+            throw new IllegalArgumentException();
+        }
 
         public Vector4f getColumn(Matrix4f m, int column, Vector4f dest) {
             switch (column) {
@@ -3533,6 +3713,7 @@ abstract class MemUtil {
 //#endif
         public static final long Matrix2f_m00;
         public static final long Matrix3f_m00;
+        public static final long Matrix3d_m00;
         public static final long Matrix4f_m00;
         public static final long Matrix4d_m00;
         public static final long Matrix4x3f_m00;
@@ -3556,6 +3737,7 @@ abstract class MemUtil {
                 Matrix4d_m00 = checkMatrix4d();
                 Matrix4x3f_m00 = checkMatrix4x3f();
                 Matrix3f_m00 = checkMatrix3f();
+                Matrix3d_m00 = checkMatrix3d();
                 Matrix3x2f_m00 = checkMatrix3x2f();
                 Matrix2f_m00 = checkMatrix2f();
                 Vector4f_x = checkVector4f();
@@ -3644,6 +3826,21 @@ abstract class MemUtil {
                     throw new UnsupportedOperationException("Unexpected Matrix3f element offset");
             }
             return Matrix3f_m00;
+        }
+
+        private static long checkMatrix3d() throws NoSuchFieldException, SecurityException {
+            Field f = Matrix3d.class.getDeclaredField("m00");
+            long Matrix3d_m00 = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            for (int i = 1; i < 9; i++) {
+                int c = i / 3;
+                int r = i % 3;
+                f = Matrix3d.class.getDeclaredField("m" + c + r);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Matrix3d_m00 + (i << 3))
+                    throw new UnsupportedOperationException("Unexpected Matrix3d element offset");
+            }
+            return Matrix3d_m00;
         }
 
         private static long checkMatrix3x2f() throws NoSuchFieldException, SecurityException {
@@ -5146,6 +5343,24 @@ abstract class MemUtil {
 
         public Matrix4d set(Matrix4d m, int column, int row, double value) {
             UNSAFE.putDouble(m, Matrix4d_m00 + (column << 5) + (row << 3), value);
+            return m;
+        }
+
+        public float get(Matrix3f m, int column, int row) {
+            return UNSAFE.getFloat(m, Matrix3f_m00 + (column * (3<<2)) + (row << 2));
+        }
+
+        public Matrix3f set(Matrix3f m, int column, int row, float value) {
+            UNSAFE.putFloat(m, Matrix3f_m00 + (column * (3<<2)) + (row << 2), value);
+            return m;
+        }
+
+        public double get(Matrix3d m, int column, int row) {
+            return UNSAFE.getDouble(m, Matrix3d_m00 + (column * (3<<3)) + (row << 3));
+        }
+
+        public Matrix3d set(Matrix3d m, int column, int row, double value) {
+            UNSAFE.putDouble(m, Matrix3d_m00 + (column * (3<<3)) + (row << 3), value);
             return m;
         }
 

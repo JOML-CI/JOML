@@ -3182,47 +3182,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 
     public float get(int column, int row) {
-        switch (column) {
-        case 0:
-            switch (row) {
-            case 0:
-                return m00;
-            case 1:
-                return m01;
-            case 2:
-                return m02;
-            default:
-                break;
-            }
-            break;
-        case 1:
-            switch (row) {
-            case 0:
-                return m10;
-            case 1:
-                return m11;
-            case 2:
-                return m12;
-            default:
-                break;
-            }
-            break;
-        case 2:
-            switch (row) {
-            case 0:
-                return m20;
-            case 1:
-                return m21;
-            case 2:
-                return m22;
-            default:
-                break;
-            }
-            break;
-        default:
-            break;
-        }
-        throw new IllegalArgumentException();
+        return MemUtil.INSTANCE.get(this, column, row);
     }
 
     /**
@@ -3237,100 +3197,11 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f set(int column, int row, float value) {
-        switch (column) {
-        case 0:
-            switch (row) {
-            case 0:
-                this.m00 = value;
-                return this;
-            case 1:
-                this.m01 = value;
-                return this;
-            case 2:
-                this.m02 = value;
-                return this;
-            default:
-                break;
-            }
-            break;
-        case 1:
-            switch (row) {
-            case 0:
-                this.m10 = value;
-                return this;
-            case 1:
-                this.m11 = value;
-                return this;
-            case 2:
-                this.m12 = value;
-                return this;
-            default:
-                break;
-            }
-            break;
-        case 2:
-            switch (row) {
-            case 0:
-                this.m20 = value;
-                return this;
-            case 1:
-                this.m21 = value;
-                return this;
-            case 2:
-                this.m22 = value;
-                return this;
-            default:
-                break;
-            }
-            break;
-        default:
-            break;
-        }
-        throw new IllegalArgumentException();
+        return MemUtil.INSTANCE.set(this, column, row, value);
     }
 
     public float getRowColumn(int row, int column) {
-        switch (row) {
-        case 0:
-            switch (column) {
-            case 0:
-                return m00;
-            case 1:
-                return m01;
-            case 2:
-                return m02;
-            default:
-                break;
-            }
-            break;
-        case 1:
-            switch (column) {
-            case 0:
-                return m10;
-            case 1:
-                return m11;
-            case 2:
-                return m12;
-            default:
-                break;
-            }
-            break;
-        case 2:
-            switch (column) {
-            case 0:
-                return m20;
-            case 1:
-                return m21;
-            case 2:
-                return m22;
-            default:
-                break;
-            }
-            break;
-        default:
-            break;
-        }
-        throw new IllegalArgumentException();
+        return MemUtil.INSTANCE.get(this, column, row);
     }
 
     /**
@@ -3345,56 +3216,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f setRowColumn(int row, int column, float value) {
-        switch (row) {
-        case 0:
-            switch (column) {
-            case 0:
-                this.m00 = value;
-                return this;
-            case 1:
-                this.m01 = value;
-                return this;
-            case 2:
-                this.m02 = value;
-                return this;
-            default:
-                break;
-            }
-            break;
-        case 1:
-            switch (column) {
-            case 0:
-                this.m10 = value;
-                return this;
-            case 1:
-                this.m11 = value;
-                return this;
-            case 2:
-                this.m12 = value;
-                return this;
-            default:
-                break;
-            }
-            break;
-        case 2:
-            switch (column) {
-            case 0:
-                this.m20 = value;
-                return this;
-            case 1:
-                this.m21 = value;
-                return this;
-            case 2:
-                this.m22 = value;
-                return this;
-            default:
-                break;
-            }
-            break;
-        default:
-            break;
-        }
-        throw new IllegalArgumentException();
+        return MemUtil.INSTANCE.set(this, column, row, value);
     }
 
     /**
