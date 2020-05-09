@@ -649,10 +649,10 @@ public class Rectanglei implements Externalizable {
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeFloat(minX);
-        out.writeFloat(minY);
-        out.writeFloat(maxX);
-        out.writeFloat(maxY);
+        out.writeInt(minX);
+        out.writeInt(minY);
+        out.writeInt(maxX);
+        out.writeInt(maxY);
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
