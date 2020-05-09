@@ -530,6 +530,20 @@ public class AABBi implements Externalizable {
     }
 
     /**
+     * Test whether this AABB intersects the given sphere.
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
+     *
+     * @param sphere
+     *          the sphere
+     * @return <code>true</code> iff this AABB and the sphere intersect; <code>false</code> otherwise
+     */
+    public boolean testSphere(Spheref sphere) {
+        return Intersectionf.testAabSphere(this, sphere);
+    }
+
+
+    /**
      * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
      * intersects this AABB.
      * <p>
@@ -741,10 +755,10 @@ public class AABBi implements Externalizable {
         return result;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AABBi aabBi = (AABBi) o;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        AABBi aabBi = (AABBi) obj;
         return minX == aabBi.minX &&
             minY == aabBi.minY &&
             minZ == aabBi.minZ &&

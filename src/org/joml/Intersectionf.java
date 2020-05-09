@@ -1258,6 +1258,22 @@ public class Intersectionf {
         return testAabSphere(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, sphere.x, sphere.y, sphere.z, sphere.r*sphere.r);
     }
 
+
+    /**
+     * Test whether the given axis-aligned box intersects the given sphere.
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
+     *
+     * @param aabb
+     *          the AABB
+     * @param sphere
+     *          the sphere
+     * @return <code>true</code> iff the axis-aligned box intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testAabSphere(AABBi aabb, Spheref sphere) {
+        return testAabSphere(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, sphere.x, sphere.y, sphere.z, sphere.r*sphere.r);
+    }
+
     /**
      * Find the point on the given plane which is closest to the specified point <code>(pX, pY, pZ)</code> and store the result in <code>result</code>.
      * 
