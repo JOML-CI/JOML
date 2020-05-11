@@ -2734,8 +2734,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      *              the angle in radians to rotate about the z axis
      * @return this
      */
-    public Quaterniond rotateYXZ(double angleZ, double angleY, double angleX) {
-        return rotateYXZ(angleZ, angleY, angleX, this);
+    public Quaterniond rotateYXZ(double angleY, double angleX, double angleZ) {
+        return rotateYXZ(angleY, angleX, angleZ, this);
     }
 
     public Quaterniond rotateYXZ(double angleY, double angleX, double angleZ, Quaterniond dest) {
