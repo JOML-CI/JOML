@@ -1825,8 +1825,8 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *              the angle in radians to rotate about the z axis
      * @return this
      */
-    public Quaternionf rotateYXZ(float angleZ, float angleY, float angleX) {
-        return rotateYXZ(angleZ, angleY, angleX, this);
+    public Quaternionf rotateYXZ(float angleY, float angleX, float angleZ) {
+        return rotateYXZ(angleY, angleX, angleZ, this);
     }
 
     public Quaternionf rotateYXZ(float angleY, float angleX, float angleZ, Quaternionf dest) {
