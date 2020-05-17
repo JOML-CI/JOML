@@ -436,6 +436,21 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether the axis-aligned box intersects the plane.
+     * <p>
+     * Reference: <a href="http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-testing-boxes-ii/">http://www.lighthouse3d.com</a> ("Geometric Approach - Testing Boxes II")
+     *
+     * @param aabb
+     *          the AABB
+     * @param plane
+     *          the plane
+     * @return <code>true</code> iff the axis-aligned box intersects the plane; <code>false</code> otherwise
+     */
+    public static  boolean testAabPlane(AABBi aabb, Planef plane ) {
+        return testAabPlane(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, plane.a, plane.b, plane.c, plane.d);
+    }
+
+    /**
      * Test whether the axis-aligned box with minimum corner <code>min</code> and maximum corner <code>max</code>
      * intersects the plane with the general equation <i>a*x + b*y + c*z + d = 0</i>.
      * <p>
@@ -1240,6 +1255,22 @@ public class Intersectionf {
      * @return <code>true</code> iff the axis-aligned box intersects the sphere; <code>false</code> otherwise
      */
     public static boolean testAabSphere(AABBf aabb, Spheref sphere) {
+        return testAabSphere(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, sphere.x, sphere.y, sphere.z, sphere.r*sphere.r);
+    }
+
+
+    /**
+     * Test whether the given axis-aligned box intersects the given sphere.
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
+     *
+     * @param aabb
+     *          the AABB
+     * @param sphere
+     *          the sphere
+     * @return <code>true</code> iff the axis-aligned box intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testAabSphere(AABBi aabb, Spheref sphere) {
         return testAabSphere(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, sphere.x, sphere.y, sphere.z, sphere.r*sphere.r);
     }
 
@@ -2438,6 +2469,32 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether the given ray intersects given the axis-aligned box
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection..
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
+     * <p>
+     * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
+     * <p>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
+     *
+     * @see #intersectRayAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)
+     * @see RayAabIntersection
+     *
+     * @param ray
+     *              the ray
+     * @param aabb
+     *              the AABB
+     * @param result
+     *              a vector which will hold the resulting values of the parameter
+     *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
+     *              iff the ray intersects the axis-aligned box
+     * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
+     */
+    public static boolean intersectRayAab(Rayf ray, AABBi aabb, Vector2f result) {
+        return intersectRayAab(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, result);
+    }
+    /**
      * Determine whether the undirected line segment with the end points <code>(p0X, p0Y, p0Z)</code> and <code>(p1X, p1Y, p1Z)</code>
      * intersects the axis-aligned box given as its minimum corner <code>(minX, minY, minZ)</code> and maximum corner <code>(maxX, maxY, maxZ)</code>,
      * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + p0 * (p1 - p0)</i> of the near and far point of intersection.
@@ -2597,6 +2654,34 @@ public class Intersectionf {
     }
 
     /**
+     * Determine whether the given undirected line segment intersects the given axis-aligned box,
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + p0 * (p1 - p0)</i> of the near and far point of intersection.
+     * <p>
+     * This method returns <code>true</code> for a line segment whose either end point lies inside the axis-aligned box.
+     * <p>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
+     *
+     * @see #intersectLineSegmentAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)
+     *
+     * @param lineSegment
+     *              the line segment
+     * @param aabb
+     *              the AABB
+     * @param result
+     *              a vector which will hold the resulting values of the parameter
+     *              <i>t</i> in the ray equation <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
+     *              iff the line segment intersects the axis-aligned box
+     * @return {@link #INSIDE} if the line segment lies completely inside of the axis-aligned box; or
+     *         {@link #OUTSIDE} if the line segment lies completely outside of the axis-aligned box; or
+     *         {@link #ONE_INTERSECTION} if one of the end points of the line segment lies inside of the axis-aligned box; or
+     *         {@link #TWO_INTERSECTION} if the line segment intersects two sides of the axis-aligned box
+     *         or lies on an edge or a side of the box
+     */
+    public static int intersectLineSegmentAab(LineSegmentf lineSegment, AABBi aabb, Vector2f result) {
+        return intersectLineSegmentAab(lineSegment.aX, lineSegment.aY, lineSegment.aZ, lineSegment.bX, lineSegment.bY, lineSegment.bZ, aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, result);
+    }
+
+    /**
      * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
      * intersects the axis-aligned box given as its minimum corner <code>(minX, minY, minZ)</code> and maximum corner <code>(maxX, maxY, maxZ)</code>.
      * <p>
@@ -2719,6 +2804,29 @@ public class Intersectionf {
     public static boolean testRayAab(Rayf ray, AABBf aabb) {
         return testRayAab(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ);
     }
+
+    /**
+     * Test whether the given ray intersects the given axis-aligned box.
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
+     * <p>
+     * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
+     * <p>
+     * Reference: <a href="https://dl.acm.org/citation.cfm?id=1198748">An Efficient and Robust Ray–Box Intersection</a>
+     *
+     * @see #testRayAab(float, float, float, float, float, float, float, float, float, float, float, float)
+     * @see RayAabIntersection
+     *
+     * @param ray
+     *              the ray
+     * @param aabb
+     *              the AABB
+     * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
+     */
+    public static boolean testRayAab(Rayf ray, AABBi aabb) {
+        return testRayAab(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ);
+    }
+
 
     /**
      * Test whether the given ray with the origin <code>(originX, originY, originZ)</code> and direction <code>(dirX, dirY, dirZ)</code>
