@@ -338,25 +338,6 @@
 				<variant>joml-graal</variant>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
 			</properties>
-			<build>
-				<!-- Add the sources to the jar artifact -->
-				<resources>
-					<resource>
-						<directory>${project.build.directory}/generated-sources/preprocessed</directory>
-						<includes>
-							<include>**/*.java</include>
-						</includes>
-						<filtering>false</filtering>
-					</resource>
-					<resource>
-						<directory>${project.build.sourceDirectory}</directory>
-						<includes>
-							<include>org/joml/JOML.gwt.xml</include>
-						</includes>
-						<filtering>false</filtering>
-					</resource>
-				</resources>
-			</build>
 		</profile>
 		<profile>
 			<id>verify</id>
