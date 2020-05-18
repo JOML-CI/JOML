@@ -157,6 +157,23 @@ public class AABBi implements Externalizable {
     }
 
     /**
+     * Set this {@link AABBi} to be a clone of <code>source</code>.
+     *
+     * @param source
+     *            the {@link AABBi} to copy from
+     * @return this
+     */
+    public AABBi set(AABBi source){
+        this.minX = source.minX;
+        this.minY = source.minY;
+        this.minZ = source.minZ;
+        this.maxX = source.maxX;
+        this.maxY = source.maxY;
+        this.maxZ = source.maxZ;
+        return this;
+    }
+
+    /**
      * Set the minimum corner coordinates.
      *
      * @param min

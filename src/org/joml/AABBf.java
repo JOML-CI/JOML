@@ -127,6 +127,23 @@ public class AABBf implements Externalizable {
     }
 
     /**
+     * Set this {@link AABBf} to be a clone of <code>source</code>.
+     *
+     * @param source
+     *            the {@link AABBf} to copy from
+     * @return this
+     */
+    public AABBf set(AABBf source){
+        this.minX = source.minX;
+        this.minY = source.minY;
+        this.minZ = source.minZ;
+        this.maxX = source.maxX;
+        this.maxY = source.maxY;
+        this.maxZ = source.maxZ;
+        return this;
+    }
+
+    /**
      * Set the minimum corner coordinates.
      * 
      * @param minX
