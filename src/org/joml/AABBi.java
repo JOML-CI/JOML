@@ -157,6 +157,45 @@ public class AABBi implements Externalizable {
     }
 
     /**
+     * Set this {@link AABBi} to be a clone of <code>source</code>.
+     *
+     * @param source
+     *            the {@link AABBi} to copy from
+     * @return this
+     */
+    public AABBi set(AABBi source){
+        this.minX = source.minX;
+        this.minY = source.minY;
+        this.minZ = source.minZ;
+        this.maxX = source.maxX;
+        this.maxY = source.maxY;
+        this.maxZ = source.maxZ;
+        return this;
+    }
+
+    private AABBi validate() {
+        if (!isValid()) {
+            minX = Integer.MAX_VALUE;
+            minY = Integer.MAX_VALUE;
+            minZ = Integer.MAX_VALUE;
+
+            maxX = Integer.MIN_VALUE;
+            maxY = Integer.MIN_VALUE;
+            maxZ = Integer.MIN_VALUE;
+        }
+        return this;
+    }
+
+    /**
+     * Check whether <code>this</code> rectangle represents a valid AABB.
+     *
+     * @return <code>true</code> iff this rectangle is valid; <code>false</code> otherwise
+     */
+    public boolean isValid() {
+        return minX < maxX && minY < maxY && minZ < maxZ;
+    }
+
+    /**
      * Set the minimum corner coordinates.
      *
      * @param min
@@ -400,6 +439,87 @@ public class AABBi implements Externalizable {
         return dest;
     }
 
+
+    /**
+     * Compute the AABB of intersection between <code>this</code> and the given AABB.
+     * <p>
+     * If the two rectangles do not intersect, then the minimum coordinates of <code>this</code>
+     * will have a value of {@link Integer#MAX_VALUE} and the maximum coordinates will have a value of
+     * {@link Integer#MIN_VALUE}.
+     *
+     * @param other
+     *           the other AABB
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AABBi intersection(AABBi other, AABBi dest) {
+        dest.minX = Math.max(minX, other.minX);
+        dest.minY = Math.max(minY, other.minY);
+        dest.minZ = Math.max(minZ, other.minZ);
+
+        dest.maxX = Math.min(maxX, other.maxX);
+        dest.maxY = Math.min(maxY, other.maxY);
+        dest.maxZ = Math.min(maxZ, other.maxZ);
+        return dest.validate();
+    }
+
+
+    /**
+     * Compute the AABB of intersection between <code>this</code> and the given AABB.
+     * <p>
+     * If the two rectangles do not intersect, then the minimum coordinates of <code>this</code>
+     * will have a value of {@link Integer#MAX_VALUE} and the maximum coordinates will have a value of
+     * {@link Integer#MIN_VALUE}.
+     *
+     * @param other
+     *           the other AABB
+     * @return this
+     */
+    public AABBi intersection(AABBi other) {
+        return intersection(other, this);
+    }
+
+
+    /**
+     * Check if this rectangle contains the given <code>rectangle</code>.
+     *
+     * @param aabb
+     *          the rectangle to test
+     * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
+     */
+    public boolean containsAABB(AABBd aabb) {
+        return aabb.minX >= minX && aabb.maxX <= maxX &&
+            aabb.minY >= minY && aabb.maxY <= maxY &&
+            aabb.minZ >= minZ && aabb.maxZ <= maxZ;
+    }
+
+    /**
+     * Check if this rectangle contains the given <code>rectangle</code>.
+     *
+     * @param aabb
+     *          the rectangle to test
+     * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
+     */
+    public boolean containsAABB(AABBf aabb) {
+        return aabb.minX >= minX && aabb.maxX <= maxX &&
+            aabb.minY >= minY && aabb.maxY <= maxY &&
+            aabb.minZ >= minZ && aabb.maxZ <= maxZ;
+    }
+
+    /**
+     * Check if this rectangle contains the given <code>rectangle</code>.
+     *
+     * @param aabb
+     *          the rectangle to test
+     * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
+     */
+    public boolean containsAABB(AABBi aabb) {
+        return aabb.minX >= minX && aabb.maxX <= maxX &&
+            aabb.minY >= minY && aabb.maxY <= maxY &&
+            aabb.minZ >= minZ && aabb.maxZ <= maxZ;
+    }
+
     /**
      * Test whether the point <code>(x, y, z)</code> lies inside this AABB.
      *
@@ -411,7 +531,7 @@ public class AABBi implements Externalizable {
      *          the z coordinate of the point
      * @return <code>true</code> iff the given point lies inside this AABB; <code>false</code> otherwise
      */
-    public boolean testPoint(int x, int y, int z){
+    public boolean containsPoint(int x, int y, int z){
         return x >= minX && y >= minY && z >= minZ && x <= maxX && y <= maxY && z <= maxZ;
     }
 
@@ -426,7 +546,7 @@ public class AABBi implements Externalizable {
      *          the z coordinate of the point
      * @return <code>true</code> iff the given point lies inside this AABB; <code>false</code> otherwise
      */
-    public boolean testPoint(float x, float y, float z){
+    public boolean containsPoint(float x, float y, float z){
         return x >= minX && y >= minY && z >= minZ && x <= maxX && y <= maxY && z <= maxZ;
     }
 
@@ -438,8 +558,8 @@ public class AABBi implements Externalizable {
      *          the coordinates of the point
      * @return <code>true</code> iff the given point lies inside this AABB; <code>false</code> otherwise
      */
-    public boolean testPoint(Vector3ic point) {
-        return testPoint(point.x(), point.y(), point.z());
+    public boolean containsPoint(Vector3ic point) {
+        return containsPoint(point.x(), point.y(), point.z());
     }
 
     /**
@@ -449,8 +569,8 @@ public class AABBi implements Externalizable {
      *          the coordinates of the point
      * @return <code>true</code> iff the given point lies inside this AABB; <code>false</code> otherwise
      */
-    public boolean testPoint(Vector3fc point) {
-        return testPoint(point.x(), point.y(), point.z());
+    public boolean containsPoint(Vector3fc point) {
+        return containsPoint(point.x(), point.y(), point.z());
     }
 
     /**
@@ -468,7 +588,7 @@ public class AABBi implements Externalizable {
      *          the constant in the plane equation
      * @return <code>true</code> iff the plane intersects this AABB; <code>false</code> otherwise
      */
-    public boolean testPlane(float a, float b, float c, float d) {
+    public boolean intersectsPlane(float a, float b, float c, float d) {
         return Intersectionf.testAabPlane(minX, minY, minZ, maxX, maxY, maxZ, a, b, c, d);
     }
 
@@ -481,7 +601,7 @@ public class AABBi implements Externalizable {
      *          the plane
      * @return <code>true</code> iff the plane intersects this AABB; <code>false</code> otherwise
      */
-    public boolean testPlane(Planef plane) {
+    public boolean intersectsPlane(Planef plane) {
         return Intersectionf.testAabPlane(this, plane);
     }
 
@@ -492,7 +612,7 @@ public class AABBi implements Externalizable {
      *          the other AABB
      * @return <code>true</code> iff both AABBs intersect; <code>false</code> otherwise
      */
-    public boolean testAABB(AABBi other) {
+    public boolean intersectsAABB(AABBi other) {
         return this.maxX >= other.minX && this.maxY >= other.minY && this.maxZ >= other.minZ &&
             this.minX <= other.maxX && this.minY <= other.maxY && this.minZ <= other.maxZ;
     }
@@ -504,7 +624,7 @@ public class AABBi implements Externalizable {
      *          the other AABB
      * @return <code>true</code> iff both AABBs intersect; <code>false</code> otherwise
      */
-    public boolean testAABB(AABBf other) {
+    public boolean intersectsAABB(AABBf other) {
         return this.maxX >= other.minX && this.maxY >= other.minY && this.maxZ >= other.minZ &&
             this.minX <= other.maxX && this.minY <= other.maxY && this.minZ <= other.maxZ;
     }
@@ -525,7 +645,7 @@ public class AABBi implements Externalizable {
      *          the square radius of the sphere
      * @return <code>true</code> iff this AABB and the sphere intersect; <code>false</code> otherwise
      */
-    public boolean testSphere(float centerX, float centerY, float centerZ, float radiusSquared) {
+    public boolean intersectsSphere(float centerX, float centerY, float centerZ, float radiusSquared) {
         return Intersectionf.testAabSphere(minX, minY, minZ, maxX, maxY, maxZ, centerX, centerY, centerZ, radiusSquared);
     }
 
@@ -538,7 +658,7 @@ public class AABBi implements Externalizable {
      *          the sphere
      * @return <code>true</code> iff this AABB and the sphere intersect; <code>false</code> otherwise
      */
-    public boolean testSphere(Spheref sphere) {
+    public boolean intersectsSphere(Spheref sphere) {
         return Intersectionf.testAabSphere(this, sphere);
     }
 
@@ -565,7 +685,7 @@ public class AABBi implements Externalizable {
      *          the z coordinate of the ray's direction
      * @return <code>true</code> if this AABB and the ray intersect; <code>false</code> otherwise
      */
-    public boolean testRay(float originX, float originY, float originZ, float dirX, float dirY, float dirZ) {
+    public boolean intersectsRay(float originX, float originY, float originZ, float dirX, float dirY, float dirZ) {
         return Intersectionf.testRayAab(originX, originY, originZ, dirX, dirY, dirZ, minX, minY, minZ, maxX, maxY, maxZ);
     }
 
@@ -580,7 +700,7 @@ public class AABBi implements Externalizable {
      *          the ray
      * @return <code>true</code> if this AABB and the ray intersect; <code>false</code> otherwise
      */
-    public boolean testRay(Rayf ray) {
+    public boolean intersectsRay(Rayf ray) {
         return Intersectionf.testRayAab(ray, this);
     }
 
@@ -611,7 +731,7 @@ public class AABBi implements Externalizable {
      *              iff the ray intersects this AABB
      * @return <code>true</code> if the given ray intersects this AABB; <code>false</code> otherwise
      */
-    public boolean intersectRay(float originX, float originY, float originZ, float dirX, float dirY, float dirZ, Vector2f result) {
+    public boolean intersectsRay(float originX, float originY, float originZ, float dirX, float dirY, float dirZ, Vector2f result) {
         return Intersectionf.intersectRayAab(originX, originY, originZ, dirX, dirY, dirZ, minX, minY, minZ, maxX, maxY, maxZ, result);
     }
 
@@ -631,7 +751,7 @@ public class AABBi implements Externalizable {
      *              iff the ray intersects this AABB
      * @return <code>true</code> if the given ray intersects this AABB; <code>false</code> otherwise
      */
-    public boolean intersectRay(Rayf ray, Vector2f result) {
+    public boolean intersectsRay(Rayf ray, Vector2f result) {
         return Intersectionf.intersectRayAab(ray, this, result);
     }
 

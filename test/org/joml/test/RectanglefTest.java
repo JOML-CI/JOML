@@ -38,10 +38,10 @@ public class RectanglefTest extends TestCase {
         Rectanglef rect = new Rectanglef(0, 0, 3, 3);
 
         Assert.assertTrue(rect.isValid());
-        Assert.assertTrue(rect.contains(new Vector2f(0, 0)));
-        Assert.assertFalse(rect.contains(new Vector2f(-1, -1)));
-        Assert.assertFalse(rect.contains(new Vector2f(4, 4)));
-        Assert.assertFalse(rect.contains(new Vector2f(4, 4)));
+        Assert.assertTrue(rect.containsPoint(new Vector2f(0, 0)));
+        Assert.assertFalse(rect.containsPoint(new Vector2f(-1, -1)));
+        Assert.assertFalse(rect.containsPoint(new Vector2f(4, 4)));
+        Assert.assertFalse(rect.containsPoint(new Vector2f(4, 4)));
     }
 
     public void testRectangleIntersection() {
@@ -52,11 +52,11 @@ public class RectanglefTest extends TestCase {
         Assert.assertTrue(first.isValid());
         Assert.assertTrue(second.isValid());
 
-        Assert.assertFalse(first.contains(second));
-        Assert.assertFalse(second.contains(first));
+        Assert.assertFalse(first.containsRectangle(second));
+        Assert.assertFalse(second.containsRectangle(first));
 
-        Assert.assertTrue(first.intersects(second));
-        Assert.assertTrue(second.intersects(first));
+        Assert.assertTrue(first.intersectsRectangle(second));
+        Assert.assertTrue(second.intersectsRectangle(first));
         Assert.assertEquals(first.intersection(second, new Rectanglef()), new Rectanglef(0, 0, 2, 2));
 
     }
@@ -64,11 +64,11 @@ public class RectanglefTest extends TestCase {
     public void testRectangleContains() {
         Rectanglef first = new Rectanglef(-1, -1, 2, 2);
         Rectanglef second = new Rectanglef(0, 0, 1, 1);
-        Assert.assertTrue(first.contains(second));
-        Assert.assertFalse(second.contains(first));
+        Assert.assertTrue(first.containsRectangle(second));
+        Assert.assertFalse(second.containsRectangle(first));
 
-        Assert.assertTrue(first.intersects(second));
-        Assert.assertTrue(second.intersects(first));
+        Assert.assertTrue(first.intersectsRectangle(second));
+        Assert.assertTrue(second.intersectsRectangle(first));
 
         Assert.assertEquals(first.intersection(second, new Rectanglef()), new Rectanglef(0, 0, 1, 1));
     }
