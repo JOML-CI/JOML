@@ -174,9 +174,9 @@ public class AABBd implements Externalizable {
     }
 
     /**
-     * Check whether <code>this</code> rectangle represents a valid AABB.
+     * Check whether <code>this</code> AABB represents a valid AABB.
      *
-     * @return <code>true</code> iff this rectangle is valid; <code>false</code> otherwise
+     * @return <code>true</code> iff this AABB is valid; <code>false</code> otherwise
      */
     public boolean isValid() {
         return minX < maxX && minY < maxY && minZ < maxZ;
@@ -491,7 +491,7 @@ public class AABBd implements Externalizable {
     /**
      * Compute the AABB of intersection between <code>this</code> and the given AABB.
      * <p>
-     * If the two rectangles do not intersect, then the minimum coordinates of <code>this</code>
+     * If the two AABBs do not intersect, then the minimum coordinates of <code>this</code>
      * will have a value of {@link Double#POSITIVE_INFINITY} and the maximum coordinates will have a value of
      * {@link Double#NEGATIVE_INFINITY}.
      *
@@ -514,9 +514,9 @@ public class AABBd implements Externalizable {
 
 
     /**
-     * Compute the rectangle of intersection between <code>this</code> and the given AABB.
+     * Compute the AABB of intersection between <code>this</code> and the given AABB.
      * <p>
-     * If the two rectangles do not intersect, then the minimum coordinates of <code>this</code>
+     * If the two AABBs do not intersect, then the minimum coordinates of <code>this</code>
      * will have a value of {@link Double#POSITIVE_INFINITY} and the maximum coordinates will have a value of
      * {@link Double#NEGATIVE_INFINITY}.
      *
@@ -529,11 +529,11 @@ public class AABBd implements Externalizable {
     }
 
     /**
-     * Check if this rectangle contains the given <code>rectangle</code>.
+     * Check if this AABB contains the given <code>AABB</code>.
      *
      * @param aabb
-     *          the rectangle to test
-     * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
+     *          the AABB to test
+     * @return <code>true</code> iff this AABB contains the AABB; <code>false</code> otherwise
      */
     public boolean containsAABB(AABBd aabb) {
         return aabb.minX >= minX && aabb.maxX <= maxX &&
@@ -542,11 +542,11 @@ public class AABBd implements Externalizable {
     }
 
     /**
-     * Check if this rectangle contains the given <code>rectangle</code>.
+     * Check if this AABB contains the given <code>AABB</code>.
      *
      * @param aabb
-     *          the rectangle to test
-     * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
+     *          the AABB to test
+     * @return <code>true</code> iff this AABB contains the AABB; <code>false</code> otherwise
      */
     public boolean containsAABB(AABBf aabb) {
         return aabb.minX >= minX && aabb.maxX <= maxX &&
@@ -555,11 +555,11 @@ public class AABBd implements Externalizable {
     }
 
     /**
-     * Check if this rectangle contains the given <code>rectangle</code>.
+     * Check if this AABB contains the given <code>AABB</code>.
      *
      * @param aabb
-     *          the rectangle to test
-     * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
+     *          the AABB to test
+     * @return <code>true</code> iff this AABB contains the AABB; <code>false</code> otherwise
      */
     public boolean containsAABB(AABBi aabb) {
         return aabb.minX >= minX && aabb.maxX <= maxX &&
