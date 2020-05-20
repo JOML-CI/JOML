@@ -34,9 +34,9 @@ public class RectangledTest extends TestCase {
         Rectangled rect = new Rectangled(0, 0, 3, 3);
 
         Assert.assertTrue(rect.isValid());
-        Assert.assertTrue(rect.contains(new Vector2d(0, 0)));
-        Assert.assertFalse(rect.contains(new Vector2d(-1, -1)));
-        Assert.assertFalse(rect.contains(new Vector2d(4, 4)));
+        Assert.assertTrue(rect.containsPoint(new Vector2d(0, 0)));
+        Assert.assertFalse(rect.containsPoint(new Vector2d(-1, -1)));
+        Assert.assertFalse(rect.containsPoint(new Vector2d(4, 4)));
     }
 
     public void testRectangleIntersection() {
@@ -47,11 +47,11 @@ public class RectangledTest extends TestCase {
         Assert.assertTrue(first.isValid());
         Assert.assertTrue(second.isValid());
 
-        Assert.assertFalse(first.contains(second));
-        Assert.assertFalse(second.contains(first));
+        Assert.assertFalse(first.containsRectangle(second));
+        Assert.assertFalse(second.containsRectangle(first));
 
-        Assert.assertTrue(first.intersects(second));
-        Assert.assertTrue(second.intersects(first));
+        Assert.assertTrue(first.intersectsRectangle(second));
+        Assert.assertTrue(second.intersectsRectangle(first));
         Assert.assertEquals(first.intersection(second, new Rectangled()), new Rectangled(0, 0, 2, 2));
 
     }
@@ -59,11 +59,11 @@ public class RectangledTest extends TestCase {
     public void testRectangleContains() {
         Rectangled first = new Rectangled(-1, -1, 2, 2);
         Rectangled second = new Rectangled(0, 0, 1, 1);
-        Assert.assertTrue(first.contains(second));
-        Assert.assertFalse(second.contains(first));
+        Assert.assertTrue(first.containsRectangle(second));
+        Assert.assertFalse(second.containsRectangle(first));
 
-        Assert.assertTrue(first.intersects(second));
-        Assert.assertTrue(second.intersects(first));
+        Assert.assertTrue(first.intersectsRectangle(second));
+        Assert.assertTrue(second.intersectsRectangle(first));
 
         Assert.assertEquals(first.intersection(second, new Rectangled()), new Rectangled(0, 0, 1, 1));
     }

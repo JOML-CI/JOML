@@ -248,7 +248,7 @@ public class Rectangled implements Externalizable {
      *          the rectangle to test
      * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
      */
-    public boolean contains(Rectangled rectangle) {
+    public boolean containsRectangle(Rectangled rectangle) {
         return rectangle.minX >= minX && rectangle.maxX <= maxX &&
                rectangle.minY >= minY && rectangle.maxY <= maxY;
     }
@@ -260,7 +260,7 @@ public class Rectangled implements Externalizable {
      *          the rectangle to test
      * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
      */
-    public boolean contains(Rectanglef rectangle) {
+    public boolean containsRectangle(Rectanglef rectangle) {
         return rectangle.minX >= minX && rectangle.maxX <= maxX &&
                rectangle.minY >= minY && rectangle.maxY <= maxY;
     }
@@ -272,7 +272,7 @@ public class Rectangled implements Externalizable {
      *          the rectangle to test
      * @return <code>true</code> iff this rectangle contains the rectangle; <code>false</code> otherwise
      */
-    public boolean contains(Rectanglei rectangle) {
+    public boolean containsRectangle(Rectanglei rectangle) {
         return rectangle.minX >= minX && rectangle.maxX <= maxX &&
                rectangle.minY >= minY && rectangle.maxY <= maxY;
     }
@@ -284,7 +284,7 @@ public class Rectangled implements Externalizable {
      *          the other rectangle
      * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
      */
-    public boolean intersects(Rectangled other) {
+    public boolean intersectsRectangle(Rectangled other) {
         return minX < other.maxX && maxX >= other.minX &&
                maxY >= other.minY && minY < other.maxY;
     }
@@ -296,7 +296,7 @@ public class Rectangled implements Externalizable {
      *          the other rectangle
      * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
      */
-    public boolean intersects(Rectanglef other) {
+    public boolean intersectsRectangle(Rectanglef other) {
         return minX < other.maxX && maxX >= other.minX &&
                maxY >= other.minY && minY < other.maxY;
     }
@@ -308,7 +308,7 @@ public class Rectangled implements Externalizable {
      *          the other rectangle
      * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
      */
-    public boolean intersects(Rectanglei other) {
+    public boolean intersectsRectangle(Rectanglei other) {
         return minX < other.maxX && maxX >= other.minX &&
                maxY >= other.minY && minY < other.maxY;
     }
@@ -320,8 +320,8 @@ public class Rectangled implements Externalizable {
      *          the point to test
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
-    public boolean contains(Vector2dc point) {
-        return contains(point.x(), point.y());
+    public boolean containsPoint(Vector2dc point) {
+        return containsPoint(point.x(), point.y());
     }
 
     /**
@@ -333,7 +333,7 @@ public class Rectangled implements Externalizable {
      *          the y coordinate of the point to check
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
-    public boolean contains(double x, double y) {
+    public boolean containsPoint(double x, double y) {
         return x >= minX && y >= minY && x < maxX && y < maxY;
     }
 
