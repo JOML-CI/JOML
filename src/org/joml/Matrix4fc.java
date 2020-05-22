@@ -278,6 +278,26 @@ public interface Matrix4fc {
     Matrix4f mul(Matrix4fc right, Matrix4f dest);
 
     /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * <p>
+     * This method neither assumes nor checks for any matrix properties of <code>this</code> or <code>right</code>
+     * and will always perform a complete 4x4 matrix multiplication. This method should only be used whenever the
+     * multiplied matrices do not have any properties for which there are optimized multiplication methods available.
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    Matrix4f mul0(Matrix4fc right, Matrix4f dest);
+
+    /**
      * Multiply this matrix by the matrix with the supplied elements and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix whose 

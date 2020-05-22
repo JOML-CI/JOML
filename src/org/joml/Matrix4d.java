@@ -1207,9 +1207,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return mulPerspectiveAffine(right, dest);
         else if ((right.properties() & PROPERTY_AFFINE) != 0)
             return mulAffineR(right, dest);
-        return mulGeneric(right, dest);
+        return mul0(right, dest);
     }
-    private Matrix4d mulGeneric(Matrix4dc right, Matrix4d dest) {
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * <p>
+     * This method neither assumes nor checks for any matrix properties of <code>this</code> or <code>right</code>
+     * and will always perform a complete 4x4 matrix multiplication. This method should only be used whenever the
+     * multiplied matrices do not have any properties for which there are optimized multiplication methods available.
+     * 
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4d mul0(Matrix4dc right) {
+       return mul0(right, this);
+    }
+
+    public Matrix4d mul0(Matrix4dc right, Matrix4d dest) {
         double nm00 = Math.fma(m00, right.m00(), Math.fma(m10, right.m01(), Math.fma(m20, right.m02(), m30 * right.m03())));
         double nm01 = Math.fma(m01, right.m00(), Math.fma(m11, right.m01(), Math.fma(m21, right.m02(), m31 * right.m03())));
         double nm02 = Math.fma(m02, right.m00(), Math.fma(m12, right.m01(), Math.fma(m22, right.m02(), m32 * right.m03())));
