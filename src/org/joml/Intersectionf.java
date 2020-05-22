@@ -1741,7 +1741,7 @@ public class Intersectionf {
         float acX = cX - aX, acY = cY - aY, acZ = cZ - aZ;
         float dX = pX - aX, dY = pY - aY, dZ = pZ - aZ;
         float qX = aX, qY = aY, qZ = aZ;
-        float dist = dX * abX + dY + abY + dZ * abZ;
+        float dist = dX * abX + dY * abY + dZ * abZ;
         float maxdist = abX * abX + abY * abY + abZ * abZ;
         if (dist >= maxdist) {
             qX += abX;

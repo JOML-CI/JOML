@@ -1710,7 +1710,7 @@ public class Intersectiond {
         double acX = cX - aX, acY = cY - aY, acZ = cZ - aZ;
         double dX = pX - aX, dY = pY - aY, dZ = pZ - aZ;
         double qX = aX, qY = aY, qZ = aZ;
-        double dist = dX * abX + dY + abY + dZ * abZ;
+        double dist = dX * abX + dY * abY + dZ * abZ;
         double maxdist = abX * abX + abY * abY + abZ * abZ;
         if (dist >= maxdist) {
             qX += abX;
