@@ -592,7 +592,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i sub(Vector3ic v) {
         this.x = this.x - v.x();
@@ -617,7 +617,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the y component to subtract
      * @param z
      *          the z component to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i sub(int x, int y, int z) {
         this.x = this.x - x;
@@ -638,7 +638,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i add(Vector3ic v) {
         this.x = this.x + v.x();
@@ -663,7 +663,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the y component to add
      * @param z
      *          the z component to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i add(int x, int y, int z) {
         this.x = this.x + x;
@@ -685,7 +685,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * 
      * @param scalar
      *          the scalar to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i mul(int scalar) {
         this.x = x * scalar;
@@ -706,7 +706,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the vector to multiply
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i mul(Vector3ic v) {
         this.x = this.x * v.x();
@@ -731,7 +731,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the y component to multiply
      * @param z
      *          the z component to multiply
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i mul(int x, int y, int z) {
         this.x = this.x * x;
@@ -752,7 +752,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param scalar
      *          the scalar to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i div(float scalar) {
         float invscalar = 1.0f / scalar;
@@ -775,7 +775,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param scalar
      *          the scalar to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i div(int scalar) {
         this.x = x / scalar;
@@ -909,7 +909,7 @@ public class Vector3i implements Externalizable, Vector3ic {
     /**
      * Set all components to zero.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i zero() {
         this.x = 0;
@@ -955,7 +955,7 @@ public class Vector3i implements Externalizable, Vector3ic {
     /**
      * Negate this vector.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i negate() {
         this.x = -x;
@@ -976,7 +976,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i min(Vector3ic v) {
         this.x = x < v.x() ? x : v.x();
@@ -997,7 +997,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i max(Vector3ic v) {
         this.x = x > v.x() ? x : v.x();
@@ -1040,7 +1040,7 @@ public class Vector3i implements Externalizable, Vector3ic {
     /**
      * Set <code>this</code> vector's components to their respective absolute values.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3i absolute() {
         this.x = Math.abs(this.x);

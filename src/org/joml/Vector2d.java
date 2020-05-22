@@ -508,7 +508,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d sub(Vector2dc v) {
         this.x = x - v.x();
@@ -523,7 +523,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the x component to subtract
      * @param y
      *          the y component to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d sub(double x, double y) {
         this.x = this.x - x;
@@ -542,7 +542,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d sub(Vector2fc v) {
         this.x = x - v.x();
@@ -567,7 +567,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param scalar
      *        the value to multiply this vector's components by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d mul(double scalar) {
         this.x = x * scalar;
@@ -588,7 +588,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the x component to multiply this vector by
      * @param y
      *          the y component to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d mul(double x, double y) {
         this.x = this.x * x;
@@ -607,7 +607,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d mul(Vector2dc v) {
         this.x = x * v.x();
@@ -626,7 +626,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param scalar
      *          the scalar to divide this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d div(double scalar) {
         double inv = 1.0 / scalar;
@@ -649,7 +649,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the x component to divide this vector by
      * @param y
      *          the y component to divide this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d div(double x, double y) {
         this.x = this.x / x;
@@ -668,7 +668,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d div(Vector2d v) {
         this.x = x / v.x();
@@ -681,7 +681,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d div(Vector2fc v) {
         this.x = x / v.x();
@@ -706,7 +706,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d mul(Matrix2fc mat) {
         double rx = mat.m00() * x + mat.m10() * y;
@@ -721,7 +721,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d mul(Matrix2dc mat) {
         double rx = mat.m00() * x + mat.m10() * y;
@@ -752,7 +752,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d mulTranspose(Matrix2dc mat) {
         double rx = mat.m00() * x + mat.m01() * y;
@@ -775,7 +775,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d mulTranspose(Matrix2fc mat) {
         double rx = mat.m00() * x + mat.m01() * y;
@@ -800,7 +800,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d mulPosition(Matrix3x2dc mat) {
         double rx = mat.m00() * x + mat.m10() * y + mat.m20();
@@ -825,7 +825,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d mulDirection(Matrix3x2dc mat) {
         double rx = mat.m00() * x + mat.m10() * y;
@@ -966,7 +966,7 @@ public class Vector2d implements Externalizable, Vector2dc {
     /**
      * Normalize this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d normalize() {
         double invLength = Math.invsqrt(x * x + y * y);
@@ -987,7 +987,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param length
      *          the desired length
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d normalize(double length) {
         double invLength = Math.invsqrt(x * x + y * y) * length;
@@ -1008,7 +1008,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d add(Vector2dc v) {
         this.x = x + v.x();
@@ -1023,7 +1023,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the x component to add
      * @param y
      *          the y component to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d add(double x, double y) {
         this.x = this.x + x;
@@ -1042,7 +1042,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * 
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d add(Vector2fc v) {
         this.x = x + v.x();
@@ -1065,7 +1065,7 @@ public class Vector2d implements Externalizable, Vector2dc {
     /**
      * Set all components to zero.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d zero() {
         this.x = 0;
@@ -1087,7 +1087,7 @@ public class Vector2d implements Externalizable, Vector2dc {
     /**
      * Negate this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d negate() {
         this.x = -x;
@@ -1112,7 +1112,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the other vector
      * @param t
      *          the interpolation factor between 0.0 and 1.0
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d lerp(Vector2dc other, double t) {
         this.x = x + (other.x() - x) * t;
@@ -1203,7 +1203,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d fma(Vector2dc a, Vector2dc b) {
         this.x = x + a.x() * b.x();
@@ -1218,7 +1218,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d fma(double a, Vector2dc b) {
         this.x = x + a * b.x();
@@ -1243,7 +1243,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d min(Vector2dc v) {
         this.x = x < v.x() ? x : v.x();
@@ -1262,7 +1262,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d max(Vector2dc v) {
         this.x = x > v.x() ? x : v.x();
@@ -1297,7 +1297,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * infinity) {@code double} value that is less than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d floor() {
         this.x = Math.floor(x);
@@ -1316,7 +1316,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * infinity) {@code double} value that is greater than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d ceil() {
         this.x = Math.ceil(x);
@@ -1334,7 +1334,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * Set each component of this vector to the closest double that is equal to
      * a mathematical integer, with ties rounding to positive infinity.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d round() {
         this.x = Math.round(x);
@@ -1355,7 +1355,7 @@ public class Vector2d implements Externalizable, Vector2dc {
     /**
      * Set <code>this</code> vector's components to their respective absolute values.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2d absolute() {
         this.x = Math.abs(this.x);

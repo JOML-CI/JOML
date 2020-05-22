@@ -1461,7 +1461,7 @@ public interface Matrix3fc {
      *          the z-coordinate of the plane normal
      * @param dest
      *          will hold the result
-     * @return a matrix holding the result
+     * @return this
      */
     Matrix3f reflect(float nx, float ny, float nz, Matrix3f dest);
 
@@ -1482,7 +1482,7 @@ public interface Matrix3fc {
      *          the plane orientation
      * @param dest
      *          will hold the result
-     * @return a matrix holding the result
+     * @return this
      */
     Matrix3f reflect(Quaternionfc orientation, Matrix3f dest);
 

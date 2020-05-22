@@ -677,7 +677,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i sub(Vector4ic v) {
         this.x = this.x - v.x();
@@ -698,7 +698,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the z component to subtract
      * @param w
      *          the w component to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i sub(int x, int y, int z, int w) {
         this.x = this.x - x;
@@ -729,7 +729,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i add(Vector4ic v) {
         this.x = this.x + v.x();
@@ -758,7 +758,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *          the z component to add
      * @param w
      *          the w component to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i add(int x, int y, int z, int w) {
         this.x = this.x + x;
@@ -781,7 +781,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i mul(Vector4ic v) {
         this.x = x * v.x();
@@ -804,7 +804,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the vector to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i div(Vector4ic v) {
         this.x = x / v.x();
@@ -828,7 +828,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param scalar
      *          the scalar to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i mul(int scalar) {
         this.x = x * scalar;
@@ -851,7 +851,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param scalar
      *          the scalar to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i div(float scalar) {
         float invscalar = 1.0f / scalar;
@@ -876,7 +876,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param scalar
      *          the scalar to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i div(int scalar) {
         this.x = x / scalar;
@@ -1035,7 +1035,7 @@ public class Vector4i implements Externalizable, Vector4ic {
     /**
      * Set all components to zero.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i zero() {
         x = 0;
@@ -1048,7 +1048,7 @@ public class Vector4i implements Externalizable, Vector4ic {
     /**
      * Negate this vector.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i negate() {
         this.x = -x;
@@ -1107,7 +1107,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i min(Vector4ic v) {
         this.x = x < v.x() ? x : v.x();
@@ -1130,7 +1130,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4i max(Vector4ic v) {
         this.x = x > v.x() ? x : v.x();

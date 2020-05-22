@@ -606,7 +606,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the vector to subtract from this
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d sub(Vector3dc v) {
         this.x = x - v.x();
@@ -627,7 +627,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the vector to subtract from this
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d sub(Vector3fc v) {
         this.x = x - v.x();
@@ -652,7 +652,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the y component to subtract
      * @param z
      *          the z component to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d sub(double x, double y, double z) {
         this.x = this.x - x;
@@ -673,7 +673,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d add(Vector3dc v) {
         this.x = x + v.x();
@@ -694,7 +694,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d add(Vector3fc v) {
         this.x = x + v.x();
@@ -719,7 +719,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the y component to add
      * @param z
      *          the z component to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d add(double x, double y, double z) {
         this.x = this.x + x;
@@ -742,7 +742,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d fma(Vector3dc a, Vector3dc b) {
         this.x = Math.fma(a.x(), b.x(), x);
@@ -758,7 +758,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d fma(double a, Vector3dc b) {
         this.x = Math.fma(a, b.x(), x);
@@ -774,7 +774,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d fma(Vector3fc a, Vector3fc b) {
         this.x = Math.fma(a.x(), b.x(), x);
@@ -797,7 +797,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d fma(double a, Vector3fc b) {
         this.x = Math.fma(a, b.x(), x);
@@ -841,7 +841,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulAdd(Vector3dc a, Vector3dc b) {
         this.x = Math.fma(x, a.x(), b.x());
@@ -857,7 +857,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulAdd(double a, Vector3dc b) {
         this.x = Math.fma(x, a, b.x());
@@ -892,7 +892,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the vector to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mul(Vector3dc v) {
         this.x = x * v.x();
@@ -906,7 +906,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the vector to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mul(Vector3fc v) {
         this.x = x * v.x();
@@ -934,7 +934,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the vector to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d div(Vector3d v) {
         this.x = x / v.x();
@@ -948,7 +948,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the vector to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d div(Vector3fc v) {
         this.x = x / v.x();
@@ -1000,7 +1000,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulProject(Matrix4dc mat) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
@@ -1031,7 +1031,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulProject(Matrix4fc mat) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
@@ -1049,7 +1049,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mul(Matrix3fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1066,7 +1066,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mul(Matrix3dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1114,7 +1114,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mul(Matrix3x2dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1139,7 +1139,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mul(Matrix3x2fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1163,7 +1163,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulTranspose(Matrix3dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
@@ -1190,7 +1190,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulTranspose(Matrix3fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
@@ -1219,7 +1219,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulPosition(Matrix4fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
@@ -1238,7 +1238,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulPosition(Matrix4dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
@@ -1257,7 +1257,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulPosition(Matrix4x3dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
@@ -1276,7 +1276,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulPosition(Matrix4x3fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
@@ -1335,7 +1335,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulTransposePosition(Matrix4dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03())));
@@ -1364,7 +1364,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulTransposePosition(Matrix4fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03())));
@@ -1457,7 +1457,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulDirection(Matrix4fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1476,7 +1476,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulDirection(Matrix4dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1495,7 +1495,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulDirection(Matrix4x3dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1514,7 +1514,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulDirection(Matrix4x3fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
@@ -1573,7 +1573,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulTransposeDirection(Matrix4dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
@@ -1602,7 +1602,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mulTransposeDirection(Matrix4fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
@@ -1629,7 +1629,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param scalar
      *          the scalar to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mul(double scalar) {
         this.x = x * scalar;
@@ -1654,7 +1654,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the y component to multiply this vector by
      * @param z
      *          the z component to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d mul(double x, double y, double z) {
         this.x = this.x * x;
@@ -1677,7 +1677,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param quat
      *          the quaternion to rotate this vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d rotate(Quaterniondc quat) {
         return quat.transform(this, this);
@@ -1706,7 +1706,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the y component of the rotation axis
      * @param z
      *          the z component of the rotation axis
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d rotateAxis(double angle, double x, double y, double z) {
         if (y == 0.0 && z == 0.0 && Math.absEqualsOne(x))
@@ -1749,7 +1749,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d rotateX(double angle) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1775,7 +1775,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d rotateY(double angle) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1801,7 +1801,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d rotateZ(double angle) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1827,7 +1827,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param scalar
      *          the scalar to divide this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d div(double scalar) {
         double inv = 1.0 / scalar;
@@ -1854,7 +1854,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the y component to divide this vector by
      * @param z
      *          the z component to divide this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d div(double x, double y, double z) {
         this.x = this.x / x;
@@ -1911,7 +1911,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     /**
      * Normalize this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d normalize() {
         double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
@@ -1934,7 +1934,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param length
      *          the desired length
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d normalize(double length) {
         double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
@@ -1957,7 +1957,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d cross(Vector3dc v) {
         double rx = Math.fma(y, v.z(), -z * v.y());
@@ -1978,7 +1978,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the y component of the other vector
      * @param z
      *          the z component of the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d cross(double x, double y, double z) {
         double rx = Math.fma(this.y, z, -this.z * y);
@@ -2126,7 +2126,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d min(Vector3dc v) {
         this.x = x < v.x() ? x : v.x();
@@ -2147,7 +2147,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d max(Vector3dc v) {
         this.x = x > v.x() ? x : v.x();
@@ -2166,7 +2166,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     /**
      * Set all components to zero.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d zero() {
         this.x = 0;
@@ -2213,7 +2213,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     /**
      * Negate this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d negate() {
         this.x = -x;
@@ -2232,7 +2232,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     /**
      * Set <code>this</code> vector's components to their respective absolute values.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d absolute() {
         this.x = Math.abs(this.x);
@@ -2309,7 +2309,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param normal
      *          the vector to reflect about
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d reflect(Vector3dc normal) {
         double x = normal.x();
@@ -2331,7 +2331,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the y component of the normal
      * @param z
      *          the z component of the normal
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d reflect(double x, double y, double z) {
         double dot = Math.fma(this.x, x, Math.fma(this.y, y, this.z * z));
@@ -2365,7 +2365,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param other
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d half(Vector3dc other) {
         return this.set(this).add(other.x(), other.y(), other.z()).normalize();
@@ -2380,7 +2380,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the y component of the other vector
      * @param z
      *          the z component of the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d half(double x, double y, double z) {
         return this.set(this).add(x, y, z).normalize();
@@ -2423,7 +2423,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the other vector
      * @param t
      *          the interpolation factor between 0.0 and 1.0
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d lerp(Vector3dc other, double t) {
         this.x = Math.fma(other.x() - x, t, x);
@@ -2525,7 +2525,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the reference vector which the result should be orthogonal to
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d orthogonalize(Vector3dc v) {
         return orthogonalize(v, this);
@@ -2544,7 +2544,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * 
      * @param v
      *          the reference unit vector which the result should be orthogonal to
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d orthogonalizeUnit(Vector3dc v) {
         return orthogonalizeUnit(v, this);
@@ -2555,7 +2555,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * infinity) {@code double} value that is less than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d floor() {
         this.x = Math.floor(x);
@@ -2576,7 +2576,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * infinity) {@code double} value that is greater than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d ceil() {
         this.x = Math.ceil(x);
@@ -2596,7 +2596,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * Set each component of this vector to the closest double that is equal to
      * a mathematical integer, with ties rounding to positive infinity.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3d round() {
         this.x = Math.round(x);

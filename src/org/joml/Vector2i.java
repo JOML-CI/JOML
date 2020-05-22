@@ -496,7 +496,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i sub(Vector2ic v) {
         this.x = x - v.x();
@@ -517,7 +517,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the x component to subtract
      * @param y
      *          the y component to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i sub(int x, int y) {
         this.x = this.x - x;
@@ -638,7 +638,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i add(Vector2ic v) {
         this.x = x + v.x();
@@ -659,7 +659,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the x component to add
      * @param y
      *          the y component to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i add(int x, int y) {
         this.x = this.x + x;
@@ -679,7 +679,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * 
      * @param scalar
      *          the scalar to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i mul(int scalar) {
         this.x = x * scalar;
@@ -698,7 +698,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the vector to multiply
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i mul(Vector2ic v) {
         this.x = x * v.x();
@@ -719,7 +719,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the x component to multiply
      * @param y
      *          the y component to multiply
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i mul(int x, int y) {
         this.x = this.x * x;
@@ -736,7 +736,7 @@ public class Vector2i implements Externalizable, Vector2ic {
     /**
      * Set all components to zero.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i zero() {
         this.x = 0;
@@ -757,7 +757,7 @@ public class Vector2i implements Externalizable, Vector2ic {
     /**
      * Negate this vector.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i negate() {
         this.x = -x;
@@ -776,7 +776,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i min(Vector2ic v) {
         this.x = x < v.x() ? x : v.x();
@@ -795,7 +795,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i max(Vector2ic v) {
         this.x = x > v.x() ? x : v.x();
@@ -828,7 +828,7 @@ public class Vector2i implements Externalizable, Vector2ic {
     /**
      * Set <code>this</code> vector's components to their respective absolute values.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2i absolute() {
         this.x = Math.abs(this.x);

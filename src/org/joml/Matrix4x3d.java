@@ -3062,7 +3062,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      *          the y coordinate of the rotation origin
      * @param oz
      *          the z coordinate of the rotation origin
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4x3d rotateAround(Quaterniondc quat, double ox, double oy, double oz) {
         return rotateAround(quat, ox, oy, oz, this);

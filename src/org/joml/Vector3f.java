@@ -568,7 +568,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f sub(Vector3fc v) {
         this.x = x - v.x();
@@ -593,7 +593,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the y component to subtract
      * @param z
      *          the z component to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f sub(float x, float y, float z) {
         this.x = this.x - x;
@@ -614,7 +614,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f add(Vector3fc v) {
         this.x = this.x + v.x();
@@ -639,7 +639,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the y component to add
      * @param z
      *          the z component to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f add(float x, float y, float z) {
         this.x = this.x + x;
@@ -662,7 +662,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f fma(Vector3fc a, Vector3fc b) {
         this.x = Math.fma(a.x(), b.x(), x);
@@ -678,7 +678,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f fma(float a, Vector3fc b) {
         this.x = Math.fma(a, b.x(), x);
@@ -708,7 +708,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulAdd(Vector3fc a, Vector3fc b) {
         this.x = Math.fma(x, a.x(), b.x());
@@ -724,7 +724,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulAdd(float a, Vector3fc b) {
         this.x = Math.fma(x, a, b.x());
@@ -752,7 +752,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param v
      *          the vector to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mul(Vector3fc v) {
         this.x = x * v.x();
@@ -773,7 +773,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param v
      *          the vector to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f div(Vector3fc v) {
         this.x = this.x / v.x();
@@ -814,7 +814,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulProject(Matrix4fc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -830,7 +830,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mul(Matrix3fc mat) {
         float lx = x, ly = y, lz = z;
@@ -853,7 +853,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mul(Matrix3dc mat) {
         float lx = x, ly = y, lz = z;
@@ -876,7 +876,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mul(Matrix3x2fc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -899,7 +899,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulTranspose(Matrix3fc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -924,7 +924,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulPosition(Matrix4fc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -941,7 +941,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulPosition(Matrix4x3fc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -974,7 +974,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulTransposePosition(Matrix4fc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -1027,7 +1027,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulDirection(Matrix4dc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -1044,7 +1044,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulDirection(Matrix4fc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -1061,7 +1061,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulDirection(Matrix4x3fc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -1102,7 +1102,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mulTransposeDirection(Matrix4fc mat) {
         float x = this.x, y = this.y, z = this.z;
@@ -1126,7 +1126,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param scalar
      *          the scalar to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mul(float scalar) {
         this.x = this.x * scalar;
@@ -1151,7 +1151,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the y component to multiply this vector by
      * @param z
      *          the z component to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f mul(float x, float y, float z) {
         this.x = this.x * x;
@@ -1173,7 +1173,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param scalar
      *          the scalar to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f div(float scalar) {
         float inv = 1.0f / scalar;
@@ -1200,7 +1200,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the y component to divide this vector by
      * @param z
      *          the z component to divide this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f div(float x, float y, float z) {
         this.x = this.x / x;
@@ -1223,7 +1223,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param quat
      *          the quaternion to rotate this vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f rotate(Quaternionfc quat) {
         return quat.transform(this, this);
@@ -1252,7 +1252,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the y component of the rotation axis
      * @param z
      *          the z component of the rotation axis
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f rotateAxis(float angle, float x, float y, float z) {
         if (y == 0.0f && z == 0.0f && Math.absEqualsOne(x))
@@ -1292,7 +1292,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f rotateX(float angle) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1318,7 +1318,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f rotateY(float angle) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1344,7 +1344,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f rotateZ(float angle) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1406,7 +1406,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Normalize this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f normalize() {
         float scalar = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
@@ -1429,7 +1429,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param length
      *          the desired length
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f normalize(float length) {
         float scalar = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
@@ -1452,7 +1452,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f cross(Vector3fc v) {
         float rx = Math.fma(y, v.z(), -z * v.y());
@@ -1473,7 +1473,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the y component of the other vector
      * @param z
      *          the z component of the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f cross(float x, float y, float z) {
         float rx = Math.fma(this.y, z, -this.z * y);
@@ -1618,7 +1618,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f min(Vector3fc v) {
         float x = this.x, y = this.y, z = this.z;
@@ -1641,7 +1641,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f max(Vector3fc v) {
         float x = this.x, y = this.y, z = this.z;
@@ -1662,7 +1662,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Set all components to zero.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f zero() {
         this.x = 0;
@@ -1707,7 +1707,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Negate this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f negate() {
         this.x = -x;
@@ -1726,7 +1726,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Set <code>this</code> vector's components to their respective absolute values.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f absolute() {
         this.x = Math.abs(this.x);
@@ -1799,7 +1799,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param normal
      *          the vector to reflect about
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f reflect(Vector3fc normal) {
         float x = normal.x();
@@ -1821,7 +1821,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the y component of the normal
      * @param z
      *          the z component of the normal
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f reflect(float x, float y, float z) {
         float dot = Math.fma(this.x, x, Math.fma(this.y, y, this.z * z));
@@ -1848,7 +1848,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param other
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f half(Vector3fc other) {
         return this.set(this).add(other.x(), other.y(), other.z()).normalize();
@@ -1863,7 +1863,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the y component of the other vector
      * @param z
      *          the z component of the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f half(float x, float y, float z) {
         return half(x, y, z, this);
@@ -1908,7 +1908,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the other vector
      * @param t
      *          the interpolation factor between 0.0 and 1.0
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f lerp(Vector3fc other, float t) {
         return lerp(other, t, this);
@@ -2007,7 +2007,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param v
      *          the reference vector which the result should be orthogonal to
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f orthogonalize(Vector3fc v) {
         return orthogonalize(v, this);
@@ -2026,7 +2026,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * 
      * @param v
      *          the reference unit vector which the result should be orthogonal to
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f orthogonalizeUnit(Vector3fc v) {
         return orthogonalizeUnit(v, this);
@@ -2037,7 +2037,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * infinity) {@code float} value that is less than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f floor() {
         return floor(this);
@@ -2055,7 +2055,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * infinity) {@code float} value that is greater than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f ceil() {
         return ceil(this);
@@ -2072,7 +2072,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * Set each component of this vector to the closest float that is equal to
      * a mathematical integer, with ties rounding to positive infinity.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector3f round() {
         return round(this);

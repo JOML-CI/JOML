@@ -3145,7 +3145,7 @@ public interface Matrix4fc {
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
-     * @return a matrix holding the result
+     * @return this
      */
     Matrix4f perspectiveRect(float width, float height, float zNear, float zFar, boolean zZeroToOne);
 
@@ -3168,7 +3168,7 @@ public interface Matrix4fc {
      * @param zFar
      *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
      *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
-     * @return a matrix holding the result
+     * @return this
      */
     Matrix4f perspectiveRect(float width, float height, float zNear, float zFar);
 
@@ -3274,7 +3274,7 @@ public interface Matrix4fc {
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
-     * @return a matrix holding the result
+     * @return this
      */
     Matrix4f perspectiveOffCenter(float fovy, float offAngleX, float offAngleY, float aspect, float zNear, float zFar, boolean zZeroToOne);
 
@@ -3306,7 +3306,7 @@ public interface Matrix4fc {
      * @param zFar
      *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
      *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
-     * @return a matrix holding the result
+     * @return this
      */
     Matrix4f perspectiveOffCenter(float fovy, float offAngleX, float offAngleY, float aspect, float zNear, float zFar);
 

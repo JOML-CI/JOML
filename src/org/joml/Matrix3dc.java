@@ -1539,7 +1539,7 @@ public interface Matrix3dc {
      *          the z-coordinate of the plane normal
      * @param dest
      *          will hold the result
-     * @return a matrix holding the result
+     * @return this
      */
     Matrix3d reflect(double nx, double ny, double nz, Matrix3d dest);
 
@@ -1560,7 +1560,7 @@ public interface Matrix3dc {
      *          the plane orientation
      * @param dest
      *          will hold the result
-     * @return a matrix holding the result
+     * @return this
      */
     Matrix3d reflect(Quaterniondc orientation, Matrix3d dest);
 

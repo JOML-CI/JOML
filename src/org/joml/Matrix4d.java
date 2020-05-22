@@ -4910,7 +4910,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the y coordinate of the rotation origin
      * @param oz
      *          the z coordinate of the rotation origin
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4d rotateAround(Quaterniondc quat, double ox, double oy, double oz) {
         return rotateAround(quat, ox, oy, oz, this);
@@ -12158,7 +12158,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4d perspectiveRect(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
         return perspectiveRect(width, height, zNear, zFar, zZeroToOne, this);
@@ -12188,7 +12188,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @param zFar
      *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
      *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4d perspectiveRect(double width, double height, double zNear, double zFar) {
         return perspectiveRect(width, height, zNear, zFar, this);
@@ -12369,7 +12369,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4d perspectiveOffCenter(double fovy, double offAngleX, double offAngleY, double aspect, double zNear, double zFar, boolean zZeroToOne) {
         return perspectiveOffCenter(fovy, offAngleX, offAngleY, aspect, zNear, zFar, zZeroToOne, this);
@@ -12408,7 +12408,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @param zFar
      *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
      *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4d perspectiveOffCenter(double fovy, double offAngleX, double offAngleY, double aspect, double zNear, double zFar) {
         return perspectiveOffCenter(fovy, offAngleX, offAngleY, aspect, zNear, zFar, this);

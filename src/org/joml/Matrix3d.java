@@ -4583,7 +4583,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      *          the y-coordinate of the plane normal
      * @param nz
      *          the z-coordinate of the plane normal
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix3d reflect(double nx, double ny, double nz) {
         return reflect(nx, ny, nz, this);
@@ -4621,7 +4621,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      * 
      * @param orientation
      *          the plane orientation
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix3d reflect(Quaterniondc orientation) {
         return reflect(orientation, this);

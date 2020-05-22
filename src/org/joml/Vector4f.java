@@ -686,7 +686,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f sub(Vector4fc v) {
         this.x = this.x - v.x();
@@ -707,7 +707,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the z component to subtract
      * @param w
      *          the w component to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f sub(float x, float y, float z, float w) {
         this.x = this.x - x;
@@ -738,7 +738,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f add(Vector4fc v) {
         this.x = x + v.x();
@@ -767,7 +767,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the z component to add
      * @param w
      *          the w component to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f add(float x, float y, float z, float w) {
         this.x = this.x + x;
@@ -792,7 +792,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f fma(Vector4fc a, Vector4fc b) {
         this.x = Math.fma(a.x(), b.x(), x);
@@ -809,7 +809,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f fma(float a, Vector4fc b) {
         this.x = Math.fma(a, b.x(), x);
@@ -842,7 +842,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f mulAdd(Vector4fc a, Vector4fc b) {
         this.x = Math.fma(x, a.x(), b.x());
@@ -858,7 +858,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f mulAdd(float a, Vector4fc b) {
         this.x = Math.fma(x, a, b.x());
@@ -886,7 +886,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f mul(Vector4fc v) {
         this.x = x * v.x();
@@ -909,7 +909,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param v
      *          the vector to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f div(Vector4fc v) {
         this.x = x / v.x();
@@ -933,7 +933,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param mat
      *          the matrix to multiply the vector with
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f mul(Matrix4fc mat) {
         if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
@@ -952,7 +952,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param mat
      *          the matrix whose transpose to multiply the vector with
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f mulTranspose(Matrix4fc mat) {
         if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
@@ -1006,7 +1006,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param mat
      *          the matrix to multiply the vector with
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f mul(Matrix4x3fc mat) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
@@ -1041,7 +1041,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f mulProject(Matrix4fc mat) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
@@ -1068,7 +1068,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param scalar
      *          the scalar to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f mul(float scalar) {
         this.x = x * scalar;
@@ -1097,7 +1097,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the z component to multiply by
      * @param w
      *          the w component to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f mul(float x, float y, float z, float w) {
         this.x = this.x * x;
@@ -1121,7 +1121,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param scalar
      *          the scalar to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f div(float scalar) {
         float inv = 1.0f / scalar;
@@ -1152,7 +1152,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the z component to divide by
      * @param w
      *          the w component to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f div(float x, float y, float z, float w) {
         this.x = this.x / x;
@@ -1177,7 +1177,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param quat
      *          the quaternion to rotate this vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f rotate(Quaternionfc quat) {
         return quat.transform(this, this);
@@ -1198,7 +1198,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the y component of the rotation axis
      * @param z
      *          the z component of the rotation axis
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f rotateAbout(float angle, float x, float y, float z) {
         if (y == 0.0f && z == 0.0f && Math.absEqualsOne(x))
@@ -1238,7 +1238,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f rotateX(float angle) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1265,7 +1265,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f rotateY(float angle) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1292,7 +1292,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f rotateZ(float angle) {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1361,7 +1361,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     /**
      * Normalizes this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f normalize() {
         float invLength = 1.0f / length();
@@ -1386,7 +1386,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * 
      * @param length
      *          the desired length
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f normalize(float length) {
         float invLength = 1.0f / length() * length;
@@ -1409,7 +1409,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     /**
      * Normalize this vector by computing only the norm of <code>(x, y, z)</code>.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f normalize3() {
         float invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
@@ -1546,7 +1546,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     /**
      * Set all components to zero.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f zero() {
         this.x = 0;
@@ -1559,7 +1559,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     /**
      * Negate this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f negate() {
         this.x = -x;
@@ -1615,7 +1615,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f min(Vector4fc v) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
@@ -1640,7 +1640,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f max(Vector4fc v) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
@@ -1752,7 +1752,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the other vector
      * @param t
      *          the interpolation factor between 0.0 and 1.0
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f lerp(Vector4fc other, float t) {
         this.x = Math.fma(other.x() - x, t, x);
@@ -1844,7 +1844,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * infinity) {@code float} value that is less than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f floor() {
         this.x = Math.floor(x);
@@ -1867,7 +1867,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * infinity) {@code float} value that is greater than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f ceil() {
         this.x = Math.ceil(x);
@@ -1889,7 +1889,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * Set each component of this vector to the closest float that is equal to
      * a mathematical integer, with ties rounding to positive infinity.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4f round() {
         this.x = Math.round(x);

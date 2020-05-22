@@ -3797,7 +3797,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      *          the y coordinate of the rotation origin
      * @param oz
      *          the z coordinate of the rotation origin
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4x3f rotateAround(Quaternionfc quat, float ox, float oy, float oz) {
         return rotateAround(quat, ox, oy, oz, this);
@@ -4091,7 +4091,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * 
      * @param ang
      *            the angle in radians to rotate about the X axis
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4x3f rotateLocalX(float ang) {
         return rotateLocalX(ang, this);
@@ -4172,7 +4172,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * 
      * @param ang
      *            the angle in radians to rotate about the Y axis
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4x3f rotateLocalY(float ang) {
         return rotateLocalY(ang, this);
@@ -4253,7 +4253,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * 
      * @param ang
      *            the angle in radians to rotate about the Z axis
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix4x3f rotateLocalZ(float ang) {
         return rotateLocalZ(ang, this);

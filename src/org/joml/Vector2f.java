@@ -502,7 +502,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f sub(Vector2fc v) {
         this.x = x - v.x();
@@ -523,7 +523,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the x component to subtract
      * @param y
      *          the y component to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f sub(float x, float y) {
         this.x = this.x - x;
@@ -648,7 +648,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Normalize this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f normalize() {
         float invLength = Math.invsqrt(x * x + y * y);
@@ -669,7 +669,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param length
      *          the desired length
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f normalize(float length) {
         float invLength = Math.invsqrt(x * x + y * y) * length;
@@ -690,7 +690,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param v
      *        the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f add(Vector2fc v) {
         this.x = x + v.x();
@@ -711,7 +711,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the x component to add
      * @param y
      *          the y component to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f add(float x, float y) {
         return add(x, y, this);
@@ -726,7 +726,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Set all components to zero.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f zero() {
         this.x = 0;
@@ -748,7 +748,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Negate this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f negate() {
         this.x = -x;
@@ -767,7 +767,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param scalar
      *        the value to multiply this vector's components by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f mul(float scalar) {
         this.x = x * scalar;
@@ -788,7 +788,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the x component to multiply this vector by
      * @param y
      *          the y component to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f mul(float x, float y) {
         this.x = this.x * x;
@@ -807,7 +807,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param v
      *          the vector to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f mul(Vector2fc v) {
         this.x = x * v.x();
@@ -826,7 +826,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param v
      *          the vector to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f div(Vector2fc v) {
         this.x = this.x / v.x();
@@ -846,7 +846,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param scalar
      *          the scalar to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f div(float scalar) {
         float inv = 1.0f / scalar;
@@ -869,7 +869,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the x component to divide this vector by
      * @param y
      *          the y component to divide this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f div(float x, float y) {
         this.x = this.x / x;
@@ -888,7 +888,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f mul(Matrix2fc mat) {
         float rx = mat.m00() * x + mat.m10() * y;
@@ -911,7 +911,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f mul(Matrix2dc mat) {
         double rx = mat.m00() * x + mat.m10() * y;
@@ -934,7 +934,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *
      * @param mat
      *          the matrix
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f mulTranspose(Matrix2fc mat) {
         float rx = mat.m00() * x + mat.m01() * y;
@@ -959,7 +959,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f mulPosition(Matrix3x2fc mat) {
         this.x = mat.m00() * x + mat.m10() * y + mat.m20();
@@ -980,7 +980,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f mulDirection(Matrix3x2fc mat) {
         this.x = mat.m00() * x + mat.m10() * y;
@@ -1005,7 +1005,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the other vector
      * @param t
      *          the interpolation factor between 0.0 and 1.0
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f lerp(Vector2fc other, float t) {
         this.x = x + (other.x() - x) * t;
@@ -1093,7 +1093,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f fma(Vector2fc a, Vector2fc b) {
         this.x = x + a.x() * b.x();
@@ -1108,7 +1108,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f fma(float a, Vector2fc b) {
         this.x = x + a * b.x();
@@ -1133,7 +1133,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f min(Vector2fc v) {
         this.x = x < v.x() ? x : v.x();
@@ -1152,7 +1152,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f max(Vector2fc v) {
         this.x = x > v.x() ? x : v.x();
@@ -1187,7 +1187,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * infinity) {@code float} value that is less than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f floor() {
         this.x = Math.floor(x);
@@ -1204,7 +1204,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Ceil each component of this vector
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f ceil() {
         this.x = Math.ceil(x);
@@ -1222,7 +1222,7 @@ public class Vector2f implements Externalizable, Vector2fc {
      * Set each component of this vector to the closest float that is equal to
      * a mathematical integer, with ties rounding to positive infinity.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f round() {
         this.x = Math.ceil(x);
@@ -1243,7 +1243,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     /**
      * Set <code>this</code> vector's components to their respective absolute values.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector2f absolute() {
         this.x = Math.abs(this.x);

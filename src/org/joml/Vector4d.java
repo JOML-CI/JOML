@@ -774,7 +774,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d sub(Vector4dc v) {
         this.x = x - v.x();
@@ -806,7 +806,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param v
      *          the vector to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d sub(Vector4fc v) {
         this.x = x - v.x();
@@ -844,7 +844,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the z component to subtract
      * @param w
      *          the w component to subtract
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d sub(double x, double y, double z, double w) {
         this.x = this.x - x;
@@ -867,7 +867,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d add(Vector4dc v) {
         this.x = x + v.x();
@@ -904,7 +904,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the z component to add
      * @param w
      *          the w component to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d add(double x, double y, double z, double w) {
         this.x = this.x + x;
@@ -927,7 +927,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param v
      *          the vector to add
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d add(Vector4fc v) {
         this.x = x + v.x();
@@ -944,7 +944,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d fma(Vector4dc a, Vector4dc b) {
         this.x = Math.fma(a.x(), b.x(), x);
@@ -961,7 +961,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d fma(double a, Vector4dc b) {
         this.x = Math.fma(a, b.x(), x);
@@ -994,7 +994,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mulAdd(Vector4dc a, Vector4dc b) {
         this.x = Math.fma(x, a.x(), b.x());
@@ -1010,7 +1010,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the first multiplicand
      * @param b
      *          the second multiplicand
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mulAdd(double a, Vector4dc b) {
         this.x = Math.fma(x, a, b.x());
@@ -1038,7 +1038,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param v
      *          the vector to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mul(Vector4dc v) {
         this.x = x * v.x();
@@ -1061,7 +1061,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param v
      *          the vector to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d div(Vector4dc v) {
         this.x = x / v.x();
@@ -1084,7 +1084,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param v
      *          the vector to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mul(Vector4fc v) {
         this.x = x * v.x();
@@ -1107,7 +1107,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param mat
      *          the matrix to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mul(Matrix4dc mat) {
         if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
@@ -1127,7 +1127,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param mat
      *          the matrix whose transpose to multiply the vector with
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mulTranspose(Matrix4dc mat) {
         if ((mat.properties() & Matrix4dc.PROPERTY_AFFINE) != 0)
@@ -1186,7 +1186,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param mat
      *          the matrix to multiply the vector with
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mul(Matrix4x3dc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
@@ -1215,7 +1215,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param mat
      *          the matrix to multiply the vector with
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mul(Matrix4x3fc mat) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
@@ -1243,7 +1243,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param mat
      *          the matrix to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mul(Matrix4fc mat) {
         if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
@@ -1295,7 +1295,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param mat
      *          the matrix to multiply this vector by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mulProject(Matrix4dc mat) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
@@ -1325,7 +1325,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param scalar
      *          the scalar to multiply by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d mul(double scalar) {
         this.x = x * scalar;
@@ -1348,7 +1348,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param scalar
      *          the scalar to divide by
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d div(double scalar) {
         double inv = 1.0 / scalar;
@@ -1375,7 +1375,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param quat
      *          the quaternion to transform this vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d rotate(Quaterniondc quat) {
         quat.transform(this, this);
@@ -1398,7 +1398,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the y component of the rotation axis
      * @param z
      *          the z component of the rotation axis
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d rotateAxis(double angle, double x, double y, double z) {
         if (y == 0.0 && z == 0.0 && Math.absEqualsOne(x))
@@ -1440,7 +1440,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d rotateX(double angle) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1467,7 +1467,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d rotateY(double angle) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1494,7 +1494,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param angle
      *          the angle in radians
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d rotateZ(double angle) {
         double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
@@ -1559,7 +1559,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     /**
      * Normalizes this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d normalize() {
         double invLength = 1.0 / length();
@@ -1584,7 +1584,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * 
      * @param length
      *          the desired length
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d normalize(double length) {
         double invLength = 1.0 / length() * length;
@@ -1607,7 +1607,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     /**
      * Normalize this vector by computing only the norm of <code>(x, y, z)</code>.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d normalize3() {
         double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
@@ -1743,7 +1743,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     /**
      * Set all components to zero.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d zero() {
         this.x = 0;
@@ -1756,7 +1756,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     /**
      * Negate this vector.
      * 
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d negate() {
         this.x = -x;
@@ -1779,7 +1779,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d min(Vector4dc v) {
         this.x = x < v.x() ? x : v.x();
@@ -1802,7 +1802,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *
      * @param v
      *          the other vector
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d max(Vector4dc v) {
         this.x = x > v.x() ? x : v.x();
@@ -1952,7 +1952,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the other vector
      * @param t
      *          the interpolation factor between 0.0 and 1.0
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d lerp(Vector4dc other, double t) {
         this.x = Math.fma(other.x() - x, t, x);
@@ -2044,7 +2044,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * infinity) {@code double} value that is less than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d floor() {
         this.x = Math.floor(x);
@@ -2067,7 +2067,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * infinity) {@code double} value that is greater than or equal to that
      * component and is equal to a mathematical integer.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d ceil() {
         this.x = Math.ceil(x);
@@ -2089,7 +2089,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * Set each component of this vector to the closest double that is equal to
      * a mathematical integer, with ties rounding to positive infinity.
      *
-     * @return a vector holding the result
+     * @return this
      */
     public Vector4d round() {
         this.x = Math.round(x);

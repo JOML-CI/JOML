@@ -3992,7 +3992,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the y-coordinate of the plane normal
      * @param nz
      *          the z-coordinate of the plane normal
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix3f reflect(float nx, float ny, float nz) {
         return reflect(nx, ny, nz, this);
@@ -4030,7 +4030,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * 
      * @param orientation
      *          the plane orientation
-     * @return a matrix holding the result
+     * @return this
      */
     public Matrix3f reflect(Quaternionfc orientation) {
         return reflect(orientation, this);
