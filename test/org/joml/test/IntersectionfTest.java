@@ -36,6 +36,7 @@ import org.joml.Matrix3f;
  * Tests for the {@link Intersectionf} class.
  * 
  * @author Kai Burjack
+ * @author Dmitrii Ivaniusin
  */
 public class IntersectionfTest extends TestCase {
 
@@ -330,6 +331,28 @@ public class IntersectionfTest extends TestCase {
         c0 = new Vector3f(0, 0, a + EPSILON);
         intersects = Intersectionf.testObOb(c0, ux0, uy0, uz0, hs0, c1, ux1, uy1, uz1, hs1);
         assertFalse(intersects); // <- they do not intersect
+    }
+
+    public static void testFindClosestPointOnRectangle() {
+        final float EPSILON = 1E-4f;
+        Vector3f a = new Vector3f(0, 0, 0);
+        Vector3f b = new Vector3f(0, 1f, 0);
+        Vector3f c = new Vector3f(1f, 0, 0);
+        Vector3f p1 = new Vector3f(0.5f, 0.5f, 0);
+        Vector3f v1 = Intersectionf.findClosestPointOnRectangle(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, p1.x, p1.y, p1.z, new Vector3f());
+        TestUtil.assertVector3fEquals(new Vector3f(0.5f, 0.5f, 0), v1, EPSILON);
+        Vector3f p2 = new Vector3f(-1f, -0.5f, 0);
+        Vector3f v2 = Intersectionf.findClosestPointOnRectangle(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, p2.x, p2.y, p2.z, new Vector3f());
+        TestUtil.assertVector3fEquals(new Vector3f(0, 0, 0), v2, EPSILON);
+        Vector3f p3 = new Vector3f(-0.5f, 2f, 0);
+        Vector3f v3 = Intersectionf.findClosestPointOnRectangle(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, p3.x, p3.y, p3.z, new Vector3f());
+        TestUtil.assertVector3fEquals(new Vector3f(0, 1f, 0), v3, EPSILON);
+        Vector3f p4 = new Vector3f(-1f, 0.5f, 0);
+        Vector3f v4 = Intersectionf.findClosestPointOnRectangle(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, p4.x, p4.y, p4.z, new Vector3f());
+        TestUtil.assertVector3fEquals(new Vector3f(0, 0.5f, 0), v4, EPSILON);
+        Vector3f p5 = new Vector3f(0.5f, 1f, 0);
+        Vector3f v5 = Intersectionf.findClosestPointOnRectangle(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, p5.x, p5.y, p5.z, new Vector3f());
+        TestUtil.assertVector3fEquals(new Vector3f(0.5f, 1f, 0), v5, EPSILON);
     }
 
 }
