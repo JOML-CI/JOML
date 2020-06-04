@@ -275,7 +275,7 @@ public class FrustumIntersection {
      * Test whether the given sphere is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>true</code> for spheres that are actually not visible.
+     * can occur, when the method returns <code>true</code> for spheres that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param center
@@ -293,7 +293,7 @@ public class FrustumIntersection {
      * Test whether the given sphere is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>true</code> for spheres that are actually not visible.
+     * can occur, when the method returns <code>true</code> for spheres that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param x
@@ -320,7 +320,7 @@ public class FrustumIntersection {
      * Determine whether the given sphere is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>true</code> for spheres that are actually not visible.
+     * can occur, when the method returns {@link #INTERSECT} for spheres that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param center
@@ -338,7 +338,7 @@ public class FrustumIntersection {
      * Determine whether the given sphere is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>true</code> for spheres that are actually not visible.
+     * can occur, when the method returns {@link #INTERSECT} for spheres that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param x
@@ -388,7 +388,7 @@ public class FrustumIntersection {
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for boxes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns <code>true</code> for boxes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
@@ -406,7 +406,7 @@ public class FrustumIntersection {
      * The box is specified via its min and max corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for boxes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns <code>true</code> for boxes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
@@ -443,7 +443,7 @@ public class FrustumIntersection {
      * The plane is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for planes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns <code>true</code> for planes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
@@ -461,7 +461,7 @@ public class FrustumIntersection {
      * The plane is specified via its min and max corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for planes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns <code>true</code> for planes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
@@ -494,7 +494,7 @@ public class FrustumIntersection {
      * The plane is specified via its min and max corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for planes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns <code>true</code> for planes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
@@ -528,7 +528,7 @@ public class FrustumIntersection {
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for boxes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns {@link #INTERSECT} for boxes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
@@ -549,7 +549,7 @@ public class FrustumIntersection {
      * The box is specified via its min and max corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for boxes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns {@link #INTERSECT} for boxes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
@@ -643,7 +643,7 @@ public class FrustumIntersection {
      * a mask of <code>(~0 ^ PLANE_MASK_NX)</code>.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for boxes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns {@link #INTERSECT} for boxes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
@@ -675,7 +675,7 @@ public class FrustumIntersection {
      * a mask of <code>(~0 ^ PLANE_MASK_NX)</code>.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for boxes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns {@link #INTERSECT} for boxes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
@@ -753,7 +753,7 @@ public class FrustumIntersection {
      * cull it now (temporal coherency) and the culling computation is likely reduced in that case.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for boxes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns {@link #INTERSECT} for boxes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
@@ -793,7 +793,7 @@ public class FrustumIntersection {
      * cull it now (temporal coherency) and the culling computation is likely reduced in that case.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <code>-1</code> for boxes that are actually not visible/do not intersect the frustum.
+     * can occur, when the method returns {@link #INTERSECT} for boxes that do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
