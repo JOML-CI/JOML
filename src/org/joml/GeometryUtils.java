@@ -199,9 +199,9 @@ public class GeometryUtils {
 
         float f = 1.0f / (DeltaU1 * (uv3.y() - uv1.y()) - DeltaU2 * (uv2.y() - uv1.y()));
 
-        dest.x = f * (-DeltaU2 * (v2.x() - v1.x()) - DeltaU1 * (v3.x() - v1.x()));
-        dest.y = f * (-DeltaU2 * (v2.y() - v1.y()) - DeltaU1 * (v3.y() - v1.y()));
-        dest.z = f * (-DeltaU2 * (v2.z() - v1.z()) - DeltaU1 * (v3.z() - v1.z()));
+        dest.x = f * (-DeltaU2 * (v2.x() - v1.x()) + DeltaU1 * (v3.x() - v1.x()));
+        dest.y = f * (-DeltaU2 * (v2.y() - v1.y()) + DeltaU1 * (v3.y() - v1.y()));
+        dest.z = f * (-DeltaU2 * (v2.z() - v1.z()) + DeltaU1 * (v3.z() - v1.z()));
         dest.normalize();
     }
 
@@ -238,9 +238,9 @@ public class GeometryUtils {
         destTangent.z = f * (DeltaV2 * (v2.z() - v1.z()) - DeltaV1 * (v3.z() - v1.z()));
         destTangent.normalize();
 
-        destBitangent.x = f * (-DeltaU2 * (v2.x() - v1.x()) - DeltaU1 * (v3.x() - v1.x()));
-        destBitangent.y = f * (-DeltaU2 * (v2.y() - v1.y()) - DeltaU1 * (v3.y() - v1.y()));
-        destBitangent.z = f * (-DeltaU2 * (v2.z() - v1.z()) - DeltaU1 * (v3.z() - v1.z()));
+        destBitangent.x = f * (-DeltaU2 * (v2.x() - v1.x()) + DeltaU1 * (v3.x() - v1.x()));
+        destBitangent.y = f * (-DeltaU2 * (v2.y() - v1.y()) + DeltaU1 * (v3.y() - v1.y()));
+        destBitangent.z = f * (-DeltaU2 * (v2.z() - v1.z()) + DeltaU1 * (v3.z() - v1.z()));
         destBitangent.normalize();
     }
 
