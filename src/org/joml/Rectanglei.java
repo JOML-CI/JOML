@@ -207,6 +207,92 @@ public class Rectanglei implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> to the union of <code>this</code> and the given point <code>p</code>.
+     *
+     * @param x
+     *          the x coordinate of the point
+     * @param y
+     *          the y coordinate of the point
+     * @return this
+     */
+    public Rectanglei union(int x, int y) {
+        return union(x,y, this);
+    }
+
+
+    /**
+     * Set <code>this</code> to the union of <code>this</code> and the given point <code>p</code>.
+     *
+     * @param p
+     *          the point
+     * @return this
+     */
+    public Rectanglei union(Vector2ic p) {
+        return union(p.x(), p.y(), this);
+    }
+
+    /**
+     * Compute the union of <code>this</code> and the given point <code>(x, y, z)</code> and store the result in <code>dest</code>.
+     *
+     * @param x
+     *          the x coordinate of the point
+     * @param y
+     *          the y coordinate of the point
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglei union(int x, int y, Rectanglei dest) {
+        dest.minX = this.minX < x ? this.minX : x;
+        dest.minY = this.minY < y ? this.minY : y;
+        dest.maxX = this.maxX > x ? this.maxX : x;
+        dest.maxY = this.maxY > y ? this.maxY : y;
+        return dest;
+    }
+
+    /**
+     * Compute the union of <code>this</code> and the given point <code>p</code> and store the result in <code>dest</code>.
+     *
+     * @param p
+     *          the point
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglei union(Vector2ic p, Rectanglei dest) {
+        return union(p.x(), p.y(), dest);
+    }
+
+    /**
+     * Set <code>this</code> to the union of <code>this</code> and <code>other</code>.
+     *
+     * @param other
+     *          the other {@link Rectanglei}
+     * @return this
+     */
+    public Rectanglei union(Rectanglei other) {
+        return this.union(other, this);
+    }
+
+    /**
+     * Compute the union of <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
+     *
+     * @param other
+     *          the other {@link Rectanglei}
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglei union(Rectanglei other, Rectanglei dest) {
+        dest.minX = this.minX < other.minX ? this.minX : other.minX;
+        dest.minY = this.minY < other.minY ? this.minY : other.minY;
+        dest.maxX = this.maxX > other.maxX ? this.maxX : other.maxX;
+        dest.maxY = this.maxY > other.maxY ? this.maxY : other.maxY;
+        return dest;
+    }
+
+
+    /**
      * Check if this and the given rectangle intersect.
      * 
      * @param other
