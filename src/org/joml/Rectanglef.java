@@ -108,6 +108,21 @@ public class Rectanglef implements Externalizable {
     }
 
     /**
+     * Set this {@link Rectanglei} to be a clone of <code>source</code>.
+     *
+     * @param source
+     *            the {@link Rectanglei} to copy from
+     * @return this
+     */
+    public Rectanglef set(Rectanglef source){
+        this.minX = source.minX;
+        this.minY = source.minY;
+        this.maxX = source.maxX;
+        this.maxY = source.maxY;
+        return this;
+    }
+
+    /**
      * Set the minimum corner coordinates.
      *
      * @param minX
