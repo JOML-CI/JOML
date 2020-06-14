@@ -108,6 +108,63 @@ public class Rectangled implements Externalizable {
     }
 
     /**
+     * Set the minimum corner coordinates.
+     *
+     * @param minX
+     *          the x coordinate of the minimum corner
+     * @param minY
+     *          the y coordinate of the minimum corner
+     * @return this
+     */
+    public Rectangled setMin(double minX, double minY) {
+        this.minX = minX;
+        this.minY = minY;
+        return this;
+    }
+
+    /**
+     * Set the minimum corner coordinates.
+     *
+     * @param min
+     *          the minimum coordinates
+     * @return this
+     */
+    public Rectangled setMin(Vector2dc min) {
+        this.minX = min.x();
+        this.minY = min.y();
+        return this;
+    }
+
+
+    /**
+     * Set the maximum corner coordinates.
+     *
+     * @param maxX
+     *              the x coordinate of the maximum corner
+     * @param maxY
+     *              the y coordinate of the maximum corner
+     * @return this
+     */
+    public Rectangled setMax(double maxX, double maxY) {
+        this.maxX = maxX;
+        this.maxY = maxY;
+        return this;
+    }
+
+    /**
+     * Set the maximum corner coordinates.
+     *
+     * @param max
+     *          the maximum coordinates
+     * @return this
+     */
+    public Rectangled setMax(Vector2dc max) {
+        this.maxX = max.x();
+        this.maxY = max.y();
+        return this;
+    }
+
+    /**
      * Return the length of the rectangle in the X dimension.
      *
      * @return length in the X dimension
