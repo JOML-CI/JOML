@@ -135,6 +135,90 @@ public class Rectanglef implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> to the union of <code>this</code> and the given point <code>p</code>.
+     *
+     * @param x
+     *          the x coordinate of the point
+     * @param y
+     *          the y coordinate of the point
+     * @return this
+     */
+    public Rectanglef union(float x, float y) {
+        return union(x, y, this);
+    }
+
+    /**
+     * Set <code>this</code> to the union of <code>this</code> and the given point <code>p</code>.
+     *
+     * @param p
+     *          the point
+     * @return this
+     */
+    public Rectanglef union(Vector2fc p) {
+        return union(p.x(), p.y(), this);
+    }
+
+    /**
+     * Compute the union of <code>this</code> and the given point <code>(x, y, z)</code> and store the result in <code>dest</code>.
+     *
+     * @param x
+     *          the x coordinate of the point
+     * @param y
+     *          the y coordinate of the point
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglef union(float x, float y, Rectanglef dest) {
+        dest.minX = this.minX < x ? this.minX : x;
+        dest.minY = this.minY < y ? this.minY : y;
+        dest.maxX = this.maxX > x ? this.maxX : x;
+        dest.maxY = this.maxY > y ? this.maxY : y;
+        return dest;
+    }
+
+    /**
+     * Compute the union of <code>this</code> and the given point <code>p</code> and store the result in <code>dest</code>.
+     *
+     * @param p
+     *          the point
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglef union(Vector2ic p, Rectanglef dest) {
+        return union(p.x(), p.y(), dest);
+    }
+
+    /**
+     * Set <code>this</code> to the union of <code>this</code> and <code>other</code>.
+     *
+     * @param other
+     *          the other {@link Rectanglef}
+     * @return this
+     */
+    public Rectanglef union(Rectanglef other) {
+        return this.union(other, this);
+    }
+
+    /**
+     * Compute the union of <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
+     *
+     * @param other
+     *          the other {@link Rectanglef}
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Rectanglef union(Rectanglef other, Rectanglef dest) {
+        dest.minX = this.minX < other.minX ? this.minX : other.minX;
+        dest.minY = this.minY < other.minY ? this.minY : other.minY;
+        dest.maxX = this.maxX > other.maxX ? this.maxX : other.maxX;
+        dest.maxY = this.maxY > other.maxY ? this.maxY : other.maxY;
+        return dest;
+    }
+
+    /**
      * Check if this and the given rectangle intersect.
      * 
      * @param other
