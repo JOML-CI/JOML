@@ -266,7 +266,7 @@ public class AABBi implements Externalizable {
      * @return dest
      */
     public Vector3f center(Vector3f dest) {
-        return dest.set(minX + ((maxX - minX) / 2.0), minY + ((maxY - minY) / 2.0), minZ + ((maxZ - minZ) / 2.0));
+        return dest.set(minX + ((maxX - minX) / 2.0f), minY + ((maxY - minY) / 2.0f), minZ + ((maxZ - minZ) / 2.0f));
     }
 
     /**
