@@ -260,6 +260,67 @@ public class AABBi implements Externalizable {
     }
 
     /**
+     * Return the length along the x component
+     *
+     * @return length in the x dimension
+     */
+    public int lengthX(){
+        return maxX - minX;
+    }
+
+    /**
+     * Return the length along the y component
+     *
+     * @return length in the y dimension
+     */
+    public int lengthY(){
+        return maxY - minY;
+    }
+
+    /**
+     * Return the length along the z component.
+     *
+     * @return length in the z dimension
+     */
+    public int lengthZ(){
+        return maxZ - minZ;
+    }
+
+    /**
+     * Get the size of the aabb.
+     *
+     * @param dest
+     *         will hold the result
+     * @return dest
+     */
+    public Vector3i getSize(Vector3i dest) {
+        return dest.set(maxX - minX, maxY - minY, maxZ - minZ);
+    }
+
+    /**
+     * Get the size of the aabb.
+     *
+     * @param dest
+     *         will hold the result
+     * @return dest
+     */
+    public Vector3f getSize(Vector3f dest) {
+        return dest.set(maxX - minX, maxY - minY, maxZ - minZ);
+    }
+
+    /**
+     * Get the size of the aabb.
+     *
+     * @param dest
+     *         will hold the result
+     * @return dest
+     */
+    public Vector3d getSize(Vector3d dest) {
+        return dest.set(maxX - minX, maxY - minY, maxZ - minZ);
+    }
+
+
+    /**
      * Set <code>this</code> to the union of <code>this</code> and the given point <code>(x, y, z)</code>.
      *
      * @param x
