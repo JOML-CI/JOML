@@ -294,6 +294,30 @@ public interface Vector2ic {
     Vector2i mul(int x, int y, Vector2i dest);
 
     /**
+     * Divide all components of this {@link Vector2i} by the given scalar value
+     * and store the result in <code>dest</code>.
+     *
+     * @param scalar
+     *          the scalar to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2i div(float scalar, Vector2i dest);
+
+    /**
+     * Divide all components of this {@link Vector2i} by the given scalar value
+     * and store the result in <code>dest</code>.
+     *
+     * @param scalar
+     *          the scalar to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2i div(int scalar, Vector2i dest);
+
+    /**
      * Negate this vector and store the result in <code>dest</code>.
      *
      * @param dest

@@ -734,6 +734,46 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 
     /**
+     * Divide all components of this {@link Vector2i} by the given scalar value.
+     *
+     * @param scalar
+     *          the scalar to divide by
+     * @return a vector holding the result
+     */
+    public Vector2i div(float scalar) {
+        float invscalar = 1.0f / scalar;
+        this.x = (int) (x * invscalar);
+        this.y = (int) (y * invscalar);
+        return this;
+    }
+
+    public Vector2i div(float scalar, Vector2i dest) {
+        float invscalar = 1.0f / scalar;
+        dest.x = (int) (x * invscalar);
+        dest.y = (int) (y * invscalar);
+        return dest;
+    }
+
+    /**
+     * Divide all components of this {@link Vector2i} by the given scalar value.
+     *
+     * @param scalar
+     *          the scalar to divide by
+     * @return a vector holding the result
+     */
+    public Vector2i div(int scalar) {
+        this.x = x / scalar;
+        this.y = y / scalar;
+        return this;
+    }
+
+    public Vector2i div(int scalar, Vector2i dest) {
+        dest.x = x / scalar;
+        dest.y = y / scalar;
+        return dest;
+    }
+    
+    /**
      * Set all components to zero.
      *
      * @return this
