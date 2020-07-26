@@ -106,11 +106,11 @@ public class AxisAngle4d implements Externalizable {
         float acos = Math.safeAcos(q.w());
         float invSqrt = Math.invsqrt(1.0f - q.w() * q.w());
         if (Float.isInfinite(invSqrt)) {
-        	this.x = 0.0;
-        	this.y = 0.0;
-        	this.z = 1.0;
+            this.x = 0.0;
+            this.y = 0.0;
+            this.z = 1.0;
         } else {
-        	this.x = q.x() * invSqrt;
+            this.x = q.x() * invSqrt;
             this.y = q.y() * invSqrt;
             this.z = q.z() * invSqrt;
         }
@@ -128,14 +128,14 @@ public class AxisAngle4d implements Externalizable {
      *            the quaternion from which to create the new AngleAxis4d
      */
     public AxisAngle4d(Quaterniondc q) {
-    	double acos = Math.safeAcos(q.w());
-    	double invSqrt = Math.invsqrt(1.0 - q.w() * q.w());
+        double acos = Math.safeAcos(q.w());
+        double invSqrt = Math.invsqrt(1.0 - q.w() * q.w());
         if (Double.isInfinite(invSqrt)) {
-        	this.x = 0.0;
-        	this.y = 0.0;
-        	this.z = 1.0;
+            this.x = 0.0;
+            this.y = 0.0;
+            this.z = 1.0;
         } else {
-        	this.x = q.x() * invSqrt;
+            this.x = q.x() * invSqrt;
             this.y = q.y() * invSqrt;
             this.z = q.z() * invSqrt;
         }
@@ -270,11 +270,11 @@ public class AxisAngle4d implements Externalizable {
         float acos = Math.safeAcos(q.w());
         float invSqrt = Math.invsqrt(1.0f - q.w() * q.w());
         if (Float.isInfinite(invSqrt)) {
-        	this.x = 0.0;
-        	this.y = 0.0;
-        	this.z = 1.0;
+            this.x = 0.0;
+            this.y = 0.0;
+            this.z = 1.0;
         } else {
-        	this.x = q.x() * invSqrt;
+            this.x = q.x() * invSqrt;
             this.y = q.y() * invSqrt;
             this.z = q.z() * invSqrt;
         }
@@ -291,14 +291,14 @@ public class AxisAngle4d implements Externalizable {
      * @return this
      */
     public AxisAngle4d set(Quaterniondc q) {
-    	double acos = Math.safeAcos(q.w());
-    	double invSqrt = Math.invsqrt(1.0f - q.w() * q.w());
+        double acos = Math.safeAcos(q.w());
+        double invSqrt = Math.invsqrt(1.0f - q.w() * q.w());
         if (Double.isInfinite(invSqrt)) {
-        	this.x = 0.0;
-        	this.y = 0.0;
-        	this.z = 1.0;
+            this.x = 0.0;
+            this.y = 0.0;
+            this.z = 1.0;
         } else {
-        	this.x = q.x() * invSqrt;
+            this.x = q.x() * invSqrt;
             this.y = q.y() * invSqrt;
             this.z = q.z() * invSqrt;
         }

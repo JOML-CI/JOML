@@ -93,11 +93,11 @@ public class AxisAngle4f implements Externalizable {
         float acos = Math.safeAcos(q.w());
         float invSqrt = Math.invsqrt(1.0f - q.w() * q.w());
         if (Float.isInfinite(invSqrt)) {
-        	this.x = 0.0f;
-        	this.y = 0.0f;
-        	this.z = 1.0f;
+            this.x = 0.0f;
+            this.y = 0.0f;
+            this.z = 1.0f;
         } else {
-        	this.x = q.x() * invSqrt;
+            this.x = q.x() * invSqrt;
             this.y = q.y() * invSqrt;
             this.z = q.z() * invSqrt;
         }
@@ -208,14 +208,14 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f set(Quaternionfc q) {
-    	float acos = Math.safeAcos(q.w());
+        float acos = Math.safeAcos(q.w());
         float invSqrt = Math.invsqrt(1.0f - q.w() * q.w());
         if (Float.isInfinite(invSqrt)) {
-        	this.x = 0.0f;
-        	this.y = 0.0f;
-        	this.z = 1.0f;
+            this.x = 0.0f;
+            this.y = 0.0f;
+            this.z = 1.0f;
         } else {
-        	this.x = q.x() * invSqrt;
+            this.x = q.x() * invSqrt;
             this.y = q.y() * invSqrt;
             this.z = q.z() * invSqrt;
         }
@@ -232,14 +232,14 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f set(Quaterniondc q) {
-    	double acos = Math.safeAcos(q.w());
-    	double invSqrt = Math.invsqrt(1.0 - q.w() * q.w());
+        double acos = Math.safeAcos(q.w());
+        double invSqrt = Math.invsqrt(1.0 - q.w() * q.w());
         if (Double.isInfinite(invSqrt)) {
-        	this.x = 0.0f;
-        	this.y = 0.0f;
-        	this.z = 1.0f;
+            this.x = 0.0f;
+            this.y = 0.0f;
+            this.z = 1.0f;
         } else {
-        	this.x = (float) (q.x() * invSqrt);
+            this.x = (float) (q.x() * invSqrt);
             this.y = (float) (q.y() * invSqrt);
             this.z = (float) (q.z() * invSqrt);
         }
