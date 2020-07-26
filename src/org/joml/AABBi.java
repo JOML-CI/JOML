@@ -260,6 +260,46 @@ public class AABBi implements Externalizable {
     }
 
     /**
+     * Return the center of the aabb
+     *
+     * @param dest will hold the result
+     * @return dest
+     */
+    public Vector3f center(Vector3f dest) {
+        return dest.set(minX + ((maxX - minX) / 2.0f), minY + ((maxY - minY) / 2.0f), minZ + ((maxZ - minZ) / 2.0f));
+    }
+
+    /**
+     * Return the center of the aabb
+     *
+     * @param dest will hold the result
+     * @return dest
+     */
+    public Vector3d center(Vector3d dest) {
+        return dest.set(minX + ((maxX - minX) / 2.0), minY + ((maxY - minY) / 2.0), minZ + ((maxZ - minZ) / 2.0));
+    }
+
+    /**
+     * Extent of the aabb (max - min) / 2.0.
+     *
+     * @param dest will hold the result
+     * @return dest
+     */
+    public Vector3d extent(Vector3d dest) {
+        return dest.set((maxX - minX) / 2.0, (maxY - minY) / 2.0, (maxZ - minZ) / 2.0);
+    }
+
+    /**
+     * Extent of the aabb (max - min) / 2.0.
+     *
+     * @param dest will hold the result
+     * @return dest
+     */
+    public Vector3f extent(Vector3f dest) {
+        return dest.set((maxX - minX) / 2.0f, (maxY - minY) / 2.0f, (maxZ - minZ) / 2.0f);
+    }
+
+    /**
      * Set <code>this</code> to the union of <code>this</code> and the given point <code>(x, y, z)</code>.
      *
      * @param x
