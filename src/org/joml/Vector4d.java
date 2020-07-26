@@ -988,12 +988,13 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>this</code>.
      * 
      * @param a
-     *          the first multiplicand
+     *          the multiplicand
      * @param b
-     *          the second multiplicand
+     *          the addend
      * @return this
      */
     public Vector4d mulAdd(Vector4dc a, Vector4dc b) {
@@ -1004,12 +1005,13 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>this</code>.
      * 
      * @param a
-     *          the first multiplicand
+     *          the multiplicand
      * @param b
-     *          the second multiplicand
+     *          the addend
      * @return this
      */
     public Vector4d mulAdd(double a, Vector4dc b) {

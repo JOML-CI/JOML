@@ -835,12 +835,13 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>this</code>.
      * 
      * @param a
-     *          the first multiplicand
+     *          the multiplicand
      * @param b
-     *          the second multiplicand
+     *          the addend
      * @return this
      */
     public Vector3d mulAdd(Vector3dc a, Vector3dc b) {
@@ -851,12 +852,13 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>this</code>.
      * 
      * @param a
-     *          the first multiplicand
+     *          the multiplicand
      * @param b
-     *          the second multiplicand
+     *          the addend
      * @return this
      */
     public Vector3d mulAdd(double a, Vector3dc b) {
