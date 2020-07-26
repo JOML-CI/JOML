@@ -2517,14 +2517,14 @@ public class Intersectiond {
         tNear = tzmin > tNear ? tzmin : tNear;
         tFar = tzmax < tFar ? tzmax : tFar;
         int type = OUTSIDE;
-        if (tNear < tFar && tNear <= 1.0 && tFar >= 0.0) {
-            if (tNear > 0.0 && tFar > 1.0) {
+        if (tNear <= tFar && tNear <= 1.0f && tFar >= 0.0f) {
+            if (tNear >= 0.0f && tFar > 1.0f) {
                 tFar = tNear;
                 type = ONE_INTERSECTION;
-            } else if (tNear < 0.0 && tFar < 1.0) {
+            } else if (tNear < 0.0f && tFar <= 1.0f) {
                 tNear = tFar;
                 type = ONE_INTERSECTION;
-            } else if (tNear < 0.0 && tFar > 1.0) {
+            } else if (tNear < 0.0f && tFar > 1.0f) {
                 type = INSIDE;
             } else {
                 type = TWO_INTERSECTION;
@@ -4500,14 +4500,14 @@ public class Intersectiond {
         tNear = tymin > tNear || Double.isNaN(tNear) ? tymin : tNear;
         tFar = tymax < tFar || Double.isNaN(tFar) ? tymax : tFar;
         int type = OUTSIDE;
-        if (tNear < tFar && tNear <= 1.0 && tFar >= 0.0) {
-            if (tNear > 0.0 && tFar > 1.0) {
+        if (tNear <= tFar && tNear <= 1.0f && tFar >= 0.0f) {
+            if (tNear >= 0.0f && tFar > 1.0f) {
                 tFar = tNear;
                 type = ONE_INTERSECTION;
-            } else if (tNear < 0.0 && tFar < 1.0) {
+            } else if (tNear < 0.0f && tFar <= 1.0f) {
                 tNear = tFar;
                 type = ONE_INTERSECTION;
-            } else if (tNear < 0.0 && tFar > 1.0) {
+            } else if (tNear < 0.0f && tFar > 1.0f) {
                 type = INSIDE;
             } else {
                 type = TWO_INTERSECTION;

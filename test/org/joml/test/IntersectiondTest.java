@@ -24,14 +24,17 @@
 package org.joml.test;
 
 import org.joml.Intersectiond;
+import org.joml.Vector2d;
 import org.joml.Vector3d;
+
+import junit.framework.TestCase;
 
 /**
  * Tests for the {@link Intersectiond} class.
  *
  * @author Dmitrii Ivaniusin
  */
-public class IntersectiondTest {
+public class IntersectiondTest extends TestCase {
 
     public static void testFindClosestPointOnRectangle() {
         final double EPSILON = 1E-4d;
@@ -53,6 +56,56 @@ public class IntersectiondTest {
         Vector3d p5 = new Vector3d(0.5d, 1d, 0);
         Vector3d v5 = Intersectiond.findClosestPointOnRectangle(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, p5.x, p5.y, p5.z, new Vector3d());
         TestUtil.assertVector3dEquals(new Vector3d(0.5d, 1d, 0), v5, EPSILON);
+    }
+    
+    public static void testLineSegmentAar() {
+        Vector2d p = new Vector2d();
+        assertEquals(Intersectiond.ONE_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, 0, 1, 0, 0.5, -1, 1.5, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0.5, 0.5), p, 1E-6f);
+        assertEquals(Intersectiond.ONE_INTERSECTION, Intersectiond.intersectLineSegmentAar(1, 0, 0, 0, 0.5, -1, 1.5, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0.5, 0.5), p, 1E-6f);
+        assertEquals(Intersectiond.ONE_INTERSECTION, Intersectiond.intersectLineSegmentAar(1, 0, 2, 0, 0, -1, 2, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(1, 1), p, 1E-6f);
+        assertEquals(Intersectiond.INSIDE, Intersectiond.intersectLineSegmentAar(0, 0, 1, 0, -0.5, -1, 1.5, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(-0.5, 1.5), p, 1E-6f);
+        assertEquals(Intersectiond.INSIDE, Intersectiond.intersectLineSegmentAar(1, 0, 0, 0, -0.5, -1, 1.5, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(-0.5, 1.5), p, 1E-6f);
+        assertEquals(Intersectiond.OUTSIDE, Intersectiond.intersectLineSegmentAar(0, 0, 1, 0, 1.5, -1, 2.5, 1, p));
+        assertEquals(Intersectiond.OUTSIDE, Intersectiond.intersectLineSegmentAar(1, 0, 0, 0, 1.5, -1, 2.5, 1, p));
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, 0, 1, 0, 0.5, -1, 0.75, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0.5, 0.75), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(1, 0, 0, 0, 0.5, -1, 0.75, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0.25, 0.5), p, 1E-6f);
+        assertEquals(Intersectiond.ONE_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, 0, 1, 0, 1, -1, 2, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(1, 1), p, 1E-6f);
+        assertEquals(Intersectiond.ONE_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, 0, -1, 0, -2, -1, -1, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(1, 1), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, 0, 1, 0, 0.5, -1, 1, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0.5, 1), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, 0, 0, 1, -0.5, 0, 0, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0, 1), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, 0, 1, 0, 0, 0, 1, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0, 1), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(1, 0, 0, 0, 0, 0, 1, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0, 1), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, 1, 0, 0, 0, 0, 1, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0, 1), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, 0, 0, 1, 0, 0, 1, 1, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0, 1), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, -1, 0, 0, -1, -1, 0, 0, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0, 1), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAar(0, -1, 0, 1, -1, -1, 0, 0, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0, 0.5), p, 1E-6f);
+    }
+
+    public static void testLineSegmentAab() {
+        Vector2d p = new Vector2d();
+        assertEquals(Intersectiond.ONE_INTERSECTION, Intersectiond.intersectLineSegmentAab(0, 0, 0, 0, 0, 1, -0.5, -1, 1, 0.5, 1, 2, p));
+        TestUtil.assertVector2dEquals(new Vector2d(1, 1), p, 1E-6f);
+        assertEquals(Intersectiond.ONE_INTERSECTION, Intersectiond.intersectLineSegmentAab(1, 0, 0, 2, 0, 0, 0, -1, -1, 2, 0, 0, p));
+        TestUtil.assertVector2dEquals(new Vector2d(1, 1), p, 1E-6f);
+        assertEquals(Intersectiond.TWO_INTERSECTION, Intersectiond.intersectLineSegmentAab(0, 0, -1, 0, 0, 0, 0, -1, -1, 1, 1, 0, p));
+        TestUtil.assertVector2dEquals(new Vector2d(0, 1), p, 1E-6f);
     }
 
 }

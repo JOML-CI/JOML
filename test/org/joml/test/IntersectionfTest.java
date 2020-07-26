@@ -206,6 +206,8 @@ public class IntersectionfTest extends TestCase {
         TestUtil.assertVector2fEquals(new Vector2f(0.5f, 0.5f), p, 1E-6f);
         assertEquals(Intersectionf.ONE_INTERSECTION, Intersectionf.intersectLineSegmentAar(1, 0, 0, 0, 0.5f, -1, 1.5f, 1, p));
         TestUtil.assertVector2fEquals(new Vector2f(0.5f, 0.5f), p, 1E-6f);
+        assertEquals(Intersectionf.ONE_INTERSECTION, Intersectionf.intersectLineSegmentAar(1, 0, 2, 0, 0, -1, 2, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(1, 1), p, 1E-6f);
         assertEquals(Intersectionf.INSIDE, Intersectionf.intersectLineSegmentAar(0, 0, 1, 0, -0.5f, -1, 1.5f, 1, p));
         TestUtil.assertVector2fEquals(new Vector2f(-0.5f, 1.5f), p, 1E-6f);
         assertEquals(Intersectionf.INSIDE, Intersectionf.intersectLineSegmentAar(1, 0, 0, 0, -0.5f, -1, 1.5f, 1, p));
@@ -241,6 +243,8 @@ public class IntersectionfTest extends TestCase {
     public static void testLineSegmentAab() {
         Vector2f p = new Vector2f();
         assertEquals(Intersectionf.ONE_INTERSECTION, Intersectionf.intersectLineSegmentAab(0, 0, 0, 0, 0, 1, -0.5f, -1, 1, 0.5f, 1, 2, p));
+        TestUtil.assertVector2fEquals(new Vector2f(1, 1), p, 1E-6f);
+        assertEquals(Intersectionf.ONE_INTERSECTION, Intersectionf.intersectLineSegmentAab(1, 0, 0, 2, 0, 0, 0, -1, -1, 2, 0, 0, p));
         TestUtil.assertVector2fEquals(new Vector2f(1, 1), p, 1E-6f);
         assertEquals(Intersectionf.TWO_INTERSECTION, Intersectionf.intersectLineSegmentAab(0, 0, -1, 0, 0, 0, 0, -1, -1, 1, 1, 0, p));
         TestUtil.assertVector2fEquals(new Vector2f(0, 1), p, 1E-6f);
