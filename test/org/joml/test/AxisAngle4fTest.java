@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 
 import org.joml.AxisAngle4f;
 import org.joml.Math;
+import org.joml.Quaternionf;
 
 /**
  * Tests for the {@link AxisAngle4f} class.
@@ -34,6 +35,13 @@ import org.joml.Math;
  * @author Kai Burjack
  */
 public class AxisAngle4fTest extends TestCase {
+
+    public static void testAxisAngleFromIdentityQuaternion() {
+        AxisAngle4f a = new AxisAngle4f().set(new Quaternionf());
+        assertEquals(new AxisAngle4f(0, 0, 0, 1), a);
+        a = new AxisAngle4f().set(new Quaternionf(2.035E-9,4.715E-10,-9.166E-11,1.000E+0));
+        assertEquals(new AxisAngle4f(0, 0, 0, 1), a);
+    }
 
     public static void testAngleNormalization() {
         AxisAngle4f a1 = new AxisAngle4f((float) Math.toRadians(20), 1.0f, 0.0f, 0.0f);
