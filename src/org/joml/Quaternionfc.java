@@ -1932,7 +1932,7 @@ public interface Quaternionfc {
     boolean isFinite();
 
     /**
-     Compare the vector components of <code>this</code> vector with the given vector using the given <code>delta</code>
+     Compare the quaternion components of <code>this</code> quaternion with the given quaternion using the given <code>delta</code>
      * and return whether all of them are equal within a maximum difference of <code>delta</code>.
      * <p>
      * Please note that this method is not used by any data structure such as {@link ArrayList} {@link HashSet} or {@link HashMap}
