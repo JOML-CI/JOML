@@ -3026,7 +3026,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
     }
 
-    @Override
     public boolean equals(Quaternionfc q, float delta) {
         if (this == q)
             return true;
@@ -3045,7 +3044,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return true;
     }
 
-    @Override
     public boolean equals(float x, float y, float z, float w) {
         if (Float.floatToIntBits(this.x) != Float.floatToIntBits(x))
             return false;

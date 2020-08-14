@@ -2941,7 +2941,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
     }
 
-    @Override
     public boolean equals(Quaterniondc q, double delta) {
         if (this == q)
             return true;
@@ -2960,7 +2959,6 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         return true;
     }
 
-    @Override
     public boolean equals(double x, double y, double z, double w) {
         if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(x))
             return false;
