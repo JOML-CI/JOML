@@ -3025,4 +3025,36 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
     }
+
+    @Override
+    public boolean equals(Quaternionfc q, float delta) {
+        if (this == q)
+            return true;
+        if (q == null)
+            return false;
+        if (!(q instanceof Quaternionfc))
+            return false;
+        if (!Runtime.equals(x, q.x(), delta))
+            return false;
+        if (!Runtime.equals(y, q.y(), delta))
+            return false;
+        if (!Runtime.equals(z, q.z(), delta))
+            return false;
+        if (!Runtime.equals(w, q.w(), delta))
+            return false;
+        return true;
+    }
+
+    @Override
+    public boolean equals(float x, float y, float z, float w) {
+        if (Float.floatToIntBits(this.x) != Float.floatToIntBits(x))
+            return false;
+        if (Float.floatToIntBits(this.y) != Float.floatToIntBits(y))
+            return false;
+        if (Float.floatToIntBits(this.z) != Float.floatToIntBits(z))
+            return false;
+        if (Float.floatToIntBits(this.w) != Float.floatToIntBits(w))
+            return false;
+        return true;
+    }
 }

@@ -2940,4 +2940,36 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(w);
     }
+
+    @Override
+    public boolean equals(Quaterniondc q, double delta) {
+        if (this == q)
+            return true;
+        if (q == null)
+            return false;
+        if (!(q instanceof Quaterniondc))
+            return false;
+        if (!Runtime.equals(x, q.x(), delta))
+            return false;
+        if (!Runtime.equals(y, q.y(), delta))
+            return false;
+        if (!Runtime.equals(z, q.z(), delta))
+            return false;
+        if (!Runtime.equals(w, q.w(), delta))
+            return false;
+        return true;
+    }
+
+    @Override
+    public boolean equals(double x, double y, double z, double w) {
+        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(x))
+            return false;
+        if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(y))
+            return false;
+        if (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(z))
+            return false;
+        if (Double.doubleToLongBits(this.w) != Double.doubleToLongBits(w))
+            return false;
+        return true;
+    }
 }
