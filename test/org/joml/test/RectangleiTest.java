@@ -26,6 +26,7 @@ package org.joml.test;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.joml.Rectanglei;
+import org.joml.Vector2d;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 
@@ -40,7 +41,8 @@ public class RectangleiTest extends TestCase {
         Rectanglei rect = new Rectanglei(0, 0, 3, 3);
 
         Assert.assertTrue(rect.isValid());
-        Assert.assertTrue(rect.containsPoint(new Vector2i(0, 0)));
+        Assert.assertFalse(rect.containsPoint(new Vector2i(0, 0)));
+        Assert.assertTrue(rect.containsPoint(new Vector2i(1, 1)));
         Assert.assertFalse(rect.containsPoint(new Vector2i(-1, -1)));
         Assert.assertFalse(rect.containsPoint(new Vector2i(4, 4)));
     }
@@ -92,13 +94,13 @@ public class RectangleiTest extends TestCase {
     }
 
     public void testRectangleiContainsPoint() {
-        Rectanglei center = new Rectanglei(0, 0, 1, 1);
+        Rectanglei center = new Rectanglei(0, 0, 3, 3);
 
         Assert.assertTrue(center.isValid());
 
-        Assert.assertTrue(center.containsPoint(0, 0));
-        Assert.assertTrue(center.containsPoint(1, 0));
-        Assert.assertTrue(center.containsPoint(0, 1));
+        Assert.assertFalse(center.containsPoint(0, 0));
+        Assert.assertFalse(center.containsPoint(1, 0));
+        Assert.assertFalse(center.containsPoint(0, 1));
         Assert.assertTrue(center.containsPoint(1, 1));
     }
 
