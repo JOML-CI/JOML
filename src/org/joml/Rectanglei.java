@@ -450,7 +450,7 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff the given point lies inside this BlockRegion; <code>false</code> otherwise
      */
     public boolean containsPoint(float x, float y) {
-        return x >= this.minX && y >= this.minY && x <= this.maxX && y <= this.maxY;
+        return x > this.minX && y > this.minY && x < this.maxX && y < this.maxY;
     }
 
     /**
@@ -475,7 +475,7 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
     public boolean containsPoint(int x, int y) {
-        return x >= minX && y >= minY && x <= maxX && y <= maxY;
+        return x > minX && y > minY && x < maxX && y < maxY;
     }
 
     /**

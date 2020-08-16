@@ -456,7 +456,7 @@ public class AABBf implements Externalizable, AABBfc {
     }
 
     public boolean containsPoint(float x, float y, float z) {
-        return x >= minX && y >= minY && z >= minZ && x <= maxX && y <= maxY && z <= maxZ;
+        return x > minX && y > minY && z > minZ && x < maxX && y < maxY && z < maxZ;
     }
 
     public boolean containsPoint(Vector3fc point) {
