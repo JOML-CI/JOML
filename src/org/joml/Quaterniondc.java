@@ -23,6 +23,7 @@
  */
 package org.joml;
 
+import java.util.*;
 /**
  * Interface to a read-only view of a quaternion of double-precision floats.
  * 
@@ -1915,5 +1916,35 @@ public interface Quaterniondc {
      *         {@code false} otherwise
      */
     boolean isFinite();
+
+    /**
+     Compare the quaternion components of <code>this</code> quaternion with the given quaternion using the given <code>delta</code>
+     * and return whether all of them are equal within a maximum difference of <code>delta</code>.
+     * <p>
+     * Please note that this method is not used by any data structure such as {@link ArrayList} {@link HashSet} or {@link HashMap}
+     * and their operations, such as {@link ArrayList#contains(Object)} or {@link HashSet#remove(Object)}, since those
+     * data structures only use the {@link Object#equals(Object)} and {@link Object#hashCode()} methods.
+     *
+     * @param q
+     *       the other quaternion
+     * @param delta
+     *      the allowed maximum difference
+     * @return <code>true</code> whether all of the quaternion components are equal; <code>false</code> otherwise
+     */
+    boolean equals(Quaterniondc q, double delta);
+
+    /**
+     *
+     * @param x
+     *      the x component to compare to
+     * @param y
+     *      the y component to compare to
+     * @param z
+     *      the z component to compare to
+     * @param w
+     *      the w component to compare to
+     * @return <code>true</code> if all the quaternion components are equal
+     */
+    boolean equals(double x, double y, double z, double w);
 
 }
