@@ -1323,10 +1323,10 @@ public class Vector4f implements Externalizable, Vector4fc {
     /**
      * Get the length squared of a 4-dimensional single-precision vector.
      *
-     * @param x The vector's x component
-     * @param y The vector's y component
-     * @param z The vector's z component
-     * @param w The vector's w component
+     * @param x the vector's x component
+     * @param y the vector's y component
+     * @param z the vector's z component
+     * @param w the vector's w component
      *
      * @return the length squared of the given vector
      *
@@ -1336,6 +1336,16 @@ public class Vector4f implements Externalizable, Vector4fc {
         return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }
 
+    /**
+     * Get the length squared of a 4-dimensional int vector.
+     *
+     * @param x the vector's x component
+     * @param y the vector's y component
+     * @param z the vector's z component
+     * @param w the vector's w component
+     *
+     * @return the length squared of the given vector
+     */
     public static float lengthSquared(int x, int y, int z, int w) {
         return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }

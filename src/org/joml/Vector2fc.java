@@ -321,6 +321,18 @@ public interface Vector2fc {
      * @return dest
      */
     Vector2f div(float scalar, Vector2f dest);
+    
+    /**
+     * Divide this Vector2f component-wise by another Vector2fc
+     * and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f div(Vector2fc v, Vector2f dest);
 
     /**
      * Divide the components of this Vector2f by the given scalar values and store the result in <code>dest</code>.

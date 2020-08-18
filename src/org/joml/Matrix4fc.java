@@ -1521,6 +1521,19 @@ public interface Matrix4fc {
     Vector3f transformProject(Vector3fc v, Vector3f dest);
 
     /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * 
+     * @see Vector4f#mulProject(Matrix4fc, Vector4f)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the <code>(x, y, z)</code> components of the result
+     * @return dest
+     */
+    Vector3f transformProject(Vector4fc v, Vector3f dest);
+
+    /**
      * Transform/multiply the vector <code>(x, y, z)</code> by this matrix, perform perspective divide and store the result in <code>dest</code>.
      * <p>
      * This method uses <code>w=1.0</code> as the fourth vector component.

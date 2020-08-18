@@ -456,6 +456,34 @@ public interface Vector4dc {
     Vector3d mulProject(Matrix4dc mat, Vector3d dest);
 
     /**
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the multiplicand
+     * @param b
+     *          the addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d mulAdd(Vector4dc a, Vector4dc b, Vector4d dest);
+
+    /**
+     * Add the component-wise multiplication of <code>this * a</code> to <code>b</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the multiplicand
+     * @param b
+     *          the addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d mulAdd(double a, Vector4dc b, Vector4d dest);
+
+    /**
      * Multiply this Vector4d by the given scalar value and store the result in <code>dest</code>.
      * 
      * @param scalar

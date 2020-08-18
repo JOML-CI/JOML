@@ -1609,6 +1609,20 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix.
+     * <p>
+     * The last row of the <code>right</code> matrix is assumed to be <code>(0, 0, 0, 1)</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
     public Matrix4d mul(Matrix4x3dc right) {
         return mul(right, this);
     }

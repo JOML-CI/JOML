@@ -1381,6 +1381,48 @@ public interface Matrix4dc {
     Vector4d transform(double x, double y, double z, double w, Vector4d dest);
 
     /**
+     * Transform/multiply the given vector by the transpose of this matrix and store the result in that vector.
+     * 
+     * @see Vector4d#mulTranspose(Matrix4dc)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    Vector4d transformTranspose(Vector4d v);
+
+    /**
+     * Transform/multiply the given vector by the transpose of this matrix and store the result in <code>dest</code>.
+     * 
+     * @see Vector4d#mulTranspose(Matrix4dc)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    Vector4d transformTranspose(Vector4dc v, Vector4d dest);
+
+    /**
+     * Transform/multiply the vector <code>(x, y, z, w)</code> by the transpose of this matrix
+     * and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param w
+     *          the w coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    Vector4d transformTranspose(double x, double y, double z, double w, Vector4d dest);
+
+    /**
      * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
      * 
      * @see Vector4d#mulProject(Matrix4dc)
@@ -1403,6 +1445,21 @@ public interface Matrix4dc {
      * @return dest
      */
     Vector4d transformProject(Vector4dc v, Vector4d dest);
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide
+     * and store the <code>x</code>, <code>y</code> and <code>z</code> components of the
+     * result in <code>dest</code>.
+     * 
+     * @see Vector3d#mulProject(Matrix4dc, Vector3d)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    Vector3d transformProject(Vector4dc v, Vector3d dest);
 
     /**
      * Transform/multiply the vector <code>(x, y, z, w)</code> by this matrix, perform perspective divide and store the result in <code>dest</code>.
@@ -1645,6 +1702,26 @@ public interface Matrix4dc {
      * @return dest
      */
     Vector3d transformDirection(double x, double y, double z, Vector3d dest);
+
+    /**
+     * Transform/multiply the 3D-vector <code>(x, y, z)</code>, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <code>0.0</code>, so it
+     * will represent a direction in 3D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * 
+     * @param x
+     *          the x coordinate of the direction to transform
+     * @param y
+     *          the y coordinate of the direction to transform
+     * @param z
+     *          the z coordinate of the direction to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformDirection(double x, double y, double z, Vector3f dest);
 
     /**
      * Transform/multiply the given 4D-vector by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation

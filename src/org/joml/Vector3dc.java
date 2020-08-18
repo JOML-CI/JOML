@@ -499,6 +499,18 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
+    Vector3f mul(Matrix3dc mat, Vector3f dest);
+
+    /**
+     * Multiply the given matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
     Vector3d mul(Matrix3fc mat, Vector3d dest);
 
     /**

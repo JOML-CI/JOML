@@ -822,7 +822,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 
     /**
-     * Divide this Vector3f component-wise by another Vector3fc.
+     * Divide this Vector2f component-wise by another Vector2fc.
      * 
      * @param v
      *          the vector to divide by
