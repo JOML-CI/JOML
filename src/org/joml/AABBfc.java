@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2017-2020 JOML
+ * Copyright (c) 2020 JOML
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,9 @@ package org.joml;
 
 import java.text.NumberFormat;
 
+/**
+ * Interface to a read-only view of a AABB of floats
+ */
 public interface AABBfc {
 
     /**
