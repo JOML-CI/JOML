@@ -28,6 +28,11 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+/**
+ * Represents an axis-aligned box defined via the minimum and maximum corner coordinates as ints.
+ * 
+ * @author Kai Burjack
+ */
 public class AABBi implements Externalizable, AABBic {
 
     /**

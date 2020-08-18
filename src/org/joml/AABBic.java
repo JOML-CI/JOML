@@ -24,7 +24,8 @@
 package org.joml;
 
 /**
- * Interface to a read-only view of a AABB of ints
+ * Interface to a read-only view of an axis-aligned box defined via the minimum
+ * and maximum corner coordinates as ints.
  */
 public interface AABBic {
 

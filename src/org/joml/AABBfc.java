@@ -26,7 +26,8 @@ package org.joml;
 import java.text.NumberFormat;
 
 /**
- * Interface to a read-only view of a AABB of floats
+ * Interface to a read-only view of an axis-aligned box defined via the minimum
+ * and maximum corner coordinates as single-precision floats.
  */
 public interface AABBfc {
 

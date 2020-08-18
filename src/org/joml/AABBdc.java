@@ -24,7 +24,8 @@
 package org.joml;
 
 /**
- * Interface to a read-only view of a AABB of double-precision floats
+ * Interface to a read-only view of axis-aligned box defined via the minimum
+ * and maximum corner coordinates as double-precision floats.
  */
 public interface AABBdc {
 

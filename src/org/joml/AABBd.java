@@ -31,7 +31,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * Represents an axis-aligned box defined via the minimum and maximum corner coordinates.
+ * Represents an axis-aligned box defined via the minimum and maximum corner coordinates as double-precision floats.
  * 
  * @author Kai Burjack
  */
