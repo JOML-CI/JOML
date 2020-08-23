@@ -434,6 +434,37 @@ public class Rectangled implements Externalizable {
     }
 
     /**
+     * Adds extents for each edge of a Rectangle.
+     *
+     * @param x
+     *          the x coordinate
+     * @param y
+     *          the y coordinate
+     * @param dest
+     *           will hold the result
+     * @return dest
+     */
+    public Rectangled addExtents(int x, int y, Rectangled dest) {
+        dest.minX = dest.minX - x;
+        dest.minY = dest.minY - y;
+        dest.maxX = dest.maxX + x;
+        dest.maxY = dest.maxY + y;
+        return dest.validate();
+    }
+
+    /**
+     * Adds extents for each edge of a Rectangle.
+     * @param x
+     *          the x coordinate
+     * @param y
+     *          the y coordinate
+     * @return this
+     */
+    public Rectangled addExtents(int x, int y) {
+        return this.addExtents(x, y, this);
+    }
+
+    /**
      * Check if this and the given rectangle intersect.
      * 
      * @param other

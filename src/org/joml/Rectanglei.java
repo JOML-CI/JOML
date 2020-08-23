@@ -231,6 +231,38 @@ public class Rectanglei implements Externalizable {
         return union(p.x(), p.y(), this);
     }
 
+
+    /**
+     * Adds extents for each edge of a Rectangle.
+     *
+     * @param x
+     *          the x coordinate
+     * @param y
+     *          the y coordinate
+     * @param dest
+     *           will hold the result
+     * @return dest
+     */
+    public Rectanglei addExtents(int x, int y, Rectanglei dest) {
+        dest.minX = dest.minX - x;
+        dest.minY = dest.minY - y;
+        dest.maxX = dest.maxX + x;
+        dest.maxY = dest.maxY + y;
+        return dest.validate();
+    }
+
+    /**
+     * Adds extents for each edge of a Rectangle.
+     * @param x
+     *          the x coordinate
+     * @param y
+     *          the y coordinate
+     * @return this
+     */
+    public Rectanglei addExtents(int x, int y) {
+        return this.addExtents(x, y, this);
+    }
+
     /**
      * Compute the union of <code>this</code> and the given point <code>(x, y, z)</code> and store the result in <code>dest</code>.
      *
