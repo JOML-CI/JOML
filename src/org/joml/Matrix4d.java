@@ -1952,13 +1952,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     public Matrix4d mulPerspectiveAffine(Matrix4dc view, Matrix4d dest) {
-        double lm00 = m00, lm11 = m11, lm22 = m22, lm23 = m23;
-        dest._m00(lm00 * view.m00())._m01(lm11 * view.m01())._m02(lm22 * view.m02())._m03(lm23 * view.m02()).
-        _m10(lm00 * view.m10())._m11(lm11 * view.m11())._m12(lm22 * view.m12())._m13(lm23 * view.m12()).
-        _m20(lm00 * view.m20())._m21(lm11 * view.m21())._m22(lm22 * view.m22())._m23(lm23 * view.m22()).
-        _m30(lm00 * view.m30())._m31(lm11 * view.m31())._m32(lm22 * view.m32() + m32)._m33(lm23 * view.m32())
-        ._properties(0);
-        return dest;
+        double nm00 = m00 * view.m00(), nm01 = m11 * view.m01(), nm02 = m22 * view.m02(), nm03 = m23 * view.m02();
+        double nm10 = m00 * view.m10(), nm11 = m11 * view.m11(), nm12 = m22 * view.m12(), nm13 = m23 * view.m12();
+        double nm20 = m00 * view.m20(), nm21 = m11 * view.m21(), nm22 = m22 * view.m22(), nm23 = m23 * view.m22();
+        double nm30 = m00 * view.m30(), nm31 = m11 * view.m31(), nm32 = m22 * view.m32() + m32, nm33 = m23 * view.m32();
+        return dest
+            ._m00(nm00)._m01(nm01)._m02(nm02)._m03(nm03)
+            ._m10(nm10)._m11(nm11)._m12(nm12)._m13(nm13)
+            ._m20(nm20)._m21(nm21)._m22(nm22)._m23(nm23)
+            ._m30(nm30)._m31(nm31)._m32(nm32)._m33(nm33)
+            ._properties(0);
     }
 
     /**

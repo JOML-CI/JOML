@@ -579,4 +579,17 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(new Matrix4f().m30(1).m31(2).m32(3).m33(4), new Matrix4f().setColumn(3, new Vector4f(1, 2, 3, 4)), 0);
     }
 
+    /**
+     * https://github.com/JOML-CI/JOML/issues/266
+     */
+    public static void testMulPerspectiveAffine() {
+        Matrix4f t = new Matrix4f().lookAt(2, 3, 4, 5, 6, 7, 8, 9, 11);
+        Matrix4f p = new Matrix4f().perspective(60.0f * (float)Math.PI / 180.0f, 4.0f/3.0f, 0.1f, 1000.0f);
+        Matrix4f result1 = t.invertAffine(new Matrix4f());
+        Matrix4f result2 = t.invertAffine(new Matrix4f());
+        p.mul(result1, result1);
+        p.mul0(result2, result2);
+        TestUtil.assertMatrix4fEquals(result1, result2, 0.0f);
+    }
+
 }

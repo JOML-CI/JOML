@@ -25,11 +25,7 @@ package org.joml.test;
 
 import junit.framework.TestCase;
 
-import org.joml.Matrix3d;
-import org.joml.Matrix4d;
-import org.joml.Matrix4dc;
-import org.joml.Vector3d;
-import org.joml.Vector4d;
+import org.joml.*;
 import org.joml.Math;
 
 /**
@@ -563,6 +559,19 @@ public class Matrix4dTest extends TestCase {
         TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(3, 1, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
         TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(3, 2, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
         TestUtil.assertMatrix4dEquals(new Matrix4d().zero().set(3, 3, 3), new Matrix4d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
+    }
+
+    /**
+     * https://github.com/JOML-CI/JOML/issues/266
+     */
+    public static void testMulPerspectiveAffine() {
+        Matrix4d t = new Matrix4d().lookAt(2, 3, 4, 5, 6, 7, 8, 9, 11);
+        Matrix4d p = new Matrix4d().perspective(60.0f * (float)Math.PI / 180.0f, 4.0f/3.0f, 0.1f, 1000.0f);
+        Matrix4d result1 = t.invertAffine(new Matrix4d());
+        Matrix4d result2 = t.invertAffine(new Matrix4d());
+        p.mul(result1, result1);
+        p.mul0(result2, result2);
+        TestUtil.assertMatrix4dEquals(result1, result2, 0.0f);
     }
 
 }
