@@ -1,7 +1,7 @@
 version: '{build}'
 branches:
   only:
-    - master
+    - main
 clone_depth: 1
 build_script:
   - cmd: >-

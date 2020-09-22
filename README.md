@@ -1,7 +1,7 @@
 # [JOML](http://joml-ci.github.io/JOML) – Java OpenGL Math Library
 A Java math library for OpenGL rendering calculations | use it on: [Desktop](https://github.com/JOML-CI/JOML/wiki#maven-setup-for-desktop) / [Android](https://github.com/JOML-CI/JOML/wiki#gradle-setup-for-android) / [GWT](https://github.com/JOML-CI/JOML/wiki#gradle-setup-for-gwt)
 
-[![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=master)](https://travis-ci.org/JOML-CI/JOML) [![Build Status](https://ci.appveyor.com/api/projects/status/github/JOML-CI/JOML?branch=master&svg=true)](https://ci.appveyor.com/project/httpdigest/joml) [![Maven Release](https://img.shields.io/maven-metadata/v/https/repo.maven.apache.org/maven2/org/joml/joml/maven-metadata.xml.svg)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3Aorg.joml%20a%3Ajoml) [![Maven Snapshot](https://img.shields.io/nexus/s/https/oss.sonatype.org/org.joml/joml.svg)](https://oss.sonatype.org/content/repositories/snapshots/org/joml/joml/)
+[![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=main)](https://travis-ci.org/JOML-CI/JOML) [![Build Status](https://ci.appveyor.com/api/projects/status/github/JOML-CI/JOML?branch=main&svg=true)](https://ci.appveyor.com/project/httpdigest/joml) [![Maven Release](https://img.shields.io/maven-metadata/v/https/repo.maven.apache.org/maven2/org/joml/joml/maven-metadata.xml.svg)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3Aorg.joml%20a%3Ajoml) [![Maven Snapshot](https://img.shields.io/nexus/s/https/oss.sonatype.org/org.joml/joml.svg)](https://oss.sonatype.org/content/repositories/snapshots/org/joml/joml/)
 
 Design goals
 ------------

@@ -20,7 +20,7 @@ jobs:
     - jdk: openjdk8
     - jdk: openjdk9
       after_success:
-        - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && 
+        - test $TRAVIS_BRANCH = "main" && test $TRAVIS_PULL_REQUEST = "false" && 
           openssl aes-256-cbc -pass pass:$ENCRYPTION_KEY -in .travis/pubring.asc.enc -out ./pubring.asc -d &&
           openssl aes-256-cbc -pass pass:$ENCRYPTION_KEY -in .travis/secring.asc.enc -out ./secring.asc -d &&
           ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Dmaven.test.skip=true &&
