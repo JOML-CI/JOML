@@ -38,24 +38,49 @@ public class Vector3iTest extends TestCase {
     public static void testVector3iRounding() {
         Vector3i v1 = new Vector3i(0.0f,.6f,.7f, RoundingMode.FLOOR);
         Vector3i v2 = new Vector3i(9.5f,1.6f,5.0f, RoundingMode.FLOOR);
+
         Vector3i v3 = new Vector3i(new Vector3f(0.0f,.6f,.7f), RoundingMode.FLOOR);
         Vector3i v4 = new Vector3i(new Vector3d(9.5f,1.6f,5.0f), RoundingMode.FLOOR);
 
+        Vector3i v5 = new Vector3i(0.0f,.6f,.7f, RoundingMode.CEILING);
+        Vector3i v6 = new Vector3i(9.5f,1.6f,5.0f, RoundingMode.CEILING);
+
+        Vector3i v7 = new Vector3i(new Vector3f(0.0f,.6f,.7f), RoundingMode.CEILING);
+        Vector3i v8 = new Vector3i(new Vector3d(9.5f,1.6f,5.0f), RoundingMode.CEILING);
+
+
         assertEquals(v1, new Vector3i(0,0,0));
         assertEquals(v2, new Vector3i(9,1,5));
+
         assertEquals(v3, new Vector3i(0,0,0));
         assertEquals(v4, new Vector3i(9,1,5));
+
+        assertEquals(v5, new Vector3i(0,1,1));
+        assertEquals(v6, new Vector3i(10,2,5));
+
+        assertEquals(v7, new Vector3i(0,1,1));
+        assertEquals(v8, new Vector3i(10,2,5));
+
     }
 
     public static void testVector3iRoundingVector2() {
         Vector3i v1 = new Vector3i(new Vector2f(0.0f,.6f),.7f, RoundingMode.FLOOR);
         Vector3i v2 = new Vector3i(new Vector2f(9.5f,1.6f),5.0f, RoundingMode.FLOOR);
+
         Vector3i v3 = new Vector3i(new Vector2d(0.0f,.6f),.7f, RoundingMode.FLOOR);
         Vector3i v4 = new Vector3i(new Vector2d(9.5f,1.6f),5.0f, RoundingMode.FLOOR);
 
+        Vector3i v5 = new Vector3i(new Vector2f(0.0f,.6f),.7f, RoundingMode.CEILING);
+        Vector3i v6 = new Vector3i(new Vector2d(9.5f,1.6f),5.0f, RoundingMode.CEILING);
+
+
         assertEquals(v1, new Vector3i(0,0,0));
         assertEquals(v2, new Vector3i(9,1,5));
+
         assertEquals(v3, new Vector3i(0,0,0));
         assertEquals(v4, new Vector3i(9,1,5));
+
+        assertEquals(v5, new Vector3i(0,1,1));
+        assertEquals(v6, new Vector3i(10,2,5));
     }
 }
