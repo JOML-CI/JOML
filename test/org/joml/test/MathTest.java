@@ -76,6 +76,21 @@ public class MathTest extends TestCase {
         assertEquals(1.f, Vector4f.length(.5f, .5f, .5f, .5f), .0001f);
     }
 
+    public static void testFinite() {
+        assertFalse(Math.isFinite(Float.NaN));
+        assertTrue(Math.isFinite(1.0f));
+        assertTrue(Math.isFinite(-1.0f));
+        assertFalse(Math.isFinite(Float.POSITIVE_INFINITY));
+        assertFalse(Math.isFinite(Float.NEGATIVE_INFINITY));
+
+        assertFalse(Math.isFinite(Double.NaN));
+        assertTrue(Math.isFinite(1.0));
+        assertTrue(Math.isFinite(-1.0));
+        assertFalse(Math.isFinite(Double.POSITIVE_INFINITY));
+        assertFalse(Math.isFinite(Double.NEGATIVE_INFINITY));
+    }
+
+
     public static void testRoundUsing() {
         // TRUNCATE
         assertEquals(0, Math.roundUsing(0.2f, RoundingMode.TRUNCATE));
