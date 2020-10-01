@@ -77,12 +77,14 @@ public class MathTest extends TestCase {
     }
 
     public static void testFinite() {
+        // floating point value tests
         assertFalse(Math.isFinite(Float.NaN));
         assertTrue(Math.isFinite(1.0f));
         assertTrue(Math.isFinite(-1.0f));
         assertFalse(Math.isFinite(Float.POSITIVE_INFINITY));
         assertFalse(Math.isFinite(Float.NEGATIVE_INFINITY));
 
+        // double point value tests
         assertFalse(Math.isFinite(Double.NaN));
         assertTrue(Math.isFinite(1.0));
         assertTrue(Math.isFinite(-1.0));
