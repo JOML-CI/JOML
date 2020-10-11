@@ -1,0 +1,10 @@
+<settings>
+    <servers>
+        <server>
+            <id>artifactory.terasology.org</id>
+            <username>${env.artifactoryUser}</username>
+            <password>${env.artifactoryPass}</password>
+            <url>https://artifactory.terasology.org</url>
+        </server>
+    </servers>
+</settings>
