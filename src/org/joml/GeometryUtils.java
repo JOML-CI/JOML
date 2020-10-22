@@ -60,7 +60,7 @@ public class GeometryUtils {
             dest1.z = -y;
             mag = magX;
         } else if (magY > magZ) {
-            dest1.x = z;
+            dest1.x = -z;
             dest1.y = 0;
             dest1.z = x;
             mag = magY;
