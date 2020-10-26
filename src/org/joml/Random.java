@@ -123,56 +123,15 @@ public class Random {
     //8020463840 is from "Case File n_221: Kabukicho"
     private static long seedHalf = 8020463840L;
 
-//#ifdef __HAS_UNSAFE__
-    private static final sun.misc.Unsafe UNSAFE = getUnsafeInstance();
-    private static final long seedHalf_offset = seedHalfOffset();
-
-    private static long seedHalfOffset() {
-        try {
-            return UNSAFE.staticFieldOffset(Random.class.getDeclaredField("seedHalf"));
-        } catch (Exception e) {
-            throw new UnsupportedOperationException();
-        }
-    }
-
-    private static sun.misc.Unsafe getUnsafeInstance() throws SecurityException {
-        java.lang.reflect.Field[] fields = sun.misc.Unsafe.class.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            java.lang.reflect.Field field = fields[i];
-            if (!field.getType().equals(sun.misc.Unsafe.class))
-                continue;
-            int modifiers = field.getModifiers();
-            if (!(java.lang.reflect.Modifier.isStatic(modifiers) && java.lang.reflect.Modifier.isFinal(modifiers)))
-                continue;
-            field.setAccessible(true);
-            try {
-                return (sun.misc.Unsafe) field.get(null);
-            } catch (IllegalAccessException e) {
-                /* Ignore */
-            }
-            break;
-        }
-        throw new UnsupportedOperationException();
-    }
-//#endif    
-
     public static long newSeed() {
         // 3512401965023503517 is from L'Ecuyer, "Tables of Linear Congruential Generators of
         // Different Sizes and Good Lattice Structure", 1999
         long oldSeedHalf, newSeedHalf;
-//#ifdef __NHAS_UNSAFE__
         synchronized (Random.class) {
-//#else
-        do {
-//#endif
             oldSeedHalf = seedHalf;
             newSeedHalf = oldSeedHalf * 3512401965023503517L;
-//#ifdef __HAS_UNSAFE__
-        } while (!UNSAFE.compareAndSwapLong(Random.class, seedHalf_offset, oldSeedHalf, newSeedHalf));
-//#else
             seedHalf = newSeedHalf;
         }
-//#endif
         return newSeedHalf;
     }
 
