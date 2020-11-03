@@ -301,7 +301,7 @@ public class AABBf implements Externalizable {
      * @return dest
      */
     public Vector3f getSize(Vector3f dest) {
-        return dest.set(maxX - minX, maxY - minY, maxZ - minZ);
+        return dest.set(lengthX(), lengthY(), lengthZ());
     }
 
     /**
