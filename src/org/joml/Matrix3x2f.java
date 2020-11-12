@@ -1400,8 +1400,8 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
         dest.m01 = m01 * sx;
         dest.m10 = m10 * sy;
         dest.m11 = m11 * sy;
-        dest.m20 = -m00 * ox - m10 * oy + nm20;
-        dest.m21 = -m01 * ox - m11 * oy + nm21;
+        dest.m20 = dest.m00 * -ox + dest.m10 * -oy + nm20;
+        dest.m21 = dest.m01 * -ox + dest.m11 * -oy + nm21;
         return dest;
     }
 
