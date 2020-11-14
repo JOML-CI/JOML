@@ -26,6 +26,7 @@ package org.joml.test;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.joml.Rectanglei;
+import org.joml.Vector2d;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 
@@ -40,7 +41,8 @@ public class RectangleiTest extends TestCase {
         Rectanglei rect = new Rectanglei(0, 0, 3, 3);
 
         Assert.assertTrue(rect.isValid());
-        Assert.assertTrue(rect.containsPoint(new Vector2i(0, 0)));
+        Assert.assertFalse(rect.containsPoint(new Vector2i(0, 0)));
+        Assert.assertTrue(rect.containsPoint(new Vector2i(1, 1)));
         Assert.assertFalse(rect.containsPoint(new Vector2i(-1, -1)));
         Assert.assertFalse(rect.containsPoint(new Vector2i(4, 4)));
     }
@@ -60,6 +62,46 @@ public class RectangleiTest extends TestCase {
         Assert.assertTrue(second.intersectsRectangle(first));
         Assert.assertEquals(first.intersection(second, new Rectanglei()), new Rectanglei(0, 0, 2, 2));
 
+    }
+
+    public void testRectangleiEdgeIntersection() {
+        Rectanglei center = new Rectanglei(0, 0, 1, 1);
+        Rectanglei right = new Rectanglei(1, 0, 2, 1);
+        Rectanglei left = new Rectanglei(-1, 0, 0, 1);
+        Rectanglei top = new Rectanglei(0, 1, 1, 2);
+        Rectanglei bottom = new Rectanglei(0, -1, 1, 0);
+
+        Assert.assertTrue(center.isValid());
+        Assert.assertTrue(right.isValid());
+        Assert.assertTrue(left.isValid());
+        Assert.assertTrue(top.isValid());
+        Assert.assertTrue(bottom.isValid());
+
+        Assert.assertFalse(center.containsRectangle(right));
+        Assert.assertFalse(center.containsRectangle(left));
+        Assert.assertFalse(center.containsRectangle(top));
+        Assert.assertFalse(center.containsRectangle(bottom));
+
+        Assert.assertTrue(center.intersectsRectangle(right));
+        Assert.assertTrue(center.intersectsRectangle(left));
+        Assert.assertTrue(center.intersectsRectangle(top));
+        Assert.assertTrue(center.intersectsRectangle(bottom));
+
+        Assert.assertTrue(right.intersectsRectangle(center));
+        Assert.assertTrue(left.intersectsRectangle(center));
+        Assert.assertTrue(top.intersectsRectangle(center));
+        Assert.assertTrue(bottom.intersectsRectangle(center));
+    }
+
+    public void testRectangleiContainsPoint() {
+        Rectanglei center = new Rectanglei(0, 0, 3, 3);
+
+        Assert.assertTrue(center.isValid());
+
+        Assert.assertFalse(center.containsPoint(0, 0));
+        Assert.assertFalse(center.containsPoint(1, 0));
+        Assert.assertFalse(center.containsPoint(0, 1));
+        Assert.assertTrue(center.containsPoint(1, 1));
     }
 
     public void testRectangleContains() {

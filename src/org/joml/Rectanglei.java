@@ -300,8 +300,8 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
      */
     public boolean intersectsRectangle(Rectangled other) {
-        return minX < other.maxX && maxX >= other.minX &&
-               maxY >= other.minY && minY < other.maxY;
+        return minX <= other.maxX && maxX >= other.minX &&
+               maxY >= other.minY && minY <= other.maxY;
     }
 
     /**
@@ -312,8 +312,8 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
      */
     public boolean intersectsRectangle(Rectanglef other) {
-        return minX < other.maxX && maxX >= other.minX &&
-               maxY >= other.minY && minY < other.maxY;
+        return minX <= other.maxX && maxX >= other.minX &&
+               maxY >= other.minY && minY <= other.maxY;
     }
 
     /**
@@ -324,8 +324,8 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff both rectangles intersect; <code>false</code> otherwise
      */
     public boolean intersectsRectangle(Rectanglei other) {
-        return minX < other.maxX && maxX >= other.minX &&
-               maxY >= other.minY && minY < other.maxY;
+        return minX <= other.maxX && maxX >= other.minX &&
+               maxY >= other.minY && minY <= other.maxY;
     }
 
     private Rectanglei validate() {
@@ -443,6 +443,29 @@ public class Rectanglei implements Externalizable {
     }
 
     /**
+     * Test whether the point <code>(x, y)</code> lies inside this BlockRegion.
+     *
+     * @param x the x coordinate of the point
+     * @param y the y coordinate of the point
+     * @return <code>true</code> iff the given point lies inside this BlockRegion; <code>false</code> otherwise
+     */
+    public boolean containsPoint(float x, float y) {
+        return x > this.minX && y > this.minY && x < this.maxX && y < this.maxY;
+    }
+
+    /**
+     * Test whether the point <code>(x, y)</code> lies inside this BlockRegion.
+     *
+     * @param point
+     *          the point to test
+     * @return <code>true</code> iff the given point lies inside this BlockRegion; <code>false</code> otherwise
+     */
+    public boolean containsPoint(Vector2fc point) {
+        return containsPoint(point.x(), point.y());
+    }
+
+
+    /**
      * Check if this rectangle contains the given point <code>(x, y)</code>.
      * 
      * @param x
@@ -452,7 +475,7 @@ public class Rectanglei implements Externalizable {
      * @return <code>true</code> iff this rectangle contains the point; <code>false</code> otherwise
      */
     public boolean containsPoint(int x, int y) {
-        return x >= minX && y >= minY && x < maxX && y < maxY;
+        return x > minX && y > minY && x < maxX && y < maxY;
     }
 
     /**

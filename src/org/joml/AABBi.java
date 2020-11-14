@@ -466,11 +466,11 @@ public class AABBi implements Externalizable, AABBic {
     }
 
     public boolean containsPoint(int x, int y, int z){
-        return x >= minX && y >= minY && z >= minZ && x <= maxX && y <= maxY && z <= maxZ;
+        return x > minX && y > minY && z > minZ && x < maxX && y < maxY && z < maxZ;
     }
 
     public boolean containsPoint(float x, float y, float z){
-        return x >= minX && y >= minY && z >= minZ && x <= maxX && y <= maxY && z <= maxZ;
+        return x > minX && y > minY && z > minZ && x < maxX && y < maxY && z < maxZ;
     }
 
     public boolean containsPoint(Vector3ic point) {

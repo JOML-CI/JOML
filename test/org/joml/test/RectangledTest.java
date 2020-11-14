@@ -34,7 +34,8 @@ public class RectangledTest extends TestCase {
         Rectangled rect = new Rectangled(0, 0, 3, 3);
 
         Assert.assertTrue(rect.isValid());
-        Assert.assertTrue(rect.containsPoint(new Vector2d(0, 0)));
+        Assert.assertFalse(rect.containsPoint(new Vector2d(0, 0)));
+        Assert.assertTrue(rect.containsPoint(new Vector2d(1, 1)));
         Assert.assertFalse(rect.containsPoint(new Vector2d(-1, -1)));
         Assert.assertFalse(rect.containsPoint(new Vector2d(4, 4)));
     }

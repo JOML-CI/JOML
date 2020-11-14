@@ -26,6 +26,7 @@ package org.joml.test;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.joml.Rectanglef;
+import org.joml.Vector2d;
 import org.joml.Vector2f;
 
 /**
@@ -38,9 +39,9 @@ public class RectanglefTest extends TestCase {
         Rectanglef rect = new Rectanglef(0, 0, 3, 3);
 
         Assert.assertTrue(rect.isValid());
-        Assert.assertTrue(rect.containsPoint(new Vector2f(0, 0)));
+        Assert.assertFalse(rect.containsPoint(new Vector2f(0, 0)));
+        Assert.assertTrue(rect.containsPoint(new Vector2f(1, 1)));
         Assert.assertFalse(rect.containsPoint(new Vector2f(-1, -1)));
-        Assert.assertFalse(rect.containsPoint(new Vector2f(4, 4)));
         Assert.assertFalse(rect.containsPoint(new Vector2f(4, 4)));
     }
 
