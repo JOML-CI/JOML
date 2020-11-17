@@ -122,6 +122,44 @@ public class Vector3i implements Externalizable, Vector3ic {
     }
 
     /**
+     * Create a new {@link Vector3i} with the given component values and
+     * round using the given {@link RoundingMode}.
+     *
+     * @param x
+     *          the value of x
+     * @param y
+     *          the value of y
+     * @param z
+     *          the value of z
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector3i(float x, float y, float z, int mode) {
+        this.x = Math.roundUsing(x, mode);
+        this.y = Math.roundUsing(y, mode);
+        this.z = Math.roundUsing(z, mode);
+    }
+
+    /**
+     * Create a new {@link Vector3i} with the given component values and
+     * round using the given {@link RoundingMode}.
+     *
+     * @param x
+     *          the value of x
+     * @param y
+     *          the value of y
+     * @param z
+     *          the value of z
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector3i(double x, double y, double z, int mode) {
+        this.x = Math.roundUsing(x, mode);
+        this.y = Math.roundUsing(y, mode);
+        this.z = Math.roundUsing(z, mode);
+    }
+    
+    /**
      * Create a new {@link Vector3i} with the first two components from the
      * given <code>v</code> and the given <code>z</code> and round using the given {@link RoundingMode}.
      *
@@ -133,9 +171,9 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the {@link RoundingMode} to use
      */
     public Vector3i(Vector2fc v, float z, int mode) {
-        x = Math.roundUsing(v.x(), mode);
-        y = Math.roundUsing(v.y(), mode);
-        z = Math.roundUsing(z, mode);
+        this.x = Math.roundUsing(v.x(), mode);
+        this.y = Math.roundUsing(v.y(), mode);
+        this.z = Math.roundUsing(z, mode);
     }
 
     /**
@@ -148,9 +186,9 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the {@link RoundingMode} to use
      */
     public Vector3i(Vector3fc v, int mode) {
-        x = Math.roundUsing(v.x(), mode);
-        y = Math.roundUsing(v.y(), mode);
-        z = Math.roundUsing(v.z(), mode);
+        this.x = Math.roundUsing(v.x(), mode);
+        this.y = Math.roundUsing(v.y(), mode);
+        this.z = Math.roundUsing(v.z(), mode);
     }
 
     /**
@@ -165,9 +203,9 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the {@link RoundingMode} to use
      */
     public Vector3i(Vector2dc v, float z, int mode) {
-        x = Math.roundUsing(v.x(), mode);
-        y = Math.roundUsing(v.y(), mode);
-        z = Math.roundUsing(z, mode);
+        this.x = Math.roundUsing(v.x(), mode);
+        this.y = Math.roundUsing(v.y(), mode);
+        this.z = Math.roundUsing(z, mode);
     }
 
     /**
@@ -180,9 +218,9 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the {@link RoundingMode} to use
      */
     public Vector3i(Vector3dc v, int mode) {
-        x = Math.roundUsing(v.x(), mode);
-        y = Math.roundUsing(v.y(), mode);
-        z = Math.roundUsing(v.z(), mode);
+        this.x = Math.roundUsing(v.x(), mode);
+        this.y = Math.roundUsing(v.y(), mode);
+        this.z = Math.roundUsing(v.z(), mode);
     }
 
     /**
