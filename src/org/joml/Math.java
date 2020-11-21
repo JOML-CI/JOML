@@ -495,9 +495,9 @@ public class Math {
         return Math.fma(b - a, t, a);
     }
 
-    public static float biLerp(float x1, float x2, float y1, float y2, float tx, float ty) {
-        float lerpX1 = lerp(x1, x2, tx);
-        float lerpX2 = lerp(y1, y2, tx);
+    public static float biLerp(float q00, float q10, float q01, float q11, float tx, float ty) {
+        float lerpX1 = lerp(q00, q10, tx);
+        float lerpX2 = lerp(q01, q11, tx);
         return lerp(lerpX1, lerpX2, ty);
     }
 
