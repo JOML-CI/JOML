@@ -487,6 +487,45 @@ public class Math {
             throw new UnsupportedOperationException();
         }
     }
+    
+    public static float lerp(float a, float b, float t){
+        return Math.fma(b - a, t, a);
+    }
+    public static double lerp(double a, double b, double t) {
+        return Math.fma(b - a, t, a);
+    }
+
+    public static float biLerp(float x1, float x2, float y1, float y2, float tx, float ty) {
+        float lerpX1 = lerp(x1, x2, tx);
+        float lerpX2 = lerp(y1, y2, tx);
+        return lerp(lerpX1, lerpX2, ty);
+    }
+
+    public static double biLerp(double q00, double q10, double q01, double q11, double tx, double ty) {
+        double lerpX1 = lerp(q00, q10, tx);
+        double lerpX2 = lerp(q01, q11, tx);
+        return lerp(lerpX1, lerpX2, ty);
+    }
+
+    public static float triLerp(float q000, float q100, float q010, float q110, float q001, float q101, float q011, float q111, float tx, float ty, float tz) {
+        float x00 = lerp(q000, q100, tx);
+        float x10 = lerp(q010, q110, tx);
+        float x01 = lerp(q001, q101, tx);
+        float x11 = lerp(q011, q111, tx);
+        float y0 = lerp(x00, x10, ty);
+        float y1 = lerp(x01, x11, ty);
+        return lerp(y0, y1, tz);
+    }
+
+    public static double triLerp(double q000, double q100, double q010, double q110, double q001, double q101, double q011, double q111, double tx, double ty, double tz) {
+        double x00 = lerp(q000, q100, tx);
+        double x10 = lerp(q010, q110, tx);
+        double x01 = lerp(q001, q101, tx);
+        double x11 = lerp(q011, q111, tx);
+        double y0 = lerp(x00, x10, ty);
+        double y1 = lerp(x01, x11, ty);
+        return lerp(y0, y1, tz);
+    }
 
     public static int roundHalfEven(float v) {
         return (int) java.lang.Math.rint(v);
