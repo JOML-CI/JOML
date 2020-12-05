@@ -69,6 +69,7 @@
 		<hasNio>__HAS_NIO__</hasNio>
 		<hasUnsafe>__HAS_UNSAFE__</hasUnsafe>
 		<hasMathFma>__HAS_MATH_FMA__</hasMathFma>
+		<hasIntegerSignum>__HAS_INTEGER_SIGNUM__</hasIntegerSignum>
 		<javaExclude>org/joml/jre/**</javaExclude>
 		<moduleInfoExclude></moduleInfoExclude>
 		<variant>joml</variant>
@@ -97,6 +98,7 @@
 				<variant>joml-jdk3</variant>
 				<hasNio>__NHAS_NIO__</hasNio>
 				<hasMathFma>__NHAS_MATH_FMA__</hasMathFma>
+				<hasIntegerSignum>__NHAS_INTEGER_SIGNUM__</hasIntegerSignum>
 				<javaExclude>org/joml/jre/**</javaExclude>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
 			</properties>
@@ -607,6 +609,10 @@
 						</property>
 						<property>
 							<name>${hasMathFma}</name>
+							<value>1</value>
+						</property>
+						<property>
+							<name>${hasIntegerSignum}</name>
 							<value>1</value>
 						</property>
 						<property>
