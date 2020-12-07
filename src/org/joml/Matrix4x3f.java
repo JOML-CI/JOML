@@ -7602,30 +7602,30 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return dest;
     }
 
-    public Planef frustumPlane(int which, Planef plane) {
+    public Vector4f frustumPlane(int which, Vector4f dest) {
         switch (which) {
         case PLANE_NX:
-            plane.set(m00, m10, m20, 1.0f + m30).normalize(plane);
+            dest.set(m00, m10, m20, 1.0f + m30).normalize();
             break;
         case PLANE_PX:
-            plane.set(-m00, -m10, -m20, 1.0f - m30).normalize(plane);
+            dest.set(-m00, -m10, -m20, 1.0f - m30).normalize();
             break;
         case PLANE_NY:
-            plane.set(m01, m11, m21, 1.0f + m31).normalize(plane);
+            dest.set(m01, m11, m21, 1.0f + m31).normalize();
             break;
         case PLANE_PY:
-            plane.set(-m01, -m11, -m21, 1.0f - m31).normalize(plane);
+            dest.set(-m01, -m11, -m21, 1.0f - m31).normalize();
             break;
         case PLANE_NZ:
-            plane.set(m02, m12, m22, 1.0f + m32).normalize(plane);
+            dest.set(m02, m12, m22, 1.0f + m32).normalize();
             break;
         case PLANE_PZ:
-            plane.set(-m02, -m12, -m22, 1.0f - m32).normalize(plane);
+            dest.set(-m02, -m12, -m22, 1.0f - m32).normalize();
             break;
         default:
             throw new IllegalArgumentException("which"); //$NON-NLS-1$
         }
-        return plane;
+        return dest;
     }
 
     public Vector3f positiveZ(Vector3f dir) {

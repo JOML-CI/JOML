@@ -13618,53 +13618,27 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Vector4d frustumPlane(int plane, Vector4d dest) {
         switch (plane) {
         case PLANE_NX:
-            dest.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3(dest);
+            dest.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
             break;
         case PLANE_PX:
-            dest.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3(dest);
+            dest.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3();
             break;
         case PLANE_NY:
-            dest.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3(dest);
+            dest.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3();
             break;
         case PLANE_PY:
-            dest.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3(dest);
+            dest.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3();
             break;
         case PLANE_NZ:
-            dest.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3(dest);
+            dest.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3();
             break;
         case PLANE_PZ:
-            dest.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3(dest);
+            dest.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3();
             break;
         default:
-            throw new IllegalArgumentException("plane"); //$NON-NLS-1$
+            throw new IllegalArgumentException("dest"); //$NON-NLS-1$
         }
         return dest;
-    }
-
-    public Planed frustumPlane(int which, Planed plane) {
-        switch (which) {
-        case PLANE_NX:
-            plane.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize(plane);
-            break;
-        case PLANE_PX:
-            plane.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize(plane);
-            break;
-        case PLANE_NY:
-            plane.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize(plane);
-            break;
-        case PLANE_PY:
-            plane.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize(plane);
-            break;
-        case PLANE_NZ:
-            plane.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize(plane);
-            break;
-        case PLANE_PZ:
-            plane.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize(plane);
-            break;
-        default:
-            throw new IllegalArgumentException("which"); //$NON-NLS-1$
-        }
-        return plane;
     }
 
     public Vector3d frustumCorner(int corner, Vector3d dest) {

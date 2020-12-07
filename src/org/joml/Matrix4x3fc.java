@@ -41,32 +41,32 @@ import com.google.gwt.typedarrays.shared.Float32Array;
 public interface Matrix4x3fc {
 
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>x=-1</code> when using the identity matrix.  
      */
     int PLANE_NX = 0;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>x=1</code> when using the identity matrix.  
      */
     int PLANE_PX = 1;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>y=-1</code> when using the identity matrix.  
      */
     int PLANE_NY = 2;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>y=1</code> when using the identity matrix.  
      */
     int PLANE_PY = 3;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>z=-1</code> when using the identity matrix.  
      */
     int PLANE_NZ = 4;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>z=1</code> when using the identity matrix.  
      */
     int PLANE_PZ = 5;
@@ -2201,7 +2201,7 @@ public interface Matrix4x3fc {
     /**
      * Calculate a frustum plane of <code>this</code> matrix, which
      * can be a projection matrix or a combined modelview-projection matrix, and store the result
-     * in the given <code>plane</code>.
+     * in the given <code>dest</code>.
      * <p>
      * Generally, this method computes the frustum plane in the local frame of
      * any coordinate system that existed before <code>this</code>
@@ -2219,12 +2219,12 @@ public interface Matrix4x3fc {
      *          {@link #PLANE_NX}, {@link #PLANE_PX},
      *          {@link #PLANE_NY}, {@link #PLANE_PY}, 
      *          {@link #PLANE_NZ} and {@link #PLANE_PZ}
-     * @param plane
+     * @param dest
      *          will hold the computed plane equation.
      *          The plane equation will be normalized, meaning that <code>(a, b, c)</code> will be a unit vector
-     * @return planeEquation
+     * @return dest
      */
-    Planef frustumPlane(int which, Planef plane);
+    Vector4f frustumPlane(int which, Vector4f dest);
 
     /**
      * Obtain the direction of <code>+Z</code> before the transformation represented by <code>this</code> matrix is applied.

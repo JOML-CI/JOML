@@ -25,7 +25,12 @@ package org.joml;
 
 import java.text.NumberFormat;
 
-final class Runtime {
+/**
+ * Internal class to detect features of the runtime.
+ * 
+ * @author Kai Burjack
+ */
+public final class Runtime {
 
 //#ifndef __GWT__
     public static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();
@@ -128,7 +133,7 @@ final class Runtime {
         return res.toString();
     }
 
-    static String format(double number, NumberFormat format) {
+    public static String format(double number, NumberFormat format) {
         if (Double.isNaN(number)) {
             return padLeft(format, " NaN");
         } else if (Double.isInfinite(number)) {

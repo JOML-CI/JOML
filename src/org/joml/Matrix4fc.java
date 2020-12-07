@@ -41,38 +41,32 @@ import com.google.gwt.typedarrays.shared.Float32Array;
 public interface Matrix4fc {
 
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} and
-     * {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>x=-1</code> when using the identity matrix.  
      */
     int PLANE_NX = 0;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} and
-     * {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>x=1</code> when using the identity matrix.  
      */
     int PLANE_PX = 1;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} and
-     * {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>y=-1</code> when using the identity matrix.  
      */
     int PLANE_NY = 2;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} and
-     * {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>y=1</code> when using the identity matrix.  
      */
     int PLANE_PY = 3;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} and
-     * {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>z=-1</code> when using the identity matrix.  
      */
     int PLANE_NZ = 4;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} and
-     * {@link #frustumPlane(int, Planef)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
      * identifying the plane with equation <code>z=1</code> when using the identity matrix.  
      */
     int PLANE_PZ = 5;
@@ -4447,37 +4441,6 @@ public interface Matrix4fc {
      * @return planeEquation
      */
     Vector4f frustumPlane(int plane, Vector4f planeEquation);
-
-    /**
-     * Calculate a frustum plane of <code>this</code> matrix, which
-     * can be a projection matrix or a combined modelview-projection matrix, and store the result
-     * in the given <code>plane</code>.
-     * <p>
-     * Generally, this method computes the frustum plane in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * The plane normal, which is <code>(a, b, c)</code>, is directed "inwards" of the frustum.
-     * Any plane/point test using <code>a*x + b*y + c*z + d</code> therefore will yield a result greater than zero
-     * if the point is within the frustum (i.e. at the <i>positive</i> side of the frustum plane).
-     * <p>
-     * For performing frustum culling, the class {@link FrustumIntersection} should be used instead of 
-     * manually obtaining the frustum planes and testing them against points, spheres or axis-aligned boxes.
-     * <p>
-     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
-     *
-     * @param which
-     *          one of the six possible planes, given as numeric constants
-     *          {@link #PLANE_NX}, {@link #PLANE_PX},
-     *          {@link #PLANE_NY}, {@link #PLANE_PY}, 
-     *          {@link #PLANE_NZ} and {@link #PLANE_PZ}
-     * @param plane
-     *          will hold the computed plane equation.
-     *          The plane equation will be normalized, meaning that <code>(a, b, c)</code> will be a unit vector
-     * @return planeEquation
-     */
-    Planef frustumPlane(int which, Planef plane);
 
     /**
      * Compute the corner coordinates of the frustum defined by <code>this</code> matrix, which

@@ -38,38 +38,32 @@ import java.util.*;
 public interface Matrix4dc {
 
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} and
-     * {@link #frustumPlane(int, Planed)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
      * identifying the plane with equation <code>x=-1</code> when using the identity matrix.  
      */
     int PLANE_NX = 0;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} and
-     * {@link #frustumPlane(int, Planed)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
      * identifying the plane with equation <code>x=1</code> when using the identity matrix.  
      */
     int PLANE_PX = 1;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} and
-     * {@link #frustumPlane(int, Planed)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
      * identifying the plane with equation <code>y=-1</code> when using the identity matrix.  
      */
     int PLANE_NY = 2;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} and
-     * {@link #frustumPlane(int, Planed)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
      * identifying the plane with equation <code>y=1</code> when using the identity matrix.  
      */
     int PLANE_PY = 3;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} and
-     * {@link #frustumPlane(int, Planed)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
      * identifying the plane with equation <code>z=-1</code> when using the identity matrix.  
      */
     int PLANE_NZ = 4;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} and
-     * {@link #frustumPlane(int, Planed)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
      * identifying the plane with equation <code>z=1</code> when using the identity matrix.  
      */
     int PLANE_PZ = 5;
@@ -4621,7 +4615,7 @@ public interface Matrix4dc {
     /**
      * Calculate a frustum plane of <code>this</code> matrix, which
      * can be a projection matrix or a combined modelview-projection matrix, and store the result
-     * in the given <code>planeEquation</code>.
+     * in the given <code>dest</code>.
      * <p>
      * Generally, this method computes the frustum plane in the local frame of
      * any coordinate system that existed before <code>this</code>
@@ -4646,43 +4640,12 @@ public interface Matrix4dc {
      *          {@link #PLANE_NX}, {@link #PLANE_PX},
      *          {@link #PLANE_NY}, {@link #PLANE_PY}, 
      *          {@link #PLANE_NZ} and {@link #PLANE_PZ}
-     * @param planeEquation
+     * @param dest
      *          will hold the computed plane equation.
      *          The plane equation will be normalized, meaning that <code>(a, b, c)</code> will be a unit vector
-     * @return planeEquation
+     * @return dest
      */
-    Vector4d frustumPlane(int plane, Vector4d planeEquation);
-
-    /**
-     * Calculate a frustum plane of <code>this</code> matrix, which
-     * can be a projection matrix or a combined modelview-projection matrix, and store the result
-     * in the given <code>plane</code>.
-     * <p>
-     * Generally, this method computes the frustum plane in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * The plane normal, which is <code>(a, b, c)</code>, is directed "inwards" of the frustum.
-     * Any plane/point test using <code>a*x + b*y + c*z + d</code> therefore will yield a result greater than zero
-     * if the point is within the frustum (i.e. at the <i>positive</i> side of the frustum plane).
-     * <p>
-     * For performing frustum culling, the class {@link FrustumIntersection} should be used instead of 
-     * manually obtaining the frustum planes and testing them against points, spheres or axis-aligned boxes.
-     * <p>
-     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
-     *
-     * @param plane
-     *          one of the six possible planes, given as numeric constants
-     *          {@link #PLANE_NX}, {@link #PLANE_PX},
-     *          {@link #PLANE_NY}, {@link #PLANE_PY}, 
-     *          {@link #PLANE_NZ} and {@link #PLANE_PZ}
-     * @param planeEquation
-     *          will hold the computed plane equation.
-     *          The plane equation will be normalized, meaning that <code>(a, b, c)</code> will be a unit vector
-     * @return planeEquation
-     */
-    Planed frustumPlane(int plane, Planed planeEquation);
+    Vector4d frustumPlane(int plane, Vector4d dest);
 
     /**
      * Compute the corner coordinates of the frustum defined by <code>this</code> matrix, which

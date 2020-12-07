@@ -8429,30 +8429,30 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
     }
 
-    public Planed frustumPlane(int which, Planed plane) {
+    public Vector4d frustumPlane(int which, Vector4d dest) {
         switch (which) {
         case PLANE_NX:
-            plane.set(m00, m10, m20, 1.0 + m30).normalize(plane);
+            dest.set(m00, m10, m20, 1.0 + m30).normalize();
             break;
         case PLANE_PX:
-            plane.set(-m00, -m10, -m20, 1.0 - m30).normalize(plane);
+            dest.set(-m00, -m10, -m20, 1.0 - m30).normalize();
             break;
         case PLANE_NY:
-            plane.set(m01, m11, m21, 1.0 + m31).normalize(plane);
+            dest.set(m01, m11, m21, 1.0 + m31).normalize();
             break;
         case PLANE_PY:
-            plane.set(-m01, -m11, -m21, 1.0 - m31).normalize(plane);
+            dest.set(-m01, -m11, -m21, 1.0 - m31).normalize();
             break;
         case PLANE_NZ:
-            plane.set(m02, m12, m22, 1.0 + m32).normalize(plane);
+            dest.set(m02, m12, m22, 1.0 + m32).normalize();
             break;
         case PLANE_PZ:
-            plane.set(-m02, -m12, -m22, 1.0 - m32).normalize(plane);
+            dest.set(-m02, -m12, -m22, 1.0 - m32).normalize();
             break;
         default:
             throw new IllegalArgumentException("which"); //$NON-NLS-1$
         }
-        return plane;
+        return dest;
     }
 
     public Vector3d positiveZ(Vector3d dir) {

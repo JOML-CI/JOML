@@ -35,7 +35,7 @@ import java.util.Locale;
  * 
  * @author Kai Burjack
  */
-final class Options {
+public final class Options {
 
     /**
      * Whether certain debugging checks should be made, such as that only direct NIO Buffers are used when Unsafe is active,
