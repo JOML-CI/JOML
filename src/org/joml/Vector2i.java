@@ -86,6 +86,36 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 
     /**
+     * Create a new {@link Vector2i} and initialize its component values and
+     * round using the given {@link RoundingMode}.
+     * @param x
+     *          the x component
+     * @param y
+     *          the y component
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector2i(float x, float y, int mode) {
+        this.x = Math.roundUsing(x, mode);
+        this.y = Math.roundUsing(y, mode);
+    }
+
+    /**
+     * Create a new {@link Vector2i} and initialize its component values and
+     * round using the given {@link RoundingMode}.
+     * @param x
+     *          the x component
+     * @param y
+     *          the y component
+     * @param mode
+     *          the {@link RoundingMode} to use
+     */
+    public Vector2i(double x, double y, int mode) {
+        this.x = Math.roundUsing(x, mode);
+        this.y = Math.roundUsing(y, mode);
+    }
+
+    /**
      * Create a new {@link Vector2i} and initialize its components to the one of
      * the given vector.
      *
