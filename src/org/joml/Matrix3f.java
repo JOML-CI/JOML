@@ -4116,4 +4116,15 @@ public class Matrix3f implements Externalizable, Matrix3fc {
                Math.isFinite(m20) && Math.isFinite(m21) && Math.isFinite(m22);
     }
 
+    public float quadraticFormProduct(float x, float y, float z) {
+        float Axx = m00 * x + m10 * y + m20 * z;
+        float Axy = m01 * x + m11 * y + m21 * z;
+        float Axz = m02 * x + m12 * y + m22 * z;
+        return x * Axx + y * Axy + z * Axz; 
+    }
+
+    public float quadraticFormProduct(Vector3fc v) {
+        return quadraticFormProduct(v.x(), v.y(), v.z()); 
+    }
+
 }

@@ -4707,4 +4707,19 @@ public class Matrix3d implements Externalizable, Matrix3dc {
                Math.isFinite(m20) && Math.isFinite(m21) && Math.isFinite(m22);
     }
 
+    public double quadraticFormProduct(double x, double y, double z) {
+        double Axx = m00 * x + m10 * y + m20 * z;
+        double Axy = m01 * x + m11 * y + m21 * z;
+        double Axz = m02 * x + m12 * y + m22 * z;
+        return x * Axx + y * Axy + z * Axz; 
+    }
+
+    public double quadraticFormProduct(Vector3dc v) {
+        return quadraticFormProduct(v.x(), v.y(), v.z()); 
+    }
+
+    public double quadraticFormProduct(Vector3fc v) {
+        return quadraticFormProduct(v.x(), v.y(), v.z()); 
+    }
+
 }

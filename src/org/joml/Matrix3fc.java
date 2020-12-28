@@ -1513,4 +1513,26 @@ public interface Matrix3fc {
      */
     boolean isFinite();
 
+    /**
+     * Compute <code>(x, y, z)^T * this * (x, y, z)</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to multiply
+     * @param y
+     *          the y coordinate of the vector to multiply
+     * @param z
+     *          the z coordinate of the vector to multiply
+     * @return the result
+     */
+    float quadraticFormProduct(float x, float y, float z);
+
+    /**
+     * Compute <code>v^T * this * v</code>.
+     * 
+     * @param v
+     *          the vector to multiply
+     * @return the result
+     */
+    float quadraticFormProduct(Vector3fc v);
+
 }

@@ -1591,4 +1591,35 @@ public interface Matrix3dc {
      */
     boolean isFinite();
 
+    /**
+     * Compute <code>(x, y, z)^T * this * (x, y, z)</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to multiply
+     * @param y
+     *          the y coordinate of the vector to multiply
+     * @param z
+     *          the z coordinate of the vector to multiply
+     * @return the result
+     */
+    double quadraticFormProduct(double x, double y, double z);
+
+    /**
+     * Compute <code>v^T * this * v</code>.
+     * 
+     * @param v
+     *          the vector to multiply
+     * @return the result
+     */
+    double quadraticFormProduct(Vector3dc v);
+
+    /**
+     * Compute <code>v^T * this * v</code>.
+     * 
+     * @param v
+     *          the vector to multiply
+     * @return the result
+     */
+    double quadraticFormProduct(Vector3fc v);
+
 }
