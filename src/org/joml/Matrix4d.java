@@ -9155,27 +9155,26 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    public Vector4d project(double x, double y, double z, int[] viewport, Vector4d dest) {
-        double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33);
-        double nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
-        double ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
-        double nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
-        dest.x = (nx*0.5+0.5) * viewport[2] + viewport[0];
-        dest.y = (ny*0.5+0.5) * viewport[3] + viewport[1];
-        dest.z = (1.0+nz)*0.5;
-        dest.w = 1.0;
-        return dest;
+    public Vector4d project(double x, double y, double z, int[] viewport, Vector4d winCoordsDest) {
+        double invW = 1.0 / Math.fma(m03, x, Math.fma(m13, y, Math.fma(m23, z, m33)));
+        double nx = Math.fma(m00, x, Math.fma(m10, y, Math.fma(m20, z, m30))) * invW;
+        double ny = Math.fma(m01, x, Math.fma(m11, y, Math.fma(m21, z, m31))) * invW;
+        double nz = Math.fma(m02, x, Math.fma(m12, y, Math.fma(m22, z, m32))) * invW;
+        return winCoordsDest.set(Math.fma(Math.fma(nx, 0.5, 0.5), viewport[2], viewport[0]),
+                                 Math.fma(Math.fma(ny, 0.5, 0.5), viewport[3], viewport[1]),
+                                 Math.fma(0.5, nz, 0.5),
+                                 1.0);
     }
 
-    public Vector3d project(double x, double y, double z, int[] viewport, Vector3d dest) {
-        double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33);
-        double nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
-        double ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
-        double nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
-        dest.x = (nx*0.5+0.5) * viewport[2] + viewport[0];
-        dest.y = (ny*0.5+0.5) * viewport[3] + viewport[1];
-        dest.z = (1.0+nz)*0.5;
-        return dest;
+    public Vector3d project(double x, double y, double z, int[] viewport, Vector3d winCoordsDest) {
+        double invW = 1.0 / Math.fma(m03, x, Math.fma(m13, y, Math.fma(m23, z, m33)));
+        double nx = Math.fma(m00, x, Math.fma(m10, y, Math.fma(m20, z, m30))) * invW;
+        double ny = Math.fma(m01, x, Math.fma(m11, y, Math.fma(m21, z, m31))) * invW;
+        double nz = Math.fma(m02, x, Math.fma(m12, y, Math.fma(m22, z, m32))) * invW;
+        winCoordsDest.x = Math.fma(Math.fma(nx, 0.5, 0.5), viewport[2], viewport[0]);
+        winCoordsDest.y = Math.fma(Math.fma(ny, 0.5, 0.5), viewport[3], viewport[1]);
+        winCoordsDest.z = Math.fma(0.5, nz, 0.5);
+        return winCoordsDest;
     }
 
     public Vector4d project(Vector3dc position, int[] viewport, Vector4d dest) {

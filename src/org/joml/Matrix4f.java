@@ -11660,24 +11660,24 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     public Vector4f project(float x, float y, float z, int[] viewport, Vector4f winCoordsDest) {
-        float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
-        float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
-        float ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
-        float nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
-        return winCoordsDest.set((nx*0.5f+0.5f) * viewport[2] + viewport[0],
-                                 (ny*0.5f+0.5f) * viewport[3] + viewport[1],
-                                 (1.0f+nz)*0.5f,
+        float invW = 1.0f / Math.fma(m03, x, Math.fma(m13, y, Math.fma(m23, z, m33)));
+        float nx = Math.fma(m00, x, Math.fma(m10, y, Math.fma(m20, z, m30))) * invW;
+        float ny = Math.fma(m01, x, Math.fma(m11, y, Math.fma(m21, z, m31))) * invW;
+        float nz = Math.fma(m02, x, Math.fma(m12, y, Math.fma(m22, z, m32))) * invW;
+        return winCoordsDest.set(Math.fma(Math.fma(nx, 0.5f, 0.5f), viewport[2], viewport[0]),
+                                 Math.fma(Math.fma(ny, 0.5f, 0.5f), viewport[3], viewport[1]),
+                                 Math.fma(0.5f, nz, 0.5f),
                                  1.0f);
     }
 
     public Vector3f project(float x, float y, float z, int[] viewport, Vector3f winCoordsDest) {
-        float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
-        float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
-        float ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
-        float nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
-        winCoordsDest.x = (nx*0.5f+0.5f) * viewport[2] + viewport[0];
-        winCoordsDest.y = (ny*0.5f+0.5f) * viewport[3] + viewport[1];
-        winCoordsDest.z = (1.0f+nz)*0.5f;
+        float invW = 1.0f / Math.fma(m03, x, Math.fma(m13, y, Math.fma(m23, z, m33)));
+        float nx = Math.fma(m00, x, Math.fma(m10, y, Math.fma(m20, z, m30))) * invW;
+        float ny = Math.fma(m01, x, Math.fma(m11, y, Math.fma(m21, z, m31))) * invW;
+        float nz = Math.fma(m02, x, Math.fma(m12, y, Math.fma(m22, z, m32))) * invW;
+        winCoordsDest.x = Math.fma(Math.fma(nx, 0.5f, 0.5f), viewport[2], viewport[0]);
+        winCoordsDest.y = Math.fma(Math.fma(ny, 0.5f, 0.5f), viewport[3], viewport[1]);
+        winCoordsDest.z = Math.fma(0.5f, nz, 0.5f);
         return winCoordsDest;
     }
 
