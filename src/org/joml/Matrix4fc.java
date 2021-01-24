@@ -4891,7 +4891,7 @@ public interface Matrix4fc {
      * Apply an arcball view transformation to this matrix with the given <code>radius</code> and center <code>(centerX, centerY, centerZ)</code>
      * position of the arcball and the specified X and Y rotation angles, and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <code>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-centerX, -centerY, -centerZ)</code>
+     * This method is equivalent to calling: <code>translate(0, 0, -radius, dest).rotateX(angleX).rotateY(angleY).translate(-centerX, -centerY, -centerZ)</code>
      * 
      * @param radius
      *          the arcball radius
