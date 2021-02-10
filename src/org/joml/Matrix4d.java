@@ -4372,7 +4372,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double nm32 = m02 * ox + m12 * oy + m22 * oz + m32;
         double nm33 = m03 * ox + m13 * oy + m23 * oz + m33;
         boolean one = Math.absEqualsOne(sx) && Math.absEqualsOne(sy) && Math.absEqualsOne(sz);
-        dest._m00(m00 * sx)
+        return dest
+        ._m00(m00 * sx)
         ._m01(m01 * sx)
         ._m02(m02 * sx)
         ._m03(m03 * sx)
@@ -4384,13 +4385,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         ._m21(m21 * sz)
         ._m22(m22 * sz)
         ._m23(m23 * sz)
-        ._m30(-m00 * ox - m10 * oy - m20 * oz + nm30)
-        ._m31(-m01 * ox - m11 * oy - m21 * oz + nm31)
-        ._m32(-m02 * ox - m12 * oy - m22 * oz + nm32)
-        ._m33(-m03 * ox - m13 * oy - m23 * oz + nm33)
+        ._m30(-dest.m00 * ox - dest.m10 * oy - dest.m20 * oz + nm30)
+        ._m31(-dest.m01 * ox - dest.m11 * oy - dest.m21 * oz + nm31)
+        ._m32(-dest.m02 * ox - dest.m12 * oy - dest.m22 * oz + nm32)
+        ._m33(-dest.m03 * ox - dest.m13 * oy - dest.m23 * oz + nm33)
         ._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION
-                | (one ? 0 : PROPERTY_ORTHONORMAL)));
-        return dest;
+            | (one ? 0 : PROPERTY_ORTHONORMAL)));
     }
 
     /**
