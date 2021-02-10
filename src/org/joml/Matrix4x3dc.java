@@ -1172,6 +1172,62 @@ public interface Matrix4x3dc {
     Matrix4x3d scaleXY(double x, double y, Matrix4x3d dest);
 
     /**
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given sx,
+     * sy and sz factors while using <code>(ox, oy, oz)</code> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * <p>
+     * This method is equivalent to calling: <code>translate(ox, oy, oz, dest).scale(sx, sy, sz).translate(-ox, -oy, -oz)</code>
+     * 
+     * @param sx
+     *            the scaling factor of the x component
+     * @param sy
+     *            the scaling factor of the y component
+     * @param sz
+     *            the scaling factor of the z component
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Matrix4x3d scaleAround(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4x3d dest);
+
+    /**
+     * Apply scaling to this matrix by scaling all three base axes by the given <code>factor</code>
+     * while using <code>(ox, oy, oz)</code> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * This method is equivalent to calling: <code>translate(ox, oy, oz, dest).scale(factor).translate(-ox, -oy, -oz)</code>
+     * 
+     * @param factor
+     *            the scaling factor for all three axes
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    Matrix4x3d scaleAround(double factor, double ox, double oy, double oz, Matrix4x3d dest);
+
+    /**
      * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
