@@ -572,7 +572,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         this.x = xyzw[0];
         this.y = xyzw[1];
         this.z = xyzw[2];
-        this.w = xyzw[2];
+        this.w = xyzw[3];
         return this;
     }
 
@@ -587,7 +587,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         this.x = xyzw[0];
         this.y = xyzw[1];
         this.z = xyzw[2];
-        this.w = xyzw[2];
+        this.w = xyzw[3];
         return this;
     }
 

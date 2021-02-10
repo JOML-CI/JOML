@@ -463,7 +463,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         this.x = xyzw[0];
         this.y = xyzw[1];
         this.z = xyzw[2];
-        this.w = xyzw[2];
+        this.w = xyzw[3];
         return this;
     }
 
