@@ -4939,14 +4939,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float sin = Math.sin(ang), cos = Math.cosFromSin(sin, ang);
         float lm10 = m10, lm11 = m11, lm12 = m12, lm13 = m13, lm20 = m20, lm21 = m21, lm22 = m22, lm23 = m23;
         return dest
-        ._m20(lm10 * -sin + lm20 * cos)
-        ._m21(lm11 * -sin + lm21 * cos)
-        ._m22(lm12 * -sin + lm22 * cos)
-        ._m23(lm13 * -sin + lm23 * cos)
-        ._m10(lm10 * cos + lm20 * sin)
-        ._m11(lm11 * cos + lm21 * sin)
-        ._m12(lm12 * cos + lm22 * sin)
-        ._m13(lm13 * cos + lm23 * sin)
+        ._m20(Math.fma(lm10, -sin, lm20 * cos))
+        ._m21(Math.fma(lm11, -sin, lm21 * cos))
+        ._m22(Math.fma(lm12, -sin, lm22 * cos))
+        ._m23(Math.fma(lm13, -sin, lm23 * cos))
+        ._m10(Math.fma(lm10, cos, lm20 * sin))
+        ._m11(Math.fma(lm11, cos, lm21 * sin))
+        ._m12(Math.fma(lm12, cos, lm22 * sin))
+        ._m13(Math.fma(lm13, cos, lm23 * sin))
         ._m00(m00)
         ._m01(m01)
         ._m02(m02)
@@ -4993,16 +4993,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float sin = Math.sin(ang);
         float cos = Math.cosFromSin(sin, ang);
         // add temporaries for dependent values
-        float nm00 = m00 * cos + m20 * -sin;
-        float nm01 = m01 * cos + m21 * -sin;
-        float nm02 = m02 * cos + m22 * -sin;
-        float nm03 = m03 * cos + m23 * -sin;
+        float nm00 = Math.fma(m00, cos, m20 * -sin);
+        float nm01 = Math.fma(m01, cos, m21 * -sin);
+        float nm02 = Math.fma(m02, cos, m22 * -sin);
+        float nm03 = Math.fma(m03, cos, m23 * -sin);
         // set non-dependent values directly
         return dest
-        ._m20(m00 * sin + m20 * cos)
-        ._m21(m01 * sin + m21 * cos)
-        ._m22(m02 * sin + m22 * cos)
-        ._m23(m03 * sin + m23 * cos)
+        ._m20(Math.fma(m00, sin, m20 * cos))
+        ._m21(Math.fma(m01, sin, m21 * cos))
+        ._m22(Math.fma(m02, sin, m22 * cos))
+        ._m23(Math.fma(m03, sin, m23 * cos))
         // set other values
         ._m00(nm00)
         ._m01(nm01)
@@ -5101,15 +5101,15 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     public Matrix4f rotateTowardsXY(float dirX, float dirY, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationTowardsXY(dirX, dirY);
-        float nm00 = m00 * dirY + m10 * dirX;
-        float nm01 = m01 * dirY + m11 * dirX;
-        float nm02 = m02 * dirY + m12 * dirX;
-        float nm03 = m03 * dirY + m13 * dirX;
+        float nm00 = Math.fma(m00, dirY, m10 * dirX);
+        float nm01 = Math.fma(m01, dirY, m11 * dirX);
+        float nm02 = Math.fma(m02, dirY, m12 * dirX);
+        float nm03 = Math.fma(m03, dirY, m13 * dirX);
         return dest
-        ._m10(m00 * -dirX + m10 * dirY)
-        ._m11(m01 * -dirX + m11 * dirY)
-        ._m12(m02 * -dirX + m12 * dirY)
-        ._m13(m03 * -dirX + m13 * dirY)
+        ._m10(Math.fma(m00, -dirX, m10 * dirY))
+        ._m11(Math.fma(m01, -dirX, m11 * dirY))
+        ._m12(Math.fma(m02, -dirX, m12 * dirY))
+        ._m13(Math.fma(m03, -dirX, m13 * dirY))
         ._m00(nm00)
         ._m01(nm01)
         ._m02(nm02)
@@ -5197,33 +5197,33 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float m_sinZ = -sinZ;
 
         // rotateX
-        float nm10 = m10 * cosX + m20 * sinX;
-        float nm11 = m11 * cosX + m21 * sinX;
-        float nm12 = m12 * cosX + m22 * sinX;
-        float nm13 = m13 * cosX + m23 * sinX;
-        float nm20 = m10 * m_sinX + m20 * cosX;
-        float nm21 = m11 * m_sinX + m21 * cosX;
-        float nm22 = m12 * m_sinX + m22 * cosX;
-        float nm23 = m13 * m_sinX + m23 * cosX;
+        float nm10 = Math.fma(m10, cosX, m20 * sinX);
+        float nm11 = Math.fma(m11, cosX, m21 * sinX);
+        float nm12 = Math.fma(m12, cosX, m22 * sinX);
+        float nm13 = Math.fma(m13, cosX, m23 * sinX);
+        float nm20 = Math.fma(m10, m_sinX, m20 * cosX);
+        float nm21 = Math.fma(m11, m_sinX, m21 * cosX);
+        float nm22 = Math.fma(m12, m_sinX, m22 * cosX);
+        float nm23 = Math.fma(m13, m_sinX, m23 * cosX);
         // rotateY
-        float nm00 = m00 * cosY + nm20 * m_sinY;
-        float nm01 = m01 * cosY + nm21 * m_sinY;
-        float nm02 = m02 * cosY + nm22 * m_sinY;
-        float nm03 = m03 * cosY + nm23 * m_sinY;
+        float nm00 = Math.fma(m00, cosY, nm20 * m_sinY);
+        float nm01 = Math.fma(m01, cosY, nm21 * m_sinY);
+        float nm02 = Math.fma(m02, cosY, nm22 * m_sinY);
+        float nm03 = Math.fma(m03, cosY, nm23 * m_sinY);
         return dest
-        ._m20(m00 * sinY + nm20 * cosY)
-        ._m21(m01 * sinY + nm21 * cosY)
-        ._m22(m02 * sinY + nm22 * cosY)
-        ._m23(m03 * sinY + nm23 * cosY)
+        ._m20(Math.fma(m00, sinY, nm20 * cosY))
+        ._m21(Math.fma(m01, sinY, nm21 * cosY))
+        ._m22(Math.fma(m02, sinY, nm22 * cosY))
+        ._m23(Math.fma(m03, sinY, nm23 * cosY))
         // rotateZ
-        ._m00(nm00 * cosZ + nm10 * sinZ)
-        ._m01(nm01 * cosZ + nm11 * sinZ)
-        ._m02(nm02 * cosZ + nm12 * sinZ)
-        ._m03(nm03 * cosZ + nm13 * sinZ)
-        ._m10(nm00 * m_sinZ + nm10 * cosZ)
-        ._m11(nm01 * m_sinZ + nm11 * cosZ)
-        ._m12(nm02 * m_sinZ + nm12 * cosZ)
-        ._m13(nm03 * m_sinZ + nm13 * cosZ)
+        ._m00(Math.fma(nm00, cosZ, nm10 * sinZ))
+        ._m01(Math.fma(nm01, cosZ, nm11 * sinZ))
+        ._m02(Math.fma(nm02, cosZ, nm12 * sinZ))
+        ._m03(Math.fma(nm03, cosZ, nm13 * sinZ))
+        ._m10(Math.fma(nm00, m_sinZ, nm10 * cosZ))
+        ._m11(Math.fma(nm01, m_sinZ, nm11 * cosZ))
+        ._m12(Math.fma(nm02, m_sinZ, nm12 * cosZ))
+        ._m13(Math.fma(nm03, m_sinZ, nm13 * cosZ))
         // copy last column from 'this'
         ._m30(m30)
         ._m31(m31)
@@ -5283,29 +5283,29 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float m_sinZ = -sinZ;
 
         // rotateX
-        float nm10 = m10 * cosX + m20 * sinX;
-        float nm11 = m11 * cosX + m21 * sinX;
-        float nm12 = m12 * cosX + m22 * sinX;
-        float nm20 = m10 * m_sinX + m20 * cosX;
-        float nm21 = m11 * m_sinX + m21 * cosX;
-        float nm22 = m12 * m_sinX + m22 * cosX;
+        float nm10 = Math.fma(m10, cosX, m20 * sinX);
+        float nm11 = Math.fma(m11, cosX, m21 * sinX);
+        float nm12 = Math.fma(m12, cosX, m22 * sinX);
+        float nm20 = Math.fma(m10, m_sinX, m20 * cosX);
+        float nm21 = Math.fma(m11, m_sinX, m21 * cosX);
+        float nm22 = Math.fma(m12, m_sinX, m22 * cosX);
         // rotateY
-        float nm00 = m00 * cosY + nm20 * m_sinY;
-        float nm01 = m01 * cosY + nm21 * m_sinY;
-        float nm02 = m02 * cosY + nm22 * m_sinY;
+        float nm00 = Math.fma(m00, cosY, nm20 * m_sinY);
+        float nm01 = Math.fma(m01, cosY, nm21 * m_sinY);
+        float nm02 = Math.fma(m02, cosY, nm22 * m_sinY);
         return dest
-        ._m20(m00 * sinY + nm20 * cosY)
-        ._m21(m01 * sinY + nm21 * cosY)
-        ._m22(m02 * sinY + nm22 * cosY)
+        ._m20(Math.fma(m00, sinY, nm20 * cosY))
+        ._m21(Math.fma(m01, sinY, nm21 * cosY))
+        ._m22(Math.fma(m02, sinY, nm22 * cosY))
         ._m23(0.0f)
         // rotateZ
-        ._m00(nm00 * cosZ + nm10 * sinZ)
-        ._m01(nm01 * cosZ + nm11 * sinZ)
-        ._m02(nm02 * cosZ + nm12 * sinZ)
+        ._m00(Math.fma(nm00, cosZ, nm10 * sinZ))
+        ._m01(Math.fma(nm01, cosZ, nm11 * sinZ))
+        ._m02(Math.fma(nm02, cosZ, nm12 * sinZ))
         ._m03(0.0f)
-        ._m10(nm00 * m_sinZ + nm10 * cosZ)
-        ._m11(nm01 * m_sinZ + nm11 * cosZ)
-        ._m12(nm02 * m_sinZ + nm12 * cosZ)
+        ._m10(Math.fma(nm00, m_sinZ, nm10 * cosZ))
+        ._m11(Math.fma(nm01, m_sinZ, nm11 * cosZ))
+        ._m12(Math.fma(nm02, m_sinZ, nm12 * cosZ))
         ._m13(0.0f)
         // copy last column from 'this'
         ._m30(m30)
