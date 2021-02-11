@@ -41,8 +41,10 @@ public class ModuleInfoGenerator implements Opcodes {
         ModuleVisitor mv = cw.visitModule("org.joml", 0, args[1]);
         mv.visitRequire("java.base", ACC_MANDATED, "9");
         mv.visitRequire("jdk.unsupported", ACC_STATIC_PHASE, null);
+        mv.visitRequire("jdk.incubator.vector", ACC_STATIC_PHASE, null);
         mv.visitExport("org/joml", 0, (String[]) null);
         mv.visitExport("org/joml/sampling", 0, (String[]) null);
+        mv.visitExport("org/joml/experimental", 0, (String[]) null);
         mv.visitEnd();
         cw.visitEnd();
         FileOutputStream fos = new FileOutputStream(new File(dest, "module-info.class"));

@@ -1,5 +1,4 @@
 language: java
-dist: trusty
 os: linux
 git:
   depth: 1
@@ -16,9 +15,8 @@ env:
     - secure: "XjfHWxZ58JpJFDDTRy/BXO/BG3+lpePWV1JtSh75GYXGMWiMeueEnZi7VWY7fkNb4wCrGrgLDZP4EaGJGeJDfnphTBOEWBeJZ+RhY/E6HbmxVN4EAp9tg91vAl1hFiv2dnRxiYrTXhZzPnfR/rsFrpy7lvjN6+Suq5ZmYrKcA7U="
 jobs:
   include:
-    - jdk: openjdk7
     - jdk: openjdk8
-    - jdk: openjdk9
+    - jdk: openjdk16
       after_success:
         - test $TRAVIS_BRANCH = "main" && test $TRAVIS_PULL_REQUEST = "false" && 
           openssl aes-256-cbc -pass pass:$ENCRYPTION_KEY -in .travis/pubring.asc.enc -out ./pubring.asc -d &&
@@ -28,13 +26,6 @@ jobs:
           ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Djdk3  -Dmaven.test.skip=true -f pom-jdk3.xml &&
           ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Djdk8  -Dmaven.test.skip=true -f pom-jdk8.xml &&
           ./mvnw clean deploy --settings .travis/settings.xml -Ddeployment -Dgraal -Dmaven.test.skip=true -f pom-graal.xml
-    - jdk: openjdk10
-    - jdk: openjdk11
-    - jdk: openjdk12
-    - jdk: openjdk13
-    - jdk: openjdk14
-    - jdk: openjdk15
-    - jdk: openjdk16
     - jdk: openjdk-ea
 script: 
   - ./mvnw clean package -Dmaven.javadoc.skip=false

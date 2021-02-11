@@ -43,8 +43,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.2</maven.compiler.source>
-		<maven.compiler.target>1.2</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
 		<maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
@@ -60,7 +60,7 @@
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<httpclient.version>4.5.10</httpclient.version>
-		<asm.version>8.0.1</asm.version>
+		<asm.version>9.1</asm.version>
 		<javassist.version>3.26.0-GA</javassist.version>
 		<gwt-user.version>2.5.0</gwt-user.version>
 		<junit.version>3.8.2</junit.version>
@@ -70,6 +70,7 @@
 		<hasUnsafe>__HAS_UNSAFE__</hasUnsafe>
 		<hasMathFma>__HAS_MATH_FMA__</hasMathFma>
 		<hasIntegerSignum>__HAS_INTEGER_SIGNUM__</hasIntegerSignum>
+		<hasVectorApi>__HAS_VECTOR_API__</hasVectorApi>
 		<javaExclude>org/joml/jre/**</javaExclude>
 		<moduleInfoExclude></moduleInfoExclude>
 		<variant>joml</variant>
@@ -99,6 +100,7 @@
 				<hasNio>__NHAS_NIO__</hasNio>
 				<hasMathFma>__NHAS_MATH_FMA__</hasMathFma>
 				<hasIntegerSignum>__NHAS_INTEGER_SIGNUM__</hasIntegerSignum>
+				<hasVectorApi>__NHAS_VECTOR_API__</hasVectorApi>
 				<javaExclude>org/joml/jre/**</javaExclude>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
 			</properties>
@@ -120,11 +122,6 @@
 			<activation>
 				<jdk>[9,)</jdk>
 			</activation>
-			<properties>
-				<!-- JDK9 cannot handle < 1.6 anymore -->
-				<maven.compiler.source>1.6</maven.compiler.source>
-				<maven.compiler.target>1.6</maven.compiler.target>
-			</properties>
 			<build>
 				<plugins>
 					<!-- Make sure the jdk9 profile is only used with a 1.9 JDK, and not 
@@ -175,7 +172,9 @@
 												<pathelement
 													location="${project.build.directory}/buildhelper" />
 											</classpath>
-											<arg value="${project.build.outputDirectory}" />
+											<arg value="${project.build.outputDirectory}/org/joml" />
+											<arg
+												value="${project.build.outputDirectory}/org/joml/sampling" />
 										</java>
 										<echo message="Post-processing done."></echo>
 										<echo message="Generate Java 9 module-info.class..."></echo>
@@ -217,15 +216,56 @@
 			</build>
 		</profile>
 		<profile>
-			<id>jdk12</id>
+			<id>jdk16</id>
 			<activation>
-				<jdk>[12,)</jdk>
+				<jdk>16</jdk>
 			</activation>
-			<properties>
-				<!-- JDK12 cannot handle < 1.7 anymore -->
-				<maven.compiler.source>1.7</maven.compiler.source>
-				<maven.compiler.target>1.7</maven.compiler.target>
-			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${maven-compiler-plugin.version}</version>
+						<configuration>
+							<includes>
+								<include>org/joml/*.java</include>
+								<include>org/joml/sampling/*.java</include>
+							</includes>
+						</configuration>
+						<executions>
+							<execution>
+								<id>experimental-classes</id>
+								<goals>
+									<goal>compile</goal>
+								</goals>
+								<phase>compile</phase>
+								<configuration>
+									<includes>
+										<include>org/joml/experimental/*.java</include>
+									</includes>
+									<compilerArgs>
+										<arg>--add-modules</arg>
+										<arg>jdk.incubator.vector</arg>
+									</compilerArgs>
+									<source>16</source>
+									<target>16</target>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>${maven-javadoc-plugin.version}</version>
+						<configuration>
+							<excludePackageNames>org.joml.jre</excludePackageNames>
+							<additionalOptions>
+								<additionalOption>-html5</additionalOption>
+								<additionalOption>--add-modules</additionalOption>
+								<additionalOption>jdk.incubator.vector</additionalOption>
+							</additionalOptions>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>preJdk9</id>
@@ -303,6 +343,7 @@
 				<hasNio>__NHAS_NIO__</hasNio>
 				<hasUnsafe>__NHAS_UNSAFE__</hasUnsafe>
 				<hasMathFma>__NHAS_MATH_FMA__</hasMathFma>
+				<hasVectorApi>__NHAS_VECTOR_API__</hasVectorApi>
 				<variant>joml-gwt</variant>
 				<javaExclude></javaExclude>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
@@ -337,6 +378,7 @@
 			<properties>
 				<platform>__GRAAL__</platform>
 				<hasUnsafe>__NHAS_UNSAFE__</hasUnsafe>
+				<hasVectorApi>__NHAS_VECTOR_API__</hasVectorApi>
 				<variant>joml-graal</variant>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
 			</properties>
@@ -510,14 +552,14 @@
 											<classpath refid="maven.plugin.classpath" />
 										</javac>
 										<java classname="InlineAdvisor"
-											classpathref="maven.plugin.classpath"
-											fork="true">
+											classpathref="maven.plugin.classpath" fork="true">
 											<classpath>
 												<pathelement
 													location="${project.build.directory}/buildhelper" />
 											</classpath>
 											<arg value="${project.build.outputDirectory}" />
-											<jvmarg value="-DInlineAdvisor.FreqInlineThreshold=325"/>
+											<jvmarg
+												value="-DInlineAdvisor.FreqInlineThreshold=325" />
 										</java>
 									</target>
 								</configuration>
@@ -619,6 +661,10 @@
 							<name>${hasUnsafe}</name>
 							<value>1</value>
 						</property>
+						<property>
+							<name>${hasVectorApi}</name>
+							<value>1</value>
+						</property>
 					</globalVars>
 				</configuration>
 			</plugin>
@@ -648,9 +694,10 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
-					<excludes>
-						<exclude>org/joml/jre/**</exclude>
-					</excludes>
+					<includes>
+						<include>org/joml/*.java</include>
+						<include>org/joml/sampling/*.java</include>
+					</includes>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -767,7 +814,7 @@
 				<version>${maven-javadoc-plugin.version}</version>
 				<configuration>
 					<!-- Exclude the Java 1.4 API classes from the javadoc jar -->
-					<excludePackageNames>org.joml.jre</excludePackageNames>
+					<excludePackageNames>org.joml.jre,org.joml.experimental</excludePackageNames>
 				</configuration>
 				<executions>
 					<execution>
