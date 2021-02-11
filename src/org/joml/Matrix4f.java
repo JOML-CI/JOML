@@ -10160,10 +10160,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             ._m21(nm21)
             ._m22(nm22)
             ._m23(nm23)
-            ._m30(m30)
-            ._m31(m31)
-            ._m32(m32)
-            ._m33(m33)
             ._properties(0);
         return dest;
     }
@@ -10456,10 +10452,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             ._m21(nm21)
             ._m22(nm22)
             ._m23(nm23)
-            ._m30(m30)
-            ._m31(m31)
-            ._m32(m32)
-            ._m33(m33)
             ._properties(0);
         return dest;
     }
