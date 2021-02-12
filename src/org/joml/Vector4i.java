@@ -42,7 +42,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author Hans Uhlig
  */
-public class Vector4i implements Externalizable, Vector4ic {
+public class Vector4i implements Externalizable, Cloneable, Vector4ic {
 
     private static final long serialVersionUID = 1L;
 
@@ -1216,4 +1216,9 @@ public class Vector4i implements Externalizable, Vector4ic {
             return false;
         return true;
     }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

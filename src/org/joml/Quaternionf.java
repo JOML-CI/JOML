@@ -40,7 +40,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Quaternionf implements Externalizable, Quaternionfc {
+public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
 
     private static final long serialVersionUID = 1L;
 
@@ -3055,4 +3055,9 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             return false;
         return true;
     }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

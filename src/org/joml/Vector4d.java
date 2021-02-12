@@ -40,7 +40,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author F. Neurath
  */
-public class Vector4d implements Externalizable, Vector4dc {
+public class Vector4d implements Externalizable, Cloneable, Vector4dc {
 
     private static final long serialVersionUID = 1L;
 
@@ -2133,4 +2133,9 @@ public class Vector4d implements Externalizable, Vector4dc {
         dest.w = Math.abs(w);
         return dest;
     }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

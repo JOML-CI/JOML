@@ -38,7 +38,7 @@ import java.text.NumberFormat;
  * 
  * @author Kai Burjack
  */
-public class AxisAngle4f implements Externalizable {
+public class AxisAngle4f implements Externalizable, Cloneable {
 
     private static final long serialVersionUID = 1L;
 
@@ -804,6 +804,10 @@ public class AxisAngle4f implements Externalizable {
         if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
             return false;
         return true;
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

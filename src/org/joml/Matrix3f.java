@@ -49,7 +49,7 @@ import com.google.gwt.typedarrays.shared.Float32Array;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Matrix3f implements Externalizable, Matrix3fc {
+public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
 
     private static final long serialVersionUID = 1L;
 
@@ -4125,6 +4125,10 @@ public class Matrix3f implements Externalizable, Matrix3fc {
 
     public float quadraticFormProduct(Vector3fc v) {
         return quadraticFormProduct(v.x(), v.y(), v.z()); 
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

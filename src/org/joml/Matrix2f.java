@@ -46,7 +46,7 @@ import java.text.NumberFormat;
  *
  * @author Joseph Burton
  */
-public class Matrix2f implements Externalizable, Matrix2fc {
+public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
 
     private static final long serialVersionUID = 1L;
 
@@ -1414,6 +1414,10 @@ public class Matrix2f implements Externalizable, Matrix2fc {
     public boolean isFinite() {
         return Math.isFinite(m00) && Math.isFinite(m01) &&
                Math.isFinite(m10) && Math.isFinite(m11);
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

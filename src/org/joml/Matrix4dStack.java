@@ -173,4 +173,13 @@ public class Matrix4dStack extends Matrix4d {
         }
     }
 
+    public Object clone() throws CloneNotSupportedException {
+        Matrix4dStack cloned = (Matrix4dStack) super.clone();
+        Matrix4d[] clonedMats = new Matrix4d[mats.length];
+        for (int i = 0; i < mats.length; i++)
+            clonedMats[i] = (Matrix4d) mats[i].clone();
+        cloned.mats = clonedMats;
+        return cloned;
+    }
+
 }

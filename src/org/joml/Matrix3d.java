@@ -46,7 +46,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Matrix3d implements Externalizable, Matrix3dc {
+public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
 
     private static final long serialVersionUID = 1L;
 
@@ -4720,6 +4720,10 @@ public class Matrix3d implements Externalizable, Matrix3dc {
 
     public double quadraticFormProduct(Vector3fc v) {
         return quadraticFormProduct(v.x(), v.y(), v.z()); 
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

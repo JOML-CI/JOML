@@ -41,7 +41,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author Hans Uhlig
  */
-public class Vector2i implements Externalizable, Vector2ic {
+public class Vector2i implements Externalizable, Cloneable, Vector2ic {
 
     private static final long serialVersionUID = 1L;
 
@@ -968,6 +968,10 @@ public class Vector2i implements Externalizable, Vector2ic {
      */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

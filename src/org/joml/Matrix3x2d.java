@@ -47,7 +47,7 @@ import com.google.gwt.typedarrays.shared.Float64Array;
  * 
  * @author Kai Burjack
  */
-public class Matrix3x2d implements Matrix3x2dc, Externalizable {
+public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -2486,6 +2486,10 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return Math.isFinite(m00) && Math.isFinite(m01) &&
                Math.isFinite(m10) && Math.isFinite(m11) &&
                Math.isFinite(m20) && Math.isFinite(m21);
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

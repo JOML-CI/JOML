@@ -41,7 +41,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author F. Neurath
  */
-public class Vector2d implements Externalizable, Vector2dc {
+public class Vector2d implements Externalizable, Cloneable, Vector2dc {
 
     private static final long serialVersionUID = 1L;
 
@@ -1368,4 +1368,9 @@ public class Vector2d implements Externalizable, Vector2dc {
         dest.y = Math.abs(this.y);
         return dest;
     }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

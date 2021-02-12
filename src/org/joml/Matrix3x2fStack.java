@@ -174,4 +174,13 @@ public class Matrix3x2fStack extends Matrix3x2f {
         }
     }
 
+    public Object clone() throws CloneNotSupportedException {
+        Matrix3x2fStack cloned = (Matrix3x2fStack) super.clone();
+        Matrix3x2f[] clonedMats = new Matrix3x2f[mats.length];
+        for (int i = 0; i < mats.length; i++)
+            clonedMats[i] = (Matrix3x2f) mats[i].clone();
+        cloned.mats = clonedMats;
+        return cloned;
+    }
+
 }

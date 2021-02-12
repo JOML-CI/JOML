@@ -42,7 +42,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author F. Neurath
  */
-public class Vector3f implements Externalizable, Vector3fc {
+public class Vector3f implements Externalizable, Cloneable, Vector3fc {
 
     private static final long serialVersionUID = 1L;
 
@@ -2089,6 +2089,10 @@ public class Vector3f implements Externalizable, Vector3fc {
 
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z);
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

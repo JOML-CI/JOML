@@ -41,7 +41,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author F. Neurath
  */
-public class Vector3d implements Externalizable, Vector3dc {
+public class Vector3d implements Externalizable, Cloneable, Vector3dc {
 
     private static final long serialVersionUID = 1L;
 
@@ -2616,6 +2616,10 @@ public class Vector3d implements Externalizable, Vector3dc {
 
     public boolean isFinite() {
         return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z);
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

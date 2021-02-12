@@ -36,7 +36,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Quaterniond implements Externalizable, Quaterniondc {
+public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
 
     private static final long serialVersionUID = 1L;
 
@@ -2970,4 +2970,9 @@ public class Quaterniond implements Externalizable, Quaterniondc {
             return false;
         return true;
     }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

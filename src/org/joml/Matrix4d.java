@@ -47,7 +47,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Matrix4d implements Externalizable, Matrix4dc {
+public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
 
     private static final long serialVersionUID = 1L;
 
@@ -15583,6 +15583,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
                Math.isFinite(m10) && Math.isFinite(m11) && Math.isFinite(m12) && Math.isFinite(m13) &&
                Math.isFinite(m20) && Math.isFinite(m21) && Math.isFinite(m22) && Math.isFinite(m23) &&
                Math.isFinite(m30) && Math.isFinite(m31) && Math.isFinite(m32) && Math.isFinite(m33);
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

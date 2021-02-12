@@ -37,7 +37,7 @@ import java.io.ObjectOutput;
  * 
  * @author Kai Burjack
  */
-public class Matrix3x2dStack extends Matrix3x2d {
+public class Matrix3x2dStack extends Matrix3x2d implements Cloneable {
 
     private static final long serialVersionUID = 1L;
 
@@ -172,6 +172,15 @@ public class Matrix3x2dStack extends Matrix3x2d {
             m.readExternal(in);
             mats[i] = m;
         }
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        Matrix3x2dStack cloned = (Matrix3x2dStack) super.clone();
+        Matrix3x2d[] clonedMats = new Matrix3x2d[mats.length];
+        for (int i = 0; i < mats.length; i++)
+            clonedMats[i] = (Matrix3x2d) mats[i].clone();
+        cloned.mats = clonedMats;
+        return cloned;
     }
 
 }
