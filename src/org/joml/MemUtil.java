@@ -4105,7 +4105,7 @@ abstract class MemUtil {
             u.putLong( null, destAddr+12, u.getLong(m, Matrix3x2f_m00+8));
             u.putInt(  null, destAddr+20, 0);
             u.putLong( null, destAddr+24, u.getLong(m, Matrix3x2f_m00+16));
-            u.putFloat(null, destAddr+32, 0.0f);
+            u.putFloat(null, destAddr+32, 1.0f);
         }
 
         public static void put3x3(Matrix3x2d m, long destAddr) {
