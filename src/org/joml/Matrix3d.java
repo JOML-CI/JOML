@@ -1201,6 +1201,80 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         return this;
     }
+
+    /**
+     * Set the values of this matrix by reading 9 double values from the given {@link DoubleBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The DoubleBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the DoubleBuffer will not be changed by this method.
+     * 
+     * @param index
+     *              the absolute position into the DoubleBuffer
+     * @param buffer
+     *              the DoubleBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3d set(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 9 float values from the given {@link FloatBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The FloatBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the FloatBuffer will not be changed by this method.
+     * 
+     * @param index
+     *              the absolute position into the FloatBuffer
+     * @param buffer
+     *              the FloatBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3d set(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.getf(this, index, buffer);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 9 double values from the given {@link ByteBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param index
+     *              the absolute position into the ByteBuffer
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3d set(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 9 float values from the given {@link ByteBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3d setFloats(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.getf(this, index, buffer);
+        return this;
+    }
 //#endif
 //#ifdef __HAS_UNSAFE__
     /**

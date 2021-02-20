@@ -2363,6 +2363,44 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     }
 
     /**
+     * Set the values of this matrix by reading 16 float values from the given {@link FloatBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The FloatBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the FloatBuffer will not be changed by this method.
+     * 
+     * @param index
+     *              the absolute position into the FloatBuffer
+     * @param buffer
+     *              the FloatBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix4f set(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        return determineProperties();
+    }
+
+    /**
+     * Set the values of this matrix by reading 16 float values from the given {@link ByteBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param index
+     *              the absolute position into the ByteBuffer
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix4f set(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        return determineProperties();
+    }
+
+    /**
      * Set the values of this matrix by reading 16 float values from the given {@link FloatBuffer} in row-major order,
      * starting at its current position.
      * <p>

@@ -1145,8 +1145,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return this
      */
     public Matrix3x2f set(FloatBuffer buffer) {
-        int pos = buffer.position();
-        MemUtil.INSTANCE.get(this, pos, buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -1163,8 +1162,45 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return this
      */
     public Matrix3x2f set(ByteBuffer buffer) {
-        int pos = buffer.position();
-        MemUtil.INSTANCE.get(this, pos, buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 6 float values from the given {@link FloatBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The FloatBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the FloatBuffer will not be changed by this method.
+     * 
+     * @param index
+     *              the absolute position into the FloatBuffer
+     * @param buffer
+     *              the FloatBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3x2f set(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 6 float values from the given {@link ByteBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param index
+     *              the absolute position into the ByteBuffer
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3x2f set(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 //#endif

@@ -742,6 +742,44 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
+
+    /**
+     * Set the values of this matrix by reading 4 double values from the given {@link DoubleBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The DoubleBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the DoubleBuffer will not be changed by this method.
+     * 
+     * @param index
+     *              the absolute position into the DoubleBuffer
+     * @param buffer
+     *              the DoubleBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix2d set(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 4 double values from the given {@link ByteBuffer} in column-major order,
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param index
+     *              the absolute position into the ByteBuffer
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix2d set(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        return this;
+    }
 //#endif
 //#ifdef __HAS_UNSAFE__
     /**
