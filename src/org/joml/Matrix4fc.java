@@ -3410,10 +3410,12 @@ public interface Matrix4fc {
      * @param top
      *            the distance along the y-axis to the top frustum edge
      * @param zNear
-     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            near clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
      *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            far clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
      *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
@@ -3444,10 +3446,12 @@ public interface Matrix4fc {
      * @param top
      *            the distance along the y-axis to the top frustum edge
      * @param zNear
-     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            near clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
      *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            far clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
      *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
      * @param dest
      *            will hold the result
@@ -3475,10 +3479,12 @@ public interface Matrix4fc {
      * @param top
      *            the distance along the y-axis to the top frustum edge
      * @param zNear
-     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            near clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
      *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            far clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
      *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
@@ -3509,10 +3515,12 @@ public interface Matrix4fc {
      * @param top
      *            the distance along the y-axis to the top frustum edge
      * @param zNear
-     *            near clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            near clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
      *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance. If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            far clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
      *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
      * @param dest
      *            will hold the result
