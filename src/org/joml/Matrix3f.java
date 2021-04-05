@@ -840,8 +840,7 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-        String str = toString(formatter);
+        String str = toString(Options.NUMBER_FORMAT);
         StringBuffer res = new StringBuffer();
         int eIndex = Integer.MIN_VALUE;
         for (int i = 0; i < str.length(); i++) {
