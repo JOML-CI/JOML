@@ -1155,7 +1155,7 @@ public interface Matrix3dc {
      *          the colum index in <code>[0..2]</code>
      * @return the element value
      */
-    double getRowColumn(int column, int row);
+    double getRowColumn(int row, int column);
 
     /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
