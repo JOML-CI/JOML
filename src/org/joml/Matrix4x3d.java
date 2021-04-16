@@ -1576,7 +1576,7 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * @return this
      */
     public Matrix4x3d setFloats(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
+        MemUtil.INSTANCE.getf(this, index, buffer);
         return determineProperties();
     }
 //#endif
