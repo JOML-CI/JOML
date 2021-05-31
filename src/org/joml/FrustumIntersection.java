@@ -46,7 +46,7 @@ public class FrustumIntersection {
      * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()}
      * and its different overloads identifying the plane with equation <code>y=-1</code> when using the identity frustum.
      */
-    public static final int PLANE_NY= 2;
+    public static final int PLANE_NY = 2;
     /**
      * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()}
      * and its different overloads identifying the plane with equation <code>y=1</code> when using the identity frustum.
