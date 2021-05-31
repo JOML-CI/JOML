@@ -862,4 +862,110 @@ public class FrustumIntersection {
         return plane;
     }
 
+    /**
+     * Test whether the given line segment, defined by the end points <code>a</code> and <code>b</code>, 
+     * is partly or completely within the frustum defined by <code>this</code> frustum culler.
+     * 
+     * @param a
+     *          the line segment's first end point
+     * @param b
+     *          the line segment's second end point
+     * @return <code>true</code> if the given line segment is partly or completely inside the frustum;
+     *         <code>false</code> otherwise
+     */
+    public boolean testLineSegment(Vector3fc a, Vector3fc b) {
+        return testLineSegment(a.x(), a.y(), a.z(), b.x(), b.y(), b.z());
+    }
+
+    /**
+     * Test whether the given line segment, defined by the end points <code>(aX, aY, aZ)</code> and <code>(bX, bY, bZ)</code>, 
+     * is partly or completely within the frustum defined by <code>this</code> frustum culler.
+     * 
+     * @param aX
+     *          the x coordinate of the line segment's first end point
+     * @param aY
+     *          the y coordinate of the line segment's first end point
+     * @param aZ
+     *          the z coordinate of the line segment's first end point
+     * @param bX
+     *          the x coordinate of the line segment's second end point
+     * @param bY
+     *          the y coordinate of the line segment's second end point
+     * @param bZ
+     *          the z coordinate of the line segment's second end point
+     * @return <code>true</code> if the given line segment is partly or completely inside the frustum;
+     *         <code>false</code> otherwise
+     */
+    public boolean testLineSegment(float aX, float aY, float aZ, float bX, float bY, float bZ) {
+        float da, db;
+        da = Math.fma(nxX, aX, Math.fma(nxY, aY, Math.fma(nxZ, aZ, nxW)));
+        db = Math.fma(nxX, bX, Math.fma(nxY, bY, Math.fma(nxZ, bZ, nxW)));
+        if (da < 0.0f && db < 0.0f)
+            return false;
+        if (da * db < 0.0f) {
+            float p = Math.abs(da) / Math.abs(db - da);
+            float dx = Math.fma(bX - aX, p, aX), dy = Math.fma(bY - aY, p, aY), dz = Math.fma(bZ - aZ, p, aZ);
+            if (da < 0.0f) {
+                aX = dx; aY = dy; aZ = dz;
+            } else {
+                bX = dx; bY = dy; bZ = dz;
+            }
+        }
+        da = Math.fma(pxX, aX, Math.fma(pxY, aY, Math.fma(pxZ, aZ, pxW)));
+        db = Math.fma(pxX, bX, Math.fma(pxY, bY, Math.fma(pxZ, bZ, pxW)));
+        if (da < 0.0f && db < 0.0f)
+            return false;
+        if (da * db < 0.0f) {
+            float p = Math.abs(da) / Math.abs(db - da);
+            float dx = Math.fma(bX - aX, p, aX), dy = Math.fma(bY - aY, p, aY), dz = Math.fma(bZ - aZ, p, aZ);
+            if (da < 0.0f) {
+                aX = dx; aY = dy; aZ = dz;
+            } else {
+                bX = dx; bY = dy; bZ = dz;
+            }
+        }
+        da = Math.fma(nyX, aX, Math.fma(nyY, aY, Math.fma(nyZ, aZ, nyW)));
+        db = Math.fma(nyX, bX, Math.fma(nyY, bY, Math.fma(nyZ, bZ, nyW)));
+        if (da < 0.0f && db < 0.0f)
+            return false;
+        if (da * db < 0.0f) {
+            float p = Math.abs(da) / Math.abs(db - da);
+            float dx = Math.fma(bX - aX, p, aX), dy = Math.fma(bY - aY, p, aY), dz = Math.fma(bZ - aZ, p, aZ);
+            if (da < 0.0f) {
+                aX = dx; aY = dy; aZ = dz;
+            } else {
+                bX = dx; bY = dy; bZ = dz;
+            }
+        }
+        da = Math.fma(pyX, aX, Math.fma(pyY, aY, Math.fma(pyZ, aZ, pyW)));
+        db = Math.fma(pyX, bX, Math.fma(pyY, bY, Math.fma(pyZ, bZ, pyW)));
+        if (da < 0.0f && db < 0.0f)
+            return false;
+        if (da * db < 0.0f) {
+            float p = Math.abs(da) / Math.abs(db - da);
+            float dx = Math.fma(bX - aX, p, aX), dy = Math.fma(bY - aY, p, aY), dz = Math.fma(bZ - aZ, p, aZ);
+            if (da < 0.0f) {
+                aX = dx; aY = dy; aZ = dz;
+            } else {
+                bX = dx; bY = dy; bZ = dz;
+            }
+        }
+        da = Math.fma(nzX, aX, Math.fma(nzY, aY, Math.fma(nzZ, aZ, nzW)));
+        db = Math.fma(nzX, bX, Math.fma(nzY, bY, Math.fma(nzZ, bZ, nzW)));
+        if (da < 0.0f && db < 0.0f)
+            return false;
+        if (da * db < 0.0f) {
+            float p = Math.abs(da) / Math.abs(db - da);
+            float dx = Math.fma(bX - aX, p, aX), dy = Math.fma(bY - aY, p, aY), dz = Math.fma(bZ - aZ, p, aZ);
+            if (da < 0.0f) {
+                aX = dx; aY = dy; aZ = dz;
+            } else {
+                bX = dx; bY = dy; bZ = dz;
+            }
+        }
+        da = Math.fma(pzX, aX, Math.fma(pzY, aY, Math.fma(pzZ, aZ, pzW)));
+        db = Math.fma(pzX, bX, Math.fma(pzY, bY, Math.fma(pzZ, bZ, pzW)));
+        return da >= 0.0f || db >= 0.0f;
+    }
+
 }
