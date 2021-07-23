@@ -4762,13 +4762,13 @@ public class Intersectiond {
     }
 
     /**
-     * Test if the two polygons, given via their vertices, intersect.
+     * Test if the two convex polygons, given via their vertices, intersect.
      * 
      * @param v1s
-     *          the vertices of the first polygon
+     *          the vertices of the first convex polygon
      * @param v2s
-     *          the vertices of the second polygon
-     * @return <code>true</code> if the polygons intersect; <code>false</code> otherwise
+     *          the vertices of the second convex polygon
+     * @return <code>true</code> if the convex polygons intersect; <code>false</code> otherwise
      */
     public static boolean testPolygonPolygon(Vector2d[] v1s, Vector2d[] v2s) {
         /* Try to find a separating axis using the first polygon's edges */
