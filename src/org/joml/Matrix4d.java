@@ -14017,7 +14017,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * reflection will be applied first!
+     * shadow projection will be applied first!
      * <p>
      * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
      * 
@@ -14050,7 +14050,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * reflection will be applied first!
+     * shadow projection will be applied first!
      * <p>
      * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
      * 
@@ -14157,7 +14157,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * reflection will be applied first!
+     * shadow projection will be applied first!
      * 
      * @param light
      *          the light's vector
@@ -14189,7 +14189,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * reflection will be applied first!
+     * shadow projection will be applied first!
      * 
      * @param lightX
      *          the x-component of the light vector
