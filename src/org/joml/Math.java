@@ -254,21 +254,35 @@ public class Math {
         return cos;
     }
 
-    /* Other math functions not yet approximated */
-
+    static double sqrtApprox(double square){
+        //Initial approximation
+        double approx = 3.5;
+        //10 iterations of Newton's method to improve the approximation
+        for(int i = 0; i < 10; i++) {
+            approx = (approx + square / approx) / 2;
+        }
+        return approx;
+    }
     public static float sqrt(float r) {
-        return (float) java.lang.Math.sqrt(r);
+        return (float) sqrt((double) r);
     }
     public static double sqrt(double r) {
+        //Precise to within ~0.5% between 1/10000 and 1 million
+        //If more precision is needed, increase the iteration number or decrease the range of the function below
+        if(r > 0.0001 && r < 1000000) {
+            return sqrtApprox(r);
+        }
         return java.lang.Math.sqrt(r);
     }
 
     public static float invsqrt(float r) {
-        return 1.0f / (float) java.lang.Math.sqrt(r);
+        return 1.0f / sqrt(r);
     }
     public static double invsqrt(double r) {
-        return 1.0 / java.lang.Math.sqrt(r);
+        return 1.0 / sqrt(r);
     }
+
+    /* Other math functions not yet approximated */
 
     public static float tan(float r) {
         return (float) java.lang.Math.tan(r);
