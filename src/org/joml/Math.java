@@ -255,23 +255,21 @@ public class Math {
     }
 
     static double sqrtApprox(double square){
-        //Initial approximation
-        double approx = 3.5;
-        //10 iterations of Newton's method to improve the approximation
-        for(int i = 0; i < 10; i++) {
-            approx = (approx + square / approx) / 2;
-        }
+        //okay-ish approximation for sqrt(x) that takes little computation is log base 2(x + 2)
+        //aka roughly the exponent of the double x + 2
+        double approx = java.lang.Math.getExponent(square + 2);
+        //2 iterations of Newton's method to improve the original approximation
+        approx = (approx + square / approx) * 0.5;
+        approx = (approx + square / approx) * 0.5;
         return approx;
     }
+
     public static float sqrt(float r) {
         return (float) sqrt((double) r);
     }
     public static double sqrt(double r) {
-        //Precise to within ~0.5% between 1/10000 and 1 million
-        //If more precision is needed, increase the iteration number or decrease the range of the function below
-        if(r > 0.0001 && r < 1000000) {
-            return sqrtApprox(r);
-        }
+        //Precise to within ~0.5% between the inputs of 0.4 and 90
+        if(r > 0.4 && r < 90 && Options.FASTMATH) return sqrtApprox(r);
         return java.lang.Math.sqrt(r);
     }
 
