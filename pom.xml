@@ -70,6 +70,7 @@
 		<hasUnsafe>__HAS_UNSAFE__</hasUnsafe>
 		<hasMathFma>__HAS_MATH_FMA__</hasMathFma>
 		<hasIntegerSignum>__HAS_INTEGER_SIGNUM__</hasIntegerSignum>
+		<hasVectorApi>__NHAS_VECTOR_API__</hasVectorApi>
 		<javaExclude>org/joml/jre/**</javaExclude>
 		<moduleInfoExclude></moduleInfoExclude>
 		<variant>joml</variant>
@@ -228,6 +229,89 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>panama-vector</id>
+			<activation>
+				<property>
+					<name>panama-vector</name>
+				</property>
+			</activation>
+			<properties>
+				<!-- Right now, we need at least Java 9 for activating the jdk.incubator.vector module -->
+				<maven.compiler.source>9</maven.compiler.source>
+				<maven.compiler.target>9</maven.compiler.target>
+				<hasVectorApi>__HAS_VECTOR_API__</hasVectorApi>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${maven-compiler-plugin.version}</version>
+						<configuration>
+							<excludes>
+								<exclude>org/joml/jre/**</exclude>
+							</excludes>
+							<compilerArgs>
+								<compilerArg>--add-modules</compilerArg>
+								<compilerArg>jdk.incubator.vector</compilerArg>
+							</compilerArgs>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-plugin.version}</version>
+						<executions>
+							<execution>
+								<phase>process-classes</phase>
+								<configuration>
+									<target>
+										<mkdir dir="${project.build.directory}/buildhelper" />
+										<javac srcdir="buildhelper"
+											destdir="${project.build.directory}/buildhelper"
+											includeantruntime="false">
+											<include name="ModuleInfoGenerator.java" />
+											<classpath refid="maven.plugin.classpath" />
+										</javac>
+										<echo message="Generate Java 9 module-info.class..."></echo>
+										<java classname="ModuleInfoGenerator"
+											classpathref="maven.plugin.classpath">
+											<classpath>
+												<pathelement
+													location="${project.build.directory}/buildhelper" />
+											</classpath>
+											<arg value="${project.build.outputDirectory}" />
+											<arg value="${project.version}" />
+										</java>
+										<echo message="Java 9 module-info.class generated."></echo>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.ow2.asm</groupId>
+								<artifactId>asm</artifactId>
+								<version>${asm.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+					<plugin>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>${maven-javadoc-plugin.version}</version>
+						<configuration>
+							<additionalOptions>
+								<additionalOption>-html5</additionalOption>
+								<additionalOption>--add-modules</additionalOption>
+								<additionalOption>jdk.incubator.vector</additionalOption>
+							</additionalOptions>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>preJdk9</id>
 			<activation>
 				<jdk>[1.3,1.8]</jdk>
@@ -298,12 +382,11 @@
 				</property>
 			</activation>
 			<properties>
-				<!-- Define the '__GWT__' preprocessor variable -->
+				<variant>joml-gwt</variant>
 				<platform>__GWT__</platform>
 				<hasNio>__NHAS_NIO__</hasNio>
 				<hasUnsafe>__NHAS_UNSAFE__</hasUnsafe>
 				<hasMathFma>__NHAS_MATH_FMA__</hasMathFma>
-				<variant>joml-gwt</variant>
 				<javaExclude></javaExclude>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
 			</properties>
@@ -335,9 +418,9 @@
 				</property>
 			</activation>
 			<properties>
+				<variant>joml-graal</variant>
 				<platform>__GRAAL__</platform>
 				<hasUnsafe>__NHAS_UNSAFE__</hasUnsafe>
-				<variant>joml-graal</variant>
 				<moduleInfoExclude>module-info.class</moduleInfoExclude>
 			</properties>
 		</profile>
@@ -617,6 +700,10 @@
 						</property>
 						<property>
 							<name>${hasUnsafe}</name>
+							<value>1</value>
+						</property>
+						<property>
+							<name>${hasVectorApi}</name>
 							<value>1</value>
 						</property>
 					</globalVars>
