@@ -1266,6 +1266,8 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * <p>
      * The position of the ByteBuffer will not be changed by this method.
      * 
+     * @param index
+     *              the absolute position into the ByteBuffer
      * @param buffer
      *              the ByteBuffer to read the matrix values from in column-major order
      * @return this
