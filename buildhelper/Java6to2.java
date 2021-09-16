@@ -33,6 +33,7 @@ import java.util.Map;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -46,6 +47,7 @@ import org.objectweb.asm.Type;
  * <li>string concatenation uses java.lang.StringBuilder in Java 1.6. We replace this with java.lang.StringBuffer
  * <li>loading class literals (as done by the MemUtilUnsafe class) uses a LDC opcode variant in Java 1.6 which is unsupported in earlier Java versions. We change that to the same
  * replacement code emitted by JDK8 when using target 1.2
+ * <li>since JEP 280 when targeting Java 9 the javac compiler uses invokedynamic for string concatenations. we will rewrite those to use java.lang.StringBuffer again
  * </ul>
  * 
  * @author Kai Burjack
@@ -59,6 +61,7 @@ public class Java6to2 implements Opcodes {
             String internalName;
             boolean classLookupMethodGenerated;
             Map classToSyntheticField = new HashMap();
+            int stringConcatMethod = 0;
 
             public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
                 /* Change class file version to 1.2 */
@@ -120,6 +123,64 @@ public class Java6to2 implements Opcodes {
                         } else {
                             super.mv.visitMethodInsn(opcode, owner, name, desc, itf);
                         }
+                    }
+
+                    public void visitInvokeDynamicInsn(String name, String descriptor, Handle bootstrapMethodHandle,
+                            Object[] bootstrapMethodArguments) {
+                        if ("makeConcatWithConstants".equals(name)) {
+                            rewriteStringConcatenation(descriptor, (String) bootstrapMethodArguments[0]);
+                        } else {
+                            throw new AssertionError("Unknown invokedynamic method: " + name);
+                        }
+                    }
+
+                    private void rewriteStringConcatenation(String descriptor, String recipe) {
+                        // replace this with a generated method which performs the string concatenation using StringBuffer
+                        // the arguments are already on the stack so we just need to synthesize a new method
+                        String methodName = "$$strc$$" + stringConcatMethod++;
+                        MethodVisitor mv = cv.visitMethod(ACC_SYNTHETIC | ACC_PRIVATE | ACC_STATIC, methodName, descriptor, null, null);
+                        mv.visitCode();
+                        mv.visitTypeInsn(NEW, "java/lang/StringBuffer");
+                        mv.visitInsn(DUP);
+                        mv.visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuffer", "<init>", "()V", false);
+                        Type[] types = Type.getArgumentTypes(descriptor);
+                        int varIndex = 0, argIndex = 0;
+                        StringBuffer s = new StringBuffer();
+                        for (int i = 0; i < recipe.length(); i++) {
+                            int cp = recipe.codePointAt(i);
+                            if (cp == '\1') {
+                                if (s.length() > 0) {
+                                    mv.visitLdcInsn(s.toString());
+                                    s.setLength(0);
+                                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuffer", "append", "(Ljava/lang/String;)Ljava/lang/StringBuffer;", false);                                    
+                                }
+                                Type t = types[argIndex];
+                                mv.visitVarInsn(t.getOpcode(ILOAD), varIndex);
+                                if (t.getSort() == Type.OBJECT) {
+                                    if ("Ljava/lang/String;".equals(t.getDescriptor())) {
+                                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuffer", "append", "(Ljava/lang/String;)Ljava/lang/StringBuffer;", false);
+                                    } else {
+                                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuffer", "append", "(Ljava/lang/Object;)Ljava/lang/StringBuffer;", false);
+                                    }
+                                } else {
+                                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuffer", "append", "(" + t.getDescriptor() + ")Ljava/lang/StringBuffer;", false);
+                                }
+                                varIndex += t.getSize();
+                                argIndex++;
+                            } else {
+                                s.appendCodePoint(cp);
+                            }
+                        }
+                        if (s.length() > 0) {
+                            mv.visitLdcInsn(s.toString());
+                            s.setLength(0);
+                            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuffer", "append", "(Ljava/lang/String;)Ljava/lang/StringBuffer;", false);                                    
+                        }
+                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuffer", "toString", "()Ljava/lang/String;", false);
+                        mv.visitInsn(ARETURN);
+                        mv.visitMaxs(-1, -1);
+                        mv.visitEnd();
+                        super.mv.visitMethodInsn(INVOKESTATIC, internalName, methodName, descriptor, false);
                     }
 
                     /**
