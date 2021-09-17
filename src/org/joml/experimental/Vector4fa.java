@@ -24,7 +24,12 @@
 //#ifdef __HAS_VECTOR_API__
 package org.joml.experimental;
 
-import jdk.incubator.vector.*;
+import java.text.NumberFormat;
+
+import org.joml.Options;
+import org.joml.Runtime;
+
+import jdk.incubator.vector.FloatVector;
 
 /**
  * 4D vector backed by a Java primitive float array.
@@ -52,9 +57,61 @@ public class Vector4fa {
         return this;
     }
 
-    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Float.floatToIntBits(arr[0]);
+        result = prime * result + Float.floatToIntBits(arr[1]);
+        result = prime * result + Float.floatToIntBits(arr[2]);
+        result = prime * result + Float.floatToIntBits(arr[3]);
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vector4fa other = (Vector4fa) obj;
+        return equals(other.arr[0], other.arr[1], other.arr[2], other.arr[3]);
+    }
+
+    public boolean equals(Vector4fa v, float delta) {
+        if (this == v)
+            return true;
+        if (v == null)
+            return false;
+        if (!Runtime.equals(arr[0], v.arr[0], delta))
+            return false;
+        if (!Runtime.equals(arr[1], v.arr[1], delta))
+            return false;
+        if (!Runtime.equals(arr[2], v.arr[2], delta))
+            return false;
+        if (!Runtime.equals(arr[3], v.arr[3], delta))
+            return false;
+        return true;
+    }
+
+    public boolean equals(float x, float y, float z, float w) {
+        if (Float.floatToIntBits(arr[0]) != Float.floatToIntBits(x))
+            return false;
+        if (Float.floatToIntBits(arr[1]) != Float.floatToIntBits(y))
+            return false;
+        if (Float.floatToIntBits(arr[2]) != Float.floatToIntBits(z))
+            return false;
+        if (Float.floatToIntBits(arr[3]) != Float.floatToIntBits(w))
+            return false;
+        return true;
+    }
+
     public String toString() {
-        return arr[0] + " " + arr[1] + " " + arr[2] + " " + arr[3];
+        return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
+    }
+
+    public String toString(NumberFormat formatter) {
+        return "(" + Runtime.format(arr[0], formatter) + " " + Runtime.format(arr[1], formatter) + " " + Runtime.format(arr[2], formatter) + " " + Runtime.format(arr[3], formatter) + ")";
     }
 }
 //#endif
