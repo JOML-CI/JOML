@@ -1,0 +1,23 @@
+name: Panama Vector API
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 18-ea
+        run: |
+          wget https://download.java.net/java/early_access/jdk18/15/GPL/openjdk-18-ea+15_linux-x64_bin.tar.gz
+          tar xf openjdk-18-ea+15_linux-x64_bin.tar.gz
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Build with Maven
+        run: |
+          JAVA_HOME="$(pwd)/jdk-18" ./mvnw -B package -Dpanama-vector

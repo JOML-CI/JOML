@@ -243,6 +243,26 @@
 			</properties>
 			<build>
 				<plugins>
+					<!-- Make sure the panama-vector profile is only used with a 18 JDK. -->
+					<plugin>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-versions</id>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireJavaVersion>
+											<version>18</version>
+										</requireJavaVersion>
+									</rules>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<artifactId>maven-compiler-plugin</artifactId>
 						<version>${maven-compiler-plugin.version}</version>
