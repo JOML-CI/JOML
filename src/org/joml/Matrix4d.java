@@ -11954,6 +11954,49 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
     }
 
     /**
+     * This method is equivalent to calling: <code>translate(w-1-2*x, h-1-2*y, 0).scale(w, h, 1)</code>
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the created transformation matrix,
+     * then the new matrix will be <code>M * T</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * T * v</code>, the
+     * created transformation will be applied first!
+     * 
+     * @param x
+     *             the tile's x coordinate/index (should be in <code>[0..w)</code>)
+     * @param y
+     *             the tile's y coordinate/index (should be in <code>[0..h)</code>)
+     * @param w
+     *             the number of tiles along the x axis
+     * @param h
+     *             the number of tiles along the y axis
+     * @return this
+     */
+    public Matrix4d tile(int x, int y, int w, int h) {
+        return tile(x, y, w, h, this);
+    }
+    public Matrix4d tile(int x, int y, int w, int h, Matrix4d dest) {
+        float tx = w - 1 - (x<<1), ty = h - 1 - (y<<1);
+        return dest
+        ._m30(Math.fma(m00, tx, Math.fma(m10, ty, m30)))
+        ._m31(Math.fma(m01, tx, Math.fma(m11, ty, m31)))
+        ._m32(Math.fma(m02, tx, Math.fma(m12, ty, m32)))
+        ._m33(Math.fma(m03, tx, Math.fma(m13, ty, m33)))
+        ._m00(m00 * w)
+        ._m01(m01 * w)
+        ._m02(m02 * w)
+        ._m03(m03 * w)
+        ._m10(m10 * h)
+        ._m11(m11 * h)
+        ._m12(m12 * h)
+        ._m13(m13 * h)
+        ._m20(m20)
+        ._m21(m21)
+        ._m22(m22)
+        ._m23(m23)
+        ._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL));
+    }
+
+    /**
      * Apply a symmetric perspective projection frustum transformation for a right-handed coordinate system
      * using the given NDC z range to this matrix and store the result in <code>dest</code>.
      * <p>
