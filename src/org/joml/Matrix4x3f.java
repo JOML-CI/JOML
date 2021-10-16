@@ -9077,10 +9077,25 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         return mapXZY(this);
     }
     public Matrix4x3f mapXZY(Matrix4x3f dest) {
-        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
         float m10 = this.m10, m11 = this.m11, m12 = this.m12;
-        float m20 = this.m20, m21 = this.m21, m22 = this.m22;
         return dest._m00(m00)._m01(m01)._m02(m02)._m10(m20)._m11(m21)._m12(m22)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0 0 0
+     *  0 0 1 0
+     *  0 1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnXZY() {
+        return mapnXZY(this);
+    }
+    public Matrix4x3f mapnXZY(Matrix4x3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m20)._m11(m21)._m12(m22)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
     }
     /**
      * Multiply <code>this</code> by the matrix
@@ -9097,9 +9112,24 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     }
     public Matrix4x3f mapYXZ(Matrix4x3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
-        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
-        float m20 = this.m20, m21 = this.m21, m22 = this.m22;
         return dest._m00(m10)._m01(m11)._m02(m12)._m10(m00)._m11(m01)._m12(m02)._m20(m20)._m21(m21)._m22(m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1 0 0
+     * 1  0 0 0
+     * 0  0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapYnXZ() {
+        return mapYnXZ(this);
+    }
+    public Matrix4x3f mapYnXZ(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m20)._m21(m21)._m22(m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
     }
     /**
      * Multiply <code>this</code> by the matrix
@@ -9116,8 +9146,6 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     }
     public Matrix4x3f mapYZX(Matrix4x3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
-        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
-        float m20 = this.m20, m21 = this.m21, m22 = this.m22;
         return dest._m00(m10)._m01(m11)._m02(m12)._m10(m20)._m11(m21)._m12(m22)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
     }
     /**
@@ -9136,8 +9164,25 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     public Matrix4x3f mapZXY(Matrix4x3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
         float m10 = this.m10, m11 = this.m11, m12 = this.m12;
-        float m20 = this.m20, m21 = this.m21, m22 = this.m22;
         return dest._m00(m20)._m01(m21)._m02(m22)._m10(m00)._m11(m01)._m12(m02)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 -1 0 0
+     *  0  0 1 0
+     * -1  0 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnZnXY() {
+        return mapnZnXY(this);
+    }
+    public Matrix4x3f mapnZnXY(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
     }
     /**
      * Multiply <code>this</code> by the matrix
@@ -9154,8 +9199,6 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     }
     public Matrix4x3f mapZYX(Matrix4x3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
-        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
-        float m20 = this.m20, m21 = this.m21, m22 = this.m22;
         return dest._m00(m20)._m01(m21)._m02(m22)._m10(m10)._m11(m11)._m12(m12)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
     }
 

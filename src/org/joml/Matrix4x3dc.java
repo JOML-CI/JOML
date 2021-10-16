@@ -3126,6 +3126,21 @@ public interface Matrix4x3dc {
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
+     * -1 0 0 0
+     *  0 0 1 0
+     *  0 1 0 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix4x3d mapnXZY(Matrix4x3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
      * 0 1 0 0
      * 1 0 0 0
      * 0 0 1 0
@@ -3137,6 +3152,21 @@ public interface Matrix4x3dc {
      * @return dest
      */
     Matrix4x3d mapYXZ(Matrix4x3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1 0 0
+     * 1  0 0 0
+     * 0  0 1 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix4x3d mapYnXZ(Matrix4x3d dest);
 
     /**
      * Multiply <code>this</code> by the matrix
@@ -3167,6 +3197,21 @@ public interface Matrix4x3dc {
      * @return dest
      */
     Matrix4x3d mapZXY(Matrix4x3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 -1 0 0
+     *  0  0 1 0
+     * -1  0 0 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix4x3d mapnZnXY(Matrix4x3d dest);
 
     /**
      * Multiply <code>this</code> by the matrix
