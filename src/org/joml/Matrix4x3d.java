@@ -1070,6 +1070,65 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
     }
 
     /**
+     * Multiply <code>this</code> by the 4x3 matrix with the column vectors <code>(rm00, rm01, rm02)</code>,
+     * <code>(rm10, rm11, rm12)</code>, <code>(rm20, rm21, rm22)</code> and <code>(0, 0, 0)</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the specified matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the <code>R</code> matrix will be applied first!
+     * 
+     * @param rm00
+     *          the value of the m00 element
+     * @param rm01
+     *          the value of the m01 element
+     * @param rm02
+     *          the value of the m02 element
+     * @param rm10
+     *          the value of the m10 element
+     * @param rm11
+     *          the value of the m11 element
+     * @param rm12
+     *          the value of the m12 element
+     * @param rm20
+     *          the value of the m20 element
+     * @param rm21
+     *          the value of the m21 element
+     * @param rm22
+     *          the value of the m22 element
+     * @return this
+     */
+    public Matrix4x3d mul3x3(
+            double rm00, double rm01, double rm02,
+            double rm10, double rm11, double rm12,
+            double rm20, double rm21, double rm22) {
+        return mul3x3(rm00, rm01, rm02, rm10, rm11, rm12, rm20, rm21, rm22, this);
+    }
+    public Matrix4x3d mul3x3(
+            double rm00, double rm01, double rm02,
+            double rm10, double rm11, double rm12,
+            double rm20, double rm21, double rm22,
+            Matrix4x3d dest) {
+        double m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        double m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        double m20 = this.m20, m21 = this.m21, m22 = this.m22;
+        return dest
+        ._m00(Math.fma(m00, rm00, Math.fma(m10, rm01, m20 * rm02)))
+        ._m01(Math.fma(m01, rm00, Math.fma(m11, rm01, m21 * rm02)))
+        ._m02(Math.fma(m02, rm00, Math.fma(m12, rm01, m22 * rm02)))
+        ._m10(Math.fma(m00, rm10, Math.fma(m10, rm11, m20 * rm12)))
+        ._m11(Math.fma(m01, rm10, Math.fma(m11, rm11, m21 * rm12)))
+        ._m12(Math.fma(m02, rm10, Math.fma(m12, rm11, m22 * rm12)))
+        ._m20(Math.fma(m00, rm20, Math.fma(m10, rm21, m20 * rm22)))
+        ._m21(Math.fma(m01, rm20, Math.fma(m11, rm21, m21 * rm22)))
+        ._m22(Math.fma(m02, rm20, Math.fma(m12, rm21, m22 * rm22)))
+        ._m30(m30)
+        ._m31(m31)
+        ._m32(m32)
+        ._properties(0);
+    }
+
+    /**
      * Component-wise add <code>this</code> and <code>other</code>
      * by first multiplying each component of <code>other</code> by <code>otherFactor</code> and
      * adding that result to <code>this</code>.

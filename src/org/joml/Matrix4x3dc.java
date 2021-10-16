@@ -274,6 +274,40 @@ public interface Matrix4x3dc {
     Matrix4x3d mulOrtho(Matrix4x3dc view, Matrix4x3d dest);
 
     /**
+     * Multiply <code>this</code> by the 4x3 matrix with the column vectors <code>(rm00, rm01, rm02)</code>,
+     * <code>(rm10, rm11, rm12)</code>, <code>(rm20, rm21, rm22)</code> and <code>(0, 0, 0)</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the specified matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the <code>R</code> matrix will be applied first!
+     * 
+     * @param rm00
+     *          the value of the m00 element
+     * @param rm01
+     *          the value of the m01 element
+     * @param rm02
+     *          the value of the m02 element
+     * @param rm10
+     *          the value of the m10 element
+     * @param rm11
+     *          the value of the m11 element
+     * @param rm12
+     *          the value of the m12 element
+     * @param rm20
+     *          the value of the m20 element
+     * @param rm21
+     *          the value of the m21 element
+     * @param rm22
+     *          the value of the m22 element
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix4x3d mul3x3(double rm00, double rm01, double rm02, double rm10, double rm11, double rm12, double rm20, double rm21, double rm22, Matrix4x3d dest);
+
+    /**
      * Component-wise add <code>this</code> and <code>other</code>
      * by first multiplying each component of <code>other</code> by <code>otherFactor</code>,
      * adding that to <code>this</code> and storing the final result in <code>dest</code>.
