@@ -3229,6 +3229,51 @@ public interface Matrix4x3dc {
     Matrix4x3d mapZYX(Matrix4x3d dest);
 
     /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0 0 0
+     *  0 1 0 0
+     *  0 0 1 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix4x3d negateX(Matrix4x3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1  0 0 0
+     * 0 -1 0 0
+     * 0  0 1 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix4x3d negateY(Matrix4x3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1 0  0 0
+     * 0 1  0 0
+     * 0 0 -1 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix4x3d negateZ(Matrix4x3d dest);
+
+    /**
      * Compare the matrix elements of <code>this</code> matrix with the given matrix using the given <code>delta</code>
      * and return whether all of them are equal within a maximum difference of <code>delta</code>.
      * <p>
