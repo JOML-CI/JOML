@@ -1622,4 +1622,169 @@ public interface Matrix3dc {
      */
     double quadraticFormProduct(Vector3fc v);
 
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1 0 0
+     * 0 0 1
+     * 0 1 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d mapXZY(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0 0
+     *  0 0 1
+     *  0 1 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d mapnXZY(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 1 0
+     * 1 0 0
+     * 0 0 1
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d mapYXZ(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1 0
+     * 1  0 0
+     * 0  0 1
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d mapYnXZ(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 1
+     * 1 0 0
+     * 0 1 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d mapYZX(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 1 0
+     * 0 0 1
+     * 1 0 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d mapZXY(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 -1 0
+     *  0  0 1
+     * -1  0 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d mapnZnXY(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 1
+     * 0 1 0
+     * 1 0 0
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d mapZYX(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0 0
+     *  0 1 0
+     *  0 0 1
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d negateX(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1  0 0
+     * 0 -1 0
+     * 0  0 1
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d negateY(Matrix3d dest);
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1 0  0
+     * 0 1  0
+     * 0 0 -1
+     * </pre>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    Matrix3d negateZ(Matrix3d dest);
+
 }

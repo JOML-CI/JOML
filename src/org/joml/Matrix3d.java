@@ -4797,6 +4797,196 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
         return quadraticFormProduct(v.x(), v.y(), v.z()); 
     }
 
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1 0 0
+     * 0 0 1
+     * 0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d mapXZY() {
+        return mapXZY(this);
+    }
+    public Matrix3d mapXZY(Matrix3d dest) {
+        double m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(m20)._m11(m21)._m12(m22)._m20(m10)._m21(m11)._m22(m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0 0
+     *  0 0 1
+     *  0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d mapnXZY() {
+        return mapnXZY(this);
+    }
+    public Matrix3d mapnXZY(Matrix3d dest) {
+        double m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m20)._m11(m21)._m12(m22)._m20(m10)._m21(m11)._m22(m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 1 0
+     * 1 0 0
+     * 0 0 1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d mapYXZ() {
+        return mapYXZ(this);
+    }
+    public Matrix3d mapYXZ(Matrix3d dest) {
+        double m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(m00)._m11(m01)._m12(m02)._m20(m20)._m21(m21)._m22(m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1 0
+     * 1  0 0
+     * 0  0 1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d mapYnXZ() {
+        return mapYnXZ(this);
+    }
+    public Matrix3d mapYnXZ(Matrix3d dest) {
+        double m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m20)._m21(m21)._m22(m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 1
+     * 1 0 0
+     * 0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d mapYZX() {
+        return mapYZX(this);
+    }
+    public Matrix3d mapYZX(Matrix3d dest) {
+        double m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(m20)._m11(m21)._m12(m22)._m20(m00)._m21(m01)._m22(m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 1 0
+     * 0 0 1
+     * 1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d mapZXY() {
+        return mapZXY(this);
+    }
+    public Matrix3d mapZXY(Matrix3d dest) {
+        double m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        double m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m00)._m11(m01)._m12(m02)._m20(m10)._m21(m11)._m22(m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 -1 0
+     *  0  0 1
+     * -1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d mapnZnXY() {
+        return mapnZnXY(this);
+    }
+    public Matrix3d mapnZnXY(Matrix3d dest) {
+        double m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        double m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m10)._m21(m11)._m22(m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 1
+     * 0 1 0
+     * 1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d mapZYX() {
+        return mapZYX(this);
+    }
+    public Matrix3d mapZYX(Matrix3d dest) {
+        double m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m10)._m11(m11)._m12(m12)._m20(m00)._m21(m01)._m22(m02);
+    }
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0 0
+     *  0 1 0
+     *  0 0 1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d negateX() {
+        return _m00(-m00)._m01(-m01)._m02(-m02);
+    }
+    public Matrix3d negateX(Matrix3d dest) {
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m10)._m11(m11)._m12(m12)._m20(m20)._m21(m21)._m22(m22);
+    }
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1  0 0
+     * 0 -1 0
+     * 0  0 1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d negateY() {
+        return _m10(-m10)._m11(-m11)._m12(-m12);
+    }
+    public Matrix3d negateY(Matrix3d dest) {
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(-m10)._m11(-m11)._m12(-m12)._m20(m20)._m21(m21)._m22(m22);
+    }
+
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1 0  0
+     * 0 1  0
+     * 0 0 -1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3d negateZ() {
+        return _m20(-m20)._m21(-m21)._m22(-m22);
+    }
+    public Matrix3d negateZ(Matrix3d dest) {
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(m10)._m11(m11)._m12(m12)._m20(-m20)._m21(-m21)._m22(-m22);
+    }
+
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
