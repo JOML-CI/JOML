@@ -9062,7 +9062,6 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
-
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
@@ -9083,19 +9082,69 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
-     * -1 0 0 0
-     *  0 0 1 0
-     *  0 1 0 0
+     * 1 0  0 0
+     * 0 0 -1 0
+     * 0 1  0 0
      * </pre>
      * 
      * @return this
      */
-    public Matrix4x3f mapnXZY() {
-        return mapnXZY(this);
+    public Matrix4x3f mapXZnY() {
+        return mapXZnY(this);
     }
-    public Matrix4x3f mapnXZY(Matrix4x3f dest) {
+    public Matrix4x3f mapXZnY(Matrix4x3f dest) {
         float m10 = this.m10, m11 = this.m11, m12 = this.m12;
-        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m20)._m11(m21)._m12(m22)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(m20)._m11(m21)._m12(m22)._m20(-m10)._m21(-m11)._m22(-m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1  0  0 0
+     * 0 -1  0 0
+     * 0  0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapXnYnZ() {
+        return mapXnYnZ(this);
+    }
+    public Matrix4x3f mapXnYnZ(Matrix4x3f dest) {
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(-m10)._m11(-m11)._m12(-m12)._m20(-m20)._m21(-m21)._m22(-m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1  0 0 0
+     * 0  0 1 0
+     * 0 -1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapXnZY() {
+        return mapXnZY(this);
+    }
+    public Matrix4x3f mapXnZY(Matrix4x3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(-m20)._m11(-m21)._m12(-m22)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1  0  0 0
+     * 0  0 -1 0
+     * 0 -1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapXnZnY() {
+        return mapXnZnY(this);
+    }
+    public Matrix4x3f mapXnZnY(Matrix4x3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(-m20)._m11(-m21)._m12(-m22)._m20(-m10)._m21(-m11)._m22(-m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
     }
     /**
      * Multiply <code>this</code> by the matrix
@@ -9117,19 +9166,19 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
-     * 0 -1 0 0
-     * 1  0 0 0
-     * 0  0 1 0
+     * 0 1  0 0
+     * 1 0  0 0
+     * 0 0 -1 0
      * </pre>
      * 
      * @return this
      */
-    public Matrix4x3f mapYnXZ() {
-        return mapYnXZ(this);
+    public Matrix4x3f mapYXnZ() {
+        return mapYXnZ(this);
     }
-    public Matrix4x3f mapYnXZ(Matrix4x3f dest) {
+    public Matrix4x3f mapYXnZ(Matrix4x3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
-        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m20)._m21(m21)._m22(m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(m00)._m11(m01)._m12(m02)._m20(-m20)._m21(-m21)._m22(-m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
     }
     /**
      * Multiply <code>this</code> by the matrix
@@ -9147,6 +9196,91 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     public Matrix4x3f mapYZX(Matrix4x3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
         return dest._m00(m10)._m01(m11)._m02(m12)._m10(m20)._m11(m21)._m12(m22)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 -1 0
+     * 1 0  0 0
+     * 0 1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapYZnX() {
+        return mapYZnX(this);
+    }
+    public Matrix4x3f mapYZnX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(m20)._m11(m21)._m12(m22)._m20(-m00)._m21(-m01)._m22(-m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1 0 0
+     * 1  0 0 0
+     * 0  0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapYnXZ() {
+        return mapYnXZ(this);
+    }
+    public Matrix4x3f mapYnXZ(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m20)._m21(m21)._m22(m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1  0 0
+     * 1  0  0 0
+     * 0  0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapYnXnZ() {
+        return mapYnXnZ(this);
+    }
+    public Matrix4x3f mapYnXnZ(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(-m20)._m21(-m21)._m22(-m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0  0 1 0
+     * 1  0 0 0
+     * 0 -1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapYnZX() {
+        return mapYnZX(this);
+    }
+    public Matrix4x3f mapYnZX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m20)._m11(-m21)._m12(-m22)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0  0 -1 0
+     * 1  0  0 0
+     * 0 -1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapYnZnX() {
+        return mapYnZnX(this);
+    }
+    public Matrix4x3f mapYnZnX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m20)._m11(-m21)._m12(-m22)._m20(-m00)._m21(-m01)._m22(-m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
     }
     /**
      * Multiply <code>this</code> by the matrix
@@ -9169,6 +9303,450 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
+     * 0 1  0 0
+     * 0 0 -1 0
+     * 1 0  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapZXnY() {
+        return mapZXnY(this);
+    }
+    public Matrix4x3f mapZXnY(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m00)._m11(m01)._m12(m02)._m20(-m10)._m21(-m11)._m22(-m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 1 0
+     * 0 1 0 0
+     * 1 0 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapZYX() {
+        return mapZYX(this);
+    }
+    public Matrix4x3f mapZYX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m10)._m11(m11)._m12(m12)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 -1 0
+     * 0 1  0 0
+     * 1 0  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapZYnX() {
+        return mapZYnX(this);
+    }
+    public Matrix4x3f mapZYnX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m10)._m11(m11)._m12(m12)._m20(-m00)._m21(-m01)._m22(-m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1 0 0
+     * 0  0 1 0
+     * 1  0 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapZnXY() {
+        return mapZnXY(this);
+    }
+    public Matrix4x3f mapZnXY(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1  0 0
+     * 0  0 -1 0
+     * 1  0  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapZnXnY() {
+        return mapZnXnY(this);
+    }
+    public Matrix4x3f mapZnXnY(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(-m00)._m11(-m01)._m12(-m02)._m20(-m10)._m21(-m11)._m22(-m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0  0 1 0
+     * 0 -1 0 0
+     * 1  0 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapZnYX() {
+        return mapZnYX(this);
+    }
+    public Matrix4x3f mapZnYX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(-m10)._m11(-m11)._m12(-m12)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0  0 -1 0
+     * 0 -1  0 0
+     * 1  0  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapZnYnX() {
+        return mapZnYnX(this);
+    }
+    public Matrix4x3f mapZnYnX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(-m10)._m11(-m11)._m12(-m12)._m20(-m00)._m21(-m01)._m22(-m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0  0 0
+     *  0 1  0 0
+     *  0 0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnXYnZ() {
+        return mapnXYnZ(this);
+    }
+    public Matrix4x3f mapnXYnZ(Matrix4x3f dest) {
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m10)._m11(m11)._m12(m12)._m20(-m20)._m21(-m21)._m22(-m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0 0 0
+     *  0 0 1 0
+     *  0 1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnXZY() {
+        return mapnXZY(this);
+    }
+    public Matrix4x3f mapnXZY(Matrix4x3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m20)._m11(m21)._m12(m22)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0  0 0
+     *  0 0 -1 0
+     *  0 1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnXZnY() {
+        return mapnXZnY(this);
+    }
+    public Matrix4x3f mapnXZnY(Matrix4x3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m20)._m11(m21)._m12(m22)._m20(-m10)._m21(-m11)._m22(-m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1  0 0 0
+     *  0 -1 0 0
+     *  0  0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnXnYZ() {
+        return mapnXnYZ(this);
+    }
+    public Matrix4x3f mapnXnYZ(Matrix4x3f dest) {
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(-m10)._m11(-m11)._m12(-m12)._m20(m20)._m21(m21)._m22(m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1  0  0 0
+     *  0 -1  0 0
+     *  0  0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnXnYnZ() {
+        return mapnXnYnZ(this);
+    }
+    public Matrix4x3f mapnXnYnZ(Matrix4x3f dest) {
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(-m10)._m11(-m11)._m12(-m12)._m20(-m20)._m21(-m21)._m22(-m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1  0 0 0
+     *  0  0 1 0
+     *  0 -1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnXnZY() {
+        return mapnXnZY(this);
+    }
+    public Matrix4x3f mapnXnZY(Matrix4x3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(-m20)._m11(-m21)._m12(-m22)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1  0  0 0
+     *  0  0 -1 0
+     *  0 -1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnXnZnY() {
+        return mapnXnZnY(this);
+    }
+    public Matrix4x3f mapnXnZnY(Matrix4x3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(-m20)._m11(-m21)._m12(-m22)._m20(-m10)._m21(-m11)._m22(-m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 1 0 0
+     * -1 0 0 0
+     *  0 0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnYXZ() {
+        return mapnYXZ(this);
+    }
+    public Matrix4x3f mapnYXZ(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(m00)._m11(m01)._m12(m02)._m20(m20)._m21(m21)._m22(m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 1  0 0
+     * -1 0  0 0
+     *  0 0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnYXnZ() {
+        return mapnYXnZ(this);
+    }
+    public Matrix4x3f mapnYXnZ(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(m00)._m11(m01)._m12(m02)._m20(-m20)._m21(-m21)._m22(-m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 0 1 0
+     * -1 0 0 0
+     *  0 1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnYZX() {
+        return mapnYZX(this);
+    }
+    public Matrix4x3f mapnYZX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(m20)._m11(m21)._m12(m22)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 0 -1 0
+     * -1 0  0 0
+     *  0 1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnYZnX() {
+        return mapnYZnX(this);
+    }
+    public Matrix4x3f mapnYZnX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(m20)._m11(m21)._m12(m22)._m20(-m00)._m21(-m01)._m22(-m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 -1 0 0
+     * -1  0 0 0
+     *  0  0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnYnXZ() {
+        return mapnYnXZ(this);
+    }
+    public Matrix4x3f mapnYnXZ(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m20)._m21(m21)._m22(m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 -1  0 0
+     * -1  0  0 0
+     *  0  0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnYnXnZ() {
+        return mapnYnXnZ(this);
+    }
+    public Matrix4x3f mapnYnXnZ(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(-m20)._m21(-m21)._m22(-m22)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0  0 1 0
+     * -1  0 0 0
+     *  0 -1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnYnZX() {
+        return mapnYnZX(this);
+    }
+    public Matrix4x3f mapnYnZX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(-m20)._m11(-m21)._m12(-m22)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0  0 -1 0
+     * -1  0  0 0
+     *  0 -1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnYnZnX() {
+        return mapnYnZnX(this);
+    }
+    public Matrix4x3f mapnYnZnX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(-m20)._m11(-m21)._m12(-m22)._m20(-m00)._m21(-m01)._m22(-m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 1 0 0
+     *  0 0 1 0
+     * -1 0 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnZXY() {
+        return mapnZXY(this);
+    }
+    public Matrix4x3f mapnZXY(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(m00)._m11(m01)._m12(m02)._m20(m10)._m21(m11)._m22(m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 1  0 0
+     *  0 0 -1 0
+     * -1 0  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnZXnY() {
+        return mapnZXnY(this);
+    }
+    public Matrix4x3f mapnZXnY(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(m00)._m11(m01)._m12(m02)._m20(-m10)._m21(-m11)._m22(-m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 0 1 0
+     *  0 1 0 0
+     * -1 0 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnZYX() {
+        return mapnZYX(this);
+    }
+    public Matrix4x3f mapnZYX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(m10)._m11(m11)._m12(m12)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 0 -1 0
+     *  0 1  0 0
+     * -1 0  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnZYnX() {
+        return mapnZYnX(this);
+    }
+    public Matrix4x3f mapnZYnX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(m10)._m11(m11)._m12(m12)._m20(-m00)._m21(-m01)._m22(-m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
      *  0 -1 0 0
      *  0  0 1 0
      * -1  0 0 0
@@ -9187,19 +9765,54 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
-     * 0 0 1 0
-     * 0 1 0 0
-     * 1 0 0 0
+     *  0 -1  0 0
+     *  0  0 -1 0
+     * -1  0  0 0
      * </pre>
      * 
      * @return this
      */
-    public Matrix4x3f mapZYX() {
-        return mapZYX(this);
+    public Matrix4x3f mapnZnXnY() {
+        return mapnZnXnY(this);
     }
-    public Matrix4x3f mapZYX(Matrix4x3f dest) {
+    public Matrix4x3f mapnZnXnY(Matrix4x3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
-        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m10)._m11(m11)._m12(m12)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(-m00)._m11(-m01)._m12(-m02)._m20(-m10)._m21(-m11)._m22(-m12)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0  0 1 0
+     *  0 -1 0 0
+     * -1  0 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnZnYX() {
+        return mapnZnYX(this);
+    }
+    public Matrix4x3f mapnZnYX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(-m10)._m11(-m11)._m12(-m12)._m20(m00)._m21(m01)._m22(m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0  0 -1 0
+     *  0 -1  0 0
+     * -1  0  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix4x3f mapnZnYnX() {
+        return mapnZnYnX(this);
+    }
+    public Matrix4x3f mapnZnYnX(Matrix4x3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(-m10)._m11(-m11)._m12(-m12)._m20(-m00)._m21(-m01)._m22(-m02)._m30(m30)._m31(m31)._m32(m32)._properties(properties & PROPERTY_ORTHONORMAL);
     }
 
     /**
