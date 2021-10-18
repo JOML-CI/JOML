@@ -4184,19 +4184,69 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
-     * -1 0 0
-     *  0 0 1
-     *  0 1 0
+     * 1 0  0
+     * 0 0 -1
+     * 0 1  0
      * </pre>
      * 
      * @return this
      */
-    public Matrix3f mapnXZY() {
-        return mapnXZY(this);
+    public Matrix3f mapXZnY() {
+        return mapXZnY(this);
     }
-    public Matrix3f mapnXZY(Matrix3f dest) {
+    public Matrix3f mapXZnY(Matrix3f dest) {
         float m10 = this.m10, m11 = this.m11, m12 = this.m12;
-        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m20)._m11(m21)._m12(m22)._m20(m10)._m21(m11)._m22(m12);
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(m20)._m11(m21)._m12(m22)._m20(-m10)._m21(-m11)._m22(-m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1  0  0
+     * 0 -1  0
+     * 0  0 -1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapXnYnZ() {
+        return mapXnYnZ(this);
+    }
+    public Matrix3f mapXnYnZ(Matrix3f dest) {
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(-m10)._m11(-m11)._m12(-m12)._m20(-m20)._m21(-m21)._m22(-m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1  0 0
+     * 0  0 1
+     * 0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapXnZY() {
+        return mapXnZY(this);
+    }
+    public Matrix3f mapXnZY(Matrix3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(-m20)._m11(-m21)._m12(-m22)._m20(m10)._m21(m11)._m22(m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 1  0  0
+     * 0  0 -1
+     * 0 -1  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapXnZnY() {
+        return mapXnZnY(this);
+    }
+    public Matrix3f mapXnZnY(Matrix3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m00)._m01(m01)._m02(m02)._m10(-m20)._m11(-m21)._m12(-m22)._m20(-m10)._m21(-m11)._m22(-m12);
     }
     /**
      * Multiply <code>this</code> by the matrix
@@ -4218,19 +4268,19 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
-     * 0 -1 0
-     * 1  0 0
-     * 0  0 1
+     * 0 1  0
+     * 1 0  0
+     * 0 0 -1
      * </pre>
      * 
      * @return this
      */
-    public Matrix3f mapYnXZ() {
-        return mapYnXZ(this);
+    public Matrix3f mapYXnZ() {
+        return mapYXnZ(this);
     }
-    public Matrix3f mapYnXZ(Matrix3f dest) {
+    public Matrix3f mapYXnZ(Matrix3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
-        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m20)._m21(m21)._m22(m22);
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(m00)._m11(m01)._m12(m02)._m20(-m20)._m21(-m21)._m22(-m22);
     }
     /**
      * Multiply <code>this</code> by the matrix
@@ -4248,6 +4298,91 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
     public Matrix3f mapYZX(Matrix3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
         return dest._m00(m10)._m01(m11)._m02(m12)._m10(m20)._m11(m21)._m12(m22)._m20(m00)._m21(m01)._m22(m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 -1
+     * 1 0  0
+     * 0 1  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapYZnX() {
+        return mapYZnX(this);
+    }
+    public Matrix3f mapYZnX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(m20)._m11(m21)._m12(m22)._m20(-m00)._m21(-m01)._m22(-m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1 0
+     * 1  0 0
+     * 0  0 1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapYnXZ() {
+        return mapYnXZ(this);
+    }
+    public Matrix3f mapYnXZ(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m20)._m21(m21)._m22(m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1  0
+     * 1  0  0
+     * 0  0 -1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapYnXnZ() {
+        return mapYnXnZ(this);
+    }
+    public Matrix3f mapYnXnZ(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(-m20)._m21(-m21)._m22(-m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0  0 1
+     * 1  0 0
+     * 0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapYnZX() {
+        return mapYnZX(this);
+    }
+    public Matrix3f mapYnZX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m20)._m11(-m21)._m12(-m22)._m20(m00)._m21(m01)._m22(m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0  0 -1
+     * 1  0  0
+     * 0 -1  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapYnZnX() {
+        return mapYnZnX(this);
+    }
+    public Matrix3f mapYnZnX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m10)._m01(m11)._m02(m12)._m10(-m20)._m11(-m21)._m12(-m22)._m20(-m00)._m21(-m01)._m22(-m02);
     }
     /**
      * Multiply <code>this</code> by the matrix
@@ -4270,6 +4405,450 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
+     * 0 1  0
+     * 0 0 -1
+     * 1 0  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapZXnY() {
+        return mapZXnY(this);
+    }
+    public Matrix3f mapZXnY(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m00)._m11(m01)._m12(m02)._m20(-m10)._m21(-m11)._m22(-m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 1
+     * 0 1 0
+     * 1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapZYX() {
+        return mapZYX(this);
+    }
+    public Matrix3f mapZYX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m10)._m11(m11)._m12(m12)._m20(m00)._m21(m01)._m22(m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 0 -1
+     * 0 1  0
+     * 1 0  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapZYnX() {
+        return mapZYnX(this);
+    }
+    public Matrix3f mapZYnX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m10)._m11(m11)._m12(m12)._m20(-m00)._m21(-m01)._m22(-m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1 0
+     * 0  0 1
+     * 1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapZnXY() {
+        return mapZnXY(this);
+    }
+    public Matrix3f mapZnXY(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m10)._m21(m11)._m22(m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0 -1  0
+     * 0  0 -1
+     * 1  0  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapZnXnY() {
+        return mapZnXnY(this);
+    }
+    public Matrix3f mapZnXnY(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(-m00)._m11(-m01)._m12(-m02)._m20(-m10)._m21(-m11)._m22(-m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0  0 1
+     * 0 -1 0
+     * 1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapZnYX() {
+        return mapZnYX(this);
+    }
+    public Matrix3f mapZnYX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(-m10)._m11(-m11)._m12(-m12)._m20(m00)._m21(m01)._m22(m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * 0  0 -1
+     * 0 -1  0
+     * 1  0  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapZnYnX() {
+        return mapZnYnX(this);
+    }
+    public Matrix3f mapZnYnX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(m20)._m01(m21)._m02(m22)._m10(-m10)._m11(-m11)._m12(-m12)._m20(-m00)._m21(-m01)._m22(-m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0  0
+     *  0 1  0
+     *  0 0 -1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnXYnZ() {
+        return mapnXYnZ(this);
+    }
+    public Matrix3f mapnXYnZ(Matrix3f dest) {
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m10)._m11(m11)._m12(m12)._m20(-m20)._m21(-m21)._m22(-m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0 0
+     *  0 0 1
+     *  0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnXZY() {
+        return mapnXZY(this);
+    }
+    public Matrix3f mapnXZY(Matrix3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m20)._m11(m21)._m12(m22)._m20(m10)._m21(m11)._m22(m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1 0  0
+     *  0 0 -1
+     *  0 1  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnXZnY() {
+        return mapnXZnY(this);
+    }
+    public Matrix3f mapnXZnY(Matrix3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(m20)._m11(m21)._m12(m22)._m20(-m10)._m21(-m11)._m22(-m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1  0 0
+     *  0 -1 0
+     *  0  0 1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnXnYZ() {
+        return mapnXnYZ(this);
+    }
+    public Matrix3f mapnXnYZ(Matrix3f dest) {
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(-m10)._m11(-m11)._m12(-m12)._m20(m20)._m21(m21)._m22(m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1  0  0
+     *  0 -1  0
+     *  0  0 -1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnXnYnZ() {
+        return mapnXnYnZ(this);
+    }
+    public Matrix3f mapnXnYnZ(Matrix3f dest) {
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(-m10)._m11(-m11)._m12(-m12)._m20(-m20)._m21(-m21)._m22(-m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1  0 0
+     *  0  0 1
+     *  0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnXnZY() {
+        return mapnXnZY(this);
+    }
+    public Matrix3f mapnXnZY(Matrix3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(-m20)._m11(-m21)._m12(-m22)._m20(m10)._m21(m11)._m22(m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     * -1  0  0
+     *  0  0 -1
+     *  0 -1  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnXnZnY() {
+        return mapnXnZnY(this);
+    }
+    public Matrix3f mapnXnZnY(Matrix3f dest) {
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m10(-m20)._m11(-m21)._m12(-m22)._m20(-m10)._m21(-m11)._m22(-m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 1 0
+     * -1 0 0
+     *  0 0 1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnYXZ() {
+        return mapnYXZ(this);
+    }
+    public Matrix3f mapnYXZ(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(m00)._m11(m01)._m12(m02)._m20(m20)._m21(m21)._m22(m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 1  0
+     * -1 0  0
+     *  0 0 -1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnYXnZ() {
+        return mapnYXnZ(this);
+    }
+    public Matrix3f mapnYXnZ(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(m00)._m11(m01)._m12(m02)._m20(-m20)._m21(-m21)._m22(-m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 0 1
+     * -1 0 0
+     *  0 1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnYZX() {
+        return mapnYZX(this);
+    }
+    public Matrix3f mapnYZX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(m20)._m11(m21)._m12(m22)._m20(m00)._m21(m01)._m22(m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 0 -1
+     * -1 0  0
+     *  0 1  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnYZnX() {
+        return mapnYZnX(this);
+    }
+    public Matrix3f mapnYZnX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(m20)._m11(m21)._m12(m22)._m20(-m00)._m21(-m01)._m22(-m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 -1 0
+     * -1  0 0
+     *  0  0 1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnYnXZ() {
+        return mapnYnXZ(this);
+    }
+    public Matrix3f mapnYnXZ(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(m20)._m21(m21)._m22(m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 -1  0
+     * -1  0  0
+     *  0  0 -1
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnYnXnZ() {
+        return mapnYnXnZ(this);
+    }
+    public Matrix3f mapnYnXnZ(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(-m00)._m11(-m01)._m12(-m02)._m20(-m20)._m21(-m21)._m22(-m22);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0  0 1
+     * -1  0 0
+     *  0 -1 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnYnZX() {
+        return mapnYnZX(this);
+    }
+    public Matrix3f mapnYnZX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(-m20)._m11(-m21)._m12(-m22)._m20(m00)._m21(m01)._m22(m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0  0 -1
+     * -1  0  0
+     *  0 -1  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnYnZnX() {
+        return mapnYnZnX(this);
+    }
+    public Matrix3f mapnYnZnX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m10)._m01(-m11)._m02(-m12)._m10(-m20)._m11(-m21)._m12(-m22)._m20(-m00)._m21(-m01)._m22(-m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 1 0
+     *  0 0 1
+     * -1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnZXY() {
+        return mapnZXY(this);
+    }
+    public Matrix3f mapnZXY(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(m00)._m11(m01)._m12(m02)._m20(m10)._m21(m11)._m22(m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 1  0
+     *  0 0 -1
+     * -1 0  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnZXnY() {
+        return mapnZXnY(this);
+    }
+    public Matrix3f mapnZXnY(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(m00)._m11(m01)._m12(m02)._m20(-m10)._m21(-m11)._m22(-m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 0 1
+     *  0 1 0
+     * -1 0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnZYX() {
+        return mapnZYX(this);
+    }
+    public Matrix3f mapnZYX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(m10)._m11(m11)._m12(m12)._m20(m00)._m21(m01)._m22(m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0 0 -1
+     *  0 1  0
+     * -1 0  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnZYnX() {
+        return mapnZYnX(this);
+    }
+    public Matrix3f mapnZYnX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(m10)._m11(m11)._m12(m12)._m20(-m00)._m21(-m01)._m22(-m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
      *  0 -1 0
      *  0  0 1
      * -1  0 0
@@ -4288,19 +4867,54 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
     /**
      * Multiply <code>this</code> by the matrix
      * <pre>
-     * 0 0 1
-     * 0 1 0
-     * 1 0 0
+     *  0 -1  0
+     *  0  0 -1
+     * -1  0  0
      * </pre>
      * 
      * @return this
      */
-    public Matrix3f mapZYX() {
-        return mapZYX(this);
+    public Matrix3f mapnZnXnY() {
+        return mapnZnXnY(this);
     }
-    public Matrix3f mapZYX(Matrix3f dest) {
+    public Matrix3f mapnZnXnY(Matrix3f dest) {
         float m00 = this.m00, m01 = this.m01, m02 = this.m02;
-        return dest._m00(m20)._m01(m21)._m02(m22)._m10(m10)._m11(m11)._m12(m12)._m20(m00)._m21(m01)._m22(m02);
+        float m10 = this.m10, m11 = this.m11, m12 = this.m12;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(-m00)._m11(-m01)._m12(-m02)._m20(-m10)._m21(-m11)._m22(-m12);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0  0 1
+     *  0 -1 0
+     * -1  0 0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnZnYX() {
+        return mapnZnYX(this);
+    }
+    public Matrix3f mapnZnYX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(-m10)._m11(-m11)._m12(-m12)._m20(m00)._m21(m01)._m22(m02);
+    }
+    /**
+     * Multiply <code>this</code> by the matrix
+     * <pre>
+     *  0  0 -1
+     *  0 -1  0
+     * -1  0  0
+     * </pre>
+     * 
+     * @return this
+     */
+    public Matrix3f mapnZnYnX() {
+        return mapnZnYnX(this);
+    }
+    public Matrix3f mapnZnYnX(Matrix3f dest) {
+        float m00 = this.m00, m01 = this.m01, m02 = this.m02;
+        return dest._m00(-m20)._m01(-m21)._m02(-m22)._m10(-m10)._m11(-m11)._m12(-m12)._m20(-m00)._m21(-m01)._m22(-m02);
     }
 
     /**
