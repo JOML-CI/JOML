@@ -9,8 +9,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set up JDK 18-ea
         run: |
-          wget https://download.java.net/java/early_access/jdk18/15/GPL/openjdk-18-ea+15_linux-x64_bin.tar.gz
-          tar xf openjdk-18-ea+15_linux-x64_bin.tar.gz
+          wget https://download.java.net/java/early_access/jdk18/23/GPL/openjdk-18-ea+23_linux-x64_bin.tar.gz
+          tar xf openjdk-18-ea+23_linux-x64_bin.tar.gz
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
