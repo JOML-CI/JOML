@@ -114,7 +114,7 @@ public class Matrix3x2fStack extends Matrix3x2f {
      */
     public Matrix3x2fStack popMatrix() {
         if (curr == 0) {
-            throw new IllegalStateException("already at the buttom of the stack"); //$NON-NLS-1$
+            throw new IllegalStateException("already at the bottom of the stack"); //$NON-NLS-1$
         }
         set(mats[--curr]);
         return this;
