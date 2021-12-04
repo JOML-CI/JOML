@@ -3879,31 +3879,17 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
         return this;
     }
 
-    /**
-     * Extract the Euler angles from the rotation represented by <code>this</code> matrix and store the extracted Euler angles in <code>dest</code>.
-     * <p>
-     * This method assumes that <code>this</code> matrix only represents a rotation without scaling.
-     * <p>
-     * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
-     * This means that calling {@link Matrix3f#rotateZYX(float, float, float)} using the obtained Euler angles will yield
-     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
-     * <code>m2</code> should be identical to <code>m</code> (disregarding possible floating-point inaccuracies).
-     * <pre>
-     * Matrix3f m = ...; // &lt;- matrix only representing rotation
-     * Matrix3f n = new Matrix3f();
-     * n.rotateZYX(m.getEulerAnglesZYX(new Vector3f()));
-     * </pre>
-     * <p>
-     * Reference: <a href="http://nghiaho.com/?page_id=846">http://nghiaho.com/</a>
-     * 
-     * @param dest
-     *          will hold the extracted Euler angles
-     * @return dest
-     */
     public Vector3f getEulerAnglesZYX(Vector3f dest) {
         dest.x = Math.atan2(m12, m22);
-        dest.y = Math.atan2(-m02, Math.sqrt(m12 * m12 + m22 * m22));
+        dest.y = Math.atan2(-m02, Math.sqrt(1.0f - m02 * m02));
         dest.z = Math.atan2(m01, m00);
+        return dest;
+    }
+
+    public Vector3f getEulerAnglesXYZ(Vector3f dest) {
+        dest.x = Math.atan2(-m21, m22);
+        dest.y = Math.atan2(m20, Math.sqrt(1.0f - m20 * m20));
+        dest.z = Math.atan2(-m10, m00);
         return dest;
     }
 

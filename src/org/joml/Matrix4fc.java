@@ -5162,6 +5162,36 @@ public interface Matrix4fc {
      * <p>
      * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
      * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * <p>
+     * Note that the returned Euler angles must be applied in the order <code>X * Y * Z</code> to obtain the identical matrix.
+     * This means that calling {@link Matrix4fc#rotateXYZ(float, float, float, Matrix4f)} using the obtained Euler angles will yield
+     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
+     * <code>m2</code> should be identical to <code>m</code> (disregarding possible floating-point inaccuracies).
+     * <pre>
+     * Matrix4f m = ...; // &lt;- matrix only representing rotation
+     * Matrix4f n = new Matrix4f();
+     * n.rotateXYZ(m.getEulerAnglesXYZ(new Vector3f()));
+     * </pre>
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix">http://en.wikipedia.org/</a>
+     * 
+     * @param dest
+     *          will hold the extracted Euler angles
+     * @return dest
+     */
+    Vector3f getEulerAnglesXYZ(Vector3f dest);
+
+    /**
+     * Extract the Euler angles from the rotation represented by the upper left 3x3 submatrix of <code>this</code>
+     * and store the extracted Euler angles in <code>dest</code>.
+     * <p>
+     * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
+     * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * <p>
      * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
      * This means that calling {@link Matrix4fc#rotateZYX(float, float, float, Matrix4f)} using the obtained Euler angles will yield
      * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix

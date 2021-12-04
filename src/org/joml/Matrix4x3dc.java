@@ -3058,6 +3058,36 @@ public interface Matrix4x3dc {
      * <p>
      * This method assumes that the left 3x3 submatrix of <code>this</code> only represents a rotation without scaling.
      * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * <p>
+     * Note that the returned Euler angles must be applied in the order <code>X * Y * Z</code> to obtain the identical matrix.
+     * This means that calling {@link Matrix4x3d#rotateXYZ(double, double, double)} using the obtained Euler angles will yield
+     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
+     * <code>m2</code> should be identical to <code>m</code> (disregarding possible floating-point inaccuracies).
+     * <pre>
+     * Matrix4x3d m = ...; // &lt;- matrix only representing rotation
+     * Matrix4x3d n = new Matrix4x3d();
+     * n.rotateXYZ(m.getEulerAnglesXYZ(new Vector3d()));
+     * </pre>
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix">http://en.wikipedia.org/</a>
+     * 
+     * @param dest
+     *          will hold the extracted Euler angles
+     * @return dest
+     */
+    Vector3d getEulerAnglesXYZ(Vector3d dest);
+
+    /**
+     * Extract the Euler angles from the rotation represented by the left 3x3 submatrix of <code>this</code>
+     * and store the extracted Euler angles in <code>dest</code>.
+     * <p>
+     * This method assumes that the left 3x3 submatrix of <code>this</code> only represents a rotation without scaling.
+     * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * <p>
      * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
      * This means that calling {@link Matrix4x3d#rotateZYX(double, double, double)} using the obtained Euler angles will yield
      * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
@@ -3068,7 +3098,7 @@ public interface Matrix4x3dc {
      * n.rotateZYX(m.getEulerAnglesZYX(new Vector3d()));
      * </pre>
      * <p>
-     * Reference: <a href="http://nghiaho.com/?page_id=846">http://nghiaho.com/</a>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix">http://en.wikipedia.org/</a>
      * 
      * @param dest
      *          will hold the extracted Euler angles

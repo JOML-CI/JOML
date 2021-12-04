@@ -9799,8 +9799,15 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
 
     public Vector3d getEulerAnglesZYX(Vector3d dest) {
         dest.x = Math.atan2(m12, m22);
-        dest.y = Math.atan2(-m02, Math.sqrt(m12 * m12 + m22 * m22));
+        dest.y = Math.atan2(-m02, Math.sqrt(1.0 - m02 * m02));
         dest.z = Math.atan2(m01, m00);
+        return dest;
+    }
+
+    public Vector3d getEulerAnglesXYZ(Vector3d dest) {
+        dest.x = Math.atan2(-m21, m22);
+        dest.y = Math.atan2(m20, Math.sqrt(1.0 - m20 * m20));
+        dest.z = Math.atan2(-m10, m00);
         return dest;
     }
 
