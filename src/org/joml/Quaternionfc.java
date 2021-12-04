@@ -1557,12 +1557,28 @@ public interface Quaternionfc {
     /**
      * Get the euler angles in radians in rotation sequence <code>XYZ</code> of this quaternion and store them in the 
      * provided parameter <code>eulerAngles</code>.
+     * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
      * 
      * @param eulerAngles
      *          will hold the euler angles in radians
      * @return the passed in vector
      */
     Vector3f getEulerAnglesXYZ(Vector3f eulerAngles);
+
+    /**
+     * Get the euler angles in radians in rotation sequence <code>ZYX</code> of this quaternion and store them in the 
+     * provided parameter <code>eulerAngles</code>.
+     * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * 
+     * @param eulerAngles
+     *          will hold the euler angles in radians
+     * @return the passed in vector
+     */
+    Vector3f getEulerAnglesZYX(Vector3f eulerAngles);
 
     /**
      * Return the square of the length of this quaternion.

@@ -1751,12 +1751,28 @@ public interface Quaterniondc {
     /**
      * Get the euler angles in radians in rotation sequence <code>XYZ</code> of this quaternion and store them in the 
      * provided parameter <code>eulerAngles</code>.
+     * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
      * 
      * @param eulerAngles
      *          will hold the euler angles in radians
      * @return the passed in vector
      */
     Vector3d getEulerAnglesXYZ(Vector3d eulerAngles);
+
+    /**
+     * Get the euler angles in radians in rotation sequence <code>ZYX</code> of this quaternion and store them in the 
+     * provided parameter <code>eulerAngles</code>.
+     * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * 
+     * @param eulerAngles
+     *          will hold the euler angles in radians
+     * @return the passed in vector
+     */
+    Vector3d getEulerAnglesZYX(Vector3d eulerAngles);
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis
