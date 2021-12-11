@@ -2775,6 +2775,13 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
         return eulerAngles;
     }
 
+    public Vector3d getEulerAnglesZXY(Vector3d eulerAngles) {
+        eulerAngles.x = Math.safeAsin(2.0 * (w * x + y * z));
+        eulerAngles.y = Math.atan2(w * y - x * z, 0.5 - y * y - x * x);
+        eulerAngles.z = Math.atan2(w * z - x * y, 0.5 - z * z - x * x);
+        return eulerAngles;
+    }
+
     public Quaterniond rotateAxis(double angle, double axisX, double axisY, double axisZ, Quaterniond dest) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
