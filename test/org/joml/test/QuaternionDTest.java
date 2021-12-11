@@ -26,6 +26,7 @@ package org.joml.test;
 import junit.framework.TestCase;
 
 import org.joml.*;
+import org.joml.Math;
 
 /**
  * Test class for {@link Quaterniond}.
@@ -112,5 +113,26 @@ public class QuaternionDTest extends TestCase {
         Quaterniondc fromDeg = new Quaterniond().fromAxisAngleDeg(axis, angleDeg);
         assertEquals(fromRad1, fromRad2);
         assertEquals(fromRad2, fromDeg);
+    }
+
+    public static void testGetEulerAnglesXYZ() {
+        Random rnd = new Random(1L);
+        int failure = 0;
+        int N = 3000000;
+        for (int i = 0; i < N; i++) {
+            double x = (rnd.nextFloat() * 2.0 - 1.0) * Math.PI;
+            double y = (rnd.nextFloat() * 2.0 - 1.0) * Math.PI;
+            double z = (rnd.nextFloat() * 2.0 - 1.0) * Math.PI;
+            Quaterniond p = new Quaterniond().rotateXYZ(x, y, z);
+            Vector3d a = p.getEulerAnglesXYZ(new Vector3d());
+            Quaterniond q = new Quaterniond().rotateX(a.x).rotateY(a.y).rotateZ(a.z);
+            Vector3d v = new Vector3d(rnd.nextFloat()*2-1, rnd.nextFloat()*2-1, rnd.nextFloat()*2-1);
+            Vector3d t1 = p.transform(v, new Vector3d());
+            Vector3d t2 = q.transform(v, new Vector3d());
+            if (!t1.equals(t2, 1E-10f))
+                failure++;
+        }
+        if ((float)failure / N > 0.0001f) // <- allow for a failure rate of 0.01%
+            throw new AssertionError();
     }
 }
