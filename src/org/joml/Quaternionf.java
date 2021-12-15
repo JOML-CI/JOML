@@ -1873,6 +1873,13 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
         return eulerAngles;
     }
 
+    public Vector3f getEulerAnglesYXZ(Vector3f eulerAngles) {
+        eulerAngles.x = Math.safeAsin(-2.0f * (y * z - w * x));
+        eulerAngles.y = Math.atan2(x * z + y * w, 0.5f - y * y - x * x);
+        eulerAngles.z = Math.atan2(y * x + w * z, 0.5f - x * x - z * z);
+        return eulerAngles;
+    }
+
     public float lengthSquared() {
         return Math.fma(x, x, Math.fma(y, y, Math.fma(z, z, w * w)));
     }

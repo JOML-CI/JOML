@@ -215,4 +215,25 @@ public class QuaternionfTest extends TestCase {
         if ((float)failure / N > 0.0001f) // <- allow for a failure rate of 0.01%
             throw new AssertionError();
     }
+
+    public static void testGetEulerAnglesYXZ() {
+        Random rnd = new Random(1L);
+        int failure = 0;
+        int N = 3000000;
+        for (int i = 0; i < N; i++) {
+            float x = (rnd.nextFloat() * 2f - 1f) * (float) Math.PI;
+            float y = (rnd.nextFloat() * 2f - 1f) * (float) Math.PI;
+            float z = (rnd.nextFloat() * 2f - 1f) * (float) Math.PI;
+            Quaternionf p = new Quaternionf().rotateY(y).rotateX(x).rotateZ(z);
+            Vector3f a = p.getEulerAnglesYXZ(new Vector3f());
+            Quaternionf q = new Quaternionf().rotateY(a.y).rotateX(a.x).rotateZ(a.z);
+            Vector3f v = new Vector3f(rnd.nextFloat()*2-1, rnd.nextFloat()*2-1, rnd.nextFloat()*2-1);
+            Vector3f t1 = p.transform(v, new Vector3f());
+            Vector3f t2 = q.transform(v, new Vector3f());
+            if (!t1.equals(t2, 1E-3f))
+                failure++;
+        }
+        if ((float)failure / N > 0.0001f) // <- allow for a failure rate of 0.01%
+            throw new AssertionError();
+    }
 }
