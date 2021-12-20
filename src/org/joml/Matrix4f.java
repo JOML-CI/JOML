@@ -5900,6 +5900,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m20(rm20)
         ._m21(rm21)
         ._m22(rm22)
+        ._m23(0.0f)
         ._m00(rm00)
         ._m01(rm01)
         ._m02(rm02)

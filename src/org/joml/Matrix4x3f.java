@@ -3923,28 +3923,19 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         float rm20 = xz * C + y * s;
         float rm21 = yz * C - x * s;
         float rm22 = zz * C + c;
-        float nm00 = rm00;
-        float nm01 = rm01;
-        float nm02 = rm02;
-        float nm10 = rm10;
-        float nm11 = rm11;
-        float nm12 = rm12;
-        // set non-dependent values directly
         dest.m20 = rm20;
         dest.m21 = rm21;
         dest.m22 = rm22;
-        // set other values
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
+        dest.m00 = rm00;
+        dest.m01 = rm01;
+        dest.m02 = rm02;
+        dest.m10 = rm10;
+        dest.m11 = rm11;
+        dest.m12 = rm12;
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
         dest.properties = properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
-
         return dest;
     }
 

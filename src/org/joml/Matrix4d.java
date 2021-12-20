@@ -4844,31 +4844,24 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
         double rm20 = xz * C + y * s;
         double rm21 = yz * C - x * s;
         double rm22 = zz * C + c;
-        double nm00 = rm00;
-        double nm01 = rm01;
-        double nm02 = rm02;
-        double nm10 = rm10;
-        double nm11 = rm11;
-        double nm12 = rm12;
-        // set non-dependent values directly
-        dest._m20(rm20)
+        return dest
+        ._m20(rm20)
         ._m21(rm21)
         ._m22(rm22)
-        // set other values
-        ._m00(nm00)
-        ._m01(nm01)
-        ._m02(nm02)
+        ._m23(0.0)
+        ._m00(rm00)
+        ._m01(rm01)
+        ._m02(rm02)
         ._m03(0.0)
-        ._m10(nm10)
-        ._m11(nm11)
-        ._m12(nm12)
+        ._m10(rm10)
+        ._m11(rm11)
+        ._m12(rm12)
         ._m13(0.0)
         ._m30(m30)
         ._m31(m31)
         ._m32(m32)
-        ._m33(m33)
+        ._m33(1.0)
         ._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
-        return dest;
     }
 
     /**
