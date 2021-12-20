@@ -724,7 +724,7 @@ public class Intersectionf {
             Vector4f centerAndRadiusOfIntersectionCircle) {
         float dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
         float distSquared = dX * dX + dY * dY + dZ * dZ;
-        float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
+        float h = 0.5f + (radiusSquaredA - radiusSquaredB) / (2.0f * distSquared);
         float r_i = radiusSquaredA - h * h * distSquared;
         if (r_i >= 0.0f) {
             centerAndRadiusOfIntersectionCircle.x = aX + h * dX;
@@ -845,7 +845,7 @@ public class Intersectionf {
             float bX, float bY, float bZ, float radiusSquaredB) {
         float dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
         float distSquared = dX * dX + dY * dY + dZ * dZ;
-        float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
+        float h = 0.5f + (radiusSquaredA - radiusSquaredB) / (2.0f * distSquared);
         float r_i = radiusSquaredA - h * h * distSquared;
         return r_i >= 0.0f;
     }
