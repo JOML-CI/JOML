@@ -16555,10 +16555,10 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      * @return this
      */
     public Matrix4d negateX() {
-        return _m00(-m00)._m01(-m01)._m02(-m02);
+        return _m00(-m00)._m01(-m01)._m02(-m02)._properties(properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL));
     }
     public Matrix4d negateX(Matrix4d dest) {
-        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m03(m03)._m10(m10)._m11(m11)._m12(m12)._m13(m13)._m20(m20)._m21(m21)._m22(m22)._m23(m23)._m30(m30)._m31(m31)._m32(m32)._m33(m33);
+        return dest._m00(-m00)._m01(-m01)._m02(-m02)._m03(m03)._m10(m10)._m11(m11)._m12(m12)._m13(m13)._m20(m20)._m21(m21)._m22(m22)._m23(m23)._m30(m30)._m31(m31)._m32(m32)._m33(m33)._properties(properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL));
     }
 
     /**
@@ -16573,10 +16573,10 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      * @return this
      */
     public Matrix4d negateY() {
-        return _m10(-m10)._m11(-m11)._m12(-m12);
+        return _m10(-m10)._m11(-m11)._m12(-m12)._properties(properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL));
     }
     public Matrix4d negateY(Matrix4d dest) {
-        return dest._m00(m00)._m01(m01)._m02(m02)._m03(m03)._m10(-m10)._m11(-m11)._m12(-m12)._m13(m13)._m20(m20)._m21(m21)._m22(m22)._m23(m23)._m30(m30)._m31(m31)._m32(m32)._m33(m33);
+        return dest._m00(m00)._m01(m01)._m02(m02)._m03(m03)._m10(-m10)._m11(-m11)._m12(-m12)._m13(m13)._m20(m20)._m21(m21)._m22(m22)._m23(m23)._m30(m30)._m31(m31)._m32(m32)._m33(m33)._properties(properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL));
     }
 
     /**
@@ -16591,10 +16591,10 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      * @return this
      */
     public Matrix4d negateZ() {
-        return _m20(-m20)._m21(-m21)._m22(-m22);
+        return _m20(-m20)._m21(-m21)._m22(-m22)._properties(properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL));
     }
     public Matrix4d negateZ(Matrix4d dest) {
-        return dest._m00(m00)._m01(m01)._m02(m02)._m03(m03)._m10(m10)._m11(m11)._m12(m12)._m13(m13)._m20(-m20)._m21(-m21)._m22(-m22)._m23(m23)._m30(m30)._m31(m31)._m32(m32)._m33(m33);
+        return dest._m00(m00)._m01(m01)._m02(m02)._m03(m03)._m10(m10)._m11(m11)._m12(m12)._m13(m13)._m20(-m20)._m21(-m21)._m22(-m22)._m23(m23)._m30(m30)._m31(m31)._m32(m32)._m33(m33)._properties(properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL));
     }
 
     public boolean isFinite() {
