@@ -202,6 +202,11 @@ public class Math {
     }
 
     public static float sin(float rad) {
+        if (Options.FASTMATH) {
+            if (Options.SIN_LOOKUP)
+                return sin_theagentd_lookup(rad);
+            return (float) sin_roquen_newk(rad);
+        }
         return (float) java.lang.Math.sin(rad);
     }
     public static double sin(double rad) {
