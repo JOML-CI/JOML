@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 18-ea
+      - name: Set up JDK 19-ea
         run: |
-          wget https://download.java.net/java/early_access/jdk18/26/GPL/openjdk-18-ea+26_linux-x64_bin.tar.gz
-          tar xf openjdk-18-ea+26_linux-x64_bin.tar.gz
+          wget https://download.java.net/java/early_access/jdk19/3/GPL/openjdk-19-ea+3_linux-x64_bin.tar.gz
+          tar xf openjdk-19-ea+3_linux-x64_bin.tar.gz
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
@@ -20,4 +20,4 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Build with Maven
         run: |
-          JAVA_HOME="$(pwd)/jdk-18" ./mvnw -B package -Dpanama-vector
+          JAVA_HOME="$(pwd)/jdk-19" ./mvnw -B package -Dpanama-vector
