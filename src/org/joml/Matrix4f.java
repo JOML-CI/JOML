@@ -9209,7 +9209,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
 
     /**
      * Apply a symmetric perspective projection frustum transformation using for a right-handed coordinate system
-     * the given NDC z range to this matrix.
+     * using the given NDC z range to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -9392,7 +9392,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
 
     /**
      * Apply a symmetric perspective projection frustum transformation using for a right-handed coordinate system
-     * the given NDC z range to this matrix.
+     * using the given NDC z range to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -9600,7 +9600,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
 
     /**
      * Apply an asymmetric off-center perspective projection frustum transformation using for a right-handed coordinate system
-     * the given NDC z range to this matrix.
+     * using the given NDC z range to this matrix.
      * <p>
      * The given angles <code>offAngleX</code> and <code>offAngleY</code> are the horizontal and vertical angles between
      * the line of sight and the line given by the center of the near and far frustum planes. So, when <code>offAngleY</code>
@@ -9681,6 +9681,101 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f perspectiveOffCenter(float fovy, float offAngleX, float offAngleY, float aspect, float zNear, float zFar) {
         return perspectiveOffCenter(fovy, offAngleX, offAngleY, aspect, zNear, zFar, this);
+    }
+
+    /**
+     * Apply an asymmetric off-center perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range to this matrix.
+     * <p>
+     * The given angles <code>angleLeft</code> and <code>angleRight</code> are the horizontal angles between
+     * the left and right frustum planes, respectively, and a line perpendicular to the near and far frustum planes.
+     * The angles <code>angleDown</code> and <code>angleUp</code> are the vertical angles between
+     * the bottom and top frustum planes, respectively, and a line perpendicular to the near and far frustum planes.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveOffCenterFov(float, float, float, float, float, float, boolean) setPerspectiveOffCenterFov}.
+     * 
+     * @see #setPerspectiveOffCenterFov(float, float, float, float, float, float, boolean)
+     * 
+     * @param angleLeft
+     *            the horizontal angle between left frustum plane and a line perpendicular to the near/far frustum planes.
+     *            For a symmetric frustum, this value is negative.
+     * @param angleRight
+     *            the horizontal angle between right frustum plane and a line perpendicular to the near/far frustum planes
+     * @param angleDown
+     *            the vertical angle between bottom frustum plane and a line perpendicular to the near/far frustum planes.
+     *            For a symmetric frustum, this value is negative.
+     * @param angleUp
+     *            the vertical angle between top frustum plane and a line perpendicular to the near/far frustum planes
+     * @param zNear
+     *            near clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f perspectiveOffCenterFov(float angleLeft, float angleRight, float angleDown, float angleUp, float zNear, float zFar, boolean zZeroToOne) {
+        return perspectiveOffCenterFov(angleLeft, angleRight, angleDown, angleUp, zNear, zFar, zZeroToOne, this);
+    }
+    public Matrix4f perspectiveOffCenterFov(float angleLeft, float angleRight, float angleDown, float angleUp, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        return frustum(Math.tan(angleLeft), Math.tan(angleRight), Math.tan(angleDown), Math.tan(angleUp), zNear, zFar, zZeroToOne, dest);
+    }
+
+    /**
+     * Apply an asymmetric off-center perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <code>[-1..+1]</code> to this matrix.
+     * <p>
+     * The given angles <code>angleLeft</code> and <code>angleRight</code> are the horizontal angles between
+     * the left and right frustum planes, respectively, and a line perpendicular to the near and far frustum planes.
+     * The angles <code>angleDown</code> and <code>angleUp</code> are the vertical angles between
+     * the bottom and top frustum planes, respectively, and a line perpendicular to the near and far frustum planes.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveOffCenterFov(float, float, float, float, float, float) setPerspectiveOffCenterFov}.
+     * 
+     * @see #setPerspectiveOffCenterFov(float, float, float, float, float, float)
+     * 
+     * @param angleLeft
+     *            the horizontal angle between left frustum plane and a line perpendicular to the near/far frustum planes.
+     *            For a symmetric frustum, this value is negative.
+     * @param angleRight
+     *            the horizontal angle between right frustum plane and a line perpendicular to the near/far frustum planes
+     * @param angleDown
+     *            the vertical angle between bottom frustum plane and a line perpendicular to the near/far frustum planes.
+     *            For a symmetric frustum, this value is negative.
+     * @param angleUp
+     *            the vertical angle between top frustum plane and a line perpendicular to the near/far frustum planes
+     * @param zNear
+     *            near clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @return this
+     */
+    public Matrix4f perspectiveOffCenterFov(float angleLeft, float angleRight, float angleDown, float angleUp, float zNear, float zFar) {
+        return perspectiveOffCenterFov(angleLeft, angleRight, angleDown, angleUp, zNear, zFar, this);
+    }
+    public Matrix4f perspectiveOffCenterFov(float angleLeft, float angleRight, float angleDown, float angleUp, float zNear, float zFar, Matrix4f dest) {
+        return frustum(Math.tan(angleLeft), Math.tan(angleRight), Math.tan(angleDown), Math.tan(angleUp), zNear, zFar, dest);
     }
 
     /**
@@ -9937,6 +10032,83 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         this._m23(-1.0f)
             ._properties(offAngleX == 0.0f && offAngleY == 0.0f ? PROPERTY_PERSPECTIVE : 0);
         return this;
+    }
+
+    /**
+     * Set this matrix to be an asymmetric off-center perspective projection frustum transformation for a right-handed
+     * coordinate system using OpenGL's NDC z range of <code>[-1..+1]</code>.
+     * <p>
+     * The given angles <code>angleLeft</code> and <code>angleRight</code> are the horizontal angles between
+     * the left and right frustum planes, respectively, and a line perpendicular to the near and far frustum planes.
+     * The angles <code>angleDown</code> and <code>angleUp</code> are the vertical angles between
+     * the bottom and top frustum planes, respectively, and a line perpendicular to the near and far frustum planes.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspectiveOffCenterFov(float, float, float, float, float, float) perspectiveOffCenterFov()}.
+     * 
+     * @see #perspectiveOffCenterFov(float, float, float, float, float, float)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param offAngleX
+     *            the horizontal angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param offAngleY
+     *            the vertical angle between the line of sight and the line crossing the center of the near and far frustum planes
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @return this
+     */
+    public Matrix4f setPerspectiveOffCenterFov(float fovy, float offAngleX, float offAngleY,
+            float aspect, float zNear, float zFar) {
+        return setPerspectiveOffCenterFov(fovy, offAngleX, offAngleY, aspect, zNear, zFar, false);
+    }
+    /**
+     * Set this matrix to be an asymmetric off-center perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range.
+     * <p>
+     * The given angles <code>angleLeft</code> and <code>angleRight</code> are the horizontal angles between
+     * the left and right frustum planes, respectively, and a line perpendicular to the near and far frustum planes.
+     * The angles <code>angleDown</code> and <code>angleUp</code> are the vertical angles between
+     * the bottom and top frustum planes, respectively, and a line perpendicular to the near and far frustum planes.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspectiveOffCenterFov(float, float, float, float, float, float, boolean) perspectiveOffCenterFov()}.
+     * 
+     * @see #perspectiveOffCenterFov(float, float, float, float, float, float, boolean)
+     * 
+     * @param angleLeft
+     *            the horizontal angle between left frustum plane and a line perpendicular to the near/far frustum planes.
+     *            For a symmetric frustum, this value is negative.
+     * @param angleRight
+     *            the horizontal angle between right frustum plane and a line perpendicular to the near/far frustum planes
+     * @param angleDown
+     *            the vertical angle between bottom frustum plane and a line perpendicular to the near/far frustum planes.
+     *            For a symmetric frustum, this value is negative.
+     * @param angleUp
+     *            the vertical angle between top frustum plane and a line perpendicular to the near/far frustum planes
+     * @param zNear
+     *            near clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. This value must be greater than zero.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Float#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f setPerspectiveOffCenterFov(float angleLeft, float angleRight, float angleDown, float angleUp, float zNear, float zFar, boolean zZeroToOne) {
+        return setFrustum(Math.tan(angleLeft), Math.tan(angleRight), Math.tan(angleDown), Math.tan(angleUp), zNear, zFar, zZeroToOne);
     }
 
     /**
@@ -15407,5 +15579,5 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
+    
 }
