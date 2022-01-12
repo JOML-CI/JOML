@@ -4185,7 +4185,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
                                                  float sx, float sy, float sz) {
         boolean one = Math.absEqualsOne(sx) && Math.absEqualsOne(sy) && Math.absEqualsOne(sz);
         if (one)
-            return translationRotateScale(tx, ty, tz, qx, qy, qz, qw, sx, sy, sz).invertOrthonormal(this);
+            return translationRotateInvert(tx, ty, tz, qx, qy, qz, qw);
         float nqx = -qx, nqy = -qy, nqz = -qz;
         float dqx = nqx + nqx;
         float dqy = nqy + nqy;
@@ -4483,6 +4483,112 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f translationRotate(float tx, float ty, float tz, Quaternionfc quat) {
         return translationRotate(tx, ty, tz, quat.x(), quat.y(), quat.z(), quat.w());
+    }
+
+    /**
+     * Set <code>this</code> matrix to <code>T * R</code>, where <code>T</code> is the given <code>translation</code> and
+     * <code>R</code> is a rotation transformation specified by the given quaternion.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method is equivalent to calling: <code>translation(translation).rotate(quat)</code>
+     * 
+     * @see #translation(Vector3fc)
+     * @see #rotate(Quaternionfc)
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @return this
+     */
+    public Matrix4f translationRotate(Vector3fc translation, 
+                                      Quaternionfc quat) {
+        return translationRotate(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w());
+    }
+
+    /**
+     * Set <code>this</code> matrix to <code>(T * R)<sup>-1</sup></code>, where <code>T</code> is a translation by the given <code>(tx, ty, tz)</code> and
+     * <code>R</code> is a rotation transformation specified by the quaternion <code>(qx, qy, qz, qw)</code>.
+     * <p>
+     * This method is equivalent to calling: <code>translationRotate(...).invert()</code>
+     * 
+     * @see #translationRotate(float, float, float, float, float, float, float)
+     * @see #invert()
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
+     * @return this
+     */
+    public Matrix4f translationRotateInvert(float tx, float ty, float tz, float qx, float qy, float qz, float qw) {
+        float nqx = -qx, nqy = -qy, nqz = -qz;
+        float dqx = nqx + nqx;
+        float dqy = nqy + nqy;
+        float dqz = nqz + nqz;
+        float q00 = dqx * nqx;
+        float q11 = dqy * nqy;
+        float q22 = dqz * nqz;
+        float q01 = dqx * nqy;
+        float q02 = dqx * nqz;
+        float q03 = dqx * qw;
+        float q12 = dqy * nqz;
+        float q13 = dqy * qw;
+        float q23 = dqz * qw;
+        return this
+        ._m00(1.0f - q11 - q22)
+        ._m01(q01 + q23)
+        ._m02(q02 - q13)
+        ._m03(0.0f)
+        ._m10(q01 - q23)
+        ._m11(1.0f - q22 - q00)
+        ._m12(q12 + q03)
+        ._m13(0.0f)
+        ._m20(q02 + q13)
+        ._m21(q12 - q03)
+        ._m22(1.0f - q11 - q00)
+        ._m23(0.0f)
+        ._m30(-m00 * tx - m10 * ty - m20 * tz)
+        ._m31(-m01 * tx - m11 * ty - m21 * tz)
+        ._m32(-m02 * tx - m12 * ty - m22 * tz)
+        ._m33(1.0f)
+        ._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
+    }
+
+    /**
+     * Set <code>this</code> matrix to <code>(T * R)<sup>-1</sup></code>, where <code>T</code> is the given <code>translation</code> and
+     * <code>R</code> is a rotation transformation specified by the given quaternion.
+     * <p>
+     * This method is equivalent to calling: <code>translationRotate(...).invert()</code>
+     * 
+     * @see #translationRotate(Vector3fc, Quaternionfc)
+     * @see #invert()
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @return this
+     */
+    public Matrix4f translationRotateInvert(Vector3fc translation, 
+                                            Quaternionfc quat) {
+        return translationRotateInvert(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w());
     }
 
     /**
