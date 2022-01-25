@@ -1430,24 +1430,24 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         float nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
         float nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
         float nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = 0.0f;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = 0.0f;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
-        dest.m22 = nm22;
-        dest.m23 = 0.0f;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.m33 = 0.0f;
-        dest.properties = 0;
-        return dest;
+        return dest
+        ._m00(nm00)
+        ._m01(nm01)
+        ._m02(nm02)
+        ._m03(0.0f)
+        ._m10(nm10)
+        ._m11(nm11)
+        ._m12(nm12)
+        ._m13(0.0f)
+        ._m20(nm20)
+        ._m21(nm21)
+        ._m22(nm22)
+        ._m23(0.0f)
+        ._m30(nm30)
+        ._m31(nm31)
+        ._m32(nm32)
+        ._m33(1.0f)
+        ._properties(0);
     }
     private Matrix4f invertOrthonormal(Matrix4f dest) {
         float nm30 = -(m00 * m30 + m01 * m31 + m02 * m32);
@@ -1456,24 +1456,24 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         float m01 = this.m01;
         float m02 = this.m02;
         float m12 = this.m12;
-        dest.m00 = m00;
-        dest.m01 = m10;
-        dest.m02 = m20;
-        dest.m03 = 0.0f;
-        dest.m10 = m01;
-        dest.m11 = m11;
-        dest.m12 = m21;
-        dest.m13 = 0.0f;
-        dest.m20 = m02;
-        dest.m21 = m12;
-        dest.m22 = m22;
-        dest.m23 = 0.0f;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.m33 = 0.0f;
-        dest.properties = PROPERTY_ORTHONORMAL;
-        return dest;
+        return dest
+        ._m00(m00)
+        ._m01(m10)
+        ._m02(m20)
+        ._m03(0.0f)
+        ._m10(m01)
+        ._m11(m11)
+        ._m12(m21)
+        ._m13(0.0f)
+        ._m20(m02)
+        ._m21(m12)
+        ._m22(m22)
+        ._m23(0.0f)
+        ._m30(nm30)
+        ._m31(nm31)
+        ._m32(nm32)
+        ._m33(1.0f)
+        ._properties(PROPERTY_ORTHONORMAL);
     }
 
     /**
