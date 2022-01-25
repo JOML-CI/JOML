@@ -2266,13 +2266,13 @@ abstract class MemUtil {
             case 0:
                 switch (row) {
                 case 0:
-                    return m.m00;
+                    return m.m00();
                 case 1:
-                    return m.m01;
+                    return m.m01();
                 case 2:
-                    return m.m02;
+                    return m.m02();
                 case 3:
-                    return m.m03;
+                    return m.m03();
                 default:
                     break;
                 }
@@ -2280,13 +2280,13 @@ abstract class MemUtil {
             case 1:
                 switch (row) {
                 case 0:
-                    return m.m10;
+                    return m.m10();
                 case 1:
-                    return m.m11;
+                    return m.m11();
                 case 2:
-                    return m.m12;
+                    return m.m12();
                 case 3:
-                    return m.m13;
+                    return m.m13();
                 default:
                     break;
                 }
@@ -2294,13 +2294,13 @@ abstract class MemUtil {
             case 2:
                 switch (row) {
                 case 0:
-                    return m.m20;
+                    return m.m20();
                 case 1:
-                    return m.m21;
+                    return m.m21();
                 case 2:
-                    return m.m22;
+                    return m.m22();
                 case 3:
-                    return m.m23;
+                    return m.m23();
                 default:
                     break;
                 }
@@ -2308,13 +2308,13 @@ abstract class MemUtil {
             case 3:
                 switch (row) {
                 case 0:
-                    return m.m30;
+                    return m.m30();
                 case 1:
-                    return m.m31;
+                    return m.m31();
                 case 2:
-                    return m.m32;
+                    return m.m32();
                 case 3:
-                    return m.m33;
+                    return m.m33();
                 default:
                     break;
                 }
@@ -2696,13 +2696,13 @@ abstract class MemUtil {
         public Vector4f getColumn(Matrix4f m, int column, Vector4f dest) {
             switch (column) {
             case 0:
-                return dest.set(m.m00, m.m01, m.m02, m.m03);
+                return dest.set(m.m00(), m.m01(), m.m02(), m.m03());
             case 1:
-                return dest.set(m.m10, m.m11, m.m12, m.m13);
+                return dest.set(m.m10(), m.m11(), m.m12(), m.m13());
             case 2:
-                return dest.set(m.m20, m.m21, m.m22, m.m23);
+                return dest.set(m.m20(), m.m21(), m.m22(), m.m23());
             case 3:
-                return dest.set(m.m30, m.m31, m.m32, m.m33);
+                return dest.set(m.m30(), m.m31(), m.m32(), m.m33());
             default:
                 throw new IndexOutOfBoundsException();
             }
