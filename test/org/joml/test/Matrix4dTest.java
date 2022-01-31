@@ -574,4 +574,36 @@ public class Matrix4dTest extends TestCase {
         TestUtil.assertMatrix4dEquals(result1, result2, 0.0f);
     }
 
+    public static void testSetPerspectiveOffCenterFov() {
+        Matrix4d m1 = new Matrix4d().setPerspective(
+                Math.toRadians(45),
+                1,
+                0.01,
+                10.0);
+        Matrix4d m2 = new Matrix4d().setPerspectiveOffCenterFov(
+                -Math.toRadians(45/2.),
+                Math.toRadians(45/2.),
+                -Math.toRadians(45/2.),
+                Math.toRadians(45/2.),
+                0.01,
+                10.0);
+        TestUtil.assertMatrix4dEquals(m1, m2, 1E-6);
+    }
+
+    public static void testPerspectiveOffCenterFov() {
+        Matrix4d m1 = new Matrix4d().perspective(
+                Math.toRadians(45),
+                1,
+                0.01,
+                10.0);
+        Matrix4d m2 = new Matrix4d().perspectiveOffCenterFov(
+                -Math.toRadians(45/2.),
+                Math.toRadians(45/2.),
+                -Math.toRadians(45/2.),
+                Math.toRadians(45/2.),
+                0.01,
+                10.0);
+        TestUtil.assertMatrix4dEquals(m1, m2, 1E-6);
+    }
+
 }

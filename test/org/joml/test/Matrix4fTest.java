@@ -592,4 +592,36 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(result1, result2, 0.0f);
     }
 
+    public static void testSetPerspectiveOffCenterFov() {
+        Matrix4f m1 = new Matrix4f().setPerspective(
+                Math.toRadians(45),
+                1,
+                0.01f,
+                10.0f);
+        Matrix4f m2 = new Matrix4f().setPerspectiveOffCenterFov(
+                -Math.toRadians(45/2f),
+                Math.toRadians(45/2f),
+                -Math.toRadians(45/2f),
+                Math.toRadians(45/2f),
+                0.01f,
+                10.0f);
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-6f);
+    }
+
+    public static void testPerspectiveOffCenterFov() {
+        Matrix4f m1 = new Matrix4f().perspective(
+                Math.toRadians(45),
+                1,
+                0.01f,
+                10.0f);
+        Matrix4f m2 = new Matrix4f().perspectiveOffCenterFov(
+                -Math.toRadians(45/2f),
+                Math.toRadians(45/2f),
+                -Math.toRadians(45/2f),
+                Math.toRadians(45/2f),
+                0.01f,
+                10.0f);
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-6f);
+    }
+
 }
