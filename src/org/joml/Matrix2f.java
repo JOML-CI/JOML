@@ -1412,7 +1412,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f mulComponentWise(Matrix2fc other) {
-        return sub(other, this);
+        return mulComponentWise(other, this);
     }
 
     public Matrix2f mulComponentWise(Matrix2fc other, Matrix2f dest) {

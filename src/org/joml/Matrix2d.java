@@ -1519,7 +1519,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d mulComponentWise(Matrix2dc other) {
-        return sub(other, this);
+        return mulComponentWise(other, this);
     }
 
     public Matrix2d mulComponentWise(Matrix2dc other, Matrix2d dest) {
