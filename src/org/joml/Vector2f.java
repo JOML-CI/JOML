@@ -1225,8 +1225,8 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
      * @return this
      */
     public Vector2f round() {
-        this.x = Math.ceil(x);
-        this.y = Math.ceil(y);
+        this.x = Math.round(x);
+        this.y = Math.round(y);
         return this;
     }
 
