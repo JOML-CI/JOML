@@ -16070,7 +16070,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
     }
 
     /**
-     * Create a view and projection matrix from a given <code>eye</code> position, a given bottom left corner position <code>p</code> of the near plane rectangle
+     * Create a view and off-center perspective projection matrix from a given <code>eye</code> position, a given bottom left corner position <code>p</code> of the near plane rectangle
      * and the extents of the near plane rectangle along its local <code>x</code> and <code>y</code> axes, and store the resulting matrices
      * in <code>projDest</code> and <code>viewDest</code>.
      * <p>
@@ -16097,11 +16097,11 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      *          whether to use Vulkan's and Direct3D's NDC z range of <code>[0..+1]</code> when <code>true</code>
      *          or whether to use OpenGL's NDC z range of <code>[-1..+1]</code> when <code>false</code>
      * @param projDest
-     *          will hold the resulting projection matrix
+     *          will hold the resulting off-center perspective projection matrix
      * @param viewDest
      *          will hold the resulting view matrix
      */
-    public static void projViewFromRectangle(
+    public static void perspectiveOffCenterViewFromRectangle(
             Vector3d eye, Vector3d p, Vector3d x, Vector3d y, double nearFarDist, boolean zeroToOne,
             Matrix4d projDest, Matrix4d viewDest) {
         double zx = y.y * x.z - y.z * x.y, zy = y.z * x.x - y.x * x.z, zz = y.x * x.y - y.y * x.x;
