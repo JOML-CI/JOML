@@ -321,6 +321,19 @@ public interface Quaternionfc {
     Quaternionf mul(float qx, float qy, float qz, float qw, Quaternionf dest);
 
     /**
+     * Multiply this quaternion by the given scalar and store the result in <code>dest</code>.
+     * <p>
+     * This method multiplies all of the four components by the specified scalar.
+     * 
+     * @param f
+     *          the factor to multiply all components by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Quaternionf mul(float f, Quaternionf dest);
+
+    /**
      * Pre-multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
      * <p>
      * If <code>T</code> is <code>this</code> and <code>Q</code> is the given quaternion, then the resulting quaternion <code>R</code> is:

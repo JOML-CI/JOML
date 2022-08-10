@@ -797,6 +797,27 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     }
 
     /**
+     * Multiply this quaternion by the given scalar.
+     * <p>
+     * This method multiplies all of the four components by the specified scalar.
+     * 
+     * @param f
+     *          the factor to multiply all components by
+     * @return this
+     */
+    public Quaterniond mul(double f) {
+        return mul(f, this);
+    }
+
+    public Quaterniond mul(double f, Quaterniond dest) {
+        dest.x = x * f;
+        dest.y = y * f;
+        dest.z = z * f;
+        dest.w = w * f;
+        return dest;
+    }
+
+    /**
      * Pre-multiply this quaternion by <code>q</code>.
      * <p>
      * If <code>T</code> is <code>this</code> and <code>Q</code> is the given quaternion, then the resulting quaternion <code>R</code> is:
