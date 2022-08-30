@@ -1087,6 +1087,42 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
+
+    public DoubleBuffer getTransposed(DoubleBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    public DoubleBuffer getTransposed(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    public FloatBuffer getTransposed(FloatBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.putfTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    public ByteBuffer getTransposed(ByteBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    public ByteBuffer getTransposedFloats(ByteBuffer buffer) {
+        return getTransposedFloats(buffer.position(), buffer);
+    }
+
+    public ByteBuffer getTransposedFloats(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putfTransposed(this, index, buffer);
+        return buffer;
+    }
 //#endif
 
 //#ifdef __HAS_UNSAFE__

@@ -2141,7 +2141,7 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
     }
 
     public ByteBuffer getTransposedFloats(ByteBuffer buffer) {
-        return getTransposed(buffer.position(), buffer);
+        return getTransposedFloats(buffer.position(), buffer);
     }
 
     public ByteBuffer getTransposedFloats(int index, ByteBuffer buffer) {

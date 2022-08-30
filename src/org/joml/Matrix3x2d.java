@@ -30,6 +30,7 @@ import java.io.ObjectOutput;
 //#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
 //#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -1060,6 +1061,42 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      */
     public ByteBuffer get4x4(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x4(this, index, buffer);
+        return buffer;
+    }
+
+    public DoubleBuffer getTransposed(DoubleBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    public DoubleBuffer getTransposed(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    public ByteBuffer getTransposed(ByteBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    public FloatBuffer getTransposed(FloatBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.putfTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    public ByteBuffer getTransposedFloats(ByteBuffer buffer) {
+        return getTransposedFloats(buffer.position(), buffer);
+    }
+
+    public ByteBuffer getTransposedFloats(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putfTransposed(this, index, buffer);
         return buffer;
     }
 //#endif

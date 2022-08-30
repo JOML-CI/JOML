@@ -29,6 +29,7 @@ import com.google.gwt.typedarrays.shared.Float64Array;
 //#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
 //#endif
 import java.io.Externalizable;
 import java.io.IOException;
@@ -670,8 +671,17 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
         return buffer;
     }
 
+    public ByteBuffer getFloats(ByteBuffer buffer) {
+        return getFloats(buffer.position(), buffer);
+    }
+
+    public ByteBuffer getFloats(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putf(this, index, buffer);
+        return buffer;
+    }
+
     public DoubleBuffer getTransposed(DoubleBuffer buffer) {
-        return get(buffer.position(), buffer);
+        return getTransposed(buffer.position(), buffer);
     }
 
     public DoubleBuffer getTransposed(int index, DoubleBuffer buffer) {
@@ -679,12 +689,30 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
         return buffer;
     }
 
+    public FloatBuffer getTransposed(FloatBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.putfTransposed(this, index, buffer);
+        return buffer;
+    }
+
     public ByteBuffer getTransposed(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
+        return getTransposed(buffer.position(), buffer);
     }
 
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    public ByteBuffer getTransposedFloats(ByteBuffer buffer) {
+        return getTransposedFloats(buffer.position(), buffer);
+    }
+
+    public ByteBuffer getTransposedFloats(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putfTransposed(this, index, buffer);
         return buffer;
     }
 //#endif

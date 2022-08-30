@@ -1204,8 +1204,9 @@ public interface Matrix4dc {
     float[] get(float[] arr);
 
 //#ifdef __HAS_NIO__
+
     /**
-     * Store the transpose of this matrix in column-major order into the supplied {@link DoubleBuffer} at the current
+     * Store this matrix in row-major order into the supplied {@link DoubleBuffer} at the current
      * buffer {@link DoubleBuffer#position() position}.
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
@@ -1217,13 +1218,13 @@ public interface Matrix4dc {
      * @see #getTransposed(int, DoubleBuffer)
      * 
      * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
+     *            will receive the values of this matrix in row-major order at its current position
      * @return the passed in buffer
      */
     DoubleBuffer getTransposed(DoubleBuffer buffer);
 
     /**
-     * Store the transpose of this matrix in column-major order into the supplied {@link DoubleBuffer} starting at the specified
+     * Store this matrix in row-major order into the supplied {@link DoubleBuffer} starting at the specified
      * absolute buffer position/index.
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
@@ -1231,13 +1232,13 @@ public interface Matrix4dc {
      * @param index
      *            the absolute position into the DoubleBuffer
      * @param buffer
-     *            will receive the values of this matrix in column-major order
+     *            will receive the values of this matrix in row-major order
      * @return the passed in buffer
      */
     DoubleBuffer getTransposed(int index, DoubleBuffer buffer);
 
     /**
-     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * Store this matrix in row-major order into the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
      * <p>
      * This method will not increment the position of the given ByteBuffer.
@@ -1249,13 +1250,13 @@ public interface Matrix4dc {
      * @see #getTransposed(int, ByteBuffer)
      * 
      * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
+     *            will receive the values of this matrix in row-major order at its current position
      * @return the passed in buffer
      */
     ByteBuffer getTransposed(ByteBuffer buffer);
 
     /**
-     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * Store this matrix in row-major order into the supplied {@link ByteBuffer} starting at the specified
      * absolute buffer position/index.
      * <p>
      * This method will not increment the position of the given ByteBuffer.
@@ -1263,10 +1264,86 @@ public interface Matrix4dc {
      * @param index
      *            the absolute position into the ByteBuffer
      * @param buffer
-     *            will receive the values of this matrix in column-major order
+     *            will receive the values of this matrix in row-major order
      * @return the passed in buffer
      */
     ByteBuffer getTransposed(int index, ByteBuffer buffer);
+
+    /**
+     * Store this matrix in row-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in row-major order at its current position
+     * @return the passed in buffer
+     */
+    FloatBuffer getTransposed(FloatBuffer buffer);
+
+    /**
+     * Store this matrix in row-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in row-major order
+     * @return the passed in buffer
+     */
+    FloatBuffer getTransposed(int index, FloatBuffer buffer);
+
+    /**
+     * Store this matrix as float values in row-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposedFloats(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposedFloats(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix as float values in row-major order at its current position
+     * @return the passed in buffer
+     */
+    ByteBuffer getTransposedFloats(ByteBuffer buffer);
+
+    /**
+     * Store this matrix in row-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix as float values in row-major order
+     * @return the passed in buffer
+     */
+    ByteBuffer getTransposedFloats(int index, ByteBuffer buffer);
 
     /**
      * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link DoubleBuffer} at the current

@@ -3543,6 +3543,16 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
         return dest;
     }
 
+    public FloatBuffer getTransposed(FloatBuffer dest) {
+        MemUtil.INSTANCE.putfTransposed(this, dest.position(), dest);
+        return dest;
+    }
+
+    public FloatBuffer getTransposed(int index, FloatBuffer dest) {
+        MemUtil.INSTANCE.putfTransposed(this, index, dest);
+        return dest;
+    }
+
     public ByteBuffer getTransposed(ByteBuffer dest) {
         MemUtil.INSTANCE.putTransposed(this, dest.position(), dest);
         return dest;
@@ -3571,6 +3581,15 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
     public ByteBuffer get4x3Transposed(int index, ByteBuffer dest) {
         MemUtil.INSTANCE.put4x3Transposed(this, index, dest);
         return dest;
+    }
+
+    public ByteBuffer getTransposedFloats(ByteBuffer buffer) {
+        return getTransposedFloats(buffer.position(), buffer);
+    }
+
+    public ByteBuffer getTransposedFloats(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putfTransposed(this, index, buffer);
+        return buffer;
     }
 //#endif
 
