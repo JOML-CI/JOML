@@ -9,8 +9,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set up JDK 19-ea
         run: |
-          wget https://download.java.net/java/early_access/jdk19/34/GPL/openjdk-19-ea+34_linux-x64_bin.tar.gz
-          tar xf openjdk-19-ea+34_linux-x64_bin.tar.gz
+          wget https://download.java.net/java/GA/jdk19/877d6127e982470ba2a7faa31cc93d04/36/GPL/openjdk-19_linux-x64_bin.tar.gz
+          tar xf openjdk-19_linux-x64_bin.tar.gz
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
