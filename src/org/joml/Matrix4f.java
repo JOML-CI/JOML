@@ -54,12 +54,11 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
 
     private static final long serialVersionUID = 1L;
 
+    int properties;
     float m00, m01, m02, m03;
     float m10, m11, m12, m13;
     float m20, m21, m22, m23;
     float m30, m31, m32, m33;
-
-    int properties;
 
     /**
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
@@ -15859,5 +15858,4 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
 }
