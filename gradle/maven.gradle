@@ -1,17 +1,46 @@
+nexusPublishing {
+    repositories {
+        sonatype()
+    }
+}
+
 publishing {
     publications {
-        jomlLibrary(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
+            pom {
+                name = 'JOML'
+                description = 'Java OpenGL Math Library'
+                url = 'http://joml.org'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'http://www.opensource.org/licenses/mit-license.php'
+                    }
+                }
+                organization {
+                    name = 'JOML'
+                    url = 'http://joml.org'
+                }
+                developers {
+                    developer {
+                        id = 'kburjack'
+                        name = 'Kai Burjack'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/JOML-CI/JOML'
+                    connection = 'scm:git:https://github.com/JOML-CI/JOML.git'
+                    developerConnection = 'scm:git:https://github.com/JOML-CI/JOML.git'
+                }
+            }
         }
     }
-    repositories {
-        maven {
-            name = 'snapshots'
-            url = 'https://oss.sonatype.org/content/repositories/snapshots'
-        }
-        maven {
-            name = 'staging'
-            url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
-        }
-    }
+}
+
+signing {
+    def signingKey = findProperty("signingKey") as String
+    def signingPassword = findProperty("signingPassword") as String
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenJava
 }

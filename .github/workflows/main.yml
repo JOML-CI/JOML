@@ -7,28 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Import GPG Key
-        uses: crazy-max/ghaction-import-gpg@v1
-        env:
-           GPG_PRIVATE_KEY: ${{ secrets.GPG_SECRET_KEY }}
-           PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
+      - uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'temurin'
-          server-id: oss.sonatype.org
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Build with Gradle
-        run: ./gradlew build
-#        env:
-#          MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-#          MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+          cache: gradle
+      - name: Publish with Gradle
+        run: ./gradlew publishToSonatype --no-daemon
+        env:
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SECRET_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_PASSPHRASE }}
