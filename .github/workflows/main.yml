@@ -27,8 +27,8 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Publish with Maven
-        run: ./mvnw -B deploy -Ddeployment
-        env:
-          MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      - name: Build with Gradle
+        run: ./gradlew build
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}

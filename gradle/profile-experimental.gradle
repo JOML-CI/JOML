@@ -1,0 +1,23 @@
+ext.PREPROCESSOR_DEFINES = [
+        __HAS_NIO__       : '1',
+        __HAS_VECTOR_API__: '1',
+        __HAS_JVMCI__     : '1',
+        __HAS_UNSAFE__    : '1',
+]
+
+test {
+    doFirst {
+        jvmArgs += [
+                '--add-modules', 'jdk.incubator.vector',
+                '--enable-preview',
+                '-XX:+UnlockExperimentalVMOptions',
+                '-XX:+EnableJVMCI',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.meta=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.runtime=ALL-UNNAMED',
+                '-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0',
+        ]
+    }
+}

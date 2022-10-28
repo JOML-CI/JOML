@@ -1,0 +1,43 @@
+if (!hasProperty('buildProfile')) ext.buildProfile = 'default'
+apply from: "gradle/profile-${buildProfile}.gradle"
+
+macroPreprocessorSettings {
+    inPlace = false
+    remove = false
+    java {
+        enable = true
+        inPlace = false
+        remove = false
+    }
+    resources {
+        enable = false
+        inPlace = false
+        remove = false
+    }
+    vars = PREPROCESSOR_DEFINES
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    compileOnly files('libs/jre-stubs.jar')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+configurations {
+    buildhelper
+}
+dependencies {
+    buildhelper 'org.ow2.asm:asm:9.4'
+}
+
+apply from: 'gradle/buildhelper.gradle'
+apply from: 'gradle/maven.gradle'
+apply from: 'gradle/checkstyle.gradle'

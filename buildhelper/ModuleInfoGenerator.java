@@ -42,6 +42,7 @@ public class ModuleInfoGenerator implements Opcodes {
         mv.visitRequire("java.base", ACC_MANDATED, "9");
         mv.visitRequire("jdk.unsupported", ACC_STATIC_PHASE, null);
         mv.visitRequire("jdk.incubator.vector", ACC_STATIC_PHASE, null);
+        mv.visitRequire("jdk.internal.vm.ci", ACC_STATIC_PHASE, null);
         mv.visitExport("org/joml", 0, (String[]) null);
         mv.visitExport("org/joml/sampling", 0, (String[]) null);
         mv.visitEnd();

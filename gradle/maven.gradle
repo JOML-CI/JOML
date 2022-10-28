@@ -1,0 +1,17 @@
+publishing {
+    publications {
+        jomlLibrary(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = 'snapshots'
+            url = 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
+        maven {
+            name = 'staging'
+            url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+        }
+    }
+}

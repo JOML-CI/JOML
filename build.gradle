@@ -1,0 +1,15 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'com.github.hexomod.macro.preprocessor' version '0.9'
+    id 'me.champeau.jmh' version '0.6.8'
+    id 'checkstyle'
+}
+repositories {
+    mavenCentral()
+}
+
+group 'org.joml'
+version '1.10.6-SNAPSHOT'
+
+apply from: 'gradle/build.gradle'
