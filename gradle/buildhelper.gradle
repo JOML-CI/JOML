@@ -1,3 +1,10 @@
+configurations {
+    buildhelper
+}
+dependencies {
+    buildhelper 'org.ow2.asm:asm:9.4'
+}
+
 tasks.register('compileBuildHelper', JavaCompile) {
     source = fileTree(dir: 'buildhelper', include: '*.java')
     classpath = files(configurations.buildhelper)

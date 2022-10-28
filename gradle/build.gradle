@@ -33,13 +33,6 @@ java {
     targetCompatibility = '1.8'
 }
 
-configurations {
-    buildhelper
-}
-dependencies {
-    buildhelper 'org.ow2.asm:asm:9.4'
-}
-
 apply from: 'gradle/buildhelper.gradle'
 apply from: 'gradle/maven.gradle'
 apply from: 'gradle/checkstyle.gradle'
