@@ -31,6 +31,7 @@ import org.joml.Vector4f;
 import org.joml.Math;
 import org.junit.jupiter.api.Test;
 
+import static org.joml.test.TestUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -54,9 +55,9 @@ class Matrix4fTest {
         m.unproject(actual, viewport, actual);
 
         /* Check for equality of the components */
-        assertEquals(expected.x, actual.x, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
-        assertEquals(expected.y, actual.y, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
-        assertEquals(expected.z, actual.z, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+        assertEquals(expected.x, actual.x, MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+        assertEquals(expected.y, actual.y, MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+        assertEquals(expected.z, actual.z, MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
     }
 
     @Test
@@ -64,12 +65,12 @@ class Matrix4fTest {
         Matrix4f m1, m2;
         m1 = new Matrix4f().lookAt(0, 2, 3, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3)).rotateX(
-                (float) Math.atan2(2, 3));
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-2f);
+                Math.atan2(2, 3));
+        assertMatrix4fEquals(m1, m2, 1E-2f);
         m1 = new Matrix4f().lookAt(3, 2, 0, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3))
-                .rotateX((float) Math.atan2(2, 3)).rotateY((float) Math.toRadians(-90));
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-2f);
+                .rotateX(Math.atan2(2, 3)).rotateY(Math.toRadians(-90));
+        assertMatrix4fEquals(m1, m2, 1E-2f);
     }
 
     @Test
@@ -86,8 +87,8 @@ class Matrix4fTest {
          * move the camera 5 units "up" and rotate it clock-wise 90 degrees around Y.
          */
         Matrix4f m = new Matrix4f()
-        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
-        .rotateY((float) Math.toRadians(90))
+        .perspective(Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .rotateY(Math.toRadians(90))
         .translate(0, -5, 0);
         m.frustumPlane(Matrix4fc.PLANE_NX, left);
         m.frustumPlane(Matrix4fc.PLANE_PX, right);
@@ -103,12 +104,12 @@ class Matrix4fTest {
         Vector4f expectedNear = new Vector4f(1, 0, 0, -0.1f).normalize3();
         Vector4f expectedFar = new Vector4f(-1, 0, 0, 100.0f).normalize3();
 
-        TestUtil.assertVector4fEquals(expectedLeft, left, 1E-5f);
-        TestUtil.assertVector4fEquals(expectedRight, right, 1E-5f);
-        TestUtil.assertVector4fEquals(expectedTop, top, 1E-5f);
-        TestUtil.assertVector4fEquals(expectedBottom, bottom, 1E-5f);
-        TestUtil.assertVector4fEquals(expectedNear, near, 1E-5f);
-        TestUtil.assertVector4fEquals(expectedFar, far, 1E-4f);
+        assertVector4fEquals(expectedLeft, left, 1E-5f);
+        assertVector4fEquals(expectedRight, right, 1E-5f);
+        assertVector4fEquals(expectedTop, top, 1E-5f);
+        assertVector4fEquals(expectedBottom, bottom, 1E-5f);
+        assertVector4fEquals(expectedNear, near, 1E-5f);
+        assertVector4fEquals(expectedFar, far, 1E-4f);
     }
 
     @Test
@@ -120,16 +121,16 @@ class Matrix4fTest {
         Vector3f expectedDir;
         m.frustumRayDir(0, 0, dir);
         expectedDir = new Vector3f(1, -1, -1).normalize();
-        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(1, 0, dir);
         expectedDir = new Vector3f(1, -1, 1).normalize();
-        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(0, 1, dir);
         expectedDir = new Vector3f(1, 1, -1).normalize();
-        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(1, 1, dir);
         expectedDir = new Vector3f(1, 1, 1).normalize();
-        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        assertVector3fEquals(expectedDir, dir, 1E-5f);
     }
 
     @Test
@@ -141,16 +142,16 @@ class Matrix4fTest {
         Vector3f expectedDir;
         m.frustumRayDir(0, 0, dir);
         expectedDir = new Vector3f(-(float)Math.sqrt(2), 0, -1).normalize();
-        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(1, 0, dir);
         expectedDir = new Vector3f(0, -(float)Math.sqrt(2), -1).normalize();
-        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(0, 1, dir);
         expectedDir = new Vector3f(0, Math.sqrt(2), -1).normalize();
-        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(1, 1, dir);
         expectedDir = new Vector3f(Math.sqrt(2), 0, -1).normalize();
-        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        assertVector3fEquals(expectedDir, dir, 1E-5f);
     }
 
     @Test
@@ -162,8 +163,8 @@ class Matrix4fTest {
 
         Matrix4f m = new Matrix4f(m00,m01,m02,m03,m10,m11,m12,m13,m20,m21,m22,m23,m30,m31,m32,m33);
         Matrix4f expect = new Matrix4f(m00,m10,m20,m30,m01,m11,m21,m31,m02,m12,m22,m32,m03,m13,m23,m33);
-        TestUtil.assertMatrix4fEquals(new Matrix4f(m).transpose(),expect, 1E-5f);
-        TestUtil.assertMatrix4fEquals(new Matrix4f(m).transpose(new Matrix4f()),expect, 1E-5f);
+        assertMatrix4fEquals(new Matrix4f(m).transpose(),expect, 1E-5f);
+        assertMatrix4fEquals(new Matrix4f(m).transpose(new Matrix4f()),expect, 1E-5f);
     }
 
     @Test
@@ -175,11 +176,11 @@ class Matrix4fTest {
 
         Matrix4f m = new Matrix4f(m00,m01,m02,m03,m10,m11,m12,m13,m20,m21,m22,m23,m30,m31,m32,m33);
         Matrix4f expect = new Matrix4f(m00,m10,m20,m03,m01,m11,m21,m13,m02,m12,m22,m23,m30,m31,m32,m33);
-        TestUtil.assertMatrix4fEquals(new Matrix4f(m).transpose3x3(),expect, 1E-5f);
+        assertMatrix4fEquals(new Matrix4f(m).transpose3x3(),expect, 1E-5f);
         Matrix3f expect1 = new Matrix3f(m00,m10,m20,m01,m11,m21,m02,m12,m22);
         Matrix4f expect2 = new Matrix4f(expect1);
-        TestUtil.assertMatrix4fEquals(new Matrix4f(m).transpose3x3(new Matrix4f()),expect2, 1E-5f);
-        TestUtil.assertMatrix3fEquals(new Matrix4f(m).transpose3x3(new Matrix3f()),expect1, 1E-5f);
+        assertMatrix4fEquals(new Matrix4f(m).transpose3x3(new Matrix4f()),expect2, 1E-5f);
+        assertMatrix3fEquals(new Matrix4f(m).transpose3x3(new Matrix3f()),expect1, 1E-5f);
     }
 
     @Test
@@ -188,7 +189,7 @@ class Matrix4fTest {
         Matrix4f m = new Matrix4f()
                 .rotateY(Math.toRadians(90));
         m.positiveX(dir);
-        TestUtil.assertVector3fEquals(new Vector3f(0, 0, 1), dir, 1E-7f);
+        assertVector3fEquals(new Vector3f(0, 0, 1), dir, 1E-7f);
     }
 
     @Test
@@ -197,45 +198,45 @@ class Matrix4fTest {
         Matrix4f m = new Matrix4f()
                 .rotateX(Math.toRadians(90));
         m.positiveY(dir);
-        TestUtil.assertVector3fEquals(new Vector3f(0, 0, -1), dir, 1E-7f);
+        assertVector3fEquals(new Vector3f(0, 0, -1), dir, 1E-7f);
     }
 
     @Test
     void testPositiveZRotateX() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
-                .rotateX((float) Math.toRadians(90));
+                .rotateX(Math.toRadians(90));
         m.positiveZ(dir);
-        TestUtil.assertVector3fEquals(new Vector3f(0, 1, 0), dir, 1E-7f);
+        assertVector3fEquals(new Vector3f(0, 1, 0), dir, 1E-7f);
     }
 
     @Test
     void testPositiveXRotateXY() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
-                .rotateY((float) Math.toRadians(90)).rotateX((float) Math.toRadians(45));
+                .rotateY(Math.toRadians(90)).rotateX(Math.toRadians(45));
         m.positiveX(dir);
-        TestUtil.assertVector3fEquals(new Vector3f(0, 1, 1).normalize(), dir, 1E-7f);
+        assertVector3fEquals(new Vector3f(0, 1, 1).normalize(), dir, 1E-7f);
     }
 
     @Test
     void testPositiveXPerspectiveRotateY() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
-                .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
-                .rotateY((float) Math.toRadians(90));
+                .perspective(Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+                .rotateY(Math.toRadians(90));
         m.positiveX(dir);
-        TestUtil.assertVector3fEquals(new Vector3f(0, 0, -1), dir, 1E-7f);
+        assertVector3fEquals(new Vector3f(0, 0, -1), dir, 1E-7f);
     }
 
     @Test
     void testPositiveXPerspectiveRotateXY() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
-                .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
-                .rotateY((float) Math.toRadians(90)).rotateX((float) Math.toRadians(45));
+                .perspective(Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+                .rotateY(Math.toRadians(90)).rotateX(Math.toRadians(45));
         m.positiveX(dir);
-        TestUtil.assertVector3fEquals(new Vector3f(0, -1, -1).normalize(), dir, 1E-7f);
+        assertVector3fEquals(new Vector3f(0, -1, -1).normalize(), dir, 1E-7f);
     }
 
     @Test
@@ -244,11 +245,11 @@ class Matrix4fTest {
         Matrix4f m = new Matrix4f()
                 .lookAt(0, 0, 0, -1, 0, 0, 0, 1, 0);
         m.positiveX(dir);
-        TestUtil.assertVector3fEquals(new Vector3f(0, 0, -1).normalize(), dir, 1E-7f);
+        assertVector3fEquals(new Vector3f(0, 0, -1).normalize(), dir, 1E-7f);
         m.positiveY(dir);
-        TestUtil.assertVector3fEquals(new Vector3f(0, 1, 0).normalize(), dir, 1E-7f);
+        assertVector3fEquals(new Vector3f(0, 1, 0).normalize(), dir, 1E-7f);
         m.positiveZ(dir);
-        TestUtil.assertVector3fEquals(new Vector3f(1, 0, 0).normalize(), dir, 1E-7f);
+        assertVector3fEquals(new Vector3f(1, 0, 0).normalize(), dir, 1E-7f);
     }
 
     @Test
@@ -259,13 +260,13 @@ class Matrix4fTest {
         Matrix4f inv = new Matrix4f(m).invert();
         m.positiveX(dir);
         inv.transformDirection(dir2.set(1, 0, 0));
-        TestUtil.assertVector3fEquals(dir2, dir, 1E-6f);
+        assertVector3fEquals(dir2, dir, 1E-6f);
         m.positiveY(dir);
         inv.transformDirection(dir2.set(0, 1, 0));
-        TestUtil.assertVector3fEquals(dir2, dir, 1E-6f);
+        assertVector3fEquals(dir2, dir, 1E-6f);
         m.positiveZ(dir);
         inv.transformDirection(dir2.set(0, 0, 1));
-        TestUtil.assertVector3fEquals(dir2, dir, 1E-6f);
+        assertVector3fEquals(dir2, dir, 1E-6f);
     }
 
     @Test
@@ -273,13 +274,13 @@ class Matrix4fTest {
         Matrix4f m = new Matrix4f();
         Vector3f corner = new Vector3f();
         m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(-1, -1, -1), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(-1, -1, -1), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(1, -1, -1), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(1, -1, -1), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
-        TestUtil.assertVector3fEquals(new Vector3f(1, -1, 1), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(1, -1, 1), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_NXPYPZ, corner); // left, top, far
-        TestUtil.assertVector3fEquals(new Vector3f(-1, 1, 1), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(-1, 1, 1), corner, 1E-6f);
     }
 
     @Test
@@ -287,83 +288,83 @@ class Matrix4fTest {
         Matrix4f m = new Matrix4f().ortho2D(-2, 2, -1, 1);
         Vector3f corner = new Vector3f();
         m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(-2, -1, 1), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(-2, -1, 1), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(2, -1, 1), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(2, -1, 1), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
-        TestUtil.assertVector3fEquals(new Vector3f(2, -1, -1), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(2, -1, -1), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_NXPYPZ, corner); // left, top, far
-        TestUtil.assertVector3fEquals(new Vector3f(-2, 1, -1), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(-2, 1, -1), corner, 1E-6f);
     }
 
     @Test
     void testFrustumCorner() {
         Matrix4f m = new Matrix4f()
-        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .perspective(Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .lookAt(0, 0, 10,
                 0, 0,  0, 
                 0, 1,  0);
         Vector3f corner = new Vector3f();
         m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(-0.1f, -0.1f, 10 - 0.1f), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(-0.1f, -0.1f, 10 - 0.1f), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(0.1f, -0.1f, 10 - 0.1f), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(0.1f, -0.1f, 10 - 0.1f), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
-        TestUtil.assertVector3fEquals(new Vector3f(100.0f, -100, 10 - 100f), corner, 1E-3f);
+        assertVector3fEquals(new Vector3f(100.0f, -100, 10 - 100f), corner, 1E-3f);
     }
 
     @Test
     void testFrustumCornerWide() {
         Matrix4f m = new Matrix4f()
-        .perspective((float) Math.toRadians(90), 2.0f, 0.1f, 100.0f)
+        .perspective(Math.toRadians(90), 2.0f, 0.1f, 100.0f)
         .lookAt(0, 0, 10,
                 0, 0,  0, 
                 0, 1,  0);
         Vector3f corner = new Vector3f();
         m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(-0.2f, -0.1f, 10 - 0.1f), corner, 1E-5f);
+        assertVector3fEquals(new Vector3f(-0.2f, -0.1f, 10 - 0.1f), corner, 1E-5f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(0.2f, -0.1f, 10 - 0.1f), corner, 1E-5f);
+        assertVector3fEquals(new Vector3f(0.2f, -0.1f, 10 - 0.1f), corner, 1E-5f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
-        TestUtil.assertVector3fEquals(new Vector3f(200.0f, -100, 10 - 100f), corner, 1E-3f);
+        assertVector3fEquals(new Vector3f(200.0f, -100, 10 - 100f), corner, 1E-3f);
     }
 
     @Test
     void testFrustumCornerRotate() {
         Matrix4f m = new Matrix4f()
-        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .perspective(Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .lookAt(10, 0, 0, 
                  0, 0, 0, 
                  0, 1, 0);
         Vector3f corner = new Vector3f();
         m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(10 - 0.1f, -0.1f, 0.1f), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(10 - 0.1f, -0.1f, 0.1f), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
-        TestUtil.assertVector3fEquals(new Vector3f(10 - 0.1f, -0.1f, -0.1f), corner, 1E-6f);
+        assertVector3fEquals(new Vector3f(10 - 0.1f, -0.1f, -0.1f), corner, 1E-6f);
         m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
-        TestUtil.assertVector3fEquals(new Vector3f(-100.0f + 10, -100, -100f), corner, 1E-3f);
+        assertVector3fEquals(new Vector3f(-100.0f + 10, -100, -100f), corner, 1E-3f);
     }
 
     @Test
     void testPerspectiveOrigin() {
         Matrix4f m = new Matrix4f()
         // test symmetric frustum with some modelview translation and rotation
-        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .perspective(Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .lookAt(6, 0, 1, 
                 0, 0, 0, 
                 0, 1, 0);
         Vector3f origin = new Vector3f();
         m.perspectiveOrigin(origin);
-        TestUtil.assertVector3fEquals(new Vector3f(6, 0, 1), origin, 1E-5f);
+        assertVector3fEquals(new Vector3f(6, 0, 1), origin, 1E-5f);
 
         // test symmetric frustum with some modelview translation and rotation
         m = new Matrix4f()
-        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .perspective(Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .lookAt(-5, 2, 1, 
                 0, 1, 0, 
                 0, 1, 0);
         m.perspectiveOrigin(origin);
-        TestUtil.assertVector3fEquals(new Vector3f(-5, 2, 1), origin, 1E-5f);
+        assertVector3fEquals(new Vector3f(-5, 2, 1), origin, 1E-5f);
 
         // test asymmetric frustum
         m = new Matrix4f()
@@ -372,18 +373,18 @@ class Matrix4fTest {
                 0, 1, 0, 
                 0, 1, 0);
         m.perspectiveOrigin(origin);
-        TestUtil.assertVector3fEquals(new Vector3f(-5, 2, 1), origin, 1E-5f);
+        assertVector3fEquals(new Vector3f(-5, 2, 1), origin, 1E-5f);
     }
 
     @Test
     void testPerspectiveFov() {
         Matrix4f m = new Matrix4f()
-        .perspective((float) Math.toRadians(45), 1.0f, 0.1f, 100.0f);
+        .perspective(Math.toRadians(45), 1.0f, 0.1f, 100.0f);
         float fov = m.perspectiveFov();
         assertEquals(Math.toRadians(45), fov, 1E-5);
 
         m = new Matrix4f()
-        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .perspective(Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .lookAt(6, 0, 1, 
                 0, 0, 0, 
                 0, 1, 0);
@@ -398,7 +399,7 @@ class Matrix4fTest {
         Matrix4f n = new Matrix4f();
         s.normal(n);
         n.normalize3x3();
-        TestUtil.assertMatrix4fEquals(r, n, 1E-8f);
+        assertMatrix4fEquals(r, n, 1E-8f);
     }
 
     @Test
@@ -411,9 +412,9 @@ class Matrix4fTest {
         Vector3f w = new Vector3f();
         m.transformPosition(orig, v);
         invm.transformPosition(v, w);
-        TestUtil.assertVector3fEquals(orig, w, 1E-6f);
+        assertVector3fEquals(orig, w, 1E-6f);
         invm.invertAffine();
-        TestUtil.assertMatrix4fEquals(m, invm, 1E-6f);
+        assertMatrix4fEquals(m, invm, 1E-6f);
     }
 
     @Test
@@ -426,72 +427,72 @@ class Matrix4fTest {
         Vector4f w = new Vector4f();
         m.transform(orig, v);
         invm.transform(v, w);
-        TestUtil.assertVector4fEquals(orig, w, 1E-4f);
+        assertVector4fEquals(orig, w, 1E-4f);
         invm.invert();
-        TestUtil.assertMatrix4fEquals(m, invm, 1E-3f);
+        assertMatrix4fEquals(m, invm, 1E-3f);
     }
 
     @Test
     void testRotateXYZ() {
         Matrix4f m = new Matrix4f().rotateX(0.12f).rotateY(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateXYZ(0.12f, 0.0623f, 0.95f);
-        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+        assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     @Test
     void testRotateZYX() {
         Matrix4f m = new Matrix4f().rotateZ(1.12f).rotateY(0.0623f).rotateX(0.95f);
         Matrix4f n = new Matrix4f().rotateZYX(1.12f, 0.0623f, 0.95f);
-        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+        assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     @Test
     void testRotateYXZ() {
         Matrix4f m = new Matrix4f().rotateY(1.12f).rotateX(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateYXZ(1.12f, 0.0623f, 0.95f);
-        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+        assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     @Test
     void testRotateAffineXYZ() {
         Matrix4f m = new Matrix4f().rotateX(0.12f).rotateY(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateAffineXYZ(0.12f, 0.0623f, 0.95f);
-        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+        assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     @Test
     void testRotateAffineZYX() {
         Matrix4f m = new Matrix4f().rotateZ(1.12f).rotateY(0.0623f).rotateX(0.95f);
         Matrix4f n = new Matrix4f().rotateAffineZYX(1.12f, 0.0623f, 0.95f);
-        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+        assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     @Test
     void testRotateAffineYXZ() {
         Matrix4f m = new Matrix4f().rotateY(1.12f).rotateX(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateAffineYXZ(1.12f, 0.0623f, 0.95f);
-        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+        assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     @Test
     void testRotationXYZ() {
         Matrix4f m = new Matrix4f().rotationX(0.32f).rotateY(0.5623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotationXYZ(0.32f, 0.5623f, 0.95f);
-        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+        assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     @Test
     void testRotationZYX() {
         Matrix4f m = new Matrix4f().rotationZ(0.12f).rotateY(0.0623f).rotateX(0.95f);
         Matrix4f n = new Matrix4f().rotationZYX(0.12f, 0.0623f, 0.95f);
-        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+        assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     @Test
     void testRotationYXZ() {
         Matrix4f m = new Matrix4f().rotationY(0.12f).rotateX(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotationYXZ(0.12f, 0.0623f, 0.95f);
-        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+        assertMatrix4fEquals(m, n, 1E-6f);
     }
 
     @Test
@@ -522,7 +523,7 @@ class Matrix4fTest {
                         0, 0, -1);
         Matrix4f crop = new Matrix4f();
         Matrix4f fin = new Matrix4f();
-        new Matrix4f().perspective((float) Math.toRadians(90), 1.0f, 5, 10).invertPerspective().orthoCrop(lightView, crop).mulOrthoAffine(lightView, fin);
+        new Matrix4f().perspective(Math.toRadians(90), 1.0f, 5, 10).invertPerspective().orthoCrop(lightView, crop).mulOrthoAffine(lightView, fin);
         Vector3f p = new Vector3f();
         fin.transformProject(p.set(0, 0, -5));
         assertEquals(+0.0f, p.x, 1E-6f);
@@ -543,14 +544,14 @@ class Matrix4fTest {
         Vector3f v = new Vector3f(1, 1, 0).normalize();
         Matrix4f m1 = new Matrix4f().rotateZ(v.angle(new Vector3f(1, 0, 0)), new Matrix4f());
         Matrix4f m2 = new Matrix4f().rotateTowardsXY(v.x, v.y, new Matrix4f());
-        TestUtil.assertMatrix4fEquals(m1, m2, 0);
+        assertMatrix4fEquals(m1, m2, 0);
         Vector3f t = m1.transformDirection(new Vector3f(0, 1, 0));
-        TestUtil.assertVector3fEquals(new Vector3f(-1, 1, 0).normalize(), t, 1E-6f);
+        assertVector3fEquals(new Vector3f(-1, 1, 0).normalize(), t, 1E-6f);
     }
 
     @Test
     void testTestPoint() {
-        Matrix4f m = new Matrix4f().perspective((float)Math.toRadians(90), 1.0f, 0.1f, 10.0f).lookAt(0, 0, 10, 0, 0, 0, 0, 1, 0).scale(2);
+        Matrix4f m = new Matrix4f().perspective(Math.toRadians(90), 1.0f, 0.1f, 10.0f).lookAt(0, 0, 10, 0, 0, 0, 0, 1, 0).scale(2);
         assertTrue(m.testPoint(0, 0, 0));
         assertTrue(m.testPoint(9.999f*0.5f, 0, 0));
         assertFalse(m.testPoint(10.001f*0.5f, 0, 0));
@@ -558,7 +559,7 @@ class Matrix4fTest {
 
     @Test
     void testTestAab() {
-        Matrix4f m = new Matrix4f().perspective((float)Math.toRadians(90), 1.0f, 0.1f, 10.0f).lookAt(0, 0, 10, 0, 0, 0, 0, 1, 0).scale(2);
+        Matrix4f m = new Matrix4f().perspective(Math.toRadians(90), 1.0f, 0.1f, 10.0f).lookAt(0, 0, 10, 0, 0, 0, 0, 1, 0).scale(2);
         assertTrue(m.testAab(-1, -1, -1, 1, 1, 1));
         assertTrue(m.testAab(9.999f*0.5f, 0, 0, 10, 1, 1));
         assertFalse(m.testAab(10.001f*0.5f, 0, 0, 10, 1, 1));
@@ -567,7 +568,7 @@ class Matrix4fTest {
     @Test
     void testTransformTranspose() {
         Matrix4f m = new Matrix4f(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
-        TestUtil.assertVector4fEquals(
+        assertVector4fEquals(
                 m.transformTranspose(new Vector4f(4, 5, 6, 7)), 
                 m.transpose(new Matrix4f()).transform(new Vector4f(4, 5, 6, 7)), 
                 1E-6f);
@@ -583,22 +584,22 @@ class Matrix4fTest {
 
     @Test
     void testSet() {
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(0, 0, 3), new Matrix4f(3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(0, 1, 3), new Matrix4f(0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(0, 2, 3), new Matrix4f(0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(0, 3, 3), new Matrix4f(0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(1, 0, 3), new Matrix4f(0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(1, 1, 3), new Matrix4f(0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(1, 2, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(1, 3, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(2, 0, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(2, 1, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(2, 2, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(2, 3, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(3, 0, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(3, 1, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(3, 2, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().zero().set(3, 3, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(0, 0, 3), new Matrix4f(3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(0, 1, 3), new Matrix4f(0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(0, 2, 3), new Matrix4f(0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(0, 3, 3), new Matrix4f(0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(1, 0, 3), new Matrix4f(0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(1, 1, 3), new Matrix4f(0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(1, 2, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(1, 3, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(2, 0, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(2, 1, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(2, 2, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(2, 3, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(3, 0, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(3, 1, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(3, 2, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
+        assertMatrix4fEquals(new Matrix4f().zero().set(3, 3, 3), new Matrix4f(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
     }
 
     @Test
@@ -606,15 +607,15 @@ class Matrix4fTest {
         Matrix4f m = new Matrix4f(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
         Vector4f v = new Vector4f();
         for (int c = 0; c < 4; c++)
-            TestUtil.assertVector4fEquals(new Vector4f(c*4+1, c*4+2, c*4+3, c*4+4), m.getColumn(c, v), 0);
+            assertVector4fEquals(new Vector4f(c*4+1, c*4+2, c*4+3, c*4+4), m.getColumn(c, v), 0);
     }
 
     @Test
     void testSetColumn() {
-        TestUtil.assertMatrix4fEquals(new Matrix4f().m00(1).m01(2).m02(3).m03(4), new Matrix4f().setColumn(0, new Vector4f(1, 2, 3, 4)), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().m10(1).m11(2).m12(3).m13(4), new Matrix4f().setColumn(1, new Vector4f(1, 2, 3, 4)), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().m20(1).m21(2).m22(3).m23(4), new Matrix4f().setColumn(2, new Vector4f(1, 2, 3, 4)), 0);
-        TestUtil.assertMatrix4fEquals(new Matrix4f().m30(1).m31(2).m32(3).m33(4), new Matrix4f().setColumn(3, new Vector4f(1, 2, 3, 4)), 0);
+        assertMatrix4fEquals(new Matrix4f().m00(1).m01(2).m02(3).m03(4), new Matrix4f().setColumn(0, new Vector4f(1, 2, 3, 4)), 0);
+        assertMatrix4fEquals(new Matrix4f().m10(1).m11(2).m12(3).m13(4), new Matrix4f().setColumn(1, new Vector4f(1, 2, 3, 4)), 0);
+        assertMatrix4fEquals(new Matrix4f().m20(1).m21(2).m22(3).m23(4), new Matrix4f().setColumn(2, new Vector4f(1, 2, 3, 4)), 0);
+        assertMatrix4fEquals(new Matrix4f().m30(1).m31(2).m32(3).m33(4), new Matrix4f().setColumn(3, new Vector4f(1, 2, 3, 4)), 0);
     }
 
     @Test
@@ -625,7 +626,7 @@ class Matrix4fTest {
         Matrix4f result2 = t.invertAffine(new Matrix4f());
         p.mul(result1, result1);
         p.mul0(result2, result2);
-        TestUtil.assertMatrix4fEquals(result1, result2, 0.0f);
+        assertMatrix4fEquals(result1, result2, 0.0f);
     }
 
     @Test
@@ -642,7 +643,7 @@ class Matrix4fTest {
                 Math.toRadians(45/2f),
                 0.01f,
                 10.0f);
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-6f);
+        assertMatrix4fEquals(m1, m2, 1E-6f);
     }
 
     @Test
@@ -659,6 +660,6 @@ class Matrix4fTest {
                 Math.toRadians(45/2f),
                 0.01f,
                 10.0f);
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-6f);
+        assertMatrix4fEquals(m1, m2, 1E-6f);
     }
 }

@@ -27,6 +27,7 @@ package org.joml.test;
 import org.joml.*;
 import org.junit.jupiter.api.Test;
 
+import static org.joml.test.TestUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -41,17 +42,17 @@ class Vector2fTest {
         
         // angle(v, v) should give 0
         float angle = testVec1.angle(testVec1);
-        assertEquals(0, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+        assertEquals(0, angle, MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
         
         // angle(v, -v) should give Math.PI
         testVec1.negate(testVec2);
         angle = testVec1.angle(testVec2);
-        assertEquals(java.lang.Math.PI, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+        assertEquals(java.lang.Math.PI, angle, MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
     }
 
     @Test
     void testPerpendicular(){
         Vector2f testVec1 = new Vector2f(-9.37f, 5.892f);
-        TestUtil.assertVector2fEquals(new Vector2f(testVec1).perpendicular(),new Vector2f(5.892f,9.37f),0.000001f);
+        assertVector2fEquals(new Vector2f(testVec1).perpendicular(),new Vector2f(5.892f,9.37f),0.000001f);
     }
 }

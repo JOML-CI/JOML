@@ -26,6 +26,7 @@ package org.joml.test;
 import org.joml.*;
 import org.junit.jupiter.api.Test;
 
+import static org.joml.test.TestUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -55,8 +56,8 @@ class Matrix3fTest {
 
         Matrix3f m = new Matrix3f(m00, m01, m02, m10, m11, m12, m20, m21, m22);
         Matrix3f expect = new Matrix3f(m00, m10, m20, m01, m11, m21, m02, m12, m22);
-        TestUtil.assertMatrix3fEquals(new Matrix3f(m).transpose(), expect, 1E-5f);
-        TestUtil.assertMatrix3fEquals(new Matrix3f(m).transpose(new Matrix3f()), expect, 1E-5f);
+        assertMatrix3fEquals(new Matrix3f(m).transpose(), expect, 1E-5f);
+        assertMatrix3fEquals(new Matrix3f(m).transpose(new Matrix3f()), expect, 1E-5f);
     }
 
     @Test
@@ -69,9 +70,9 @@ class Matrix3fTest {
         Vector3f w = new Vector3f();
         m.transform(orig, v);
         invm.transform(v, w);
-        TestUtil.assertVector3fEquals(orig, w, 1E-4f);
+        assertVector3fEquals(orig, w, 1E-4f);
         invm.invert();
-        TestUtil.assertMatrix3fEquals(m, invm, 1E-3f);
+        assertMatrix3fEquals(m, invm, 1E-3f);
     }
 
     @Test
@@ -84,14 +85,14 @@ class Matrix3fTest {
 
     @Test
     void testSet() {
-        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(0, 0, 3), new Matrix3f(3, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(0, 1, 3), new Matrix3f(0, 3, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(0, 2, 3), new Matrix3f(0, 0, 3, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(1, 0, 3), new Matrix3f(0, 0, 0, 3, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(1, 1, 3), new Matrix3f(0, 0, 0, 0, 3, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(1, 2, 3), new Matrix3f(0, 0, 0, 0, 0, 3, 0, 0, 0), 0);
-        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(2, 0, 3), new Matrix3f(0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
-        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(2, 1, 3), new Matrix3f(0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
-        TestUtil.assertMatrix3fEquals(new Matrix3f().zero().set(2, 2, 3), new Matrix3f(0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
+        assertMatrix3fEquals(new Matrix3f().zero().set(0, 0, 3), new Matrix3f(3, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix3fEquals(new Matrix3f().zero().set(0, 1, 3), new Matrix3f(0, 3, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix3fEquals(new Matrix3f().zero().set(0, 2, 3), new Matrix3f(0, 0, 3, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix3fEquals(new Matrix3f().zero().set(1, 0, 3), new Matrix3f(0, 0, 0, 3, 0, 0, 0, 0, 0), 0);
+        assertMatrix3fEquals(new Matrix3f().zero().set(1, 1, 3), new Matrix3f(0, 0, 0, 0, 3, 0, 0, 0, 0), 0);
+        assertMatrix3fEquals(new Matrix3f().zero().set(1, 2, 3), new Matrix3f(0, 0, 0, 0, 0, 3, 0, 0, 0), 0);
+        assertMatrix3fEquals(new Matrix3f().zero().set(2, 0, 3), new Matrix3f(0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
+        assertMatrix3fEquals(new Matrix3f().zero().set(2, 1, 3), new Matrix3f(0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
+        assertMatrix3fEquals(new Matrix3f().zero().set(2, 2, 3), new Matrix3f(0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
     }
 }

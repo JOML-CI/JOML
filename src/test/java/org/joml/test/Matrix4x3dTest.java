@@ -43,11 +43,11 @@ class Matrix4x3dTest {
         Matrix4x3dc m1, m2;
         m1 = new Matrix4x3d().lookAt(0, 2, 3, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4x3d().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3)).rotateX(
-                (float) Math.atan2(2, 3));
+                Math.atan2(2, 3));
         assertMatrix4x3dEquals(m1, m2, 1E-5f);
         m1 = new Matrix4x3d().lookAt(3, 2, 0, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4x3d().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3))
-                .rotateX((float) Math.atan2(2, 3)).rotateY((float) Math.toRadians(-90));
+                .rotateX(Math.atan2(2, 3)).rotateY(Math.toRadians(-90));
         assertMatrix4x3dEquals(m1, m2, 1E-4f);
     }
 
@@ -55,7 +55,7 @@ class Matrix4x3dTest {
     void testPositiveXRotateY() {
         Vector3d dir = new Vector3d();
         Matrix4x3dc m = new Matrix4x3d()
-                .rotateY((float) Math.toRadians(90));
+                .rotateY(Math.toRadians(90));
         m.positiveX(dir);
         assertVector3dEquals(new Vector3d(0, 0, 1), dir, 1E-7f);
     }
@@ -64,7 +64,7 @@ class Matrix4x3dTest {
     void testPositiveYRotateX() {
         Vector3d dir = new Vector3d();
         Matrix4x3dc m = new Matrix4x3d()
-                .rotateX((float) Math.toRadians(90));
+                .rotateX(Math.toRadians(90));
         m.positiveY(dir);
         assertVector3dEquals(new Vector3d(0, 0, -1), dir, 1E-7f);
     }
@@ -73,7 +73,7 @@ class Matrix4x3dTest {
     void testPositiveZRotateX() {
         Vector3d dir = new Vector3d();
         Matrix4x3dc m = new Matrix4x3d()
-                .rotateX((float) Math.toRadians(90));
+                .rotateX(Math.toRadians(90));
         m.positiveZ(dir);
         assertVector3dEquals(new Vector3d(0, 1, 0), dir, 1E-7f);
     }
@@ -82,7 +82,7 @@ class Matrix4x3dTest {
     void testPositiveXRotateXY() {
         Vector3d dir = new Vector3d();
         Matrix4x3dc m = new Matrix4x3d()
-                .rotateY((float) Math.toRadians(90)).rotateX((float) Math.toRadians(45));
+                .rotateY(Math.toRadians(90)).rotateX(Math.toRadians(45));
         m.positiveX(dir);
         assertVector3dEquals(new Vector3d(0, 1, 1).normalize(), dir, 1E-7f);
     }

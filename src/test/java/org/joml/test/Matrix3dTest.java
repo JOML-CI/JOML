@@ -27,6 +27,7 @@ import org.joml.Matrix3d;
 import org.joml.Vector3d;
 import org.junit.jupiter.api.Test;
 
+import static org.joml.test.TestUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -58,14 +59,14 @@ class Matrix3dTest {
 
     @Test
     void testSet() {
-        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(0, 0, 3), new Matrix3d(3, 0, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(0, 1, 3), new Matrix3d(0, 3, 0, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(0, 2, 3), new Matrix3d(0, 0, 3, 0, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(1, 0, 3), new Matrix3d(0, 0, 0, 3, 0, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(1, 1, 3), new Matrix3d(0, 0, 0, 0, 3, 0, 0, 0, 0), 0);
-        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(1, 2, 3), new Matrix3d(0, 0, 0, 0, 0, 3, 0, 0, 0), 0);
-        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(2, 0, 3), new Matrix3d(0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
-        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(2, 1, 3), new Matrix3d(0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
-        TestUtil.assertMatrix3dEquals(new Matrix3d().zero().set(2, 2, 3), new Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
+        assertMatrix3dEquals(new Matrix3d().zero().set(0, 0, 3), new Matrix3d(3, 0, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix3dEquals(new Matrix3d().zero().set(0, 1, 3), new Matrix3d(0, 3, 0, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix3dEquals(new Matrix3d().zero().set(0, 2, 3), new Matrix3d(0, 0, 3, 0, 0, 0, 0, 0, 0), 0);
+        assertMatrix3dEquals(new Matrix3d().zero().set(1, 0, 3), new Matrix3d(0, 0, 0, 3, 0, 0, 0, 0, 0), 0);
+        assertMatrix3dEquals(new Matrix3d().zero().set(1, 1, 3), new Matrix3d(0, 0, 0, 0, 3, 0, 0, 0, 0), 0);
+        assertMatrix3dEquals(new Matrix3d().zero().set(1, 2, 3), new Matrix3d(0, 0, 0, 0, 0, 3, 0, 0, 0), 0);
+        assertMatrix3dEquals(new Matrix3d().zero().set(2, 0, 3), new Matrix3d(0, 0, 0, 0, 0, 0, 3, 0, 0), 0);
+        assertMatrix3dEquals(new Matrix3d().zero().set(2, 1, 3), new Matrix3d(0, 0, 0, 0, 0, 0, 0, 3, 0), 0);
+        assertMatrix3dEquals(new Matrix3d().zero().set(2, 2, 3), new Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 3), 0);
     }
 }

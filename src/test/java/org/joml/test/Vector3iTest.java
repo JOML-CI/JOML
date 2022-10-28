@@ -38,9 +38,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * Test class for {@link Vector3i}.
  */
 class Vector3iTest {
-    static Vector3ic v1 = new Vector3i(1, 3, 7);
-    static Vector3ic v2 = new Vector3i(2, 6, 14);
-    static Vector3ic v3 = new Vector3i(3, 9, 21);
+    static final Vector3ic v1 = new Vector3i(1, 3, 7);
+    static final Vector3ic v2 = new Vector3i(2, 6, 14);
+    static final Vector3ic v3 = new Vector3i(3, 9, 21);
 
     @Test
     void testVector3iRounding() {
@@ -117,9 +117,9 @@ class Vector3iTest {
 
     @Test
     void testEquals() {
-        assertFalse(v1.equals(v2));
-        assertTrue(v1.equals(new Vector3i(v1.x(), v1.y(), v1.z())));
-        assertFalse(v1.equals(null));
+        assertNotEquals(v1, v2);
+        assertEquals(v1, new Vector3i(v1.x(), v1.y(), v1.z()));
+        assertNotEquals(v1, null);
     }
 
     @Test

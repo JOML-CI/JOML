@@ -108,7 +108,7 @@ class PolygonPointIntersectionTest {
         for (int i = 0; i < polyN; i++) {
             float x = (float) Math.cos(2.0 * Math.PI * i / polyN);
             float y = (float) Math.sin(2.0 * Math.PI * i / polyN);
-            verticesXY[2 * i + 0] = x;
+            verticesXY[2 * i] = x;
             verticesXY[2 * i + 1] = y;
         }
         PolygonsIntersection isect = new PolygonsIntersection(verticesXY, new int[0], polyN);

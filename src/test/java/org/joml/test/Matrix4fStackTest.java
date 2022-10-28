@@ -41,36 +41,28 @@ class Matrix4fStackTest {
         Matrix4fStack m = new Matrix4fStack(2);
         m.pushMatrix();
         m.perspective(1, 2, 3, 4);
-        assertFalse(identity.equals(m));
+        assertNotEquals(identity, m);
         m.popMatrix();
-        assertTrue(identity.equals(m));
+        assertEquals(identity, m);
     }
 
     @Test
     void testPushTooFar() {
-        try {
+        assertThrows(IllegalStateException.class, () -> {
             Matrix4fStack m = new Matrix4fStack(2);
             m.pushMatrix();
             m.pushMatrix();
-            fail();
-        } catch (IllegalStateException e) {
-            // Must reach here!
-            e.hashCode(); // <- use e somehow
-        }
+        });
     }
 
     @Test
     void testPopTooFar() {
-        try {
+        assertThrows(IllegalStateException.class, () -> {
             Matrix4fStack m = new Matrix4fStack(2);
             m.pushMatrix();
             m.popMatrix();
             m.popMatrix();
-            fail();
-        } catch (IllegalStateException e) {
-            // Must reach here!
-            e.hashCode(); // <- use 'e' somehow
-        }
+        });
     }
 
     @Test
@@ -90,17 +82,17 @@ class Matrix4fStackTest {
         Matrix4f m2 = new Matrix4f().scale(2);
         
         // Matrix4fStack.equals(Matrix4f) only compares the 16 matrix elements
-        assertTrue(s1.equals(m1));
-        assertTrue(s2.equals(m1));
-        assertFalse(s1.equals(m2));
-        assertTrue(s4.equals(m2));
+        assertEquals(s1, m1);
+        assertEquals(s2, m1);
+        assertNotEquals(s1, m2);
+        assertEquals(s4, m2);
 
         // Matrix4fStack.equals(Matrix4fStack) compares the 16 matrix elements
         // and all matrices from the bottom to the current/top of the stack.
-        assertTrue(s1.equals(s2));
-        assertTrue(s1.equals(s3));
-        assertFalse(s1.equals(s4));
-        assertFalse(s3.equals(s5));
-        assertTrue(s3.equals(s6));
+        assertEquals(s1, s2);
+        assertEquals(s1, s3);
+        assertNotEquals(s1, s4);
+        assertNotEquals(s3, s5);
+        assertEquals(s3, s6);
     }
 }

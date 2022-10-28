@@ -54,7 +54,7 @@ class QuaternionDTest {
         testQuat.mul(conjugate, resultQuat);
         
         Quaterniond wantedResultQuat = new Quaterniond(0, 0, 0, testQuat.dot(testQuat));
-        assertTrue(quatEqual(resultQuat, wantedResultQuat, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE));
+        assertTrue(quatEqual(resultQuat, wantedResultQuat, MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE));
     }
 
     @Test

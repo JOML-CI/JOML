@@ -74,8 +74,8 @@ class MathTest {
         assertEquals(3.f, Vector4f.length(2f, -1f, 0f, -2f), .0001f);
 
         // Floating point value tests
-        assertEquals((float) Math.sqrt(.41f), Vector2f.length(.4f, -.5f), .0001f);
-        assertEquals((float) Math.sqrt(.3f), Vector3f.length(.1f, -.5f, .2f), .0001f);
+        assertEquals(Math.sqrt(.41f), Vector2f.length(.4f, -.5f), .0001f);
+        assertEquals(Math.sqrt(.3f), Vector3f.length(.1f, -.5f, .2f), .0001f);
         assertEquals(1.f, Vector4f.length(.5f, .5f, .5f, .5f), .0001f);
     }
 

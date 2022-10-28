@@ -26,6 +26,7 @@ package org.joml.test;
 import org.joml.*;
 import org.junit.jupiter.api.Test;
 
+import static org.joml.test.TestUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -40,12 +41,12 @@ class Vector4dTest {
         
         // angle(v, v) should give 0
         double angle = testVec1.angle(testVec1);
-        assertEquals(0, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
+        assertEquals(0, angle, MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
         
         // angle(v, -v) should give Math.PI
         testVec1.negate(testVec2);
         angle = testVec1.angle(testVec2);
-        assertEquals(java.lang.Math.PI, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
+        assertEquals(java.lang.Math.PI, angle, MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
     }
 
     @Test

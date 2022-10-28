@@ -42,11 +42,11 @@ class Matrix4x3fTest {
         Matrix4x3f m1, m2;
         m1 = new Matrix4x3f().lookAt(0, 2, 3, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4x3f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3)).rotateX(
-                (float) Math.atan2(2, 3));
+                Math.atan2(2, 3));
         assertMatrix4x3fEquals(m1, m2, 1E-5f);
         m1 = new Matrix4x3f().lookAt(3, 2, 0, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4x3f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3))
-                .rotateX((float) Math.atan2(2, 3)).rotateY((float) Math.toRadians(-90));
+                .rotateX(Math.atan2(2, 3)).rotateY(Math.toRadians(-90));
         assertMatrix4x3fEquals(m1, m2, 1E-4f);
     }
 
@@ -54,7 +54,7 @@ class Matrix4x3fTest {
     void testPositiveXRotateY() {
         Vector3f dir = new Vector3f();
         Matrix4x3f m = new Matrix4x3f()
-                .rotateY((float) Math.toRadians(90));
+                .rotateY(Math.toRadians(90));
         m.positiveX(dir);
         assertVector3fEquals(new Vector3f(0, 0, 1), dir, 1E-7f);
     }
@@ -81,7 +81,7 @@ class Matrix4x3fTest {
     void testPositiveXRotateXY() {
         Vector3f dir = new Vector3f();
         Matrix4x3f m = new Matrix4x3f()
-                .rotateY(Math.toRadians(90)).rotateX((float) Math.toRadians(45));
+                .rotateY(Math.toRadians(90)).rotateX(Math.toRadians(45));
         m.positiveX(dir);
         assertVector3fEquals(new Vector3f(0, 1, 1).normalize(), dir, 1E-7f);
     }

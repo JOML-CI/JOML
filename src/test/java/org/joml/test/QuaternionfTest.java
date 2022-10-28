@@ -44,10 +44,10 @@ class QuaternionfTest {
         Quaternionf resultQuat = new Quaternionf();
         
         testQuat.mul(identityQuat, resultQuat);
-        assertTrue(TestUtil.quatEqual(testQuat, resultQuat, TestUtil.STANDARD_AROUND_ZERO_PRECISION_FLOAT));
+        assertTrue(quatEqual(testQuat, resultQuat, STANDARD_AROUND_ZERO_PRECISION_FLOAT));
         
         identityQuat.mul(testQuat, resultQuat);
-        assertTrue(TestUtil.quatEqual(testQuat, resultQuat, TestUtil.STANDARD_AROUND_ZERO_PRECISION_FLOAT));
+        assertTrue(quatEqual(testQuat, resultQuat, STANDARD_AROUND_ZERO_PRECISION_FLOAT));
 
         // Multiplication with conjugate should give (0, 0, 0, dot(this, this))
         Quaternionf conjugate = new Quaternionf();
@@ -55,7 +55,7 @@ class QuaternionfTest {
         testQuat.mul(conjugate, resultQuat);
         
         Quaternionf wantedResultQuat = new Quaternionf(0, 0, 0, testQuat.dot(testQuat));
-        assertTrue(TestUtil.quatEqual(resultQuat, wantedResultQuat, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT));
+        assertTrue(quatEqual(resultQuat, wantedResultQuat, MANY_OPS_AROUND_ZERO_PRECISION_FLOAT));
     }
 
     @Test

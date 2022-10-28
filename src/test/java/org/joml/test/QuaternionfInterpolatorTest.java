@@ -29,6 +29,7 @@ import org.joml.Vector3f;
 import org.joml.Math;
 import org.junit.jupiter.api.Test;
 
+import static org.joml.test.TestUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -39,15 +40,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class QuaternionfInterpolatorTest {
     @Test
     void testOneThird() {
-        Quaternionf q0 = new Quaternionf().rotateX((float) Math.toRadians(90));
-        Quaternionf q1 = new Quaternionf().rotateY((float) Math.toRadians(90));
-        Quaternionf q2 = new Quaternionf().rotateZ((float) Math.toRadians(90));
+        Quaternionf q0 = new Quaternionf().rotateX(Math.toRadians(90));
+        Quaternionf q1 = new Quaternionf().rotateY(Math.toRadians(90));
+        Quaternionf q2 = new Quaternionf().rotateZ(Math.toRadians(90));
         Quaternionf dest = new Quaternionf();
         QuaternionfInterpolator inter = new QuaternionfInterpolator();
         inter.computeWeightedAverage(new Quaternionf[] { q0, q1, q2 }, new float[] { 1.0f/3.0f, 1.0f/3.0f, 1.0f/3.0f }, 30, dest);
         Vector3f v = new Vector3f(0, 0, 1);
         dest.transform(v);
         assertEquals(1.0f, v.length(), 1E-6f);
-        TestUtil.assertVector3fEquals(new Vector3f(2.0f/3.0f, -1.0f/3.0f, 2.0f/3.0f), v, 1E-6f);
+        assertVector3fEquals(new Vector3f(2.0f/3.0f, -1.0f/3.0f, 2.0f/3.0f), v, 1E-6f);
     }
 }
