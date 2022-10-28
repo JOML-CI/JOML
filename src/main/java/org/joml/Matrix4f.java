@@ -35,8 +35,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 //#ifdef __HAS_JVMCI__
-import static org.joml.JvmciCode.MUL_WINDOWS;
-import static org.joml.JvmciCode.MUL_LINUX;
+import static org.joml.JvmciCode.*;
 import java.lang.reflect.Method;
 import jdk.vm.ci.code.site.DataPatch;
 import jdk.vm.ci.code.site.Site;
@@ -76,6 +75,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         try {
             JVMCIBackend jvmci = JVMCI.getRuntime().getHostJVMCIBackend();
             installCode(jvmci, Matrix4f.class.getDeclaredMethod("__mulJvmciAvx", Matrix4f.class, Matrix4f.class, Matrix4f.class), isWindows ? MUL_WINDOWS : MUL_LINUX);
+            installCode(jvmci, Matrix4f.class.getDeclaredMethod("__transposeJvmciAvx", Matrix4f.class, Matrix4f.class), isWindows ? TRANSPOSE_WINDOWS : TRANSPOSE_LINUX);
             return true;
         } catch (Throwable t) {
             return false;
@@ -89,6 +89,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         jvmci.getCodeCache().setDefaultCode(rm, nm);
     }
     private static native void __mulJvmciAvx(Matrix4f a, Matrix4f b, Matrix4f r);
+    private static native void __transposeJvmciAvx(Matrix4f a, Matrix4f r);
 //#endif
 
     int properties;
@@ -2983,6 +2984,12 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f transpose(Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.identity();
+//#ifdef __HAS_JVMCI__
+        else if (canUseJvmci) {
+            __transposeJvmciAvx(this, dest);
+            return dest;
+        }
+//#endif
         else if (this != dest)
             return transposeNonThisGeneric(dest);
         return transposeThisGeneric(dest);
