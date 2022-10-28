@@ -71,11 +71,33 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         String os = System.getProperty("os.name");
         return os.contains("Windows");
     }
+    private static sun.misc.Unsafe getUnsafeInstance() throws SecurityException {
+        java.lang.reflect.Field[] fields = sun.misc.Unsafe.class.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            java.lang.reflect.Field field = fields[i];
+            if (!field.getType().equals(sun.misc.Unsafe.class))
+                continue;
+            int modifiers = field.getModifiers();
+            if (!(java.lang.reflect.Modifier.isStatic(modifiers) && java.lang.reflect.Modifier.isFinal(modifiers)))
+                continue;
+            field.setAccessible(true);
+            try {
+                return (sun.misc.Unsafe) field.get(null);
+            } catch (IllegalAccessException e) {
+                /* Ignore */
+            }
+            break;
+        }
+        throw new UnsupportedOperationException();
+    }
     private static boolean canUseJvmci() {
         try {
+            sun.misc.Unsafe u = getUnsafeInstance();
+            long m00off = u.objectFieldOffset(Matrix4f.class.getDeclaredField("m00"));
+            if (m00off != 16L)
+                return false;
             JVMCIBackend jvmci = JVMCI.getRuntime().getHostJVMCIBackend();
             installCode(jvmci, Matrix4f.class.getDeclaredMethod("__mulJvmciAvx", Matrix4f.class, Matrix4f.class, Matrix4f.class), isWindows ? MUL_WINDOWS : MUL_LINUX);
-            installCode(jvmci, Matrix4f.class.getDeclaredMethod("__transposeJvmciAvx", Matrix4f.class, Matrix4f.class), isWindows ? TRANSPOSE_WINDOWS : TRANSPOSE_LINUX);
             return true;
         } catch (Throwable t) {
             return false;
@@ -89,7 +111,6 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         jvmci.getCodeCache().setDefaultCode(rm, nm);
     }
     private static native void __mulJvmciAvx(Matrix4f a, Matrix4f b, Matrix4f r);
-    private static native void __transposeJvmciAvx(Matrix4f a, Matrix4f r);
 //#endif
 
     int properties;
@@ -2984,12 +3005,6 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f transpose(Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.identity();
-//#ifdef __HAS_JVMCI__
-        else if (canUseJvmci) {
-            __transposeJvmciAvx(this, dest);
-            return dest;
-        }
-//#endif
         else if (this != dest)
             return transposeNonThisGeneric(dest);
         return transposeThisGeneric(dest);
