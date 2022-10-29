@@ -39,10 +39,6 @@ import static org.openjdk.jmh.annotations.Scope.Benchmark;
 @Measurement(iterations = 10, time = 1000, timeUnit = MILLISECONDS)
 @BenchmarkMode(AverageTime)
 @Fork(value = 1, jvmArgsAppend = {
-        "-Djava.library.path=./native/build",
-        "-XX:UseAVX=3",
-        "--enable-preview",
-        "--add-modules", "jdk.incubator.vector",
         "-XX:+UnlockExperimentalVMOptions",
         "-XX:+EnableJVMCI",
         "--add-exports", "jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED",
@@ -50,8 +46,7 @@ import static org.openjdk.jmh.annotations.Scope.Benchmark;
         "--add-exports", "jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED",
         "--add-exports", "jdk.internal.vm.ci/jdk.vm.ci.meta=ALL-UNNAMED",
         "--add-exports", "jdk.internal.vm.ci/jdk.vm.ci.runtime=ALL-UNNAMED",
-        "-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0",
-        "--enable-native-access=ALL-UNNAMED"})
+        "--add-exports", "jdk.internal.vm.ci/jdk.vm.ci.amd64=ALL-UNNAMED"})
 public class Matrix4fBench {
     private final org.joml.Matrix4f m4a = new org.joml.Matrix4f().assume(0);
     private final org.joml.Matrix4f m4b = new org.joml.Matrix4f().assume(0);
