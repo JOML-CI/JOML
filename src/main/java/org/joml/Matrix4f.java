@@ -36,6 +36,7 @@ import java.text.NumberFormat;
 
 //#ifdef __HAS_JVMCI__
 import static org.joml.JvmciCode.*;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -15879,10 +15880,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             TargetDescription targetDesc = jvmciBackend.getTarget();
             Architecture arch = targetDesc.arch;
             AMD64 amd64arch = (AMD64) arch;
-            sun.misc.Unsafe u = unsafeInstance();
-            long m00off = u.objectFieldOffset(Matrix4f.class.getDeclaredField("m00"));
-            if (m00off != 16L)
-                throw new AssertionError();
+            checkMatrix4f();
             installCode(jvmciBackend, Matrix4f.class.getDeclaredMethod("__mulJvmciAvx", Matrix4f.class, Matrix4f.class, Matrix4f.class), _isWindows ? MUL_WINDOWS : MUL_LINUX);
             installCode(jvmciBackend, Matrix4f.class.getDeclaredMethod("__invertJvmciAvx", Matrix4f.class, Matrix4f.class), _isWindows ? INVERT_WINDOWS : INVERT_LINUX);
             installCode(jvmciBackend, Matrix4f.class.getDeclaredMethod("__transposeJvmciAvx", Matrix4f.class, Matrix4f.class), _isWindows ? TRANSPOSE_WINDOWS : TRANSPOSE_LINUX);
@@ -15891,10 +15889,21 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             _canUseJvmci = true;
             _hasAvx2 = features.contains(AMD64.CPUFeature.AVX2);
         } catch (Throwable ignored) {
-            System.err.println(ignored);
         }
         canUseJvmci = _canUseJvmci;
         hasAvx2 = _hasAvx2;
+    }
+    private static void checkMatrix4f() throws Throwable {
+        Field f;
+        sun.misc.Unsafe u = unsafeInstance();
+        for (int i = 0; i < 16; i++) {
+            int c = i >>> 2;
+            int r = i & 3;
+            f = Matrix4f.class.getDeclaredField("m" + c + r);
+            long offset = u.objectFieldOffset(f);
+            if (offset != 16 + (i << 2))
+                throw new AssertionError();
+        }
     }
     private static sun.misc.Unsafe unsafeInstance() throws SecurityException {
         java.lang.reflect.Field[] fields = sun.misc.Unsafe.class.getDeclaredFields();
