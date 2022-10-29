@@ -5,19 +5,41 @@ ext.PREPROCESSOR_DEFINES = [
         __HAS_UNSAFE__    : '1',
 ]
 
+// conditionally add
+if (JavaVersion.current() >= JavaVersion.VERSION_16) {
+    ext.PREPROCESSOR_DEFINES['__CAN_TEST_VECTOR_API__'] = '1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.current()
+    targetCompatibility = JavaVersion.current()
+}
+
 test {
     doFirst {
-        jvmArgs += [
-                '--add-modules', 'jdk.incubator.vector',
-                '--enable-preview',
-                '-XX:+UnlockExperimentalVMOptions',
-                '-XX:+EnableJVMCI',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.meta=ALL-UNNAMED',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.runtime=ALL-UNNAMED',
-                '-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0',
-        ]
+        if (JavaVersion.current() >= JavaVersion.VERSION_16) {
+            jvmArgs += [
+                    '--add-modules', 'jdk.incubator.vector',
+                    '-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0',
+            ]
+        }
+        if (JavaVersion.current() >= JavaVersion.VERSION_1_9) {
+            jvmArgs += [
+                    '-XX:+UnlockExperimentalVMOptions',
+                    '-XX:+EnableJVMCI',
+                    '--enable-preview',
+                    '--add-modules', 'jdk.internal.vm.ci',
+                    '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
+                    '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
+                    '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
+                    '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.meta=ALL-UNNAMED',
+                    '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.runtime=ALL-UNNAMED',
+                    '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.amd64=ALL-UNNAMED',
+            ]
+        }
     }
+}
+
+javadoc {
+    enabled = false
 }

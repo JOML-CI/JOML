@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-//#ifdef __HAS_VECTOR_API__
+//#ifdef __CAN_TEST_VECTOR_API__
 package org.joml.experimental.test;
 
 import org.joml.experimental.Vector4fa;
