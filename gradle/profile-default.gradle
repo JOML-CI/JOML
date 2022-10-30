@@ -1,4 +1,0 @@
-ext.PREPROCESSOR_DEFINES = [
-        __HAS_NIO__   : "1",
-        __HAS_UNSAFE__: '1',
-]

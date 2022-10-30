@@ -1,7 +1,0 @@
-checkstyle {
-    configDirectory.set(file('config'))
-}
-
-checkstyleMain {
-    exclude '**/module-info.java'
-}

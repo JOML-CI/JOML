@@ -1,3 +1,5 @@
+import me.champeau.jmh.JmhBytecodeGeneratorTask
+
 plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm' version '1.7.20'
@@ -5,14 +7,215 @@ plugins {
     id 'signing'
     id 'io.github.gradle-nexus.publish-plugin' version '1.1.0'
     id 'com.github.hexomod.macro.preprocessor' version '0.9'
-    id 'me.champeau.jmh' version '0.6.8'
+    id 'me.champeau.jmh' version '0.6.8' apply false
     id 'checkstyle'
 }
 repositories {
     mavenCentral()
 }
 
+if (!hasProperty('buildProfile')) {
+    ext.buildProfile = 'default'
+}
+if (buildProfile == 'experimental') {
+    apply plugin: 'me.champeau.jmh'
+}
+
 group 'org.joml'
 version '1.10.6-SNAPSHOT'
 
-apply from: 'gradle/build.gradle'
+configurations {
+    buildhelper
+}
+dependencies {
+    buildhelper 'org.ow2.asm:asm:9.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    if (buildProfile == 'default') {
+        compileOnly files('libs/jre-stubs.jar')
+    }
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+    sourceCompatibility = buildProfile == 'experimental' ? JavaVersion.current() : '1.8'
+    targetCompatibility = buildProfile == 'experimental' ? JavaVersion.current() : '1.8'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('compileBuildHelper', JavaCompile) {
+    source = fileTree(dir: 'buildhelper', include: '*.java')
+    classpath = files(configurations.buildhelper)
+    destinationDirectory.set(file('build/buildhelper'))
+}
+
+tasks.register('java6to2', JavaExec) {
+    dependsOn compileBuildHelper
+    group = "Execution"
+    description = "Run the Java 6 to 2 conversion"
+    classpath = files(configurations.buildhelper, 'build/buildhelper')
+    mainClass.set('Java6to2')
+    args('build/classes/java/main')
+}
+
+tasks.register('moduleInfoGenerator', JavaExec) {
+    dependsOn compileBuildHelper
+    group = "Execution"
+    description = "Run module-info.class generator"
+    classpath = files(configurations.buildhelper, 'build/buildhelper')
+    mainClass.set('ModuleInfoGenerator')
+    args('build/classes/java/main', version)
+}
+
+if (ext.buildProfile == 'default') {
+    compileJava.finalizedBy(java6to2, moduleInfoGenerator)
+}
+
+nexusPublishing {
+    repositories {
+        sonatype()
+    }
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            pom {
+                name = 'JOML'
+                description = 'Java OpenGL Math Library'
+                url = 'http://joml.org'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'http://www.opensource.org/licenses/mit-license.php'
+                    }
+                }
+                organization {
+                    name = 'JOML'
+                    url = 'http://joml.org'
+                }
+                developers {
+                    developer {
+                        id = 'kburjack'
+                        name = 'Kai Burjack'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/JOML-CI/JOML'
+                    connection = 'scm:git:https://github.com/JOML-CI/JOML.git'
+                    developerConnection = 'scm:git:https://github.com/JOML-CI/JOML.git'
+                }
+            }
+        }
+    }
+}
+if (project.hasProperty("sign")) {
+    signing {
+        def signingKey = findProperty("signingKey") as String
+        def signingPassword = findProperty("signingPassword") as String
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign publishing.publications.mavenJava
+    }
+}
+
+checkstyle {
+    configDirectory.set(file('config'))
+}
+checkstyleMain {
+    exclude '**/module-info.java'
+}
+
+ext.PREPROCESSOR_DEFINES = [
+        __HAS_NIO__   : "1",
+        __HAS_UNSAFE__: '1',
+]
+
+if (buildProfile == 'experimental') {
+    ext.PREPROCESSOR_DEFINES += [
+            __HAS_NIO__       : '1',
+            __HAS_VECTOR_API__: '1',
+            __HAS_JVMCI__     : '1',
+            __HAS_UNSAFE__    : '1',
+    ]
+
+    if (JavaVersion.current() >= JavaVersion.VERSION_16) {
+        ext.PREPROCESSOR_DEFINES['__CAN_TEST_VECTOR_API__'] = '1'
+    }
+    if (JavaVersion.current() >= JavaVersion.VERSION_19) {
+        ext.PREPROCESSOR_DEFINES['__HAS_FOREIGN_MEMORY_ACCESS_API__'] = '1'
+    }
+
+    test {
+        doFirst {
+            if (JavaVersion.current() >= JavaVersion.VERSION_16) {
+                jvmArgs += [
+                        '--add-modules', 'jdk.incubator.vector',
+                        '-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0',
+                ]
+            }
+            if (JavaVersion.current() >= JavaVersion.VERSION_1_9) {
+                jvmArgs += [
+                        '-XX:+UnlockExperimentalVMOptions',
+                        '-XX:+EnableJVMCI',
+                        '--enable-preview',
+                        '--add-modules', 'jdk.internal.vm.ci',
+                        '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
+                        '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
+                        '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
+                        '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.meta=ALL-UNNAMED',
+                        '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.runtime=ALL-UNNAMED',
+                        '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.amd64=ALL-UNNAMED',
+                ]
+            }
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs += [
+                '--enable-preview',
+                '--add-modules', 'jdk.internal.vm.ci,jdk.incubator.vector',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.meta=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.runtime=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.amd64=ALL-UNNAMED',
+        ]
+    }
+
+    tasks.withType(JmhBytecodeGeneratorTask).configureEach {
+        jvmArgs.set([
+                '--enable-preview',
+                '--add-modules', 'jdk.internal.vm.ci,jdk.incubator.vector',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.meta=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.runtime=ALL-UNNAMED',
+                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.amd64=ALL-UNNAMED',
+        ])
+    }
+
+    javadoc {
+        enabled = false
+    }
+}
+
+macroPreprocessorSettings {
+    inPlace = false
+    remove = false
+    java {
+        enable = true
+        inPlace = false
+        remove = false
+    }
+    resources {
+        enable = false
+        inPlace = false
+        remove = false
+    }
+    vars = PREPROCESSOR_DEFINES
+}
