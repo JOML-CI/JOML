@@ -964,7 +964,7 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
     public Quaternionf mul(Quaternionfc q, Quaternionf dest) {
 //#ifdef __HAS_JVMCI__
         if (JvmciCode.canUseJvmci && q instanceof Quaternionf) {
-            JvmciCode.__Quaternionf_mulAvx(this, (Quaternionf) q, dest);
+            JvmciCode.__Quaternionf_mul(this, (Quaternionf) q, dest);
             return dest;
         }
 //#endif

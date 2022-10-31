@@ -50,71 +50,42 @@ class JvmciCode {
   static final boolean hasAvx2;
 
   static final byte[] MATRIX4F_MUL_AVX_LINUX = {
-          (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x56, (byte) 0x10, (byte) 0xC5, (byte) 0xF8, (byte) 0x10,
-          (byte) 0x5E, (byte) 0x20, (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x46, (byte) 0x30, (byte) 0xC5,
-          (byte) 0xF8, (byte) 0x10, (byte) 0x4E, (byte) 0x40, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18,
-          (byte) 0x62, (byte) 0x10, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x6A, (byte) 0x14,
-          (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x72, (byte) 0x18, (byte) 0xC4, (byte) 0xE2,
-          (byte) 0x79, (byte) 0x18, (byte) 0x7A, (byte) 0x1C, (byte) 0xC5, (byte) 0xE8, (byte) 0x59, (byte) 0xE4,
-          (byte) 0xC5, (byte) 0xE0, (byte) 0x59, (byte) 0xED, (byte) 0xC5, (byte) 0xD8, (byte) 0x58, (byte) 0xE5,
-          (byte) 0xC5, (byte) 0xF8, (byte) 0x59, (byte) 0xEE, (byte) 0xC5, (byte) 0xF0, (byte) 0x59, (byte) 0xF7,
-          (byte) 0xC5, (byte) 0xD0, (byte) 0x58, (byte) 0xEE, (byte) 0xC5, (byte) 0xD8, (byte) 0x58, (byte) 0xE5,
-          (byte) 0xC5, (byte) 0xF8, (byte) 0x11, (byte) 0x61, (byte) 0x10, (byte) 0xC4, (byte) 0xE2, (byte) 0x79,
-          (byte) 0x18, (byte) 0x62, (byte) 0x20, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x6A,
-          (byte) 0x24, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x72, (byte) 0x28, (byte) 0xC4,
-          (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x7A, (byte) 0x2C, (byte) 0xC5, (byte) 0xE8, (byte) 0x59,
-          (byte) 0xE4, (byte) 0xC5, (byte) 0xE0, (byte) 0x59, (byte) 0xED, (byte) 0xC5, (byte) 0xD8, (byte) 0x58,
-          (byte) 0xE5, (byte) 0xC5, (byte) 0xF8, (byte) 0x59, (byte) 0xEE, (byte) 0xC5, (byte) 0xF0, (byte) 0x59,
-          (byte) 0xF7, (byte) 0xC5, (byte) 0xD0, (byte) 0x58, (byte) 0xEE, (byte) 0xC5, (byte) 0xD8, (byte) 0x58,
-          (byte) 0xE5, (byte) 0xC5, (byte) 0xF8, (byte) 0x11, (byte) 0x61, (byte) 0x20, (byte) 0xC4, (byte) 0xE2,
-          (byte) 0x79, (byte) 0x18, (byte) 0x62, (byte) 0x30, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18,
-          (byte) 0x6A, (byte) 0x34, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x72, (byte) 0x38,
-          (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x7A, (byte) 0x3C, (byte) 0xC5, (byte) 0xE8,
-          (byte) 0x59, (byte) 0xE4, (byte) 0xC5, (byte) 0xE0, (byte) 0x59, (byte) 0xED, (byte) 0xC5, (byte) 0xD8,
-          (byte) 0x58, (byte) 0xE5, (byte) 0xC5, (byte) 0xF8, (byte) 0x59, (byte) 0xEE, (byte) 0xC5, (byte) 0xF0,
-          (byte) 0x59, (byte) 0xF7, (byte) 0xC5, (byte) 0xD0, (byte) 0x58, (byte) 0xEE, (byte) 0xC5, (byte) 0xD8,
-          (byte) 0x58, (byte) 0xE5, (byte) 0xC5, (byte) 0xF8, (byte) 0x11, (byte) 0x61, (byte) 0x30, (byte) 0xC4,
-          (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x62, (byte) 0x40, (byte) 0xC4, (byte) 0xE2, (byte) 0x79,
-          (byte) 0x18, (byte) 0x6A, (byte) 0x44, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x72,
-          (byte) 0x48, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x7A, (byte) 0x4C, (byte) 0xC5,
-          (byte) 0xE8, (byte) 0x59, (byte) 0xD4, (byte) 0xC5, (byte) 0xE0, (byte) 0x59, (byte) 0xDD, (byte) 0xC5,
-          (byte) 0xE8, (byte) 0x58, (byte) 0xD3, (byte) 0xC5, (byte) 0xF8, (byte) 0x59, (byte) 0xC6, (byte) 0xC5,
-          (byte) 0xF0, (byte) 0x59, (byte) 0xCF, (byte) 0xC5, (byte) 0xF8, (byte) 0x58, (byte) 0xC1, (byte) 0xC5,
-          (byte) 0xE8, (byte) 0x58, (byte) 0xC0, (byte) 0xC5, (byte) 0xF8, (byte) 0x11, (byte) 0x41, (byte) 0x40,
-          (byte) 0xC3};
+          (byte) 0xC5, (byte) 0xFC, (byte) 0x10, (byte) 0x42, (byte) 0x10, (byte) 0xC5,
+          (byte) 0xFC, (byte) 0x10, (byte) 0x4A, (byte) 0x30, (byte) 0xC4, (byte) 0xE3, (byte) 0x7D, (byte) 0x04,
+          (byte) 0xD0, (byte) 0x00, (byte) 0xC4, (byte) 0xE2, (byte) 0x7D, (byte) 0x1A, (byte) 0x5E, (byte) 0x10,
+          (byte) 0xC5, (byte) 0xE4, (byte) 0x59, (byte) 0xD2, (byte) 0xC4, (byte) 0xE3, (byte) 0x7D, (byte) 0x04,
+          (byte) 0xE0, (byte) 0x55, (byte) 0xC4, (byte) 0xE2, (byte) 0x7D, (byte) 0x1A, (byte) 0x6E, (byte) 0x20,
+          (byte) 0xC4, (byte) 0xE2, (byte) 0x55, (byte) 0xA8, (byte) 0xE2, (byte) 0xC4, (byte) 0xE3, (byte) 0x7D,
+          (byte) 0x04, (byte) 0xD0, (byte) 0xAA, (byte) 0xC4, (byte) 0xE2, (byte) 0x7D, (byte) 0x1A, (byte) 0x76,
+          (byte) 0x30, (byte) 0xC4, (byte) 0xE2, (byte) 0x4D, (byte) 0xA8, (byte) 0xD4, (byte) 0xC4, (byte) 0xE3,
+          (byte) 0x7D, (byte) 0x04, (byte) 0xC0, (byte) 0xFF, (byte) 0xC4, (byte) 0xE2, (byte) 0x7D, (byte) 0x1A,
+          (byte) 0x66, (byte) 0x40, (byte) 0xC4, (byte) 0xE2, (byte) 0x5D, (byte) 0xA8, (byte) 0xC2, (byte) 0xC4,
+          (byte) 0xE3, (byte) 0x7D, (byte) 0x04, (byte) 0xD1, (byte) 0x00, (byte) 0xC5, (byte) 0xE4, (byte) 0x59,
+          (byte) 0xD2, (byte) 0xC4, (byte) 0xE3, (byte) 0x7D, (byte) 0x04, (byte) 0xD9, (byte) 0x55, (byte) 0xC4,
+          (byte) 0xE2, (byte) 0x55, (byte) 0xA8, (byte) 0xDA, (byte) 0xC4, (byte) 0xE3, (byte) 0x7D, (byte) 0x04,
+          (byte) 0xD1, (byte) 0xAA, (byte) 0xC4, (byte) 0xE2, (byte) 0x4D, (byte) 0xA8, (byte) 0xD3, (byte) 0xC4,
+          (byte) 0xE3, (byte) 0x7D, (byte) 0x04, (byte) 0xC9, (byte) 0xFF, (byte) 0xC4, (byte) 0xE2, (byte) 0x5D,
+          (byte) 0xA8, (byte) 0xCA, (byte) 0xC5, (byte) 0xFC, (byte) 0x11, (byte) 0x41, (byte) 0x10, (byte) 0xC5,
+          (byte) 0xFC, (byte) 0x11, (byte) 0x49, (byte) 0x30, (byte) 0xC5, (byte) 0xF8, (byte) 0x77, (byte) 0xC3 };
   static final byte[] MATRIX4F_MUL_AVX_WINDOWS = {
-          (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x52, (byte) 0x10, (byte) 0xC5, (byte) 0xF8, (byte) 0x10,
-          (byte) 0x5A, (byte) 0x20, (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x42, (byte) 0x30, (byte) 0xC5,
-          (byte) 0xF8, (byte) 0x10, (byte) 0x4A, (byte) 0x40, (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18,
-          (byte) 0x60, (byte) 0x10, (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18, (byte) 0x68, (byte) 0x14,
-          (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18, (byte) 0x70, (byte) 0x18, (byte) 0xC4, (byte) 0xC2,
-          (byte) 0x79, (byte) 0x18, (byte) 0x78, (byte) 0x1C, (byte) 0xC5, (byte) 0xE8, (byte) 0x59, (byte) 0xE4,
-          (byte) 0xC5, (byte) 0xE0, (byte) 0x59, (byte) 0xED, (byte) 0xC5, (byte) 0xD8, (byte) 0x58, (byte) 0xE5,
-          (byte) 0xC5, (byte) 0xF8, (byte) 0x59, (byte) 0xEE, (byte) 0xC5, (byte) 0xF0, (byte) 0x59, (byte) 0xF7,
-          (byte) 0xC5, (byte) 0xD0, (byte) 0x58, (byte) 0xEE, (byte) 0xC5, (byte) 0xD8, (byte) 0x58, (byte) 0xE5,
-          (byte) 0xC4, (byte) 0xC1, (byte) 0x78, (byte) 0x11, (byte) 0x61, (byte) 0x10, (byte) 0xC4, (byte) 0xC2,
-          (byte) 0x79, (byte) 0x18, (byte) 0x60, (byte) 0x20, (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18,
-          (byte) 0x68, (byte) 0x24, (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18, (byte) 0x70, (byte) 0x28,
-          (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18, (byte) 0x78, (byte) 0x2C, (byte) 0xC5, (byte) 0xE8,
-          (byte) 0x59, (byte) 0xE4, (byte) 0xC5, (byte) 0xE0, (byte) 0x59, (byte) 0xED, (byte) 0xC5, (byte) 0xD8,
-          (byte) 0x58, (byte) 0xE5, (byte) 0xC5, (byte) 0xF8, (byte) 0x59, (byte) 0xEE, (byte) 0xC5, (byte) 0xF0,
-          (byte) 0x59, (byte) 0xF7, (byte) 0xC5, (byte) 0xD0, (byte) 0x58, (byte) 0xEE, (byte) 0xC5, (byte) 0xD8,
-          (byte) 0x58, (byte) 0xE5, (byte) 0xC4, (byte) 0xC1, (byte) 0x78, (byte) 0x11, (byte) 0x61, (byte) 0x20,
-          (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18, (byte) 0x60, (byte) 0x30, (byte) 0xC4, (byte) 0xC2,
-          (byte) 0x79, (byte) 0x18, (byte) 0x68, (byte) 0x34, (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18,
-          (byte) 0x70, (byte) 0x38, (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18, (byte) 0x78, (byte) 0x3C,
-          (byte) 0xC5, (byte) 0xE8, (byte) 0x59, (byte) 0xE4, (byte) 0xC5, (byte) 0xE0, (byte) 0x59, (byte) 0xED,
-          (byte) 0xC5, (byte) 0xD8, (byte) 0x58, (byte) 0xE5, (byte) 0xC5, (byte) 0xF8, (byte) 0x59, (byte) 0xEE,
-          (byte) 0xC5, (byte) 0xF0, (byte) 0x59, (byte) 0xF7, (byte) 0xC5, (byte) 0xD0, (byte) 0x58, (byte) 0xEE,
-          (byte) 0xC5, (byte) 0xD8, (byte) 0x58, (byte) 0xE5, (byte) 0xC4, (byte) 0xC1, (byte) 0x78, (byte) 0x11,
-          (byte) 0x61, (byte) 0x30, (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18, (byte) 0x60, (byte) 0x40,
-          (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18, (byte) 0x68, (byte) 0x44, (byte) 0xC4, (byte) 0xC2,
-          (byte) 0x79, (byte) 0x18, (byte) 0x70, (byte) 0x48, (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18,
-          (byte) 0x78, (byte) 0x4C, (byte) 0xC5, (byte) 0xE8, (byte) 0x59, (byte) 0xD4, (byte) 0xC5, (byte) 0xE0,
-          (byte) 0x59, (byte) 0xDD, (byte) 0xC5, (byte) 0xE8, (byte) 0x58, (byte) 0xD3, (byte) 0xC5, (byte) 0xF8,
-          (byte) 0x59, (byte) 0xC6, (byte) 0xC5, (byte) 0xF0, (byte) 0x59, (byte) 0xCF, (byte) 0xC5, (byte) 0xF8,
-          (byte) 0x58, (byte) 0xC1, (byte) 0xC5, (byte) 0xE8, (byte) 0x58, (byte) 0xC0, (byte) 0xC4, (byte) 0xC1,
-          (byte) 0x78, (byte) 0x11, (byte) 0x41, (byte) 0x40, (byte) 0xC3};
+          (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x10, (byte) 0x40, (byte) 0x10,
+          (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x10, (byte) 0x48, (byte) 0x30, (byte) 0xC4, (byte) 0xE3,
+          (byte) 0x7D, (byte) 0x04, (byte) 0xD0, (byte) 0x00, (byte) 0xC4, (byte) 0xE2, (byte) 0x7D, (byte) 0x1A,
+          (byte) 0x5A, (byte) 0x10, (byte) 0xC5, (byte) 0xE4, (byte) 0x59, (byte) 0xD2, (byte) 0xC4, (byte) 0xE3,
+          (byte) 0x7D, (byte) 0x04, (byte) 0xE0, (byte) 0x55, (byte) 0xC4, (byte) 0xE2, (byte) 0x7D, (byte) 0x1A,
+          (byte) 0x6A, (byte) 0x20, (byte) 0xC4, (byte) 0xE2, (byte) 0x55, (byte) 0xA8, (byte) 0xE2, (byte) 0xC4,
+          (byte) 0xE3, (byte) 0x7D, (byte) 0x04, (byte) 0xD0, (byte) 0xAA, (byte) 0xC4, (byte) 0xE2, (byte) 0x7D,
+          (byte) 0x1A, (byte) 0x72, (byte) 0x30, (byte) 0xC4, (byte) 0xE2, (byte) 0x4D, (byte) 0xA8, (byte) 0xD4,
+          (byte) 0xC4, (byte) 0xE3, (byte) 0x7D, (byte) 0x04, (byte) 0xC0, (byte) 0xFF, (byte) 0xC4, (byte) 0xE2,
+          (byte) 0x7D, (byte) 0x1A, (byte) 0x62, (byte) 0x40, (byte) 0xC4, (byte) 0xE2, (byte) 0x5D, (byte) 0xA8,
+          (byte) 0xC2, (byte) 0xC4, (byte) 0xE3, (byte) 0x7D, (byte) 0x04, (byte) 0xD1, (byte) 0x00, (byte) 0xC5,
+          (byte) 0xE4, (byte) 0x59, (byte) 0xD2, (byte) 0xC4, (byte) 0xE3, (byte) 0x7D, (byte) 0x04, (byte) 0xD9,
+          (byte) 0x55, (byte) 0xC4, (byte) 0xE2, (byte) 0x55, (byte) 0xA8, (byte) 0xDA, (byte) 0xC4, (byte) 0xE3,
+          (byte) 0x7D, (byte) 0x04, (byte) 0xD1, (byte) 0xAA, (byte) 0xC4, (byte) 0xE2, (byte) 0x4D, (byte) 0xA8,
+          (byte) 0xD3, (byte) 0xC4, (byte) 0xE3, (byte) 0x7D, (byte) 0x04, (byte) 0xC9, (byte) 0xFF, (byte) 0xC4,
+          (byte) 0xE2, (byte) 0x5D, (byte) 0xA8, (byte) 0xCA, (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x11,
+          (byte) 0x41, (byte) 0x10, (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x11, (byte) 0x49, (byte) 0x30,
+          (byte) 0xC5, (byte) 0xF8, (byte) 0x77, (byte) 0xC3 };
 
   static final byte[] MATRIX4F_INVERT_AVX_LINUX = {
           (byte) 0xC5, (byte) 0xFB, (byte) 0x10, (byte) 0x46, (byte) 0x10, (byte) 0xC5,
@@ -315,17 +286,20 @@ class JvmciCode {
       AMD64 amd64arch = (AMD64) arch;
       Set features = amd64arch.getFeatures();
       if (!features.contains(AMD64.CPUFeature.AVX) || !features.contains(AMD64.CPUFeature.FMA))
-        throw new AssertionError();
+        throw new AssertionError("CPU lacks AVX or FMA support");
       _hasAvx2 = features.contains(AMD64.CPUFeature.AVX2);
       checkMatrix4f();
       checkQuaternionf();
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_mulAvx", Matrix4f.class, Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_MUL_AVX_WINDOWS : MATRIX4F_MUL_AVX_LINUX);
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_invertAvx", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_INVERT_AVX_WINDOWS : MATRIX4F_INVERT_AVX_LINUX);
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_transposeAvx", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_TRANSPOSE_AVX_WINDOWS : MATRIX4F_TRANSPOSE_AVX_LINUX);
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_setAvx2", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_SET_AVX2_WINDOWS : MATRIX4F_SET_AVX2_LINUX);
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Quaternionf_mulAvx", Quaternionf.class, Quaternionf.class, Quaternionf.class), _isWindows ? QUATERNIONF_MUL_AVX_WINDOWS : QUATERNIONF_MUL_AVX_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_mul", Matrix4f.class, Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_MUL_AVX_WINDOWS : MATRIX4F_MUL_AVX_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_invert", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_INVERT_AVX_WINDOWS : MATRIX4F_INVERT_AVX_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_transpose", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_TRANSPOSE_AVX_WINDOWS : MATRIX4F_TRANSPOSE_AVX_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_set", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_SET_AVX2_WINDOWS : MATRIX4F_SET_AVX2_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Quaternionf_mul", Quaternionf.class, Quaternionf.class, Quaternionf.class), _isWindows ? QUATERNIONF_MUL_AVX_WINDOWS : QUATERNIONF_MUL_AVX_LINUX);
       _canUseJvmci = true;
-    } catch (Throwable ignored) {
+    } catch (Throwable e) {
+      if (Options.DEBUG) {
+        System.err.println("JVMCI not available, because: " + e.getMessage());
+      }
     }
     canUseJvmci = _canUseJvmci;
     hasAvx2 = _hasAvx2;
@@ -339,7 +313,7 @@ class JvmciCode {
       f = Matrix4f.class.getDeclaredField("m" + c + r);
       long offset = u.objectFieldOffset(f);
       if (offset != 16 + (i << 2))
-        throw new AssertionError();
+        throw new AssertionError("invalid Matrix4f field offset");
     }
   }
   private static void checkQuaternionf() throws Throwable {
@@ -348,7 +322,7 @@ class JvmciCode {
         u.objectFieldOffset(Quaternionf.class.getDeclaredField("x")) != 20L ||
         u.objectFieldOffset(Quaternionf.class.getDeclaredField("y")) != 24L ||
         u.objectFieldOffset(Quaternionf.class.getDeclaredField("z")) != 28L)
-      throw new AssertionError();
+      throw new AssertionError("invalid Quaternionf field offset");
   }
   private static sun.misc.Unsafe unsafeInstance() throws SecurityException {
     java.lang.reflect.Field[] fields = sun.misc.Unsafe.class.getDeclaredFields();
@@ -367,7 +341,7 @@ class JvmciCode {
       }
       break;
     }
-    throw new UnsupportedOperationException();
+    throw new AssertionError("no sun.misc.Unsafe available");
   }
   private static void installCode(JVMCIBackend jvmciBackend, Method m, byte[] code) throws Throwable {
     ResolvedJavaMethod rm = jvmciBackend.getMetaAccess().lookupJavaMethod(m);
@@ -384,10 +358,10 @@ class JvmciCode {
     setDefaultCodeMethod.invoke(codeCache, rm, nm);
   }
 
-  static native void __Matrix4f_mulAvx(Matrix4f a, Matrix4f b, Matrix4f r);
-  static native void __Matrix4f_invertAvx(Matrix4f a, Matrix4f r);
-  static native void __Matrix4f_transposeAvx(Matrix4f a, Matrix4f r);
-  static native void __Matrix4f_setAvx2(Matrix4f a, Matrix4f r);
-  static native void __Quaternionf_mulAvx(Quaternionf a, Quaternionf b, Quaternionf r);
+  static native void __Matrix4f_mul(Matrix4f a, Matrix4f b, Matrix4f r);
+  static native void __Matrix4f_invert(Matrix4f a, Matrix4f r);
+  static native void __Matrix4f_transpose(Matrix4f a, Matrix4f r);
+  static native void __Matrix4f_set(Matrix4f a, Matrix4f r);
+  static native void __Quaternionf_mul(Quaternionf a, Quaternionf b, Quaternionf r);
 }
 //#endif

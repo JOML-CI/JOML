@@ -776,7 +776,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f set(Matrix4fc m) {
 //#ifdef __HAS_JVMCI__
         if (JvmciCode.canUseJvmci && JvmciCode.hasAvx2 && m instanceof Matrix4f) {
-            JvmciCode.__Matrix4f_setAvx2((Matrix4f) m, this);
+            JvmciCode.__Matrix4f_set((Matrix4f) m, this);
             properties = m.properties();
             return this;
         }
@@ -1147,7 +1147,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
 //#ifdef __HAS_JVMCI__
         else if (JvmciCode.canUseJvmci && right instanceof Matrix4f) {
             Matrix4f mright = (Matrix4f) right;
-            JvmciCode.__Matrix4f_mulAvx(this, mright, dest);
+            JvmciCode.__Matrix4f_mul(this, mright, dest);
             dest.properties = properties & mright.properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
             return dest;
         }
@@ -2551,7 +2551,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             return invertOrthonormal(dest);
 //#ifdef __HAS_JVMCI__
         else if (JvmciCode.canUseJvmci) {
-            JvmciCode.__Matrix4f_invertAvx(this, dest);
+            JvmciCode.__Matrix4f_invert(this, dest);
             dest.properties = properties & PROPERTY_AFFINE;
             return dest;
         }
@@ -2960,7 +2960,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             return dest.identity();
 //#ifdef __HAS_JVMCI__
         else if (JvmciCode.canUseJvmci) {
-            JvmciCode.__Matrix4f_transposeAvx(this, dest);
+            JvmciCode.__Matrix4f_transpose(this, dest);
             dest.properties = 0;
             return dest;
         }
