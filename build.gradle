@@ -29,7 +29,7 @@ configurations {
 }
 dependencies {
     buildhelper 'org.ow2.asm:asm:9.4'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
     if (buildProfile == 'default') {
         compileOnly files('libs/jre-stubs.jar')
     }
@@ -38,8 +38,8 @@ dependencies {
 java {
     withSourcesJar()
     withJavadocJar()
-    sourceCompatibility = buildProfile == 'experimental' ? JavaVersion.current() : '1.8'
-    targetCompatibility = buildProfile == 'experimental' ? JavaVersion.current() : '1.8'
+    sourceCompatibility = buildProfile == 'experimental' ? JavaVersion.current() : JavaVersion.VERSION_1_8
+    targetCompatibility = buildProfile == 'experimental' ? JavaVersion.current() : JavaVersion.VERSION_1_8
 }
 
 test {
