@@ -73,14 +73,12 @@ public final class Options {
      */
     public static final boolean useNumberFormat = hasOption(System.getProperty("joml.format", "true"));
 
-//#ifdef __HAS_MATH_FMA__
     /**
      * Whether to try using java.lang.Math.fma() in most matrix/vector/quaternion operations if it is available.
      * If the CPU does <i>not</i> support it, it will be a lot slower than `a*b+c` and potentially generate a lot of memory allocations
      * for the emulation with `java.util.BigDecimal`, though.
      */
     public static final boolean USE_MATH_FMA = hasOption(System.getProperty("joml.useMathFma", "false"));
-//#endif
 
     /**
      * When {@link #useNumberFormat} is <code>true</code> then this determines the number of decimal digits

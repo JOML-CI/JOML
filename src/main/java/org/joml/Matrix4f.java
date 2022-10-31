@@ -34,27 +34,6 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-//#ifdef __HAS_JVMCI__
-import static org.joml.JvmciCode.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Set;
-
-import jdk.vm.ci.amd64.AMD64;
-import jdk.vm.ci.code.*;
-import jdk.vm.ci.code.site.DataPatch;
-import jdk.vm.ci.code.site.Site;
-import jdk.vm.ci.hotspot.HotSpotCompiledCode;
-import jdk.vm.ci.hotspot.HotSpotCompiledNmethod;
-import jdk.vm.ci.hotspot.HotSpotResolvedJavaMethod;
-import jdk.vm.ci.meta.Assumptions;
-import jdk.vm.ci.meta.ResolvedJavaMethod;
-import jdk.vm.ci.runtime.JVMCI;
-import jdk.vm.ci.runtime.JVMCIBackend;
-import jdk.vm.ci.runtime.JVMCICompiler;
-import jdk.vm.ci.runtime.JVMCIRuntime;
-//#endif
-
 /**
  * Contains the definition of a 4x4 matrix of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
@@ -70,10 +49,6 @@ import jdk.vm.ci.runtime.JVMCIRuntime;
 public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
 
     private static final long serialVersionUID = 1L;
-//#ifdef __HAS_JVMCI__
-    private static final boolean canUseJvmci;
-    private static final boolean hasAvx2;
-//#endif
 
     int properties;
     float m00, m01, m02, m03;
@@ -800,8 +775,8 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f set(Matrix4fc m) {
 //#ifdef __HAS_JVMCI__
-        if (canUseJvmci && hasAvx2 && m instanceof Matrix4f) {
-            __setJvmciAvx2((Matrix4f) m, this);
+        if (JvmciCode.canUseJvmci && JvmciCode.hasAvx2 && m instanceof Matrix4f) {
+            JvmciCode.__Matrix4f_setAvx2((Matrix4f) m, this);
             properties = m.properties();
             return this;
         }
@@ -1170,9 +1145,9 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
 //#ifdef __HAS_JVMCI__
-        else if (canUseJvmci && right instanceof Matrix4f) {
+        else if (JvmciCode.canUseJvmci && right instanceof Matrix4f) {
             Matrix4f mright = (Matrix4f) right;
-            __mulJvmciAvx(this, mright, dest);
+            JvmciCode.__Matrix4f_mulAvx(this, mright, dest);
             dest.properties = properties & mright.properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
             return dest;
         }
@@ -2575,8 +2550,8 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         else if ((properties & PROPERTY_ORTHONORMAL) != 0)
             return invertOrthonormal(dest);
 //#ifdef __HAS_JVMCI__
-        else if (canUseJvmci) {
-            __invertJvmciAvx(this, dest);
+        else if (JvmciCode.canUseJvmci) {
+            JvmciCode.__Matrix4f_invertAvx(this, dest);
             dest.properties = properties & PROPERTY_AFFINE;
             return dest;
         }
@@ -2984,8 +2959,8 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.identity();
 //#ifdef __HAS_JVMCI__
-        else if (canUseJvmci) {
-            __transposeJvmciAvx(this, dest);
+        else if (JvmciCode.canUseJvmci) {
+            JvmciCode.__Matrix4f_transposeAvx(this, dest);
             dest.properties = 0;
             return dest;
         }
@@ -15867,81 +15842,5 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
-
-//#ifdef __HAS_JVMCI__
-    static {
-        boolean _canUseJvmci = false;
-        boolean _hasAvx2 = false;
-        try {
-            boolean _isWindows = System.getProperty("os.name").contains("Windows");
-            JVMCIRuntime jvmciRuntime = JVMCI.getRuntime();
-            JVMCIBackend jvmciBackend = jvmciRuntime.getHostJVMCIBackend();
-            TargetDescription targetDesc = jvmciBackend.getTarget();
-            Architecture arch = targetDesc.arch;
-            AMD64 amd64arch = (AMD64) arch;
-            checkMatrix4f();
-            installCode(jvmciBackend, Matrix4f.class.getDeclaredMethod("__mulJvmciAvx", Matrix4f.class, Matrix4f.class, Matrix4f.class), _isWindows ? MUL_WINDOWS : MUL_LINUX);
-            installCode(jvmciBackend, Matrix4f.class.getDeclaredMethod("__invertJvmciAvx", Matrix4f.class, Matrix4f.class), _isWindows ? INVERT_WINDOWS : INVERT_LINUX);
-            installCode(jvmciBackend, Matrix4f.class.getDeclaredMethod("__transposeJvmciAvx", Matrix4f.class, Matrix4f.class), _isWindows ? TRANSPOSE_WINDOWS : TRANSPOSE_LINUX);
-            installCode(jvmciBackend, Matrix4f.class.getDeclaredMethod("__setJvmciAvx2", Matrix4f.class, Matrix4f.class), _isWindows ? SET_AVX2_WINDOWS : SET_AVX2_LINUX);
-            Set features = amd64arch.getFeatures();
-            _canUseJvmci = true;
-            _hasAvx2 = features.contains(AMD64.CPUFeature.AVX2);
-        } catch (Throwable ignored) {
-        }
-        canUseJvmci = _canUseJvmci;
-        hasAvx2 = _hasAvx2;
-    }
-    private static void checkMatrix4f() throws Throwable {
-        Field f;
-        sun.misc.Unsafe u = unsafeInstance();
-        for (int i = 0; i < 16; i++) {
-            int c = i >>> 2;
-            int r = i & 3;
-            f = Matrix4f.class.getDeclaredField("m" + c + r);
-            long offset = u.objectFieldOffset(f);
-            if (offset != 16 + (i << 2))
-                throw new AssertionError();
-        }
-    }
-    private static sun.misc.Unsafe unsafeInstance() throws SecurityException {
-        java.lang.reflect.Field[] fields = sun.misc.Unsafe.class.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            java.lang.reflect.Field field = fields[i];
-            if (!field.getType().equals(sun.misc.Unsafe.class))
-                continue;
-            int modifiers = field.getModifiers();
-            if (!(java.lang.reflect.Modifier.isStatic(modifiers) && java.lang.reflect.Modifier.isFinal(modifiers)))
-                continue;
-            field.setAccessible(true);
-            try {
-                return (sun.misc.Unsafe) field.get(null);
-            } catch (IllegalAccessException e) {
-                /* Ignore */
-            }
-            break;
-        }
-        throw new UnsupportedOperationException();
-    }
-    private static void installCode(JVMCIBackend jvmciBackend, Method m, byte[] code) throws Throwable {
-        ResolvedJavaMethod rm = jvmciBackend.getMetaAccess().lookupJavaMethod(m);
-        CompiledCode nm = new HotSpotCompiledNmethod(m.getName(), code, code.length, new Site[0],
-                new Assumptions.Assumption[0], new ResolvedJavaMethod[0], new HotSpotCompiledCode.Comment[0], new byte[0], 1,
-                new DataPatch[0], true, 0, null, (HotSpotResolvedJavaMethod) rm, JVMCICompiler.INVOCATION_ENTRY_BCI, 1, 0L, false);
-        CodeCacheProvider codeCache = jvmciBackend.getCodeCache();
-        // funny business below:
-        // When we invoke CodeCache.setDefaultCode() non-reflectively, the JVM's class verifier aborts with a JNI error
-        // that it cannot find the class jdk.vm.ci.code.CompiledCode.
-        // This occurs on every JVM between 8 and 20, whenever the JVMCI module and its packages are not added/exported.
-        // To circumvent the verifier, we will invoke that method reflectively.
-        Method setDefaultCodeMethod = codeCache.getClass().getMethod("setDefaultCode", ResolvedJavaMethod.class, CompiledCode.class);
-        setDefaultCodeMethod.invoke(codeCache, rm, nm);
-    }
-    private static native void __mulJvmciAvx(Matrix4f a, Matrix4f b, Matrix4f r);
-    private static native void __invertJvmciAvx(Matrix4f a, Matrix4f r);
-    private static native void __transposeJvmciAvx(Matrix4f a, Matrix4f r);
-    private static native void __setJvmciAvx2(Matrix4f a, Matrix4f r);
-//#endif
 
 }

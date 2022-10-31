@@ -3832,7 +3832,6 @@ abstract class MemUtil {
         public static final long Vector3i_x;
         public static final long Vector2f_x;
         public static final long Vector2i_x;
-        public static final long Quaternionf_x;
         public static final long floatArrayOffset;
 
         static {
@@ -3854,7 +3853,6 @@ abstract class MemUtil {
                 Vector3i_x = checkVector3i();
                 Vector2f_x = checkVector2f();
                 Vector2i_x = checkVector2i();
-                Quaternionf_x = checkQuaternionf();
                 floatArrayOffset = UNSAFE.arrayBaseOffset(float[].class);
                 // Check if we can use object field offset/address put/get methods
                 sun.misc.Unsafe.class.getDeclaredMethod("getLong", new Class[] {Object.class, long.class});
@@ -4057,20 +4055,6 @@ abstract class MemUtil {
             if (offset != Vector2i_x + (1 << 2))
                 throw new UnsupportedOperationException("Unexpected Vector2i element offset");
             return Vector2i_x;
-        }
-
-        private static long checkQuaternionf() throws NoSuchFieldException, SecurityException {
-            Field f = Quaternionf.class.getDeclaredField("x");
-            long Quaternionf_x = UNSAFE.objectFieldOffset(f);
-            // Validate expected field offsets
-            String[] names = {"y", "z", "w"};
-            for (int i = 1; i < 4; i++) {
-                f = Quaternionf.class.getDeclaredField(names[i-1]);
-                long offset = UNSAFE.objectFieldOffset(f);
-                if (offset != Quaternionf_x + (i << 2))
-                    throw new UnsupportedOperationException("Unexpected Quaternionf element offset");
-            }
-            return Quaternionf_x;
         }
 
         private static java.lang.reflect.Field getDeclaredField(Class root, String fieldName) throws NoSuchFieldException {

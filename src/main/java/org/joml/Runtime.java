@@ -35,7 +35,6 @@ public final class Runtime {
     public static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();
     public static final boolean HAS_doubleToRawLongBits = hasDoubleToRawLongBits();
     public static final boolean HAS_Long_rotateLeft = hasLongRotateLeft();
-//#ifdef __HAS_MATH_FMA__
     public static final boolean HAS_Math_fma = Options.USE_MATH_FMA && hasMathFma();
 
     private static boolean hasMathFma() {
@@ -46,7 +45,6 @@ public final class Runtime {
             return false;
         }
     }
-//#endif
 
     private Runtime() {
     }

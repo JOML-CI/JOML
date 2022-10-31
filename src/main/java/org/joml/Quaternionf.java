@@ -44,6 +44,14 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
 
     private static final long serialVersionUID = 1L;
 
+//#ifdef __HAS_JVMCI__
+    private int __pad;
+//#endif
+
+    /**
+     * The real/scalar part of the quaternion.
+     */
+    public float w;
     /**
      * The first component of the vector part.
      */
@@ -56,10 +64,6 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
      * The third component of the vector part.
      */
     public float z;
-    /**
-     * The real/scalar part of the quaternion.
-     */
-    public float w;
 
     /**
      * Create a new {@link Quaternionf} and initialize it with <code>(x=0, y=0, z=0, w=1)</code>, 
@@ -958,6 +962,12 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
     }
 
     public Quaternionf mul(Quaternionfc q, Quaternionf dest) {
+//#ifdef __HAS_JVMCI__
+        if (JvmciCode.canUseJvmci && q instanceof Quaternionf) {
+            JvmciCode.__Quaternionf_mulAvx(this, (Quaternionf) q, dest);
+            return dest;
+        }
+//#endif
         return dest.set(Math.fma(w, q.x(), Math.fma(x, q.w(), Math.fma(y, q.z(), -z * q.y()))),
                         Math.fma(w, q.y(), Math.fma(-x, q.z(), Math.fma(y, q.w(), z * q.x()))),
                         Math.fma(w, q.z(), Math.fma(x, q.y(), Math.fma(-y, q.x(), z * q.w()))),
@@ -3072,8 +3082,6 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
         if (this == q)
             return true;
         if (q == null)
-            return false;
-        if (!(q instanceof Quaternionfc))
             return false;
         if (!Runtime.equals(x, q.x(), delta))
             return false;

@@ -28,6 +28,8 @@ import org.openjdk.jmh.annotations.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+import org.joml.*;
+
 import static java.nio.ByteBuffer.allocateDirect;
 import static java.nio.ByteOrder.nativeOrder;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -44,6 +46,8 @@ import static org.openjdk.jmh.annotations.Scope.Benchmark;
         "-XX:UseAVX=3",
         "--enable-preview",
         "--add-modules", "jdk.incubator.vector",
+        "-Djoml.useMathFma=true",
+        "-Djoml.fastMath=true",
         "-XX:+UnlockExperimentalVMOptions",
         "-XX:+EnableJVMCI",
         "--add-exports", "jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED",
@@ -55,19 +59,23 @@ import static org.openjdk.jmh.annotations.Scope.Benchmark;
         "-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0",
         "--enable-native-access=ALL-UNNAMED"})
 public class Bench {
-    private final Matrix4f m4a = new Matrix4f();
-    private final Matrix4f m4b = new Matrix4f();
-    private final Matrix4f m4c = new Matrix4f();
+    private final org.joml.Matrix4f m4a = new org.joml.Matrix4f();
+    private final org.joml.Matrix4f m4b = new org.joml.Matrix4f();
+    private final org.joml.Matrix4f m4c = new org.joml.Matrix4f();
     private final Matrix4fvBB m4vbb = new Matrix4fvBB();
     private final Matrix4fvArr m4varr = new Matrix4fvArr();
     private final ByteBuffer bb = allocateDirect(16<<2).order(nativeOrder());
     private final long bb_addr = WithJvmci.address(bb);
     private final FloatBuffer fb = bb.asFloatBuffer();
+    private final Quaternionf qa = new Quaternionf();
+    private final Quaternionf qb = new Quaternionf();
+    private final Quaternionf qc = new Quaternionf();
 
     @Benchmark
-    public void mul_Matrix4f_Jvmci_AVX() {
-        WithJvmci.mulAvx(m4a, m4b, m4c);
+    public void mul_Quaternionf() {
+        qa.mul(qb, qc);
     }
+
 //
 //    @Benchmark
 //    public void mul_Matrix4f_Jvmci_AVX2() {

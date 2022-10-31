@@ -24,7 +24,31 @@
 package org.joml;
 
 //#ifdef __HAS_JVMCI__
+import jdk.vm.ci.amd64.AMD64;
+import jdk.vm.ci.code.Architecture;
+import jdk.vm.ci.code.CodeCacheProvider;
+import jdk.vm.ci.code.CompiledCode;
+import jdk.vm.ci.code.TargetDescription;
+import jdk.vm.ci.code.site.DataPatch;
+import jdk.vm.ci.code.site.Site;
+import jdk.vm.ci.hotspot.HotSpotCompiledCode;
+import jdk.vm.ci.hotspot.HotSpotCompiledNmethod;
+import jdk.vm.ci.hotspot.HotSpotResolvedJavaMethod;
+import jdk.vm.ci.meta.Assumptions;
+import jdk.vm.ci.meta.ResolvedJavaMethod;
+import jdk.vm.ci.runtime.JVMCI;
+import jdk.vm.ci.runtime.JVMCIBackend;
+import jdk.vm.ci.runtime.JVMCICompiler;
+import jdk.vm.ci.runtime.JVMCIRuntime;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Set;
+
 class JvmciCode {
+  static final boolean canUseJvmci;
+  static final boolean hasAvx2;
+
   static final byte[] MUL_LINUX = {
           (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x56, (byte) 0x10, (byte) 0xC5, (byte) 0xF8, (byte) 0x10,
           (byte) 0x5E, (byte) 0x20, (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x46, (byte) 0x30, (byte) 0xC5,
@@ -237,5 +261,131 @@ class JvmciCode {
           (byte) 0xFC, (byte) 0x10, (byte) 0x4A, (byte) 0x30, (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x11,
           (byte) 0x40, (byte) 0x10, (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x11, (byte) 0x48, (byte) 0x30,
           (byte) 0xC5, (byte) 0xF8, (byte) 0x77, (byte) 0xC3 };
+
+  static final byte[] QUATERNIONF_MUL_AVX_LINUX = {
+          (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x46, (byte) 0x10, (byte) 0xC5,
+          (byte) 0xF8, (byte) 0x10, (byte) 0x4A, (byte) 0x10, (byte) 0xC4, (byte) 0xE3, (byte) 0x79, (byte) 0x04,
+          (byte) 0xD0, (byte) 0xE5, (byte) 0xC4, (byte) 0xE3, (byte) 0x79, (byte) 0x04, (byte) 0xD8, (byte) 0x7A,
+          (byte) 0xC4, (byte) 0xE3, (byte) 0x79, (byte) 0x04, (byte) 0xE1, (byte) 0x01, (byte) 0xC5, (byte) 0xD8,
+          (byte) 0x59, (byte) 0xD2, (byte) 0xC4, (byte) 0xE3, (byte) 0x79, (byte) 0x04, (byte) 0xE1, (byte) 0x9E,
+          (byte) 0xC4, (byte) 0xE2, (byte) 0x61, (byte) 0xA8, (byte) 0xE2, (byte) 0xC5, (byte) 0xD8, (byte) 0x57,
+          (byte) 0x15, (byte) 0x23, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0xC4, (byte) 0xE3, (byte) 0x79,
+          (byte) 0x04, (byte) 0xD9, (byte) 0x7B, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18, (byte) 0x66,
+          (byte) 0x10, (byte) 0xC4, (byte) 0xE3, (byte) 0x79, (byte) 0x04, (byte) 0xC0, (byte) 0x9F, (byte) 0xC4,
+          (byte) 0xE2, (byte) 0x71, (byte) 0xA8, (byte) 0xE2, (byte) 0xC4, (byte) 0xE2, (byte) 0x61, (byte) 0xBC,
+          (byte) 0xE0, (byte) 0xC5, (byte) 0xF8, (byte) 0x11, (byte) 0x61, (byte) 0x10,
+          (byte) 0xC3, // <- RET
+          (byte) 0x90, // <- NOP
+          // below is data for a hand-crafted RIP-relative load in a VBROADCASTSS instruction above
+          // so we don't actually need a .DATA section but add some data after the RET.
+          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x80,
+          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
+  static final byte[] QUATERNIONF_MUL_AVX_WINDOWS = {
+          (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x42, (byte) 0x10, (byte) 0xC4,
+          (byte) 0xC1, (byte) 0x78, (byte) 0x10, (byte) 0x48, (byte) 0x10, (byte) 0xC4, (byte) 0xE3, (byte) 0x79,
+          (byte) 0x04, (byte) 0xD0, (byte) 0xE5, (byte) 0xC4, (byte) 0xE3, (byte) 0x79, (byte) 0x04, (byte) 0xD8,
+          (byte) 0x7A, (byte) 0xC4, (byte) 0xE3, (byte) 0x79, (byte) 0x04, (byte) 0xE1, (byte) 0x01, (byte) 0xC5,
+          (byte) 0xD8, (byte) 0x59, (byte) 0xD2, (byte) 0xC4, (byte) 0xE3, (byte) 0x79, (byte) 0x04, (byte) 0xE1,
+          (byte) 0x9E, (byte) 0xC4, (byte) 0xE2, (byte) 0x61, (byte) 0xA8, (byte) 0xE2, (byte) 0xC5, (byte) 0xD8,
+          (byte) 0x57, (byte) 0x15, (byte) 0x24, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0xC4, (byte) 0xE3,
+          (byte) 0x79, (byte) 0x04, (byte) 0xD9, (byte) 0x7B, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18,
+          (byte) 0x62, (byte) 0x10, (byte) 0xC4, (byte) 0xE3, (byte) 0x79, (byte) 0x04, (byte) 0xC0, (byte) 0x9F,
+          (byte) 0xC4, (byte) 0xE2, (byte) 0x71, (byte) 0xA8, (byte) 0xE2, (byte) 0xC4, (byte) 0xE2, (byte) 0x61,
+          (byte) 0xBC, (byte) 0xE0, (byte) 0xC4, (byte) 0xC1, (byte) 0x78, (byte) 0x11, (byte) 0x61, (byte) 0x10,
+          (byte) 0xC3, // <- RET
+          (byte) 0x90, // <- NOP
+          // below is data for a hand-crafted RIP-relative load in a VBROADCASTSS instruction above
+          // so we don't actually need a .DATA section but add some data after the RET.
+          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x80,
+          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
+
+  static {
+    boolean _canUseJvmci = false;
+    boolean _hasAvx2 = false;
+    try {
+      boolean _isWindows = System.getProperty("os.name").contains("Windows");
+      JVMCIRuntime jvmciRuntime = JVMCI.getRuntime();
+      JVMCIBackend jvmciBackend = jvmciRuntime.getHostJVMCIBackend();
+      TargetDescription targetDesc = jvmciBackend.getTarget();
+      Architecture arch = targetDesc.arch;
+      AMD64 amd64arch = (AMD64) arch;
+      checkMatrix4f();
+      checkQuaternionf();
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_mulAvx", Matrix4f.class, Matrix4f.class, Matrix4f.class), _isWindows ? MUL_WINDOWS : MUL_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_invertAvx", Matrix4f.class, Matrix4f.class), _isWindows ? INVERT_WINDOWS : INVERT_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_transposeAvx", Matrix4f.class, Matrix4f.class), _isWindows ? TRANSPOSE_WINDOWS : TRANSPOSE_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_setAvx2", Matrix4f.class, Matrix4f.class), _isWindows ? SET_AVX2_WINDOWS : SET_AVX2_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Quaternionf_mulAvx", Quaternionf.class, Quaternionf.class, Quaternionf.class), _isWindows ? QUATERNIONF_MUL_AVX_WINDOWS : QUATERNIONF_MUL_AVX_LINUX);
+      Set features = amd64arch.getFeatures();
+      _canUseJvmci = true;
+      _hasAvx2 = features.contains(AMD64.CPUFeature.AVX2);
+    } catch (Throwable ignored) {
+    }
+    canUseJvmci = _canUseJvmci;
+    hasAvx2 = _hasAvx2;
+  }
+  private static void checkMatrix4f() throws Throwable {
+    Field f;
+    sun.misc.Unsafe u = unsafeInstance();
+    for (int i = 0; i < 16; i++) {
+      int c = i >>> 2;
+      int r = i & 3;
+      f = Matrix4f.class.getDeclaredField("m" + c + r);
+      long offset = u.objectFieldOffset(f);
+      if (offset != 16 + (i << 2))
+        throw new AssertionError();
+    }
+  }
+  private static void checkQuaternionf() throws Throwable {
+    sun.misc.Unsafe u = unsafeInstance();
+    if (u.objectFieldOffset(Quaternionf.class.getDeclaredField("w")) != 16L ||
+        u.objectFieldOffset(Quaternionf.class.getDeclaredField("x")) != 20L ||
+        u.objectFieldOffset(Quaternionf.class.getDeclaredField("y")) != 24L ||
+        u.objectFieldOffset(Quaternionf.class.getDeclaredField("z")) != 28L)
+      throw new AssertionError();
+  }
+  private static sun.misc.Unsafe unsafeInstance() throws SecurityException {
+    java.lang.reflect.Field[] fields = sun.misc.Unsafe.class.getDeclaredFields();
+    for (int i = 0; i < fields.length; i++) {
+      java.lang.reflect.Field field = fields[i];
+      if (!field.getType().equals(sun.misc.Unsafe.class))
+        continue;
+      int modifiers = field.getModifiers();
+      if (!(java.lang.reflect.Modifier.isStatic(modifiers) && java.lang.reflect.Modifier.isFinal(modifiers)))
+        continue;
+      field.setAccessible(true);
+      try {
+        return (sun.misc.Unsafe) field.get(null);
+      } catch (IllegalAccessException e) {
+        /* Ignore */
+      }
+      break;
+    }
+    throw new UnsupportedOperationException();
+  }
+  private static void installCode(JVMCIBackend jvmciBackend, Method m, byte[] code) throws Throwable {
+    ResolvedJavaMethod rm = jvmciBackend.getMetaAccess().lookupJavaMethod(m);
+    CompiledCode nm = new HotSpotCompiledNmethod(m.getName(), code, code.length, new Site[0],
+            new Assumptions.Assumption[0], new ResolvedJavaMethod[0], new HotSpotCompiledCode.Comment[0], new byte[0], 1,
+            new DataPatch[0], true, 0, null, (HotSpotResolvedJavaMethod) rm, JVMCICompiler.INVOCATION_ENTRY_BCI, 1, 0L, false);
+    CodeCacheProvider codeCache = jvmciBackend.getCodeCache();
+    // funny business below:
+    // When we invoke CodeCache.setDefaultCode() non-reflectively, the JVM's class verifier aborts with a JNI error
+    // that it cannot find the class jdk.vm.ci.code.CompiledCode.
+    // This occurs on every JVM between 8 and 20, whenever the JVMCI module and its packages are not added/exported.
+    // To circumvent the verifier, we will invoke that method reflectively.
+    Method setDefaultCodeMethod = codeCache.getClass().getMethod("setDefaultCode", ResolvedJavaMethod.class, CompiledCode.class);
+    setDefaultCodeMethod.invoke(codeCache, rm, nm);
+  }
+
+  static native void __Matrix4f_mulAvx(Matrix4f a, Matrix4f b, Matrix4f r);
+  static native void __Matrix4f_invertAvx(Matrix4f a, Matrix4f r);
+  static native void __Matrix4f_transposeAvx(Matrix4f a, Matrix4f r);
+  static native void __Matrix4f_setAvx2(Matrix4f a, Matrix4f r);
+  static native void __Quaternionf_mulAvx(Quaternionf a, Quaternionf b, Quaternionf r);
 }
 //#endif
