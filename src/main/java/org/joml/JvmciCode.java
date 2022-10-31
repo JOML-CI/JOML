@@ -47,7 +47,6 @@ import java.util.Set;
 
 class JvmciCode {
   static final boolean canUseJvmci;
-  static final boolean hasAvx2;
 
   static final byte[] MATRIX4F_MUL_AVX_LINUX = {
           (byte) 0xC5, (byte) 0xFC, (byte) 0x10, (byte) 0x42, (byte) 0x10, (byte) 0xC5,
@@ -222,12 +221,12 @@ class JvmciCode {
           (byte) 0x58, (byte) 0x20, (byte) 0xC4, (byte) 0xC1, (byte) 0x78, (byte) 0x11, (byte) 0x60, (byte) 0x30,
           (byte) 0xC4, (byte) 0xC1, (byte) 0x78, (byte) 0x11, (byte) 0x40, (byte) 0x40, (byte) 0xC3 };
 
-  static final byte[] MATRIX4F_SET_AVX2_LINUX = {
+  static final byte[] MATRIX4F_SET_AVX_LINUX = {
           (byte) 0xC5, (byte) 0xFC, (byte) 0x10, (byte) 0x46, (byte) 0x10, (byte) 0xC5,
           (byte) 0xFC, (byte) 0x10, (byte) 0x4E, (byte) 0x30, (byte) 0xC5, (byte) 0xFC, (byte) 0x11, (byte) 0x42,
           (byte) 0x10, (byte) 0xC5, (byte) 0xFC, (byte) 0x11, (byte) 0x4A, (byte) 0x30, (byte) 0xC5, (byte) 0xF8,
           (byte) 0x77, (byte) 0xC3 };
-  static final byte[] MATRIX4F_SET_AVX2_WINDOWS = {
+  static final byte[] MATRIX4F_SET_AVX_WINDOWS = {
           (byte) 0xC5, (byte) 0xFC, (byte) 0x10, (byte) 0x42, (byte) 0x10, (byte) 0xC5,
           (byte) 0xFC, (byte) 0x10, (byte) 0x4A, (byte) 0x30, (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x11,
           (byte) 0x40, (byte) 0x10, (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x11, (byte) 0x48, (byte) 0x30,
@@ -276,7 +275,6 @@ class JvmciCode {
 
   static {
     boolean _canUseJvmci = false;
-    boolean _hasAvx2 = false;
     try {
       boolean _isWindows = System.getProperty("os.name").contains("Windows");
       JVMCIRuntime jvmciRuntime = JVMCI.getRuntime();
@@ -287,13 +285,12 @@ class JvmciCode {
       Set features = amd64arch.getFeatures();
       if (!features.contains(AMD64.CPUFeature.AVX) || !features.contains(AMD64.CPUFeature.FMA))
         throw new AssertionError("CPU lacks AVX or FMA support");
-      _hasAvx2 = features.contains(AMD64.CPUFeature.AVX2);
       checkMatrix4f();
       checkQuaternionf();
       installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_mul", Matrix4f.class, Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_MUL_AVX_WINDOWS : MATRIX4F_MUL_AVX_LINUX);
       installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_invert", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_INVERT_AVX_WINDOWS : MATRIX4F_INVERT_AVX_LINUX);
       installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_transpose", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_TRANSPOSE_AVX_WINDOWS : MATRIX4F_TRANSPOSE_AVX_LINUX);
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_set", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_SET_AVX2_WINDOWS : MATRIX4F_SET_AVX2_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_set", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_SET_AVX_WINDOWS : MATRIX4F_SET_AVX_LINUX);
       installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Quaternionf_mul", Quaternionf.class, Quaternionf.class, Quaternionf.class), _isWindows ? QUATERNIONF_MUL_AVX_WINDOWS : QUATERNIONF_MUL_AVX_LINUX);
       _canUseJvmci = true;
     } catch (Throwable e) {
@@ -302,7 +299,6 @@ class JvmciCode {
       }
     }
     canUseJvmci = _canUseJvmci;
-    hasAvx2 = _hasAvx2;
   }
   private static void checkMatrix4f() throws Throwable {
     Field f;

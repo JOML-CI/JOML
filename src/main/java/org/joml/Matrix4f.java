@@ -775,7 +775,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f set(Matrix4fc m) {
 //#ifdef __HAS_JVMCI__
-        if (JvmciCode.canUseJvmci && JvmciCode.hasAvx2 && m instanceof Matrix4f) {
+        if (JvmciCode.canUseJvmci && m instanceof Matrix4f) {
             JvmciCode.__Matrix4f_set((Matrix4f) m, this);
             properties = m.properties();
             return this;
