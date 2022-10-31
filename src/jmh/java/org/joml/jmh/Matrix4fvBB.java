@@ -24,7 +24,9 @@
 //#ifdef __HAS_VECTOR_API__
 package org.joml.jmh;
 
+//#ifdef __HAS_FOREIGN_MEMORY_ACCESS_API__
 import java.lang.foreign.MemorySegment;
+//#endif
 import jdk.incubator.vector.FloatVector;
 
 import java.nio.ByteBuffer;
@@ -50,6 +52,7 @@ public class Matrix4fvBB {
         es.putFloat(15<<2, 1f);
     }
 
+//#ifdef __HAS_FOREIGN_MEMORY_ACCESS_API__
     public Matrix4fvBB mul128Loop(Matrix4fvBB o) {
         /*
          * Adapted from:
@@ -122,6 +125,7 @@ public class Matrix4fvBB {
                 .intoMemorySegment(tms, 32, nativeOrder());
         return this;
     }
+//#endif
 
     @Override
     public String toString() {
@@ -138,14 +142,5 @@ public class Matrix4fvBB {
         }
         return str.toString();
     }
-
-    public static void main(String[] args) {
-        System.out.println(new Matrix4fvBB().mul128Loop(new Matrix4fvBB()));
-        System.out.println("----");
-        System.out.println(new Matrix4fvBB().mul128Unrolled(new Matrix4fvBB()));
-        System.out.println("----");
-        System.out.println(new Matrix4fvBB().mul256(new Matrix4fvBB()));
-    }
-
 }
 //#endif

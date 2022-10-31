@@ -24,7 +24,9 @@
 //#ifdef __HAS_VECTOR_API__
 package org.joml.jmh;
 
+//#ifdef __HAS_FOREIGN_MEMORY_ACCESS_API__
 import java.lang.foreign.MemorySegment;
+//#endif
 import jdk.incubator.vector.FloatVector;
 
 import java.nio.ByteBuffer;
@@ -326,6 +328,7 @@ public class Matrix4fvArr {
         return fb;
     }
 
+//#ifdef __HAS_FOREIGN_MEMORY_ACCESS_API__
     public ByteBuffer storeV256(ByteBuffer bb) {
         MemorySegment ms = MemorySegment.ofBuffer(bb);
         fromArray(SPECIES_256, es, 0).intoMemorySegment(ms, 0, nativeOrder());
@@ -338,6 +341,7 @@ public class Matrix4fvArr {
         fromArray(SPECIES_512, es, 0).intoMemorySegment(ms, 0, nativeOrder());
         return bb;
     }
+//#endif
 
     public ByteBuffer storeU(ByteBuffer bb) {
         long addr = U.getLong(bb, A);

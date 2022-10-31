@@ -70,7 +70,7 @@ tasks.register('moduleInfoGenerator', JavaExec) {
     args('build/classes/java/main', version)
 }
 
-if (ext.buildProfile == 'default') {
+if (buildProfile == 'default') {
     compileJava.finalizedBy(java6to2, moduleInfoGenerator)
 }
 
@@ -135,17 +135,17 @@ ext.PREPROCESSOR_DEFINES = [
 
 if (buildProfile == 'experimental') {
     ext.PREPROCESSOR_DEFINES += [
-            __HAS_NIO__       : '1',
-            __HAS_VECTOR_API__: '1',
             __HAS_JVMCI__     : '1',
-            __HAS_UNSAFE__    : '1',
     ]
-
     if (JavaVersion.current() >= JavaVersion.VERSION_16) {
-        ext.PREPROCESSOR_DEFINES['__CAN_TEST_VECTOR_API__'] = '1'
+        ext.PREPROCESSOR_DEFINES += [
+                __HAS_VECTOR_API__: '1',
+        ]
     }
     if (JavaVersion.current() >= JavaVersion.VERSION_19) {
-        ext.PREPROCESSOR_DEFINES['__HAS_FOREIGN_MEMORY_ACCESS_API__'] = '1'
+        ext.PREPROCESSOR_DEFINES += [
+                __HAS_FOREIGN_MEMORY_ACCESS_API__: '1',
+        ]
     }
 
     test {
