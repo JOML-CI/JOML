@@ -49,7 +49,7 @@ class JvmciCode {
   static final boolean canUseJvmci;
   static final boolean hasAvx2;
 
-  static final byte[] MUL_LINUX = {
+  static final byte[] MATRIX4F_MUL_AVX_LINUX = {
           (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x56, (byte) 0x10, (byte) 0xC5, (byte) 0xF8, (byte) 0x10,
           (byte) 0x5E, (byte) 0x20, (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x46, (byte) 0x30, (byte) 0xC5,
           (byte) 0xF8, (byte) 0x10, (byte) 0x4E, (byte) 0x40, (byte) 0xC4, (byte) 0xE2, (byte) 0x79, (byte) 0x18,
@@ -82,7 +82,7 @@ class JvmciCode {
           (byte) 0xF0, (byte) 0x59, (byte) 0xCF, (byte) 0xC5, (byte) 0xF8, (byte) 0x58, (byte) 0xC1, (byte) 0xC5,
           (byte) 0xE8, (byte) 0x58, (byte) 0xC0, (byte) 0xC5, (byte) 0xF8, (byte) 0x11, (byte) 0x41, (byte) 0x40,
           (byte) 0xC3};
-  static final byte[] MUL_WINDOWS = {
+  static final byte[] MATRIX4F_MUL_AVX_WINDOWS = {
           (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x52, (byte) 0x10, (byte) 0xC5, (byte) 0xF8, (byte) 0x10,
           (byte) 0x5A, (byte) 0x20, (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x42, (byte) 0x30, (byte) 0xC5,
           (byte) 0xF8, (byte) 0x10, (byte) 0x4A, (byte) 0x40, (byte) 0xC4, (byte) 0xC2, (byte) 0x79, (byte) 0x18,
@@ -116,7 +116,7 @@ class JvmciCode {
           (byte) 0x58, (byte) 0xC1, (byte) 0xC5, (byte) 0xE8, (byte) 0x58, (byte) 0xC0, (byte) 0xC4, (byte) 0xC1,
           (byte) 0x78, (byte) 0x11, (byte) 0x41, (byte) 0x40, (byte) 0xC3};
 
-  static final byte[] INVERT_LINUX = {
+  static final byte[] MATRIX4F_INVERT_AVX_LINUX = {
           (byte) 0xC5, (byte) 0xFB, (byte) 0x10, (byte) 0x46, (byte) 0x10, (byte) 0xC5,
           (byte) 0xFB, (byte) 0x10, (byte) 0x66, (byte) 0x18, (byte) 0xC5, (byte) 0xFB, (byte) 0x10, (byte) 0x4E,
           (byte) 0x30, (byte) 0xC5, (byte) 0xFB, (byte) 0x10, (byte) 0x6E, (byte) 0x38, (byte) 0xC5, (byte) 0xF8,
@@ -171,7 +171,7 @@ class JvmciCode {
           (byte) 0x52, (byte) 0x10, (byte) 0xC5, (byte) 0xB0, (byte) 0x59, (byte) 0xD0, (byte) 0xC5, (byte) 0xF8,
           (byte) 0x59, (byte) 0xC1, (byte) 0xC5, (byte) 0xF8, (byte) 0x11, (byte) 0x42, (byte) 0x40, (byte) 0xC5,
           (byte) 0xF8, (byte) 0x11, (byte) 0x52, (byte) 0x30, (byte) 0xC3 };
-  static final byte[] INVERT_WINDOWS = {
+  static final byte[] MATRIX4F_INVERT_AVX_WINDOWS = {
           (byte) 0xC5, (byte) 0xFB, (byte) 0x10, (byte) 0x42, (byte) 0x10, (byte) 0xC5,
           (byte) 0xFB, (byte) 0x10, (byte) 0x62, (byte) 0x18, (byte) 0xC5, (byte) 0xFB, (byte) 0x10, (byte) 0x4A,
           (byte) 0x30, (byte) 0xC5, (byte) 0xFB, (byte) 0x10, (byte) 0x6A, (byte) 0x38, (byte) 0xC5, (byte) 0xF8,
@@ -228,7 +228,7 @@ class JvmciCode {
           (byte) 0x40, (byte) 0x40, (byte) 0xC4, (byte) 0xC1, (byte) 0x78, (byte) 0x11, (byte) 0x50, (byte) 0x30,
           (byte) 0xC3 };
 
-  static final byte[] TRANSPOSE_LINUX = {
+  static final byte[] MATRIX4F_TRANSPOSE_AVX_LINUX = {
           (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x46, (byte) 0x10, (byte) 0xC5,
           (byte) 0xF8, (byte) 0x10, (byte) 0x4E, (byte) 0x20, (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x56,
           (byte) 0x30, (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x5E, (byte) 0x40, (byte) 0xC5, (byte) 0xF8,
@@ -239,7 +239,7 @@ class JvmciCode {
           (byte) 0x11, (byte) 0x52, (byte) 0x10, (byte) 0xC5, (byte) 0xF8, (byte) 0x11, (byte) 0x5A, (byte) 0x20,
           (byte) 0xC5, (byte) 0xF8, (byte) 0x11, (byte) 0x62, (byte) 0x30, (byte) 0xC5, (byte) 0xF8, (byte) 0x11,
           (byte) 0x42, (byte) 0x40, (byte) 0xC3 };
-  static final byte[] TRANSPOSE_WINDOWS = {
+  static final byte[] MATRIX4F_TRANSPOSE_AVX_WINDOWS = {
           (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x42, (byte) 0x10, (byte) 0xC5,
           (byte) 0xF8, (byte) 0x10, (byte) 0x4A, (byte) 0x20, (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x52,
           (byte) 0x30, (byte) 0xC5, (byte) 0xF8, (byte) 0x10, (byte) 0x5A, (byte) 0x40, (byte) 0xC5, (byte) 0xF8,
@@ -251,12 +251,12 @@ class JvmciCode {
           (byte) 0x58, (byte) 0x20, (byte) 0xC4, (byte) 0xC1, (byte) 0x78, (byte) 0x11, (byte) 0x60, (byte) 0x30,
           (byte) 0xC4, (byte) 0xC1, (byte) 0x78, (byte) 0x11, (byte) 0x40, (byte) 0x40, (byte) 0xC3 };
 
-  static final byte[] SET_AVX2_LINUX = {
+  static final byte[] MATRIX4F_SET_AVX2_LINUX = {
           (byte) 0xC5, (byte) 0xFC, (byte) 0x10, (byte) 0x46, (byte) 0x10, (byte) 0xC5,
           (byte) 0xFC, (byte) 0x10, (byte) 0x4E, (byte) 0x30, (byte) 0xC5, (byte) 0xFC, (byte) 0x11, (byte) 0x42,
           (byte) 0x10, (byte) 0xC5, (byte) 0xFC, (byte) 0x11, (byte) 0x4A, (byte) 0x30, (byte) 0xC5, (byte) 0xF8,
           (byte) 0x77, (byte) 0xC3 };
-  static final byte[] SET_AVX2_WINDOWS = {
+  static final byte[] MATRIX4F_SET_AVX2_WINDOWS = {
           (byte) 0xC5, (byte) 0xFC, (byte) 0x10, (byte) 0x42, (byte) 0x10, (byte) 0xC5,
           (byte) 0xFC, (byte) 0x10, (byte) 0x4A, (byte) 0x30, (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x11,
           (byte) 0x40, (byte) 0x10, (byte) 0xC4, (byte) 0xC1, (byte) 0x7C, (byte) 0x11, (byte) 0x48, (byte) 0x30,
@@ -313,16 +313,18 @@ class JvmciCode {
       TargetDescription targetDesc = jvmciBackend.getTarget();
       Architecture arch = targetDesc.arch;
       AMD64 amd64arch = (AMD64) arch;
+      Set features = amd64arch.getFeatures();
+      if (!features.contains(AMD64.CPUFeature.AVX) || !features.contains(AMD64.CPUFeature.FMA))
+        throw new AssertionError();
+      _hasAvx2 = features.contains(AMD64.CPUFeature.AVX2);
       checkMatrix4f();
       checkQuaternionf();
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_mulAvx", Matrix4f.class, Matrix4f.class, Matrix4f.class), _isWindows ? MUL_WINDOWS : MUL_LINUX);
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_invertAvx", Matrix4f.class, Matrix4f.class), _isWindows ? INVERT_WINDOWS : INVERT_LINUX);
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_transposeAvx", Matrix4f.class, Matrix4f.class), _isWindows ? TRANSPOSE_WINDOWS : TRANSPOSE_LINUX);
-      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_setAvx2", Matrix4f.class, Matrix4f.class), _isWindows ? SET_AVX2_WINDOWS : SET_AVX2_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_mulAvx", Matrix4f.class, Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_MUL_AVX_WINDOWS : MATRIX4F_MUL_AVX_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_invertAvx", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_INVERT_AVX_WINDOWS : MATRIX4F_INVERT_AVX_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_transposeAvx", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_TRANSPOSE_AVX_WINDOWS : MATRIX4F_TRANSPOSE_AVX_LINUX);
+      installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Matrix4f_setAvx2", Matrix4f.class, Matrix4f.class), _isWindows ? MATRIX4F_SET_AVX2_WINDOWS : MATRIX4F_SET_AVX2_LINUX);
       installCode(jvmciBackend, JvmciCode.class.getDeclaredMethod("__Quaternionf_mulAvx", Quaternionf.class, Quaternionf.class, Quaternionf.class), _isWindows ? QUATERNIONF_MUL_AVX_WINDOWS : QUATERNIONF_MUL_AVX_LINUX);
-      Set features = amd64arch.getFeatures();
       _canUseJvmci = true;
-      _hasAvx2 = features.contains(AMD64.CPUFeature.AVX2);
     } catch (Throwable ignored) {
     }
     canUseJvmci = _canUseJvmci;
