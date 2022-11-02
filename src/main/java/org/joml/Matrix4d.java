@@ -51,12 +51,11 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
 
     private static final long serialVersionUID = 1L;
 
+    int properties;
     double m00, m01, m02, m03;
     double m10, m11, m12, m13;
     double m20, m21, m22, m23;
     double m30, m31, m32, m33;
-
-    int properties;
 
     /**
      * Create a new {@link Matrix4d} and set it to {@link #identity() identity}.
@@ -1199,6 +1198,14 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
+//#ifdef __HAS_JVMCI__
+        else if (JvmciCode.canUseJvmci && right instanceof Matrix4d) {
+            Matrix4d mright = (Matrix4d) right;
+            JvmciCode.__Matrix4d_mul(this, mright, dest);
+            dest.properties = properties & mright.properties & (PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
+            return dest;
+        }
+//#endif
         else if ((properties & PROPERTY_TRANSLATION) != 0 && (right.properties() & PROPERTY_AFFINE) != 0)
             return mulTranslationAffine(right, dest);
         else if ((properties & PROPERTY_AFFINE) != 0 && (right.properties() & PROPERTY_AFFINE) != 0)
