@@ -357,7 +357,7 @@ class JvmciCode {
       _canUseJvmci = true;
     } catch (Throwable e) {
       if (Options.DEBUG) {
-        System.err.println("JVMCI not available, because: " + e.getMessage());
+        System.out.println("[JOML] JVMCI not available, because: " + e.getClass().getName() + ": " + e.getMessage());
       }
     }
     canUseJvmci = _canUseJvmci;
