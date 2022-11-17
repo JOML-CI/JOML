@@ -865,14 +865,14 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
     }
 
     /**
-     * Set the values in this matrix based on the supplied double array. The result looks like this:
+     * Set the values in this matrix based on the supplied double array in column-major order.. The result looks like this:
      * <p>
      * 0, 3, 6<br>
      * 1, 4, 7<br>
      * 2, 5, 8<br>
      * <p>
-     * Only uses the first 9 values, all others are ignored.
-     * 
+     * This method only uses the first 9 values, all others are ignored.
+     *
      * @param m
      *          the array to read the matrix values from
      * @return this
@@ -891,13 +891,41 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
     }
 
     /**
+     * Set the values in this matrix based on the supplied array in column-major order. The result looks like this:
+     * <p>
+     * 0, 3, 6<br>
+     * 1, 4, 7<br>
+     * 2, 5, 8<br>
+     * <p>
+     * This method only uses the 9 values starting at the given offset.
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix3d set(double m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m02 = m[off+2];
+        m10 = m[off+3];
+        m11 = m[off+4];
+        m12 = m[off+5];
+        m20 = m[off+6];
+        m21 = m[off+7];
+        m22 = m[off+8];
+        return this;
+    }
+
+    /**
      * Set the values in this matrix based on the supplied double array. The result looks like this:
      * <p>
      * 0, 3, 6<br>
      * 1, 4, 7<br>
      * 2, 5, 8<br>
      * <p>
-     * Only uses the first 9 values, all others are ignored
+     * This method only uses the first 9 values, all others are ignored.
      *
      * @param m
      *          the array to read the matrix values from
@@ -913,6 +941,34 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
         m20 = m[6];
         m21 = m[7];
         m22 = m[8];
+        return this;
+    }
+
+    /**
+     * Set the values in this matrix based on the supplied array in column-major order. The result looks like this:
+     * <p>
+     * 0, 3, 6<br>
+     * 1, 4, 7<br>
+     * 2, 5, 8<br>
+     * <p>
+     * This method only uses the 9 values starting at the given offset.
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix3d set(float m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m02 = m[off+2];
+        m10 = m[off+3];
+        m11 = m[off+4];
+        m12 = m[off+5];
+        m20 = m[off+6];
+        m21 = m[off+7];
+        m22 = m[off+8];
         return this;
     }
 

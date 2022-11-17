@@ -408,7 +408,42 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
     }
 
     /**
-     * Set the values in this matrix based on the supplied double array. The result looks like this:
+     * Set the values in this matrix based on the supplied float array in column-major order. The result looks like this:
+     * <p>
+     * 0, 2, 4<br>
+     * 1, 3, 5<br>
+     * <p>
+     * This method only uses the first 6 values, all others are ignored.
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @return this
+     */
+    public Matrix3x2d set(float m[]) {
+        return set(m, 0);
+    }
+
+    /**
+     * Set the values in this matrix based on the supplied float array in column-major order. The result looks like this:
+     * <p>
+     * 0, 2, 4<br>
+     * 1, 3, 5<br>
+     * <p>
+     * This method only uses the 6 values starting at the given offset.
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix3x2d set(float m[], int off) {
+        MemUtil.INSTANCE.copy(m, off, this);
+        return this;
+    }
+
+    /**
+     * Set the values in this matrix based on the supplied double array in column-major order. The result looks like this:
      * <p>
      * 0, 2, 4<br>
      * 1, 3, 5<br>
@@ -420,7 +455,25 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return this
      */
     public Matrix3x2d set(double m[]) {
-        MemUtil.INSTANCE.copy(m, 0, this);
+        return set(m, 0);
+    }
+
+    /**
+     * Set the values in this matrix based on the supplied double array in column-major order. The result looks like this:
+     * <p>
+     * 0, 2, 4<br>
+     * 1, 3, 5<br>
+     * <p>
+     * This method only uses the 6 values starting at the given offset.
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix3x2d set(double m[], int off) {
+        MemUtil.INSTANCE.copy(m, off, this);
         return this;
     }
 

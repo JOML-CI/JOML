@@ -262,6 +262,7 @@ abstract class MemUtil {
     public abstract void copy(float[] arr, int off, Matrix4x3f dest);
     public abstract void copy(float[] arr, int off, Matrix3x2f dest);
     public abstract void copy(double[] arr, int off, Matrix3x2d dest);
+    public abstract void copy(float[] arr, int off, Matrix3x2d dest);
     public abstract void copy(float[] arr, int off, Matrix2f dest);
     public abstract void copy(double[] arr, int off, Matrix2d dest);
     public abstract void copy(Matrix4f src, float[] dest, int off);
@@ -3227,6 +3228,15 @@ abstract class MemUtil {
         }
 
         public void copy(double[] arr, int off, Matrix3x2d dest) {
+            dest._m00(arr[off+0])
+            ._m01(arr[off+1])
+            ._m10(arr[off+2])
+            ._m11(arr[off+3])
+            ._m20(arr[off+4])
+            ._m21(arr[off+5]);
+        }
+
+        public void copy(float[] arr, int off, Matrix3x2d dest) {
             dest._m00(arr[off+0])
             ._m01(arr[off+1])
             ._m10(arr[off+2])

@@ -390,11 +390,11 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
     }
 
     /**
-     * Set the values in this matrix based on the supplied float array. The result looks like this:
+     * Set the values in this matrix based on the supplied double array. The result looks like this:
      * <p>
      * 0, 2<br>
      * 1, 3<br>
-     *
+     * <p>
      * This method only uses the first 4 values, all others are ignored.
      *
      * @param m
@@ -402,7 +402,32 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f set(float m[]) {
-        MemUtil.INSTANCE.copy(m, 0, this);
+        m00 = m[0];
+        m01 = m[1];
+        m10 = m[3];
+        m11 = m[4];
+        return this;
+    }
+
+    /**
+     * Set the values in this matrix based on the supplied array in column-major order. The result looks like this:
+     * <p>
+     * 0, 2<br>
+     * 1, 3<br>
+     * <p>
+     * This method only uses the 4 values starting at the given offset.
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix2f set(float m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m10 = m[off+3];
+        m11 = m[off+4];
         return this;
     }
 

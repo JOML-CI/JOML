@@ -494,7 +494,49 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * <p>
      * 0, 2<br>
      * 1, 3<br>
+     * <p>
+     * This method only uses the first 4 values, all others are ignored.
      *
+     * @param m
+     *          the array to read the matrix values from
+     * @return this
+     */
+    public Matrix2d set(float m[]) {
+        m00 = m[0];
+        m01 = m[1];
+        m10 = m[3];
+        m11 = m[4];
+        return this;
+    }
+
+    /**
+     * Set the values in this matrix based on the supplied array in column-major order. The result looks like this:
+     * <p>
+     * 0, 2<br>
+     * 1, 3<br>
+     * <p>
+     * This method only uses the 4 values starting at the given offset.
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix2d set(float m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m10 = m[off+3];
+        m11 = m[off+4];
+        return this;
+    }
+
+    /**
+     * Set the values in this matrix based on the supplied double array. The result looks like this:
+     * <p>
+     * 0, 2<br>
+     * 1, 3<br>
+     * <p>
      * This method only uses the first 4 values, all others are ignored.
      *
      * @param m
@@ -502,7 +544,32 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d set(double m[]) {
-        MemUtil.INSTANCE.copy(m, 0, this);
+        m00 = m[0];
+        m01 = m[1];
+        m10 = m[3];
+        m11 = m[4];
+        return this;
+    }
+
+    /**
+     * Set the values in this matrix based on the supplied array in column-major order. The result looks like this:
+     * <p>
+     * 0, 2<br>
+     * 1, 3<br>
+     * <p>
+     * This method only uses the 4 values starting at the given offset.
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix2d set(double m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m10 = m[off+3];
+        m11 = m[off+4];
         return this;
     }
 
