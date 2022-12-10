@@ -94,6 +94,34 @@ public interface Quaternionfc {
     Quaternionf add(Quaternionfc q2, Quaternionf dest);
 
     /**
+     * Subtract the quaternion <code>(x, y, z, w)</code> from this quaternion and store the result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component of the vector part
+     * @param y
+     *          the y component of the vector part
+     * @param z
+     *          the z component of the vector part
+     * @param w
+     *          the real/scalar component
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Quaternionf sub(float x, float y, float z, float w, Quaternionf dest);
+
+    /**
+     * Subtract <code>q2</code> from this quaternion and store the result in <code>dest</code>.
+     *
+     * @param q2
+     *          the quaternion to add to this
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Quaternionf sub(Quaternionfc q2, Quaternionf dest);
+
+    /**
      * Return the angle in radians represented by this normalized quaternion rotation.
      * <p>
      * This quaternion must be {@link #normalize(Quaternionf) normalized}.
@@ -323,7 +351,7 @@ public interface Quaternionfc {
     /**
      * Multiply this quaternion by the given scalar and store the result in <code>dest</code>.
      * <p>
-     * This method multiplies all of the four components by the specified scalar.
+     * This method multiplies all the four components by the specified scalar.
      * 
      * @param f
      *          the factor to multiply all components by
@@ -1488,6 +1516,19 @@ public interface Quaternionfc {
      * @return dest
      */
     Quaternionf div(Quaternionfc b, Quaternionf dest);
+
+    /**
+     * Divide this quaternion by the given scalar and store the result in <code>dest</code>.
+     * <p>
+     * This method divides all the four components by the specified scalar.
+     *
+     * @param f
+     *          the factor to divide all components by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Quaternionf div(float f, Quaternionf dest);
 
     /**
      * Conjugate this quaternion and store the result in <code>dest</code>.

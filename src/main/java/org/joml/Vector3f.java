@@ -897,6 +897,29 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
+     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     *
+     * @param mat
+     *          the matrix
+     * @return this
+     */
+    public Vector3f mul(Matrix3x2dc mat) {
+        float x = this.x, y = this.y, z = this.z;
+        this.x = (float) Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
+        this.y = (float) Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
+        this.z = z;
+        return this;
+    }
+
+    public Vector3f mul(Matrix3x2dc mat, Vector3f dest) {
+        float x = this.x, y = this.y, z = this.z;
+        dest.x = (float) Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
+        dest.y = (float) Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
+        dest.z = z;
+        return dest;
+    }
+
+    /**
      * Multiply the transpose of the given matrix with this Vector3f store the result in <code>this</code>.
      * 
      * @param mat

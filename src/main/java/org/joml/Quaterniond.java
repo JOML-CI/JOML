@@ -221,19 +221,55 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      *          the quaternion to add to this
      * @return this
      */
-    public Quaterniond add(Quaterniondc q2) {
-        x += q2.x();
-        y += q2.y();
-        z += q2.z();
-        w += q2.w();
-        return this;
-    }
+    public Quaterniond add(Quaterniondc q2) { return add(q2, this); }
 
     public Quaterniond add(Quaterniondc q2, Quaterniond dest) {
         dest.x = x + q2.x();
         dest.y = y + q2.y();
         dest.z = z + q2.z();
         dest.w = w + q2.w();
+        return dest;
+    }
+
+    /**
+     * Subtract the quaternion <code>(x, y, z, w)</code> from this quaternion.
+     *
+     * @param x
+     *          the x component of the vector part
+     * @param y
+     *          the y component of the vector part
+     * @param z
+     *          the z component of the vector part
+     * @param w
+     *          the real/scalar component
+     * @return this
+     */
+    public Quaterniond sub(double x, double y, double z, double w) {
+        return sub(x, y, z, w, this);
+    }
+
+    public Quaterniond sub(double x, double y, double z, double w, Quaterniond dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        dest.z = this.z - z;
+        dest.w = this.w - w;
+        return dest;
+    }
+
+    /**
+     * Subtract <code>q2</code> from this quaternion.
+     *
+     * @param q2
+     *          the quaternion to add to this
+     * @return this
+     */
+    public Quaterniond sub(Quaterniondc q2) {return sub(q2, this);}
+
+    public Quaterniond sub(Quaterniondc q2, Quaterniond dest) {
+        dest.x = x - q2.x();
+        dest.y = y - q2.y();
+        dest.z = z - q2.z();
+        dest.w = w - q2.w();
         return dest;
     }
 
@@ -1533,6 +1569,27 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      */
     public Quaterniond div(Quaterniondc b) {
         return div(b, this);
+    }
+
+    public Quaterniond div(double d, Quaterniond dest) {
+        dest.x = x / d;
+        dest.y = y / d;
+        dest.z = z / d;
+        dest.w = w / d;
+        return this;
+    }
+
+    /**
+     * Divide this quaternion by the given scalar.
+     * <p>
+     * This method divides all the four components by the specified scalar.
+     *
+     * @param d
+     *          the factor to divide all components by
+     * @return this
+     */
+    public Quaterniond div(double d) {
+        return div(d, this);
     }
 
     /**

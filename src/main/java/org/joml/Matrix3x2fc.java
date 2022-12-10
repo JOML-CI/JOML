@@ -700,7 +700,7 @@ public interface Matrix3x2fc {
      *          will contain the result
      * @return dest
      */
-    Vector3f transform(Vector3f v, Vector3f dest);
+    Vector3f transform(Vector3fc v, Vector3f dest);
 
     /**
      * Transform/multiply the given vector <code>(x, y, z)</code> by this matrix and store the result in <code>dest</code>.
@@ -745,7 +745,7 @@ public interface Matrix3x2fc {
      * In order to store the result in the same vector, use {@link #transformPosition(Vector2f)}.
      * 
      * @see #transformPosition(Vector2f)
-     * @see #transform(Vector3f, Vector3f)
+     * @see #transform(Vector3fc, Vector3f)
      * 
      * @param v
      *          the vector to transform
@@ -765,7 +765,7 @@ public interface Matrix3x2fc {
      * In order to store the result in the same vector, use {@link #transformPosition(Vector2f)}.
      * 
      * @see #transformPosition(Vector2f)
-     * @see #transform(Vector3f, Vector3f)
+     * @see #transform(Vector3fc, Vector3f)
      * 
      * @param x
      *          the x component of the vector to transform

@@ -670,7 +670,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      *          the vector to divide by
      * @return this
      */
-    public Vector2d div(Vector2d v) {
+    public Vector2d div(Vector2dc v) {
         this.x = x / v.x();
         this.y = y / v.y();
         return this;

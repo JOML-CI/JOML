@@ -327,7 +327,7 @@ public interface Vector4ic {
      *          the other vector
      * @return the squared of the distance
      */
-    int distanceSquared(Vector4ic v);
+    long distanceSquared(Vector4ic v);
 
     /**
      * Return the square of the distance between <code>this</code> vector and
@@ -343,7 +343,7 @@ public interface Vector4ic {
      *          the w component of the other vector
      * @return the square of the distance
      */
-    int distanceSquared(int x, int y, int z, int w);
+    long distanceSquared(int x, int y, int z, int w);
 
     /**
      * Compute the dot product (inner product) of this vector and <code>v</code>.
@@ -352,7 +352,7 @@ public interface Vector4ic {
      *          the other vector
      * @return the dot product
      */
-    int dot(Vector4ic v);
+    long dot(Vector4ic v);
 
     /**
      * Negate this vector and store the result in <code>dest</code>.

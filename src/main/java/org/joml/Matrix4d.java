@@ -1894,7 +1894,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      *          the right operand of the multiplication
      * @return this
      */
-    public Matrix4d mul(Matrix4f right) {
+    public Matrix4d mul(Matrix4fc right) {
         return mul(right, this);
     }
 
