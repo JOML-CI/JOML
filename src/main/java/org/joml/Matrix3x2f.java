@@ -1664,7 +1664,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      *          will contain the result
      * @return dest
      */
-    public Vector3f transform(Vector3f v, Vector3f dest) {
+    public Vector3f transform(Vector3fc v, Vector3f dest) {
         return v.mul(this, dest);
     }
 
@@ -1717,7 +1717,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * In order to store the result in the same vector, use {@link #transformPosition(Vector2f)}.
      * 
      * @see #transformPosition(Vector2f)
-     * @see #transform(Vector3f, Vector3f)
+     * @see #transform(Vector3fc, Vector3f)
      * 
      * @param v
      *          the vector to transform
@@ -1741,7 +1741,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * In order to store the result in the same vector, use {@link #transformPosition(Vector2f)}.
      * 
      * @see #transformPosition(Vector2f)
-     * @see #transform(Vector3f, Vector3f)
+     * @see #transform(Vector3fc, Vector3f)
      * 
      * @param x
      *          the x component of the vector to transform

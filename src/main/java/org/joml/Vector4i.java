@@ -954,7 +954,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
         return Math.abs(x - x()) + Math.abs(y - y()) + Math.abs(z - z()) + Math.abs(w - w());
     }
 
-    public int distanceSquared(Vector4ic v) {
+    public long distanceSquared(Vector4ic v) {
         int dx = this.x - v.x();
         int dy = this.y - v.y();
         int dz = this.z - v.z();
@@ -962,7 +962,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
-    public int distanceSquared(int x, int y, int z, int w) {
+    public long distanceSquared(int x, int y, int z, int w) {
         int dx = this.x - x;
         int dy = this.y - y;
         int dz = this.z - z;
@@ -1028,7 +1028,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
-    public int dot(Vector4ic v) {
+    public long dot(Vector4ic v) {
         return x * v.x() + y * v.y() + z * v.z() + w * v.w();
     }
 

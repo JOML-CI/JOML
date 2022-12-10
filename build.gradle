@@ -42,6 +42,10 @@ java {
     targetCompatibility = buildProfile == 'experimental' ? JavaVersion.current() : JavaVersion.VERSION_1_8
 }
 
+kotlin {
+    explicitApi()
+}
+
 test {
     useJUnitPlatform()
 }

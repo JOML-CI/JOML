@@ -89,6 +89,34 @@ public interface Quaterniondc {
     Quaterniond add(Quaterniondc q2, Quaterniond dest);
 
     /**
+     * Subtract the quaternion <code>(x, y, z, w)</code> from this quaternion and store the result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component of the vector part
+     * @param y
+     *          the y component of the vector part
+     * @param z
+     *          the z component of the vector part
+     * @param w
+     *          the real/scalar component
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Quaterniond sub(double x, double y, double z, double w, Quaterniond dest);
+
+    /**
+     * Subtract <code>q2</code> from this quaternion and store the result in <code>dest</code>.
+     *
+     * @param q2
+     *          the quaternion to add to this
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Quaterniond sub(Quaterniondc q2, Quaterniond dest);
+
+    /**
      * Return the dot product of this {@link Quaterniond} and <code>otherQuat</code>.
      * 
      * @param otherQuat
@@ -1344,6 +1372,19 @@ public interface Quaterniondc {
      * @return dest
      */
     Quaterniond div(Quaterniondc b, Quaterniond dest);
+
+    /**
+     * Divide this quaternion by the given scalar and store the result in <code>dest</code>.
+     * <p>
+     * This method divides all the four components by the specified scalar.
+     *
+     * @param d
+     *          the factor to divide all components by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Quaterniond div(double d, Quaterniond dest);
 
     /**
      * Conjugate this quaternion and store the result in <code>dest</code>.

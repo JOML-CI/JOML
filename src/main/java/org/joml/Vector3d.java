@@ -938,7 +938,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      *          the vector to divide by
      * @return this
      */
-    public Vector3d div(Vector3d v) {
+    public Vector3d div(Vector3dc v) {
         this.x = x / v.x();
         this.y = y / v.y();
         this.z = z / v.z();

@@ -252,6 +252,50 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
     }
 
     /**
+     * Subtract the quaternion <code>(x, y, z, w)</code> from this quaternion.
+     *
+     * @param x
+     *          the x component of the vector part
+     * @param y
+     *          the y component of the vector part
+     * @param z
+     *          the z component of the vector part
+     * @param w
+     *          the real/scalar component
+     * @return this
+     */
+    public Quaternionf sub(float x, float y, float z, float w) {
+        return sub(x, y, z, w, this);
+    }
+
+    public Quaternionf sub(float x, float y, float z, float w, Quaternionf dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        dest.z = this.z - z;
+        dest.w = this.w - w;
+        return dest;
+    }
+
+    /**
+     * Subtract <code>q2</code> from this quaternion.
+     *
+     * @param q2
+     *          the quaternion to add to this
+     * @return this
+     */
+    public Quaternionf sub(Quaternionfc q2) {
+        return sub(q2, this);
+    }
+
+    public Quaternionf sub(Quaternionfc q2, Quaternionf dest) {
+        dest.x = x - q2.x();
+        dest.y = y - q2.y();
+        dest.z = z - q2.z();
+        dest.w = w - q2.w();
+        return dest;
+    }
+
+    /**
      * Return the dot of this quaternion and <code>otherQuat</code>.
      * 
      * @param otherQuat
@@ -1713,6 +1757,27 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
      */
     public Quaternionf div(Quaternionfc b) {
         return div(b, this);
+    }
+
+    public Quaternionf div(float f, Quaternionf dest) {
+        dest.x = x / f;
+        dest.y = y / f;
+        dest.z = z / f;
+        dest.w = w / f;
+        return this;
+    }
+
+    /**
+     * Divide this quaternion by the given scalar.
+     * <p>
+     * This method divides all the four components by the specified scalar.
+     *
+     * @param f
+     *          the factor to divide all components by
+     * @return this
+     */
+    public Quaternionf div(float f) {
+        return div(f, this);
     }
 
     /**
