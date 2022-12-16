@@ -65,7 +65,6 @@ public class Bench {
     private final Matrix4fvBB m4vbb = new Matrix4fvBB();
     private final Matrix4fvArr m4varr = new Matrix4fvArr();
     private final ByteBuffer bb = allocateDirect(16<<2).order(nativeOrder());
-    private final long bb_addr = WithJvmci.address(bb);
     private final FloatBuffer fb = bb.asFloatBuffer();
     private final Quaternionf qa = new Quaternionf();
     private final Quaternionf qb = new Quaternionf();
