@@ -5515,6 +5515,33 @@ public interface Matrix4dc {
     Vector3d getEulerAnglesZYX(Vector3d dest);
 
     /**
+     * Extract the Euler angles from the rotation represented by the upper left 3x3 submatrix of <code>this</code>
+     * and store the extracted Euler angles in <code>dest</code>.
+     * <p>
+     * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
+     * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * <p>
+     * Note that the returned Euler angles must be applied in the order <code>Y * X * Z</code> to obtain the identical matrix.
+     * This means that calling {@link Matrix4dc#rotateYXZ(double, double, double, Matrix4d)} using the obtained Euler angles will yield
+     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
+     * <code>m2</code> should be identical to <code>m</code> (disregarding possible floating-point inaccuracies).
+     * <pre>
+     * Matrix4d m = ...; // &lt;- matrix only representing rotation
+     * Matrix4d n = new Matrix4d();
+     * n.rotateYXZ(m.getEulerAnglesYXZ(new Vector3d()));
+     * </pre>
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix">http://en.wikipedia.org/</a>
+     *
+     * @param dest
+     *          will hold the extracted Euler angles
+     * @return dest
+     */
+    Vector3d getEulerAnglesYXZ(Vector3d dest);
+
+    /**
      * Test whether the given point <code>(x, y, z)</code> is within the frustum defined by <code>this</code> matrix.
      * <p>
      * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <code>M</code>

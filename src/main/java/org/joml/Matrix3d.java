@@ -4614,6 +4614,13 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
         return dest;
     }
 
+    public Vector3d getEulerAnglesYXZ(Vector3d dest) {
+        dest.x = Math.atan2(-m21, Math.sqrt(1.0 - m21 * m21));
+        dest.y = Math.atan2(m20, m22);
+        dest.z = Math.atan2(m01, m11);
+        return dest;
+    }
+
     /**
      * Apply an oblique projection transformation to this matrix with the given values for <code>a</code> and
      * <code>b</code>.

@@ -9035,6 +9035,13 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         return dest;
     }
 
+    public Vector3f getEulerAnglesYXZ(Vector3f dest) {
+        dest.x = Math.atan2(-m21, Math.sqrt(1.0f - m21 * m21));
+        dest.y = Math.atan2(m20, m22);
+        dest.z = Math.atan2(m01, m11);
+        return dest;
+    }
+
     /**
      * Apply an oblique projection transformation to this matrix with the given values for <code>a</code> and
      * <code>b</code>.

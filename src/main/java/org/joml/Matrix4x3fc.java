@@ -2789,6 +2789,33 @@ public interface Matrix4x3fc {
     Vector3f getEulerAnglesZYX(Vector3f dest);
 
     /**
+     * Extract the Euler angles from the rotation represented by the left 3x3 submatrix of <code>this</code>
+     * and store the extracted Euler angles in <code>dest</code>.
+     * <p>
+     * This method assumes that the left 3x3 submatrix of <code>this</code> only represents a rotation without scaling.
+     * <p>
+     * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * <p>
+     * Note that the returned Euler angles must be applied in the order <code>Y * X * Z</code> to obtain the identical matrix.
+     * This means that calling {@link Matrix4x3fc#rotateYXZ(float, float, float, Matrix4x3f)} using the obtained Euler angles will yield
+     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
+     * <code>m2</code> should be identical to <code>m</code> (disregarding possible floating-point inaccuracies).
+     * <pre>
+     * Matrix4x3f m = ...; // &lt;- matrix only representing rotation
+     * Matrix4x3f n = new Matrix4x3f();
+     * n.rotateYXZ(m.getEulerAnglesYXZ(new Vector3f()));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://nghiaho.com/?page_id=846">http://nghiaho.com/</a>
+     *
+     * @param dest
+     *          will hold the extracted Euler angles
+     * @return dest
+     */
+    Vector3f getEulerAnglesYXZ(Vector3f dest);
+
+    /**
      * Apply an oblique projection transformation to this matrix with the given values for <code>a</code> and
      * <code>b</code> and store the result in <code>dest</code>.
      * <p>
