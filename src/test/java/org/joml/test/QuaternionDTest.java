@@ -148,6 +148,28 @@ class QuaternionDTest {
     }
 
     @Test
+    void testGetEulerAnglesZYX() {
+        Random rnd = new Random(1L);
+        int failure = 0;
+        int N = 30000;
+        for (int i = 0; i < N; i++) {
+            double x = (rnd.nextFloat() * 2.0 - 1.0) * Math.PI;
+            double y = (rnd.nextFloat() * 2.0 - 1.0) * Math.PI;
+            double z = (rnd.nextFloat() * 2.0 - 1.0) * Math.PI;
+            Quaterniond p = new Quaterniond().rotateZ(z).rotateY(y).rotateX(x);
+            Vector3d a = p.getEulerAnglesZYX(new Vector3d());
+            Quaterniond q = new Quaterniond().rotateZ(a.z).rotateY(a.y).rotateX(a.x);
+            Vector3d v = new Vector3d(rnd.nextFloat()*2-1, rnd.nextFloat()*2-1, rnd.nextFloat()*2-1);
+            Vector3d t1 = p.transform(v, new Vector3d());
+            Vector3d t2 = q.transform(v, new Vector3d());
+            if (!t1.equals(t2, 1E-10f))
+                failure++;
+        }
+        if ((float)failure / N > 0.0001f) // <- allow for a failure rate of 0.01%
+            throw new AssertionError();
+    }
+
+    @Test
     void testGetEulerAnglesZXY() {
         Random rnd = new Random(1L);
         int failure = 0;
