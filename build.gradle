@@ -90,16 +90,16 @@ publishing {
             pom {
                 name = 'JOML'
                 description = 'Java OpenGL Math Library'
-                url = 'http://joml.org'
+                url = 'https://joml.org'
                 licenses {
                     license {
                         name = 'MIT License'
-                        url = 'http://www.opensource.org/licenses/mit-license.php'
+                        url = 'https://www.opensource.org/licenses/mit-license.php'
                     }
                 }
                 organization {
                     name = 'JOML'
-                    url = 'http://joml.org'
+                    url = 'https://joml.org'
                 }
                 developers {
                     developer {
