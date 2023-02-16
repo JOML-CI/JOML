@@ -29,7 +29,7 @@ configurations {
 }
 dependencies {
     buildhelper 'org.ow2.asm:asm:9.4'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     if (buildProfile == 'default') {
         compileOnly files('libs/jre-stubs.jar')
     }
