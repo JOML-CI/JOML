@@ -1,4 +1,5 @@
 import me.champeau.jmh.JmhBytecodeGeneratorTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id 'java-library'
@@ -44,6 +45,12 @@ java {
 
 kotlin {
     explicitApi()
+}
+
+tasks.withType(KotlinCompile) {
+  kotlinOptions {
+    jvmTarget = buildProfile == 'experimental' ? JavaVersion.current().toString() : "1.8"
+  }
 }
 
 test {
@@ -223,3 +230,5 @@ macroPreprocessorSettings {
     }
     vars = PREPROCESSOR_DEFINES
 }
+
+tasks.named("sourcesJar").configure { dependsOn("macroPreprocessorJava") }
