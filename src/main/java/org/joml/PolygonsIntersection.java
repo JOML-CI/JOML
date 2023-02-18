@@ -189,8 +189,8 @@ public class PolygonsIntersection {
             }
         }
         if (byStart != null) {
-            Collections.sort(byStart, byStartComparator);
-            Collections.sort(byEnd, byEndComparator);
+            byStart.sort(byStartComparator);
+            byEnd.sort(byEndComparator);
         }
         IntervalTreeNode tree = new IntervalTreeNode();
         tree.byBeginning = byStart;
