@@ -24,13 +24,13 @@
 package org.joml.sampling;
 
 //#ifdef __HAS_NIO__
-import java.nio.FloatBuffer;
-//#endif
-import java.util.ArrayList;
 
 import org.joml.Random;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+
+import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 /**
  * Creates samples using the "Best Candidate" algorithm.
@@ -69,7 +69,7 @@ public class BestCandidateSampling {
             private float cx, cy, cz;
             private float arc;
 
-            private ArrayList objects;
+            private ArrayList<Vector3f> objects;
             private Node[] children;
 
             Node() {
@@ -175,12 +175,12 @@ public class BestCandidateSampling {
                 if (objects != null && objects.size() == MAX_OBJECTS_PER_NODE) {
                     split();
                     for (int i = 0; i < MAX_OBJECTS_PER_NODE; i++)
-                        insertIntoChild((Vector3f) objects.get(i));
+                        insertIntoChild(objects.get(i));
                     objects = null;
                     insertIntoChild(object);
                 } else {
                     if (objects == null)
-                        objects = new ArrayList(MAX_OBJECTS_PER_NODE);
+                        objects = new ArrayList<>(MAX_OBJECTS_PER_NODE);
                     objects.add(object);
                 }
             }
@@ -451,7 +451,7 @@ public class BestCandidateSampling {
         private static final int PXPY = 3;
 
         private float minX, minY, hs;
-        private ArrayList objects;
+        private ArrayList<Vector2f> objects;
         private QuadTree[] children;
 
         QuadTree(float minX, float minY, float size) {
@@ -485,7 +485,7 @@ public class BestCandidateSampling {
                 insertIntoChild(object);
             } else {
                 if (objects == null)
-                    objects = new ArrayList(MAX_OBJECTS_PER_NODE);
+                    objects = new ArrayList<>(MAX_OBJECTS_PER_NODE);
                 objects.add(object);
             }
         }
@@ -801,7 +801,7 @@ public class BestCandidateSampling {
         private static final int PXPYPZ = 7;
 
         private float minX, minY, minZ, hs;
-        private ArrayList objects;
+        private ArrayList<Vector3f> objects;
         private Octree[] children;
 
         Octree(float minX, float minY, float minZ, float size) {
@@ -840,7 +840,7 @@ public class BestCandidateSampling {
                 insertIntoChild(object);
             } else {
                 if (objects == null)
-                    objects = new ArrayList(MAX_OBJECTS_PER_NODE);
+                    objects = new ArrayList<>(MAX_OBJECTS_PER_NODE);
                 objects.add(object);
             }
         }

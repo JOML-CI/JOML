@@ -25,7 +25,6 @@ package org.joml;
 
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -44,18 +43,20 @@ import java.util.List;
  */
 public class PolygonsIntersection {
 
-    static class ByStartComparator implements Comparator {
-        public int compare(Object o1, Object o2) {
-            Interval i1 = (Interval) o1;
-            Interval i2 = (Interval) o2;
+    static class ByStartComparator implements Comparator<Interval> {
+        @Override
+        public int compare(Interval o1, Interval o2) {
+            Interval i1 = o1;
+            Interval i2 = o2;
             return Float.compare(i1.start, i2.start);
         }
     }
 
-    static class ByEndComparator implements Comparator {
-        public int compare(Object o1, Object o2) {
-            Interval i1 = (Interval) o1;
-            Interval i2 = (Interval) o2;
+    static class ByEndComparator implements Comparator<Interval> {
+        @Override
+        public int compare(Interval o1, Interval o2) {
+            Interval i1 = o1;
+            Interval i2 = o2;
             return Float.compare(i2.end, i1.end);
         }
     }
@@ -70,8 +71,8 @@ public class PolygonsIntersection {
         float childrenMinMax;
         IntervalTreeNode left;
         IntervalTreeNode right;
-        List/* <Interval> */ byBeginning;
-        List/* <Interval> */ byEnding;
+        List<Interval>/* <Interval> */ byBeginning;
+        List<Interval>/* <Interval> */ byEnding;
 
         static boolean computeEvenOdd(float[] verticesXY, Interval ival, float x, float y, boolean evenOdd, BitSet inPolys) {
             boolean newEvenOdd = evenOdd;
@@ -156,31 +157,31 @@ public class PolygonsIntersection {
         preprocess(count, polygons);
     }
 
-    private IntervalTreeNode buildNode(List intervals, float center) {
-        List left = null;
-        List right = null;
-        List byStart = null;
-        List byEnd = null;
+    private IntervalTreeNode buildNode(List<Interval> intervals, float center) {
+        List<Interval> left = null;
+        List<Interval> right = null;
+        List<Interval> byStart = null;
+        List<Interval> byEnd = null;
         float leftMin = 1E38f, leftMax = -1E38f, rightMin = 1E38f, rightMax = -1E38f;
         float thisMin = 1E38f, thisMax = -1E38f;
         for (int i = 0; i < intervals.size(); i++) {
             Interval ival = (Interval) intervals.get(i);
             if (ival.start < center && ival.end < center) {
                 if (left == null)
-                    left = new ArrayList();
+                    left = new ArrayList<>();
                 left.add(ival);
                 leftMin = leftMin < ival.start ? leftMin : ival.start;
                 leftMax = leftMax > ival.end ? leftMax : ival.end;
             } else if (ival.start > center && ival.end > center) {
                 if (right == null)
-                    right = new ArrayList();
+                    right = new ArrayList<>();
                 right.add(ival);
                 rightMin = rightMin < ival.start ? rightMin : ival.start;
                 rightMax = rightMax > ival.end ? rightMax : ival.end;
             } else {
                 if (byStart == null || byEnd == null) {
-                    byStart = new ArrayList();
-                    byEnd = new ArrayList();
+                    byStart = new ArrayList<>();
+                    byEnd = new ArrayList<>();
                 }
                 thisMin = ival.start < thisMin ? ival.start : thisMin;
                 thisMax = ival.end > thisMax ? ival.end : thisMax;
@@ -211,7 +212,7 @@ public class PolygonsIntersection {
         int i, j = 0;
         minX = minY = 1E38f;
         maxX = maxY = -1E38f;
-        List intervals = new ArrayList(count);
+        List<Interval> intervals = new ArrayList<>(count);
         int first = 0;
         int currPoly = 0;
         for (i = 1; i < count; i++) {

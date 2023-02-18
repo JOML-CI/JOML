@@ -342,7 +342,7 @@ class JvmciCode {
       TargetDescription targetDesc = jvmciBackend.getTarget();
       Architecture arch = targetDesc.arch;
       AMD64 amd64arch = (AMD64) arch;
-      Set features = amd64arch.getFeatures();
+      Set<AMD64.CPUFeature> features = amd64arch.getFeatures();
       if (!features.contains(AMD64.CPUFeature.AVX) || !features.contains(AMD64.CPUFeature.FMA))
         throw new AssertionError("CPU lacks AVX or FMA support");
       checkMatrix4f();
