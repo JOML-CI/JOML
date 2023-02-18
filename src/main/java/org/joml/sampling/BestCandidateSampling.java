@@ -305,13 +305,11 @@ public class BestCandidateSampling {
          */
         public Sphere generate(final float[] xyzs) {
             final IntHolder i = new IntHolder();
-            return generate(new Callback3d() {
-                public void onNewSample(float x, float y, float z) {
-                    xyzs[3 * i.value + 0] = x;
-                    xyzs[3 * i.value + 1] = y;
-                    xyzs[3 * i.value + 2] = z;
-                    i.value++;
-                }
+            return generate((x, y, z) -> {
+                xyzs[3 * i.value + 0] = x;
+                xyzs[3 * i.value + 1] = y;
+                xyzs[3 * i.value + 2] = z;
+                i.value++;
             });
         }
 
@@ -332,13 +330,11 @@ public class BestCandidateSampling {
         public Sphere generate(final FloatBuffer xyzs) {
             final IntHolder i = new IntHolder();
             final int pos = xyzs.position();
-            return generate(new Callback3d() {
-                public void onNewSample(float x, float y, float z) {
-                    xyzs.put(pos + 3 * i.value + 0, x);
-                    xyzs.put(pos + 3 * i.value + 1, y);
-                    xyzs.put(pos + 3 * i.value + 2, z);
-                    i.value++;
-                }
+            return generate((x, y, z) -> {
+                xyzs.put(pos + 3 * i.value + 0, x);
+                xyzs.put(pos + 3 * i.value + 1, y);
+                xyzs.put(pos + 3 * i.value + 2, z);
+                i.value++;
             });
         }
 //#endif
@@ -596,12 +592,10 @@ public class BestCandidateSampling {
          */
         public Disk generate(final float[] xys) {
             final IntHolder i = new IntHolder();
-            return generate(new Callback2d() {
-                public void onNewSample(float x, float y) {
-                    xys[2 * i.value + 0] = x;
-                    xys[2 * i.value + 1] = y;
-                    i.value++;
-                }
+            return generate((x, y) -> {
+                xys[2 * i.value + 0] = x;
+                xys[2 * i.value + 1] = y;
+                i.value++;
             });
         }
 
@@ -621,12 +615,10 @@ public class BestCandidateSampling {
         public Disk generate(final FloatBuffer xys) {
             final IntHolder i = new IntHolder();
             final int pos = xys.position();
-            return generate(new Callback2d() {
-                public void onNewSample(float x, float y) {
-                    xys.put(pos + 3 * i.value + 0, x);
-                    xys.put(pos + 3 * i.value + 1, y);
-                    i.value++;
-                }
+            return generate((x, y) -> {
+                xys.put(pos + 3 * i.value + 0, x);
+                xys.put(pos + 3 * i.value + 1, y);
+                i.value++;
             });
         }
 //#endif
@@ -728,12 +720,10 @@ public class BestCandidateSampling {
          */
         public Quad generate(final float[] xyzs) {
             final IntHolder i = new IntHolder();
-            return generate(new Callback2d() {
-                public void onNewSample(float x, float y) {
-                    xyzs[2 * i.value + 0] = x;
-                    xyzs[2 * i.value + 1] = y;
-                    i.value++;
-                }
+            return generate((x, y) -> {
+                xyzs[2 * i.value + 0] = x;
+                xyzs[2 * i.value + 1] = y;
+                i.value++;
             });
         }
 
@@ -753,12 +743,10 @@ public class BestCandidateSampling {
         public Quad generate(final FloatBuffer xys) {
             final IntHolder i = new IntHolder();
             final int pos = xys.position();
-            return generate(new Callback2d() {
-                public void onNewSample(float x, float y) {
-                    xys.put(pos + 3 * i.value + 0, x);
-                    xys.put(pos + 3 * i.value + 1, y);
-                    i.value++;
-                }
+            return generate((x, y) -> {
+                xys.put(pos + 3 * i.value + 0, x);
+                xys.put(pos + 3 * i.value + 1, y);
+                i.value++;
             });
         }
 //#endif
@@ -970,13 +958,11 @@ public class BestCandidateSampling {
          */
         public Cube generate(final float[] xyzs) {
             final IntHolder i = new IntHolder();
-            return generate(new Callback3d() {
-                public void onNewSample(float x, float y, float z) {
-                    xyzs[3 * i.value + 0] = x;
-                    xyzs[3 * i.value + 1] = y;
-                    xyzs[3 * i.value + 2] = z;
-                    i.value++;
-                }
+            return generate((x, y, z) -> {
+                xyzs[3 * i.value + 0] = x;
+                xyzs[3 * i.value + 1] = y;
+                xyzs[3 * i.value + 2] = z;
+                i.value++;
             });
         }
 
@@ -997,13 +983,11 @@ public class BestCandidateSampling {
         public Cube generate(final FloatBuffer xyzs) {
             final IntHolder i = new IntHolder();
             final int pos = xyzs.position();
-            return generate(new Callback3d() {
-                public void onNewSample(float x, float y, float z) {
-                    xyzs.put(pos + 3 * i.value + 0, x);
-                    xyzs.put(pos + 3 * i.value + 1, y);
-                    xyzs.put(pos + 3 * i.value + 2, z);
-                    i.value++;
-                }
+            return generate((x, y, z) -> {
+                xyzs.put(pos + 3 * i.value + 0, x);
+                xyzs.put(pos + 3 * i.value + 1, y);
+                xyzs.put(pos + 3 * i.value + 2, z);
+                i.value++;
             });
         }
 //#endif
