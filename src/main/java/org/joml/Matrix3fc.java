@@ -456,6 +456,18 @@ public interface Matrix3fc {
      * @return this
      */
     Matrix3fc getToAddress(long address);
+    /**
+     * Store this matrix in row-major order at the given off-heap address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     *
+     * @param address
+     *            the off-heap address where to store this matrix
+     * @return this
+     */
+    Matrix3fc getTransposedToAddress(long address);
 //#endif
 
     /**

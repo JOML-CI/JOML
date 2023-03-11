@@ -2760,6 +2760,24 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
         MemUtil.MemUtilUnsafe.get(this, address);
         return determineProperties();
     }
+    /**
+     * Set the values of this matrix by reading 16 double values from off-heap memory in row-major order,
+     * starting at the given address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     *
+     * @param address
+     *              the off-heap memory address to read the matrix values from in row-major order
+     * @return this
+     */
+    public Matrix4d setTransposedFromAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe.getTransposed(this, address);
+        return determineProperties();
+    }
 //#endif
 
     /**
@@ -3487,6 +3505,12 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
         MemUtil.MemUtilUnsafe.put(this, address);
+        return this;
+    }
+    public Matrix4dc getTransposedToAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe.putTransposed(this, address);
         return this;
     }
 //#endif

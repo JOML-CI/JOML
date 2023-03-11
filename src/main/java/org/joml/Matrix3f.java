@@ -991,6 +991,12 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
         MemUtil.MemUtilUnsafe.put(this, address);
         return this;
     }
+    public Matrix3fc getTransposedToAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe.putTransposed(this, address);
+        return this;
+    }
 //#endif
 
     public float[] get(float[] arr, int offset) {
@@ -1092,6 +1098,24 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
         if (Options.NO_UNSAFE)
             throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
         MemUtil.MemUtilUnsafe.get(this, address);
+        return this;
+    }
+    /**
+     * Set the values of this matrix by reading 9 float values from off-heap memory in row-major order,
+     * starting at the given address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     *
+     * @param address
+     *              the off-heap memory address to read the matrix values from in row-major order
+     * @return this
+     */
+    public Matrix3f setTransposedFromAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe.getTransposed(this, address);
         return this;
     }
 //#endif

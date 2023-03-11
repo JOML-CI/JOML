@@ -310,6 +310,18 @@ public interface Matrix2fc {
      * @return this
      */
     Matrix2fc getToAddress(long address);
+    /**
+     * Store this matrix in row-major order at the given off-heap address.
+     * <p>
+     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
+     * <p>
+     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
+     *
+     * @param address
+     *            the off-heap address where to store this matrix
+     * @return this
+     */
+    Matrix2fc getTransposedToAddress(long address);
 //#endif
 
     /**

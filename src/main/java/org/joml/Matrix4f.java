@@ -3379,6 +3379,12 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         MemUtil.MemUtilUnsafe.put(this, address);
         return this;
     }
+    public Matrix4fc getTransposedToAddress(long address) {
+        if (Options.NO_UNSAFE)
+            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
+        MemUtil.MemUtilUnsafe.putTransposed(this, address);
+        return this;
+    }
 //#endif
 
     public float[] get(float[] arr, int offset) {

@@ -4667,22 +4667,137 @@ abstract class MemUtil {
         }
 
         public static void getTransposed(Matrix4f m, long srcAddr) {
-            m._m00(UNSAFE.getFloat(srcAddr))
-             ._m10(UNSAFE.getFloat(srcAddr + 4))
-             ._m20(UNSAFE.getFloat(srcAddr + 8))
-             ._m30(UNSAFE.getFloat(srcAddr + 12))
-             ._m01(UNSAFE.getFloat(srcAddr + 16))
-             ._m11(UNSAFE.getFloat(srcAddr + 20))
-             ._m21(UNSAFE.getFloat(srcAddr + 24))
-             ._m31(UNSAFE.getFloat(srcAddr + 28))
-             ._m02(UNSAFE.getFloat(srcAddr + 32))
-             ._m12(UNSAFE.getFloat(srcAddr + 36))
-             ._m22(UNSAFE.getFloat(srcAddr + 40))
-             ._m32(UNSAFE.getFloat(srcAddr + 44))
-             ._m03(UNSAFE.getFloat(srcAddr + 48))
-             ._m13(UNSAFE.getFloat(srcAddr + 52))
-             ._m23(UNSAFE.getFloat(srcAddr + 56))
-             ._m33(UNSAFE.getFloat(srcAddr + 60));
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+             ._m10(u.getFloat(srcAddr + 4))
+             ._m20(u.getFloat(srcAddr + 8))
+             ._m30(u.getFloat(srcAddr + 12))
+             ._m01(u.getFloat(srcAddr + 16))
+             ._m11(u.getFloat(srcAddr + 20))
+             ._m21(u.getFloat(srcAddr + 24))
+             ._m31(u.getFloat(srcAddr + 28))
+             ._m02(u.getFloat(srcAddr + 32))
+             ._m12(u.getFloat(srcAddr + 36))
+             ._m22(u.getFloat(srcAddr + 40))
+             ._m32(u.getFloat(srcAddr + 44))
+             ._m03(u.getFloat(srcAddr + 48))
+             ._m13(u.getFloat(srcAddr + 52))
+             ._m23(u.getFloat(srcAddr + 56))
+             ._m33(u.getFloat(srcAddr + 60));
+        }
+
+        public static void getTransposed(Matrix3f m, long srcAddr) {
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+             ._m10(u.getFloat(srcAddr + 4))
+             ._m20(u.getFloat(srcAddr + 8))
+             ._m01(u.getFloat(srcAddr + 12))
+             ._m11(u.getFloat(srcAddr + 16))
+             ._m21(u.getFloat(srcAddr + 20))
+             ._m02(u.getFloat(srcAddr + 24))
+             ._m12(u.getFloat(srcAddr + 28))
+             ._m22(u.getFloat(srcAddr + 32));
+        }
+
+        public static void getTransposed(Matrix4x3f m, long srcAddr) {
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+             ._m10(u.getFloat(srcAddr + 4))
+             ._m20(u.getFloat(srcAddr + 8))
+             ._m30(u.getFloat(srcAddr + 12))
+             ._m01(u.getFloat(srcAddr + 16))
+             ._m11(u.getFloat(srcAddr + 20))
+             ._m21(u.getFloat(srcAddr + 24))
+             ._m31(u.getFloat(srcAddr + 28))
+             ._m02(u.getFloat(srcAddr + 32))
+             ._m12(u.getFloat(srcAddr + 36))
+             ._m22(u.getFloat(srcAddr + 40))
+             ._m32(u.getFloat(srcAddr + 44));
+        }
+
+        public static void getTransposed(Matrix3x2f m, long srcAddr) {
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+             ._m10(u.getFloat(srcAddr + 4))
+             ._m20(u.getFloat(srcAddr + 8))
+             ._m01(u.getFloat(srcAddr + 12))
+             ._m11(u.getFloat(srcAddr + 16))
+             ._m21(u.getFloat(srcAddr + 20));
+        }
+
+        public static void getTransposed(Matrix2f m, long srcAddr) {
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+             ._m10(u.getFloat(srcAddr + 4))
+             ._m01(u.getFloat(srcAddr + 8))
+             ._m11(u.getFloat(srcAddr + 12));
+        }
+
+        public static void getTransposed(Matrix2d m, long srcAddr) {
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+             ._m10(u.getDouble(srcAddr + 8))
+             ._m01(u.getDouble(srcAddr + 16))
+             ._m11(u.getDouble(srcAddr + 24));
+        }
+
+        public static void getTransposed(Matrix4x3d m, long srcAddr) {
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+             ._m10(u.getDouble(srcAddr + 8))
+             ._m20(u.getDouble(srcAddr + 16))
+             ._m30(u.getDouble(srcAddr + 24))
+             ._m01(u.getDouble(srcAddr + 32))
+             ._m11(u.getDouble(srcAddr + 40))
+             ._m21(u.getDouble(srcAddr + 48))
+             ._m31(u.getDouble(srcAddr + 56))
+             ._m02(u.getDouble(srcAddr + 64))
+             ._m12(u.getDouble(srcAddr + 72))
+             ._m22(u.getDouble(srcAddr + 80))
+             ._m32(u.getDouble(srcAddr + 88));
+        }
+
+        public static void getTransposed(Matrix3x2d m, long srcAddr) {
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+             ._m10(u.getDouble(srcAddr + 8))
+             ._m20(u.getDouble(srcAddr + 16))
+             ._m01(u.getDouble(srcAddr + 24))
+             ._m11(u.getDouble(srcAddr + 32))
+             ._m21(u.getDouble(srcAddr + 40));
+        }
+
+        public static void getTransposed(Matrix3d m, long srcAddr) {
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+             ._m10(u.getDouble(srcAddr + 8))
+             ._m20(u.getDouble(srcAddr + 16))
+             ._m01(u.getDouble(srcAddr + 24))
+             ._m11(u.getDouble(srcAddr + 32))
+             ._m21(u.getDouble(srcAddr + 40))
+             ._m02(u.getDouble(srcAddr + 48))
+             ._m12(u.getDouble(srcAddr + 56))
+             ._m22(u.getDouble(srcAddr + 64));
+        }
+
+        public static void getTransposed(Matrix4d m, long srcAddr) {
+            sun.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+             ._m10(u.getDouble(srcAddr + 8))
+             ._m20(u.getDouble(srcAddr + 16))
+             ._m30(u.getDouble(srcAddr + 24))
+             ._m01(u.getDouble(srcAddr + 32))
+             ._m11(u.getDouble(srcAddr + 40))
+             ._m21(u.getDouble(srcAddr + 48))
+             ._m31(u.getDouble(srcAddr + 56))
+             ._m02(u.getDouble(srcAddr + 64))
+             ._m12(u.getDouble(srcAddr + 72))
+             ._m22(u.getDouble(srcAddr + 80))
+             ._m32(u.getDouble(srcAddr + 88))
+             ._m03(u.getDouble(srcAddr + 96))
+             ._m13(u.getDouble(srcAddr + 104))
+             ._m23(u.getDouble(srcAddr + 112))
+             ._m33(u.getDouble(srcAddr + 120));
         }
 
         public static void get(Matrix4x3f m, long srcAddr) {
