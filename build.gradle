@@ -93,6 +93,7 @@ nexusPublishing {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            artifactId = buildProfile == 'experimental' ? 'joml-experimental' : 'joml'
             from components.java
             pom {
                 name = 'JOML'

@@ -12,6 +12,10 @@ jobs:
           java-version: '19'
           distribution: 'temurin'
           cache: gradle
-      - name: Build with Gradle
-        run: |
-          ./gradlew -PbuildProfile=experimental build --no-daemon
+      - name: Publish with Gradle
+        run: ./gradlew publishToSonatype --no-daemon -Psign -PbuildProfile=experimental
+        env:
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SECRET_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_PASSPHRASE }}
