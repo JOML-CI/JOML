@@ -109,6 +109,10 @@ public interface Matrix4dc {
     int CORNER_PXPYPZ = 7;
 
     /**
+     * Bit returned by {@link #properties()} to indicate that the matrix represents an unknown transformation.
+     */
+    byte PROPERTY_UNKNOWN = 0;
+    /**
      * Bit returned by {@link #properties()} to indicate that the matrix represents a perspective transformation.
      */
     byte PROPERTY_PERSPECTIVE = 1<<0;
