@@ -630,6 +630,14 @@ class Matrix4fTest {
     }
 
     @Test
+    void testMulGeneric() {
+        Matrix4f a = new Matrix4f(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1).assume(Matrix4fc.PROPERTY_UNKNOWN);
+        Matrix4f b = new Matrix4f(2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1).assume(Matrix4fc.PROPERTY_UNKNOWN);
+        Matrix4f res = new Matrix4f(2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1);
+        assertMatrix4fEquals(res, a.mul(b), 0.0f);
+    }
+
+    @Test
     void testSetPerspectiveOffCenterFov() {
         Matrix4f m1 = new Matrix4f().setPerspective(
                 Math.toRadians(45),

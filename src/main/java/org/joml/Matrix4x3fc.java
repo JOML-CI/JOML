@@ -68,6 +68,10 @@ public interface Matrix4x3fc {
     int PLANE_PZ = 5;
 
     /**
+     * Bit returned by {@link #properties()} to indicate that the matrix represents an unknown transformation.
+     */
+    byte PROPERTY_UNKNOWN = 0;
+    /**
      * Bit returned by {@link #properties()} to indicate that the matrix represents the identity transformation.
      */
     byte PROPERTY_IDENTITY = 1<<2;

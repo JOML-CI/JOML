@@ -239,7 +239,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f determineProperties() {
-        int properties = 0;
+        int properties = PROPERTY_UNKNOWN;
         if (m03() == 0.0f && m13() == 0.0f) {
             if (m23() == 0.0f && m33() == 1.0f) {
                 properties |= PROPERTY_AFFINE;
@@ -367,7 +367,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f m03(float m03) {
         this.m03 = m03;
         if (m03 != 0.0f)
-            properties = 0;
+            properties = PROPERTY_UNKNOWN;
         return this;
     }
     /**
@@ -422,7 +422,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f m13(float m13) {
         this.m13 = m13;
         if (m13 != 0.0f)
-            properties = 0;
+            properties = PROPERTY_UNKNOWN;
         return this;
     }
     /**
@@ -2961,7 +2961,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
 //#ifdef __HAS_JVMCI__
         else if (JvmciCode.canUseJvmci) {
             JvmciCode.__Matrix4f_transpose(this, dest);
-            dest.properties = 0;
+            dest.properties = PROPERTY_UNKNOWN;
             return dest;
         }
 //#endif

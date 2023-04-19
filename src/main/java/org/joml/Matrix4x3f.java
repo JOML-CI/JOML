@@ -191,7 +191,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f determineProperties() {
-        int properties = 0;
+        int properties = PROPERTY_UNKNOWN;
         if (m00 == 1.0f && m01 == 0.0f && m02 == 0.0f && m10 == 0.0f && m11 == 1.0f && m12 == 0.0f
                 && m20 == 0.0f && m21 == 0.0f && m22 == 1.0f) {
             properties |= PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
@@ -1081,7 +1081,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         dest.m30 = m30 + other.m30();
         dest.m31 = m31 + other.m31();
         dest.m32 = m32 + other.m32();
-        dest.properties = 0;
+        dest.properties = PROPERTY_UNKNOWN;
         return dest;
     }
 
@@ -1109,7 +1109,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         dest.m30 = m30 - subtrahend.m30();
         dest.m31 = m31 - subtrahend.m31();
         dest.m32 = m32 - subtrahend.m32();
-        dest.properties = 0;
+        dest.properties = PROPERTY_UNKNOWN;
         return dest;
     }
 
@@ -1137,7 +1137,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         dest.m30 = m30 * other.m30();
         dest.m31 = m31 * other.m31();
         dest.m32 = m32 * other.m32();
-        dest.properties = 0;
+        dest.properties = PROPERTY_UNKNOWN;
         return dest;
     }
 
@@ -1391,7 +1391,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties = 0;
+        dest.properties = PROPERTY_UNKNOWN;
         return dest;
     }
     private Matrix4x3f invertOrthonormal(Matrix4x3f dest) {
@@ -1507,7 +1507,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
                  0, invM11, 0,
                  0, 0, invM22,
                  -m30 * invM00, -m31 * invM11, -m32 * invM22);
-        dest.properties = 0;
+        dest.properties = PROPERTY_UNKNOWN;
         return dest;
     }
 
@@ -1905,7 +1905,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      */
     public Matrix4x3f zero() {
         MemUtil.INSTANCE.zero(this);
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -2620,7 +2620,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         m30 = tx;
         m31 = ty;
         m32 = tz;
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -2743,7 +2743,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         m32 = nm02 * m.m30 + nm12 * m.m31 + nm22 * m.m32 + tz;
         this.m30 = m30;
         this.m31 = m31;
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -3017,7 +3017,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         m30 = nm00 * mat.m30() + nm10 * mat.m31() + nm20 * mat.m32() + tx;
         m31 = nm01 * mat.m30() + nm11 * mat.m31() + nm21 * mat.m32() + ty;
         m32 = nm02 * mat.m30() + nm12 * mat.m31() + nm22 * mat.m32() + tz;
-        this.properties = 0;
+        this.properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -3109,7 +3109,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         } else {
             set3x3Matrix3fc(mat);
         }
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
     private void set3x3Matrix3fc(Matrix3fc mat) {
@@ -5208,7 +5208,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         m30 = (right + left) / (left - right);
         m31 = (top + bottom) / (bottom - top);
         m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -5277,7 +5277,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         m30 = (right + left) / (left - right);
         m31 = (top + bottom) / (bottom - top);
         m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -5670,7 +5670,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         m11 = 2.0f / height;
         m22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
         m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -5734,7 +5734,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         m11 = 2.0f / height;
         m22 = (zZeroToOne ? 1.0f : 2.0f) / (zFar - zNear);
         m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -5978,7 +5978,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         m22 = -1.0f;
         m30 = -(right + left) / (right - left);
         m31 = -(top + bottom) / (top - bottom);
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -6013,7 +6013,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         m22 = 1.0f;
         m30 = -(right + left) / (right - left);
         m31 = -(top + bottom) / (top - bottom);
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -7621,7 +7621,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         default:
             throw new IndexOutOfBoundsException();
         }
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -7688,7 +7688,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         default:
             throw new IndexOutOfBoundsException();
         }
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -8454,7 +8454,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         dest.m10 = m10 * sy;
         dest.m11 = m11 * sy;
         dest.m12 = m12 * sy;
-        dest.properties = 0;
+        dest.properties = PROPERTY_UNKNOWN;
         return dest;
     }
 
@@ -9098,7 +9098,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         this.m20 = m00 * a + m10 * b + m20;
         this.m21 = m01 * a + m11 * b + m21;
         this.m22 = m02 * a + m12 * b + m22;
-        this.properties = 0;
+        this.properties = PROPERTY_UNKNOWN;
         return this;
     }
 
@@ -9145,7 +9145,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties = 0;
+        dest.properties = PROPERTY_UNKNOWN;
         return dest;
     }
 

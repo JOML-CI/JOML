@@ -243,7 +243,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
      * @return this
      */
     public Matrix4d determineProperties() {
-        int properties = 0;
+        int properties = PROPERTY_UNKNOWN;
         if (m03 == 0.0 && m13 == 0.0) {
             if (m23 == 0.0 && m33 == 1.0) {
                 properties |= PROPERTY_AFFINE;
@@ -371,7 +371,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
     public Matrix4d m03(double m03) {
         this.m03 = m03;
         if (m03 != 0.0)
-            properties = 0;
+            properties = PROPERTY_UNKNOWN;
         return this;
     }
     /**
@@ -426,7 +426,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
     public Matrix4d m13(double m13) {
         this.m13 = m13;
         if (m03 != 0.0)
-            properties = 0;
+            properties = PROPERTY_UNKNOWN;
         return this;
     }
     /**
@@ -15434,7 +15434,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             nm10, nm11, 0, m13,
               0,   0, 1,   0,
             nm30, nm31, 0, m33);
-        properties = 0;
+        properties = PROPERTY_UNKNOWN;
         return this;
     }
 
