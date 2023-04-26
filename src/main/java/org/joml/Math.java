@@ -49,9 +49,9 @@ public class Math {
      * from the same site.
      */
     public static final double PI = java.lang.Math.PI;
-    public static final double PI2 = PI * 2.0;
+    public static final double PI_TIMES_2 = PI * 2.0;
     public static final float PI_f = (float) java.lang.Math.PI;
-    public static final float PI2_f = PI_f * 2.0f;
+    public static final float PI_TIMES_2_f = PI_f * 2.0f;
     public static final double PI_OVER_2 = PI * 0.5;
     public static final float PI_OVER_2_f = (float) (PI * 0.5);
     public static final double PI_OVER_4 = PI * 0.25;
@@ -60,8 +60,8 @@ public class Math {
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
     private static final int lookupTableSizeWithMargin = lookupTableSize + 1;
-    private static final float pi2OverLookupSize = PI2_f / lookupTableSize;
-    private static final float lookupSizeOverPi2 = lookupTableSize / PI2_f;
+    private static final float pi2OverLookupSize = PI_TIMES_2_f / lookupTableSize;
+    private static final float lookupSizeOverPi2 = lookupTableSize / PI_TIMES_2_f;
     private static final float sinTable[];
     static {
         if (Options.FASTMATH && Options.SIN_LOOKUP) {
@@ -238,9 +238,9 @@ public class Math {
         // sin(x)^2 + cos(x)^2 = 1
         float cos = sqrt(1.0f - sin * sin);
         float a = angle + PI_OVER_2_f;
-        float b = a - (int)(a / PI2_f) * PI2_f;
+        float b = a - (int)(a / PI_TIMES_2_f) * PI_TIMES_2_f;
         if (b < 0.0)
-            b = PI2_f + b;
+            b = PI_TIMES_2_f + b;
         if (b >= PI_f)
             return -cos;
         return cos;
@@ -251,9 +251,9 @@ public class Math {
         // sin(x)^2 + cos(x)^2 = 1
         double cos = sqrt(1.0 - sin * sin);
         double a = angle + PI_OVER_2;
-        double b = a - (int)(a / PI2) * PI2;
+        double b = a - (int)(a / PI_TIMES_2) * PI_TIMES_2;
         if (b < 0.0)
-            b = PI2 + b;
+            b = PI_TIMES_2 + b;
         if (b >= PI)
             return -cos;
         return cos;
