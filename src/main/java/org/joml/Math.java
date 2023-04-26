@@ -49,13 +49,13 @@ public class Math {
      * from the same site.
      */
     public static final double PI = java.lang.Math.PI;
-    static final double PI2 = PI * 2.0;
-    static final float PI_f = (float) java.lang.Math.PI;
-    static final float PI2_f = PI_f * 2.0f;
-    static final double PIHalf = PI * 0.5;
-    static final float PIHalf_f = (float) (PI * 0.5);
-    static final double PI_4 = PI * 0.25;
-    static final double PI_INV = 1.0 / PI;
+    public static final double PI2 = PI * 2.0;
+    public static final float PI_f = (float) java.lang.Math.PI;
+    public static final float PI2_f = PI_f * 2.0f;
+    public static final double PIHalf = PI * 0.5;
+    public static final float PIHalf_f = (float) (PI * 0.5);
+    public static final double PI_4 = PI * 0.25;
+    public static final double PI_INV = 1.0 / PI;
     private static final int lookupBits = Options.SIN_LOOKUP_BITS;
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
