@@ -49,19 +49,21 @@ public class Math {
      * from the same site.
      */
     public static final double PI = java.lang.Math.PI;
-    static final double PI2 = PI * 2.0;
-    static final float PI_f = (float) java.lang.Math.PI;
-    static final float PI2_f = PI_f * 2.0f;
-    static final double PIHalf = PI * 0.5;
-    static final float PIHalf_f = (float) (PI * 0.5);
-    static final double PI_4 = PI * 0.25;
-    static final double PI_INV = 1.0 / PI;
+    public static final double PI_TIMES_2 = PI * 2.0;
+    public static final float PI_f = (float) java.lang.Math.PI;
+    public static final float PI_TIMES_2_f = PI_f * 2.0f;
+    public static final double PI_OVER_2 = PI * 0.5;
+    public static final float PI_OVER_2_f = (float) (PI * 0.5);
+    public static final double PI_OVER_4 = PI * 0.25;
+    public static final float PI_OVER_4_f = (float) (PI * 0.25);
+    public static final double ONE_OVER_PI = 1.0 / PI;
+    public static final float ONE_OVER_PI_f = (float) (1.0 / PI);
     private static final int lookupBits = Options.SIN_LOOKUP_BITS;
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
     private static final int lookupTableSizeWithMargin = lookupTableSize + 1;
-    private static final float pi2OverLookupSize = PI2_f / lookupTableSize;
-    private static final float lookupSizeOverPi2 = lookupTableSize / PI2_f;
+    private static final float pi2OverLookupSize = PI_TIMES_2_f / lookupTableSize;
+    private static final float lookupSizeOverPi2 = lookupTableSize / PI_TIMES_2_f;
     private static final float sinTable[];
     static {
         if (Options.FASTMATH && Options.SIN_LOOKUP) {
@@ -87,7 +89,7 @@ public class Math {
      * @author theagentd
      */
     static double sin_theagentd_arith(double x){
-        double xi = floor((x + PI_4) * PI_INV);
+        double xi = floor((x + PI_OVER_4) * ONE_OVER_PI);
         double x_ = x - xi * PI;
         double sign = ((int)xi & 1) * -2 + 1;
         double x2 = x_ * x_;
@@ -107,7 +109,7 @@ public class Math {
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361718/view.html#msg361718">http://www.java-gaming.org/</a>
      */
     static double sin_roquen_arith(double x) {
-        double xi = Math.floor((x + PI_4) * PI_INV);
+        double xi = Math.floor((x + PI_OVER_4) * ONE_OVER_PI);
         double x_ = x - xi * PI;
         double sign = ((int)xi & 1) * -2 + 1;
         double x2 = x_ * x_;
@@ -146,7 +148,7 @@ public class Math {
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
      */
     static double sin_roquen_9(double v) {
-      double i  = java.lang.Math.rint(v*PI_INV);
+      double i  = java.lang.Math.rint(v* ONE_OVER_PI);
       double x  = v - i * Math.PI;
       double qs = 1-2*((int)i & 1);
       double x2 = x*x;
@@ -172,7 +174,7 @@ public class Math {
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
      */
     static double sin_roquen_newk(double v) {
-      double i  = java.lang.Math.rint(v*PI_INV);
+      double i  = java.lang.Math.rint(v* ONE_OVER_PI);
       double x  = v - i * Math.PI;
       double qs = 1-2*((int)i & 1);
       double x2 = x*x;
@@ -220,40 +222,40 @@ public class Math {
 
     public static float cos(float rad) {
         if (Options.FASTMATH)
-            return sin(rad + PIHalf_f);
+            return sin(rad + PI_OVER_2_f);
         return (float) java.lang.Math.cos(rad);
     }
     public static double cos(double rad) {
         if (Options.FASTMATH)
-            return sin(rad + PIHalf);
+            return sin(rad + PI_OVER_2);
         return java.lang.Math.cos(rad);
     }
 
     public static float cosFromSin(float sin, float angle) {
         if (Options.FASTMATH)
-            return sin(angle + PIHalf_f);
+            return sin(angle + PI_OVER_2_f);
         return cosFromSinInternal(sin, angle);
     }
     private static float cosFromSinInternal(float sin, float angle) {
         // sin(x)^2 + cos(x)^2 = 1
         float cos = sqrt(1.0f - sin * sin);
-        float a = angle + PIHalf_f;
-        float b = a - (int)(a / PI2_f) * PI2_f;
+        float a = angle + PI_OVER_2_f;
+        float b = a - (int)(a / PI_TIMES_2_f) * PI_TIMES_2_f;
         if (b < 0.0)
-            b = PI2_f + b;
+            b = PI_TIMES_2_f + b;
         if (b >= PI_f)
             return -cos;
         return cos;
     }
     public static double cosFromSin(double sin, double angle) {
         if (Options.FASTMATH)
-            return sin(angle + PIHalf);
+            return sin(angle + PI_OVER_2);
         // sin(x)^2 + cos(x)^2 = 1
         double cos = sqrt(1.0 - sin * sin);
-        double a = angle + PIHalf;
-        double b = a - (int)(a / PI2) * PI2;
+        double a = angle + PI_OVER_2;
+        double b = a - (int)(a / PI_TIMES_2) * PI_TIMES_2;
         if (b < 0.0)
-            b = PI2 + b;
+            b = PI_TIMES_2 + b;
         if (b >= PI)
             return -cos;
         return cos;
@@ -337,10 +339,10 @@ public class Math {
         return java.lang.Math.asin(r);
     }
     public static float safeAsin(float r) {
-        return r <= -1.0f ? -PIHalf_f : r >= 1.0f ? PIHalf_f : asin(r);
+        return r <= -1.0f ? -PI_OVER_2_f : r >= 1.0f ? PI_OVER_2_f : asin(r);
     }
     public static double safeAsin(double r) {
-        return r <= -1.0 ? -PIHalf : r >= 1.0 ? PIHalf : asin(r);
+        return r <= -1.0 ? -PI_OVER_2 : r >= 1.0 ? PI_OVER_2 : asin(r);
     }
 
     public static float abs(float r) {
