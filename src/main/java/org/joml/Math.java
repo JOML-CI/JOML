@@ -55,7 +55,9 @@ public class Math {
     public static final double PI_OVER_2 = PI * 0.5;
     public static final float PI_OVER_2_f = (float) (PI * 0.5);
     public static final double PI_OVER_4 = PI * 0.25;
+    public static final float PI_OVER_4_f = (float) (PI * 0.25);
     public static final double ONE_OVER_PI = 1.0 / PI;
+    public static final float ONE_OVER_PI_f = (float) (1.0 / PI);
     private static final int lookupBits = Options.SIN_LOOKUP_BITS;
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
