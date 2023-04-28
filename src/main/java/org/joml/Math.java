@@ -55,7 +55,7 @@ public class Math {
     public static final double PI_OVER_2 = PI * 0.5;
     public static final float PI_OVER_2_f = (float) (PI * 0.5);
     public static final double PI_OVER_4 = PI * 0.25;
-    public static final double PI_INV = 1.0 / PI;
+    public static final double ONE_OVER_PI = 1.0 / PI;
     private static final int lookupBits = Options.SIN_LOOKUP_BITS;
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
@@ -87,7 +87,7 @@ public class Math {
      * @author theagentd
      */
     static double sin_theagentd_arith(double x){
-        double xi = floor((x + PI_OVER_4) * PI_INV);
+        double xi = floor((x + PI_OVER_4) * ONE_OVER_PI);
         double x_ = x - xi * PI;
         double sign = ((int)xi & 1) * -2 + 1;
         double x2 = x_ * x_;
@@ -107,7 +107,7 @@ public class Math {
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361718/view.html#msg361718">http://www.java-gaming.org/</a>
      */
     static double sin_roquen_arith(double x) {
-        double xi = Math.floor((x + PI_OVER_4) * PI_INV);
+        double xi = Math.floor((x + PI_OVER_4) * ONE_OVER_PI);
         double x_ = x - xi * PI;
         double sign = ((int)xi & 1) * -2 + 1;
         double x2 = x_ * x_;
@@ -146,7 +146,7 @@ public class Math {
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
      */
     static double sin_roquen_9(double v) {
-      double i  = java.lang.Math.rint(v*PI_INV);
+      double i  = java.lang.Math.rint(v* ONE_OVER_PI);
       double x  = v - i * Math.PI;
       double qs = 1-2*((int)i & 1);
       double x2 = x*x;
@@ -172,7 +172,7 @@ public class Math {
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
      */
     static double sin_roquen_newk(double v) {
-      double i  = java.lang.Math.rint(v*PI_INV);
+      double i  = java.lang.Math.rint(v* ONE_OVER_PI);
       double x  = v - i * Math.PI;
       double qs = 1-2*((int)i & 1);
       double x2 = x*x;
