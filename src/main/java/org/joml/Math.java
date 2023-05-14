@@ -313,13 +313,13 @@ public class Math {
      */
     private static double fastAtan2(double y, double x) {
         double ax = x >= 0.0 ? x : -x, ay = y >= 0.0 ? y : -y;
-        double a = min(ax, ay) / max(ax, ay);
+        double a = ay > ax ? ax / ay : ay / ax;
         double s = a * a;
-        double r = ((-0.0464964749 * s + 0.15931422) * s - 0.327622764) * s * a + a;
+        double r = fma(fma(fma(-0.0464964749, s, 0.15931422), s, -0.327622764) * s, a, a);
         if (ay > ax)
-            r = 1.57079637 - r;
+            r = PI_OVER_2 - r;
         if (x < 0.0)
-            r = 3.14159274 - r;
+            r = PI - r;
         return y >= 0 ? r : -r;
     }
 
