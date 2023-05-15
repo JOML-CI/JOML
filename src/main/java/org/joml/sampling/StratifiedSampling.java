@@ -56,10 +56,11 @@ public class StratifiedSampling {
      *            will be called for each generated sample position
      */
     public void generateRandom(int n, Callback2d callback) {
+        float invN = 1.0f / n;
         for (int y = 0; y < n; y++) {
             for (int x = 0; x < n; x++) {
-                float sampleX = (rnd.nextFloat() / n + (float) x / n) * 2.0f - 1.0f;
-                float sampleY = (rnd.nextFloat() / n + (float) y / n) * 2.0f - 1.0f;
+                float sampleX = (rnd.nextFloat() * invN + (float) x * invN) * 2.0f - 1.0f;
+                float sampleY = (rnd.nextFloat() * invN + (float) y * invN) * 2.0f - 1.0f;
                 callback.onNewSample(sampleX, sampleY);
             }
         }
@@ -81,10 +82,11 @@ public class StratifiedSampling {
     public void generateCentered(int n, float centering, Callback2d callback) {
         float start = centering * 0.5f;
         float end = 1.0f - centering;
+        float invN = 1.0f / n;
         for (int y = 0; y < n; y++) {
             for (int x = 0; x < n; x++) {
-                float sampleX = ((start + rnd.nextFloat() * end) / n + (float) x / n) * 2.0f - 1.0f;
-                float sampleY = ((start + rnd.nextFloat() * end) / n + (float) y / n) * 2.0f - 1.0f;
+                float sampleX = ((start + rnd.nextFloat() * end) * invN + (float) x * invN) * 2.0f - 1.0f;
+                float sampleY = ((start + rnd.nextFloat() * end) * invN + (float) y * invN) * 2.0f - 1.0f;
                 callback.onNewSample(sampleX, sampleY);
             }
         }

@@ -14270,7 +14270,8 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
     public Matrix4d setFromIntrinsic(double alphaX, double alphaY, double gamma, double u0, double v0, int imgWidth, int imgHeight, double near, double far) {
         double l00 = 2.0 / imgWidth;
         double l11 = 2.0 / imgHeight;
-        double l22 = 2.0 / (near - far);
+        double invNearFar = 1.0 / (near - far);
+        double l22 = 2.0 * invNearFar;
         this.m00 = l00 * alphaX;
         this.m01 = 0.0;
         this.m02 = 0.0;
@@ -14281,7 +14282,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
         this.m13 = 0.0;
         this.m20 = l00 * u0 - 1.0;
         this.m21 = l11 * v0 - 1.0;
-        this.m22 = l22 * -(near + far) + (far + near) / (near - far);
+        this.m22 = l22 * -(near + far) + (far + near) * invNearFar;
         this.m23 = -1.0;
         this.m30 = 0.0;
         this.m31 = 0.0;
