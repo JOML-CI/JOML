@@ -1217,7 +1217,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(nm31)
         ._m32(nm32)
         ._m33(nm33)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -1359,7 +1359,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(nm31)
         ._m32(nm32)
         ._m33(nm33)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -1500,7 +1500,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(nm31)
         ._m32(nm32)
         ._m33(nm33)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -1750,7 +1750,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m10(nm10)._m11(nm11)._m12(nm12)._m13(nm13)
             ._m20(nm20)._m21(nm21)._m22(nm22)._m23(nm23)
             ._m30(nm30)._m31(nm31)._m32(nm32)._m33(nm33)
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -1776,7 +1776,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         _m10(lm00 * view.m10())._m11(lm11 * view.m11())._m12(lm22 * view.m12())._m13(lm23 * view.m12()).
         _m20(lm00 * view.m20())._m21(lm11 * view.m21())._m22(lm22 * view.m22())._m23(lm23 * view.m22()).
         _m30(lm00 * view.m30())._m31(lm11 * view.m31())._m32(lm22 * view.m32() + m32())._m33(lm23 * view.m32()).
-        _properties(0);
+        _properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -1989,7 +1989,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m31(Math.fma(other.m31(), otherFactor, m31()))
             ._m32(Math.fma(other.m32(), otherFactor, m32()))
             ._m33(m33())
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -2021,7 +2021,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m31(m31() + other.m31())
             ._m32(m32() + other.m32())
             ._m33(m33() + other.m33())
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -2053,7 +2053,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m31(m31() - subtrahend.m31())
             ._m32(m32() - subtrahend.m32())
             ._m33(m33() - subtrahend.m33())
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -2085,7 +2085,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m31(m31() * other.m31())
             ._m32(m32() * other.m32())
             ._m33(m33() * other.m33())
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -2117,7 +2117,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m31(m31() + other.m31())
             ._m32(m32() + other.m32())
             ._m33(m33())
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -2149,7 +2149,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m31(m31() - subtrahend.m31())
             ._m32(m32() - subtrahend.m32())
             ._m33(m33())
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -2181,7 +2181,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m31(m31() * other.m31())
             ._m32(m32() * other.m32())
             ._m33(m33())
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -2630,7 +2630,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(Math.fma( m00(), j, Math.fma(-m01(), h,  m02() * g)) * det)
         ._m32(Math.fma(-m30(), d, Math.fma( m31(), b, -m32() * a)) * det)
         ._m33(Math.fma( m20(), d, Math.fma(-m21(), b,  m22() * a)) * det)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
     private Matrix4f invertGenericThis(Matrix4f dest) {
         float a = m00() * m11() - m01() * m10();
@@ -2680,7 +2680,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(nm31)
         ._m32(nm32)
         ._m33(nm33)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -2718,7 +2718,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
                  0, m00() * a, 0, 0,
                  0, 0, 0, -m23() * l,
                  0, 0, -m32() * l, m22() * l)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -2860,7 +2860,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(nm31)
         ._m32(nm32)
         ._m33(pm33)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -2912,7 +2912,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(view.m12() * pm32 + vm31 * pm33)
         ._m32(view.m22() * pm32 + vm32 * pm33)
         ._m33(pm33)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     public Matrix4f invertAffine(Matrix4f dest) {
@@ -2987,7 +2987,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(m13())
         ._m32(m23())
         ._m33(m33())
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
     private Matrix4f transposeThisGeneric(Matrix4f dest) {
         float nm10 = m01();
@@ -3009,7 +3009,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m30(nm30)
         ._m31(nm31)
         ._m32(nm32)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -3404,7 +3404,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f zero() {
         MemUtil.INSTANCE.zero(this);
-        return _properties(0);
+        return _properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -8679,7 +8679,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(nm31)
         ._m32(nm32)
         ._m33(nm33)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -9137,7 +9137,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m31(nm31)
         ._m32(nm32)
         ._m33(nm33)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -10732,7 +10732,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m21(nm21)
             ._m22(nm22)
             ._m23(nm23)
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -11036,7 +11036,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m21(nm21)
             ._m22(nm22)
             ._m23(nm23)
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -11216,7 +11216,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         return this
         ._m23(1.0f)
         ._m33(0.0f)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -12632,13 +12632,13 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f setRow(int row, Vector4fc src) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
-            return _m00(src.x())._m10(src.y())._m20(src.z())._m30(src.w())._properties(0);
+            return _m00(src.x())._m10(src.y())._m20(src.z())._m30(src.w())._properties(PROPERTY_UNKNOWN);
         case 1:
-            return _m01(src.x())._m11(src.y())._m21(src.z())._m31(src.w())._properties(0);
+            return _m01(src.x())._m11(src.y())._m21(src.z())._m31(src.w())._properties(PROPERTY_UNKNOWN);
         case 2:
-            return _m02(src.x())._m12(src.y())._m22(src.z())._m32(src.w())._properties(0);
+            return _m02(src.x())._m12(src.y())._m22(src.z())._m32(src.w())._properties(PROPERTY_UNKNOWN);
         case 3:
-            return _m03(src.x())._m13(src.y())._m23(src.z())._m33(src.w())._properties(0);
+            return _m03(src.x())._m13(src.y())._m23(src.z())._m33(src.w())._properties(PROPERTY_UNKNOWN);
         default:
             throw new IndexOutOfBoundsException();
         }
@@ -12675,8 +12675,8 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setColumn(int column, Vector4fc src) throws IndexOutOfBoundsException {
         if (src instanceof Vector4f)
-            return MemUtil.INSTANCE.setColumn((Vector4f) src, column, this)._properties(0);
-        return MemUtil.INSTANCE.setColumn(src, column, this)._properties(0);
+            return MemUtil.INSTANCE.setColumn((Vector4f) src, column, this)._properties(PROPERTY_UNKNOWN);
+        return MemUtil.INSTANCE.setColumn(src, column, this)._properties(PROPERTY_UNKNOWN);
     }
 
     public float get(int column, int row) {
@@ -12695,7 +12695,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f set(int column, int row, float value) {
-        return MemUtil.INSTANCE.set(this, column, row, value);
+        return MemUtil.INSTANCE.set(this, column, row, value)._properties(PROPERTY_UNKNOWN);
     }
 
     public float getRowColumn(int row, int column) {
@@ -12714,7 +12714,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f setRowColumn(int row, int column, float value) {
-        return MemUtil.INSTANCE.set(this, column, row, value);
+        return MemUtil.INSTANCE.set(this, column, row, value)._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -13782,7 +13782,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m11(m11() * sy)
             ._m12(m12() * sy)
             ._m13(m13() * sy)
-            ._properties(0);
+            ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -14174,7 +14174,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             nm10, nm11, 0, m13,
               0,   0, 1,   0,
             nm30, nm31, 0, m33);
-        _properties(0);
+        _properties(PROPERTY_UNKNOWN);
         return this;
     }
 

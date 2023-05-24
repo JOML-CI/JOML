@@ -1019,7 +1019,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         ._m30(m30)
         ._m31(m31)
         ._m32(m32)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
 
     /**
@@ -1053,7 +1053,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         ._m30(Math.fma(other.m30(), otherFactor, m30))
         ._m31(Math.fma(other.m31(), otherFactor, m31))
         ._m32(Math.fma(other.m32(), otherFactor, m32))
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
 
@@ -1461,7 +1461,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         ._m31(nm31)
         ._m32(nm32)
         ._m33(1.0f)
-        ._properties(0);
+        ._properties(PROPERTY_UNKNOWN);
     }
     private Matrix4f invertOrthonormal(Matrix4f dest) {
         float nm30 = -(m00 * m30 + m01 * m31 + m02 * m32);
