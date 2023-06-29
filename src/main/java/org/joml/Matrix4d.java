@@ -6349,7 +6349,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             double tx = m30, ty = m31, tz = m32;
             return dest.rotationXYZ(angleX, angleY, angleZ).setTranslation(tx, ty, tz);
         } else if ((properties & PROPERTY_AFFINE) != 0)
-            return dest.rotateAffineXYZ(angleX, angleY, angleZ);
+            return rotateAffineXYZ(angleX, angleY, angleZ, dest);
         return rotateXYZInternal(angleX, angleY, angleZ, dest);
     }
     private Matrix4d rotateXYZInternal(double angleX, double angleY, double angleZ, Matrix4d dest) {
@@ -6539,7 +6539,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             double tx = m30, ty = m31, tz = m32;
             return dest.rotationZYX(angleZ, angleY, angleX).setTranslation(tx, ty, tz);
         } else if ((properties & PROPERTY_AFFINE) != 0)
-            return dest.rotateAffineZYX(angleZ, angleY, angleX);
+            return rotateAffineZYX(angleZ, angleY, angleX, dest);
         return rotateZYXInternal(angleZ, angleY, angleX, dest);
     }
     private Matrix4d rotateZYXInternal(double angleZ, double angleY, double angleX, Matrix4d dest) {
@@ -6718,7 +6718,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             double tx = m30, ty = m31, tz = m32;
             return dest.rotationYXZ(angleY, angleX, angleZ).setTranslation(tx, ty, tz);
         } else if ((properties & PROPERTY_AFFINE) != 0)
-            return dest.rotateAffineYXZ(angleY, angleX, angleZ);
+            return rotateAffineYXZ(angleY, angleX, angleZ, dest);
         return rotateYXZInternal(angleY, angleX, angleZ, dest);
     }
     private Matrix4d rotateYXZInternal(double angleY, double angleX, double angleZ, Matrix4d dest) {
