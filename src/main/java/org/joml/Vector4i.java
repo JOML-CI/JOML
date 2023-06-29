@@ -129,10 +129,10 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      *          the {@link RoundingMode} to use
      */
     public Vector4i(Vector3fc v, float w, int mode) {
-        x = Math.roundUsing(v.x(), mode);
-        y = Math.roundUsing(v.y(), mode);
-        z = Math.roundUsing(v.z(), mode);
-        w = Math.roundUsing(w, mode);
+        this.x = Math.roundUsing(v.x(), mode);
+        this.y = Math.roundUsing(v.y(), mode);
+        this.z = Math.roundUsing(v.z(), mode);
+        this.w = Math.roundUsing(w, mode);
     }
 
     /**
