@@ -633,10 +633,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i sub(Vector3ic v) {
-        this.x = this.x - v.x();
-        this.y = this.y - v.y();
-        this.z = this.z - v.z();
-        return this;
+        return sub(v, this);
     }
 
     public Vector3i sub(Vector3ic v, Vector3i dest) {
@@ -658,10 +655,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i sub(int x, int y, int z) {
-        this.x = this.x - x;
-        this.y = this.y - y;
-        this.z = this.z - z;
-        return this;
+        return sub(x, y, z, this);
     }
 
     public Vector3i sub(int x, int y, int z, Vector3i dest) {
@@ -679,10 +673,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i add(Vector3ic v) {
-        this.x = this.x + v.x();
-        this.y = this.y + v.y();
-        this.z = this.z + v.z();
-        return this;
+        return add(v, this);
     }
 
     public Vector3i add(Vector3ic v, Vector3i dest) {
@@ -704,10 +695,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i add(int x, int y, int z) {
-        this.x = this.x + x;
-        this.y = this.y + y;
-        this.z = this.z + z;
-        return this;
+        return add(x, y, z, this);
     }
 
     public Vector3i add(int x, int y, int z, Vector3i dest) {
@@ -726,10 +714,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i mul(int scalar) {
-        this.x = x * scalar;
-        this.y = y * scalar;
-        this.z = z * scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     public Vector3i mul(int scalar, Vector3i dest) {
@@ -747,10 +732,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i mul(Vector3ic v) {
-        this.x = this.x * v.x();
-        this.y = this.y * v.y();
-        this.z = this.z * v.z();
-        return this;
+        return mul(v, this);
     }
 
     public Vector3i mul(Vector3ic v, Vector3i dest) {
@@ -772,10 +754,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i mul(int x, int y, int z) {
-        this.x = this.x * x;
-        this.y = this.y * y;
-        this.z = this.z * z;
-        return this;
+        return mul(x, y, z, this);
     }
 
     public Vector3i mul(int x, int y, int z, Vector3i dest) {
@@ -793,11 +772,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i div(float scalar) {
-        float invscalar = 1.0f / scalar;
-        this.x = (int) (x * invscalar);
-        this.y = (int) (y * invscalar);
-        this.z = (int) (z * invscalar);
-        return this;
+        return div(scalar, this);
     }
 
     public Vector3i div(float scalar, Vector3i dest) {
@@ -816,10 +791,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i div(int scalar) {
-        this.x = x / scalar;
-        this.y = y / scalar;
-        this.z = z / scalar;
-        return this;
+        return div(scalar, this);
     }
 
     public Vector3i div(int scalar, Vector3i dest) {
@@ -996,10 +968,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i negate() {
-        this.x = -x;
-        this.y = -y;
-        this.z = -z;
-        return this;
+        return negate(this);
     }
 
     public Vector3i negate(Vector3i dest) {
@@ -1017,10 +986,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i min(Vector3ic v) {
-        this.x = x < v.x() ? x : v.x();
-        this.y = y < v.y() ? y : v.y();
-        this.z = z < v.z() ? z : v.z();
-        return this;
+        return min(v, this);
     }
 
     public Vector3i min(Vector3ic v, Vector3i dest) {
@@ -1038,10 +1004,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i max(Vector3ic v) {
-        this.x = x > v.x() ? x : v.x();
-        this.y = y > v.y() ? y : v.y();
-        this.z = z > v.z() ? z : v.z();
-        return this;
+        return max(v, this);
     }
 
     public Vector3i max(Vector3ic v, Vector3i dest) {
@@ -1081,10 +1044,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return this
      */
     public Vector3i absolute() {
-        this.x = Math.abs(this.x);
-        this.y = Math.abs(this.y);
-        this.z = Math.abs(this.z);
-        return this;
+        return absolute(this);
     }
 
     public Vector3i absolute(Vector3i dest) {

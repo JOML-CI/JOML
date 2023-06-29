@@ -571,10 +571,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f sub(Vector3fc v) {
-        this.x = x - v.x();
-        this.y = y - v.y();
-        this.z = z - v.z();
-        return this;
+        return sub(v, this);
     }
 
     public Vector3f sub(Vector3fc v, Vector3f dest) {
@@ -596,10 +593,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f sub(float x, float y, float z) {
-        this.x = this.x - x;
-        this.y = this.y - y;
-        this.z = this.z - z;
-        return this;
+        return sub(x, y, z, this);
     }
 
     public Vector3f sub(float x, float y, float z, Vector3f dest) {
@@ -617,10 +611,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f add(Vector3fc v) {
-        this.x = this.x + v.x();
-        this.y = this.y + v.y();
-        this.z = this.z + v.z();
-        return this;
+        return add(v, this);
     }
 
     public Vector3f add(Vector3fc v, Vector3f dest) {
@@ -642,10 +633,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f add(float x, float y, float z) {
-        this.x = this.x + x;
-        this.y = this.y + y;
-        this.z = this.z + z;
-        return this;
+        return add(x, y, z, this);
     }
 
     public Vector3f add(float x, float y, float z, Vector3f dest) {
@@ -665,10 +653,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f fma(Vector3fc a, Vector3fc b) {
-        this.x = Math.fma(a.x(), b.x(), x);
-        this.y = Math.fma(a.y(), b.y(), y);
-        this.z = Math.fma(a.z(), b.z(), z);
-        return this;
+        return fma(a, b, this);
     }
 
     /**
@@ -681,10 +666,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f fma(float a, Vector3fc b) {
-        this.x = Math.fma(a, b.x(), x);
-        this.y = Math.fma(a, b.y(), y);
-        this.z = Math.fma(a, b.z(), z);
-        return this;
+        return fma(a, b, this);
     }
 
     public Vector3f fma(Vector3fc a, Vector3fc b, Vector3f dest) {
@@ -712,10 +694,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mulAdd(Vector3fc a, Vector3fc b) {
-        this.x = Math.fma(x, a.x(), b.x());
-        this.y = Math.fma(y, a.y(), b.y());
-        this.z = Math.fma(z, a.z(), b.z());
-        return this;
+        return mulAdd(a, b, this);
     }
 
     /**
@@ -729,10 +708,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mulAdd(float a, Vector3fc b) {
-        this.x = Math.fma(x, a, b.x());
-        this.y = Math.fma(y, a, b.y());
-        this.z = Math.fma(z, a, b.z());
-        return this;
+        return mulAdd(a, b, this);
     }
 
     public Vector3f mulAdd(Vector3fc a, Vector3fc b, Vector3f dest) {
@@ -757,10 +733,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mul(Vector3fc v) {
-        this.x = x * v.x();
-        this.y = y * v.y();
-        this.z = z * v.z();
-        return this;
+        return mul(v, this);
     }
 
     public Vector3f mul(Vector3fc v, Vector3f dest) {
@@ -778,10 +751,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f div(Vector3fc v) {
-        this.x = this.x / v.x();
-        this.y = this.y / v.y();
-        this.z = this.z / v.z();
-        return this;
+        return div(v, this);
     }
 
     public Vector3f div(Vector3fc v, Vector3f dest) {
@@ -810,7 +780,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector3f, perform perspective division.
+     * Multiply the given matrix <code>mat</code> with this Vector3f and perform perspective division.
      * <p>
      * This method uses <code>w=1.0</code> as the fourth vector component.
      * 
@@ -835,11 +805,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mul(Matrix3fc mat) {
-        float lx = x, ly = y, lz = z;
-        this.x = Math.fma(mat.m00(), lx, Math.fma(mat.m10(), ly, mat.m20() * lz));
-        this.y = Math.fma(mat.m01(), lx, Math.fma(mat.m11(), ly, mat.m21() * lz));
-        this.z = Math.fma(mat.m02(), lx, Math.fma(mat.m12(), ly, mat.m22() * lz));
-        return this;
+        return mul(mat, this);
     }
 
     public Vector3f mul(Matrix3fc mat, Vector3f dest) {
@@ -858,11 +824,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mul(Matrix3dc mat) {
-        float lx = x, ly = y, lz = z;
-        this.x = (float) Math.fma(mat.m00(), lx, Math.fma(mat.m10(), ly, mat.m20() * lz));
-        this.y = (float) Math.fma(mat.m01(), lx, Math.fma(mat.m11(), ly, mat.m21() * lz));
-        this.z = (float) Math.fma(mat.m02(), lx, Math.fma(mat.m12(), ly, mat.m22() * lz));
-        return this;
+        return mul(mat, this);
     }
 
     public Vector3f mul(Matrix3dc mat, Vector3f dest) {
@@ -881,11 +843,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mul(Matrix3x2fc mat) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        this.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        this.z = z;
-        return this;
+        return mul(mat, this);
     }
 
     public Vector3f mul(Matrix3x2fc mat, Vector3f dest) {
@@ -904,11 +862,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mul(Matrix3x2dc mat) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = (float) Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        this.y = (float) Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        this.z = z;
-        return this;
+        return mul(mat, this);
     }
 
     public Vector3f mul(Matrix3x2dc mat, Vector3f dest) {
@@ -927,11 +881,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mulTranspose(Matrix3fc mat) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
-        this.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
-        this.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
-        return this;
+        return mulTranspose(mat, this);
     }
 
     public Vector3f mulTranspose(Matrix3fc mat, Vector3f dest) {
@@ -1002,11 +952,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mulTransposePosition(Matrix4fc mat) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03())));
-        this.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13())));
-        this.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23())));
-        return this;
+        return mulTransposePosition(mat, this);
     }
 
     public Vector3f mulTransposePosition(Matrix4fc mat, Vector3f dest) {
@@ -1028,12 +974,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
     public float mulPositionW(Matrix4fc mat) {
-        float x = this.x, y = this.y, z = this.z;
-        float w = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
-        this.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
-        this.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
-        this.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
-        return w;
+        return mulPositionW(mat, this);
     }
 
     public float mulPositionW(Matrix4fc mat, Vector3f dest) {
@@ -1055,11 +996,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mulDirection(Matrix4dc mat) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = (float) Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        this.y = (float) Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        this.z = (float) Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
-        return this;
+        return mulDirection(mat, this);
     }
 
     /**
@@ -1072,11 +1009,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mulDirection(Matrix4fc mat) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        this.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        this.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
-        return this;
+        return mulDirection(mat, this);
     }
 
     /**
@@ -1089,11 +1022,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mulDirection(Matrix4x3fc mat) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        this.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        this.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
-        return this;
+        return mulDirection(mat, this);
     }
 
     public Vector3f mulDirection(Matrix4dc mat, Vector3f dest) {
@@ -1130,11 +1059,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mulTransposeDirection(Matrix4fc mat) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
-        this.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
-        this.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
-        return this;
+        return mulTransposeDirection(mat, this);
     }
 
     public Vector3f mulTransposeDirection(Matrix4fc mat, Vector3f dest) {
@@ -1154,10 +1079,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mul(float scalar) {
-        this.x = this.x * scalar;
-        this.y = this.y * scalar;
-        this.z = this.z * scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     public Vector3f mul(float scalar, Vector3f dest) {
@@ -1179,10 +1101,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f mul(float x, float y, float z) {
-        this.x = this.x * x;
-        this.y = this.y * y;
-        this.z = this.z * z;
-        return this;
+        return mul(x, y, z, this);
     }
 
     public Vector3f mul(float x, float y, float z, Vector3f dest) {
@@ -1201,11 +1120,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f div(float scalar) {
-        float inv = 1.0f / scalar;
-        this.x = this.x * inv;
-        this.y = this.y * inv;
-        this.z = this.z * inv;
-        return this;
+        return div(scalar, this);
     }
 
     public Vector3f div(float scalar, Vector3f dest) {
@@ -1228,10 +1143,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f div(float x, float y, float z) {
-        this.x = this.x / x;
-        this.y = this.y / y;
-        this.z = this.z / z;
-        return this;
+        return div(x, y, z, this);
     }
 
     public Vector3f div(float x, float y, float z, Vector3f dest) {
@@ -1280,13 +1192,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f rotateAxis(float angle, float x, float y, float z) {
-        if (y == 0.0f && z == 0.0f && Math.absEqualsOne(x))
-            return rotateX(x * angle, this);
-        else if (x == 0.0f && z == 0.0f && Math.absEqualsOne(y))
-            return rotateY(y * angle, this);
-        else if (x == 0.0f && y == 0.0f && Math.absEqualsOne(z))
-            return rotateZ(z * angle, this);
-        return rotateAxisInternal(angle, x, y, z, this);
+        return rotateAxis(angle, x, y, z, this);
     }
 
     public Vector3f rotateAxis(float angle, float aX, float aY, float aZ, Vector3f dest) {
@@ -1320,12 +1226,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f rotateX(float angle) {
-        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        float y = this.y * cos - this.z * sin;
-        float z = this.y * sin + this.z * cos;
-        this.y = y;
-        this.z = z;
-        return this;
+        return rotateX(angle, this);
     }
 
     public Vector3f rotateX(float angle, Vector3f dest) {
@@ -1346,12 +1247,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f rotateY(float angle) {
-        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        float x =  this.x * cos + this.z * sin;
-        float z = -this.x * sin + this.z * cos;
-        this.x = x;
-        this.z = z;
-        return this;
+        return rotateY(angle, this);
     }
 
     public Vector3f rotateY(float angle, Vector3f dest) {
@@ -1372,12 +1268,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f rotateZ(float angle) {
-        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        float x = this.x * cos - this.y * sin;
-        float y = this.x * sin + this.y * cos;
-        this.x = x;
-        this.y = y;
-        return this;
+        return rotateZ(angle, this);
     }
 
     public Vector3f rotateZ(float angle, Vector3f dest) {
@@ -1434,11 +1325,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f normalize() {
-        float scalar = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
-        this.x = this.x * scalar;
-        this.y = this.y * scalar;
-        this.z = this.z * scalar;
-        return this;
+        return normalize(this);
     }
 
     public Vector3f normalize(Vector3f dest) {
@@ -1457,11 +1344,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f normalize(float length) {
-        float scalar = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
-        this.x = this.x * scalar;
-        this.y = this.y * scalar;
-        this.z = this.z * scalar;
-        return this;
+        return normalize(length, this);
     }
 
     public Vector3f normalize(float length, Vector3f dest) {
@@ -1480,13 +1363,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f cross(Vector3fc v) {
-        float rx = Math.fma(y, v.z(), -z * v.y());
-        float ry = Math.fma(z, v.x(), -x * v.z());
-        float rz = Math.fma(x, v.y(), -y * v.x());
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return cross(v, this);
     }
 
     /**
@@ -1501,13 +1378,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f cross(float x, float y, float z) {
-        float rx = Math.fma(this.y, z, -this.z * y);
-        float ry = Math.fma(this.z, x, -this.x * z);
-        float rz = Math.fma(this.x, y, -this.y * x);
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return cross(x, y, z, this);
     }
 
     public Vector3f cross(Vector3fc v, Vector3f dest) {
@@ -1646,11 +1517,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f min(Vector3fc v) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = x < v.x() ? x : v.x();
-        this.y = y < v.y() ? y : v.y();
-        this.z = z < v.z() ? z : v.z();
-        return this;
+        return min(v, this);
     }
 
     public Vector3f min(Vector3fc v, Vector3f dest) {
@@ -1669,11 +1536,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f max(Vector3fc v) {
-        float x = this.x, y = this.y, z = this.z;
-        this.x = x > v.x() ? x : v.x();
-        this.y = y > v.y() ? y : v.y();
-        this.z = z > v.z() ? z : v.z();
-        return this;
+        return max(v, this);
     }
 
     public Vector3f max(Vector3fc v, Vector3f dest) {
@@ -1735,10 +1598,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f negate() {
-        this.x = -x;
-        this.y = -y;
-        this.z = -z;
-        return this;
+        return negate(this);
     }
 
     public Vector3f negate(Vector3f dest) {
@@ -1754,10 +1614,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f absolute() {
-        this.x = Math.abs(this.x);
-        this.y = Math.abs(this.y);
-        this.z = Math.abs(this.z);
-        return this;
+        return absolute(this);
     }
 
     public Vector3f absolute(Vector3f dest) {

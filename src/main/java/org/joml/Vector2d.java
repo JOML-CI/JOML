@@ -511,9 +511,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d sub(Vector2dc v) {
-        this.x = x - v.x();
-        this.y = y - v.y();
-        return this;
+        return sub(v, this);
     }
 
     /**
@@ -526,9 +524,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d sub(double x, double y) {
-        this.x = this.x - x;
-        this.y = this.y - y;
-        return this;
+        return sub(x, y, this);
     }
 
     public Vector2d sub(double x, double y, Vector2d dest) {
@@ -545,9 +541,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d sub(Vector2fc v) {
-        this.x = x - v.x();
-        this.y = y - v.y();
-        return this;
+        return sub(v, this);
     }
 
     public Vector2d sub(Vector2dc v, Vector2d dest) {
@@ -570,9 +564,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d mul(double scalar) {
-        this.x = x * scalar;
-        this.y = y * scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     public Vector2d mul(double scalar, Vector2d dest) {
@@ -591,9 +583,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d mul(double x, double y) {
-        this.x = this.x * x;
-        this.y = this.y * y;
-        return this;
+        return mul(x, y, this);
     }
 
     public Vector2d mul(double x, double y, Vector2d dest) {
@@ -610,9 +600,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d mul(Vector2dc v) {
-        this.x = x * v.x();
-        this.y = y * v.y();
-        return this;
+        return mul(v, this);
     }
 
     public Vector2d mul(Vector2dc v, Vector2d dest) {
@@ -629,10 +617,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d div(double scalar) {
-        double inv = 1.0 / scalar;
-        this.x = x * inv;
-        this.y = y * inv;
-        return this;
+        return div(scalar, this);
     }
 
     public Vector2d div(double scalar, Vector2d dest) {
@@ -652,9 +637,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d div(double x, double y) {
-        this.x = this.x / x;
-        this.y = this.y / y;
-        return this;
+        return div(x, y, this);
     }
 
     public Vector2d div(double x, double y, Vector2d dest) {
@@ -671,9 +654,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d div(Vector2dc v) {
-        this.x = x / v.x();
-        this.y = y / v.y();
-        return this;
+        return div(v, this);
     }
 
     /**
@@ -684,9 +665,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d div(Vector2fc v) {
-        this.x = x / v.x();
-        this.y = y / v.y();
-        return this;
+        return div(v, this);
     }
 
     public Vector2d div(Vector2fc v, Vector2d dest) {
@@ -709,11 +688,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d mul(Matrix2fc mat) {
-        double rx = mat.m00() * x + mat.m10() * y;
-        double ry = mat.m01() * x + mat.m11() * y;
-        this.x = rx;
-        this.y = ry;
-        return this;
+        return mul(mat, this);
     }
 
     /**
@@ -724,11 +699,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d mul(Matrix2dc mat) {
-        double rx = mat.m00() * x + mat.m10() * y;
-        double ry = mat.m01() * x + mat.m11() * y;
-        this.x = rx;
-        this.y = ry;
-        return this;
+        return mul(mat, this);
     }
 
     public Vector2d mul(Matrix2dc mat, Vector2d dest) {
@@ -755,11 +726,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d mulTranspose(Matrix2dc mat) {
-        double rx = mat.m00() * x + mat.m01() * y;
-        double ry = mat.m10() * x + mat.m11() * y;
-        this.x = rx;
-        this.y = ry;
-        return this;
+        return mulTranspose(mat, this);
     }
 
     public Vector2d mulTranspose(Matrix2dc mat, Vector2d dest) {
@@ -778,11 +745,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d mulTranspose(Matrix2fc mat) {
-        double rx = mat.m00() * x + mat.m01() * y;
-        double ry = mat.m10() * x + mat.m11() * y;
-        this.x = rx;
-        this.y = ry;
-        return this;
+        return mulTranspose(mat, this);
     }
 
     public Vector2d mulTranspose(Matrix2fc mat, Vector2d dest) {
@@ -803,11 +766,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d mulPosition(Matrix3x2dc mat) {
-        double rx = mat.m00() * x + mat.m10() * y + mat.m20();
-        double ry = mat.m01() * x + mat.m11() * y + mat.m21();
-        this.x = rx;
-        this.y = ry;
-        return this;
+        return mulPosition(mat, this);
     }
 
     public Vector2d mulPosition(Matrix3x2dc mat, Vector2d dest) {
@@ -828,11 +787,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d mulDirection(Matrix3x2dc mat) {
-        double rx = mat.m00() * x + mat.m10() * y;
-        double ry = mat.m01() * x + mat.m11() * y;
-        this.x = rx;
-        this.y = ry;
-        return this;
+        return mulDirection(mat, this);
     }
 
     public Vector2d mulDirection(Matrix3x2dc mat, Vector2d dest) {
@@ -969,10 +924,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d normalize() {
-        double invLength = Math.invsqrt(x * x + y * y);
-        this.x = x * invLength;
-        this.y = y * invLength;
-        return this;
+        return normalize(this);
     }
 
     public Vector2d normalize(Vector2d dest) {
@@ -990,10 +942,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d normalize(double length) {
-        double invLength = Math.invsqrt(x * x + y * y) * length;
-        this.x = x * invLength;
-        this.y = y * invLength;
-        return this;
+        return normalize(length, this);
     }
 
     public Vector2d normalize(double length, Vector2d dest) {
@@ -1011,9 +960,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d add(Vector2dc v) {
-        this.x = x + v.x();
-        this.y = y + v.y();
-        return this;
+        return add(v, this);
     }
 
     /**
@@ -1026,9 +973,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d add(double x, double y) {
-        this.x = this.x + x;
-        this.y = this.y + y;
-        return this;
+        return add(x, y, this);
     }
 
     public Vector2d add(double x, double y, Vector2d dest) {
@@ -1045,9 +990,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d add(Vector2fc v) {
-        this.x = x + v.x();
-        this.y = y + v.y();
-        return this;
+        return add(v, this);
     }
 
     public Vector2d add(Vector2dc v, Vector2d dest) {
@@ -1090,9 +1033,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d negate() {
-        this.x = -x;
-        this.y = -y;
-        return this;
+        return negate(this);
     }
 
     public Vector2d negate(Vector2d dest) {
@@ -1115,9 +1056,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d lerp(Vector2dc other, double t) {
-        this.x = x + (other.x() - x) * t;
-        this.y = y + (other.y() - y) * t;
-        return this;
+        return lerp(other, t, this);
     }
 
     public Vector2d lerp(Vector2dc other, double t, Vector2d dest) {
@@ -1206,9 +1145,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d fma(Vector2dc a, Vector2dc b) {
-        this.x = x + a.x() * b.x();
-        this.y = y + a.y() * b.y();
-        return this;
+        return fma(a, b, this);
     }
 
     /**
@@ -1221,9 +1158,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d fma(double a, Vector2dc b) {
-        this.x = x + a * b.x();
-        this.y = y + a * b.y();
-        return this;
+        return fma(a, b, this);
     }
 
     public Vector2d fma(Vector2dc a, Vector2dc b, Vector2d dest) {
@@ -1246,9 +1181,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d min(Vector2dc v) {
-        this.x = x < v.x() ? x : v.x();
-        this.y = y < v.y() ? y : v.y();
-        return this;
+        return min(v, this);
     }
 
     public Vector2d min(Vector2dc v, Vector2d dest) {
@@ -1265,9 +1198,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d max(Vector2dc v) {
-        this.x = x > v.x() ? x : v.x();
-        this.y = y > v.y() ? y : v.y();
-        return this;
+        return max(v, this);
     }
 
     public Vector2d max(Vector2dc v, Vector2d dest) {
@@ -1300,9 +1231,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d floor() {
-        this.x = Math.floor(x);
-        this.y = Math.floor(y);
-        return this;
+        return floor(this);
     }
 
     public Vector2d floor(Vector2d dest) {
@@ -1319,9 +1248,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d ceil() {
-        this.x = Math.ceil(x);
-        this.y = Math.ceil(y);
-        return this;
+        return ceil(this);
     }
 
     public Vector2d ceil(Vector2d dest) {
@@ -1337,9 +1264,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d round() {
-        this.x = Math.round(x);
-        this.y = Math.round(y);
-        return this;
+        return round(this);
     }
 
     public Vector2d round(Vector2d dest) {
@@ -1358,9 +1283,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d absolute() {
-        this.x = Math.abs(this.x);
-        this.y = Math.abs(this.y);
-        return this;
+        return absolute(this);
     }
 
     public Vector2d absolute(Vector2d dest) {

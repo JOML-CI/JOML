@@ -680,11 +680,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i sub(Vector4ic v) {
-        this.x = this.x - v.x();
-        this.y = this.y - v.y();
-        this.z = this.z - v.z();
-        this.w = this.w - v.w();
-        return this;
+        return sub(v, this);
     }
 
     /**
@@ -701,11 +697,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i sub(int x, int y, int z, int w) {
-        this.x = this.x - x;
-        this.y = this.y - y;
-        this.z = this.z - z;
-        this.w = this.w - w;
-        return this;
+        return sub(x, y, z, w, this);
     }
 
     public Vector4i sub(Vector4ic v, Vector4i dest) {
@@ -732,11 +724,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i add(Vector4ic v) {
-        this.x = this.x + v.x();
-        this.y = this.y + v.y();
-        this.z = this.z + v.z();
-        this.w = this.w + v.w();
-        return this;
+        return add(v, this);
     }
 
     public Vector4i add(Vector4ic v, Vector4i dest) {
@@ -761,11 +749,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i add(int x, int y, int z, int w) {
-        this.x = this.x + x;
-        this.y = this.y + y;
-        this.z = this.z + z;
-        this.w = this.w + w;
-        return this;
+        return add(x, y, z, w, this);
     }
 
     public Vector4i add(int x, int y, int z, int w, Vector4i dest) {
@@ -784,11 +768,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i mul(Vector4ic v) {
-        this.x = x * v.x();
-        this.y = y * v.y();
-        this.z = z * v.z();
-        this.w = w * v.w();
-        return this;
+        return mul(v, this);
     }
 
     public Vector4i mul(Vector4ic v, Vector4i dest) {
@@ -807,11 +787,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i div(Vector4ic v) {
-        this.x = x / v.x();
-        this.y = y / v.y();
-        this.z = z / v.z();
-        this.w = w / v.w();
-        return this;
+        return div(v, this);
     }
 
     public Vector4i div(Vector4ic v, Vector4i dest) {
@@ -831,11 +807,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i mul(int scalar) {
-        this.x = x * scalar;
-        this.y = y * scalar;
-        this.z = z * scalar;
-        this.w = w * scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     public Vector4i mul(int scalar, Vector4i dest) {
@@ -854,12 +826,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i div(float scalar) {
-        float invscalar = 1.0f / scalar;
-        this.x = (int) (x * invscalar);
-        this.y = (int) (y * invscalar);
-        this.z = (int) (z * invscalar);
-        this.w = (int) (w * invscalar);
-        return this;
+        return div(scalar, this);
     }
 
     public Vector4i div(float scalar, Vector4i dest) {
@@ -879,11 +846,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i div(int scalar) {
-        this.x = x / scalar;
-        this.y = y / scalar;
-        this.z = z / scalar;
-        this.w = w / scalar;
-        return this;
+        return div(scalar, this);
     }
 
     public Vector4i div(int scalar, Vector4i dest) {
@@ -931,11 +894,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     public double distance(Vector4ic v) {
-        int dx = this.x - v.x();
-        int dy = this.y - v.y();
-        int dz = this.z - v.z();
-        int dw = this.w - v.w();
-        return Math.sqrt(Math.fma(dx, dx, Math.fma(dy, dy, Math.fma(dz, dz, dw * dw))));
+        return distance(v.x(), v.y(), v.z(), v.w());
     }
 
     public double distance(int x, int y, int z, int w) {
@@ -955,11 +914,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     public long distanceSquared(Vector4ic v) {
-        int dx = this.x - v.x();
-        int dy = this.y - v.y();
-        int dz = this.z - v.z();
-        int dw = this.w - v.w();
-        return dx * dx + dy * dy + dz * dz + dw * dw;
+        return distanceSquared(v.x(), v.y(), v.z(), v.w());
     }
 
     public long distanceSquared(int x, int y, int z, int w) {
@@ -1051,11 +1006,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i negate() {
-        this.x = -x;
-        this.y = -y;
-        this.z = -z;
-        this.w = -w;
-        return this;
+        return negate(this);
     }
 
     public Vector4i negate(Vector4i dest) {
@@ -1110,11 +1061,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i min(Vector4ic v) {
-        this.x = x < v.x() ? x : v.x();
-        this.y = y < v.y() ? y : v.y();
-        this.z = z < v.z() ? z : v.z();
-        this.w = w < v.w() ? w : v.w();
-        return this;
+        return min(v, this);
     }
 
     public Vector4i min(Vector4ic v, Vector4i dest) {
@@ -1133,11 +1080,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i max(Vector4ic v) {
-        this.x = x > v.x() ? x : v.x();
-        this.y = y > v.y() ? y : v.y();
-        this.z = z > v.z() ? z : v.z();
-        this.w = w > v.w() ? w : v.w();
-        return this;
+        return max(v, this);
     }
 
     public Vector4i max(Vector4ic v, Vector4i dest) {
@@ -1154,11 +1097,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return this
      */
     public Vector4i absolute() {
-        this.x = Math.abs(x);
-        this.y = Math.abs(y);
-        this.z = Math.abs(z);
-        this.w = Math.abs(w);
-        return this;
+        return absolute(this);
     }
 
     public Vector4i absolute(Vector4i dest) {

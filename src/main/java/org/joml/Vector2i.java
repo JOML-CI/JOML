@@ -529,9 +529,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i sub(Vector2ic v) {
-        this.x = x - v.x();
-        this.y = y - v.y();
-        return this;
+        return sub(v, this);
     }
 
     public Vector2i sub(Vector2ic v, Vector2i dest) {
@@ -550,9 +548,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i sub(int x, int y) {
-        this.x = this.x - x;
-        this.y = this.y - y;
-        return this;
+        return sub(x, y, this);
     }
 
     public Vector2i sub(int x, int y, Vector2i dest) {
@@ -692,9 +688,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i add(int x, int y) {
-        this.x = this.x + x;
-        this.y = this.y + y;
-        return this;
+        return add(x, y, this);
     }
 
     public Vector2i add(int x, int y, Vector2i dest) {
@@ -712,9 +706,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i mul(int scalar) {
-        this.x = x * scalar;
-        this.y = y * scalar;
-        return this;
+        return mul(scalar, this);
     }
 
     public Vector2i mul(int scalar, Vector2i dest) {
@@ -731,9 +723,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i mul(Vector2ic v) {
-        this.x = x * v.x();
-        this.y = y * v.y();
-        return this;
+        return mul(v, this);
     }
 
     public Vector2i mul(Vector2ic v, Vector2i dest) {
@@ -752,9 +742,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i mul(int x, int y) {
-        this.x = this.x * x;
-        this.y = this.y * y;
-        return this;
+        return mul(x, y, this);
     }
 
     public Vector2i mul(int x, int y, Vector2i dest) {
@@ -771,10 +759,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i div(float scalar) {
-        float invscalar = 1.0f / scalar;
-        this.x = (int) (x * invscalar);
-        this.y = (int) (y * invscalar);
-        return this;
+        return div(scalar, this);
     }
 
     public Vector2i div(float scalar, Vector2i dest) {
@@ -792,9 +777,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return a vector holding the result
      */
     public Vector2i div(int scalar) {
-        this.x = x / scalar;
-        this.y = y / scalar;
-        return this;
+        return div(scalar, this);
     }
 
     public Vector2i div(int scalar, Vector2i dest) {
@@ -830,9 +813,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i negate() {
-        this.x = -x;
-        this.y = -y;
-        return this;
+        return negate(this);
     }
 
     public Vector2i negate(Vector2i dest) {
@@ -849,9 +830,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i min(Vector2ic v) {
-        this.x = x < v.x() ? x : v.x();
-        this.y = y < v.y() ? y : v.y();
-        return this;
+        return min(v, this);
     }
 
     public Vector2i min(Vector2ic v, Vector2i dest) {
@@ -868,9 +847,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i max(Vector2ic v) {
-        this.x = x > v.x() ? x : v.x();
-        this.y = y > v.y() ? y : v.y();
-        return this;
+        return max(v, this);
     }
 
     public Vector2i max(Vector2ic v, Vector2i dest) {
@@ -901,9 +878,7 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
      * @return this
      */
     public Vector2i absolute() {
-        this.x = Math.abs(this.x);
-        this.y = Math.abs(this.y);
-        return this;
+        return absolute(this);
     }
 
     public Vector2i absolute(Vector2i dest) {

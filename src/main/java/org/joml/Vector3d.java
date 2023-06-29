@@ -609,10 +609,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d sub(Vector3dc v) {
-        this.x = x - v.x();
-        this.y = y - v.y();
-        this.z = z - v.z();
-        return this;
+        return sub(v, this);
     }
 
     public Vector3d sub(Vector3dc v, Vector3d dest) {
@@ -630,10 +627,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d sub(Vector3fc v) {
-        this.x = x - v.x();
-        this.y = y - v.y();
-        this.z = z - v.z();
-        return this;
+        return sub(v, this);
     }
 
     public Vector3d sub(Vector3fc v, Vector3d dest) {
@@ -655,10 +649,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d sub(double x, double y, double z) {
-        this.x = this.x - x;
-        this.y = this.y - y;
-        this.z = this.z - z;
-        return this;
+        return sub(x, y, z, this);
     }
 
     public Vector3d sub(double x, double y, double z, Vector3d dest) {
@@ -676,10 +667,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d add(Vector3dc v) {
-        this.x = x + v.x();
-        this.y = y + v.y();
-        this.z = z + v.z();
-        return this;
+        return add(v, this);
     }
 
     public Vector3d add(Vector3dc v, Vector3d dest) {
@@ -697,10 +685,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d add(Vector3fc v) {
-        this.x = x + v.x();
-        this.y = y + v.y();
-        this.z = z + v.z();
-        return this;
+        return add(v, this);
     }
 
     public Vector3d add(Vector3fc v, Vector3d dest) {
@@ -722,10 +707,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d add(double x, double y, double z) {
-        this.x = this.x + x;
-        this.y = this.y + y;
-        this.z = this.z + z;
-        return this;
+        return add(x, y, z, this);
     }
 
     public Vector3d add(double x, double y, double z, Vector3d dest) {
@@ -745,10 +727,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d fma(Vector3dc a, Vector3dc b) {
-        this.x = Math.fma(a.x(), b.x(), x);
-        this.y = Math.fma(a.y(), b.y(), y);
-        this.z = Math.fma(a.z(), b.z(), z);
-        return this;
+        return fma(a, b, this);
     }
 
     /**
@@ -761,10 +740,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d fma(double a, Vector3dc b) {
-        this.x = Math.fma(a, b.x(), x);
-        this.y = Math.fma(a, b.y(), y);
-        this.z = Math.fma(a, b.z(), z);
-        return this;
+        return fma(a, b, this);
     }
 
     /**
@@ -777,10 +753,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d fma(Vector3fc a, Vector3fc b) {
-        this.x = Math.fma(a.x(), b.x(), x);
-        this.y = Math.fma(a.y(), b.y(), y);
-        this.z = Math.fma(a.z(), b.z(), z);
-        return this;
+        return fma(a, b, this);
     }
 
     public Vector3d fma(Vector3fc a, Vector3fc b, Vector3d dest) {
@@ -800,10 +773,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d fma(double a, Vector3fc b) {
-        this.x = Math.fma(a, b.x(), x);
-        this.y = Math.fma(a, b.y(), y);
-        this.z = Math.fma(a, b.z(), z);
-        return this;
+        return fma(a, b, this);
     }
 
     public Vector3d fma(Vector3dc a, Vector3dc b, Vector3d dest) {
@@ -845,10 +815,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulAdd(Vector3dc a, Vector3dc b) {
-        this.x = Math.fma(x, a.x(), b.x());
-        this.y = Math.fma(y, a.y(), b.y());
-        this.z = Math.fma(z, a.z(), b.z());
-        return this;
+        return mulAdd(a, b, this);
     }
 
     /**
@@ -862,10 +829,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulAdd(double a, Vector3dc b) {
-        this.x = Math.fma(x, a, b.x());
-        this.y = Math.fma(y, a, b.y());
-        this.z = Math.fma(z, a, b.z());
-        return this;
+        return mulAdd(a, b, this);
     }
 
     public Vector3d mulAdd(Vector3dc a, Vector3dc b, Vector3d dest) {
@@ -897,10 +861,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mul(Vector3dc v) {
-        this.x = x * v.x();
-        this.y = y * v.y();
-        this.z = z * v.z();
-        return this;
+        return mul(v, this);
     }
 
     /**
@@ -911,10 +872,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mul(Vector3fc v) {
-        this.x = x * v.x();
-        this.y = y * v.y();
-        this.z = z * v.z();
-        return this;
+        return mul(v, this);
     }
 
     public Vector3d mul(Vector3fc v, Vector3d dest) {
@@ -939,10 +897,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d div(Vector3dc v) {
-        this.x = x / v.x();
-        this.y = y / v.y();
-        this.z = z / v.z();
-        return this;
+        return div(v, this);
     }
 
     /**
@@ -953,10 +908,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d div(Vector3fc v) {
-        this.x = x / v.x();
-        this.y = y / v.y();
-        this.z = z / v.z();
-        return this;
+        return div(v, this);
     }
 
     public Vector3d div(Vector3fc v, Vector3d dest) {
@@ -1054,13 +1006,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mul(Matrix3fc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mul(mat, this);
     }
 
     /**
@@ -1071,13 +1017,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mul(Matrix3dc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mul(mat, this);
     }
 
     public Vector3d mul(Matrix3dc mat, Vector3d dest) {
@@ -1119,11 +1059,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mul(Matrix3x2dc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        this.x = rx;
-        this.y = ry;
-        return this;
+        return mul(mat, this);
     }
 
     public Vector3d mul(Matrix3x2dc mat, Vector3d dest) {
@@ -1144,11 +1080,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mul(Matrix3x2fc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        this.x = rx;
-        this.y = ry;
-        return this;
+        return mul(mat, this);
     }
 
     public Vector3d mul(Matrix3x2fc mat, Vector3d dest) {
@@ -1168,13 +1100,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulTranspose(Matrix3dc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
-        double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
-        double rz = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulTranspose(mat, this);
     }
 
     public Vector3d mulTranspose(Matrix3dc mat, Vector3d dest) {
@@ -1195,13 +1121,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulTranspose(Matrix3fc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
-        double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
-        double rz = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulTranspose(mat, this);
     }
 
     public Vector3d mulTranspose(Matrix3fc mat, Vector3d dest) {
@@ -1218,7 +1138,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
@@ -1340,13 +1260,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulTransposePosition(Matrix4dc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03())));
-        double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13())));
-        double rz = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23())));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulTransposePosition(mat, this);
     }
 
     public Vector3d mulTransposePosition(Matrix4dc mat, Vector3d dest) {
@@ -1369,13 +1283,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulTransposePosition(Matrix4fc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03())));
-        double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13())));
-        double rz = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23())));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulTransposePosition(mat, this);
     }
 
     public Vector3d mulTransposePosition(Matrix4fc mat, Vector3d dest) {
@@ -1399,14 +1307,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
     public double mulPositionW(Matrix4fc mat) {
-        double w = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return w;
+        return mulPositionW(mat, this);
     }
 
     public double mulPositionW(Matrix4fc mat, Vector3d dest) {
@@ -1431,14 +1332,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
     public double mulPositionW(Matrix4dc mat) {
-        double w = Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return w;
+        return mulPositionW(mat, this);
     }
 
     public double mulPositionW(Matrix4dc mat, Vector3d dest) {
@@ -1462,13 +1356,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulDirection(Matrix4fc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulDirection(mat, this);
     }
 
     /**
@@ -1481,13 +1369,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulDirection(Matrix4dc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulDirection(mat, this);
     }
 
     /**
@@ -1500,13 +1382,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulDirection(Matrix4x3dc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulDirection(mat, this);
     }
 
     /**
@@ -1519,13 +1395,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulDirection(Matrix4x3fc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulDirection(mat, this);
     }
 
     public Vector3d mulDirection(Matrix4dc mat, Vector3d dest) {
@@ -1578,13 +1448,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulTransposeDirection(Matrix4dc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
-        double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
-        double rz = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulTransposeDirection(mat, this);
     }
 
     public Vector3d mulTransposeDirection(Matrix4dc mat, Vector3d dest) {
@@ -1607,13 +1471,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulTransposeDirection(Matrix4fc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
-        double ry = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
-        double rz = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return mulTransposeDirection(mat, this);
     }
 
     public Vector3d mulTransposeDirection(Matrix4fc mat, Vector3d dest) {
@@ -1634,10 +1492,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mul(double scalar) {
-        this.x = x * scalar;
-        this.y = y * scalar;
-        this.z = z * scalar;
-        return this;
+        return this.mul(scalar, this);
     }
 
     public Vector3d mul(double scalar, Vector3d dest) {
@@ -1659,10 +1514,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mul(double x, double y, double z) {
-        this.x = this.x * x;
-        this.y = this.y * y;
-        this.z = this.z * z;
-        return this;
+        return this.mul(x, y, z, this);
     }
 
     public Vector3d mul(double x, double y, double z, Vector3d dest) {
@@ -1711,13 +1563,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d rotateAxis(double angle, double x, double y, double z) {
-        if (y == 0.0 && z == 0.0 && Math.absEqualsOne(x))
-            return rotateX(x * angle, this);
-        else if (x == 0.0 && z == 0.0 && Math.absEqualsOne(y))
-            return rotateY(y * angle, this);
-        else if (x == 0.0 && y == 0.0 && Math.absEqualsOne(z))
-            return rotateZ(z * angle, this);
-        return rotateAxisInternal(angle, x, y, z, this);
+        return rotateAxis(angle, x, y, z, this);
     }
 
     public Vector3d rotateAxis(double angle, double aX, double aY, double aZ, Vector3d dest) {
@@ -1754,12 +1600,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d rotateX(double angle) {
-        double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        double y = this.y * cos - this.z * sin;
-        double z = this.y * sin + this.z * cos;
-        this.y = y;
-        this.z = z;
-        return this;
+        return rotateX(angle, this);
     }
 
     public Vector3d rotateX(double angle, Vector3d dest) {
@@ -1780,12 +1621,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d rotateY(double angle) {
-        double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        double x =  this.x * cos + this.z * sin;
-        double z = -this.x * sin + this.z * cos;
-        this.x = x;
-        this.z = z;
-        return this;
+        return rotateY(angle, this);
     }
 
     public Vector3d rotateY(double angle, Vector3d dest) {
@@ -1806,12 +1642,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d rotateZ(double angle) {
-        double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
-        double x = this.x * cos - this.y * sin;
-        double y = this.x * sin + this.y * cos;
-        this.x = x;
-        this.y = y;
-        return this;
+        return rotateZ(angle, this);
     }
 
     public Vector3d rotateZ(double angle, Vector3d dest) {
@@ -1832,11 +1663,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d div(double scalar) {
-        double inv = 1.0 / scalar;
-        this.x = x * inv;
-        this.y = y * inv;
-        this.z = z * inv;
-        return this;
+        return div(scalar, this);
     }
 
     public Vector3d div(double scalar, Vector3d dest) {
@@ -1859,10 +1686,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d div(double x, double y, double z) {
-        this.x = this.x / x;
-        this.y = this.y / y;
-        this.z = this.z / z;
-        return this;
+        return div(x, y, z, this);
     }
 
     public Vector3d div(double x, double y, double z, Vector3d dest) {
@@ -1916,11 +1740,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d normalize() {
-        double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z)));
-        this.x = x * invLength;
-        this.y = y * invLength;
-        this.z = z * invLength;
-        return this;
+        return normalize(this);
     }
 
     public Vector3d normalize(Vector3d dest) {
@@ -1939,11 +1759,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d normalize(double length) {
-        double invLength = Math.invsqrt(Math.fma(x, x, Math.fma(y, y, z * z))) * length;
-        this.x = x * invLength;
-        this.y = y * invLength;
-        this.z = z * invLength;
-        return this;
+        return normalize(length, this);
     }
 
     public Vector3d normalize(double length, Vector3d dest) {
@@ -1962,13 +1778,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d cross(Vector3dc v) {
-        double rx = Math.fma(y, v.z(), -z * v.y());
-        double ry = Math.fma(z, v.x(), -x * v.z());
-        double rz = Math.fma(x, v.y(), -y * v.x());
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return cross(v, this);
     }
 
     /**
@@ -1983,13 +1793,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d cross(double x, double y, double z) {
-        double rx = Math.fma(this.y, z, -this.z * y);
-        double ry = Math.fma(this.z, x, -this.x * z);
-        double rz = Math.fma(this.x, y, -this.y * x);
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        return cross(x, y, z, this);
     }
 
     public Vector3d cross(Vector3dc v, Vector3d dest) {
@@ -2131,10 +1935,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d min(Vector3dc v) {
-        this.x = x < v.x() ? x : v.x();
-        this.y = y < v.y() ? y : v.y();
-        this.z = z < v.z() ? z : v.z();
-        return this;
+        return min(v, this);
     }
 
     public Vector3d min(Vector3dc v, Vector3d dest) {
@@ -2152,10 +1953,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d max(Vector3dc v) {
-        this.x = x > v.x() ? x : v.x();
-        this.y = y > v.y() ? y : v.y();
-        this.z = z > v.z() ? z : v.z();
-        return this;
+        return max(v, this);
     }
 
     public Vector3d max(Vector3dc v, Vector3d dest) {
@@ -2218,10 +2016,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d negate() {
-        this.x = -x;
-        this.y = -y;
-        this.z = -z;
-        return this;
+        return negate(this);
     }
 
     public Vector3d negate(Vector3d dest) {
@@ -2237,10 +2032,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d absolute() {
-        this.x = Math.abs(this.x);
-        this.y = Math.abs(this.y);
-        this.z = Math.abs(this.z);
-        return this;
+        return absolute(this);
     }
 
     public Vector3d absolute(Vector3d dest) {
