@@ -1068,14 +1068,14 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     public Vector2f fma(Vector2fc a, Vector2fc b, Vector2f dest) {
-        dest.x = x + a.x() * b.x();
-        dest.y = y + a.y() * b.y();
+        dest.x = Math.fma(a.x(), b.x(), x);
+        dest.y = Math.fma(a.y(), b.y(), y);
         return dest;
     }
 
     public Vector2f fma(float a, Vector2fc b, Vector2f dest) {
-        dest.x = x + a * b.x();
-        dest.y = y + a * b.y();
+        dest.x = Math.fma(a, b.x(), x);
+        dest.y = Math.fma(a, b.y(), y);
         return dest;
     }
 
