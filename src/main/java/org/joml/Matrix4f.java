@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import org.intellij.lang.annotations.MagicConstant;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -227,7 +229,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      *          bitset of the properties to assume about this matrix
      * @return this
      */
-    public Matrix4f assume(int properties) {
+    public Matrix4f assume(@MagicConstant(intValues = {PROPERTY_UNKNOWN, PROPERTY_IDENTITY, PROPERTY_TRANSLATION, PROPERTY_AFFINE, PROPERTY_ORTHONORMAL, PROPERTY_PERSPECTIVE}) int properties) {
         this._properties(properties);
         return this;
     }
@@ -262,6 +264,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         return this;
     }
 
+    @MagicConstant(intValues = {PROPERTY_UNKNOWN, PROPERTY_IDENTITY, PROPERTY_TRANSLATION, PROPERTY_AFFINE, PROPERTY_ORTHONORMAL, PROPERTY_PERSPECTIVE})
     public int properties() {
         return properties;
     }

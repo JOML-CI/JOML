@@ -31,6 +31,7 @@ configurations {
 dependencies {
     buildhelper 'org.ow2.asm:asm:9.4'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    compileOnly 'org.jetbrains:annotations:24.0.1'
     if (buildProfile == 'default') {
         compileOnly files('libs/jre-stubs.jar')
     }
