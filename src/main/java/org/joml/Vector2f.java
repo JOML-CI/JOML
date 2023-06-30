@@ -97,6 +97,20 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
 
     /**
      * Create a new {@link Vector2f} and initialize its components to the one of the given vector.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     *
+     * @param v
+     *        the {@link Vector2dc} to copy the values from
+     */
+    public Vector2f(Vector2dc v) {
+        x = (float) v.x();
+        y = (float) v.y();
+    }
+
+    /**
+     * Create a new {@link Vector2f} and initialize its components to the one of the given vector.
      * 
      * @param v
      *        the {@link Vector2ic} to copy the values from
