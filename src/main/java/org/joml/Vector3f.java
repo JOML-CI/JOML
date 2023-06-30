@@ -864,10 +864,13 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector3f and perform perspective division.
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
      * <p>
      * This method uses <code>w=1.0</code> as the fourth vector component.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
@@ -883,7 +886,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
 
     /**
      * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix
      * @return this
@@ -902,7 +908,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
 
     /**
      * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix
      * @return this
@@ -921,7 +930,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
 
     /**
      * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix
      * @return this
@@ -940,6 +952,9 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
 
     /**
      * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix
@@ -959,7 +974,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
 
     /**
      * Multiply the transpose of the given matrix with this Vector3f store the result in <code>this</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix
      * @return this
@@ -980,7 +998,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
@@ -1030,7 +1051,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix whose transpose to multiply this vector by
      * @return this
@@ -1052,7 +1076,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * of the resulting 4D vector.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
@@ -1074,7 +1101,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
@@ -1087,7 +1117,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
@@ -1100,7 +1133,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
@@ -1137,7 +1173,10 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix whose transpose to multiply this vector by
      * @return this
@@ -1265,9 +1304,9 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     /**
      * Rotate this vector the specified radians around the given rotation axis.
      * <p>
-     * If your rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>
-     * you should use {@link #rotateX(float) rotateX()}, {@link #rotateY(float) rotateY()} or
-     * {@link #rotateZ(float) rotateZ()}, respectively, instead.
+     * If the rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>.
+     * then {@link #rotateX(float) rotateX()}, {@link #rotateY(float) rotateY()} or
+     * {@link #rotateZ(float) rotateZ()}, respectively, should be used instead.
      *
      * @param angle
      *          the angle in radians

@@ -349,6 +349,9 @@ public interface Vector2fc {
 
     /**
      * Multiply the given matrix with this Vector2f and store the result in <code>dest</code>.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix
@@ -360,6 +363,9 @@ public interface Vector2fc {
 
     /**
      * Multiply the given matrix with this Vector2f and store the result in <code>dest</code>.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix
@@ -371,6 +377,9 @@ public interface Vector2fc {
 
     /**
      * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix
@@ -385,7 +394,10 @@ public interface Vector2fc {
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <code>z</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -399,7 +411,10 @@ public interface Vector2fc {
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <code>z</code> component of <code>this</code> to be <code>0.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest

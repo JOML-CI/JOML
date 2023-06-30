@@ -351,7 +351,10 @@ public interface Vector4dc {
 
     /**
      * Multiply the given matrix mat with this {@link Vector4d} and store the result in <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply <code>this</code> by
      * @param dest
@@ -363,7 +366,10 @@ public interface Vector4dc {
     /**
      * Multiply the given matrix mat with this Vector4d and store the result in
      * <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply the vector with
      * @param dest
@@ -375,7 +381,10 @@ public interface Vector4dc {
     /**
      * Multiply the given matrix mat with this Vector4d and store the result in
      * <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply the vector with
      * @param dest
@@ -386,6 +395,9 @@ public interface Vector4dc {
 
     /**
      * Multiply the given matrix mat with this Vector4d and store the result in <code>dest</code>.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix to multiply <code>this</code> by
@@ -396,7 +408,7 @@ public interface Vector4dc {
     Vector4d mul(Matrix4fc mat, Vector4d dest);
 
     /**
-     * Multiply the transpose of the given matrix <code>mat</code> with this Vector4d and store the result in
+     * Multiply the transpose of the given matrix <code>mat</code> with this vector and store the result in
      * <code>dest</code>.
      * 
      * @param mat
@@ -420,9 +432,14 @@ public interface Vector4dc {
     Vector4d mulAffine(Matrix4dc mat, Vector4d dest);
 
     /**
-     * Multiply the transpose of the given affine matrix <code>mat</code> with this Vector4d and store the result in
+     * Multiply the transpose of the given affine matrix <code>mat</code> with this vector and store the result in
      * <code>dest</code>.
-     * 
+     * <p>
+     * This method only works if the given matrix _only_ represents an affine transformation.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the affine matrix whose transpose to multiply the vector with
      * @param dest
@@ -432,9 +449,12 @@ public interface Vector4dc {
     Vector4d mulAffineTranspose(Matrix4dc mat, Vector4d dest);
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector4d, perform perspective division
+     * Multiply the given matrix <code>mat</code> with this vector, perform perspective division
      * and store the result in <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -444,9 +464,12 @@ public interface Vector4dc {
     Vector4d mulProject(Matrix4dc mat, Vector4d dest);
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector4d, perform perspective division
+     * Multiply the given matrix <code>mat</code> with this vector, perform perspective division
      * and store the <code>(x, y, z)</code> result in <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -524,9 +547,9 @@ public interface Vector4dc {
      * <p>
      * This vector's <code>w</code> component is ignored.
      * <p>
-     * If your rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>
-     * you should use {@link #rotateX(double, Vector4d) rotateX()}, {@link #rotateY(double, Vector4d) rotateY()} or
-     * {@link #rotateZ(double, Vector4d) rotateZ()}, respectively, instead.
+     * If the rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>,
+     * then {@link #rotateX(double, Vector4d) rotateX()}, {@link #rotateY(double, Vector4d) rotateY()} or
+     * {@link #rotateZ(double, Vector4d) rotateZ()}, respectively, should be used instead.
      *
      * @param angle
      *          the angle in radians

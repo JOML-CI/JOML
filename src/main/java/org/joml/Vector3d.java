@@ -1068,7 +1068,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector3d.
+     * Multiply the given matrix <code>mat</code> with this vector.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -1079,7 +1079,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector3d.
+     * Multiply the given matrix <code>mat</code> with this vector.
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -1162,7 +1162,10 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply the transpose of the given matrix with this Vector3d and store the result in <code>this</code>.
+     * Multiply the transpose of the given matrix with this vector and store the result in <code>this</code>.
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      * 
      * @param mat
      *          the matrix
@@ -1183,7 +1186,10 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply the transpose of the given matrix with  this Vector3d and store the result in <code>this</code>.
+     * Multiply the transpose of the given matrix with this vector and store the result in <code>this</code>.
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      * 
      * @param mat
      *          the matrix
@@ -1323,6 +1329,9 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -1346,6 +1355,9 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -1511,6 +1523,9 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -1534,6 +1549,9 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      * 
      * @param mat
      *          the matrix whose transpose to multiply this vector by
@@ -1621,9 +1639,9 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     /**
      * Rotate this vector the specified radians around the given rotation axis.
      * <p>
-     * If your rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>
-     * you should use {@link #rotateX(double) rotateX()}, {@link #rotateY(double) rotateY()} or
-     * {@link #rotateZ(double) rotateZ()}, respectively, instead.
+     * If the rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>,
+     * then {@link #rotateX(double) rotateX()}, {@link #rotateY(double) rotateY()} or
+     * {@link #rotateZ(double) rotateZ()}, respectively, should be used instead.
      * 
      * @param angle
      *          the angle in radians

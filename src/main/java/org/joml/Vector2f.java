@@ -289,6 +289,9 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
 
     /**
      * Set the x and y components to the supplied values.
+     * <p>
+     * Note that due to the <code>this</code> vector storing the components in float-precision,
+     * there is the possibility to lose precision.
      * 
      * @param x
      *        the x component
@@ -990,7 +993,10 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Multiply the transpose of the given matrix with this Vector2f store the result in <code>this</code>.
+     * Multiply the transpose of the given matrix with this vector and store the result in <code>this</code>.
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix

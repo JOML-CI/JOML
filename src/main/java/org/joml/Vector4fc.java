@@ -272,7 +272,10 @@ public interface Vector4fc {
     /**
      * Multiply the given matrix mat with this Vector4f and store the result in
      * <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply the vector with
      * @param dest
@@ -282,9 +285,12 @@ public interface Vector4fc {
     Vector4f mul(Matrix4fc mat, Vector4f dest);
 
     /**
-     * Multiply the transpose of the given matrix <code>mat</code> with this Vector4f and store the result in
+     * Multiply the transpose of the given matrix <code>mat</code> with this vector and store the result in
      * <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix whose transpose to multiply the vector with
      * @param dest
@@ -306,9 +312,12 @@ public interface Vector4fc {
     Vector4f mulAffine(Matrix4fc mat, Vector4f dest);
 
     /**
-     * Multiply the transpose of the given affine matrix <code>mat</code> with this Vector4f and store the result in
+     * Multiply the transpose of the given affine matrix <code>mat</code> with this vector and store the result in
      * <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the affine matrix whose transpose to multiply the vector with
      * @param dest
@@ -320,7 +329,10 @@ public interface Vector4fc {
     /**
      * Multiply the given matrix mat with this Vector4f and store the result in
      * <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply the vector with
      * @param dest
@@ -330,9 +342,12 @@ public interface Vector4fc {
     Vector4f mul(Matrix4x3fc mat, Vector4f dest);
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector4f, perform perspective division
+     * Multiply the given matrix <code>mat</code> with this vector, perform perspective division
      * and store the result in <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -342,9 +357,12 @@ public interface Vector4fc {
     Vector4f mulProject(Matrix4fc mat, Vector4f dest);
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector4f, perform perspective division
+     * Multiply the given matrix <code>mat</code> with this vector, perform perspective division
      * and store the <code>(x, y, z)</code> result in <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -430,9 +448,9 @@ public interface Vector4fc {
      * <p>
      * This vector's <code>w</code> component is ignored.
      * <p>
-     * If your rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>
-     * you should use {@link #rotateX(float, Vector4f) rotateX()}, {@link #rotateY(float, Vector4f) rotateY()} or
-     * {@link #rotateZ(float, Vector4f) rotateZ()}, respectively, instead.
+     * If the rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>,
+     * then {@link #rotateX(float, Vector4f) rotateX()}, {@link #rotateY(float, Vector4f) rotateY()} or
+     * {@link #rotateZ(float, Vector4f) rotateZ()}, respectively, should be used instead.
      *
      * @param angle
      *          the angle in radians

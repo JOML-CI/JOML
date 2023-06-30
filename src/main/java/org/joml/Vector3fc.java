@@ -265,11 +265,14 @@ public interface Vector3fc {
     Vector3f div(Vector3fc v, Vector3f dest);
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector3f, perform perspective division
+     * Multiply the given matrix <code>mat</code> with this vector, perform perspective division
      * and store the result in <code>dest</code>.
      * <p>
      * This method uses <code>w=1.0</code> as the fourth vector component.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -279,11 +282,14 @@ public interface Vector3fc {
     Vector3f mulProject(Matrix4fc mat, Vector3f dest);
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector3f, perform perspective division
+     * Multiply the given matrix <code>mat</code> with this vector, perform perspective division
      * and store the result in <code>dest</code>.
      * <p>
      * This method uses the given <code>w</code> as the fourth vector component.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param w
@@ -296,7 +302,10 @@ public interface Vector3fc {
 
     /**
      * Multiply the given matrix with this Vector3f and store the result in <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix
      * @param dest
@@ -307,7 +316,10 @@ public interface Vector3fc {
 
     /**
      * Multiply the given matrix with this Vector3f and store the result in <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix
      * @param dest
@@ -319,7 +331,10 @@ public interface Vector3fc {
     /**
      * Multiply the given matrix <code>mat</code> with <code>this</code> by assuming a
      * third row in the matrix of <code>(0, 0, 1)</code> and store the result in <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -331,6 +346,9 @@ public interface Vector3fc {
     /**
      * Multiply the given matrix <code>mat</code> with <code>this</code> by assuming a
      * third row in the matrix of <code>(0, 0, 1)</code> and store the result in <code>dest</code>.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix to multiply this vector by
@@ -342,7 +360,10 @@ public interface Vector3fc {
 
     /**
      * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix
      * @param dest
@@ -356,7 +377,10 @@ public interface Vector3fc {
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -370,7 +394,10 @@ public interface Vector3fc {
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -384,7 +411,10 @@ public interface Vector3fc {
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix whose transpose to multiply this vector by
      * @param dest
@@ -398,7 +428,10 @@ public interface Vector3fc {
      * result in <code>dest</code> and return the <i>w</i> component of the resulting 4D vector.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -412,7 +445,10 @@ public interface Vector3fc {
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -426,7 +462,10 @@ public interface Vector3fc {
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -440,7 +479,10 @@ public interface Vector3fc {
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @param dest
@@ -454,7 +496,10 @@ public interface Vector3fc {
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>0.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix whose transpose to multiply this vector by
      * @param dest
@@ -570,9 +615,9 @@ public interface Vector3fc {
      * Rotate this vector the specified radians around the given rotation axis and store the result
      * into <code>dest</code>.
      * <p>
-     * If your rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>
-     * you should use {@link #rotateX(float, Vector3f) rotateX()}, {@link #rotateY(float, Vector3f) rotateY()} or
-     * {@link #rotateZ(float, Vector3f) rotateZ()}, respectively, instead.
+     * If the rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>,
+     * then {@link #rotateX(float, Vector3f) rotateX()}, {@link #rotateY(float, Vector3f) rotateY()} or
+     * {@link #rotateZ(float, Vector3f) rotateZ()}, respectively, should be used instead.
      *
      * @param angle
      *          the angle in radians

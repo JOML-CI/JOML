@@ -951,8 +951,11 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Multiply the transpose of the given matrix <code>mat</code> with this Vector4f and store the result in
+     * Multiply the transpose of the given matrix <code>mat</code> with this vector and store the result in
      * <code>this</code>.
+     * <p>
+     * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      * 
      * @param mat
      *          the matrix whose transpose to multiply the vector with
@@ -1166,9 +1169,9 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
      * <p>
      * This vector's <code>w</code> component is ignored.
      * <p>
-     * If your rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>
-     * you should use {@link #rotateX(float) rotateX()}, {@link #rotateY(float) rotateY()} or
-     * {@link #rotateZ(float) rotateZ()}, respectively, instead.
+     * If the rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>,
+     * then {@link #rotateX(float) rotateX()}, {@link #rotateY(float) rotateY()} or
+     * {@link #rotateZ(float) rotateZ()}, respectively, should be used instead.
      *
      * @param angle
      *          the angle in radians

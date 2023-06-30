@@ -756,7 +756,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector2d.
+     * Multiply the given matrix <code>mat</code> with this vector.
      *
      * @param mat
      *          the matrix to multiply this vector by
@@ -767,7 +767,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector2d.
+     * Multiply the given matrix <code>mat</code> with this vector.
      *
      * @param mat
      *          the matrix to multiply this vector by
