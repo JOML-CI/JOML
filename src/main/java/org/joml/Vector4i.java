@@ -858,7 +858,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     public long lengthSquared() {
-        return x * x + y * y + z * z + w * w;
+        return (long) x * x + (long) y * y + (long) z * z + (long) w * w;
     }
 
     /**
@@ -872,11 +872,11 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return the length squared of the given vector
      */
     public static long lengthSquared(int x, int y, int z, int w) {
-        return x * x + y * y + z * z + w * w;
+        return (long) x * x + (long) y * y + (long) z * z + (long) w * w;
     }
 
     public double length() {
-        return Math.sqrt(x * x + y * y + z * z + w * w);
+        return Math.sqrt((long) x * x + (long) y * y + (long) z * z + (long) w * w);
     }
 
     /**
@@ -890,7 +890,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
      * @return the length squared of the given vector
      */
     public static double length(int x, int y, int z, int w) {
-        return Math.sqrt(x * x + y * y + z * z + w * w);
+        return Math.sqrt((long) x * x + (long) y * y + (long) z * z + (long) w * w);
     }
 
     public double distance(Vector4ic v) {
@@ -922,7 +922,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
         int dy = this.y - y;
         int dz = this.z - z;
         int dw = this.w - w;
-        return dx * dx + dy * dy + dz * dz + dw * dw;
+        return (long) dx * dx + (long) dy * dy + (long) dz * dz + (long) dw * dw;
     }
 
     /**
@@ -951,7 +951,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
         int dy = y1 - y2;
         int dz = z1 - z2;
         int dw = w1 - w2;
-        return Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+        return Math.sqrt((long) dx * dx + (long) dy * dy + (long) dz * dz + (long) dw * dw);
     }
 
     /**
@@ -980,11 +980,11 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
         int dy = y1 - y2;
         int dz = z1 - z2;
         int dw = w1 - w2;
-        return dx * dx + dy * dy + dz * dz + dw * dw;
+        return (long) dx * dx + (long) dy * dy + (long) dz * dz + (long) dw * dw;
     }
 
     public long dot(Vector4ic v) {
-        return x * v.x() + y * v.y() + z * v.z() + w * v.w();
+        return (long) x * v.x() + (long) y * v.y() + (long) z * v.z() + (long) w * v.w();
     }
 
     /**

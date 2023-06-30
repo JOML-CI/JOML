@@ -802,7 +802,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     }
 
     public long lengthSquared() {
-        return x * x + y * y + z * z;
+        return (long) x * x + (long) y * y + (long) z * z;
     }
 
     /**
@@ -815,11 +815,11 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return the length squared of the given vector
      */
     public static long lengthSquared(int x, int y, int z) {
-        return x * x + y * y + z * z;
+        return (long) x * x + (long) y * y + (long) z * z;
     }
 
     public double length() {
-        return Math.sqrt(x * x + y * y + z * z);
+        return Math.sqrt((long) x * x + (long) y * y + (long) z * z);
     }
 
     /**
@@ -832,21 +832,21 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return the length squared of the given vector
      */
     public static double length(int x, int y, int z) {
-        return Math.sqrt(x * x + y * y + z * z);
+        return Math.sqrt((long) x * x + (long) y * y + (long) z * z);
     }
 
     public double distance(Vector3ic v) {
         int dx = this.x - v.x();
         int dy = this.y - v.y();
         int dz = this.z - v.z();
-        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+        return Math.sqrt((long) dx * dx + (long) dy * dy + (long) dz * dz);
     }
 
     public double distance(int x, int y, int z) {
         int dx = this.x - x;
         int dy = this.y - y;
         int dz = this.z - z;
-        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+        return Math.sqrt((long) dx * dx + (long) dy * dy + (long) dz * dz);
     }
 
     public long gridDistance(Vector3ic v) {
@@ -861,14 +861,14 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
         int dx = this.x - v.x();
         int dy = this.y - v.y();
         int dz = this.z - v.z();
-        return dx * dx + dy * dy + dz * dz;
+        return (long) dx * dx + (long) dy * dy + (long) dz * dz;
     }
 
     public long distanceSquared(int x, int y, int z) {
         int dx = this.x - x;
         int dy = this.y - y;
         int dz = this.z - z;
-        return dx * dx + dy * dy + dz * dz;
+        return (long) dx * dx + (long) dy * dy + (long) dz * dz;
     }
 
     /**
@@ -910,9 +910,9 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      * @return the euclidean distance squared
      */
     public static long distanceSquared(int x1, int y1, int z1, int x2, int y2, int z2) {
-        int dx = x1 - x2;
-        int dy = y1 - y2;
-        int dz = z1 - z2;
+        long dx = x1 - x2;
+        long dy = y1 - y2;
+        long dz = z1 - z2;
         return dx * dx + dy * dy + dz * dz;
     }
 
