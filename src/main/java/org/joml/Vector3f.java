@@ -107,6 +107,21 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
 
     /**
      * Create a new {@link Vector3f} with the same values as <code>v</code>.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     *
+     * @param v
+     *        the {@link Vector3dc} to copy the values from
+     */
+    public Vector3f(Vector3dc v) {
+        x = (float) v.x();
+        y = (float) v.y();
+        z = (float) v.z();
+    }
+
+    /**
+     * Create a new {@link Vector3f} with the same values as <code>v</code>.
      * 
      * @param v
      *          the {@link Vector3ic} to copy the values from
