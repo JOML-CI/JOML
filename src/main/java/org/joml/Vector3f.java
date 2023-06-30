@@ -241,6 +241,30 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
         return this.x;
     }
 
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2f xy(Vector2f dest) {
+        return dest.set(x, y);
+    }
+
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2d xy(Vector2d dest) {
+        return dest.set(x, y);
+    }
+
     public float y() {
         return this.y;
     }
