@@ -1310,7 +1310,13 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
 
     /**
      * Rotate this vector the specified radians around the given rotation axis.
-     * 
+     * <p>
+     * This vector's <code>w</code> component is ignored.
+     * <p>
+     * If your rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>
+     * you should use {@link #rotateX(double) rotateX()}, {@link #rotateY(double) rotateY()} or
+     * {@link #rotateZ(double) rotateZ()}, respectively, instead.
+     *
      * @param angle
      *          the angle in radians
      * @param x

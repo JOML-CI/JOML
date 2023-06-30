@@ -521,7 +521,13 @@ public interface Vector4dc {
     /**
      * Rotate this vector the specified radians around the given rotation axis and store the result
      * into <code>dest</code>.
-     * 
+     * <p>
+     * This vector's <code>w</code> component is ignored.
+     * <p>
+     * If your rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>
+     * you should use {@link #rotateX(double, Vector4d) rotateX()}, {@link #rotateY(double, Vector4d) rotateY()} or
+     * {@link #rotateZ(double, Vector4d) rotateZ()}, respectively, instead.
+     *
      * @param angle
      *          the angle in radians
      * @param aX

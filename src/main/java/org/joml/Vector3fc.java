@@ -569,7 +569,11 @@ public interface Vector3fc {
     /**
      * Rotate this vector the specified radians around the given rotation axis and store the result
      * into <code>dest</code>.
-     * 
+     * <p>
+     * If your rotation axis is either <code>(1, 0, 0)</code>, <code>(0, 1, 0)</code> or <code>(0, 0, 1)</code>
+     * you should use {@link #rotateX(float, Vector3f) rotateX()}, {@link #rotateY(float, Vector3f) rotateY()} or
+     * {@link #rotateZ(float, Vector3f) rotateZ()}, respectively, instead.
+     *
      * @param angle
      *          the angle in radians
      * @param aX
