@@ -235,6 +235,51 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
+     * Set this {@link Vector3f} to the <code>(x, y, z)</code> components of <code>v</code>.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector3f set(Vector4dc v) {
+        this.x = (float) v.x();
+        this.y = (float) v.y();
+        this.z = (float) v.z();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector3f} to the <code>(x, y, z)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector3f set(Vector4fc v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector3f} to the <code>(x, y, z)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector3f set(Vector4ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        return this;
+    }
+
+    /**
      * Set the x, y and z components to match the supplied vector.
      * 
      * @param v

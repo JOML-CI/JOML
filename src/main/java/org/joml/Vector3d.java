@@ -274,6 +274,48 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
+     * Set this {@link Vector3d} to the <code>(x, y, z)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector3d set(Vector4dc v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector3d} to the <code>(x, y, z)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector3d set(Vector4fc v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector3d} to the <code>(x, y, z)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector3d set(Vector4ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        return this;
+    }
+
+    /**
      * Set the x, y and z components to match the supplied vector.
      * 
      * @param v
