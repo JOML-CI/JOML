@@ -292,6 +292,42 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
         return this.x;
     }
 
+    /**
+     * Copy the <code>(x, y, z)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector3f xyz(Vector3f dest) {
+        return dest.set(x, y, z);
+    }
+
+    /**
+     * Copy the <code>(x, y, z)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector3d xyz(Vector3d dest) {
+        return dest.set(x, y, z);
+    }
+
+    /**
+     * Copy the <code>(x, y, z)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector3i xyz(Vector3i dest) {
+        return dest.set(x, y, z);
+    }
+
     public int y() {
         return this.y;
     }
