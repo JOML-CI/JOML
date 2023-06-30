@@ -401,6 +401,23 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
+     * Set this {@link Vector4f} to the <code>(x, y, z)</code> components of the given <code>v</code>.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     *
+     * @param v
+     *          the vector whose values will be copied into this
+     * @return this
+     */
+    public Vector4f set(Vector3dc v) {
+        this.x = (float) v.x();
+        this.y = (float) v.y();
+        this.z = (float) v.z();
+        return this;
+    }
+
+    /**
      * Set the first three components of this to the components of
      * <code>v</code> and the last component to <code>w</code>.
      * 
