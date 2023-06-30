@@ -85,6 +85,22 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
 
     /**
      * Create a new {@link Vector4f} with the same values as <code>v</code>.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     *
+     * @param v
+     *        the {@link Vector4dc} to copy the values from
+     */
+    public Vector4f(Vector4dc v) {
+        x = (float) v.x();
+        y = (float) v.y();
+        z = (float) v.z();
+        w = (float) v.w();
+    }
+
+    /**
+     * Create a new {@link Vector4f} with the same values as <code>v</code>.
      * 
      * @param v
      *          the {@link Vector4ic} to copy the values from
