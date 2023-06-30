@@ -107,6 +107,45 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
+     * Create a new {@link Vector2f} and initialize its components using the <code>x</code> and <code>y</code>
+     * components of the provided vector.
+     *
+     * @param v
+     *          the {@link Vector3fc} to copy the <code>x</code> and <code>y</code> components from
+     */
+    public Vector2f(Vector3fc v) {
+        x = v.x();
+        y = v.y();
+    }
+
+    /**
+     * Create a new {@link Vector2f} and initialize its components using the <code>x</code> and <code>y</code>
+     * components of the provided vector.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     *
+     * @param v
+     *          the {@link Vector3dc} to copy the <code>x</code> and <code>y</code> components from
+     */
+    public Vector2f(Vector3dc v) {
+        x = (float) v.x();
+        y = (float) v.y();
+    }
+
+    /**
+     * Create a new {@link Vector2f} and initialize its components using the <code>x</code> and <code>y</code>
+     * components of the provided vector.
+     *
+     * @param v
+     *          the {@link Vector3ic} to copy the <code>x</code> and <code>y</code> components from
+     */
+    public Vector2f(Vector3ic v) {
+        x = v.x();
+        y = v.y();
+    }
+
+    /**
      * Create a new {@link Vector2f} and initialize its two components from the first
      * two elements of the given array.
      * 
@@ -288,6 +327,48 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     public Vector2f set(Vector2dc v) {
         this.x = (float) v.x();
         this.y = (float) v.y();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector2f} to the <code>(x, y)</code> components of <code>v</code>.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector2f set(Vector3dc v) {
+        this.x = (float) v.x();
+        this.y = (float) v.y();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector2f} to the <code>(x, y)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector2f set(Vector3fc v) {
+        this.x = v.x();
+        this.y = v.y();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector2f} to the <code>(x, y)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector2f set(Vector3ic v) {
+        this.x = v.x();
+        this.y = v.y();
         return this;
     }
 

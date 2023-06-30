@@ -118,6 +118,42 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
+     * Create a new {@link Vector2d} and initialize its components using the <code>x</code> and <code>y</code>
+     * components of the provided vector.
+     *
+     * @param v
+     *          the {@link Vector3dc} to copy the <code>x</code> and <code>y</code> components from
+     */
+    public Vector2d(Vector3dc v) {
+        x = v.x();
+        y = v.y();
+    }
+
+    /**
+     * Create a new {@link Vector2d} and initialize its components using the <code>x</code> and <code>y</code>
+     * components of the provided vector.
+     *
+     * @param v
+     *          the {@link Vector3fc} to copy the <code>x</code> and <code>y</code> components from
+     */
+    public Vector2d(Vector3fc v) {
+        x = v.x();
+        y = v.y();
+    }
+
+    /**
+     * Create a new {@link Vector2d} and initialize its components using the <code>x</code> and <code>y</code>
+     * components of the provided vector.
+     *
+     * @param v
+     *          the {@link Vector3ic} to copy the <code>x</code> and <code>y</code> components from
+     */
+    public Vector2d(Vector3ic v) {
+        x = v.x();
+        y = v.y();
+    }
+
+    /**
      * Create a new {@link Vector2d} and initialize its two components from the first
      * two elements of the given array.
      * 
@@ -279,6 +315,45 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
      * @return this
      */
     public Vector2d set(Vector2ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector2d} to the <code>(x, y)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector2d set(Vector3dc v) {
+        this.x = v.x();
+        this.y = v.y();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector2d} to the <code>(x, y)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector2d set(Vector3fc v) {
+        this.x = v.x();
+        this.y = v.y();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector2i} to the <code>(x, y)</code> components of <code>v</code>.
+     *
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector2d set(Vector3ic v) {
         this.x = v.x();
         this.y = v.y();
         return this;
