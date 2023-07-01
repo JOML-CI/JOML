@@ -1005,66 +1005,207 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
         return dest;
     }
 
-    public Vector3d mulProject(Matrix4dc mat, Vector3d dest) {
-        double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30()))) * invW;
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31()))) * invW;
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32()))) * invW;
-        dest.x = rx;
-        dest.y = ry;
-        dest.z = rz;
-        return dest;
-    }
-
     /**
-     * Multiply the given matrix <code>mat</code> this Vector3d, perform perspective division.
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
      * <p>
      * This method uses <code>w=1.0</code> as the fourth vector component.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
      */
     public Vector3d mulProject(Matrix4dc mat) {
-        double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30()))) * invW;
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31()))) * invW;
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32()))) * invW;
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        int prop = mat.properties();
+        if ((prop & Matrix4dc.PROPERTY_IDENTITY) != 0)
+            return this;
+        if ((prop & Matrix4dc.PROPERTY_TRANSLATION) != 0)
+            return mulProjectTranslation(mat, this);
+        if ((prop & Matrix4dc.PROPERTY_AFFINE) != 0)
+            return mulProjectAffine(mat, this);
+        return mulProjectGeneric(mat, this);
     }
-
-    public Vector3d mulProject(Matrix4fc mat, Vector3d dest) {
-        double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
-        double rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30()) * invW;
-        double ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31()) * invW;
-        double rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32()) * invW;
-        dest.x = rx;
-        dest.y = ry;
-        dest.z = rz;
-        return dest;
+    public Vector3d mulProject(Matrix4dc mat, Vector3d dest) {
+        int prop = mat.properties();
+        if ((prop & Matrix4dc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4dc.PROPERTY_TRANSLATION) != 0)
+            return mulProjectTranslation(mat, dest);
+        if ((prop & Matrix4dc.PROPERTY_AFFINE) != 0)
+            return mulProjectAffine(mat, dest);
+        return mulProjectGeneric(mat, dest);
     }
-
     /**
-     * Multiply the given matrix <code>mat</code> with this Vector3d, perform perspective division.
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
      * <p>
      * This method uses <code>w=1.0</code> as the fourth vector component.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
      */
     public Vector3d mulProject(Matrix4fc mat) {
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return this;
+        if ((prop & Matrix4fc.PROPERTY_TRANSLATION) != 0)
+            return mulProjectTranslation(mat, this);
+        if ((prop & Matrix4fc.PROPERTY_AFFINE) != 0)
+            return mulProjectAffine(mat, this);
+        return mulProjectGeneric(mat, this);
+    }
+    public Vector3d mulProject(Matrix4fc mat, Vector3d dest) {
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4fc.PROPERTY_TRANSLATION) != 0)
+            return mulProjectTranslation(mat, dest);
+        if ((prop & Matrix4fc.PROPERTY_AFFINE) != 0)
+            return mulProjectAffine(mat, dest);
+        return mulProjectGeneric(mat, dest);
+    }
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
+     * <p>
+     * This method assumes that the matrix <code>mat</code> represents only a translation.
+     * <p>
+     * This method uses <code>w=1.0</code> as the fourth vector component.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulProjectTranslation(Matrix4dc mat) {
+        return mulPositionTranslation(mat, this);
+    }
+    public Vector3d mulProjectTranslation(Matrix4dc mat, Vector3d dest) {
+        return mulPositionTranslation(mat, dest);
+    }
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
+     * <p>
+     * This method assumes that the matrix <code>mat</code> represents only a translation.
+     * <p>
+     * This method uses <code>w=1.0</code> as the fourth vector component.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulProjectTranslation(Matrix4fc mat) {
+        return mulPositionTranslation(mat, this);
+    }
+    public Vector3d mulProjectTranslation(Matrix4fc mat, Vector3d dest) {
+        return mulPositionTranslation(mat, dest);
+    }
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
+     * <p>
+     * This method assumes that the matrix <code>mat</code> represents only an affine transformation.
+     * <p>
+     * This method uses <code>w=1.0</code> as the fourth vector component.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulProjectAffine(Matrix4dc mat) {
+        return mulProjectAffine(mat, this);
+    }
+    public Vector3d mulProjectAffine(Matrix4dc mat, Vector3d dest) {
+        double x1 = this.x, y1 = this.y, z1 = this.z;
+        dest.x = Math.fma(mat.m00(), x1, Math.fma(mat.m10(), y1, mat.m20() * z1)) + mat.m30();
+        dest.y = Math.fma(mat.m01(), x1, Math.fma(mat.m11(), y1, mat.m21() * z1)) + mat.m31();
+        dest.z = Math.fma(mat.m02(), x1, Math.fma(mat.m12(), y1, mat.m22() * z1)) + mat.m32();
+        return dest;
+    }
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
+     * <p>
+     * This method assumes that the matrix <code>mat</code> represents only an affine transformation.
+     * <p>
+     * This method uses <code>w=1.0</code> as the fourth vector component.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulProjectAffine(Matrix4fc mat) {
+        return mulProjectAffine(mat, this);
+    }
+    public Vector3d mulProjectAffine(Matrix4fc mat, Vector3d dest) {
+        double x = this.x, y = this.y, z = this.z;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, mat.m20() * z)) + mat.m30();
+        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, mat.m21() * z)) + mat.m31();
+        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, mat.m22() * z)) + mat.m32();
+        return dest;
+    }
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
+     * <p>
+     * This method makes no assumptions about the properties of the matrix <code>mat</code>.
+     * <p>
+     * This method uses <code>w=1.0</code> as the fourth vector component.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulProjectGeneric(Matrix4dc mat) {
+        return mulProjectGeneric(mat, this);
+    }
+    public Vector3d mulProjectGeneric(Matrix4dc mat, Vector3d dest) {
+        double x = this.x, y = this.y, z = this.z;
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
-        double rx = (mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30()) * invW;
-        double ry = (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31()) * invW;
-        double rz = (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32()) * invW;
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30()))) * invW;
+        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31()))) * invW;
+        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32()))) * invW;
+        return dest;
+    }
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
+     * <p>
+     * This method makes no assumptions about the properties of the matrix <code>mat</code>.
+     * <p>
+     * This method uses <code>w=1.0</code> as the fourth vector component.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulProjectGeneric(Matrix4fc mat) {
+        return mulProjectGeneric(mat, this);
+    }
+    public Vector3d mulProjectGeneric(Matrix4fc mat, Vector3d dest) {
+        double x = this.x, y = this.y, z = this.z;
+        double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33())));
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30()))) * invW;
+        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31()))) * invW;
+        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32()))) * invW;
+        return dest;
     }
 
     /**
@@ -1218,33 +1359,141 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
+    public Vector3d mulPosition(Matrix4dc mat) {
+        int prop = mat.properties();
+        if ((prop & Matrix4dc.PROPERTY_IDENTITY) != 0)
+            return this;
+        if ((prop & Matrix4dc.PROPERTY_TRANSLATION) != 0)
+            return mulPositionTranslation(mat, this);
+        return mulPositionGeneric(mat, this);
+    }
+    public Vector3d mulPosition(Matrix4dc mat, Vector3d dest) {
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4fc.PROPERTY_TRANSLATION) != 0)
+            return mulPositionTranslation(mat, dest);
+        return mulPositionGeneric(mat, dest);
+    }
+    public Vector3d mulPosition(Matrix4fc mat, Vector3d dest) {
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4fc.PROPERTY_TRANSLATION) != 0)
+            return mulPositionTranslation(mat, dest);
+        return mulPositionGeneric(mat, dest);
+    }
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
     public Vector3d mulPosition(Matrix4fc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return this;
+        if ((prop & Matrix4fc.PROPERTY_TRANSLATION) != 0)
+            return mulPositionTranslation(mat, this);
+        return mulPositionGeneric(mat, this);
+    }
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes that the matrix <code>mat</code> represents only a translation.
+     * <p>
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPositionTranslation(Matrix4dc mat) {
+        return mulPositionTranslation(mat, this);
+    }
+    public Vector3d mulPositionTranslation(Matrix4dc mat, Vector3d dest) {
+        dest.x = this.x + mat.m30();
+        dest.y = this.y + mat.m31();
+        dest.z = this.z + mat.m32();
+        return dest;
+    }
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes that the matrix <code>mat</code> represents only a translation.
+     * <p>
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPositionTranslation(Matrix4fc mat) {
+        return mulPositionTranslation(mat, this);
+    }
+    public Vector3d mulPositionTranslation(Matrix4fc mat, Vector3d dest) {
+        dest.x = this.x + mat.m30();
+        dest.y = this.y + mat.m31();
+        dest.z = this.z + mat.m32();
+        return dest;
     }
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
+     * This method makes no assumptions about the properties of the matrix <code>mat</code>.
+     * <p>
      * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
-     * 
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulPosition(Matrix4dc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+    public Vector3d mulPositionGeneric(Matrix4dc mat) {
+        return mulPositionGeneric(mat, this);
+    }
+    public Vector3d mulPositionGeneric(Matrix4dc mat, Vector3d dest) {
+        double x = this.x, y = this.y, z = this.z;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
+        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
+        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
+        return dest;
+    }
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method makes no assumptions about the properties of the matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPositionGeneric(Matrix4fc mat) {
+        return mulPositionGeneric(mat, this);
+    }
+    public Vector3d mulPositionGeneric(Matrix4fc mat, Vector3d dest) {
+        double x = this.x, y = this.y, z = this.z;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
+        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
+        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
+        return dest;
     }
 
     /**
@@ -1257,13 +1506,58 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulPosition(Matrix4x3dc mat) {
+        int prop = mat.properties();
+        if ((prop & Matrix4x3fc.PROPERTY_IDENTITY) != 0)
+            return this;
+        if ((prop & Matrix4x3fc.PROPERTY_TRANSLATION) != 0)
+            return mulPositionTranslation(mat, this);
+        return mulPositionGeneric(mat);
+    }
+    public Vector3d mulPositionTranslation(Matrix4x3dc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
         double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        return dest;
+    }
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code>, representing only a translation, with <code>this</code>.
+     * <p>
+     * This method only works when <code>mat</code> only represents a translation.
+     * <p>
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPositionTranslation(Matrix4x3dc mat) {
+        return mulPositionTranslation(mat, this);
+    }
+    public Vector3d mulPositionGeneric(Matrix4x3dc mat, Vector3d dest) {
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        return dest;
+    }
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method makes no assumptions about the properties of the matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPositionGeneric(Matrix4x3dc mat) {
+        return mulPositionGeneric(mat, this);
     }
 
     /**
@@ -1276,16 +1570,17 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d mulPosition(Matrix4x3fc mat) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
-        this.x = rx;
-        this.y = ry;
-        this.z = rz;
-        return this;
+        int prop = mat.properties();
+        if ((prop & Matrix4x3fc.PROPERTY_IDENTITY) != 0)
+            return this;
+        if ((prop & Matrix4x3fc.PROPERTY_TRANSLATION) != 0)
+            return mulPositionTranslation(mat, this);
+        return mulPositionGeneric(mat, this);
     }
-
-    public Vector3d mulPosition(Matrix4dc mat, Vector3d dest) {
+    public Vector3d mulPositionTranslation(Matrix4x3fc mat) {
+        return mulPositionTranslation(mat, this);
+    }
+    public Vector3d mulPositionTranslation(Matrix4x3fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
         double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
@@ -1294,8 +1589,21 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
         dest.z = rz;
         return dest;
     }
-
-    public Vector3d mulPosition(Matrix4fc mat, Vector3d dest) {
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method makes no assumptions about the properties of the matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPositionGeneric(Matrix4x3fc mat) {
+        return mulPositionGeneric(mat, this);
+    }
+    public Vector3d mulPositionGeneric(Matrix4x3fc mat, Vector3d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
         double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
@@ -1306,13 +1614,12 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     public Vector3d mulPosition(Matrix4x3dc mat, Vector3d dest) {
-        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30())));
-        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31())));
-        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32())));
-        dest.x = rx;
-        dest.y = ry;
-        dest.z = rz;
-        return dest;
+        int prop = mat.properties();
+        if ((prop & Matrix4x3fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4x3fc.PROPERTY_TRANSLATION) != 0)
+            return mulPositionTranslation(mat, dest);
+        return mulPositionGeneric(mat, dest);
     }
 
     public Vector3d mulPosition(Matrix4x3fc mat, Vector3d dest) {
