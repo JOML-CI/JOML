@@ -73,10 +73,12 @@ public interface Matrix4x3fc {
     byte PROPERTY_UNKNOWN = 0;
     /**
      * Bit returned by {@link #properties()} to indicate that the matrix represents the identity transformation.
+     * This implies {@link #PROPERTY_TRANSLATION} and {@link #PROPERTY_ORTHONORMAL}.
      */
     byte PROPERTY_IDENTITY = 1<<2;
     /**
      * Bit returned by {@link #properties()} to indicate that the matrix represents a pure translation transformation.
+     * This implies {@link #PROPERTY_ORTHONORMAL}.
      */
     byte PROPERTY_TRANSLATION = 1<<3;
     /**

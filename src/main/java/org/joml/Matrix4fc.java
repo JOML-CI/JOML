@@ -121,15 +121,17 @@ public interface Matrix4fc {
     byte PROPERTY_AFFINE = 1<<1;
     /**
      * Bit returned by {@link #properties()} to indicate that the matrix represents the identity transformation.
+     * This implies {@link #PROPERTY_AFFINE}, {@link #PROPERTY_TRANSLATION} and {@link #PROPERTY_ORTHONORMAL}.
      */
     byte PROPERTY_IDENTITY = 1<<2;
     /**
      * Bit returned by {@link #properties()} to indicate that the matrix represents a pure translation transformation.
+     * This implies {@link #PROPERTY_AFFINE} and {@link #PROPERTY_ORTHONORMAL}.
      */
     byte PROPERTY_TRANSLATION = 1<<3;
     /**
      * Bit returned by {@link #properties()} to indicate that the upper-left 3x3 submatrix represents an orthogonal
-     * matrix (i.e. orthonormal basis). For practical reasons, this property also always implies 
+     * matrix (i.e. orthonormal basis). For practical reasons, this property also always implies
      * {@link #PROPERTY_AFFINE} in this implementation.
      */
     byte PROPERTY_ORTHONORMAL = 1<<4;
