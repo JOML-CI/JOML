@@ -1577,6 +1577,17 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
             return mulPositionTranslation(mat, this);
         return mulPositionGeneric(mat, this);
     }
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code>, representing only a translation, with <code>this</code>.
+     * <p>
+     * This method only works when <code>mat</code> only represents a translation.
+     * <p>
+     * This method assumes the <code>w</code> component of <code>this</code> to be <code>1.0</code>.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
     public Vector3d mulPositionTranslation(Matrix4x3fc mat) {
         return mulPositionTranslation(mat, this);
     }
