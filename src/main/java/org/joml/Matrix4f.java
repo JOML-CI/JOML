@@ -11359,19 +11359,19 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         float rm20 = dyw + dxz;
         float rm21 = dyz - dxw;
         float rm22 = z2 - y2 - x2 + w2;
-        float nm00 = m00() * rm00 + m10() * rm01 + m20() * rm02;
-        float nm01 = m01() * rm00 + m11() * rm01 + m21() * rm02;
-        float nm02 = m02() * rm00 + m12() * rm01 + m22() * rm02;
-        float nm03 = m03() * rm00 + m13() * rm01 + m23() * rm02;
-        float nm10 = m00() * rm10 + m10() * rm11 + m20() * rm12;
-        float nm11 = m01() * rm10 + m11() * rm11 + m21() * rm12;
-        float nm12 = m02() * rm10 + m12() * rm11 + m22() * rm12;
-        float nm13 = m03() * rm10 + m13() * rm11 + m23() * rm12;
+        float nm00 = Math.fma(m00(), rm00, Math.fma(m10(), rm01, m20() * rm02));
+        float nm01 = Math.fma(m01(), rm00, Math.fma(m11(), rm01, m21() * rm02));
+        float nm02 = Math.fma(m02(), rm00, Math.fma(m12(), rm01, m22() * rm02));
+        float nm03 = Math.fma(m03(), rm00, Math.fma(m13(), rm01, m23() * rm02));
+        float nm10 = Math.fma(m00(), rm10, Math.fma(m10(), rm11, m20() * rm12));
+        float nm11 = Math.fma(m01(), rm10, Math.fma(m11(), rm11, m21() * rm12));
+        float nm12 = Math.fma(m02(), rm10, Math.fma(m12(), rm11, m22() * rm12));
+        float nm13 = Math.fma(m03(), rm10, Math.fma(m13(), rm11, m23() * rm12));
         return dest
-        ._m20(m00() * rm20 + m10() * rm21 + m20() * rm22)
-        ._m21(m01() * rm20 + m11() * rm21 + m21() * rm22)
-        ._m22(m02() * rm20 + m12() * rm21 + m22() * rm22)
-        ._m23(m03() * rm20 + m13() * rm21 + m23() * rm22)
+        ._m20(Math.fma(m00(), rm20, Math.fma(m10(), rm21, m20() * rm22)))
+        ._m21(Math.fma(m01(), rm20, Math.fma(m11(), rm21, m21() * rm22)))
+        ._m22(Math.fma(m02(), rm20, Math.fma(m12(), rm21, m22() * rm22)))
+        ._m23(Math.fma(m03(), rm20, Math.fma(m13(), rm21, m23() * rm22)))
         ._m00(nm00)
         ._m01(nm01)
         ._m02(nm02)
