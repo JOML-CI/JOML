@@ -1091,13 +1091,15 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
      * @return this
      */
     public Vector4d mul(Matrix4dc mat) {
-        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
-            return mulAffine(mat, this);
-        return mulGeneric(mat, this);
+        return mul(mat, this);
     }
-
     public Vector4d mul(Matrix4dc mat, Vector4d dest) {
-        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
+        int prop = mat.properties();
+        if ((prop & Matrix4dc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4dc.PROPERTY_TRANSLATION) != 0)
+            return mulTranslation(mat, dest);
+        if ((prop & Matrix4dc.PROPERTY_AFFINE) != 0)
             return mulAffine(mat, dest);
         return mulGeneric(mat, dest);
     }
@@ -1117,9 +1119,29 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         return mulTranspose(mat, this);
     }
     public Vector4d mulTranspose(Matrix4dc mat, Vector4d dest) {
-        if ((mat.properties() & Matrix4dc.PROPERTY_AFFINE) != 0)
+        int prop = mat.properties();
+        if ((prop & Matrix4dc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4dc.PROPERTY_AFFINE) != 0)
             return mulAffineTranspose(mat, dest);
         return mulGenericTranspose(mat, dest);
+    }
+
+    public Vector4d mulTranslation(Matrix4dc mat, Vector4d dest) {
+        double x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m30(), w, x);
+        dest.y = Math.fma(mat.m31(), w, y);
+        dest.z = Math.fma(mat.m32(), w, z);
+        dest.w = w;
+        return dest;
+    }
+    public Vector4d mulTranslation(Matrix4fc mat, Vector4d dest) {
+        double x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m30(), w, x);
+        dest.y = Math.fma(mat.m31(), w, y);
+        dest.z = Math.fma(mat.m32(), w, z);
+        dest.w = w;
+        return dest;
     }
 
     public Vector4d mulAffine(Matrix4dc mat, Vector4d dest) {
@@ -1133,7 +1155,19 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         return dest;
     }
 
-    private Vector4d mulGeneric(Matrix4dc mat, Vector4d dest) {
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector.
+     * <p>
+     * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     *
+     * @param mat
+     *          the matrix whose transpose to multiply the vector with
+     * @return this
+     */
+    public Vector4d mulGeneric(Matrix4dc mat) {
+        return mulGeneric(mat, this);
+    }
+    public Vector4d mulGeneric(Matrix4dc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
         double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
@@ -1153,7 +1187,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, mat.m32() * z + w));
         return dest;
     }
-    private Vector4d mulGenericTranspose(Matrix4dc mat, Vector4d dest) {
+    public Vector4d mulGenericTranspose(Matrix4dc mat, Vector4d dest) {
         double x = this.x, y = this.y, z = this.z, w = this.w;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03() * w)));
         dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13() * w)));
@@ -1173,14 +1207,28 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     public Vector4d mul(Matrix4x3dc mat) {
         return mul(mat, this);
     }
-
     public Vector4d mul(Matrix4x3dc mat, Vector4d dest) {
+        int prop = mat.properties();
+        if ((prop & Matrix4x3dc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4x3dc.PROPERTY_TRANSLATION) != 0)
+            return mulTranslation(mat, dest);
+        return mulGeneric(mat, dest);
+    }
+    public Vector4d mulGeneric(Matrix4x3dc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
         double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
+        dest.w = w;
+        return dest;
+    }
+    public Vector4d mulTranslation(Matrix4x3dc mat, Vector4d dest) {
+        dest.x = Math.fma(mat.m30(), w, x);
+        dest.y = Math.fma(mat.m31(), w, y);
+        dest.z = Math.fma(mat.m32(), w, z);
         dest.w = w;
         return dest;
     }
@@ -1196,14 +1244,28 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     public Vector4d mul(Matrix4x3fc mat) {
         return mul(mat, this);
     }
-
     public Vector4d mul(Matrix4x3fc mat, Vector4d dest) {
+        int prop = mat.properties();
+        if ((prop & Matrix4x3dc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4x3dc.PROPERTY_TRANSLATION) != 0)
+            return mulTranslation(mat, dest);
+        return mulGeneric(mat, dest);
+    }
+    public Vector4d mulGeneric(Matrix4x3fc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
         double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
         dest.x = rx;
         dest.y = ry;
         dest.z = rz;
+        dest.w = w;
+        return dest;
+    }
+    public Vector4d mulTranslation(Matrix4x3fc mat, Vector4d dest) {
+        dest.x = Math.fma(mat.m30(), w, x);
+        dest.y = Math.fma(mat.m31(), w, y);
+        dest.z = Math.fma(mat.m32(), w, z);
         dest.w = w;
         return dest;
     }
@@ -1216,17 +1278,19 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
      * @return this
      */
     public Vector4d mul(Matrix4fc mat) {
-        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
-            return mulAffine(mat, this);
-        return mulGeneric(mat, this);
+        return mul(mat, this);
     }
-
     public Vector4d mul(Matrix4fc mat, Vector4d dest) {
-        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4fc.PROPERTY_TRANSLATION) != 0)
+            return mulTranslation(mat, dest);
+        if ((prop & Matrix4fc.PROPERTY_AFFINE) != 0)
             return mulAffine(mat, dest);
         return mulGeneric(mat, dest);
     }
-    private Vector4d mulAffine(Matrix4fc mat, Vector4d dest) {
+    public Vector4d mulAffine(Matrix4fc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
         double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
@@ -1236,7 +1300,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         dest.w = w;
         return dest;
     }
-    private Vector4d mulGeneric(Matrix4fc mat, Vector4d dest) {
+    public Vector4d mulGeneric(Matrix4fc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
         double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
@@ -1248,7 +1312,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         return dest;
     }
 
-    public Vector4d mulProject(Matrix4dc mat, Vector4d dest) {
+    public Vector4d mulProjectGeneric(Matrix4dc mat, Vector4d dest) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
@@ -1257,6 +1321,50 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         dest.y = ry;
         dest.z = rz;
         dest.w = 1.0;
+        return dest;
+    }
+
+    public Vector4d mulProjectTranslation(Matrix4dc mat, Vector4d dest) {
+        double invW = 1.0 / w;
+        double rx = Math.fma(mat.m00(), x, mat.m30() * w) * invW;
+        double ry = Math.fma(mat.m11(), y, mat.m31() * w) * invW;
+        double rz = Math.fma(mat.m22(), z, mat.m32() * w) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = 1.0;
+        return dest;
+    }
+    public Vector3d mulProjectTranslation(Matrix4dc mat, Vector3d dest) {
+        double invW = 1.0 / w;
+        double rx = Math.fma(mat.m00(), x, mat.m30() * w) * invW;
+        double ry = Math.fma(mat.m11(), y, mat.m31() * w) * invW;
+        double rz = Math.fma(mat.m22(), z, mat.m32() * w) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        return dest;
+    }
+
+    public Vector4d mulProjectAffine(Matrix4dc mat, Vector4d dest) {
+        double invW = 1.0 / w;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = 1.0;
+        return dest;
+    }
+    public Vector3d mulProjectAffine(Matrix4dc mat, Vector3d dest) {
+        double invW = 1.0 / w;
+        double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        double rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
         return dest;
     }
 
@@ -1270,8 +1378,27 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     public Vector4d mulProject(Matrix4dc mat) {
         return mulProject(mat, this);
     }
-
+    public Vector4d mulProject(Matrix4dc mat, Vector4d dest) {
+        int prop = mat.properties();
+        if ((prop & Matrix4dc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4dc.PROPERTY_TRANSLATION) != 0)
+            return mulProjectTranslation(mat, dest);
+        if ((prop & Matrix4dc.PROPERTY_AFFINE) != 0)
+            return mulProjectAffine(mat, dest);
+        return mulProjectGeneric(mat, dest);
+    }
     public Vector3d mulProject(Matrix4dc mat, Vector3d dest) {
+        int prop = mat.properties();
+        if ((prop & Matrix4dc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4dc.PROPERTY_TRANSLATION) != 0)
+            return mulProjectTranslation(mat, dest);
+        if ((prop & Matrix4dc.PROPERTY_AFFINE) != 0)
+            return mulProjectAffine(mat, dest);
+        return mulProjectGeneric(mat, dest);
+    }
+    public Vector3d mulProjectGeneric(Matrix4dc mat, Vector3d dest) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
