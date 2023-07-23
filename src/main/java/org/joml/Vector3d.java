@@ -350,6 +350,8 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
      * @return this
      */
     public Vector3d set(Vector3dc v) {
+        if (v == this)
+            return this;
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();

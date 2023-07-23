@@ -342,6 +342,8 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
      * @return this
      */
     public Vector4f set(Vector4fc v) {
+        if (v == this)
+            return this;
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();

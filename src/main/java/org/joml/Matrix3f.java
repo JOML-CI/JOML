@@ -397,6 +397,8 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
      * @return this
      */
     public Matrix3f set(Matrix3fc m) {
+        if (m == this)
+            return this;
         return 
         _m00(m.m00()).
         _m01(m.m01()).

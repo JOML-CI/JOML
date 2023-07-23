@@ -326,6 +326,8 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
      * @return this
      */
     public Vector3f set(Vector3fc v) {
+        if (v == this)
+            return this;
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();

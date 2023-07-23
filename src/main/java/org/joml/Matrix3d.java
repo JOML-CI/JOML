@@ -428,6 +428,8 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * @return this
      */
     public Matrix3d set(Matrix3dc m) {
+        if (m == this)
+            return this;
         m00 = m.m00();
         m01 = m.m01();
         m02 = m.m02();

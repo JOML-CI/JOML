@@ -250,7 +250,9 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f set(Matrix2fc m) {
-        if (m instanceof Matrix2f) {
+        if (m == this)
+            return this;
+        else if (m instanceof Matrix2f) {
             MemUtil.INSTANCE.copy((Matrix2f) m, this);
         } else {
             setMatrix2fc(m);

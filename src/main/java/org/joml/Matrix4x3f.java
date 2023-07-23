@@ -596,6 +596,8 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f set(Matrix4x3fc m) {
+        if (m == this)
+            return this;
         m00 = m.m00();
         m01 = m.m01();
         m02 = m.m02();
@@ -7741,8 +7743,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         return normalGeneric(dest);
     }
     private Matrix4x3f normalOrthonormal(Matrix4x3f dest) {
-        if (dest != this)
-            dest.set(this);
+        dest.set(this);
         return dest._properties(PROPERTY_ORTHONORMAL);
     }
     private Matrix4x3f normalGeneric(Matrix4x3f dest) {

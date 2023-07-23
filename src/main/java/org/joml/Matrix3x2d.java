@@ -242,7 +242,9 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return this
      */
     public Matrix3x2d set(Matrix3x2dc m) {
-        if (m instanceof Matrix3x2d) {
+        if (m == this)
+            return this;
+        else if (m instanceof Matrix3x2d) {
             MemUtil.INSTANCE.copy((Matrix3x2d) m, this);
         } else {
             setMatrix3x2dc(m);

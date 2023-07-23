@@ -383,6 +383,8 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector4dc v) {
+        if (v == this)
+            return this;
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();

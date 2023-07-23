@@ -777,6 +777,8 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f set(Matrix4fc m) {
+        if (m == this)
+            return this;
 //#ifdef __HAS_JVMCI__
         if (JvmciCode.canUseJvmci && m instanceof Matrix4f) {
             JvmciCode.__Matrix4f_set((Matrix4f) m, this);
@@ -12766,8 +12768,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         return normalGeneric(dest);
     }
     private Matrix4f normalOrthonormal(Matrix4f dest) {
-        if (dest != this)
-            dest.set(this);
+        dest.set(this);
         return dest._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
     }
     private Matrix4f normalGeneric(Matrix4f dest) {

@@ -609,6 +609,8 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * @return this
      */
     public Matrix4x3d set(Matrix4x3dc m) {
+        if (m == this)
+            return this;
         m00 = m.m00();
         m01 = m.m01();
         m02 = m.m02();

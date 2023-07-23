@@ -277,7 +277,9 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d set(Matrix2dc m) {
-        if (m instanceof Matrix2d) {
+        if (m == this)
+            return this;
+        else if (m instanceof Matrix2d) {
             MemUtil.INSTANCE.copy((Matrix2d) m, this);
         } else {
             setMatrix2dc(m);
