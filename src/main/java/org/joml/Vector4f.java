@@ -1646,7 +1646,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
             return true;
         if (v == null)
             return false;
-        if (!(v instanceof Vector4fc))
+        if (getClass() != v.getClass())
             return false;
         if (!Runtime.equals(x, v.x(), delta))
             return false;

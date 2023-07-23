@@ -1103,7 +1103,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
             return true;
         if (v == null)
             return false;
-        if (!(v instanceof Vector2fc))
+        if (getClass() != v.getClass())
             return false;
         if (!Runtime.equals(x, v.x(), delta))
             return false;

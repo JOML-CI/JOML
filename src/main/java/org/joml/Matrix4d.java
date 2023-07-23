@@ -15011,8 +15011,6 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             return true;
         if (m == null)
             return false;
-        if (!(m instanceof Matrix4d))
-            return false;
         if (!Runtime.equals(m00, m.m00(), delta))
             return false;
         if (!Runtime.equals(m01, m.m01(), delta))

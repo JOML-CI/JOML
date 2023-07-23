@@ -1805,7 +1805,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
             return true;
         if (v == null)
             return false;
-        if (!(v instanceof Vector4dc))
+        if (getClass() != v.getClass())
             return false;
         if (!Runtime.equals(x, v.x(), delta))
             return false;

@@ -2277,7 +2277,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
             return true;
         if (v == null)
             return false;
-        if (!(v instanceof Vector3fc))
+        if (getClass() != v.getClass())
             return false;
         if (!Runtime.equals(x, v.x(), delta))
             return false;

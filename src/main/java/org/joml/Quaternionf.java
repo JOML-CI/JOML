@@ -3148,6 +3148,8 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
             return true;
         if (q == null)
             return false;
+        if (getClass() != q.getClass())
+            return false;
         if (!Runtime.equals(x, q.x(), delta))
             return false;
         if (!Runtime.equals(y, q.y(), delta))

@@ -3045,7 +3045,7 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
             return true;
         if (q == null)
             return false;
-        if (!(q instanceof Quaterniondc))
+        if (getClass() != q.getClass())
             return false;
         if (!Runtime.equals(x, q.x(), delta))
             return false;

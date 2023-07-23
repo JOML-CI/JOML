@@ -2568,7 +2568,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Matrix3x2d))
             return false;
         Matrix3x2d other = (Matrix3x2d) obj;
         if (Double.doubleToLongBits(m00) != Double.doubleToLongBits(other.m00))
@@ -2590,8 +2590,6 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
         if (this == m)
             return true;
         if (m == null)
-            return false;
-        if (!(m instanceof Matrix3x2d))
             return false;
         if (!Runtime.equals(m00, m.m00(), delta))
             return false;

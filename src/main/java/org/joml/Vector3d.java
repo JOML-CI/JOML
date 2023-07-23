@@ -2486,7 +2486,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
             return true;
         if (v == null)
             return false;
-        if (!(v instanceof Vector3dc))
+        if (getClass() != v.getClass())
             return false;
         if (!Runtime.equals(x, v.x(), delta))
             return false;

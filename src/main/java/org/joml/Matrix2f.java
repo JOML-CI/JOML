@@ -1351,7 +1351,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Matrix2f))
             return false;
         Matrix2f other = (Matrix2f) obj;
         if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))
@@ -1369,8 +1369,6 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
         if (this == m)
             return true;
         if (m == null)
-            return false;
-        if (!(m instanceof Matrix2f))
             return false;
         if (!Runtime.equals(m00, m.m00(), delta))
             return false;

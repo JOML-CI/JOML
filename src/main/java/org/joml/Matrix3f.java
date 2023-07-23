@@ -3443,7 +3443,7 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Matrix3f))
             return false;
         Matrix3f other = (Matrix3f) obj;
         if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))
@@ -3471,8 +3471,6 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
         if (this == m)
             return true;
         if (m == null)
-            return false;
-        if (!(m instanceof Matrix3f))
             return false;
         if (!Runtime.equals(m00, m.m00(), delta))
             return false;

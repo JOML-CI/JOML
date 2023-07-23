@@ -8414,8 +8414,6 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
             return true;
         if (m == null)
             return false;
-        if (!(m instanceof Matrix4x3f))
-            return false;
         if (!Runtime.equals(m00, m.m00(), delta))
             return false;
         if (!Runtime.equals(m01, m.m01(), delta))

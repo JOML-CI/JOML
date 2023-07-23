@@ -1171,7 +1171,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
             return true;
         if (v == null)
             return false;
-        if (!(v instanceof Vector2dc))
+        if (getClass() != v.getClass())
             return false;
         if (!Runtime.equals(x, v.x(), delta))
             return false;

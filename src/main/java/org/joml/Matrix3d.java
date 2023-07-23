@@ -4167,7 +4167,7 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Matrix3d))
             return false;
         Matrix3d other = (Matrix3d) obj;
         if (Double.doubleToLongBits(m00) != Double.doubleToLongBits(other.m00))
@@ -4195,8 +4195,6 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
         if (this == m)
             return true;
         if (m == null)
-            return false;
-        if (!(m instanceof Matrix3d))
             return false;
         if (!Runtime.equals(m00, m.m00(), delta))
             return false;
