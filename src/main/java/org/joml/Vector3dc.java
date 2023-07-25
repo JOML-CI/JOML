@@ -390,7 +390,7 @@ public interface Vector3dc {
     Vector3d mulAdd(Vector3fc a, Vector3dc b, Vector3d dest);
 
     /**
-     * Multiply this Vector3d component-wise by another Vector3f and store the result in <code>dest</code>.
+     * Multiply this vector component-wise by another vector and store the result in <code>dest</code>.
      * 
      * @param v
      *          the vector to multiply by
@@ -412,7 +412,7 @@ public interface Vector3dc {
     Vector3d mul(Vector3dc v, Vector3d dest);
 
     /**
-     * Divide this Vector3d component-wise by another Vector3f and store the result in <code>dest</code>.
+     * Divide this vector component-wise by another vector and store the result in <code>dest</code>.
      * 
      * @param v
      *          the vector to divide by
@@ -1094,7 +1094,7 @@ public interface Vector3dc {
     Vector3d mulTransposeDirection(Matrix4fc mat, Vector3d dest);
 
     /**
-     * Multiply this Vector3d by the given scalar value and store the result in <code>dest</code>.
+     * Multiply this vector by the given scalar value and store the result in <code>dest</code>.
      * 
      * @param scalar
      *          the scalar factor
@@ -1105,7 +1105,7 @@ public interface Vector3dc {
     Vector3d mul(double scalar, Vector3d dest);
 
     /**
-     * Multiply the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
+     * Multiply the components of this vector by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component to multiply this vector by
@@ -1227,7 +1227,7 @@ public interface Vector3dc {
     Vector3d rotateZ(double angle, Vector3d dest);
 
     /**
-     * Divide this Vector3d by the given scalar value and store the result in <code>dest</code>.
+     * Divide this vector by the given scalar value and store the result in <code>dest</code>.
      * 
      * @param scalar
      *          the scalar to divide this vector by
@@ -1238,7 +1238,7 @@ public interface Vector3dc {
     Vector3d div(double scalar, Vector3d dest);
 
     /**
-     * Divide the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
+     * Divide the components of this vector by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component to divide this vector by

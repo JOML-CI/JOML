@@ -925,7 +925,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply this Vector3d component-wise by another Vector3dc.
+     * Multiply this vector component-wise by another Vector3dc.
      * 
      * @param v
      *          the vector to multiply by
@@ -936,7 +936,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply this Vector3d component-wise by another Vector3fc.
+     * Multiply this vector component-wise by another Vector3fc.
      * 
      * @param v
      *          the vector to multiply by
@@ -961,7 +961,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Divide this Vector3d component-wise by another Vector3dc.
+     * Divide this vector component-wise by another Vector3dc.
      * 
      * @param v
      *          the vector to divide by
@@ -972,7 +972,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Divide this Vector3d component-wise by another Vector3fc.
+     * Divide this vector component-wise by another Vector3fc.
      * 
      * @param v
      *          the vector to divide by
@@ -1263,7 +1263,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply the given matrix with this Vector3d by assuming a third row in the matrix of <code>(0, 0, 1)</code>
+     * Multiply the given matrix with this vector by assuming a third row in the matrix of <code>(0, 0, 1)</code>
      * and store the result in <code>this</code>.
      * 
      * @param mat
@@ -1284,7 +1284,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply the given matrix with this Vector3d by assuming a third row in the matrix of <code>(0, 0, 1)</code>
+     * Multiply the given matrix with this vector by assuming a third row in the matrix of <code>(0, 0, 1)</code>
      * and store the result in <code>this</code>.
      * 
      * @param mat
@@ -1892,7 +1892,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply this Vector3d by the given scalar value.
+     * Multiply this vector by the given scalar value.
      * 
      * @param scalar
      *          the scalar to multiply this vector by
@@ -1910,7 +1910,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Multiply the components of this Vector3d by the given scalar values and store the result in <code>this</code>.
+     * Multiply the components of this vector by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to multiply this vector by
@@ -2067,7 +2067,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Divide this Vector3d by the given scalar value.
+     * Divide this vector by the given scalar value.
      * 
      * @param scalar
      *          the scalar to divide this vector by
@@ -2086,7 +2086,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Divide the components of this Vector3d by the given scalar values and store the result in <code>this</code>.
+     * Divide the components of this vector by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to divide this vector by

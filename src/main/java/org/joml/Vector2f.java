@@ -864,7 +864,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Multiply the components of this Vector2f by the given scalar values and store the result in <code>this</code>.
+     * Multiply the components of this vector by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to multiply this vector by
@@ -883,7 +883,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Multiply this Vector2f component-wise by another Vector2f.
+     * Multiply this vector component-wise by another Vector2f.
      * 
      * @param v
      *          the vector to multiply by
@@ -900,7 +900,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Divide this Vector2f component-wise by another Vector2fc.
+     * Divide this vector component-wise by another Vector2fc.
      * 
      * @param v
      *          the vector to divide by
@@ -936,7 +936,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Divide the components of this Vector2f by the given scalar values and store the result in <code>this</code>.
+     * Divide the components of this vector by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to divide this vector by
@@ -955,7 +955,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Multiply the given matrix with this Vector2f and store the result in <code>this</code>.
+     * Multiply the given matrix with this vector and store the result in <code>this</code>.
      *
      * @param mat
      *          the matrix
@@ -974,7 +974,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Multiply the given matrix with this Vector2f and store the result in <code>this</code>.
+     * Multiply the given matrix with this vector and store the result in <code>this</code>.
      *
      * @param mat
      *          the matrix

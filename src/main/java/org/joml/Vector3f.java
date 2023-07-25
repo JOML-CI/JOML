@@ -812,7 +812,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply this Vector3f component-wise by another Vector3fc.
+     * Multiply this vector component-wise by another Vector3fc.
      * 
      * @param v
      *          the vector to multiply by
@@ -830,7 +830,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Divide this Vector3f component-wise by another Vector3fc.
+     * Divide this vector component-wise by another Vector3fc.
      * 
      * @param v
      *          the vector to divide by
@@ -1028,7 +1028,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     * Multiply the given matrix with this vector and store the result in <code>this</code>.
      * <p>
      * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
@@ -1050,7 +1050,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     * Multiply the given matrix with this vector and store the result in <code>this</code>.
      * <p>
      * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
@@ -1072,7 +1072,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     * Multiply the given matrix with this vector and store the result in <code>this</code>.
      * <p>
      * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
@@ -1094,7 +1094,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     * Multiply the given matrix with this vector and store the result in <code>this</code>.
      * <p>
      * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
@@ -1116,7 +1116,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply the transpose of the given matrix with this Vector3f store the result in <code>this</code>.
+     * Multiply the transpose of the given matrix with this vector store the result in <code>this</code>.
      * <p>
      * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
@@ -1710,7 +1710,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
+     * Multiply the components of this vector by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to multiply this vector by
@@ -1752,7 +1752,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Divide the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
+     * Divide the components of this vector by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to divide this vector by

@@ -649,7 +649,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Multiply the components of this Vector2d by the given scalar values and store the result in <code>this</code>.
+     * Multiply the components of this vector by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to multiply this vector by
@@ -668,7 +668,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Multiply this Vector2d component-wise by another Vector2d.
+     * Multiply this vector component-wise by another vector.
      * 
      * @param v
      *          the vector to multiply by
@@ -685,7 +685,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Divide this Vector2d by the given scalar value.
+     * Divide this vector by the given scalar value.
      * 
      * @param scalar
      *          the scalar to divide this vector by
@@ -703,7 +703,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Divide the components of this Vector2d by the given scalar values and store the result in <code>this</code>.
+     * Divide the components of this vector by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to divide this vector by
@@ -722,7 +722,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Divide this Vector2d component-wise by another Vector2dc.
+     * Divide this vector component-wise by another vector.
      * 
      * @param v
      *          the vector to divide by
@@ -733,7 +733,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Divide this Vector3d component-wise by another Vector2fc.
+     * Divide this vector component-wise by another Vector2fc.
      * 
      * @param v
      *          the vector to divide by
@@ -794,7 +794,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Multiply the transpose of the given matrix with this Vector2d and store the result in <code>this</code>.
+     * Multiply the transpose of the given matrix with this vector and store the result in <code>this</code>.
      *
      * @param mat
      *          the matrix
@@ -813,7 +813,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Multiply the transpose of the given matrix with  this Vector2d and store the result in <code>this</code>.
+     * Multiply the transpose of the given matrix with  this vector and store the result in <code>this</code>.
      *
      * @param mat
      *          the matrix

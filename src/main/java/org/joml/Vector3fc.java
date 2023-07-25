@@ -243,7 +243,7 @@ public interface Vector3fc {
     Vector3f mulAdd(float a, Vector3fc b, Vector3f dest);
 
     /**
-     * Multiply this Vector3f component-wise by another Vector3f and store the result in <code>dest</code>.
+     * Multiply this vector component-wise by another vector and store the result in <code>dest</code>.
      * 
      * @param v
      *          the vector to multiply by
@@ -254,7 +254,7 @@ public interface Vector3fc {
     Vector3f mul(Vector3fc v, Vector3f dest);
 
     /**
-     * Divide this Vector3f component-wise by another Vector3f and store the result in <code>dest</code>.
+     * Divide this vector component-wise by another vector and store the result in <code>dest</code>.
      * 
      * @param v
      *          the vector to divide by
@@ -415,7 +415,7 @@ public interface Vector3fc {
     Vector3f mulProjectGeneric(Matrix4dc mat, Vector3f dest);
 
     /**
-     * Multiply the given matrix with this Vector3f and store the result in <code>dest</code>.
+     * Multiply the given matrix with this vector and store the result in <code>dest</code>.
      * <p>
      * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
@@ -429,7 +429,7 @@ public interface Vector3fc {
     Vector3f mul(Matrix3fc mat, Vector3f dest);
 
     /**
-     * Multiply the given matrix with this Vector3f and store the result in <code>dest</code>.
+     * Multiply the given matrix with this vector and store the result in <code>dest</code>.
      * <p>
      * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
@@ -473,7 +473,7 @@ public interface Vector3fc {
     Vector3f mul(Matrix3x2dc mat, Vector3f dest);
 
     /**
-     * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
+     * Multiply the transpose of the given matrix with this vector and store the result in <code>dest</code>.
      * <p>
      * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
@@ -834,7 +834,7 @@ public interface Vector3fc {
     Vector3f mul(float scalar, Vector3f dest);
 
     /**
-     * Multiply the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
+     * Multiply the components of this vector by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component to multiply this vector by
@@ -861,7 +861,7 @@ public interface Vector3fc {
     Vector3f div(float scalar, Vector3f dest);
 
     /**
-     * Divide the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
+     * Divide the components of this vector by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component to divide this vector by

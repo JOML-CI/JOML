@@ -172,7 +172,7 @@ public interface Vector2dc {
     Vector2d mul(double scalar, Vector2d dest);
 
     /**
-     * Multiply the components of this Vector2d by the given scalar values and store the result in <code>dest</code>.
+     * Multiply the components of this vector by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component to multiply this vector by
@@ -185,7 +185,7 @@ public interface Vector2dc {
     Vector2d mul(double x, double y, Vector2d dest);
 
     /**
-     * Multiply this Vector2d component-wise by another Vector2d and store the result in <code>dest</code>.
+     * Multiply this vector component-wise by another vector and store the result in <code>dest</code>.
      * 
      * @param v
      *          the vector to multiply by
@@ -196,7 +196,7 @@ public interface Vector2dc {
     Vector2d mul(Vector2dc v, Vector2d dest);
 
     /**
-     * Divide this Vector2d by the given scalar value and store the result in <code>dest</code>.
+     * Divide this vector by the given scalar value and store the result in <code>dest</code>.
      * 
      * @param scalar
      *          the scalar to divide this vector by
@@ -207,7 +207,7 @@ public interface Vector2dc {
     Vector2d div(double scalar, Vector2d dest);
 
     /**
-     * Divide the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
+     * Divide the components of this vector by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
      *          the x component to divide this vector by
@@ -220,7 +220,7 @@ public interface Vector2dc {
     Vector2d div(double x, double y, Vector2d dest);
 
     /**
-     * Divide this Vector2d component-wise by another Vector2f and store the result in <code>dest</code>.
+     * Divide this vector component-wise by another vector and store the result in <code>dest</code>.
      * 
      * @param v
      *          the vector to divide by
@@ -272,7 +272,7 @@ public interface Vector2dc {
     Vector2d mul(Matrix2fc mat, Vector2d dest);
 
     /**
-     * Multiply the transpose of the given matrix with this Vector2f and store the result in <code>dest</code>.
+     * Multiply the transpose of the given matrix with this vector and store the result in <code>dest</code>.
      * <p>
      * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
@@ -286,7 +286,7 @@ public interface Vector2dc {
     Vector2d mulTranspose(Matrix2dc mat, Vector2d dest);
 
     /**
-     * Multiply the transpose of the given matrix with this Vector2f and store the result in <code>dest</code>.
+     * Multiply the transpose of the given matrix with this vector and store the result in <code>dest</code>.
      * <p>
      * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
