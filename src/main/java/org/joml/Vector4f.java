@@ -913,7 +913,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Multiply this Vector4f component-wise by another Vector4f.
+     * Multiply this vector component-wise by another Vector4f.
      * 
      * @param v
      *          the other vector
@@ -932,7 +932,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Divide this Vector4f component-wise by another Vector4f.
+     * Divide this vector component-wise by another Vector4f.
      * 
      * @param v
      *          the vector to divide by
@@ -951,7 +951,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Multiply the given matrix mat with this Vector4f and store the result in
+     * Multiply the given matrix mat with this vector and store the result in
      * <code>this</code>.
      * 
      * @param mat
@@ -959,12 +959,15 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
      * @return this
      */
     public Vector4f mul(Matrix4fc mat) {
-        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
-            return mulAffine(mat, this);
-        return mulGeneric(mat, this);
+        return mul(mat, this);
     }
     public Vector4f mul(Matrix4fc mat, Vector4f dest) {
-        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4fc.PROPERTY_TRANSLATION) != 0)
+            return mulTranslation(mat, dest);
+        if ((prop & Matrix4fc.PROPERTY_AFFINE) != 0)
             return mulAffine(mat, dest);
         return mulGeneric(mat, dest);
     }
@@ -984,9 +987,28 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         return mulTranspose(mat, this);
     }
     public Vector4f mulTranspose(Matrix4fc mat, Vector4f dest) {
-        if ((mat.properties() & Matrix4fc.PROPERTY_AFFINE) != 0)
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4fc.PROPERTY_AFFINE) != 0)
             return mulAffineTranspose(mat, dest);
         return mulGenericTranspose(mat, dest);
+    }
+    public Vector4f mulAffineTranspose(Matrix4fc mat, Vector4f dest) {
+        float x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
+        dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
+        dest.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
+        dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, mat.m32() * z + w));
+        return dest;
+    }
+    public Vector4f mulGenericTranspose(Matrix4fc mat, Vector4f dest) {
+        float x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03() * w)));
+        dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13() * w)));
+        dest.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23() * w)));
+        dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, Math.fma(mat.m32(), z, mat.m33() * w)));
+        return dest;
     }
 
     public Vector4f mulAffine(Matrix4fc mat, Vector4f dest) {
@@ -998,7 +1020,40 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         return dest;
     }
 
-    private Vector4f mulGeneric(Matrix4fc mat, Vector4f dest) {
+    /**
+     * Multiply the given matrix <code>mat</code>, which is assumed to only contain translation, with this vector.
+     * <p>
+     * This method only works if the given matrix _only_ represents a translation.
+     *
+     * @param mat
+     *          the affine matrix to multiply the vector with
+     * @return this
+     */
+    public Vector4f mulTranslation(Matrix4fc mat) {
+        return mulTranslation(mat, this);
+    }
+    public Vector4f mulTranslation(Matrix4fc mat, Vector4f dest) {
+        float x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m30(), w, x);
+        dest.y = Math.fma(mat.m31(), w, y);
+        dest.z = Math.fma(mat.m32(), w, z);
+        dest.w = w;
+        return dest;
+    }
+
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector.
+     * <p>
+     * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     *
+     * @param mat
+     *          the matrix whose transpose to multiply the vector with
+     * @return this
+     */
+    public Vector4f mulGeneric(Matrix4fc mat) {
+        return mulGeneric(mat, this);
+    }
+    public Vector4f mulGeneric(Matrix4fc mat, Vector4f dest) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
@@ -1007,27 +1062,10 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         return dest;
     }
 
-    public Vector4f mulAffineTranspose(Matrix4fc mat, Vector4f dest) {
-        float x = this.x, y = this.y, z = this.z, w = this.w;
-        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
-        dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, mat.m12() * z));
-        dest.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, mat.m22() * z));
-        dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, mat.m32() * z + w));
-        return dest;
-    }
-    private Vector4f mulGenericTranspose(Matrix4fc mat, Vector4f dest) {
-        float x = this.x, y = this.y, z = this.z, w = this.w;
-        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03() * w)));
-        dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13() * w)));
-        dest.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23() * w)));
-        dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, Math.fma(mat.m32(), z, mat.m33() * w)));
-        return dest;
-    }
-
     /**
      * Multiply the given matrix mat with this vector and store the result in
      * <code>this</code>.
-     * 
+     *
      * @param mat
      *          the matrix to multiply the vector with
      * @return this
@@ -1035,29 +1073,35 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     public Vector4f mul(Matrix4x3fc mat) {
         return mul(mat, this);
     }
-
     public Vector4f mul(Matrix4x3fc mat, Vector4f dest) {
-        float x = this.x, y = this.y, z = this.z, w = this.w;
-        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
-        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
-        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
+        int prop = mat.properties();
+        if ((prop & Matrix4x3fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4x3fc.PROPERTY_TRANSLATION) != 0)
+            return mulTranslation(mat, dest);
+        return mulGeneric(mat, dest);
+    }
+    public Vector4f mulGeneric(Matrix4x3fc mat, Vector4f dest) {
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
         dest.w = w;
         return dest;
     }
-
-    public Vector4f mulProject(Matrix4fc mat, Vector4f dest) {
-        float x = this.x, y = this.y, z = this.z, w = this.w;
-        float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
-        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
-        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
-        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
-        dest.w = 1.0f;
+    public Vector4f mulTranslation(Matrix4x3fc mat, Vector4f dest) {
+        dest.x = Math.fma(mat.m30(), w, x);
+        dest.y = Math.fma(mat.m31(), w, y);
+        dest.z = Math.fma(mat.m32(), w, z);
+        dest.w = w;
         return dest;
     }
 
     /**
      * Multiply the given matrix <code>mat</code> with this vector, perform perspective division.
-     * 
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this
@@ -1065,13 +1109,87 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     public Vector4f mulProject(Matrix4fc mat) {
         return mulProject(mat, this);
     }
-
+    public Vector4f mulProject(Matrix4fc mat, Vector4f dest) {
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4fc.PROPERTY_TRANSLATION) != 0)
+            return mulProjectTranslation(mat, dest);
+        if ((prop & Matrix4fc.PROPERTY_AFFINE) != 0)
+            return mulProjectAffine(mat, dest);
+        return mulProjectGeneric(mat, dest);
+    }
     public Vector3f mulProject(Matrix4fc mat, Vector3f dest) {
-        float x = this.x, y = this.y, z = this.z, w = this.w;
+        int prop = mat.properties();
+        if ((prop & Matrix4fc.PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        if ((prop & Matrix4fc.PROPERTY_TRANSLATION) != 0)
+            return mulProjectTranslation(mat, dest);
+        if ((prop & Matrix4fc.PROPERTY_AFFINE) != 0)
+            return mulProjectAffine(mat, dest);
+        return mulProjectGeneric(mat, dest);
+    }
+    public Vector4f mulProjectGeneric(Matrix4fc mat, Vector4f dest) {
         float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
-        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
-        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
-        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = 1.0f;
+        return dest;
+    }
+    public Vector3f mulProjectGeneric(Matrix4fc mat, Vector3f dest) {
+        float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        return dest;
+    }
+    public Vector4f mulProjectTranslation(Matrix4fc mat, Vector4f dest) {
+        float invW = 1.0f / w;
+        float rx = Math.fma(mat.m00(), x, mat.m30() * w) * invW;
+        float ry = Math.fma(mat.m11(), y, mat.m31() * w) * invW;
+        float rz = Math.fma(mat.m22(), z, mat.m32() * w) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = 1.0f;
+        return dest;
+    }
+    public Vector3f mulProjectTranslation(Matrix4fc mat, Vector3f dest) {
+        float invW = 1.0f / w;
+        float rx = Math.fma(mat.m00(), x, mat.m30() * w) * invW;
+        float ry = Math.fma(mat.m11(), y, mat.m31() * w) * invW;
+        float rz = Math.fma(mat.m22(), z, mat.m32() * w) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        return dest;
+    }
+    public Vector4f mulProjectAffine(Matrix4fc mat, Vector4f dest) {
+        float invW = 1.0f / w;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
+        dest.w = 1.0f;
+        return dest;
+    }
+    public Vector3f mulProjectAffine(Matrix4fc mat, Vector3f dest) {
+        float invW = 1.0f / w;
+        float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
+        float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w))) * invW;
+        float rz = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w))) * invW;
+        dest.x = rx;
+        dest.y = ry;
+        dest.z = rz;
         return dest;
     }
 
