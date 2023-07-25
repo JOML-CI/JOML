@@ -317,7 +317,7 @@ public interface Vector4dc {
     Vector4d fma(double a, Vector4dc b, Vector4d dest);
 
     /**
-     * Multiply this {@link Vector4d} component-wise by the given {@link Vector4dc} and store the result in <code>dest</code>.
+     * Multiply this vector component-wise by the given {@link Vector4dc} and store the result in <code>dest</code>.
      * 
      * @param v
      *             the vector to multiply this by
@@ -328,7 +328,7 @@ public interface Vector4dc {
     Vector4d mul(Vector4dc v, Vector4d dest);
 
     /**
-     * Multiply this {@link Vector4d} component-wise by the given {@link Vector4fc} and store the result in <code>dest</code>.
+     * Multiply this vector component-wise by the given {@link Vector4fc} and store the result in <code>dest</code>.
      * 
      * @param v
      *             the vector to multiply this by
@@ -339,7 +339,7 @@ public interface Vector4dc {
     Vector4d mul(Vector4fc v, Vector4d dest);
 
     /**
-     * Divide this {@link Vector4d} component-wise by the given {@link Vector4dc} and store the result in <code>dest</code>.
+     * Divide this vector component-wise by the given {@link Vector4dc} and store the result in <code>dest</code>.
      * 
      * @param v
      *          the vector to divide this by
@@ -350,7 +350,7 @@ public interface Vector4dc {
     Vector4d div(Vector4dc v, Vector4d dest);
 
     /**
-     * Multiply the given matrix mat with this {@link Vector4d} and store the result in <code>dest</code>.
+     * Multiply the given matrix mat with this vector and store the result in <code>dest</code>.
      * <p>
      * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.

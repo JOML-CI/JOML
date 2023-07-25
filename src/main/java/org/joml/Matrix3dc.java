@@ -1609,7 +1609,7 @@ public interface Matrix3dc {
      * This method assumes that <code>this</code> matrix only represents a rotation without scaling.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
-     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied vector.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>X * Y * Z</code> to obtain the identical matrix.
      * This means that calling {@link Matrix3dc#rotateXYZ(double, double, double, Matrix3d)} using the obtained Euler angles will yield
@@ -1635,7 +1635,7 @@ public interface Matrix3dc {
      * This method assumes that <code>this</code> matrix only represents a rotation without scaling.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
-     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied vector.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
      * This means that calling {@link Matrix3dc#rotateZYX(double, double, double, Matrix3d)} using the obtained Euler angles will yield
@@ -1661,7 +1661,7 @@ public interface Matrix3dc {
      * This method assumes that <code>this</code> matrix only represents a rotation without scaling.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
-     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied vector.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>Y * X * Z</code> to obtain the identical matrix.
      * This means that calling {@link Matrix3dc#rotateYXZ(double, double, double, Matrix3d)} using the obtained Euler angles will yield

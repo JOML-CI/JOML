@@ -335,7 +335,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Set this {@link Vector4f} to the values of the given <code>v</code>.
+     * Set this vector to the values of the given <code>v</code>.
      * 
      * @param v
      *          the vector whose values will be copied into this
@@ -352,7 +352,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Set this {@link Vector4f} to the values of the given <code>v</code>.
+     * Set this vector to the values of the given <code>v</code>.
      * 
      * @param v
      *          the vector whose values will be copied into this
@@ -367,7 +367,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Set this {@link Vector4f} to the values of the given <code>v</code>.
+     * Set this vector to the values of the given <code>v</code>.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components in double-precision,
      * there is the possibility to lose precision.
@@ -403,7 +403,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Set this {@link Vector4f} to the <code>(x, y, z)</code> components of the given <code>v</code>.
+     * Set this vector to the <code>(x, y, z)</code> components of the given <code>v</code>.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components in double-precision,
      * there is the possibility to lose precision.
@@ -1066,6 +1066,9 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
      * Multiply the given matrix <code>mat</code>, which is assumed to only contain translation, with this vector.
      * <p>
      * This method only works if the given matrix _only_ represents a translation.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the affine matrix to multiply the vector with
@@ -1087,6 +1090,9 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
      * Multiply the given matrix <code>mat</code> with this vector.
      * <p>
      * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix whose transpose to multiply the vector with
@@ -1105,8 +1111,10 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Multiply the given matrix mat with this vector and store the result in
-     * <code>this</code>.
+     * Multiply the given matrix mat with this vector.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix to multiply the vector with
@@ -1172,7 +1180,10 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this vector, perform perspective division.
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix to multiply this vector by
@@ -1312,7 +1323,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Multiply all components of this {@link Vector4f} by the given scalar
+     * Multiply all components of this vector by the given scalar
      * value.
      * 
      * @param scalar
@@ -1357,7 +1368,7 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
     }
 
     /**
-     * Divide all components of this {@link Vector4f} by the given scalar
+     * Divide all components of this vector by the given scalar
      * value.
      * 
      * @param scalar

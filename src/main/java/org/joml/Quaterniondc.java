@@ -1807,7 +1807,7 @@ public interface Quaterniondc {
      * provided parameter <code>eulerAngles</code>.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
-     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied vector.
      * 
      * @param eulerAngles
      *          will hold the euler angles in radians
@@ -1820,7 +1820,7 @@ public interface Quaterniondc {
      * provided parameter <code>eulerAngles</code>.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
-     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied vector.
      * 
      * @param eulerAngles
      *          will hold the euler angles in radians
@@ -1833,7 +1833,7 @@ public interface Quaterniondc {
      * provided parameter <code>eulerAngles</code>.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
-     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied vector.
      * 
      * @param eulerAngles
      *          will hold the euler angles in radians
@@ -1846,7 +1846,7 @@ public interface Quaterniondc {
      * provided parameter <code>eulerAngles</code>.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3d#x} field, the angle around Y in the {@link Vector3d#y}
-     * field and the angle around Z in the {@link Vector3d#z} field of the supplied {@link Vector3d} instance.
+     * field and the angle around Z in the {@link Vector3d#z} field of the supplied vector.
      * 
      * @param eulerAngles
      *          will hold the euler angles in radians

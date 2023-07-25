@@ -311,7 +311,7 @@ public interface Vector2fc {
     Vector2f mul(Vector2fc v, Vector2f dest);
 
     /**
-     * Divide all components of this {@link Vector2f} by the given scalar
+     * Divide all components of this vector by the given scalar
      * value and store the result in <code>dest</code>.
      * 
      * @param scalar

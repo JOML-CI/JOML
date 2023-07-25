@@ -562,7 +562,7 @@ public interface Vector4fc {
     Vector4f mulProjectAffine(Matrix4fc mat, Vector4f dest);
 
     /**
-     * Multiply all components of this {@link Vector4f} by the given scalar
+     * Multiply all components of this vector by the given scalar
      * value and store the result in <code>dest</code>.
      * 
      * @param scalar
@@ -591,7 +591,7 @@ public interface Vector4fc {
     Vector4f mul(float x, float y, float z, float w, Vector4f dest);
 
     /**
-     * Divide all components of this {@link Vector4f} by the given scalar
+     * Divide all components of this vector by the given scalar
      * value and store the result in <code>dest</code>.
      * 
      * @param scalar

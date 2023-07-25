@@ -1365,7 +1365,7 @@ public interface Matrix3fc {
      * This method assumes that <code>this</code> matrix only represents a rotation without scaling.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
-     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied vector.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>X * Y * Z</code> to obtain the identical matrix.
      * This means that calling {@link Matrix3fc#rotateXYZ(float, float, float, Matrix3f)} using the obtained Euler angles will yield
@@ -1391,7 +1391,7 @@ public interface Matrix3fc {
      * This method assumes that <code>this</code> matrix only represents a rotation without scaling.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
-     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied vector.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
      * This means that calling {@link Matrix3fc#rotateZYX(float, float, float, Matrix3f)} using the obtained Euler angles will yield
@@ -1417,7 +1417,7 @@ public interface Matrix3fc {
      * This method assumes that <code>this</code> matrix only represents a rotation without scaling.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
-     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied vector.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>Y * X * Z</code> to obtain the identical matrix.
      * This means that calling {@link Matrix3fc#rotateYXZ(float, float, float, Matrix3f)} using the obtained Euler angles will yield

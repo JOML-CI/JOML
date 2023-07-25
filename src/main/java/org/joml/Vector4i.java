@@ -341,7 +341,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     /**
-     * Set this {@link Vector4i} to the values of the given <code>v</code>.
+     * Set this vector to the values of the given <code>v</code>.
      *
      * @param v
      *          the vector whose values will be copied into this
@@ -356,7 +356,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     /**
-     * Set this {@link Vector4i} to the values of v using {@link RoundingMode#TRUNCATE} rounding.
+     * Set this vector to the values of v using {@link RoundingMode#TRUNCATE} rounding.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components
      * in double-precision, there is the possibility to lose precision.
@@ -374,7 +374,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     /**
-     * Set this {@link Vector4i} to the values of v using the given {@link RoundingMode}.
+     * Set this vector to the values of v using the given {@link RoundingMode}.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components
      * in double-precision, there is the possibility to lose precision.
@@ -394,7 +394,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     /**
-     * Set this {@link Vector4i} to the values of v using the given {@link RoundingMode}.
+     * Set this vector to the values of v using the given {@link RoundingMode}.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components
      * in double-precision, there is the possibility to lose precision.
@@ -835,7 +835,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     /**
-     * Multiply all components of this {@link Vector4i} by the given scalar
+     * Multiply all components of this vector by the given scalar
      * value.
      *
      * @param scalar
@@ -855,7 +855,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     /**
-     * Divide all components of this {@link Vector3i} by the given scalar value.
+     * Divide all components of this vector by the given scalar value.
      *
      * @param scalar
      *          the scalar to divide by
@@ -875,7 +875,7 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     /**
-     * Divide all components of this {@link Vector4i} by the given scalar value.
+     * Divide all components of this vector by the given scalar value.
      *
      * @param scalar
      *          the scalar to divide by

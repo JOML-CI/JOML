@@ -306,7 +306,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Set this {@link Vector2f} to the values of v.
+     * Set this vector to the values of v.
      * 
      * @param v
      *        the vector to copy from
@@ -319,7 +319,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Set this {@link Vector2f} to the values of v.
+     * Set this vector to the values of v.
      * 
      * @param v
      *        the vector to copy from
@@ -332,7 +332,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Set this {@link Vector2f} to the values of v.
+     * Set this vector to the values of v.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components in double-precision,
      * there is the possibility to lose precision.
@@ -348,7 +348,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Set this {@link Vector2f} to the <code>(x, y)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y)</code> components of <code>v</code>.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components in double-precision,
      * there is the possibility to lose precision.
@@ -364,7 +364,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Set this {@link Vector2f} to the <code>(x, y)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from
@@ -377,7 +377,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Set this {@link Vector2f} to the <code>(x, y)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from
@@ -917,7 +917,7 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
-     * Divide all components of this {@link Vector2f} by the given scalar
+     * Divide all components of this vector by the given scalar
      * value.
      * 
      * @param scalar

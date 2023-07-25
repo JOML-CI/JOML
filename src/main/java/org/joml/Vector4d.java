@@ -376,7 +376,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Set this {@link Vector4d} to the values of the given <code>v</code>.
+     * Set this vector to the values of the given <code>v</code>.
      * 
      * @param v
      *          the vector whose values will be copied into this
@@ -393,7 +393,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Set this {@link Vector4d} to the values of the given <code>v</code>.
+     * Set this vector to the values of the given <code>v</code>.
      * 
      * @param v
      *          the vector whose values will be copied into this
@@ -408,7 +408,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Set this {@link Vector4d} to the values of the given <code>v</code>.
+     * Set this vector to the values of the given <code>v</code>.
      * 
      * @param v
      *          the vector whose values will be copied into this
@@ -1027,7 +1027,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Multiply this {@link Vector4d} component-wise by the given {@link Vector4d}.
+     * Multiply this vector component-wise by the given vector.
      * 
      * @param v
      *          the vector to multiply by
@@ -1046,7 +1046,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Divide this {@link Vector4d} component-wise by the given {@link Vector4dc}.
+     * Divide this vector component-wise by the given {@link Vector4dc}.
      * 
      * @param v
      *          the vector to divide by
@@ -1065,7 +1065,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Multiply this {@link Vector4d} component-wise by the given {@link Vector4fc}.
+     * Multiply this vector component-wise by the given {@link Vector4fc}.
      * 
      * @param v
      *          the vector to multiply by
@@ -1084,10 +1084,13 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this {@link Vector4d}.
-     * 
+     * Multiply the given matrix mat with this vector.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
-     *          the matrix to multiply by
+     *          the matrix to multiply <code>this</code> by
      * @return this
      */
     public Vector4d mul(Matrix4dc mat) {
@@ -1105,12 +1108,11 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Multiply the transpose of the given matrix <code>mat</code> with this vector and store the result in
-     * <code>this</code>.
+     * Multiply the transpose of the given matrix <code>mat</code> with this vector.
      * <p>
      * Note that this method performs the operation <code>M^T * this</code>, where <code>M</code> is the provided matrix
      * and thus interprets <code>this</code> as a <em>column</em> vector.
-     * 
+     *
      * @param mat
      *          the matrix whose transpose to multiply the vector with
      * @return this
@@ -1159,6 +1161,9 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
      * Multiply the given matrix <code>mat</code> with this vector.
      * <p>
      * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
      *
      * @param mat
      *          the matrix whose transpose to multiply the vector with
@@ -1197,9 +1202,11 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Multiply the given matrix mat with this vector and store the result in
-     * <code>this</code>.
-     * 
+     * Multiply the given matrix mat with this vector.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply the vector with
      * @return this
@@ -1234,9 +1241,11 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Multiply the given matrix mat with this vector and store the result in
-     * <code>this</code>.
-     * 
+     * Multiply the given matrix mat with this vector.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply the vector with
      * @return this
@@ -1271,10 +1280,13 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this {@link Vector4d}.
-     * 
+     * Multiply the given matrix mat with this vector.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
-     *          the matrix to multiply by
+     *          the matrix to multiply <code>this</code> by
      * @return this
      */
     public Vector4d mul(Matrix4fc mat) {
@@ -1447,8 +1459,11 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> with this vector, perform perspective division.
-     * 
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
      * @param mat
      *          the matrix to multiply this vector by
      * @return this

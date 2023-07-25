@@ -282,7 +282,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Set this {@link Vector2d} to the values of v.
+     * Set this vector to the values of v.
      * 
      * @param v
      *          the vector to copy from
@@ -295,7 +295,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Set this {@link Vector2d} to be a clone of <code>v</code>.
+     * Set this vector to be a clone of <code>v</code>.
      * 
      * @param v
      *          the vector to copy from
@@ -308,7 +308,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Set this {@link Vector2d} to be a clone of <code>v</code>.
+     * Set this vector to be a clone of <code>v</code>.
      * 
      * @param v
      *          the vector to copy from
@@ -321,7 +321,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Set this {@link Vector2d} to the <code>(x, y)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from
@@ -334,7 +334,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Set this {@link Vector2d} to the <code>(x, y)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from
@@ -347,7 +347,7 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
-     * Set this {@link Vector2i} to the <code>(x, y)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from

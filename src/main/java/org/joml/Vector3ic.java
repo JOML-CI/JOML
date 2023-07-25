@@ -227,7 +227,7 @@ public interface Vector3ic {
     Vector3i mul(int x, int y, int z, Vector3i dest);
 
     /**
-     * Divide all components of this {@link Vector3i} by the given scalar value
+     * Divide all components of this vector by the given scalar value
      * and store the result in <code>dest</code>.
      *
      * @param scalar
@@ -239,7 +239,7 @@ public interface Vector3ic {
     Vector3i div(float scalar, Vector3i dest);
 
     /**
-     * Divide all components of this {@link Vector3i} by the given scalar value
+     * Divide all components of this vector by the given scalar value
      * and store the result in <code>dest</code>.
      *
      * @param scalar

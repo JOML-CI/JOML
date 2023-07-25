@@ -4481,7 +4481,7 @@ public interface Matrix4fc {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * The frustum plane will be given in the form of a general plane equation:
-     * <code>a*x + b*y + c*z + d = 0</code>, where the given {@link Vector4f} components will
+     * <code>a*x + b*y + c*z + d = 0</code>, where the given vector components will
      * hold the <code>(a, b, c, d)</code> values of the equation.
      * <p>
      * The plane normal, which is <code>(a, b, c)</code>, is directed "inwards" of the frustum.
@@ -5197,7 +5197,7 @@ public interface Matrix4fc {
      * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
-     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied vector.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>X * Y * Z</code> to obtain the identical matrix.
      * This means that calling {@link Matrix4fc#rotateXYZ(float, float, float, Matrix4f)} using the obtained Euler angles will yield
@@ -5224,7 +5224,7 @@ public interface Matrix4fc {
      * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
-     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied vector.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>Z * Y * X</code> to obtain the identical matrix.
      * This means that calling {@link Matrix4fc#rotateZYX(float, float, float, Matrix4f)} using the obtained Euler angles will yield
@@ -5251,7 +5251,7 @@ public interface Matrix4fc {
      * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
      * <p>
      * The Euler angles are always returned as the angle around X in the {@link Vector3f#x} field, the angle around Y in the {@link Vector3f#y}
-     * field and the angle around Z in the {@link Vector3f#z} field of the supplied {@link Vector3f} instance.
+     * field and the angle around Z in the {@link Vector3f#z} field of the supplied vector.
      * <p>
      * Note that the returned Euler angles must be applied in the order <code>Y * X * Z</code> to obtain the identical matrix.
      * This means that calling {@link Matrix4fc#rotateYXZ(float, float, float, Matrix4f)} using the obtained Euler angles will yield

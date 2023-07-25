@@ -274,7 +274,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Set this {@link Vector3f} to the <code>(x, y, z)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y, z)</code> components of <code>v</code>.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components in double-precision,
      * there is the possibility to lose precision.
@@ -291,7 +291,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Set this {@link Vector3f} to the <code>(x, y, z)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y, z)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from
@@ -305,7 +305,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Set this {@link Vector3f} to the <code>(x, y, z)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y, z)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from
@@ -1691,7 +1691,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Multiply all components of this {@link Vector3f} by the given scalar
+     * Multiply all components of this vector by the given scalar
      * value.
      * 
      * @param scalar
@@ -1732,7 +1732,7 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
     }
 
     /**
-     * Divide all components of this {@link Vector3f} by the given scalar
+     * Divide all components of this vector by the given scalar
      * value.
      * 
      * @param scalar

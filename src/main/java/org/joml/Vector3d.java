@@ -301,7 +301,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Set this {@link Vector3d} to the <code>(x, y, z)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y, z)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from
@@ -315,7 +315,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Set this {@link Vector3d} to the <code>(x, y, z)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y, z)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from
@@ -329,7 +329,7 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
     }
 
     /**
-     * Set this {@link Vector3d} to the <code>(x, y, z)</code> components of <code>v</code>.
+     * Set this vector to the <code>(x, y, z)</code> components of <code>v</code>.
      *
      * @param v
      *        the vector to copy from

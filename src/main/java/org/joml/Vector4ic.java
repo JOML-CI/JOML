@@ -221,7 +221,7 @@ public interface Vector4ic {
     Vector4i div(Vector4ic v, Vector4i dest);
 
     /**
-     * Multiply all components of this {@link Vector4i} by the given scalar
+     * Multiply all components of this vector by the given scalar
      * value and store the result in <code>dest</code>.
      *
      * @param scalar
@@ -233,7 +233,7 @@ public interface Vector4ic {
     Vector4i mul(int scalar, Vector4i dest);
 
     /**
-     * Divide all components of this {@link Vector4i} by the given scalar value
+     * Divide all components of this vector by the given scalar value
      * and store the result in <code>dest</code>.
      *
      * @param scalar
@@ -245,7 +245,7 @@ public interface Vector4ic {
     Vector4i div(float scalar, Vector4i dest);
 
     /**
-     * Divide all components of this {@link Vector4i} by the given scalar value
+     * Divide all components of this vector by the given scalar value
      * and store the result in <code>dest</code>.
      *
      * @param scalar

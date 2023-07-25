@@ -373,7 +373,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     }
 
     /**
-     * Set this {@link Vector3i} to the values of v using {@link RoundingMode#TRUNCATE} rounding.
+     * Set this vector to the values of v using {@link RoundingMode#TRUNCATE} rounding.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components
      * in double-precision, there is the possibility to lose precision.
@@ -390,7 +390,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     }
 
     /**
-     * Set this {@link Vector3i} to the values of v using the given {@link RoundingMode}.
+     * Set this vector to the values of v using the given {@link RoundingMode}.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components
      * in double-precision, there is the possibility to lose precision.
@@ -409,7 +409,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     }
 
     /**
-     * Set this {@link Vector3i} to the values of v using the given {@link RoundingMode}.
+     * Set this vector to the values of v using the given {@link RoundingMode}.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components
      * in double-precision, there is the possibility to lose precision.
@@ -742,7 +742,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     }
 
     /**
-     * Multiply all components of this {@link Vector3i} by the given scalar
+     * Multiply all components of this vector by the given scalar
      * value.
      * 
      * @param scalar
@@ -761,7 +761,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     }
 
     /**
-     * Multiply all components of this {@link Vector3i} by the given vector.
+     * Multiply all components of this vector by the given vector.
      *
      * @param v
      *          the vector to multiply
@@ -801,7 +801,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     }
 
     /**
-     * Divide all components of this {@link Vector3i} by the given scalar value.
+     * Divide all components of this vector by the given scalar value.
      *
      * @param scalar
      *          the scalar to divide by
@@ -820,7 +820,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     }
 
     /**
-     * Divide all components of this {@link Vector3i} by the given scalar value.
+     * Divide all components of this vector by the given scalar value.
      *
      * @param scalar
      *          the scalar to divide by

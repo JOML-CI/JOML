@@ -822,7 +822,7 @@ public interface Vector3fc {
     Vector3f mulTransposeDirection(Matrix4fc mat, Vector3f dest);
 
     /**
-     * Multiply all components of this {@link Vector3f} by the given scalar
+     * Multiply all components of this vector by the given scalar
      * value and store the result in <code>dest</code>.
      * 
      * @param scalar
@@ -849,7 +849,7 @@ public interface Vector3fc {
     Vector3f mul(float x, float y, float z, Vector3f dest);
 
     /**
-     * Divide all components of this {@link Vector3f} by the given scalar
+     * Divide all components of this vector by the given scalar
      * value and store the result in <code>dest</code>.
      * 
      * @param scalar
