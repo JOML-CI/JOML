@@ -1290,6 +1290,22 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
             return mulAffine(mat, dest);
         return mulGeneric(mat, dest);
     }
+
+    /**
+     * Multiply the given affine matrix <code>mat</code> with this vector.
+     * <p>
+     * This method only works if the given matrix _only_ represents an affine transformation.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the affine matrix to multiply the vector with
+     * @return this
+     */
+    public Vector4d mulAffine(Matrix4fc mat) {
+        return mulAffine(mat, this);
+    }
     public Vector4d mulAffine(Matrix4fc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         double ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
@@ -1299,6 +1315,22 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         dest.z = rz;
         dest.w = w;
         return dest;
+    }
+
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector.
+     * <p>
+     * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix whose transpose to multiply the vector with
+     * @return this
+     */
+    public Vector4d mulGeneric(Matrix4fc mat) {
+        return mulGeneric(mat, this);
     }
     public Vector4d mulGeneric(Matrix4fc mat, Vector4d dest) {
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
@@ -1312,6 +1344,21 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         return dest;
     }
 
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector, perform perspective division.
+     * <p>
+     * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector4d mulProjectGeneric(Matrix4dc mat) {
+        return mulProjectGeneric(mat, this);
+    }
     public Vector4d mulProjectGeneric(Matrix4dc mat, Vector4d dest) {
         double invW = 1.0 / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
@@ -1324,6 +1371,22 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         return dest;
     }
 
+    /**
+     * Multiply the given matrix <code>mat</code>, which is assumed to only contain translation,
+     * with this vector, perform perspective division.
+     * <p>
+     * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector4d mulProjectTranslation(Matrix4dc mat) {
+        return mulProjectTranslation(mat, this);
+    }
     public Vector4d mulProjectTranslation(Matrix4dc mat, Vector4d dest) {
         double invW = 1.0 / w;
         double rx = Math.fma(mat.m00(), x, mat.m30() * w) * invW;
@@ -1346,6 +1409,21 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         return dest;
     }
 
+    /**
+     * Multiply the given affine matrix <code>mat</code>, with this vector, perform perspective division.
+     * <p>
+     * This method only works if the given matrix _only_ represents an affine transformation.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector4d mulProjectAffine(Matrix4dc mat) {
+        return mulProjectAffine(mat, this);
+    }
     public Vector4d mulProjectAffine(Matrix4dc mat, Vector4d dest) {
         double invW = 1.0 / w;
         double rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;

@@ -971,6 +971,29 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
             return mulAffine(mat, dest);
         return mulGeneric(mat, dest);
     }
+    /**
+     * Multiply the given affine matrix <code>mat</code> with this vector.
+     * <p>
+     * This method only works if the given matrix _only_ represents an affine transformation.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the affine matrix to multiply the vector with
+     * @return this
+     */
+    public Vector4f mulAffine(Matrix4fc mat) {
+        return mulAffine(mat, this);
+    }
+    public Vector4f mulAffine(Matrix4fc mat, Vector4f dest) {
+        float x = this.x, y = this.y, z = this.z, w = this.w;
+        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
+        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
+        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
+        dest.w = w;
+        return dest;
+    }
 
     /**
      * Multiply the transpose of the given matrix <code>mat</code> with this vector and store the result in
@@ -994,6 +1017,19 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
             return mulAffineTranspose(mat, dest);
         return mulGenericTranspose(mat, dest);
     }
+    /**
+     * Multiply the transpose of the given affine matrix <code>mat</code> with this vector.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the affine matrix whose transpose to multiply the vector with
+     * @return this
+     */
+    public Vector4f mulAffineTranspose(Matrix4fc mat) {
+        return mulAffineTranspose(mat, this);
+    }
     public Vector4f mulAffineTranspose(Matrix4fc mat, Vector4f dest) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, mat.m02() * z));
@@ -1002,21 +1038,27 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, mat.m32() * z + w));
         return dest;
     }
+    /**
+     * Multiply the transpose of the given matrix <code>mat</code> with this vector.
+     * <p>
+     * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the affine matrix whose transpose to multiply the vector with
+     * @return this
+     */
+    public Vector4f mulGenericTranspose(Matrix4fc mat) {
+        return mulGenericTranspose(mat, this);
+    }
     public Vector4f mulGenericTranspose(Matrix4fc mat, Vector4f dest) {
         float x = this.x, y = this.y, z = this.z, w = this.w;
         dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m01(), y, Math.fma(mat.m02(), z, mat.m03() * w)));
         dest.y = Math.fma(mat.m10(), x, Math.fma(mat.m11(), y, Math.fma(mat.m12(), z, mat.m13() * w)));
         dest.z = Math.fma(mat.m20(), x, Math.fma(mat.m21(), y, Math.fma(mat.m22(), z, mat.m23() * w)));
         dest.w = Math.fma(mat.m30(), x, Math.fma(mat.m31(), y, Math.fma(mat.m32(), z, mat.m33() * w)));
-        return dest;
-    }
-
-    public Vector4f mulAffine(Matrix4fc mat, Vector4f dest) {
-        float x = this.x, y = this.y, z = this.z, w = this.w;
-        dest.x = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
-        dest.y = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
-        dest.z = Math.fma(mat.m02(), x, Math.fma(mat.m12(), y, Math.fma(mat.m22(), z, mat.m32() * w)));
-        dest.w = w;
         return dest;
     }
 
@@ -1081,6 +1123,21 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
             return mulTranslation(mat, dest);
         return mulGeneric(mat, dest);
     }
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector.
+     * <p>
+     * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix whose transpose to multiply the vector with
+     * @return this
+     */
+    public Vector4f mulGeneric(Matrix4x3fc mat) {
+        return mulGeneric(mat, this);
+    }
     public Vector4f mulGeneric(Matrix4x3fc mat, Vector4f dest) {
         float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w)));
         float ry = Math.fma(mat.m01(), x, Math.fma(mat.m11(), y, Math.fma(mat.m21(), z, mat.m31() * w)));
@@ -1090,6 +1147,21 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         dest.z = rz;
         dest.w = w;
         return dest;
+    }
+    /**
+     * Multiply the given matrix <code>mat</code>, which is assumed to only contain translation, with this vector.
+     * <p>
+     * This method only works if the given matrix _only_ represents a translation.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix whose transpose to multiply the vector with
+     * @return this
+     */
+    public Vector4f mulTranslation(Matrix4x3fc mat) {
+        return mulTranslation(mat, this);
     }
     public Vector4f mulTranslation(Matrix4x3fc mat, Vector4f dest) {
         dest.x = Math.fma(mat.m30(), w, x);
@@ -1129,6 +1201,21 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
             return mulProjectAffine(mat, dest);
         return mulProjectGeneric(mat, dest);
     }
+    /**
+     * Multiply the given matrix <code>mat</code> with this vector and perform perspective division.
+     * <p>
+     * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector4f mulProjectGeneric(Matrix4fc mat) {
+        return mulProjectGeneric(mat, this);
+    }
     public Vector4f mulProjectGeneric(Matrix4fc mat, Vector4f dest) {
         float invW = 1.0f / Math.fma(mat.m03(), x, Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
         float rx = Math.fma(mat.m00(), x, Math.fma(mat.m10(), y, Math.fma(mat.m20(), z, mat.m30() * w))) * invW;
@@ -1150,6 +1237,22 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         dest.z = rz;
         return dest;
     }
+    /**
+     * Multiply the given matrix <code>mat</code>, which is assumed to only contain translation,
+     * with this vector and perform perspective division.
+     * <p>
+     * This method does not make any assumptions or optimizations about the properties of the specified matrix.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector4f mulProjectTranslation(Matrix4fc mat) {
+        return mulProjectTranslation(mat, this);
+    }
     public Vector4f mulProjectTranslation(Matrix4fc mat, Vector4f dest) {
         float invW = 1.0f / w;
         float rx = Math.fma(mat.m00(), x, mat.m30() * w) * invW;
@@ -1170,6 +1273,21 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         dest.y = ry;
         dest.z = rz;
         return dest;
+    }
+    /**
+     * Multiply the given affine matrix <code>mat</code>, with this vector and perform perspective division.
+     * <p>
+     * This method only works if the given matrix _only_ represents an affine transformation.
+     * <p>
+     * Note that this method performs the operation <code>M * this</code>, where <code>M</code> is the provided matrix
+     * and thus interprets <code>this</code> as a <em>column</em> vector.
+     *
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector4f mulProjectAffine(Matrix4fc mat) {
+        return mulProjectAffine(mat, this);
     }
     public Vector4f mulProjectAffine(Matrix4fc mat, Vector4f dest) {
         float invW = 1.0f / w;
