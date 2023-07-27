@@ -362,12 +362,21 @@ public class Math {
     public static int abs(int r) {
         return java.lang.Math.abs(r);
     }
+    public static long abs(long r) {
+        return java.lang.Math.abs(r);
+    }
 
     public static int max(int x, int y) {
         return java.lang.Math.max(x, y);
     }
-
     public static int min(int x, int y) {
+        return java.lang.Math.min(x, y);
+    }
+
+    public static long max(long x, long y) {
+        return java.lang.Math.max(x, y);
+    }
+    public static long min(long x, long y) {
         return java.lang.Math.min(x, y);
     }
 
@@ -392,6 +401,9 @@ public class Math {
         return max(a,min(b,val));
     }
     public static int clamp(int a, int b, int val) {
+        return max(a, min(b, val));
+    }
+    public static long clamp(long a, long b, long val) {
         return max(a, min(b, val));
     }
 
@@ -490,6 +502,24 @@ public class Math {
             throw new UnsupportedOperationException();
         }
     }
+    public static long roundLongUsing(double v, int mode) {
+        switch (mode) {
+            case RoundingMode.TRUNCATE:
+                return (long) v;
+            case RoundingMode.CEILING:
+                return (long) java.lang.Math.ceil(v);
+            case RoundingMode.FLOOR:
+                return (long) java.lang.Math.floor(v);
+            case RoundingMode.HALF_DOWN:
+                return roundHalfDown(v);
+            case RoundingMode.HALF_UP:
+                return roundHalfUp(v);
+            case RoundingMode.HALF_EVEN:
+                return roundHalfEven(v);
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
     
     public static float lerp(float a, float b, float t){
         return Math.fma(b - a, t, a);
@@ -548,6 +578,16 @@ public class Math {
     }
     public static int roundHalfUp(double v) {
         return (v > 0) ? (int) java.lang.Math.floor(v + 0.5d) : (int) java.lang.Math.ceil(v - 0.5d);
+    }
+
+    public static long roundLongHalfEven(double v) {
+        return (long) java.lang.Math.rint(v);
+    }
+    public static long roundLongHalfDown(double v) {
+        return (v > 0) ? (long) java.lang.Math.ceil(v - 0.5d) : (long) java.lang.Math.floor(v + 0.5d);
+    }
+    public static long roundLongHalfUp(double v) {
+        return (v > 0) ? (long) java.lang.Math.floor(v + 0.5d) : (long) java.lang.Math.ceil(v - 0.5d);
     }
 
     public static double random() {
