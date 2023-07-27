@@ -149,6 +149,18 @@ public interface Vector4Lc {
     Vector4L sub(Vector4Lc v, Vector4L dest);
 
     /**
+     * Subtract the supplied vector from this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to subtract from <code>this</code>
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4L sub(Vector4ic v, Vector4L dest);
+
+    /**
      * Subtract <code>(x, y, z, w)</code> from this and store the result in
      * <code>dest</code>.
      *
@@ -177,6 +189,18 @@ public interface Vector4Lc {
      * @return dest
      */
     Vector4L add(Vector4Lc v, Vector4L dest);
+
+    /**
+     * Add the supplied vector to this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4L add(Vector4ic v, Vector4L dest);
 
     /**
      * Increment the components of this vector by the given values and store the
@@ -209,6 +233,18 @@ public interface Vector4Lc {
     Vector4L mul(Vector4Lc v, Vector4L dest);
 
     /**
+     * Multiply this Vector4L component-wise by another Vector4ic and store the
+     * result in <code>dest</code>.
+     *
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4L mul(Vector4ic v, Vector4L dest);
+
+    /**
      * Divide this Vector4L component-wise by another Vector4Lc and store the
      * result in <code>dest</code>.
      *
@@ -219,6 +255,18 @@ public interface Vector4Lc {
      * @return dest
      */
     Vector4L div(Vector4Lc v, Vector4L dest);
+
+    /**
+     * Divide this Vector4L component-wise by another Vector4ic and store the
+     * result in <code>dest</code>.
+     *
+     * @param v
+     *          the vector to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4L div(Vector4ic v, Vector4L dest);
 
     /**
      * Multiply all components of this vector by the given scalar
@@ -280,6 +328,15 @@ public interface Vector4Lc {
     double distance(Vector4Lc v);
 
     /**
+     * Return the distance between this Vector and <code>v</code>.
+     *
+     * @param v
+     *          the other vector
+     * @return the distance
+     */
+    double distance(Vector4ic v);
+
+    /**
      * Return the distance between <code>this</code> vector and <code>(x, y, z, w)</code>.
      *
      * @param x
@@ -308,6 +365,16 @@ public interface Vector4Lc {
      * Return the grid distance in between (aka 1-Norm, Minkowski or Manhattan distance)
      * <code>(x, y)</code>.
      *
+     * @param v
+     *          the other vector
+     * @return the grid distance
+     */
+    long gridDistance(Vector4ic v);
+
+    /**
+     * Return the grid distance in between (aka 1-Norm, Minkowski or Manhattan distance)
+     * <code>(x, y)</code>.
+     *
      * @param x
      *          the x component of the other vector
      * @param y
@@ -328,6 +395,15 @@ public interface Vector4Lc {
      * @return the squared of the distance
      */
     long distanceSquared(Vector4Lc v);
+
+    /**
+     * Return the square of the distance between this vector and <code>v</code>.
+     *
+     * @param v
+     *          the other vector
+     * @return the squared of the distance
+     */
+    long distanceSquared(Vector4ic v);
 
     /**
      * Return the square of the distance between <code>this</code> vector and
@@ -353,6 +429,15 @@ public interface Vector4Lc {
      * @return the dot product
      */
     long dot(Vector4Lc v);
+
+    /**
+     * Compute the dot product (inner product) of this vector and <code>v</code>.
+     *
+     * @param v
+     *          the other vector
+     * @return the dot product
+     */
+    long dot(Vector4ic v);
 
     /**
      * Negate this vector and store the result in <code>dest</code>.

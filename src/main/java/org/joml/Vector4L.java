@@ -82,6 +82,35 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     }
 
     /**
+     * Create a new {@link Vector4L} with the same values as <code>v</code>.
+     *
+     * @param v
+     *          the {@link Vector4ic} to copy the values from
+     */
+    public Vector4L(Vector4ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = v.w();
+    }
+
+    /**
+     * Create a new {@link Vector4L} with the first three components from the
+     * given <code>v</code> and the given <code>w</code>.
+     *
+     * @param v
+     *          the {@link Vector3Lc}
+     * @param w
+     *          the w component
+     */
+    public Vector4L(Vector3Lc v, long w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = w;
+    }
+
+    /**
      * Create a new {@link Vector4L} with the first three components from the
      * given <code>v</code> and the given <code>w</code>.
      *
@@ -94,6 +123,24 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();
+        this.w = w;
+    }
+
+    /**
+     * Create a new {@link Vector4L} with the first two components from the
+     * given <code>v</code> and the given <code>z</code>, and <code>w</code>.
+     *
+     * @param v
+     *          the {@link Vector2ic}
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
+     */
+    public Vector4L(Vector2Lc v, long z, long w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
         this.w = w;
     }
 
@@ -346,6 +393,21 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
      * @return this
      */
     public Vector4L set(Vector4Lc v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = v.w();
+        return this;
+    }
+
+    /**
+     * Set this vector to the values of the given <code>v</code>.
+     *
+     * @param v
+     *          the vector whose values will be copied into this
+     * @return this
+     */
+    public Vector4L set(Vector4ic v) {
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();
@@ -716,6 +778,31 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L sub(Vector4Lc v) {
         return sub(v, this);
     }
+    public Vector4L sub(Vector4Lc v, Vector4L dest) {
+        dest.x = this.x - v.x();
+        dest.y = this.y - v.y();
+        dest.z = this.z - v.z();
+        dest.w = this.w - v.w();
+        return dest;
+    }
+
+    /**
+     * Subtract the supplied vector from this one.
+     *
+     * @param v
+     *          the vector to subtract
+     * @return this
+     */
+    public Vector4L sub(Vector4ic v) {
+        return sub(v, this);
+    }
+    public Vector4L sub(Vector4ic v, Vector4L dest) {
+        dest.x = this.x - v.x();
+        dest.y = this.y - v.y();
+        dest.z = this.z - v.z();
+        dest.w = this.w - v.w();
+        return dest;
+    }
 
     /**
      * Subtract <code>(x, y, z, w)</code> from this.
@@ -733,15 +820,6 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L sub(long x, long y, long z, long w) {
         return sub(x, y, z, w, this);
     }
-
-    public Vector4L sub(Vector4Lc v, Vector4L dest) {
-        dest.x = this.x - v.x();
-        dest.y = this.y - v.y();
-        dest.z = this.z - v.z();
-        dest.w = this.w - v.w();
-        return dest;
-    }
-
     public Vector4L sub(long x, long y, long z, long w, Vector4L dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
@@ -760,8 +838,25 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L add(Vector4Lc v) {
         return add(v, this);
     }
-
     public Vector4L add(Vector4Lc v, Vector4L dest) {
+        dest.x = this.x + v.x();
+        dest.y = this.y + v.y();
+        dest.z = this.z + v.z();
+        dest.w = this.w + v.w();
+        return dest;
+    }
+
+    /**
+     * Add the supplied vector to this one.
+     *
+     * @param v
+     *          the vector to add
+     * @return this
+     */
+    public Vector4L add(Vector4ic v) {
+        return add(v, this);
+    }
+    public Vector4L add(Vector4ic v, Vector4L dest) {
         dest.x = this.x + v.x();
         dest.y = this.y + v.y();
         dest.z = this.z + v.z();
@@ -785,7 +880,6 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L add(long x, long y, long z, long w) {
         return add(x, y, z, w, this);
     }
-
     public Vector4L add(long x, long y, long z, long w, Vector4L dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
@@ -795,7 +889,7 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     }
 
     /**
-     * Multiply this Vector4L component-wise by another Vector4L.
+     * Multiply this Vector4L component-wise by another vector.
      *
      * @param v
      *          the other vector
@@ -804,7 +898,6 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L mul(Vector4Lc v) {
         return mul(v, this);
     }
-
     public Vector4L mul(Vector4Lc v, Vector4L dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
@@ -814,7 +907,25 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     }
 
     /**
-     * Divide this Vector4L component-wise by another Vector4L.
+     * Multiply this Vector4L component-wise by another vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector4L mul(Vector4ic v) {
+        return mul(v, this);
+    }
+    public Vector4L mul(Vector4ic v, Vector4L dest) {
+        dest.x = x * v.x();
+        dest.y = y * v.y();
+        dest.z = z * v.z();
+        dest.w = w * v.w();
+        return dest;
+    }
+
+    /**
+     * Divide this Vector4L component-wise by another vector.
      *
      * @param v
      *          the vector to divide by
@@ -823,8 +934,25 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L div(Vector4Lc v) {
         return div(v, this);
     }
-
     public Vector4L div(Vector4Lc v, Vector4L dest) {
+        dest.x = x / v.x();
+        dest.y = y / v.y();
+        dest.z = z / v.z();
+        dest.w = w / v.w();
+        return dest;
+    }
+
+    /**
+     * Divide this Vector4L component-wise by another vector.
+     *
+     * @param v
+     *          the vector to divide by
+     * @return this
+     */
+    public Vector4L div(Vector4ic v) {
+        return div(v, this);
+    }
+    public Vector4L div(Vector4ic v, Vector4L dest) {
         dest.x = x / v.x();
         dest.y = y / v.y();
         dest.z = z / v.z();
@@ -843,7 +971,6 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L mul(long scalar) {
         return mul(scalar, this);
     }
-
     public Vector4L mul(long scalar, Vector4L dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
@@ -862,7 +989,6 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L div(float scalar) {
         return div(scalar, this);
     }
-
     public Vector4L div(float scalar, Vector4L dest) {
         float invscalar = 1.0f / scalar;
         dest.x = (int) (x * invscalar);
@@ -882,7 +1008,6 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L div(long scalar) {
         return div(scalar, this);
     }
-
     public Vector4L div(long scalar, Vector4L dest) {
         dest.x = x / scalar;
         dest.y = y / scalar;
@@ -892,7 +1017,7 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     }
 
     public long lengthSquared() {
-        return (long) x * x + (long) y * y + (long) z * z + (long) w * w;
+        return x * x + y * y + z * z + w * w;
     }
 
     /**
@@ -906,11 +1031,11 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
      * @return the length squared of the given vector
      */
     public static long lengthSquared(long x, long y, long z, long w) {
-        return (long) x * x + (long) y * y + (long) z * z + (long) w * w;
+        return x * x + y * y + z * z + w * w;
     }
 
     public double length() {
-        return Math.sqrt((long) x * x + (long) y * y + (long) z * z + (long) w * w);
+        return Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     /**
@@ -924,10 +1049,13 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
      * @return the length squared of the given vector
      */
     public static double length(long x, long y, long z, long w) {
-        return Math.sqrt((long) x * x + (long) y * y + (long) z * z + (long) w * w);
+        return Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     public double distance(Vector4Lc v) {
+        return distance(v.x(), v.y(), v.z(), v.w());
+    }
+    public double distance(Vector4ic v) {
         return distance(v.x(), v.y(), v.z(), v.w());
     }
 
@@ -942,6 +1070,9 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public long gridDistance(Vector4Lc v) {
         return Math.abs(v.x() - x()) + Math.abs(v.y() - y())  + Math.abs(v.z() - z())  + Math.abs(v.w() - w());
     }
+    public long gridDistance(Vector4ic v) {
+        return Math.abs(v.x() - x()) + Math.abs(v.y() - y())  + Math.abs(v.z() - z())  + Math.abs(v.w() - w());
+    }
 
     public long gridDistance(long x, long y, long z, long w) {
         return Math.abs(x - x()) + Math.abs(y - y()) + Math.abs(z - z()) + Math.abs(w - w());
@@ -950,13 +1081,16 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public long distanceSquared(Vector4Lc v) {
         return distanceSquared(v.x(), v.y(), v.z(), v.w());
     }
+    public long distanceSquared(Vector4ic v) {
+        return distanceSquared(v.x(), v.y(), v.z(), v.w());
+    }
 
     public long distanceSquared(long x, long y, long z, long w) {
         long dx = this.x - x;
         long dy = this.y - y;
         long dz = this.z - z;
         long dw = this.w - w;
-        return (long) dx * dx + (long) dy * dy + (long) dz * dz + (long) dw * dw;
+        return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
     /**
@@ -985,7 +1119,7 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
         long dy = y1 - y2;
         long dz = z1 - z2;
         long dw = w1 - w2;
-        return Math.sqrt((long) dx * dx + (long) dy * dy + (long) dz * dz + (long) dw * dw);
+        return Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
     /**
@@ -1014,11 +1148,14 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
         long dy = y1 - y2;
         long dz = z1 - z2;
         long dw = w1 - w2;
-        return (long) dx * dx + (long) dy * dy + (long) dz * dz + (long) dw * dw;
+        return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
     public long dot(Vector4Lc v) {
-        return (long) x * v.x() + (long) y * v.y() + (long) z * v.z() + (long) w * v.w();
+        return x * v.x() + y * v.y() + z * v.z() + w * v.w();
+    }
+    public long dot(Vector4ic v) {
+        return x * v.x() + y * v.y() + z * v.z() + w * v.w();
     }
 
     /**
@@ -1097,7 +1234,6 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L min(Vector4Lc v) {
         return min(v, this);
     }
-
     public Vector4L min(Vector4Lc v, Vector4L dest) {
         dest.x = x < v.x() ? x : v.x();
         dest.y = y < v.y() ? y : v.y();
@@ -1116,7 +1252,6 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
     public Vector4L max(Vector4Lc v) {
         return max(v, this);
     }
-
     public Vector4L max(Vector4Lc v, Vector4L dest) {
         dest.x = x > v.x() ? x : v.x();
         dest.y = y > v.y() ? y : v.y();

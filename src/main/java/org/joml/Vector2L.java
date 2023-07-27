@@ -127,6 +127,18 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
     }
 
     /**
+     * Create a new {@link Vector2L} and initialize its components to the one of
+     * the given vector.
+     *
+     * @param v
+     *          the {@link Vector2ic} to copy the values from
+     */
+    public Vector2L(Vector2ic v) {
+        x = v.x();
+        y = v.y();
+    }
+
+    /**
      * Create a new {@link Vector2L} and initialize its components to the rounded value of
      * the given vector.
      *
@@ -284,6 +296,19 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
      * @return this
      */
     public Vector2L set(Vector2Lc v) {
+        this.x = v.x();
+        this.y = v.y();
+        return this;
+    }
+
+    /**
+     * Set this vector to the values of v.
+     *
+     * @param v
+     *          the vector to copy from
+     * @return this
+     */
+    public Vector2L set(Vector2ic v) {
         this.x = v.x();
         this.y = v.y();
         return this;
@@ -538,6 +563,24 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
     }
 
     /**
+     * Subtract the supplied vector from this one and store the result in
+     * <code>this</code>.
+     *
+     * @param v
+     *          the vector to subtract
+     * @return this
+     */
+    public Vector2L sub(Vector2ic v) {
+        return sub(v, this);
+    }
+
+    public Vector2L sub(Vector2ic v, Vector2L dest) {
+        dest.x = x - v.x();
+        dest.y = y - v.y();
+        return dest;
+    }
+
+    /**
      * Decrement the components of this vector by the given values.
      *
      * @param x
@@ -678,6 +721,25 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
     }
 
     /**
+     * Add <code>v</code> to this vector.
+     *
+     * @param v
+     *          the vector to add
+     * @return this
+     */
+    public Vector2L add(Vector2ic v) {
+        this.x = x + v.x();
+        this.y = y + v.y();
+        return this;
+    }
+
+    public Vector2L add(Vector2ic v, Vector2L dest) {
+        dest.x = x + v.x();
+        dest.y = y + v.y();
+        return dest;
+    }
+
+    /**
      * Increment the components of this vector by the given values.
      *
      * @param x
@@ -726,6 +788,23 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
     }
 
     public Vector2L mul(Vector2Lc v, Vector2L dest) {
+        dest.x = x * v.x();
+        dest.y = y * v.y();
+        return dest;
+    }
+
+    /**
+     * Add the supplied vector by this one.
+     *
+     * @param v
+     *          the vector to multiply
+     * @return this
+     */
+    public Vector2L mul(Vector2ic v) {
+        return mul(v, this);
+    }
+
+    public Vector2L mul(Vector2ic v, Vector2L dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
         return dest;
