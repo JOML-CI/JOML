@@ -337,6 +337,18 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
         return this.x;
     }
 
+    public long y() {
+        return this.y;
+    }
+
+    public long z() {
+        return this.z;
+    }
+
+    public long w() {
+        return this.w;
+    }
+
     /**
      * Copy the <code>(x, y, z)</code> components of <code>this</code> into the supplied <code>dest</code> vector
      * and return it.
@@ -373,16 +385,40 @@ public class Vector4L implements Externalizable, Cloneable, Vector4Lc {
         return dest.set(x, y, z);
     }
 
-    public long y() {
-        return this.y;
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2f xy(Vector2f dest) {
+        return dest.set(x, y);
     }
 
-    public long z() {
-        return this.z;
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2d xy(Vector2d dest) {
+        return dest.set(x, y);
     }
 
-    public long w() {
-        return this.w;
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2L xy(Vector2L dest) {
+        return dest.set(x, y);
     }
 
     /**

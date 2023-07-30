@@ -292,6 +292,18 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
         return this.x;
     }
 
+    public int y() {
+        return this.y;
+    }
+
+    public int z() {
+        return this.z;
+    }
+
+    public int w() {
+        return this.w;
+    }
+
     /**
      * Copy the <code>(x, y, z)</code> components of <code>this</code> into the supplied <code>dest</code> vector
      * and return it.
@@ -328,16 +340,64 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
         return dest.set(x, y, z);
     }
 
-    public int y() {
-        return this.y;
+    /**
+     * Copy the <code>(x, y, z)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector3L xyz(Vector3L dest) {
+        return dest.set(x, y, z);
     }
 
-    public int z() {
-        return this.z;
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2f xy(Vector2f dest) {
+        return dest.set(x, y);
     }
 
-    public int w() {
-        return this.w;
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2d xy(Vector2d dest) {
+        return dest.set(x, y);
+    }
+
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2i xy(Vector2i dest) {
+        return dest.set(x, y);
+    }
+
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2L xy(Vector2L dest) {
+        return dest.set(x, y);
     }
 
     /**

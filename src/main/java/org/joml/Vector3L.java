@@ -312,6 +312,14 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
         return this.x;
     }
 
+    public long y() {
+        return this.y;
+    }
+
+    public long z() {
+        return this.z;
+    }
+
     /**
      * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
      * and return it.
@@ -346,14 +354,6 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
      */
     public Vector2L xy(Vector2L dest) {
         return dest.set(x, y);
-    }
-
-    public long y() {
-        return this.y;
-    }
-
-    public long z() {
-        return this.z;
     }
 
     /**

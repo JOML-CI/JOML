@@ -314,6 +314,14 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
         return this.x;
     }
 
+    public int y() {
+        return this.y;
+    }
+
+    public int z() {
+        return this.z;
+    }
+
     /**
      * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
      * and return it.
@@ -350,12 +358,16 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
         return dest.set(x, y);
     }
 
-    public int y() {
-        return this.y;
-    }
-
-    public int z() {
-        return this.z;
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2L xy(Vector2L dest) {
+        return dest.set(x, y);
     }
 
     /**

@@ -336,6 +336,18 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         return this.x;
     }
 
+    public double y() {
+        return this.y;
+    }
+
+    public double z() {
+        return this.z;
+    }
+
+    public double w() {
+        return this.w;
+    }
+
     /**
      * Copy the <code>(x, y, z)</code> components of <code>this</code> into the supplied <code>dest</code> vector
      * and return it.
@@ -363,16 +375,31 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         return dest.set(x, y, z);
     }
 
-    public double y() {
-        return this.y;
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     * <p>
+     * Note that due to the given vector <code>dest</code> storing the components in float-precision,
+     * there is the possibility to lose precision.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2f xy(Vector2f dest) {
+        return dest.set(x, y);
     }
 
-    public double z() {
-        return this.z;
-    }
-
-    public double w() {
-        return this.w;
+    /**
+     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
+     * and return it.
+     *
+     * @param dest
+     *      will hold the result
+     * @return dest
+     */
+    public Vector2d xy(Vector2d dest) {
+        return dest.set(x, y);
     }
 
     /**
