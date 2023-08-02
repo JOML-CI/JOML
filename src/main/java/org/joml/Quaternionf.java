@@ -979,7 +979,7 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
      * @param axisZ
      *          the z component of the rotation axis         
      * @param angle
-     *          the angle in radians
+     *          the angle in degrees
      * @return this
      */
     public Quaternionf fromAxisAngleDeg(float axisX, float axisY, float axisZ, float angle) {

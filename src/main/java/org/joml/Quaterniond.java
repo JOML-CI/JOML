@@ -770,7 +770,7 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * @param axisZ
      *          the z component of the rotation axis         
      * @param angle
-     *          the angle in radians
+     *          the angle in degrees
      * @return this
      */
     public Quaterniond fromAxisAngleDeg(double axisX, double axisY, double axisZ, double angle) {
