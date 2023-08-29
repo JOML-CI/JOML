@@ -414,6 +414,9 @@ public class Math {
         return java.lang.Math.toRadians(angles);
     }
 
+    public static float toDegrees(float angles) {
+        return (float) java.lang.Math.toDegrees(angles);
+    }
     public static double toDegrees(double angles) {
         return java.lang.Math.toDegrees(angles);
     }
