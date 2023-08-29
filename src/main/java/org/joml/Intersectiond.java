@@ -1058,7 +1058,7 @@ public class Intersectiond {
     public static double intersectRayPlane(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
             double a, double b, double c, double d, double epsilon) {
         double denom = a * dirX + b * dirY + c * dirZ;
-        if (denom < 0.0) {
+        if (denom < epsilon) {
             double t = -(a * originX + b * originY + c * originZ + d) / denom;
             if (t >= 0.0)
                 return t;
@@ -1257,6 +1257,7 @@ public class Intersectiond {
         double d2x = b1X - b0X, d2y = b1Y - b0Y, d2z = b1Z - b0Z;
         double rX = a0X - b0X, rY = a0Y - b0Y, rZ = a0Z - b0Z;
         double a = d1x * d1x + d1y * d1y + d1z * d1z;
+        double invA = 1.0 / a;
         double e = d2x * d2x + d2y * d2y + d2z * d2z;
         double f = d2x * rX + d2y * rY + d2z * rZ;
         double EPSILON = 1E-8;
@@ -1277,7 +1278,7 @@ public class Intersectiond {
             if (e <= EPSILON) {
                 // Second segment degenerates into a point
                 t = 0.0;
-                s = Math.min(Math.max(-c / a, 0.0), 1.0);
+                s = Math.min(Math.max(-c * invA, 0.0), 1.0);
             } else {
                 // The general nondegenerate case starts here
                 double b = d1x * d2x + d1y * d2y + d1z * d2z;
@@ -1296,10 +1297,10 @@ public class Intersectiond {
                 // and clamp s to [0, 1]
                 if (t < 0.0) {
                     t = 0.0;
-                    s = Math.min(Math.max(-c / a, 0.0), 1.0);
+                    s = Math.min(Math.max(-c * invA, 0.0), 1.0);
                 } else if (t > 1.0) {
                     t = 1.0;
-                    s = Math.min(Math.max((b - c) / a, 0.0), 1.0);
+                    s = Math.min(Math.max((b - c) * invA, 0.0), 1.0);
                 }
             }
         }
@@ -1612,25 +1613,30 @@ public class Intersectiond {
         double qX = aX, qY = aY, qZ = aZ;
         double dist = dX * abX + dY * abY + dZ * abZ;
         double maxdist = abX * abX + abY * abY + abZ * abZ;
+        double invMaxdist = 1.0 / maxdist;
+        double distTimesInvMaxDist;
         if (dist >= maxdist) {
             qX += abX;
             qY += abY;
             qZ += abZ;
         } else if (dist > 0.0) {
-            qX += (dist / maxdist) * abX;
-            qY += (dist / maxdist) * abY;
-            qZ += (dist / maxdist) * abZ;
+            distTimesInvMaxDist = dist * invMaxdist;
+            qX += distTimesInvMaxDist * abX;
+            qY += distTimesInvMaxDist * abY;
+            qZ += distTimesInvMaxDist * abZ;
         }
         dist = dX * acX + dY * acY + dZ * acZ;
         maxdist = acX * acX + acY * acY + acZ * acZ;
+        invMaxdist = 1.0 / maxdist;
         if (dist >= maxdist) {
             qX += acX;
             qY += acY;
             qZ += acZ;
         } else if (dist > 0.0) {
-            qX += (dist / maxdist) * acX;
-            qY += (dist / maxdist) * acY;
-            qZ += (dist / maxdist) * acZ;
+            distTimesInvMaxDist = dist * invMaxdist;
+            qX += distTimesInvMaxDist * acX;
+            qY += distTimesInvMaxDist * acY;
+            qZ += distTimesInvMaxDist * acZ;
         }
         res.x = qX;
         res.y = qY;
@@ -1710,12 +1716,13 @@ public class Intersectiond {
         double invLen = Math.invsqrt(a * a + b * b + c * c);
         double signedDist = (a * centerX + b * centerY + c * centerZ + d) * invLen;
         double dot = (a * velX + b * velY + c * velZ) * invLen;
+        double invDot = 1.0 / dot;
         if (dot < epsilon && dot > -epsilon)
             return 0;
-        double pt0 = (radius - signedDist) / dot;
+        double pt0 = (radius - signedDist) * invDot;
         if (pt0 > maxT)
             return 0;
-        double pt1 = (-radius - signedDist) / dot;
+        double pt1 = (-radius - signedDist) * invDot;
         double p0X = centerX - radius * a * invLen + velX * pt0;
         double p0Y = centerY - radius * b * invLen + velY * pt0;
         double p0Z = centerZ - radius * c * invLen + velZ * pt0;
@@ -1736,7 +1743,8 @@ public class Intersectiond {
         double centerV0Y = centerY - v0Y;
         double centerV0Z = centerZ - v0Z;
         double B0 = 2.0 * (velX * centerV0X + velY * centerV0Y + velZ * centerV0Z);
-        double C0 = centerV0X * centerV0X + centerV0Y * centerV0Y + centerV0Z * centerV0Z - radius2;
+        double baseTo0Len = centerV0X * centerV0X + centerV0Y * centerV0Y + centerV0Z * centerV0Z;
+        double C0 = baseTo0Len - radius2;
         double root0 = computeLowestRoot(A, B0, C0, t0);
         if (root0 < t0) {
             pointAndTime.x = v0X;
@@ -1777,10 +1785,9 @@ public class Intersectiond {
             t0 = root2;
             isect = POINT_ON_TRIANGLE_VERTEX_2;
         }
-        double velLen = velX * velX + velY * velY + velZ * velZ;
+        double velLen = A;
         // test against edge10
         double len10 = v10X * v10X + v10Y * v10Y + v10Z * v10Z;
-        double baseTo0Len = centerV0X * centerV0X + centerV0Y * centerV0Y + centerV0Z * centerV0Z;
         double v10Vel = (v10X * velX + v10Y * velY + v10Z * velZ);
         double A10 = len10 * -velLen + v10Vel * v10Vel;
         double v10BaseTo0 = v10X * -centerV0X + v10Y * -centerV0Y + v10Z * -centerV0Z;
@@ -1833,7 +1840,6 @@ public class Intersectiond {
             pointAndTime.y = v1Y + f21 * v21Y;
             pointAndTime.z = v1Z + f21 * v21Z;
             pointAndTime.w = root21;
-            t0 = root21;
             isect = POINT_ON_TRIANGLE_EDGE_12;
         }
         return isect;
@@ -1859,8 +1865,9 @@ public class Intersectiond {
         if (determinant < 0.0)
             return Double.POSITIVE_INFINITY;
         double sqrtD = Math.sqrt(determinant);
-        double r1 = (-b - sqrtD) / (2.0 * a);
-        double r2 = (-b + sqrtD) / (2.0 * a);
+        double invA2 = 1.0 / (2.0 * a);
+        double r1 = (-b - sqrtD) * invA2;
+        double r2 = (-b + sqrtD) * invA2;
         if (r1 > r2) {
             double temp = r2;
             r2 = r1;
@@ -2578,8 +2585,7 @@ public class Intersectiond {
         double v = (dirX * qvecX + dirY * qvecY + dirZ * qvecZ);
         if (v < 0.0 || u + v > det)
             return false;
-        double invDet = 1.0 / det;
-        double t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
+        double t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) / det;
         return t >= epsilon;
     }
 
@@ -2796,9 +2802,7 @@ public class Intersectiond {
         double v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
         if (v < 0.0 || u + v > det)
             return -1.0;
-        double invDet = 1.0 / det;
-        double t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
-        return t;
+        return (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) / det;
     }
 
     /**
@@ -2908,8 +2912,7 @@ public class Intersectiond {
         double v = (dirX * qvecX + dirY * qvecY + dirZ * qvecZ) * invDet;
         if (v < 0.0 || u + v > 1.0)
             return -1.0;
-        double t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
-        return t;
+        return (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
     }
 
     /**

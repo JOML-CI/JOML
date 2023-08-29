@@ -65,15 +65,17 @@ public class Convolution {
         }
         float sum = 0.0f;
         int pos = dest.position();
+        float a = (float) (1.0 / (2.0 * sigma * sigma));
         for (int i = 0, y = -(rows - 1) / 2; y <= (rows - 1) / 2; y++) {
             for (int x = -(cols - 1) / 2; x <= (cols - 1) / 2; x++, i++) {
-                float k = (float) Math.exp(-(y * y + x * x) / (2.0 * sigma * sigma));
+                float k = (float) Math.exp(-(y * y + x * x) * a);
                 dest.put(pos + i, k);
                 sum += k;
             }
         }
+        sum = 1.0f / sum;
         for (int i = 0; i < rows * cols; i++) {
-            dest.put(pos + i, dest.get(pos + i) / sum);
+            dest.put(pos + i, dest.get(pos + i) * sum);
         }
     }
 //#endif
@@ -105,15 +107,17 @@ public class Convolution {
             throw new IllegalArgumentException("dest must have a size of at least " + (rows * cols));
         }
         float sum = 0.0f;
+        float a = (float) (1.0 / (2.0 * sigma * sigma));
         for (int i = 0, y = -(rows - 1) / 2; y <= (rows - 1) / 2; y++) {
             for (int x = -(cols - 1) / 2; x <= (cols - 1) / 2; x++, i++) {
-                float k = (float) Math.exp(-(y * y + x * x) / (2.0 * sigma * sigma));
+                float k = (float) Math.exp(-(y * y + x * x) * a);
                 dest[i] = k;
                 sum += k;
             }
         }
+        sum = 1.0f / sum;
         for (int i = 0; i < rows * cols; i++) {
-            dest[i] = dest[i] / sum;
+            dest[i] = dest[i] * sum;
         }
     }
 

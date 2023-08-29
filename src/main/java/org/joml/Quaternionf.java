@@ -946,10 +946,11 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
     public Quaternionf fromAxisAngleRad(float axisX, float axisY, float axisZ, float angle) {
         float hangle = angle / 2.0f;
         float sinAngle = Math.sin(hangle);
-        float vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-        x = axisX / vLength * sinAngle;
-        y = axisY / vLength * sinAngle;
-        z = axisZ / vLength * sinAngle;
+        float invVLength = 1.0f / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        float invVLengthTimesSinAngle = invVLength * sinAngle;
+        x = axisX * invVLengthTimesSinAngle;
+        y = axisY * invVLengthTimesSinAngle;
+        z = axisZ * invVLengthTimesSinAngle;
         w = Math.cosFromSin(sinAngle, hangle);
         return this;
     }

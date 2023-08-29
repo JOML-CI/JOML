@@ -127,8 +127,9 @@ public class PoissonSampling {
         }
 
         private boolean searchNeighbors(float px, float py) {
-            int row = (int) ((py + diskRadius) / cellSize);
-            int col = (int) ((px + diskRadius) / cellSize);
+            float invCellSize = 1.0f / cellSize;
+            int row = (int) ((py + diskRadius) * invCellSize);
+            int col = (int) ((px + diskRadius) * invCellSize);
             if (grid[row * numCells + col] != null)
                 return true;
             int minX = Math.max(0, col - 1);
@@ -151,8 +152,9 @@ public class PoissonSampling {
         }
 
         private void insert(Vector2f p) {
-            int row = (int) ((p.y + diskRadius) / cellSize);
-            int col = (int) ((p.x + diskRadius) / cellSize);
+            float invCellSize = 1.0f / cellSize;
+            int row = (int) ((p.y + diskRadius) * invCellSize);
+            int col = (int) ((p.x + diskRadius) * invCellSize);
             grid[row * numCells + col] = p;
         }
 

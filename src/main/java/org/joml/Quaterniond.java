@@ -737,10 +737,11 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     public Quaterniond fromAxisAngleRad(double axisX, double axisY, double axisZ, double angle) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
-        double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-        x = axisX / vLength * sinAngle;
-        y = axisY / vLength * sinAngle;
-        z = axisZ / vLength * sinAngle;
+        double invVLength = 1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        double invVLengthTimesSinAngle = invVLength * sinAngle;
+        x = axisX * invVLengthTimesSinAngle;
+        y = axisY * invVLengthTimesSinAngle;
+        z = axisZ * invVLengthTimesSinAngle;
         w = Math.cosFromSin(sinAngle, hangle);
         return this;
     }
