@@ -3109,24 +3109,9 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f set3x3(Matrix3fc mat) {
-        if (mat instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy3x3((Matrix3f) mat, this);
-        } else {
-            set3x3Matrix3fc(mat);
-        }
+        MemUtil.INSTANCE.copy3x3(mat, this);
         properties = PROPERTY_UNKNOWN;
         return this;
-    }
-    private void set3x3Matrix3fc(Matrix3fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
     }
 
     public Vector4f transform(Vector4f v) {

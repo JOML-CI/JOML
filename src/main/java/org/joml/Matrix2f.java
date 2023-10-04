@@ -65,10 +65,8 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      *          the {@link Matrix2fc} to copy the values from
      */
     public Matrix2f(Matrix2fc mat) {
-        if (mat instanceof Matrix2f) {
-            MemUtil.INSTANCE.copy((Matrix2f) mat, this);
-        } else {
-            setMatrix2fc(mat);
+        if (mat != this) {
+            MemUtil.INSTANCE.copy(mat, this);
         }
     }
 
@@ -79,11 +77,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      *          the {@link Matrix3fc} to copy the values from
      */
     public Matrix2f(Matrix3fc mat) {
-        if (mat instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy((Matrix3f) mat, this);
-        } else {
-            setMatrix3fc(mat);
-        }
+        MemUtil.INSTANCE.copy(mat, this);
     }
 
     /**
@@ -250,12 +244,8 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f set(Matrix2fc m) {
-        if (m == this)
-            return this;
-        else if (m instanceof Matrix2f) {
-            MemUtil.INSTANCE.copy((Matrix2f) m, this);
-        } else {
-            setMatrix2fc(m);
+        if (m != this) {
+            MemUtil.INSTANCE.copy(m, this);
         }
         return this;
     }
@@ -274,18 +264,8 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f set(Matrix3x2fc m) {
-        if (m instanceof Matrix3x2f) {
-            MemUtil.INSTANCE.copy((Matrix3x2f) m, this);
-        } else {
-            setMatrix3x2fc(m);
-        }
+        MemUtil.INSTANCE.copy(m, this);
         return this;
-    }
-    private void setMatrix3x2fc(Matrix3x2fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m10 = mat.m10();
-        m11 = mat.m11();
     }
 
     /**
@@ -296,18 +276,8 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f set(Matrix3fc m) {
-        if (m instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy((Matrix3f) m, this);
-        } else {
-            setMatrix3fc(m);
-        }
+        MemUtil.INSTANCE.copy(m, this);
         return this;
-    }
-    private void setMatrix3fc(Matrix3fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m10 = mat.m10();
-        m11 = mat.m11();
     }
 
     /**
