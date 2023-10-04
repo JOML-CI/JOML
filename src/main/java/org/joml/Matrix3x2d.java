@@ -68,11 +68,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      *          the {@link Matrix2dc}
      */
     public Matrix3x2d(Matrix2dc mat) {
-        if (mat instanceof Matrix2d) {
-            MemUtil.INSTANCE.copy((Matrix2d) mat, this);
-        } else {
-            setMatrix2dc(mat);
-        }
+        MemUtil.INSTANCE.copy(mat, this);
     }
 
     /**
@@ -96,10 +92,8 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      *          the {@link Matrix3x2dc} to copy the values from
      */
     public Matrix3x2d(Matrix3x2dc mat) {
-        if (mat instanceof Matrix3x2d) {
-            MemUtil.INSTANCE.copy((Matrix3x2d) mat, this);
-        } else {
-            setMatrix3x2dc(mat);
+        if (mat != this) {
+            MemUtil.INSTANCE.copy(mat, this);
         }
     }
 
@@ -242,22 +236,10 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return this
      */
     public Matrix3x2d set(Matrix3x2dc m) {
-        if (m == this)
-            return this;
-        else if (m instanceof Matrix3x2d) {
-            MemUtil.INSTANCE.copy((Matrix3x2d) m, this);
-        } else {
-            setMatrix3x2dc(m);
+        if (m != this) {
+            MemUtil.INSTANCE.copy(m, this);
         }
         return this;
-    }
-    private void setMatrix3x2dc(Matrix3x2dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m20 = mat.m20();
-        m21 = mat.m21();
     }
 
     /**
@@ -268,18 +250,8 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return this
      */
     public Matrix3x2d set(Matrix2dc m) {
-        if (m instanceof Matrix2d) {
-            MemUtil.INSTANCE.copy((Matrix2d) m, this);
-        } else {
-            setMatrix2dc(m);
-        }
+        MemUtil.INSTANCE.copy(m, this);
         return this;
-    }
-    private void setMatrix2dc(Matrix2dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m10 = mat.m10();
-        m11 = mat.m11();
     }
 
     /**

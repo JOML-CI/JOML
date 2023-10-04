@@ -66,10 +66,8 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      *          the {@link Matrix3x2fc} to copy the values from
      */
     public Matrix3x2f(Matrix3x2fc mat) {
-        if (mat instanceof Matrix3x2f) {
-            MemUtil.INSTANCE.copy((Matrix3x2f) mat, this);
-        } else {
-            setMatrix3x2fc(mat);
+        if (mat != this) {
+            MemUtil.INSTANCE.copy(mat, this);
         }
     }
 
@@ -81,11 +79,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      *          the {@link Matrix2fc}
      */
     public Matrix3x2f(Matrix2fc mat) {
-        if (mat instanceof Matrix2f) {
-            MemUtil.INSTANCE.copy((Matrix2f) mat, this);
-        } else {
-            setMatrix2fc(mat);
-        }
+        MemUtil.INSTANCE.copy(mat, this);
     }
 
     /**
@@ -227,12 +221,8 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return this
      */
     public Matrix3x2f set(Matrix3x2fc m) {
-        if (m == this)
-            return this;
-        else if (m instanceof Matrix3x2f) {
-            MemUtil.INSTANCE.copy((Matrix3x2f) m, this);
-        } else {
-            setMatrix3x2fc(m);
+        if (m != this) {
+            MemUtil.INSTANCE.copy(m, this);
         }
         return this;
     }
@@ -253,18 +243,8 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return this
      */
     public Matrix3x2f set(Matrix2fc m) {
-        if (m instanceof Matrix2f) {
-            MemUtil.INSTANCE.copy((Matrix2f) m, this);
-        } else {
-            setMatrix2fc(m);
-        }
+        MemUtil.INSTANCE.copy(m, this);
         return this;
-    }
-    private void setMatrix2fc(Matrix2fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m10 = mat.m10();
-        m11 = mat.m11();
     }
 
     /**

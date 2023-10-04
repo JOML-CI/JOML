@@ -1075,16 +1075,16 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to that of the given {@link Matrix4f} 
+     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to that of the given {@link Matrix4fc}
      * and don't change the other elements.
      * 
      * @param mat
-     *          the {@link Matrix4f}
+     *          the {@link Matrix4fc}
      * @return this
      */
-    public Matrix4f set3x3(Matrix4f mat) {
+    public Matrix4f set3x3(Matrix4fc mat) {
         MemUtil.INSTANCE.copy3x3(mat, this);
-        return _properties(properties & mat.properties & ~(PROPERTY_PERSPECTIVE));
+        return _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
     }
 
 
@@ -1116,16 +1116,16 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     }
 
     /**
-     * Set the upper 4x3 submatrix of this {@link Matrix4f} to the upper 4x3 submatrix of the given {@link Matrix4f} 
+     * Set the upper 4x3 submatrix of this {@link Matrix4f} to the upper 4x3 submatrix of the given {@link Matrix4fc}
      * and don't change the other elements.
      * 
      * @param mat
-     *          the {@link Matrix4f}
+     *          the {@link Matrix4fc}
      * @return this
      */
-    public Matrix4f set4x3(Matrix4f mat) {
+    public Matrix4f set4x3(Matrix4fc mat) {
         MemUtil.INSTANCE.copy4x3(mat, this);
-        return _properties(properties & mat.properties & ~(PROPERTY_PERSPECTIVE));
+        return _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
     }
 
     /**
@@ -12731,10 +12731,10 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link #set3x3(Matrix4f)} to set a given Matrix4f to only the upper left 3x3 submatrix
+     * In that case, use {@link #set3x3(Matrix4fc)} to set a given Matrix4f to only the upper left 3x3 submatrix
      * of this matrix.
      * 
-     * @see #set3x3(Matrix4f)
+     * @see #set3x3(Matrix4fc)
      * 
      * @return this
      */
@@ -12751,10 +12751,10 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link #set3x3(Matrix4f)} to set a given Matrix4f to only the upper left 3x3 submatrix
+     * In that case, use {@link #set3x3(Matrix4fc)} to set a given Matrix4f to only the upper left 3x3 submatrix
      * of this matrix.
      * 
-     * @see #set3x3(Matrix4f)
+     * @see #set3x3(Matrix4fc)
      * 
      * @param dest
      *             will hold the result

@@ -66,10 +66,8 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      *          the {@link Matrix2dc} to copy the values from
      */
     public Matrix2d(Matrix2dc mat) {
-        if (mat instanceof Matrix2d) {
-            MemUtil.INSTANCE.copy((Matrix2d) mat, this);
-        } else {
-            setMatrix2dc(mat);
+        if (mat != this) {
+            MemUtil.INSTANCE.copy(mat, this);
         }
     }
 
@@ -93,11 +91,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      *          the {@link Matrix3dc} to copy the values from
      */
     public Matrix2d(Matrix3dc mat) {
-        if (mat instanceof Matrix3d) {
-            MemUtil.INSTANCE.copy((Matrix3d) mat, this);
-        } else {
-            setMatrix3dc(mat);
-        }
+        MemUtil.INSTANCE.copy(mat, this);
     }
 
     /**
@@ -277,20 +271,11 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d set(Matrix2dc m) {
-        if (m == this)
-            return this;
-        else if (m instanceof Matrix2d) {
-            MemUtil.INSTANCE.copy((Matrix2d) m, this);
-        } else {
-            setMatrix2dc(m);
+        if (m != this)
+        {
+            MemUtil.INSTANCE.copy(m, this);
         }
         return this;
-    }
-    private void setMatrix2dc(Matrix2dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m10 = mat.m10();
-        m11 = mat.m11();
     }
 
     /**
@@ -316,18 +301,8 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d set(Matrix3x2dc m) {
-        if (m instanceof Matrix3x2d) {
-            MemUtil.INSTANCE.copy((Matrix3x2d) m, this);
-        } else {
-            setMatrix3x2dc(m);
-        }
+        MemUtil.INSTANCE.copy(m, this);
         return this;
-    }
-    private void setMatrix3x2dc(Matrix3x2dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m10 = mat.m10();
-        m11 = mat.m11();
     }
 
     /**
@@ -353,18 +328,8 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d set(Matrix3dc m) {
-        if (m instanceof Matrix3d) {
-            MemUtil.INSTANCE.copy((Matrix3d) m, this);
-        } else {
-            setMatrix3dc(m);
-        }
+        MemUtil.INSTANCE.copy(m, this);
         return this;
-    }
-    private void setMatrix3dc(Matrix3dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m10 = mat.m10();
-        m11 = mat.m11();
     }
 
     /**
