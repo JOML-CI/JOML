@@ -4625,7 +4625,7 @@ abstract class MemUtil {
             for (int i = 0; i < 3; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 4), UNSAFE.getLong(m, Matrix3f_m00 + 12 * i));
                 UNSAFE.putFloat(null, destAddr + (i << 4) + 8, UNSAFE.getFloat(m, Matrix3f_m00 + 8 + 12 * i));
-                UNSAFE.putFloat(null, destAddr + 12 * i, 0.0f);
+                UNSAFE.putFloat(null, destAddr + (i << 4) + 12, 0.0f);
             }
         }
 
