@@ -11288,7 +11288,8 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f setFromIntrinsic(float alphaX, float alphaY, float gamma, float u0, float v0, int imgWidth, int imgHeight, float near, float far) {
         float l00 = 2.0f / imgWidth;
         float l11 = 2.0f / imgHeight;
-        float l22 = 2.0f / (near - far);
+        float invNearFar = 1.0f / (near - far);
+        float l22 = 2.0f * invNearFar;
         return this
         ._m00(l00 * alphaX)
         ._m01(0.0f)
@@ -11300,7 +11301,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         ._m13(0.0f)
         ._m20(l00 * u0 - 1.0f)
         ._m21(l11 * v0 - 1.0f)
-        ._m22(l22 * -(near + far) + (far + near) / (near - far))
+        ._m22(l22 * -(near + far) + (far + near) * invNearFar)
         ._m23(-1.0f)
         ._m30(0.0f)
         ._m31(0.0f)
