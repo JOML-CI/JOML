@@ -122,6 +122,16 @@ publishing {
                     developerConnection = 'scm:git:https://github.com/JOML-CI/JOML.git'
                 }
             }
+            // Exclude the dependency on the Kotlin Stdlib for Java
+            // introduced by the Kotlin plugin.
+            pom.withXml {
+                Node pomNode = asNode()
+                pomNode.dependencies.'*'.findAll() {
+                    it.artifactId.text() == 'kotlin-stdlib-jdk8'
+                }.each() {
+                    it.parent().remove(it)
+                }
+            }
         }
     }
 }
