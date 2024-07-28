@@ -10,6 +10,7 @@ plugins {
     id 'com.github.hexomod.macro.preprocessor' version '0.9'
     id 'me.champeau.jmh' version '0.7.0' apply false
     id 'checkstyle'
+    id 'org.ajoberstar.grgit' version '5.2.2'
 }
 repositories {
     mavenCentral()
@@ -23,7 +24,7 @@ if (buildProfile == 'experimental') {
 }
 
 group 'org.joml'
-version '1.10.7'
+version '1.10.8-SNAPSHOT'
 
 configurations {
     buildhelper
@@ -84,6 +85,23 @@ tasks.register('moduleInfoGenerator', JavaExec) {
 
 if (buildProfile == 'default') {
     compileJava.finalizedBy(java6to2, moduleInfoGenerator)
+}
+
+jar {
+    manifest {
+        attributes(
+            'Created-By': 'Gradle',
+            'Implementation-Title': 'JOML',
+            'Implementation-Version': version,
+            'Implementation-Vendor': 'JOML',
+            'Bundle-ManifestVersion': '2',
+            'Bundle-Name': 'JOML',
+            'Bundle-SymbolicName': 'org.joml',
+            'Bundle-Version': version,
+            'Export-Package': 'org.joml,org.joml.sampling',
+            'Implementation-Build': grgit.head().id,
+        )
+    }
 }
 
 nexusPublishing {
