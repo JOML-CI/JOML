@@ -24,7 +24,7 @@ if (buildProfile == 'experimental') {
 }
 
 group 'org.joml'
-version '1.10.8'
+version '1.10.9-SNAPSHOT'
 
 configurations {
     buildhelper

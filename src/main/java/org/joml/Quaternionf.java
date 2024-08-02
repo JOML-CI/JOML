@@ -2111,8 +2111,8 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
             float sinSqr = 1.0f - absCosom * absCosom;
             float sinom = Math.invsqrt(sinSqr);
             float omega = Math.atan2(sinSqr * sinom, absCosom);
-            scale0 = (float) (Math.sin((1.0 - alpha) * omega) * sinom);
-            scale1 = (float) (Math.sin(alpha * omega) * sinom);
+            scale0 = Math.sin((1.0f - alpha) * omega) * sinom;
+            scale1 = Math.sin(alpha * omega) * sinom;
         } else {
             scale0 = 1.0f - alpha;
             scale1 = alpha;
