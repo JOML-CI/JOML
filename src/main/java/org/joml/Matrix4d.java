@@ -53,6 +53,11 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The number of bytes used to represent a {@code Matrix4d} value.
+     */
+    public static final int BYTES = 16*Double.BYTES;
+
     int properties;
     double m00, m01, m02, m03;
     double m10, m11, m12, m13;

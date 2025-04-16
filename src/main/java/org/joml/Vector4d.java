@@ -45,6 +45,11 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
     private static final long serialVersionUID = 1L;
 
     /**
+     * The number of bytes used to represent a {@code Vector4d} value.
+     */
+    public static final int BYTES = 4*Double.BYTES;
+
+    /**
      * The x component of the vector.
      */
     public double x;

@@ -44,6 +44,11 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The number of bytes used to represent a {@code Quaternionf} value.
+     */
+    public static final int BYTES = 4*Float.BYTES;
+
 //#ifdef __HAS_JVMCI__
     private int __pad;
 //#endif

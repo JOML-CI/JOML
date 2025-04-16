@@ -46,6 +46,11 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     private static final long serialVersionUID = 1L;
 
     /**
+     * The number of bytes used to represent a {@code Vector2f} value.
+     */
+    public static final int BYTES = 2*Float.BYTES;
+
+    /**
      * The x component of the vector.
      */
     public float x;

@@ -52,6 +52,11 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The number of bytes used to represent a {@code Matrix4f} value.
+     */
+    public static final int BYTES = 16*Float.BYTES;
+
     int properties;
     float m00, m01, m02, m03;
     float m10, m11, m12, m13;

@@ -48,6 +48,11 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The number of bytes used to represent a {@code Matrix3x2d} value.
+     */
+    public static final int BYTES = 6*Double.BYTES;
+
     public double m00, m01;
     public double m10, m11;
     public double m20, m21;

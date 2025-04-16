@@ -41,6 +41,11 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     private static final long serialVersionUID = 1L;
 
     /**
+     * The number of bytes used to represent a {@code Quaterniond} value.
+     */
+    public static final int BYTES = 4*Double.BYTES;
+
+    /**
      * The first component of the vector part.
      */
     public double x;

@@ -46,6 +46,11 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     private static final long serialVersionUID = 1L;
 
     /**
+     * The number of bytes used to represent a {@code Vector2d} value.
+     */
+    public static final int BYTES = 2*Double.BYTES;
+
+    /**
      * The x component of the vector.
      */
     public double x;

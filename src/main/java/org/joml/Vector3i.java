@@ -47,6 +47,11 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     private static final long serialVersionUID = 1L;
 
     /**
+     * The number of bytes used to represent a {@code Vector3i} value.
+     */
+    public static final int BYTES = 3*Integer.BYTES;
+
+    /**
      * The x component of the vector.
      */
     public int x;

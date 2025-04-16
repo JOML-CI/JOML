@@ -43,6 +43,11 @@ public class AxisAngle4d implements Externalizable, Cloneable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * The number of bytes used to represent a {@code AxisAngle4d} value.
+     */
+    public static final int BYTES = 4*Double.BYTES;
+
+    /**
      * The angle in radians.
      */
     public double angle;
