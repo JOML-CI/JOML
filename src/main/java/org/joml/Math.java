@@ -322,8 +322,21 @@ public class Math {
             r = PI - r;
         return y >= 0 ? r : -r;
     }
+    private static float fastAtan2(float y, float x) {
+        float ax = x >= 0.0f ? x : -x, ay = y >= 0.0f ? y : -y;
+        float a = ay > ax ? ax / ay : ay / ax;
+        float s = a * a;
+        float r = fma(fma(fma(-0.0464964749f, s, 0.15931422f), s, -0.327622764f) * s, a, a);
+        if (ay > ax)
+            r = PI_OVER_2_f - r;
+        if (x < 0.0f)
+            r = PI_f - r;
+        return y >= 0f ? r : -r;
+    }
 
     public static float atan2(float y, float x) {
+        if (Options.FASTMATH)
+            return fastAtan2(y, x);
         return (float) java.lang.Math.atan2(y, x);
     }
     public static double atan2(double y, double x) {
