@@ -212,4 +212,14 @@ class QuaternionDTest {
         if ((float)failure / N > 0.0001f) // <- allow for a failure rate of 0.01%
             throw new AssertionError();
     }
+
+    @Test
+    void testLookAlong() {
+        assertVector3dEquals(new Vector3d(0, 0, 1), new Vector3d(-1, 1, 1).normalize().rotate(new Quaterniond().lookAlong(new Vector3d(-1, 1, 1), new Vector3d(0, 1, 0))), 1E-6);
+        assertVector3dEquals(new Vector3d(0, 0, 1), new Vector3d(1, 1, 1).normalize().rotate(new Quaterniond().lookAlong(new Vector3d(1, 1, 1), new Vector3d(0, 1, 0))), 1E-6);
+        assertVector3dEquals(new Vector3d(0, 0, 1), new Vector3d(1, -1, 1).normalize().rotate(new Quaterniond().lookAlong(new Vector3d(1, -1, 1), new Vector3d(0, 1, 0))), 1E-6);
+        assertVector3dEquals(new Vector3d(0, 0, 1), new Vector3d(1, 1, 1).normalize().rotate(new Quaterniond().lookAlong(new Vector3d(1, 1, 1), new Vector3d(0, 1, 0))), 1E-6);
+        assertVector3dEquals(new Vector3d(0, 0, 1), new Vector3d(1, 1, -1).normalize().rotate(new Quaterniond().lookAlong(new Vector3d(1, 1, -1), new Vector3d(0, 1, 0))), 1E-6);
+        assertVector3dEquals(new Vector3d(0, 0, 1), new Vector3d(1, 1, 1).normalize().rotate(new Quaterniond().lookAlong(new Vector3d(1, 1, 1), new Vector3d(0, 1, 0))), 1E-6);
+    }
 }

@@ -2146,47 +2146,60 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
         double upnX = dirnY * leftZ - dirnZ * leftY;
         double upnY = dirnZ * leftX - dirnX * leftZ;
         double upnZ = dirnX * leftY - dirnY * leftX;
-
-        /* Convert orthonormal basis vectors to quaternion */
-        double x, y, z, w;
-        double t;
-        double tr = leftX + upnY + dirnZ;
+        // invert
+        double a = Math.fma(-leftX, upnY, leftY * upnX);
+        double b = Math.fma(-leftZ, upnX, leftX * upnZ);
+        double c = Math.fma(-leftY, upnZ, leftZ * upnY);
+        double d = Math.fma(a, -dirnZ, Math.fma(b, -dirnY, c * -dirnX));
+        double s = 1.0 / d;
+        double nm00 = Math.fma(upnY, -dirnZ, dirnY * upnZ) * s;
+        double nm01 = Math.fma(-dirnY, -leftZ, leftY * -dirnZ) * s;
+        double nm02 = c * s;
+        double nm10 = Math.fma(-dirnX, upnZ, -upnX * -dirnZ) * s;
+        double nm11 = Math.fma(-leftX, -dirnZ, dirnX * -leftZ) * s;
+        double nm12 = b * s;
+        double nm20 = Math.fma(upnX, -dirnY, dirnX * upnY) * s;
+        double nm21 = Math.fma(-dirnX, -leftY, leftX * -dirnY) * s;
+        double nm22 = a * s;
+        // Compute quaternion from matrix
+        double t, x, y, z, w;
+        double tr = nm00 + nm11 + nm22;
         if (tr >= 0.0) {
             t = Math.sqrt(tr + 1.0);
             w = t * 0.5;
             t = 0.5 / t;
-            x = (dirnY - upnZ) * t;
-            y = (leftZ - dirnX) * t;
-            z = (upnX - leftY) * t;
+            x = (nm12 - nm21) * t;
+            y = (nm20 - nm02) * t;
+            z = (nm01 - nm10) * t;
         } else {
-            if (leftX > upnY && leftX > dirnZ) {
-                t = Math.sqrt(1.0 + leftX - upnY - dirnZ);
+            if (nm00 >= nm11 && nm00 >= nm22) {
+                t = Math.sqrt(nm00 - (nm11 + nm22) + 1.0);
                 x = t * 0.5;
                 t = 0.5 / t;
-                y = (leftY + upnX) * t;
-                z = (dirnX + leftZ) * t;
-                w = (dirnY - upnZ) * t;
-            } else if (upnY > dirnZ) {
-                t = Math.sqrt(1.0 + upnY - leftX - dirnZ);
+                y = (nm10 + nm01) * t;
+                z = (nm02 + nm20) * t;
+                w = (nm12 - nm21) * t;
+            } else if (nm11 > nm22) {
+                t = Math.sqrt(nm11 - (nm22 + nm00) + 1.0);
                 y = t * 0.5;
                 t = 0.5 / t;
-                x = (leftY + upnX) * t;
-                z = (upnZ + dirnY) * t;
-                w = (leftZ - dirnX) * t;
+                z = (nm21 + nm12) * t;
+                x = (nm10 + nm01) * t;
+                w = (nm20 - nm02) * t;
             } else {
-                t = Math.sqrt(1.0 + dirnZ - leftX - upnY);
+                t = Math.sqrt(nm22 - (nm00 + nm11) + 1.0);
                 z = t * 0.5;
                 t = 0.5 / t;
-                x = (dirnX + leftZ) * t;
-                y = (upnZ + dirnY) * t;
-                w = (upnX - leftY) * t;
+                x = (nm02 + nm20) * t;
+                y = (nm21 + nm12) * t;
+                w = (nm01 - nm10) * t;
             }
         }
         /* Multiply */
         return dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
-                        Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
-                        Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
-                        Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
+                Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
+                Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
+                Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
     }
 
     /**

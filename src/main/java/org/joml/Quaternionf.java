@@ -2497,47 +2497,60 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
         float upnX = dirnY * leftZ - dirnZ * leftY;
         float upnY = dirnZ * leftX - dirnX * leftZ;
         float upnZ = dirnX * leftY - dirnY * leftX;
-
-        /* Convert orthonormal basis vectors to quaternion */
-        float x, y, z, w;
-        double t;
-        double tr = leftX + upnY + dirnZ;
-        if (tr >= 0.0) {
-            t = Math.sqrt(tr + 1.0);
-            w = (float) (t * 0.5);
-            t = 0.5 / t;
-            x = (float) ((dirnY - upnZ) * t);
-            y = (float) ((leftZ - dirnX) * t);
-            z = (float) ((upnX - leftY) * t);
+        // invert
+        float a = Math.fma(-leftX, upnY, leftY * upnX);
+        float b = Math.fma(-leftZ, upnX, leftX * upnZ);
+        float c = Math.fma(-leftY, upnZ, leftZ * upnY);
+        float d = Math.fma(a, -dirnZ, Math.fma(b, -dirnY, c * -dirnX));
+        float s = 1.0f / d;
+        float nm00 = Math.fma(upnY, -dirnZ, dirnY * upnZ) * s;
+        float nm01 = Math.fma(-dirnY, -leftZ, leftY * -dirnZ) * s;
+        float nm02 = c * s;
+        float nm10 = Math.fma(-dirnX, upnZ, -upnX * -dirnZ) * s;
+        float nm11 = Math.fma(-leftX, -dirnZ, dirnX * -leftZ) * s;
+        float nm12 = b * s;
+        float nm20 = Math.fma(upnX, -dirnY, dirnX * upnY) * s;
+        float nm21 = Math.fma(-dirnX, -leftY, leftX * -dirnY) * s;
+        float nm22 = a * s;
+        // Compute quaternion from matrix
+        float t, x, y, z, w;
+        float tr = nm00 + nm11 + nm22;
+        if (tr >= 0.0f) {
+            t = Math.sqrt(tr + 1.0f);
+            w = t * 0.5f;
+            t = 0.5f / t;
+            x = (nm12 - nm21) * t;
+            y = (nm20 - nm02) * t;
+            z = (nm01 - nm10) * t;
         } else {
-            if (leftX > upnY && leftX > dirnZ) {
-                t = Math.sqrt(1.0 + leftX - upnY - dirnZ);
-                x = (float) (t * 0.5);
-                t = 0.5 / t;
-                y = (float) ((leftY + upnX) * t);
-                z = (float) ((dirnX + leftZ) * t);
-                w = (float) ((dirnY - upnZ) * t);
-            } else if (upnY > dirnZ) {
-                t = Math.sqrt(1.0 + upnY - leftX - dirnZ);
-                y = (float) (t * 0.5);
-                t = 0.5 / t;
-                x = (float) ((leftY + upnX) * t);
-                z = (float) ((upnZ + dirnY) * t);
-                w = (float) ((leftZ - dirnX) * t);
+            if (nm00 >= nm11 && nm00 >= nm22) {
+                t = Math.sqrt(nm00 - (nm11 + nm22) + 1.0f);
+                x = t * 0.5f;
+                t = 0.5f / t;
+                y = (nm10 + nm01) * t;
+                z = (nm02 + nm20) * t;
+                w = (nm12 - nm21) * t;
+            } else if (nm11 > nm22) {
+                t = Math.sqrt(nm11 - (nm22 + nm00) + 1.0f);
+                y = t * 0.5f;
+                t = 0.5f / t;
+                z = (nm21 + nm12) * t;
+                x = (nm10 + nm01) * t;
+                w = (nm20 - nm02) * t;
             } else {
-                t = Math.sqrt(1.0 + dirnZ - leftX - upnY);
-                z = (float) (t * 0.5);
-                t = 0.5 / t;
-                x = (float) ((dirnX + leftZ) * t);
-                y = (float) ((upnZ + dirnY) * t);
-                w = (float) ((upnX - leftY) * t);
+                t = Math.sqrt(nm22 - (nm00 + nm11) + 1.0f);
+                z = t * 0.5f;
+                t = 0.5f / t;
+                x = (nm02 + nm20) * t;
+                y = (nm21 + nm12) * t;
+                w = (nm01 - nm10) * t;
             }
         }
         /* Multiply */
         return dest.set(Math.fma(this.w, x, Math.fma(this.x, w, Math.fma(this.y, z, -this.z * y))),
-                        Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
-                        Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
-                        Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
+                Math.fma(this.w, y, Math.fma(-this.x, z, Math.fma(this.y, w, this.z * x))),
+                Math.fma(this.w, z, Math.fma(this.x, y, Math.fma(-this.y, x, this.z * w))),
+                Math.fma(this.w, w, Math.fma(-this.x, x, Math.fma(-this.y, y, -this.z * z))));
     }
 
     /**
