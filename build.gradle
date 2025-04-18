@@ -32,6 +32,7 @@ configurations {
 dependencies {
     buildhelper 'org.ow2.asm:asm:9.7'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
+    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib'
     compileOnly 'org.jetbrains:annotations:24.1.0'
     if (buildProfile == 'default') {
         compileOnly files('libs/jre-stubs.jar')
@@ -138,16 +139,6 @@ publishing {
                     url = 'https://github.com/JOML-CI/JOML'
                     connection = 'scm:git:https://github.com/JOML-CI/JOML.git'
                     developerConnection = 'scm:git:https://github.com/JOML-CI/JOML.git'
-                }
-            }
-            // Exclude the dependency on the Kotlin Stdlib for Java
-            // introduced by the Kotlin plugin.
-            pom.withXml {
-                Node pomNode = asNode()
-                pomNode.dependencies.'*'.findAll() {
-                    it.artifactId.text() == 'kotlin-stdlib-jdk8'
-                }.each() {
-                    it.parent().remove(it)
                 }
             }
         }
