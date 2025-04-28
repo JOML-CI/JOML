@@ -1048,6 +1048,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         dest.x = Math.fma(x, a.x(), b.x());
         dest.y = Math.fma(y, a.y(), b.y());
         dest.z = Math.fma(z, a.z(), b.z());
+        dest.w = Math.fma(w, a.w(), b.w());
         return dest;
     }
 
@@ -1055,6 +1056,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         dest.x = Math.fma(x, a, b.x());
         dest.y = Math.fma(y, a, b.y());
         dest.z = Math.fma(z, a, b.z());
+        dest.w = Math.fma(w, a, b.w());
         return dest;
     }
 
