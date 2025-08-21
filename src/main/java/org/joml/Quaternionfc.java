@@ -122,6 +122,15 @@ public interface Quaternionfc {
     Quaternionf sub(Quaternionfc q2, Quaternionf dest);
 
     /**
+     * Return the dot product of this {@link Quaternionf} and <code>otherQuat</code>.
+     *
+     * @param otherQuat
+     *          the other quaternion
+     * @return the dot product
+     */
+    float dot(Quaternionfc otherQuat);
+
+    /**
      * Return the angle in radians represented by this normalized quaternion rotation.
      * <p>
      * This quaternion must be {@link #normalize(Quaternionf) normalized}.
