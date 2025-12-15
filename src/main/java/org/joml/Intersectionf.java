@@ -601,15 +601,15 @@ public class Intersectionf {
             float b1cX, float b1cY, float b1cZ, float b1uXx, float b1uXy, float b1uXz, float b1uYx, float b1uYy, float b1uYz, float b1uZx, float b1uZy, float b1uZz, float b1hsX, float b1hsY, float b1hsZ) {
         float ra, rb;
         // Compute rotation matrix expressing b in a's coordinate frame
-        float rm00 = b0uXx * b1uXx + b0uYx * b1uYx + b0uZx * b1uZx;
-        float rm10 = b0uXx * b1uXy + b0uYx * b1uYy + b0uZx * b1uZy;
-        float rm20 = b0uXx * b1uXz + b0uYx * b1uYz + b0uZx * b1uZz;
-        float rm01 = b0uXy * b1uXx + b0uYy * b1uYx + b0uZy * b1uZx;
-        float rm11 = b0uXy * b1uXy + b0uYy * b1uYy + b0uZy * b1uZy;
-        float rm21 = b0uXy * b1uXz + b0uYy * b1uYz + b0uZy * b1uZz;
-        float rm02 = b0uXz * b1uXx + b0uYz * b1uYx + b0uZz * b1uZx;
-        float rm12 = b0uXz * b1uXy + b0uYz * b1uYy + b0uZz * b1uZy;
-        float rm22 = b0uXz * b1uXz + b0uYz * b1uYz + b0uZz * b1uZz;
+        float rm00 = b0uXx * b1uXx + b0uXy * b1uXy + b0uXz * b1uXz;
+        float rm01 = b0uXx * b1uYx + b0uXy * b1uYy + b0uXz * b1uYz;
+        float rm02 = b0uXx * b1uZx + b0uXy * b1uZy + b0uXz * b1uZz;
+        float rm10 = b0uYx * b1uXx + b0uYy * b1uXy + b0uYz * b1uXz;
+        float rm11 = b0uYx * b1uYx + b0uYy * b1uYy + b0uYz * b1uYz;
+        float rm12 = b0uYx * b1uZx + b0uYy * b1uZy + b0uYz * b1uZz;
+        float rm20 = b0uZx * b1uXx + b0uZy * b1uXy + b0uZz * b1uXz;
+        float rm21 = b0uZx * b1uYx + b0uZy * b1uYy + b0uZz * b1uYz;
+        float rm22 = b0uZx * b1uZx + b0uZy * b1uZy + b0uZz * b1uZz;
         // Compute common subexpressions. Add in an epsilon term to
         // counteract arithmetic errors when two edges are parallel and
         // their cross product is (near) null (see text for details)
