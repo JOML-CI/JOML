@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import org.jspecify.annotations.Nullable;
+
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.io.Externalizable;
@@ -8366,7 +8368,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         return result;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

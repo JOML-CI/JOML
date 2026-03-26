@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import org.jspecify.annotations.Nullable;
+
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.io.Externalizable;
@@ -14971,7 +14973,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
         return result;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -15269,7 +15271,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
         return this;
     }
 
-    public Matrix4d projectedGridRange(Matrix4dc projector, double sLower, double sUpper, Matrix4d dest) {
+    public @Nullable Matrix4d projectedGridRange(Matrix4dc projector, double sLower, double sUpper, Matrix4d dest) {
         // Compute intersection with frustum edges and plane
         double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY;
         double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY;

@@ -24,6 +24,8 @@
 //#ifdef __HAS_VECTOR_API__
 package org.joml.experimental;
 
+import org.jspecify.annotations.Nullable;
+
 import java.text.NumberFormat;
 
 import org.joml.Options;
@@ -67,7 +69,7 @@ public class Vector4fa {
         return result;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -2038,7 +2040,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
         return result;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
