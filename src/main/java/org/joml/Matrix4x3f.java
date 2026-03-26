@@ -177,6 +177,41 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     }
 
     /**
+     * Create a new {@link Matrix4x3f} and initialize it with the values from the given array in column-major order.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 3, 6, 9<br>
+     * 1, 4, 7, 10<br>
+     * 2, 5, 8, 11<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     */
+    public Matrix4x3f(float m[]) {
+        set(m);
+    }
+
+    /**
+     * Create a new {@link Matrix4x3f} and initialize it with the values from the given array in column-major order
+     * at the given offset.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 3, 6, 9<br>
+     * 1, 4, 7, 10<br>
+     * 2, 5, 8, 11<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     */
+    public Matrix4x3f(float m[], int off) {
+        set(m, off);
+    }
+
+    /**
      * Assume the given properties about this matrix.
      * <p>
      * Use one or multiple of 0, {@link Matrix4x3fc#PROPERTY_IDENTITY},

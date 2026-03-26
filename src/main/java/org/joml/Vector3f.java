@@ -180,6 +180,20 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
         this.z = xyz[2];
     }
 
+    /**
+     * Create a new {@link Vector3f} and initialize its components from the given array at the given offset.
+     *
+     * @param xyz
+     *          the array containing at least three elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Vector3f(float[] xyz, int offset) {
+        this.x = xyz[offset];
+        this.y = xyz[offset + 1];
+        this.z = xyz[offset + 2];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer}
@@ -496,6 +510,22 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
         this.x = xyz[0];
         this.y = xyz[1];
         this.z = xyz[2];
+        return this;
+    }
+
+    /**
+     * Set the components of this vector to the elements of the given array at the given offset.
+     *
+     * @param xyz
+     *          the array containing at least three elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Vector3f set(float[] xyz, int offset) {
+        this.x = xyz[offset];
+        this.y = xyz[offset + 1];
+        this.z = xyz[offset + 2];
         return this;
     }
 
@@ -2465,6 +2495,17 @@ public class Vector3f implements Externalizable, Cloneable, Vector3fc {
         dest.y = this.y();
         dest.z = this.z();
         return dest;
+    }
+
+    public float[] get(float[] arr) {
+        return get(arr, 0);
+    }
+
+    public float[] get(float[] arr, int offset) {
+        arr[offset]     = this.x;
+        arr[offset + 1] = this.y;
+        arr[offset + 2] = this.z;
+        return arr;
     }
 
     public int maxComponent() {

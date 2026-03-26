@@ -1360,8 +1360,28 @@ public interface Vector3fc {
     Vector3d get(Vector3d dest);
 
     /**
+     * Store this vector into the supplied float array.
+     *
+     * @param arr
+     *          the array to write the vector values into
+     * @return the passed in array
+     */
+    float[] get(float[] arr);
+
+    /**
+     * Store this vector into the supplied float array at the given offset.
+     *
+     * @param arr
+     *          the array to write the vector values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    float[] get(float[] arr, int offset);
+
+    /**
      * Determine the component with the biggest absolute value.
-     * 
+     *
      * @return the component index, within <code>[0..2]</code>
      */
     int maxComponent();

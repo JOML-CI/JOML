@@ -117,6 +117,34 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
     }
 
     /**
+     * Create a new {@link Quaternionf} and initialize its components from the first four elements of the given array.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     */
+    public Quaternionf(float[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
+    }
+
+    /**
+     * Create a new {@link Quaternionf} and initialize its components from the given array at the given offset.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Quaternionf(float[] xyzw, int offset) {
+        this.x = xyzw[offset];
+        this.y = xyzw[offset + 1];
+        this.z = xyzw[offset + 2];
+        this.w = xyzw[offset + 3];
+    }
+
+    /**
      * Create a new {@link Quaternionf} and initialize its components to the same values as the given {@link Quaternionfc}.
      * 
      * @param source
@@ -410,6 +438,34 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
         return dest.set(this);
     }
 
+    /**
+     * Store this quaternion into the supplied float array.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @return the passed in array
+     */
+    public float[] get(float[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
+     * Store this quaternion into the supplied float array at the given offset.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public float[] get(float[] arr, int offset) {
+        arr[offset]     = this.x;
+        arr[offset + 1] = this.y;
+        arr[offset + 2] = this.z;
+        arr[offset + 3] = this.w;
+        return arr;
+    }
+
 //#ifdef __HAS_NIO__
     public ByteBuffer getAsMatrix3f(ByteBuffer dest) {
         MemUtil.INSTANCE.putMatrix3f(this, dest.position(), dest);
@@ -464,8 +520,40 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
     }
 
     /**
+     * Set the components of this quaternion to the first four elements of the given array.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @return this
+     */
+    public Quaternionf set(float[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
+        return this;
+    }
+
+    /**
+     * Set the components of this quaternion from the given array at the given offset.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Quaternionf set(float[] xyzw, int offset) {
+        this.x = xyzw[offset];
+        this.y = xyzw[offset + 1];
+        this.z = xyzw[offset + 2];
+        this.w = xyzw[offset + 3];
+        return this;
+    }
+
+    /**
      * Set this quaternion to be a copy of <code>q</code>.
-     * 
+     *
      * @param q
      *          the {@link Quaternionfc} to copy
      * @return this

@@ -182,6 +182,32 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
         this.y = xy[1];
     }
 
+    /**
+     * Create a new {@link Vector2d} and initialize its components from the given array at the given offset.
+     *
+     * @param xy
+     *          the array containing at least two elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Vector2d(double[] xy, int offset) {
+        this.x = xy[offset];
+        this.y = xy[offset + 1];
+    }
+
+    /**
+     * Create a new {@link Vector2d} and initialize its components from the given array at the given offset.
+     *
+     * @param xy
+     *          the array containing at least two elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Vector2d(float[] xy, int offset) {
+        this.x = xy[offset];
+        this.y = xy[offset + 1];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
@@ -390,6 +416,36 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
         return this;
     }
 
+    /**
+     * Set the two components of this vector to the elements of the given array at the given offset.
+     *
+     * @param xy
+     *          the array containing at least two elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Vector2d set(double[] xy, int offset) {
+        this.x = xy[offset];
+        this.y = xy[offset + 1];
+        return this;
+    }
+
+    /**
+     * Set the two components of this vector to the elements of the given array at the given offset.
+     *
+     * @param xy
+     *          the array containing at least two elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Vector2d set(float[] xy, int offset) {
+        this.x = xy[offset];
+        this.y = xy[offset + 1];
+        return this;
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
@@ -561,6 +617,66 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
         return buffer;
     }
 //#endif
+
+    /**
+     * Store this vector into the supplied array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @return the passed in array
+     * @see #get(double[], int)
+     */
+    public double[] get(double[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
+     * Store this vector into the supplied array at the given offset.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public double[] get(double[] arr, int offset) {
+        arr[offset]     = this.x;
+        arr[offset + 1] = this.y;
+        return arr;
+    }
+
+    /**
+     * Store this vector into the supplied array.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @return the passed in array
+     * @see #get(float[], int)
+     */
+    public float[] get(float[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
+     * Store this vector into the supplied array at the given offset.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public float[] get(float[] arr, int offset) {
+        arr[offset]     = (float) this.x;
+        arr[offset + 1] = (float) this.y;
+        return arr;
+    }
 
 //#ifdef __HAS_UNSAFE__
     public Vector2dc getToAddress(long address) {

@@ -176,6 +176,19 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
         this.y = xy[1];
     }
 
+    /**
+     * Create a new {@link Vector2f} and initialize its components from the given array at the given offset.
+     *
+     * @param xy
+     *          the array containing at least two elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Vector2f(float[] xy, int offset) {
+        this.x = xy[offset];
+        this.y = xy[offset + 1];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
@@ -407,6 +420,21 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
         return this;
     }
 
+    /**
+     * Set the components of this vector to the elements of the given array at the given offset.
+     *
+     * @param xy
+     *          the array containing at least two elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Vector2f set(float[] xy, int offset) {
+        this.x = xy[offset];
+        this.y = xy[offset + 1];
+        return this;
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
@@ -531,6 +559,16 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
         dest.x = this.x();
         dest.y = this.y();
         return dest;
+    }
+
+    public float[] get(float[] arr) {
+        return get(arr, 0);
+    }
+
+    public float[] get(float[] arr, int offset) {
+        arr[offset]     = this.x;
+        arr[offset + 1] = this.y;
+        return arr;
     }
 
     /**

@@ -147,6 +147,72 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
     }
 //#endif
 
+    /**
+     * Create a new {@link Matrix3x2d} and initialize it with the values from the given array in column-major order.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 2, 4<br>
+     * 1, 3, 5<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     */
+    public Matrix3x2d(double m[]) {
+        set(m);
+    }
+
+    /**
+     * Create a new {@link Matrix3x2d} and initialize it with the values from the given array in column-major order
+     * at the given offset.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 2, 4<br>
+     * 1, 3, 5<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     */
+    public Matrix3x2d(double m[], int off) {
+        set(m, off);
+    }
+
+    /**
+     * Create a new {@link Matrix3x2d} and initialize it with the values from the given array in column-major order.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 2, 4<br>
+     * 1, 3, 5<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     */
+    public Matrix3x2d(float m[]) {
+        set(m);
+    }
+
+    /**
+     * Create a new {@link Matrix3x2d} and initialize it with the values from the given array in column-major order
+     * at the given offset.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 2, 4<br>
+     * 1, 3, 5<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     */
+    public Matrix3x2d(float m[], int off) {
+        set(m, off);
+    }
+
     public double m00() {
         return m00;
     }

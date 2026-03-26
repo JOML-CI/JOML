@@ -196,6 +196,54 @@ public interface Vector4dc {
     ByteBuffer getf(int index, ByteBuffer buffer);
 //#endif
 
+    /**
+     * Store this vector into the supplied array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @return the passed in array
+     * @see #get(double[], int)
+     */
+    double[] get(double[] arr);
+
+    /**
+     * Store this vector into the supplied array at the given offset.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    double[] get(double[] arr, int offset);
+
+    /**
+     * Store this vector into the supplied array.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @return the passed in array
+     * @see #get(float[], int)
+     */
+    float[] get(float[] arr);
+
+    /**
+     * Store this vector into the supplied array at the given offset.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    float[] get(float[] arr, int offset);
+
 //#ifdef __HAS_UNSAFE__
     /**
      * Store this vector at the given off-heap memory address.
@@ -203,7 +251,7 @@ public interface Vector4dc {
      * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
      * <p>
      * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
-     * 
+     *
      * @param address
      *            the off-heap address where to store this vector
      * @return this

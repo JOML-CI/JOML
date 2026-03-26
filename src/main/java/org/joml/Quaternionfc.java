@@ -246,6 +246,26 @@ public interface Quaternionfc {
      */
     Quaternionf get(Quaternionf dest);
 
+    /**
+     * Store this quaternion into the supplied float array.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @return the passed in array
+     */
+    float[] get(float[] arr);
+
+    /**
+     * Store this quaternion into the supplied float array at the given offset.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    float[] get(float[] arr, int offset);
+
 //#ifdef __HAS_NIO__
     /**
      * Store the 3x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link ByteBuffer}.

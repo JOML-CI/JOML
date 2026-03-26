@@ -204,6 +204,34 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
         this.z = xyz[2];
     }
 
+    /**
+     * Create a new {@link Vector3d} and initialize its components from the given array at the given offset.
+     *
+     * @param xyz
+     *          the array containing at least three elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Vector3d(double[] xyz, int offset) {
+        this.x = xyz[offset];
+        this.y = xyz[offset + 1];
+        this.z = xyz[offset + 2];
+    }
+
+    /**
+     * Create a new {@link Vector3d} and initialize its components from the given array at the given offset.
+     *
+     * @param xyz
+     *          the array containing at least three elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Vector3d(float[] xyz, int offset) {
+        this.x = xyz[offset];
+        this.y = xyz[offset + 1];
+        this.z = xyz[offset + 2];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector3d} and read this vector from the supplied {@link ByteBuffer}
@@ -502,6 +530,38 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
         return this;
     }
 
+    /**
+     * Set the three components of this vector to the elements of the given array at the given offset.
+     *
+     * @param xyz
+     *          the array containing at least three elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Vector3d set(double[] xyz, int offset) {
+        this.x = xyz[offset];
+        this.y = xyz[offset + 1];
+        this.z = xyz[offset + 2];
+        return this;
+    }
+
+    /**
+     * Set the three components of this vector to the elements of the given array at the given offset.
+     *
+     * @param xyz
+     *          the array containing at least three elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Vector3d set(float[] xyz, int offset) {
+        this.x = xyz[offset];
+        this.y = xyz[offset + 1];
+        this.z = xyz[offset + 2];
+        return this;
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
@@ -667,6 +727,68 @@ public class Vector3d implements Externalizable, Cloneable, Vector3dc {
         return buffer;
     }
 //#endif
+
+    /**
+     * Store this vector into the supplied array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @return the passed in array
+     * @see #get(double[], int)
+     */
+    public double[] get(double[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
+     * Store this vector into the supplied array at the given offset.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public double[] get(double[] arr, int offset) {
+        arr[offset]     = this.x;
+        arr[offset + 1] = this.y;
+        arr[offset + 2] = this.z;
+        return arr;
+    }
+
+    /**
+     * Store this vector into the supplied array.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @return the passed in array
+     * @see #get(float[], int)
+     */
+    public float[] get(float[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
+     * Store this vector into the supplied array at the given offset.
+     * <p>
+     * Please note that due to this vector storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public float[] get(float[] arr, int offset) {
+        arr[offset]     = (float) this.x;
+        arr[offset + 1] = (float) this.y;
+        arr[offset + 2] = (float) this.z;
+        return arr;
+    }
 
 //#ifdef __HAS_UNSAFE__
     public Vector3dc getToAddress(long address) {

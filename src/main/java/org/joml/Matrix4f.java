@@ -218,6 +218,43 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         set(col0, col1, col2, col3);
     }
 
+    /**
+     * Create a new {@link Matrix4f} and initialize it with the values from the given array in column-major order.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     */
+    public Matrix4f(float m[]) {
+        set(m);
+    }
+
+    /**
+     * Create a new {@link Matrix4f} and initialize it with the values from the given array in column-major order
+     * at the given offset.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     */
+    public Matrix4f(float m[], int off) {
+        set(m, off);
+    }
+
     Matrix4f _properties(int properties) {
         this.properties = properties;
         return this;

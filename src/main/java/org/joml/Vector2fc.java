@@ -597,6 +597,26 @@ public interface Vector2fc {
     Vector2d get(Vector2d dest);
 
     /**
+     * Store this vector into the supplied float array.
+     *
+     * @param arr
+     *          the array to write the vector values into
+     * @return the passed in array
+     */
+    float[] get(float[] arr);
+
+    /**
+     * Store this vector into the supplied float array at the given offset.
+     *
+     * @param arr
+     *          the array to write the vector values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    float[] get(float[] arr, int offset);
+
+    /**
      * Compute for each component of this vector the largest (closest to positive
      * infinity) {@code float} value that is less than or equal to that
      * component and is equal to a mathematical integer and store the result in

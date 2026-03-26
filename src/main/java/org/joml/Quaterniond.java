@@ -90,6 +90,62 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     }
 
     /**
+     * Create a new {@link Quaterniond} and initialize its components from the first four elements of the given array.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     */
+    public Quaterniond(double[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
+    }
+
+    /**
+     * Create a new {@link Quaterniond} and initialize its components from the given array at the given offset.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Quaterniond(double[] xyzw, int offset) {
+        this.x = xyzw[offset];
+        this.y = xyzw[offset + 1];
+        this.z = xyzw[offset + 2];
+        this.w = xyzw[offset + 3];
+    }
+
+    /**
+     * Create a new {@link Quaterniond} and initialize its components from the first four elements of the given float array.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     */
+    public Quaterniond(float[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
+    }
+
+    /**
+     * Create a new {@link Quaterniond} and initialize its components from the given float array at the given offset.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Quaterniond(float[] xyzw, int offset) {
+        this.x = xyzw[offset];
+        this.y = xyzw[offset + 1];
+        this.z = xyzw[offset + 2];
+        this.w = xyzw[offset + 3];
+    }
+
+    /**
      * Create a new {@link Quaterniond} and initialize its components to the same values as the given {@link Quaterniondc}.
      * 
      * @param source
@@ -383,8 +439,64 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     }
 
     /**
+     * Store this quaternion into the supplied double array.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @return the passed in array
+     */
+    public double[] get(double[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
+     * Store this quaternion into the supplied double array at the given offset.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public double[] get(double[] arr, int offset) {
+        arr[offset]     = this.x;
+        arr[offset + 1] = this.y;
+        arr[offset + 2] = this.z;
+        arr[offset + 3] = this.w;
+        return arr;
+    }
+
+    /**
+     * Store this quaternion into the supplied float array.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @return the passed in array
+     */
+    public float[] get(float[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
+     * Store this quaternion into the supplied float array at the given offset.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public float[] get(float[] arr, int offset) {
+        arr[offset]     = (float) this.x;
+        arr[offset + 1] = (float) this.y;
+        arr[offset + 2] = (float) this.z;
+        arr[offset + 3] = (float) this.w;
+        return arr;
+    }
+
+    /**
      * Set this quaternion to the new values.
-     * 
+     *
      * @param x
      *          the new value of x
      * @param y
@@ -404,8 +516,72 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     }
 
     /**
+     * Set the components of this quaternion to the first four elements of the given array.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @return this
+     */
+    public Quaterniond set(double[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
+        return this;
+    }
+
+    /**
+     * Set the components of this quaternion from the given array at the given offset.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Quaterniond set(double[] xyzw, int offset) {
+        this.x = xyzw[offset];
+        this.y = xyzw[offset + 1];
+        this.z = xyzw[offset + 2];
+        this.w = xyzw[offset + 3];
+        return this;
+    }
+
+    /**
+     * Set the components of this quaternion to the first four elements of the given float array.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @return this
+     */
+    public Quaterniond set(float[] xyzw) {
+        this.x = xyzw[0];
+        this.y = xyzw[1];
+        this.z = xyzw[2];
+        this.w = xyzw[3];
+        return this;
+    }
+
+    /**
+     * Set the components of this quaternion from the given float array at the given offset.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Quaterniond set(float[] xyzw, int offset) {
+        this.x = xyzw[offset];
+        this.y = xyzw[offset + 1];
+        this.z = xyzw[offset + 2];
+        this.w = xyzw[offset + 3];
+        return this;
+    }
+
+    /**
      * Set this quaternion to be a copy of q.
-     * 
+     *
      * @param q
      *          the {@link Quaterniondc} to copy
      * @return this

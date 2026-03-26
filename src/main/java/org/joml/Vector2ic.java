@@ -112,6 +112,27 @@ public interface Vector2ic {
     IntBuffer get(int index, IntBuffer buffer);
 //#endif
 
+    /**
+     * Store this vector into the supplied array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @return the passed in array
+     * @see #get(int[], int)
+     */
+    int[] get(int[] arr);
+
+    /**
+     * Store this vector into the supplied array at the given offset.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    int[] get(int[] arr, int offset);
+
 //#ifdef __HAS_UNSAFE__
     /**
      * Store this vector at the given off-heap memory address.

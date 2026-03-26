@@ -241,6 +241,20 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
         this.z = xyz[2];
     }
 
+    /**
+     * Create a new {@link Vector3i} and initialize its components from the given array at the given offset.
+     *
+     * @param xyz
+     *          the array containing at least three elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Vector3i(int[] xyz, int offset) {
+        this.x = xyz[offset];
+        this.y = xyz[offset + 1];
+        this.z = xyz[offset + 2];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector3i} and read this vector from the supplied
@@ -507,6 +521,22 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
         return this;
     }
 
+    /**
+     * Set the three components of this vector to the elements of the given array at the given offset.
+     *
+     * @param xyz
+     *          the array containing at least three elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Vector3i set(int[] xyz, int offset) {
+        this.x = xyz[offset];
+        this.y = xyz[offset + 1];
+        this.z = xyz[offset + 2];
+        return this;
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
@@ -667,6 +697,34 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
         return buffer;
     }
 //#endif
+
+    /**
+     * Store this vector into the supplied array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @return the passed in array
+     * @see #get(int[], int)
+     */
+    public int[] get(int[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
+     * Store this vector into the supplied array at the given offset.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public int[] get(int[] arr, int offset) {
+        arr[offset]     = this.x;
+        arr[offset + 1] = this.y;
+        arr[offset + 2] = this.z;
+        return arr;
+    }
 
 //#ifdef __HAS_UNSAFE__
     public Vector3ic getToAddress(long address) {

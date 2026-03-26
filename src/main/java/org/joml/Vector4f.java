@@ -231,6 +231,21 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         this.w = xyzw[3];
     }
 
+    /**
+     * Create a new {@link Vector4f} and initialize its components from the given array at the given offset.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @param offset
+     *          the offset into the array
+     */
+    public Vector4f(float[] xyzw, int offset) {
+        this.x = xyzw[offset];
+        this.y = xyzw[offset + 1];
+        this.z = xyzw[offset + 2];
+        this.w = xyzw[offset + 3];
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector4f} and read this vector from the supplied {@link ByteBuffer}
@@ -608,6 +623,23 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         this.y = xyzw[1];
         this.z = xyzw[2];
         this.w = xyzw[3];
+        return this;
+    }
+
+    /**
+     * Set the components of this vector to the elements of the given array at the given offset.
+     *
+     * @param xyzw
+     *          the array containing at least four elements
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Vector4f set(float[] xyzw, int offset) {
+        this.x = xyzw[offset];
+        this.y = xyzw[offset + 1];
+        this.z = xyzw[offset + 2];
+        this.w = xyzw[offset + 3];
         return this;
     }
 
@@ -2036,6 +2068,18 @@ public class Vector4f implements Externalizable, Cloneable, Vector4fc {
         dest.z = this.z();
         dest.w = this.w();
         return dest;
+    }
+
+    public float[] get(float[] arr) {
+        return get(arr, 0);
+    }
+
+    public float[] get(float[] arr, int offset) {
+        arr[offset]     = this.x;
+        arr[offset + 1] = this.y;
+        arr[offset + 2] = this.z;
+        arr[offset + 3] = this.w;
+        return arr;
     }
 
     public int maxComponent() {

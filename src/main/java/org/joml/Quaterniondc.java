@@ -218,6 +218,46 @@ public interface Quaterniondc {
     Quaternionf get(Quaternionf dest);
 
     /**
+     * Store this quaternion into the supplied double array.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @return the passed in array
+     */
+    double[] get(double[] arr);
+
+    /**
+     * Store this quaternion into the supplied double array at the given offset.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    double[] get(double[] arr, int offset);
+
+    /**
+     * Store this quaternion into the supplied float array.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @return the passed in array
+     */
+    float[] get(float[] arr);
+
+    /**
+     * Store this quaternion into the supplied float array at the given offset.
+     *
+     * @param arr
+     *          the array to write the quaternion values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    float[] get(float[] arr, int offset);
+
+    /**
      * Multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
      * <p>
      * If <code>T</code> is <code>this</code> and <code>Q</code> is the given

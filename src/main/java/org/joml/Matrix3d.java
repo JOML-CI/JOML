@@ -197,6 +197,76 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
         set(col0, col1, col2);
     }
 
+    /**
+     * Create a new {@link Matrix3d} and initialize it with the values from the given array in column-major order.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 3, 6<br>
+     * 1, 4, 7<br>
+     * 2, 5, 8<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     */
+    public Matrix3d(double m[]) {
+        set(m);
+    }
+
+    /**
+     * Create a new {@link Matrix3d} and initialize it with the values from the given array in column-major order
+     * at the given offset.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 3, 6<br>
+     * 1, 4, 7<br>
+     * 2, 5, 8<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     */
+    public Matrix3d(double m[], int off) {
+        set(m, off);
+    }
+
+    /**
+     * Create a new {@link Matrix3d} and initialize it with the values from the given array in column-major order.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 3, 6<br>
+     * 1, 4, 7<br>
+     * 2, 5, 8<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     */
+    public Matrix3d(float m[]) {
+        set(m);
+    }
+
+    /**
+     * Create a new {@link Matrix3d} and initialize it with the values from the given array in column-major order
+     * at the given offset.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 3, 6<br>
+     * 1, 4, 7<br>
+     * 2, 5, 8<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     */
+    public Matrix3d(float m[], int off) {
+        set(m, off);
+    }
+
     public double m00() {
         return m00;
     }

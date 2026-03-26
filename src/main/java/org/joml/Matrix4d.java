@@ -228,6 +228,80 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
     }
 
     /**
+     * Create a new {@link Matrix4d} and initialize it with the values from the given array in column-major order.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     */
+    public Matrix4d(double m[]) {
+        set(m);
+    }
+
+    /**
+     * Create a new {@link Matrix4d} and initialize it with the values from the given array in column-major order
+     * at the given offset.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     */
+    public Matrix4d(double m[], int off) {
+        set(m, off);
+    }
+
+    /**
+     * Create a new {@link Matrix4d} and initialize it with the values from the given array in column-major order.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     */
+    public Matrix4d(float m[]) {
+        set(m);
+    }
+
+    /**
+     * Create a new {@link Matrix4d} and initialize it with the values from the given array in column-major order
+     * at the given offset.
+     * <p>
+     * The result looks like this:
+     * <p>
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     *
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     */
+    public Matrix4d(float m[], int off) {
+        set(m, off);
+    }
+
+    /**
      * Assume the given properties about this matrix.
      * <p>
      * Use one or multiple of 0, {@link Matrix4dc#PROPERTY_IDENTITY},

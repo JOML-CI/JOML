@@ -117,6 +117,27 @@ public interface Vector3ic {
     ByteBuffer get(int index, ByteBuffer buffer);
 //#endif
 
+    /**
+     * Store this vector into the supplied array.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @return the passed in array
+     * @see #get(int[], int)
+     */
+    int[] get(int[] arr);
+
+    /**
+     * Store this vector into the supplied array at the given offset.
+     *
+     * @param arr
+     *          the array to store this vector into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    int[] get(int[] arr, int offset);
+
 //#ifdef __HAS_UNSAFE__
     /**
      * Store this vector at the given off-heap memory address.
@@ -124,7 +145,7 @@ public interface Vector3ic {
      * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
      * <p>
      * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
-     * 
+     *
      * @param address
      *            the off-heap address where to store this vector
      * @return this
