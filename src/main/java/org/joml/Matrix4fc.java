@@ -27,6 +27,7 @@ package org.joml;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 //#endif
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -843,6 +844,15 @@ public interface Matrix4fc {
      * @return dest
      */
     Vector3f getScale(Vector3f dest);
+
+    /**
+     * Return a string representation of this matrix by formatting the matrix elements with the given {@link NumberFormat}.
+     *
+     * @param formatter
+     *          the {@link NumberFormat} used to format the matrix values with
+     * @return the string representation
+     */
+    String toString(NumberFormat formatter);
 
     /**
      * Get the current values of <code>this</code> matrix and store them into

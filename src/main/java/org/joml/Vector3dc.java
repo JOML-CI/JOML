@@ -26,6 +26,7 @@ package org.joml;
 //#ifdef __HAS_NIO__
 import java.nio.*;
 //#endif
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -1737,4 +1738,12 @@ public interface Vector3dc {
      */
     boolean equals(double x, double y, double z);
 
+    /**
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
+     *
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
+     * @return the string representation
+     */
+    String toString(NumberFormat formatter);
 }

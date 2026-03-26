@@ -766,6 +766,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      *          the {@link NumberFormat} used to format the matrix values with
      * @return the string representation
      */
+    @Override
     public String toString(NumberFormat formatter) {
         return Runtime.format(m00, formatter) + " " + Runtime.format(m10, formatter) + " " + Runtime.format(m20, formatter) + "\n"
              + Runtime.format(m01, formatter) + " " + Runtime.format(m11, formatter) + " " + Runtime.format(m21, formatter) + "\n";

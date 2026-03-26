@@ -27,6 +27,7 @@ package org.joml;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 //#endif
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -439,6 +440,15 @@ public interface Vector2fc {
      * @return dest
      */
     Vector2f lerp(Vector2fc other, float t, Vector2f dest);
+
+    /**
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
+     *
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
+     * @return the string representation
+     */
+    String toString(NumberFormat formatter);
 
     /**
      * Add the component-wise multiplication of <code>a * b</code> to this vector

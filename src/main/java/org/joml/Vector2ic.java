@@ -26,6 +26,7 @@ package org.joml;
 //#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.text.NumberFormat;
 //#endif
 
 /**
@@ -394,4 +395,12 @@ public interface Vector2ic {
      */
     boolean equals(int x, int y);
 
+    /**
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
+     *
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
+     * @return the string representation
+     */
+    String toString(NumberFormat formatter);
 }

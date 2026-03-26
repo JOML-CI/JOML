@@ -500,6 +500,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      *          the {@link NumberFormat} used to format the matrix values with
      * @return the string representation
      */
+    @Override
     public String toString(NumberFormat formatter) {
         return Runtime.format(m00, formatter) + " " + Runtime.format(m10, formatter) + "\n"
              + Runtime.format(m01, formatter) + " " + Runtime.format(m11, formatter) + "\n";

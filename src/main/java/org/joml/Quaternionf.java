@@ -2959,6 +2959,7 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
      * 
      * @return the string representation
      */
+    @Override
     public String toString() {
         return Runtime.formatNumbers(toString(Options.NUMBER_FORMAT));
     }

@@ -26,6 +26,7 @@ package org.joml;
 //#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.LongBuffer;
+import java.text.NumberFormat;
 //#endif
 
 /**
@@ -447,6 +448,15 @@ public interface Vector4Lc {
      * @return dest
      */
     Vector4L negate(Vector4L dest);
+
+    /**
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
+     *
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
+     * @return the string representation
+     */
+    String toString(NumberFormat formatter);
 
     /**
      * Set the components of <code>dest</code> to be the component-wise minimum of this and the other vector.

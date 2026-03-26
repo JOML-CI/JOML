@@ -28,6 +28,7 @@ import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 //#endif
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -908,6 +909,15 @@ public interface Matrix4dc {
      * @return dest
      */
     Vector3d getScale(Vector3d dest);
+
+    /**
+     * Return a string representation of this matrix by formatting the matrix elements with the given {@link NumberFormat}.
+     *
+     * @param formatter
+     *          the {@link NumberFormat} used to format the matrix values with
+     * @return the string representation
+     */
+    String toString(NumberFormat formatter);
 
     /**
      * Get the current values of <code>this</code> matrix and store them into

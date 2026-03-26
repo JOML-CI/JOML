@@ -999,6 +999,7 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
      *          the {@link NumberFormat} used to format the vector components with
      * @return the string representation
      */
+    @Override
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + ")";
     }

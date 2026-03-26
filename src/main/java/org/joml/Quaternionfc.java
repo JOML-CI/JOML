@@ -27,6 +27,7 @@ package org.joml;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 //#endif
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -2030,6 +2031,15 @@ public interface Quaternionfc {
      * @return dest
      */
     Quaternionf rotateAxis(float angle, Vector3fc axis, Quaternionf dest);
+
+    /**
+     * Return a string representation of this quaternion.
+     * <p>
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<code>0.000E0;-</code>".
+     *
+     * @return the string representation
+     */
+    String toString();
 
     /**
      * Compute the difference between <code>this</code> and the <code>other</code> quaternion

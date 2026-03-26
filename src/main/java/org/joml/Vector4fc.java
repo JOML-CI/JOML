@@ -27,6 +27,7 @@ package org.joml;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 //#endif
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -839,6 +840,15 @@ public interface Vector4fc {
      * @return dest
      */
     Vector4f negate(Vector4f dest);
+
+    /**
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
+     *
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
+     * @return the string representation
+     */
+    String toString(NumberFormat formatter);
 
     /**
      * Set the components of <code>dest</code> to be the component-wise minimum of this and the other vector.

@@ -2003,6 +2003,7 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
      *          the {@link NumberFormat} used to format the vector components with
      * @return the string representation
      */
+    @Override
     public String toString(NumberFormat formatter) {
         return "(" + Runtime.format(x, formatter) + " " + Runtime.format(y, formatter) + " " + Runtime.format(z, formatter) + " " + Runtime.format(w, formatter) + ")";
     }

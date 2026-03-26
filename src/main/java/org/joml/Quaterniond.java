@@ -2225,6 +2225,7 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      *          the {@link NumberFormat} used to format the quaternion components with
      * @return the string representation
      */
+    @Override
     public String toString(NumberFormat formatter) {
         return "(" + Runtime.format(x, formatter) + " " + Runtime.format(y, formatter) + " " + Runtime.format(z, formatter) + " " + Runtime.format(w, formatter) + ")";
     }

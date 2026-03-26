@@ -23,6 +23,7 @@
  */
 package org.joml;
 
+import java.text.NumberFormat;
 import java.util.*;
 /**
  * Interface to a read-only view of a quaternion of double-precision floats.
@@ -1556,6 +1557,15 @@ public interface Quaterniondc {
      * @return dest
      */
     Quaterniond lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Quaterniond dest);
+
+    /**
+     * Return a string representation of this quaternion by formatting the components with the given {@link NumberFormat}.
+     *
+     * @param formatter
+     *          the {@link NumberFormat} used to format the quaternion components with
+     * @return the string representation
+     */
+    String toString(NumberFormat formatter);
 
     /**
      * Compute the difference between <code>this</code> and the <code>other</code> quaternion
