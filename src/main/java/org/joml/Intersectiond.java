@@ -601,15 +601,15 @@ public class Intersectiond {
             double b1cX, double b1cY, double b1cZ, double b1uXx, double b1uXy, double b1uXz, double b1uYx, double b1uYy, double b1uYz, double b1uZx, double b1uZy, double b1uZz, double b1hsX, double b1hsY, double b1hsZ) {
         double ra, rb;
         // Compute rotation matrix expressing b in a's coordinate frame
-        double rm00 = b0uXx * b1uXx + b0uYx * b1uYx + b0uZx * b1uZx;
-        double rm10 = b0uXx * b1uXy + b0uYx * b1uYy + b0uZx * b1uZy;
-        double rm20 = b0uXx * b1uXz + b0uYx * b1uYz + b0uZx * b1uZz;
-        double rm01 = b0uXy * b1uXx + b0uYy * b1uYx + b0uZy * b1uZx;
-        double rm11 = b0uXy * b1uXy + b0uYy * b1uYy + b0uZy * b1uZy;
-        double rm21 = b0uXy * b1uXz + b0uYy * b1uYz + b0uZy * b1uZz;
-        double rm02 = b0uXz * b1uXx + b0uYz * b1uYx + b0uZz * b1uZx;
-        double rm12 = b0uXz * b1uXy + b0uYz * b1uYy + b0uZz * b1uZy;
-        double rm22 = b0uXz * b1uXz + b0uYz * b1uYz + b0uZz * b1uZz;
+        double rm00 = b0uXx * b1uXx + b0uXy * b1uXy + b0uXz * b1uXz;
+        double rm01 = b0uXx * b1uYx + b0uXy * b1uYy + b0uXz * b1uYz;
+        double rm02 = b0uXx * b1uZx + b0uXy * b1uZy + b0uXz * b1uZz;
+        double rm10 = b0uYx * b1uXx + b0uYy * b1uXy + b0uYz * b1uXz;
+        double rm11 = b0uYx * b1uYx + b0uYy * b1uYy + b0uYz * b1uYz;
+        double rm12 = b0uYx * b1uZx + b0uYy * b1uZy + b0uYz * b1uZz;
+        double rm20 = b0uZx * b1uXx + b0uZy * b1uXy + b0uZz * b1uXz;
+        double rm21 = b0uZx * b1uYx + b0uZy * b1uYy + b0uZz * b1uYz;
+        double rm22 = b0uZx * b1uZx + b0uZy * b1uZy + b0uZz * b1uZz;
         // Compute common subexpressions. Add in an epsilon term to
         // counteract arithmetic errors when two edges are parallel and
         // their cross product is (near) null (see text for details)
