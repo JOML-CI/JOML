@@ -25,7 +25,7 @@ jobs:
           distribution: 'temurin'
       - uses: gradle/actions/setup-gradle@39e147cb9de83bb9910b8ef8bd7fff0ee20fcd6f # v6.0.1
       - name: Publish with Gradle
-        run: ./gradlew publishToSonatype --no-daemon -Psign -PbuildProfile=experimental
+        run: ./gradlew build publishToSonatype --no-daemon -Psign -PbuildProfile=experimental
         env:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.NEXUS_PASSWORD }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.NEXUS_USERNAME }}
