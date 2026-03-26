@@ -1,6 +1,6 @@
-name: Publish
+name: CI
 on:
-  push:
+  pull_request:
     branches: [ main ]
 
 concurrency:
@@ -24,10 +24,5 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - uses: gradle/actions/setup-gradle@39e147cb9de83bb9910b8ef8bd7fff0ee20fcd6f # v6.0.1
-      - name: Publish with Gradle
-        run: ./gradlew publishToSonatype --no-daemon -Psign
-        env:
-          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.NEXUS_PASSWORD }}
-          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.NEXUS_USERNAME }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SECRET_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Build and Test
+        run: ./gradlew build --no-daemon
