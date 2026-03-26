@@ -845,6 +845,8 @@ public class Intersectionf {
             float bX, float bY, float bZ, float radiusSquaredB) {
         float dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
         float distSquared = dX * dX + dY * dY + dZ * dZ;
+        if (distSquared == 0.0f)
+            return true;
         float h = 0.5f + (radiusSquaredA - radiusSquaredB) / (2.0f * distSquared);
         float r_i = radiusSquaredA - h * h * distSquared;
         return r_i >= 0.0f;
