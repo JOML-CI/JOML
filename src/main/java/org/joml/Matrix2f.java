@@ -381,8 +381,8 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
     public Matrix2f set(float m[]) {
         m00 = m[0];
         m01 = m[1];
-        m10 = m[3];
-        m11 = m[4];
+        m10 = m[2];
+        m11 = m[3];
         return this;
     }
 
@@ -403,8 +403,8 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
     public Matrix2f set(float m[], int off) {
         m00 = m[off+0];
         m01 = m[off+1];
-        m10 = m[off+3];
-        m11 = m[off+4];
+        m10 = m[off+2];
+        m11 = m[off+3];
         return this;
     }
 
