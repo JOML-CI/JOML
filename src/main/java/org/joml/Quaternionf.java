@@ -307,8 +307,8 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
      *          the other quaternion
      * @return the dot product
      */
-    public float dot(Quaternionf otherQuat) {
-        return this.x * otherQuat.x + this.y * otherQuat.y + this.z * otherQuat.z + this.w * otherQuat.w;
+    public float dot(Quaternionfc otherQuat) {
+        return this.x * otherQuat.x() + this.y * otherQuat.y() + this.z * otherQuat.z() + this.w * otherQuat.w();
     }
 
     public float angle() {
