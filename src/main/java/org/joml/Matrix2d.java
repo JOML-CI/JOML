@@ -148,6 +148,56 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
     public Matrix2d(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
+
+    /**
+     * Create a new {@link Matrix2d} and read its 4 double components from the given {@link DoubleBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * That DoubleBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param index
+     *          the absolute position into the DoubleBuffer
+     * @param buffer
+     *          the {@link DoubleBuffer} to read the matrix values from
+     */
+    public Matrix2d(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+    }
+
+    /**
+     * Create a new {@link Matrix2d} by reading its 4 double components from the given {@link ByteBuffer}
+     * at the buffer's current position.
+     * <p>
+     * The ByteBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param buffer
+     *          the {@link ByteBuffer} to read the matrix values from
+     * @see #Matrix2d(int, ByteBuffer)
+     */
+    public Matrix2d(ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Matrix2d} and read its 4 double components from the given {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The ByteBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          the {@link ByteBuffer} to read the matrix values from
+     */
+    public Matrix2d(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+    }
 //#endif
 
     /**

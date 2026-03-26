@@ -130,6 +130,59 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
     public Matrix3x2f(FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
+
+    /**
+     * Create a new {@link Matrix3x2f} and read its 6 float components from the given {@link FloatBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * That FloatBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param index
+     *          the absolute position into the FloatBuffer
+     * @param buffer
+     *          the {@link FloatBuffer} to read the matrix values from
+     */
+    public Matrix3x2f(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+    }
+
+    /**
+     * Create a new {@link Matrix3x2f} and read its 6 float components from the given {@link ByteBuffer}.
+     * <p>
+     * The ByteBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is read, use {@link #Matrix3x2f(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          the {@link ByteBuffer} to read the matrix values from
+     * @see #Matrix3x2f(int, ByteBuffer)
+     */
+    public Matrix3x2f(ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Matrix3x2f} and read its 6 float components from the given {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The ByteBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          the {@link ByteBuffer} to read the matrix values from
+     */
+    public Matrix3x2f(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+    }
 //#endif
 
     /**

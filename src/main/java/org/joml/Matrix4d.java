@@ -209,6 +209,59 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         determineProperties();
     }
+
+    /**
+     * Create a new {@link Matrix4d} and read its 16 double components from the given {@link DoubleBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * That DoubleBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param index
+     *          the absolute position into the DoubleBuffer
+     * @param buffer
+     *          the {@link DoubleBuffer} to read the matrix values from
+     */
+    public Matrix4d(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        determineProperties();
+    }
+
+    /**
+     * Create a new {@link Matrix4d} by reading its 16 double components from the given {@link ByteBuffer}
+     * at the buffer's current position.
+     * <p>
+     * The ByteBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param buffer
+     *          the {@link ByteBuffer} to read the matrix values from
+     * @see #Matrix4d(int, ByteBuffer)
+     */
+    public Matrix4d(ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        determineProperties();
+    }
+
+    /**
+     * Create a new {@link Matrix4d} and read its 16 double components from the given {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The ByteBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          the {@link ByteBuffer} to read the matrix values from
+     */
+    public Matrix4d(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        determineProperties();
+    }
 //#endif
 
     /**

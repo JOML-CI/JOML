@@ -194,6 +194,88 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
         w = (float) cos;
     }
 
+//#ifdef __HAS_NIO__
+    /**
+     * Create a new {@link Quaternionf} and read this quaternion from the supplied {@link FloatBuffer}
+     * at the current buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the quaternion is read, use {@link #Quaternionf(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          values will be read in <code>x, y, z, w</code> order
+     * @see #Quaternionf(int, FloatBuffer)
+     */
+    public Quaternionf(FloatBuffer buffer) {
+        int pos = buffer.position();
+        this.x = buffer.get(pos);
+        this.y = buffer.get(pos + 1);
+        this.z = buffer.get(pos + 2);
+        this.w = buffer.get(pos + 3);
+    }
+
+    /**
+     * Create a new {@link Quaternionf} and read this quaternion from the supplied {@link FloatBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index
+     *          the absolute position into the FloatBuffer
+     * @param buffer
+     *          values will be read in <code>x, y, z, w</code> order
+     */
+    public Quaternionf(int index, FloatBuffer buffer) {
+        this.x = buffer.get(index);
+        this.y = buffer.get(index + 1);
+        this.z = buffer.get(index + 2);
+        this.w = buffer.get(index + 3);
+    }
+
+    /**
+     * Create a new {@link Quaternionf} and read this quaternion from the supplied {@link ByteBuffer}
+     * at the current buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the quaternion is read, use {@link #Quaternionf(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          values will be read in <code>x, y, z, w</code> order
+     * @see #Quaternionf(int, ByteBuffer)
+     */
+    public Quaternionf(ByteBuffer buffer) {
+        int pos = buffer.position();
+        this.x = buffer.getFloat(pos);
+        this.y = buffer.getFloat(pos + 4);
+        this.z = buffer.getFloat(pos + 8);
+        this.w = buffer.getFloat(pos + 12);
+    }
+
+    /**
+     * Create a new {@link Quaternionf} and read this quaternion from the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          values will be read in <code>x, y, z, w</code> order
+     */
+    public Quaternionf(int index, ByteBuffer buffer) {
+        this.x = buffer.getFloat(index);
+        this.y = buffer.getFloat(index + 4);
+        this.z = buffer.getFloat(index + 8);
+        this.w = buffer.getFloat(index + 12);
+    }
+//#endif
+
     /**
      * @return the first component of the vector part
      */
@@ -467,6 +549,86 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
     }
 
 //#ifdef __HAS_NIO__
+    /**
+     * Store this quaternion into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the quaternion is stored, use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     * @see #get(int, FloatBuffer)
+     */
+    public FloatBuffer get(FloatBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this quaternion into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index
+     *          the absolute position into the FloatBuffer
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     */
+    public FloatBuffer get(int index, FloatBuffer buffer) {
+        buffer.put(index, this.x);
+        buffer.put(index + 1, this.y);
+        buffer.put(index + 2, this.z);
+        buffer.put(index + 3, this.w);
+        return buffer;
+    }
+
+    /**
+     * Store this quaternion into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the quaternion is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     * @see #get(int, ByteBuffer)
+     */
+    public ByteBuffer get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this quaternion into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     */
+    public ByteBuffer get(int index, ByteBuffer buffer) {
+        buffer.putFloat(index, this.x);
+        buffer.putFloat(index + 4, this.y);
+        buffer.putFloat(index + 8, this.z);
+        buffer.putFloat(index + 12, this.w);
+        return buffer;
+    }
+//#endif
+
+//#ifdef __HAS_NIO__
     public ByteBuffer getAsMatrix3f(ByteBuffer dest) {
         MemUtil.INSTANCE.putMatrix3f(this, dest.position(), dest);
         return dest;
@@ -603,12 +765,102 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
         return setAngleAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
+//#ifdef __HAS_NIO__
+    /**
+     * Set the components of this quaternion to the values read from the supplied {@link FloatBuffer}
+     * at the current buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the quaternion is read, use {@link #set(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          values will be read in <code>x, y, z, w</code> order
+     * @return this
+     * @see #set(int, FloatBuffer)
+     */
+    public Quaternionf set(FloatBuffer buffer) {
+        int pos = buffer.position();
+        this.x = buffer.get(pos);
+        this.y = buffer.get(pos + 1);
+        this.z = buffer.get(pos + 2);
+        this.w = buffer.get(pos + 3);
+        return this;
+    }
+
+    /**
+     * Set the components of this quaternion to the values read from the supplied {@link FloatBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index
+     *          the absolute position into the FloatBuffer
+     * @param buffer
+     *          values will be read in <code>x, y, z, w</code> order
+     * @return this
+     */
+    public Quaternionf set(int index, FloatBuffer buffer) {
+        this.x = buffer.get(index);
+        this.y = buffer.get(index + 1);
+        this.z = buffer.get(index + 2);
+        this.w = buffer.get(index + 3);
+        return this;
+    }
+
+    /**
+     * Set the components of this quaternion to the values read from the supplied {@link ByteBuffer}
+     * at the current buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the quaternion is read, use {@link #set(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          values will be read in <code>x, y, z, w</code> order
+     * @return this
+     * @see #set(int, ByteBuffer)
+     */
+    public Quaternionf set(ByteBuffer buffer) {
+        int pos = buffer.position();
+        this.x = buffer.getFloat(pos);
+        this.y = buffer.getFloat(pos + 4);
+        this.z = buffer.getFloat(pos + 8);
+        this.w = buffer.getFloat(pos + 12);
+        return this;
+    }
+
+    /**
+     * Set the components of this quaternion to the values read from the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          values will be read in <code>x, y, z, w</code> order
+     * @return this
+     */
+    public Quaternionf set(int index, ByteBuffer buffer) {
+        this.x = buffer.getFloat(index);
+        this.y = buffer.getFloat(index + 4);
+        this.z = buffer.getFloat(index + 8);
+        this.w = buffer.getFloat(index + 12);
+        return this;
+    }
+//#endif
+
     /**
      * Set this quaternion to a rotation equivalent to the supplied axis and
      * angle (in radians).
      * <p>
      * This method assumes that the given rotation axis <code>(x, y, z)</code> is already normalized
-     * 
+     *
      * @param angle
      *          the angle in radians
      * @param x

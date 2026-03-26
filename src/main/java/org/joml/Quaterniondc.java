@@ -23,6 +23,10 @@
  */
 package org.joml;
 
+//#ifdef __HAS_NIO__
+import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
+//#endif
 import java.text.NumberFormat;
 import java.util.*;
 /**
@@ -256,6 +260,70 @@ public interface Quaterniondc {
      * @return the passed in array
      */
     float[] get(float[] arr, int offset);
+
+//#ifdef __HAS_NIO__
+    /**
+     * Store this quaternion into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * In order to specify the offset into the DoubleBuffer at which
+     * the quaternion is stored, use {@link #get(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     * @see #get(int, DoubleBuffer)
+     */
+    DoubleBuffer get(DoubleBuffer buffer);
+
+    /**
+     * Store this quaternion into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     *
+     * @param index
+     *          the absolute position into the DoubleBuffer
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     */
+    DoubleBuffer get(int index, DoubleBuffer buffer);
+
+    /**
+     * Store this quaternion into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the quaternion is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     * @see #get(int, ByteBuffer)
+     */
+    ByteBuffer get(ByteBuffer buffer);
+
+    /**
+     * Store this quaternion into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     */
+    ByteBuffer get(int index, ByteBuffer buffer);
+//#endif
 
     /**
      * Multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.

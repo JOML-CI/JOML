@@ -268,6 +268,70 @@ public interface Quaternionfc {
 
 //#ifdef __HAS_NIO__
     /**
+     * Store this quaternion into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the quaternion is stored, use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     * @see #get(int, FloatBuffer)
+     */
+    FloatBuffer get(FloatBuffer buffer);
+
+    /**
+     * Store this quaternion into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index
+     *          the absolute position into the FloatBuffer
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     */
+    FloatBuffer get(int index, FloatBuffer buffer);
+
+    /**
+     * Store this quaternion into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the quaternion is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     * @see #get(int, ByteBuffer)
+     */
+    ByteBuffer get(ByteBuffer buffer);
+
+    /**
+     * Store this quaternion into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this quaternion in <code>x, y, z, w</code> order
+     * @return the passed in buffer
+     */
+    ByteBuffer get(int index, ByteBuffer buffer);
+//#endif
+
+//#ifdef __HAS_NIO__
+    /**
      * Store the 3x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link ByteBuffer}.
      * <p>
      * This is equivalent to calling: <code>this.get(new Matrix3f()).get(dest)</code>

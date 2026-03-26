@@ -157,6 +157,62 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         determineProperties();
     }
+
+    /**
+     * Create a new {@link Matrix4x3f} and read its 12 float components from the given {@link FloatBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * That FloatBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param index
+     *          the absolute position into the FloatBuffer
+     * @param buffer
+     *          the {@link FloatBuffer} to read the matrix values from
+     */
+    public Matrix4x3f(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        determineProperties();
+    }
+
+    /**
+     * Create a new {@link Matrix4x3f} and read its 12 float components from the given {@link ByteBuffer}.
+     * <p>
+     * The ByteBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is read, use {@link #Matrix4x3f(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          the {@link ByteBuffer} to read the matrix values from
+     * @see #Matrix4x3f(int, ByteBuffer)
+     */
+    public Matrix4x3f(ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        determineProperties();
+    }
+
+    /**
+     * Create a new {@link Matrix4x3f} and read its 12 float components from the given {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * The ByteBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          the {@link ByteBuffer} to read the matrix values from
+     */
+    public Matrix4x3f(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, index, buffer);
+        determineProperties();
+    }
 //#endif
 
     /**
