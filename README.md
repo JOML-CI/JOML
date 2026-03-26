@@ -1,7 +1,7 @@
 # [JOML](http://joml-ci.github.io/JOML) – Java OpenGL Math Library
 A Java math library for OpenGL rendering calculations | use it on: [Desktop](https://github.com/JOML-CI/JOML/wiki#maven-setup-for-desktop) / [Android](https://github.com/JOML-CI/JOML/wiki#gradle-setup-for-android) / [GWT](https://github.com/JOML-CI/JOML/wiki#gradle-setup-for-gwt)
 
-![Build and Publish](https://github.com/JOML-CI/JOML/actions/workflows/main.yml/badge.svg) [![Maven Release](https://img.shields.io/maven-metadata/v/https/repo.maven.apache.org/maven2/org/joml/joml/maven-metadata.xml.svg)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3Aorg.joml%20a%3Ajoml) [![Maven Snapshot](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Forg%2Fjoml%2Fjoml%2Fmaven-metadata.xml&label=Maven%20Snapshot)](https://central.sonatype.com/artifact/org.joml/joml)
+![CI](https://github.com/JOML-CI/JOML/actions/workflows/ci.yml/badge.svg) ![Publish](https://github.com/JOML-CI/JOML/actions/workflows/main.yml/badge.svg) [![Maven Release](https://img.shields.io/maven-metadata/v/https/repo.maven.apache.org/maven2/org/joml/joml/maven-metadata.xml.svg)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3Aorg.joml%20a%3Ajoml) [![Maven Snapshot](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Forg%2Fjoml%2Fjoml%2Fmaven-metadata.xml&label=Maven%20Snapshot)](https://central.sonatype.com/repository/maven-snapshots/org/joml/joml/maven-metadata.xml)
 
 Design goals
 ------------
