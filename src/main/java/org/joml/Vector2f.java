@@ -1186,6 +1186,76 @@ public class Vector2f implements Externalizable, Cloneable, Vector2fc {
     }
 
     /**
+     * Rotate this vector the specified radians around the origin.
+     *
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Vector2f rotate(float angle) {
+        return rotate(angle, this);
+    }
+
+    public Vector2f rotate(float angle, Vector2f dest) {
+        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
+        float x = this.x * cos - this.y * sin;
+        float y = this.x * sin + this.y * cos;
+        dest.x = x;
+        dest.y = y;
+        return dest;
+    }
+
+    /**
+     * Rotate this vector the specified radians around <code>anchor</code>.
+     *
+     * @param angle
+     *          the angle in radians
+     * @param anchor
+     *          the anchor point of the rotation
+     * @return this
+     */
+    public Vector2f rotateAround(float angle, Vector2fc anchor) {
+        return rotateAround(angle, anchor, this);
+    }
+
+    public Vector2f rotateAround(float angle, Vector2fc anchor, Vector2f dest) {
+        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
+        float dx = this.x - anchor.x();
+        float dy = this.y - anchor.y();
+        float rx = dx * cos - dy * sin;
+        float ry = dx * sin + dy * cos;
+        dest.x = rx + anchor.x();
+        dest.y = ry + anchor.y();
+        return dest;
+    }
+
+    /**
+     * Rotate this vector the specified radians around <code>(aX, aY)</code>.
+     *
+     * @param angle
+     *          the angle in radians
+     * @param aX
+     *          the x component of the anchor point
+     * @param aY
+     *          the y component of the anchor point
+     * @return this
+     */
+    public Vector2f rotateAround(float angle, float aX, float aY) {
+        return rotateAround(angle, aX, aY, this);
+    }
+
+    public Vector2f rotateAround(float angle, float aX, float aY, Vector2f dest) {
+        float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
+        float dx = this.x - aX;
+        float dy = this.y - aY;
+        float rx = dx * cos - dy * sin;
+        float ry = dx * sin + dy * cos;
+        dest.x = rx + aX;
+        dest.y = ry + aY;
+        return dest;
+    }
+
+    /**
      * Set the components of this vector to be the component-wise minimum of this and the other vector.
      *
      * @param v

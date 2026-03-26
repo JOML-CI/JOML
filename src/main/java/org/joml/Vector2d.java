@@ -1254,6 +1254,76 @@ public class Vector2d implements Externalizable, Cloneable, Vector2dc {
     }
 
     /**
+     * Rotate this vector the specified radians around the origin.
+     *
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Vector2d rotate(double angle) {
+        return rotate(angle, this);
+    }
+
+    public Vector2d rotate(double angle, Vector2d dest) {
+        double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
+        double x = this.x * cos - this.y * sin;
+        double y = this.x * sin + this.y * cos;
+        dest.x = x;
+        dest.y = y;
+        return dest;
+    }
+
+    /**
+     * Rotate this vector the specified radians around <code>anchor</code>.
+     *
+     * @param angle
+     *          the angle in radians
+     * @param anchor
+     *          the anchor point of the rotation
+     * @return this
+     */
+    public Vector2d rotateAround(double angle, Vector2dc anchor) {
+        return rotateAround(angle, anchor, this);
+    }
+
+    public Vector2d rotateAround(double angle, Vector2dc anchor, Vector2d dest) {
+        double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
+        double dx = this.x - anchor.x();
+        double dy = this.y - anchor.y();
+        double rx = dx * cos - dy * sin;
+        double ry = dx * sin + dy * cos;
+        dest.x = rx + anchor.x();
+        dest.y = ry + anchor.y();
+        return dest;
+    }
+
+    /**
+     * Rotate this vector the specified radians around <code>(aX, aY)</code>.
+     *
+     * @param angle
+     *          the angle in radians
+     * @param aX
+     *          the x component of the anchor point
+     * @param aY
+     *          the y component of the anchor point
+     * @return this
+     */
+    public Vector2d rotateAround(double angle, double aX, double aY) {
+        return rotateAround(angle, aX, aY, this);
+    }
+
+    public Vector2d rotateAround(double angle, double aX, double aY, Vector2d dest) {
+        double sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
+        double dx = this.x - aX;
+        double dy = this.y - aY;
+        double rx = dx * cos - dy * sin;
+        double ry = dx * sin + dy * cos;
+        dest.x = rx + aX;
+        dest.y = ry + aY;
+        return dest;
+    }
+
+    /**
      * Set the components of this vector to be the component-wise minimum of this and the other vector.
      *
      * @param v

@@ -469,6 +469,48 @@ public interface Vector2fc {
     Vector2f fma(float a, Vector2fc b, Vector2f dest);
 
     /**
+     * Rotate this vector the specified radians around the origin and store the
+     * result in <code>dest</code>.
+     *
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f rotate(float angle, Vector2f dest);
+
+    /**
+     * Rotate this vector the specified radians around <code>anchor</code> and
+     * store the result in <code>dest</code>.
+     *
+     * @param angle
+     *          the angle in radians
+     * @param anchor
+     *          the anchor point of the rotation
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f rotateAround(float angle, Vector2fc anchor, Vector2f dest);
+
+    /**
+     * Rotate this vector the specified radians around <code>(aX, aY)</code>
+     * and store the result in <code>dest</code>.
+     *
+     * @param angle
+     *          the angle in radians
+     * @param aX
+     *          the x component of the anchor point
+     * @param aY
+     *          the y component of the anchor point
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f rotateAround(float angle, float aX, float aY, Vector2f dest);
+
+    /**
      * Set the components of <code>dest</code> to be the component-wise minimum of this and the other vector.
      *
      * @param v
