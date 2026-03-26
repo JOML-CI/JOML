@@ -2656,7 +2656,7 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     public Quaterniond rotationX(double angle) {
         double sin = Math.sin(angle * 0.5);
         double cos = Math.cosFromSin(sin, angle * 0.5);
-        return set(sin, 0, cos, 0);
+        return set(sin, 0, 0, cos);
     }
 
     /**
