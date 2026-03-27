@@ -1,5 +1,5 @@
 @file:Suppress("NOTHING_TO_INLINE")
-@file:JvmName("-Quaterniond")
+@file:JvmSynthetic
 package org.joml
 
 /* Operators */

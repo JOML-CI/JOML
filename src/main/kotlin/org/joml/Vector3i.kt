@@ -1,5 +1,5 @@
 @file:Suppress("NOTHING_TO_INLINE")
-@file:JvmName("-Vector3i")
+@file:JvmSynthetic
 package org.joml
 
 import java.nio.ByteBuffer
