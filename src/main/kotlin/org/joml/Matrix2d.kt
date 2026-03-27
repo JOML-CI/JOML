@@ -1,5 +1,5 @@
 @file:Suppress("NOTHING_TO_INLINE")
-@file:JvmName("-Matrix2d")
+@file:JvmSynthetic
 package org.joml
 
 import java.nio.ByteBuffer
