@@ -201,6 +201,9 @@ if (buildProfile == 'experimental') {
                         '-XX:+EnableJVMCI',
                         '--enable-preview',
                         '--add-modules', 'jdk.internal.vm.ci',
+                        '--add-modules', 'jdk.unsupported',
+
+                        '--add-exports', 'java.base/jdk.internal.misc=ALL-UNNAMED',
                         '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
                         '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
                         '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
@@ -216,6 +219,9 @@ if (buildProfile == 'experimental') {
         options.compilerArgs += [
                 '--enable-preview',
                 '--add-modules', 'jdk.internal.vm.ci,jdk.incubator.vector',
+                '--add-modules', 'jdk.unsupported',
+
+                '--add-exports', 'java.base/jdk.internal.misc=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
@@ -229,6 +235,9 @@ if (buildProfile == 'experimental') {
         jvmArgs.set([
                 '--enable-preview',
                 '--add-modules', 'jdk.internal.vm.ci,jdk.incubator.vector',
+                '--add-modules', 'jdk.unsupported',
+
+                '--add-exports', 'java.base/jdk.internal.misc=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
