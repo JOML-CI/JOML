@@ -6529,6 +6529,7 @@ abstract class MemUtil {
 //#endif
 
 //#ifdef __HAS_UNSAFE__
+    @SuppressWarnings("Since15")
     public static class MemUtilInternalUnsafe extends MemUtilNIO {
         public static final jdk.internal.misc.Unsafe UNSAFE;
 
@@ -6576,7 +6577,7 @@ abstract class MemUtil {
         //#ifdef __HAS_NIO__
         private static long findBufferAddress() {
             try {
-                return UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
+                return UNSAFE.objectFieldOffset(Buffer.class, "address"); //$NON-NLS-1$
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -6783,14 +6784,14 @@ abstract class MemUtil {
 
         public static void put(Matrix4f m, long destAddr) {
             for (int i = 0; i < 8; i++) {
-                UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
             }
         }
 
         public static void put4x3(Matrix4f m, long destAddr) {
             jdk.internal.misc.Unsafe u = UNSAFE;
             for (int i = 0; i < 4; i++) {
-                u.putLong(null, destAddr + 12 * i, u.getLong(m, Matrix4f_m00 + (i << 4)));
+                u.putLongUnaligned(null, destAddr + 12 * i, u.getLong(m, Matrix4f_m00 + (i << 4)));
             }
             u.putFloat(null, destAddr +  8, m.m02());
             u.putFloat(null, destAddr + 20, m.m12());
@@ -6800,28 +6801,28 @@ abstract class MemUtil {
 
         public static void put3x4(Matrix4f m, long destAddr) {
             for (int i = 0; i < 6; i++) {
-                UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
             }
         }
 
         public static void put(Matrix4x3f m, long destAddr) {
             for (int i = 0; i < 6; i++) {
-                UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4x3f_m00 + (i << 3)));
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4x3f_m00 + (i << 3)));
             }
         }
 
         public static void put4x4(Matrix4x3f m, long destAddr) {
             for (int i = 0; i < 4; i++) {
-                UNSAFE.putLong(null, destAddr + (i << 4), UNSAFE.getLong(m, Matrix4x3f_m00 + 12 * i));
-                long lng = UNSAFE.getInt(m, Matrix4x3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
-                UNSAFE.putLong(null, destAddr + 8 + (i << 4), lng);
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 4), UNSAFE.getLongUnaligned(m, Matrix4x3f_m00 + 12 * i));
+                long lng = UNSAFE.getIntUnaligned(m, Matrix4x3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
+                UNSAFE.putLongUnaligned(null, destAddr + 8 + (i << 4), lng);
             }
             UNSAFE.putFloat(null, destAddr + 60, 1.0f);
         }
 
         public static void put3x4(Matrix4x3f m, long destAddr) {
             for (int i = 0; i < 3; i++) {
-                UNSAFE.putLong(null, destAddr + (i << 4), UNSAFE.getLong(m, Matrix4x3f_m00 + 12 * i));
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 4), UNSAFE.getLongUnaligned(m, Matrix4x3f_m00 + 12 * i));
                 UNSAFE.putFloat(null, destAddr + (i << 4) + 8, UNSAFE.getFloat(m, Matrix4x3f_m00 + 8 + 12 * i));
                 UNSAFE.putFloat(null, destAddr + (i << 4) + 12, 0.0f);
             }
@@ -6849,14 +6850,14 @@ abstract class MemUtil {
 
         public static void put4x4(Matrix3x2f m, long destAddr) {
             jdk.internal.misc.Unsafe u = UNSAFE;
-            u.putLong(null, destAddr,    u.getLong(m, Matrix3x2f_m00));
-            u.putLong(null, destAddr+8,  0L);
-            u.putLong(null, destAddr+16, u.getLong(m, Matrix3x2f_m00+8));
-            u.putLong(null, destAddr+24, 0L);
-            u.putLong(null, destAddr+32, 0L);
-            u.putLong(null, destAddr+40, 0x3F800000L);
-            u.putLong(null, destAddr+48, u.getLong(m, Matrix3x2f_m00+16));
-            u.putLong(null, destAddr+56, 0x3F80000000000000L);
+            u.putLongUnaligned(null, destAddr,    u.getLong(m, Matrix3x2f_m00));
+            u.putLongUnaligned(null, destAddr+8,  0L);
+            u.putLongUnaligned(null, destAddr+16, u.getLong(m, Matrix3x2f_m00+8));
+            u.putLongUnaligned(null, destAddr+24, 0L);
+            u.putLongUnaligned(null, destAddr+32, 0L);
+            u.putLongUnaligned(null, destAddr+40, 0x3F800000L);
+            u.putLongUnaligned(null, destAddr+48, u.getLong(m, Matrix3x2f_m00+16));
+            u.putLongUnaligned(null, destAddr+56, 0x3F80000000000000L);
         }
 
         public static void put4x4(Matrix3x2d m, long destAddr) {
@@ -6881,11 +6882,11 @@ abstract class MemUtil {
 
         public static void put3x3(Matrix3x2f m, long destAddr) {
             jdk.internal.misc.Unsafe u = UNSAFE;
-            u.putLong( null, destAddr,    u.getLong(m, Matrix3x2f_m00));
-            u.putInt(  null, destAddr+8,  0);
-            u.putLong( null, destAddr+12, u.getLong(m, Matrix3x2f_m00+8));
-            u.putInt(  null, destAddr+20, 0);
-            u.putLong( null, destAddr+24, u.getLong(m, Matrix3x2f_m00+16));
+            u.putLongUnaligned( null, destAddr,    u.getLong(m, Matrix3x2f_m00));
+            u.putIntUnaligned(  null, destAddr+8,  0);
+            u.putLongUnaligned( null, destAddr+12, u.getLong(m, Matrix3x2f_m00+8));
+            u.putIntUnaligned(  null, destAddr+20, 0);
+            u.putLongUnaligned( null, destAddr+24, u.getLong(m, Matrix3x2f_m00+16));
             u.putFloat(null, destAddr+32, 1.0f);
         }
 
@@ -7206,14 +7207,14 @@ abstract class MemUtil {
 
         public static void put(Matrix3f m, long destAddr) {
             for (int i = 0; i < 4; i++) {
-                UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3f_m00 + (i << 3)));
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3f_m00 + (i << 3)));
             }
             UNSAFE.putFloat(null, destAddr + 32, m.m22());
         }
 
         public static void put3x4(Matrix3f m, long destAddr) {
             for (int i = 0; i < 3; i++) {
-                UNSAFE.putLong(null, destAddr + (i << 4), UNSAFE.getLong(m, Matrix3f_m00 + 12 * i));
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 4), UNSAFE.getLongUnaligned(m, Matrix3f_m00 + 12 * i));
                 UNSAFE.putFloat(null, destAddr + (i << 4) + 8, UNSAFE.getFloat(m, Matrix3f_m00 + 8 + 12 * i));
                 UNSAFE.putFloat(null, destAddr + (i << 4) + 12, 0.0f);
             }
@@ -7234,7 +7235,7 @@ abstract class MemUtil {
 
         public static void put(Matrix3x2f m, long destAddr) {
             for (int i = 0; i < 3; i++) {
-                UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3x2f_m00 + (i << 3)));
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3x2f_m00 + (i << 3)));
             }
         }
 
@@ -7262,8 +7263,8 @@ abstract class MemUtil {
         }
 
         public static void put(Matrix2f m, long destAddr) {
-            UNSAFE.putLong(null, destAddr,     UNSAFE.getLong(m, Matrix2f_m00));
-            UNSAFE.putLong(null, destAddr + 8, UNSAFE.getLong(m, Matrix2f_m00 + 8));
+            UNSAFE.putLongUnaligned(null, destAddr,     UNSAFE.getLongUnaligned(m, Matrix2f_m00));
+            UNSAFE.putLongUnaligned(null, destAddr + 8, UNSAFE.getLongUnaligned(m, Matrix2f_m00 + 8));
         }
 
         public static void put(Matrix2d m, long destAddr) {
@@ -7295,24 +7296,24 @@ abstract class MemUtil {
         }
 
         public static void put(Vector4f src, long destAddr) {
-            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector4f_x));
-            UNSAFE.putLong(null, destAddr+8, UNSAFE.getLong(src, Vector4f_x+8));
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector4f_x));
+            UNSAFE.putLongUnaligned(null, destAddr+8, UNSAFE.getLongUnaligned(src, Vector4f_x+8));
         }
 
         public static void put(Vector4i src, long destAddr) {
-            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector4i_x));
-            UNSAFE.putLong(null, destAddr+8, UNSAFE.getLong(src, Vector4i_x+8));
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector4i_x));
+            UNSAFE.putLongUnaligned(null, destAddr+8, UNSAFE.getLongUnaligned(src, Vector4i_x+8));
         }
 
         public static void put(Vector4L src, long destAddr) {
-            UNSAFE.putLong(null, destAddr, src.x);
-            UNSAFE.putLong(null, destAddr+8, src.y);
-            UNSAFE.putLong(null, destAddr+16, src.z);
-            UNSAFE.putLong(null, destAddr+24, src.w);
+            UNSAFE.putLongUnaligned(null, destAddr, src.x);
+            UNSAFE.putLongUnaligned(null, destAddr+8, src.y);
+            UNSAFE.putLongUnaligned(null, destAddr+16, src.z);
+            UNSAFE.putLongUnaligned(null, destAddr+24, src.w);
         }
 
         public static void put(Vector3f src, long destAddr) {
-            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector3f_x));
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector3f_x));
             UNSAFE.putFloat(null, destAddr+8, src.z);
         }
 
@@ -7329,18 +7330,18 @@ abstract class MemUtil {
         }
 
         public static void put(Vector3i src, long destAddr) {
-            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector3i_x));
-            UNSAFE.putInt(null, destAddr+8, src.z);
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector3i_x));
+            UNSAFE.putIntUnaligned(null, destAddr+8, src.z);
         }
 
         public static void put(Vector3L src, long destAddr) {
-            UNSAFE.putLong(null, destAddr, src.x);
-            UNSAFE.putLong(null, destAddr+8, src.y);
-            UNSAFE.putLong(null, destAddr+16, src.z);
+            UNSAFE.putLongUnaligned(null, destAddr, src.x);
+            UNSAFE.putLongUnaligned(null, destAddr+8, src.y);
+            UNSAFE.putLongUnaligned(null, destAddr+16, src.z);
         }
 
         public static void put(Vector2f src, long destAddr) {
-            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector2f_x));
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector2f_x));
         }
 
         public static void put(Vector2d src, long destAddr) {
@@ -7349,17 +7350,17 @@ abstract class MemUtil {
         }
 
         public static void put(Vector2i src, long destAddr) {
-            UNSAFE.putLong(null, destAddr, UNSAFE.getLong(src, Vector2i_x));
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector2i_x));
         }
 
         public static void put(Vector2L src, long destAddr) {
-            UNSAFE.putLong(null, destAddr,   src.x);
-            UNSAFE.putLong(null, destAddr+8, src.y);
+            UNSAFE.putLongUnaligned(null, destAddr,   src.x);
+            UNSAFE.putLongUnaligned(null, destAddr+8, src.y);
         }
 
         public static void get(Matrix4f m, long srcAddr) {
             for (int i = 0; i < 8; i++) {
-                UNSAFE.putLong(m, Matrix4f_m00 + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
+                UNSAFE.putLongUnaligned(m, Matrix4f_m00 + (i << 3), UNSAFE.getLongUnaligned(null, srcAddr + (i << 3)));
             }
         }
 
@@ -7499,7 +7500,7 @@ abstract class MemUtil {
 
         public static void get(Matrix4x3f m, long srcAddr) {
             for (int i = 0; i < 6; i++) {
-                UNSAFE.putLong(m, Matrix4x3f_m00 + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
+                UNSAFE.putLongUnaligned(m, Matrix4x3f_m00 + (i << 3), UNSAFE.getLongUnaligned(null, srcAddr + (i << 3)));
             }
         }
 
@@ -7577,7 +7578,7 @@ abstract class MemUtil {
 
         public static void get(Matrix3f m, long srcAddr) {
             for (int i = 0; i < 4; i++) {
-                UNSAFE.putLong(m, Matrix3f_m00 + (i << 3), UNSAFE.getLong(null, srcAddr + (i << 3)));
+                UNSAFE.putLong(m, Matrix3f_m00 + (i << 3), UNSAFE.getLongUnaligned(null, srcAddr + (i << 3)));
             }
             m._m22(UNSAFE.getFloat(null, srcAddr+32));
         }
@@ -7597,7 +7598,7 @@ abstract class MemUtil {
 
         public static void get(Matrix3x2f m, long srcAddr) {
             for (int i = 0; i < 3; i++) {
-                UNSAFE.putLong(m, Matrix3x2f_m00 + (i << 3), UNSAFE.getLong(null, srcAddr + (i << 3)));
+                UNSAFE.putLongUnaligned(m, Matrix3x2f_m00 + (i << 3), UNSAFE.getLongUnaligned(null, srcAddr + (i << 3)));
             }
         }
 
@@ -7625,8 +7626,8 @@ abstract class MemUtil {
         }
 
         public static void get(Matrix2f m, long srcAddr) {
-            UNSAFE.putLong(m, Matrix2f_m00,     UNSAFE.getLong(null, srcAddr));
-            UNSAFE.putLong(m, Matrix2f_m00 + 8, UNSAFE.getLong(null, srcAddr + 8));
+            UNSAFE.putLongUnaligned(m, Matrix2f_m00,     UNSAFE.getLongUnaligned(null, srcAddr));
+            UNSAFE.putLongUnaligned(m, Matrix2f_m00 + 8, UNSAFE.getLongUnaligned(null, srcAddr + 8));
         }
 
         public static void get(Matrix2d m, long srcAddr) {
@@ -7658,17 +7659,17 @@ abstract class MemUtil {
         }
 
         public static void get(Vector4i dst, long srcAddr) {
-            dst.x = UNSAFE.getInt(null, srcAddr);
-            dst.y = UNSAFE.getInt(null, srcAddr+4);
-            dst.z = UNSAFE.getInt(null, srcAddr+8);
-            dst.w = UNSAFE.getInt(null, srcAddr+12);
+            dst.x = UNSAFE.getIntUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getIntUnaligned(null, srcAddr+4);
+            dst.z = UNSAFE.getIntUnaligned(null, srcAddr+8);
+            dst.w = UNSAFE.getIntUnaligned(null, srcAddr+12);
         }
 
         public static void get(Vector4L dst, long srcAddr) {
-            dst.x = UNSAFE.getLong(null, srcAddr);
-            dst.y = UNSAFE.getLong(null, srcAddr+8);
-            dst.z = UNSAFE.getLong(null, srcAddr+16);
-            dst.w = UNSAFE.getLong(null, srcAddr+24);
+            dst.x = UNSAFE.getLongUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getLongUnaligned(null, srcAddr+8);
+            dst.z = UNSAFE.getLongUnaligned(null, srcAddr+16);
+            dst.w = UNSAFE.getLongUnaligned(null, srcAddr+24);
         }
 
         public static void get(Vector3f dst, long srcAddr) {
@@ -7684,15 +7685,15 @@ abstract class MemUtil {
         }
 
         public static void get(Vector3i dst, long srcAddr) {
-            dst.x = UNSAFE.getInt(null, srcAddr);
-            dst.y = UNSAFE.getInt(null, srcAddr+4);
-            dst.z = UNSAFE.getInt(null, srcAddr+8);
+            dst.x = UNSAFE.getIntUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getIntUnaligned(null, srcAddr+4);
+            dst.z = UNSAFE.getIntUnaligned(null, srcAddr+8);
         }
 
         public static void get(Vector3L dst, long srcAddr) {
-            dst.x = UNSAFE.getLong(null, srcAddr);
-            dst.y = UNSAFE.getLong(null, srcAddr+8);
-            dst.z = UNSAFE.getLong(null, srcAddr+16);
+            dst.x = UNSAFE.getLongUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getLongUnaligned(null, srcAddr+8);
+            dst.z = UNSAFE.getLongUnaligned(null, srcAddr+16);
         }
 
         public static void get(Vector2f dst, long srcAddr) {
@@ -7706,13 +7707,13 @@ abstract class MemUtil {
         }
 
         public static void get(Vector2i dst, long srcAddr) {
-            dst.x = UNSAFE.getInt(null, srcAddr);
-            dst.y = UNSAFE.getInt(null, srcAddr+4);
+            dst.x = UNSAFE.getIntUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getIntUnaligned(null, srcAddr+4);
         }
 
         public static void get(Vector2L dst, long srcAddr) {
-            dst.x = UNSAFE.getLong(null, srcAddr);
-            dst.y = UNSAFE.getLong(null, srcAddr+8);
+            dst.x = UNSAFE.getLongUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getLongUnaligned(null, srcAddr+8);
         }
 
         public static void putMatrix3f(Quaternionf q, long addr) {
@@ -7756,15 +7757,15 @@ abstract class MemUtil {
             jdk.internal.misc.Unsafe u = UNSAFE;
             u.putFloat(null, addr, 1.0f - q11 - q22);
             u.putFloat(null, addr + 4, q01 + q23);
-            u.putLong(null, addr + 8, Float.floatToRawIntBits(q02 - q13) & 0xFFFFFFFFL);
+            u.putLongUnaligned(null, addr + 8, Float.floatToRawIntBits(q02 - q13) & 0xFFFFFFFFL);
             u.putFloat(null, addr + 16, q01 - q23);
             u.putFloat(null, addr + 20, 1.0f - q22 - q00);
-            u.putLong(null, addr + 24, Float.floatToRawIntBits(q12 + q03) & 0xFFFFFFFFL);
+            u.putLongUnaligned(null, addr + 24, Float.floatToRawIntBits(q12 + q03) & 0xFFFFFFFFL);
             u.putFloat(null, addr + 32, q02 + q13);
             u.putFloat(null, addr + 36, q12 - q03);
-            u.putLong(null, addr + 40, Float.floatToRawIntBits(1.0f - q11 - q00) & 0xFFFFFFFFL);
-            u.putLong(null, addr + 48, 0L);
-            u.putLong(null, addr + 56, 0x3F80000000000000L);
+            u.putLongUnaligned(null, addr + 40, Float.floatToRawIntBits(1.0f - q11 - q00) & 0xFFFFFFFFL);
+            u.putLongUnaligned(null, addr + 48, 0L);
+            u.putLongUnaligned(null, addr + 56, 0x3F80000000000000L);
         }
 
         public static void putMatrix4x3f(Quaternionf q, long addr) {
@@ -7790,7 +7791,7 @@ abstract class MemUtil {
             u.putFloat(null, addr + 24, q02 + q13);
             u.putFloat(null, addr + 28, q12 - q03);
             u.putFloat(null, addr + 32, 1.0f - q11 - q00);
-            u.putLong(null, addr + 36, 0L);
+            u.putLongUnaligned(null, addr + 36, 0L);
             u.putFloat(null, addr + 44, 0.0f);
         }
 
