@@ -47,6 +47,12 @@ public final class Options {
      */
     public static final boolean NO_UNSAFE = hasOption(System.getProperty("joml.nounsafe", "false"));
     /**
+     * Whether <i>not</i> to use {@code jdk.internal.misc.Unsafe} when copying memory with MemUtil.
+     *
+     * If it is {@code true}, its priority is higher than {@link #FORCE_UNSAFE}.
+     */
+    public static final boolean INTERNAL_UNSAFE = hasOption(System.getProperty("joml.internalunsafe", "true"));
+    /**
      * Whether to <i>force</i> the use of sun.misc.Unsafe when copying memory with MemUtil.
      */
     public static final boolean FORCE_UNSAFE = hasOption(System.getProperty("joml.forceUnsafe", "false"));

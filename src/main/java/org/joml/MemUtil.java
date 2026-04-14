@@ -42,12 +42,22 @@ abstract class MemUtil {
         MemUtil accessor;
 //#ifdef __HAS_UNSAFE__
         try {
-            if (Options.NO_UNSAFE && Options.FORCE_UNSAFE)
+            if (Options.NO_UNSAFE && Options.FORCE_UNSAFE) {
                 throw new ConfigurationException("Cannot enable both -Djoml.nounsafe and -Djoml.forceUnsafe", null);
-            else if (Options.NO_UNSAFE)
+            }
+            if (Options.NO_UNSAFE) {
                 accessor = new MemUtilNIO();
-            else
-                accessor = new MemUtilUnsafe();
+            } else {
+                if (Options.INTERNAL_UNSAFE) {
+                    try {
+                        accessor = new MemUtilInternalUnsafe();
+                    } catch (Exception ignored) {
+                        accessor = new MemUtilUnsafe();
+                    }
+                } else {
+                    accessor = new MemUtilUnsafe();
+                }
+            }
         } catch (Throwable e) {
             if (Options.FORCE_UNSAFE)
                 throw new ConfigurationException("Unsafe is not supported but its use was forced via -Djoml.forceUnsafe", e);
@@ -5209,6 +5219,2587 @@ abstract class MemUtil {
         }
 
 //#ifdef __HAS_NIO__
+        public void putMatrix3f(Quaternionf q, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putMatrix3f(q, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putMatrix3f(q, offset, dest);
+        }
+
+        public void putMatrix3f(Quaternionf q, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putMatrix3f(q, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putMatrix3f(q, offset, dest);
+        }
+
+        private static void checkPut(int offset, boolean direct, int capacity, int i) {
+            if (!direct)
+                throwNoDirectBufferException();
+            if (capacity - offset < i)
+                throw new BufferOverflowException();
+        }
+
+        public void putMatrix4f(Quaternionf q, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putMatrix4f(q, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putMatrix4f(q, offset, dest);
+        }
+
+        public void putMatrix4f(Quaternionf q, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putMatrix4f(q, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putMatrix4f(q, offset, dest);
+        }
+
+        public void putMatrix4x3f(Quaternionf q, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putMatrix4x3f(q, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putMatrix4x3f(q, offset, dest);
+        }
+
+        public void putMatrix4x3f(Quaternionf q, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putMatrix4x3f(q, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putMatrix4x3f(q, offset, dest);
+        }
+
+        public void put(Matrix4f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix4f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put4x3(Matrix4f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x3(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put4x3(m, offset, dest);
+        }
+
+        public void put4x3(Matrix4f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x3(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put4x3(m, offset, dest);
+        }
+
+        public void put3x4(Matrix4f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x4(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put3x4(m, offset, dest);
+        }
+
+        public void put3x4(Matrix4f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put3x4(m, offset, dest);
+        }
+
+        public void put(Matrix4x3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix4x3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put4x4(Matrix4x3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x4(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put4x4(m, offset, dest);
+        }
+
+        public void put4x4(Matrix4x3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put4x4(m, offset, dest);
+        }
+
+        public void put3x4(Matrix4x3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x4(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put3x4(m, offset, dest);
+        }
+
+        public void put3x4(Matrix4x3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put3x4(m, offset, dest);
+        }
+
+        public void put4x4(Matrix4x3d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x4(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put4x4(m, offset, dest);
+        }
+
+        public void put4x4(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put4x4(m, offset, dest);
+        }
+
+        public void put4x4(Matrix3x2f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x4(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put4x4(m, offset, dest);
+        }
+
+        public void put4x4(Matrix3x2f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put4x4(m, offset, dest);
+        }
+
+        public void put4x4(Matrix3x2d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x4(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put4x4(m, offset, dest);
+        }
+
+        public void put4x4(Matrix3x2d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put4x4(m, offset, dest);
+        }
+
+        public void put3x3(Matrix3x2f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x3(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put3x3(m, offset, dest);
+        }
+
+        public void put3x3(Matrix3x2f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x3(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put3x3(m, offset, dest);
+        }
+
+        public void put3x3(Matrix3x2d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x3(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put3x3(m, offset, dest);
+        }
+
+        public void put3x3(Matrix3x2d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x3(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put3x3(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix4f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void put4x3Transposed(Matrix4f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x3Transposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put4x3Transposed(m, offset, dest);
+        }
+
+        public void put4x3Transposed(Matrix4f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x3Transposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put4x3Transposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix4x3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix4x3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix3x2f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix2f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix2f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void put(Matrix4d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix4x3d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void putf(Matrix4d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putf(m, offset, dest);
+        }
+
+        public void putf(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putf(m, offset, dest);
+        }
+
+        public void putf(Matrix4x3d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putf(m, offset, dest);
+        }
+
+        public void putf(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putf(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix4d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void put4x3Transposed(Matrix4d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x3Transposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put4x3Transposed(m, offset, dest);
+        }
+
+        public void put4x3Transposed(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put4x3Transposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put4x3Transposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix4x3d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix3d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix3x2d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix3x2d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix2d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putTransposed(Matrix2d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix4d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 16 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix4x3d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix3d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix3x2d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix3x2d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix2d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void putfTransposed(Matrix2d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putfTransposed(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putfTransposed(m, offset, dest);
+        }
+
+        public void put(Matrix3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put3x4(Matrix3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x4(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put3x4(m, offset, dest);
+        }
+
+        public void put3x4(Matrix3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 12 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put3x4(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put3x4(m, offset, dest);
+        }
+
+        public void put(Matrix3d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix3x2f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix3x2f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix3x2d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix3x2d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 6 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void putf(Matrix3d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putf(m, offset, dest);
+        }
+
+        public void putf(Matrix3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putf(m, offset, dest);
+        }
+
+        public void put(Matrix2f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix2f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix2d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void put(Matrix2d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(m, offset, dest);
+        }
+
+        public void putf(Matrix2d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(m, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.putf(m, offset, dest);
+        }
+
+        public void putf(Matrix2d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(m, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putf(m, offset, dest);
+        }
+
+        public void put(Vector4d src, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector4d src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector4d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void putf(Vector4d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putf(src, offset, dest);
+        }
+
+        public void put(Vector4f src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector4f src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector4i src, int offset, IntBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector4i src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 4 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector3f src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector3f src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector3d src, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector3d src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector3d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void putf(Vector3d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                putf(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.putf(src, offset, dest);
+        }
+
+        public void put(Vector3i src, int offset, IntBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector3i src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 3 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector2f src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector2f src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector2d src, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector2d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector2i src, int offset, IntBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 2));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector2i src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2 << 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector2L src, int offset, LongBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + ((long) offset << 3));
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void put(Vector2L src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 2 << 3);
+            if (dest.order() == ByteOrder.nativeOrder())
+                put(src, UNSAFE.getLong(dest, ADDRESS) + offset);
+            else
+                super.put(src, offset, dest);
+        }
+
+        public void get(Matrix4f m, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix4f m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public float get(Matrix4f m, int column, int row) {
+            return UNSAFE.getFloat(m, Matrix4f_m00 + ((long) column << 4) + ((long) row << 2));
+        }
+
+        public Matrix4f set(Matrix4f m, int column, int row, float value) {
+            UNSAFE.putFloat(m, Matrix4f_m00 + ((long) column << 4) + ((long) row << 2), value);
+            return m;
+        }
+
+        public double get(Matrix4d m, int column, int row) {
+            return UNSAFE.getDouble(m, Matrix4d_m00 + ((long) column << 5) + ((long) row << 3));
+        }
+
+        public Matrix4d set(Matrix4d m, int column, int row, double value) {
+            UNSAFE.putDouble(m, Matrix4d_m00 + ((long) column << 5) + ((long) row << 3), value);
+            return m;
+        }
+
+        public float get(Matrix3f m, int column, int row) {
+            return UNSAFE.getFloat(m, Matrix3f_m00 + ((long) column * (3<<2)) + ((long) row << 2));
+        }
+
+        public Matrix3f set(Matrix3f m, int column, int row, float value) {
+            UNSAFE.putFloat(m, Matrix3f_m00 + ((long) column * (3<<2)) + ((long) row << 2), value);
+            return m;
+        }
+
+        public double get(Matrix3d m, int column, int row) {
+            return UNSAFE.getDouble(m, Matrix3d_m00 + ((long) column * (3<<3)) + ((long) row << 3));
+        }
+
+        public Matrix3d set(Matrix3d m, int column, int row, double value) {
+            UNSAFE.putDouble(m, Matrix3d_m00 + ((long) column * (3<<3)) + ((long) row << 3), value);
+            return m;
+        }
+
+        public void get(Matrix4x3f m, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix4x3f m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix4d m, int offset, DoubleBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 3));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix4d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16 << 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix4x3d m, int offset, DoubleBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 3));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix4x3d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12 << 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public void getf(Matrix4d m, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16);
+            if (src.order() == ByteOrder.nativeOrder())
+                getf(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.getf(m, offset, src);
+        }
+
+        public void getf(Matrix4d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 16 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                getf(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.getf(m, offset, src);
+        }
+
+        public void getf(Matrix4x3d m, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12);
+            if (src.order() == ByteOrder.nativeOrder())
+                getf(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.getf(m, offset, src);
+        }
+
+        private static void checkGet(int offset, boolean direct, int capacity, int i) {
+            if (!direct)
+                throwNoDirectBufferException();
+            if (capacity - offset < i)
+                throw new BufferUnderflowException();
+        }
+
+        public void getf(Matrix4x3d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 12 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                getf(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.getf(m, offset, src);
+        }
+
+        public void get(Matrix3f m, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix3f m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix3d m, int offset, DoubleBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 3));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix3d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9 << 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix3x2f m, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 6);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix3x2f m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 6 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix3x2d m, int offset, DoubleBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 6);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 3));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix3x2d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 6 << 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public void getf(Matrix3d m, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9);
+            if (src.order() == ByteOrder.nativeOrder())
+                getf(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.getf(m, offset, src);
+        }
+
+        public void getf(Matrix3d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 9 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                getf(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.getf(m, offset, src);
+        }
+
+        public void get(Matrix2f m, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix2f m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix2d m, int offset, DoubleBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 3));
+            else
+                super.get(m, offset, src);
+        }
+
+        public void get(Matrix2d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(m, offset, src);
+        }
+
+        public void getf(Matrix2d m, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
+            if (src.order() == ByteOrder.nativeOrder())
+                getf(m, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.getf(m, offset, src);
+        }
+
+        public void getf(Matrix2d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                getf(m, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.getf(m, offset, src);
+        }
+
+        public void get(Vector4d dst, int offset, DoubleBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 3));
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector4d dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector4f dst, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector4f dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector4i dst, int offset, IntBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector4i dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 4 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector3f dst, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector3f dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector3d dst, int offset, DoubleBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 3));
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector3d dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3 << 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector3i dst, int offset, IntBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector3i dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 3 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector2f dst, int offset, FloatBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector2f dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector2d dst, int offset, DoubleBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 3));
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector2d dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2 << 3);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector2i dst, int offset, IntBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + ((long) offset << 2));
+            else
+                super.get(dst, offset, src);
+        }
+
+        public void get(Vector2i dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG) checkGet(offset, src.isDirect(), src.capacity(), 2 << 2);
+            if (src.order() == ByteOrder.nativeOrder())
+                get(dst, UNSAFE.getLong(src, ADDRESS) + offset);
+            else
+                super.get(dst, offset, src);
+        }
+//#endif
+    }
+//#endif
+
+//#ifdef __HAS_UNSAFE__
+    @SuppressWarnings("Since15")
+    public static class MemUtilInternalUnsafe extends MemUtilNIO {
+        public static final jdk.internal.misc.Unsafe UNSAFE;
+
+        //#ifdef __HAS_NIO__
+        public static final long ADDRESS;
+        //#endif
+        public static final long Matrix2f_m00;
+        public static final long Matrix3f_m00;
+        public static final long Matrix3d_m00;
+        public static final long Matrix4f_m00;
+        public static final long Matrix4d_m00;
+        public static final long Matrix4x3f_m00;
+        public static final long Matrix3x2f_m00;
+        public static final long Vector4f_x;
+        public static final long Vector4i_x;
+        public static final long Vector3f_x;
+        public static final long Vector3i_x;
+        public static final long Vector2f_x;
+        public static final long Vector2i_x;
+
+        static {
+            UNSAFE = jdk.internal.misc.Unsafe.getUnsafe();
+            try {
+//#ifdef __HAS_NIO__
+                ADDRESS = findBufferAddress();
+//#endif
+                Matrix4f_m00 = checkMatrix4f();
+                Matrix4d_m00 = checkMatrix4d();
+                Matrix4x3f_m00 = checkMatrix4x3f();
+                Matrix3f_m00 = checkMatrix3f();
+                Matrix3d_m00 = checkMatrix3d();
+                Matrix3x2f_m00 = checkMatrix3x2f();
+                Matrix2f_m00 = checkMatrix2f();
+                Vector4f_x = checkVector4f();
+                Vector4i_x = checkVector4i();
+                Vector3f_x = checkVector3f();
+                Vector3i_x = checkVector3i();
+                Vector2f_x = checkVector2f();
+                Vector2i_x = checkVector2i();
+            } catch (NoSuchFieldException e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+
+        //#ifdef __HAS_NIO__
+        private static long findBufferAddress() {
+            try {
+                return UNSAFE.objectFieldOffset(Buffer.class, "address"); //$NON-NLS-1$
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+//#endif
+
+        private static long checkMatrix4f() throws NoSuchFieldException, SecurityException {
+            Field f = Matrix4f.class.getDeclaredField("m00");
+            long Matrix4f_m00 = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            for (int i = 1; i < 16; i++) {
+                int c = i >>> 2;
+                int r = i & 3;
+                f = Matrix4f.class.getDeclaredField("m" + c + r);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Matrix4f_m00 + (i << 2))
+                    throw new UnsupportedOperationException("Unexpected Matrix4f element offset");
+            }
+            return Matrix4f_m00;
+        }
+
+        private static long checkMatrix4d() throws NoSuchFieldException, SecurityException {
+            Field f = Matrix4d.class.getDeclaredField("m00");
+            long Matrix4d_m00 = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            for (int i = 1; i < 16; i++) {
+                int c = i >>> 2;
+                int r = i & 3;
+                f = Matrix4d.class.getDeclaredField("m" + c + r);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Matrix4d_m00 + (i << 3))
+                    throw new UnsupportedOperationException("Unexpected Matrix4d element offset");
+            }
+            return Matrix4d_m00;
+        }
+
+        private static long checkMatrix4x3f() throws NoSuchFieldException, SecurityException {
+            Field f = Matrix4x3f.class.getDeclaredField("m00");
+            long Matrix4x3f_m00 = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            for (int i = 1; i < 12; i++) {
+                int c = i / 3;
+                int r = i % 3;
+                f = Matrix4x3f.class.getDeclaredField("m" + c + r);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Matrix4x3f_m00 + (i << 2))
+                    throw new UnsupportedOperationException("Unexpected Matrix4x3f element offset");
+            }
+            return Matrix4x3f_m00;
+        }
+
+        private static long checkMatrix3f() throws NoSuchFieldException, SecurityException {
+            Field f = Matrix3f.class.getDeclaredField("m00");
+            long Matrix3f_m00 = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            for (int i = 1; i < 9; i++) {
+                int c = i / 3;
+                int r = i % 3;
+                f = Matrix3f.class.getDeclaredField("m" + c + r);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Matrix3f_m00 + (i << 2))
+                    throw new UnsupportedOperationException("Unexpected Matrix3f element offset");
+            }
+            return Matrix3f_m00;
+        }
+
+        private static long checkMatrix3d() throws NoSuchFieldException, SecurityException {
+            Field f = Matrix3d.class.getDeclaredField("m00");
+            long Matrix3d_m00 = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            for (int i = 1; i < 9; i++) {
+                int c = i / 3;
+                int r = i % 3;
+                f = Matrix3d.class.getDeclaredField("m" + c + r);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Matrix3d_m00 + (i << 3))
+                    throw new UnsupportedOperationException("Unexpected Matrix3d element offset");
+            }
+            return Matrix3d_m00;
+        }
+
+        private static long checkMatrix3x2f() throws NoSuchFieldException, SecurityException {
+            Field f = Matrix3x2f.class.getDeclaredField("m00");
+            long Matrix3x2f_m00 = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            for (int i = 1; i < 6; i++) {
+                int c = i / 2;
+                int r = i % 2;
+                f = Matrix3x2f.class.getDeclaredField("m" + c + r);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Matrix3x2f_m00 + (i << 2))
+                    throw new UnsupportedOperationException("Unexpected Matrix3x2f element offset");
+            }
+            return Matrix3x2f_m00;
+        }
+
+        private static long checkMatrix2f() throws NoSuchFieldException, SecurityException {
+            Field f = Matrix2f.class.getDeclaredField("m00");
+            long Matrix2f_m00 = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            for (int i = 1; i < 4; i++) {
+                int c = i / 2;
+                int r = i % 2;
+                f = Matrix2f.class.getDeclaredField("m" + c + r);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Matrix2f_m00 + (i << 2))
+                    throw new UnsupportedOperationException("Unexpected Matrix2f element offset");
+            }
+            return Matrix2f_m00;
+        }
+
+        private static long checkVector4f() throws NoSuchFieldException, SecurityException {
+            Field f = Vector4f.class.getDeclaredField("x");
+            long Vector4f_x = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            String[] names = {"y", "z", "w"};
+            for (int i = 1; i < 4; i++) {
+                f = Vector4f.class.getDeclaredField(names[i-1]);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Vector4f_x + (i << 2))
+                    throw new UnsupportedOperationException("Unexpected Vector4f element offset");
+            }
+            return Vector4f_x;
+        }
+
+        private static long checkVector4i() throws NoSuchFieldException, SecurityException {
+            Field f = Vector4i.class.getDeclaredField("x");
+            long Vector4i_x = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            String[] names = {"y", "z", "w"};
+            for (int i = 1; i < 4; i++) {
+                f = Vector4i.class.getDeclaredField(names[i-1]);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Vector4i_x + (i << 2))
+                    throw new UnsupportedOperationException("Unexpected Vector4i element offset");
+            }
+            return Vector4i_x;
+        }
+
+        private static long checkVector3f() throws NoSuchFieldException, SecurityException {
+            Field f = Vector3f.class.getDeclaredField("x");
+            long Vector3f_x = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            String[] names = {"y", "z"};
+            for (int i = 1; i < 3; i++) {
+                f = Vector3f.class.getDeclaredField(names[i-1]);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Vector3f_x + (i << 2))
+                    throw new UnsupportedOperationException("Unexpected Vector3f element offset");
+            }
+            return Vector3f_x;
+        }
+
+        private static long checkVector3i() throws NoSuchFieldException, SecurityException {
+            Field f = Vector3i.class.getDeclaredField("x");
+            long Vector3i_x = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            String[] names = {"y", "z"};
+            for (int i = 1; i < 3; i++) {
+                f = Vector3i.class.getDeclaredField(names[i-1]);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Vector3i_x + (i << 2))
+                    throw new UnsupportedOperationException("Unexpected Vector3i element offset");
+            }
+            return Vector3i_x;
+        }
+
+        private static long checkVector2f() throws NoSuchFieldException, SecurityException {
+            Field f = Vector2f.class.getDeclaredField("x");
+            long Vector2f_x = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            f = Vector2f.class.getDeclaredField("y");
+            long offset = UNSAFE.objectFieldOffset(f);
+            if (offset != Vector2f_x + (1 << 2))
+                throw new UnsupportedOperationException("Unexpected Vector2f element offset");
+            return Vector2f_x;
+        }
+
+        private static long checkVector2i() throws NoSuchFieldException, SecurityException {
+            Field f = Vector2i.class.getDeclaredField("x");
+            long Vector2i_x = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            f = Vector2i.class.getDeclaredField("y");
+            long offset = UNSAFE.objectFieldOffset(f);
+            if (offset != Vector2i_x + (1 << 2))
+                throw new UnsupportedOperationException("Unexpected Vector2i element offset");
+            return Vector2i_x;
+        }
+
+        private static java.lang.reflect.Field getDeclaredField(Class root, String fieldName) throws NoSuchFieldException {
+            Class type = root;
+            do {
+                try {
+                    java.lang.reflect.Field field = type.getDeclaredField(fieldName);
+                    return field;
+                } catch (NoSuchFieldException e) {
+                    type = type.getSuperclass();
+                } catch (SecurityException e) {
+                    type = type.getSuperclass();
+                }
+            } while (type != null);
+            throw new NoSuchFieldException(fieldName + " does not exist in " + root.getName() + " or any of its superclasses."); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+
+        public static void put(Matrix4f m, long destAddr) {
+            for (int i = 0; i < 8; i++) {
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
+            }
+        }
+
+        public static void put4x3(Matrix4f m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            for (int i = 0; i < 4; i++) {
+                u.putLongUnaligned(null, destAddr + 12 * i, u.getLong(m, Matrix4f_m00 + (i << 4)));
+            }
+            u.putFloat(null, destAddr +  8, m.m02());
+            u.putFloat(null, destAddr + 20, m.m12());
+            u.putFloat(null, destAddr + 32, m.m22());
+            u.putFloat(null, destAddr + 44, m.m32());
+        }
+
+        public static void put3x4(Matrix4f m, long destAddr) {
+            for (int i = 0; i < 6; i++) {
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
+            }
+        }
+
+        public static void put(Matrix4x3f m, long destAddr) {
+            for (int i = 0; i < 6; i++) {
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4x3f_m00 + (i << 3)));
+            }
+        }
+
+        public static void put4x4(Matrix4x3f m, long destAddr) {
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 4), UNSAFE.getLongUnaligned(m, Matrix4x3f_m00 + 12 * i));
+                long lng = UNSAFE.getIntUnaligned(m, Matrix4x3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
+                UNSAFE.putLongUnaligned(null, destAddr + 8 + (i << 4), lng);
+            }
+            UNSAFE.putFloat(null, destAddr + 60, 1.0f);
+        }
+
+        public static void put3x4(Matrix4x3f m, long destAddr) {
+            for (int i = 0; i < 3; i++) {
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 4), UNSAFE.getLongUnaligned(m, Matrix4x3f_m00 + 12 * i));
+                UNSAFE.putFloat(null, destAddr + (i << 4) + 8, UNSAFE.getFloat(m, Matrix4x3f_m00 + 8 + 12 * i));
+                UNSAFE.putFloat(null, destAddr + (i << 4) + 12, 0.0f);
+            }
+        }
+
+        public static void put4x4(Matrix4x3d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,       m.m00());
+            u.putDouble(null, destAddr + 8,   m.m01());
+            u.putDouble(null, destAddr + 16,  m.m02());
+            u.putDouble(null, destAddr + 24,  0.0);
+            u.putDouble(null, destAddr + 32,  m.m10());
+            u.putDouble(null, destAddr + 40,  m.m11());
+            u.putDouble(null, destAddr + 48,  m.m12());
+            u.putDouble(null, destAddr + 56,  0.0);
+            u.putDouble(null, destAddr + 64,  m.m20());
+            u.putDouble(null, destAddr + 72,  m.m21());
+            u.putDouble(null, destAddr + 80,  m.m22());
+            u.putDouble(null, destAddr + 88,  0.0);
+            u.putDouble(null, destAddr + 96,  m.m30());
+            u.putDouble(null, destAddr + 104, m.m31());
+            u.putDouble(null, destAddr + 112, m.m32());
+            u.putDouble(null, destAddr + 120, 1.0);
+        }
+
+        public static void put4x4(Matrix3x2f m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putLongUnaligned(null, destAddr,    u.getLong(m, Matrix3x2f_m00));
+            u.putLongUnaligned(null, destAddr+8,  0L);
+            u.putLongUnaligned(null, destAddr+16, u.getLong(m, Matrix3x2f_m00+8));
+            u.putLongUnaligned(null, destAddr+24, 0L);
+            u.putLongUnaligned(null, destAddr+32, 0L);
+            u.putLongUnaligned(null, destAddr+40, 0x3F800000L);
+            u.putLongUnaligned(null, destAddr+48, u.getLong(m, Matrix3x2f_m00+16));
+            u.putLongUnaligned(null, destAddr+56, 0x3F80000000000000L);
+        }
+
+        public static void put4x4(Matrix3x2d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,       m.m00());
+            u.putDouble(null, destAddr + 8,   m.m01());
+            u.putDouble(null, destAddr + 16,  0.0);
+            u.putDouble(null, destAddr + 24,  0.0);
+            u.putDouble(null, destAddr + 32,  m.m10());
+            u.putDouble(null, destAddr + 40,  m.m11());
+            u.putDouble(null, destAddr + 48,  0.0);
+            u.putDouble(null, destAddr + 56,  0.0);
+            u.putDouble(null, destAddr + 64,  0.0);
+            u.putDouble(null, destAddr + 72,  0.0);
+            u.putDouble(null, destAddr + 80,  1.0);
+            u.putDouble(null, destAddr + 88,  0.0);
+            u.putDouble(null, destAddr + 96,  m.m20());
+            u.putDouble(null, destAddr + 104, m.m21());
+            u.putDouble(null, destAddr + 112, 0.0);
+            u.putDouble(null, destAddr + 120, 1.0);
+        }
+
+        public static void put3x3(Matrix3x2f m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putLongUnaligned( null, destAddr,    u.getLong(m, Matrix3x2f_m00));
+            u.putIntUnaligned(  null, destAddr+8,  0);
+            u.putLongUnaligned( null, destAddr+12, u.getLong(m, Matrix3x2f_m00+8));
+            u.putIntUnaligned(  null, destAddr+20, 0);
+            u.putLongUnaligned( null, destAddr+24, u.getLong(m, Matrix3x2f_m00+16));
+            u.putFloat(null, destAddr+32, 1.0f);
+        }
+
+        public static void put3x3(Matrix3x2d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,      m.m00());
+            u.putDouble(null, destAddr + 8,  m.m01());
+            u.putDouble(null, destAddr + 16, 0.0);
+            u.putDouble(null, destAddr + 24, m.m10());
+            u.putDouble(null, destAddr + 32, m.m11());
+            u.putDouble(null, destAddr + 40, 0.0);
+            u.putDouble(null, destAddr + 48, m.m20());
+            u.putDouble(null, destAddr + 56, m.m21());
+            u.putDouble(null, destAddr + 64, 1.0);
+        }
+
+        public static void putTransposed(Matrix4f m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      m.m00());
+            u.putFloat(null, destAddr + 4,  m.m10());
+            u.putFloat(null, destAddr + 8,  m.m20());
+            u.putFloat(null, destAddr + 12, m.m30());
+            u.putFloat(null, destAddr + 16, m.m01());
+            u.putFloat(null, destAddr + 20, m.m11());
+            u.putFloat(null, destAddr + 24, m.m21());
+            u.putFloat(null, destAddr + 28, m.m31());
+            u.putFloat(null, destAddr + 32, m.m02());
+            u.putFloat(null, destAddr + 36, m.m12());
+            u.putFloat(null, destAddr + 40, m.m22());
+            u.putFloat(null, destAddr + 44, m.m32());
+            u.putFloat(null, destAddr + 48, m.m03());
+            u.putFloat(null, destAddr + 52, m.m13());
+            u.putFloat(null, destAddr + 56, m.m23());
+            u.putFloat(null, destAddr + 60, m.m33());
+        }
+
+        public static void put4x3Transposed(Matrix4f m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      m.m00());
+            u.putFloat(null, destAddr + 4,  m.m10());
+            u.putFloat(null, destAddr + 8,  m.m20());
+            u.putFloat(null, destAddr + 12, m.m30());
+            u.putFloat(null, destAddr + 16, m.m01());
+            u.putFloat(null, destAddr + 20, m.m11());
+            u.putFloat(null, destAddr + 24, m.m21());
+            u.putFloat(null, destAddr + 28, m.m31());
+            u.putFloat(null, destAddr + 32, m.m02());
+            u.putFloat(null, destAddr + 36, m.m12());
+            u.putFloat(null, destAddr + 40, m.m22());
+            u.putFloat(null, destAddr + 44, m.m32());
+        }
+
+        public static void putTransposed(Matrix4x3f m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      m.m00());
+            u.putFloat(null, destAddr + 4,  m.m10());
+            u.putFloat(null, destAddr + 8,  m.m20());
+            u.putFloat(null, destAddr + 12, m.m30());
+            u.putFloat(null, destAddr + 16, m.m01());
+            u.putFloat(null, destAddr + 20, m.m11());
+            u.putFloat(null, destAddr + 24, m.m21());
+            u.putFloat(null, destAddr + 28, m.m31());
+            u.putFloat(null, destAddr + 32, m.m02());
+            u.putFloat(null, destAddr + 36, m.m12());
+            u.putFloat(null, destAddr + 40, m.m22());
+            u.putFloat(null, destAddr + 44, m.m32());
+        }
+
+        public static void putTransposed(Matrix3f m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      m.m00());
+            u.putFloat(null, destAddr + 4,  m.m10());
+            u.putFloat(null, destAddr + 8,  m.m20());
+            u.putFloat(null, destAddr + 12, m.m01());
+            u.putFloat(null, destAddr + 16, m.m11());
+            u.putFloat(null, destAddr + 20, m.m21());
+            u.putFloat(null, destAddr + 24, m.m02());
+            u.putFloat(null, destAddr + 28, m.m12());
+            u.putFloat(null, destAddr + 32, m.m22());
+        }
+
+        public static void putTransposed(Matrix3x2f m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      m.m00());
+            u.putFloat(null, destAddr + 4,  m.m10());
+            u.putFloat(null, destAddr + 8,  m.m20());
+            u.putFloat(null, destAddr + 12, m.m01());
+            u.putFloat(null, destAddr + 16, m.m11());
+            u.putFloat(null, destAddr + 20, m.m21());
+        }
+
+        public static void putTransposed(Matrix2f m, long destAddr) {
+            UNSAFE.putFloat(null, destAddr,      m.m00());
+            UNSAFE.putFloat(null, destAddr + 4,  m.m10());
+            UNSAFE.putFloat(null, destAddr + 8,  m.m01());
+            UNSAFE.putFloat(null, destAddr + 12, m.m11());
+        }
+
+        public static void put(Matrix4d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,       m.m00());
+            u.putDouble(null, destAddr + 8,   m.m01());
+            u.putDouble(null, destAddr + 16,  m.m02());
+            u.putDouble(null, destAddr + 24,  m.m03());
+            u.putDouble(null, destAddr + 32,  m.m10());
+            u.putDouble(null, destAddr + 40,  m.m11());
+            u.putDouble(null, destAddr + 48,  m.m12());
+            u.putDouble(null, destAddr + 56,  m.m13());
+            u.putDouble(null, destAddr + 64,  m.m20());
+            u.putDouble(null, destAddr + 72,  m.m21());
+            u.putDouble(null, destAddr + 80,  m.m22());
+            u.putDouble(null, destAddr + 88,  m.m23());
+            u.putDouble(null, destAddr + 96,  m.m30());
+            u.putDouble(null, destAddr + 104, m.m31());
+            u.putDouble(null, destAddr + 112, m.m32());
+            u.putDouble(null, destAddr + 120, m.m33());
+        }
+
+        public static void put(Matrix4x3d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,      m.m00());
+            u.putDouble(null, destAddr + 8,  m.m01());
+            u.putDouble(null, destAddr + 16, m.m02());
+            u.putDouble(null, destAddr + 24, m.m10());
+            u.putDouble(null, destAddr + 32, m.m11());
+            u.putDouble(null, destAddr + 40, m.m12());
+            u.putDouble(null, destAddr + 48, m.m20());
+            u.putDouble(null, destAddr + 56, m.m21());
+            u.putDouble(null, destAddr + 64, m.m22());
+            u.putDouble(null, destAddr + 72, m.m30());
+            u.putDouble(null, destAddr + 80, m.m31());
+            u.putDouble(null, destAddr + 88, m.m32());
+        }
+
+        public static void putTransposed(Matrix4d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,       m.m00());
+            u.putDouble(null, destAddr + 8,   m.m10());
+            u.putDouble(null, destAddr + 16,  m.m20());
+            u.putDouble(null, destAddr + 24,  m.m30());
+            u.putDouble(null, destAddr + 32,  m.m01());
+            u.putDouble(null, destAddr + 40,  m.m11());
+            u.putDouble(null, destAddr + 48,  m.m21());
+            u.putDouble(null, destAddr + 56,  m.m31());
+            u.putDouble(null, destAddr + 64,  m.m02());
+            u.putDouble(null, destAddr + 72,  m.m12());
+            u.putDouble(null, destAddr + 80,  m.m22());
+            u.putDouble(null, destAddr + 88,  m.m32());
+            u.putDouble(null, destAddr + 96,  m.m03());
+            u.putDouble(null, destAddr + 104, m.m13());
+            u.putDouble(null, destAddr + 112, m.m23());
+            u.putDouble(null, destAddr + 120, m.m33());
+        }
+
+        public static void putfTransposed(Matrix4d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      (float)m.m00());
+            u.putFloat(null, destAddr + 4,  (float)m.m10());
+            u.putFloat(null, destAddr + 8,  (float)m.m20());
+            u.putFloat(null, destAddr + 12, (float)m.m30());
+            u.putFloat(null, destAddr + 16, (float)m.m01());
+            u.putFloat(null, destAddr + 20, (float)m.m11());
+            u.putFloat(null, destAddr + 24, (float)m.m21());
+            u.putFloat(null, destAddr + 28, (float)m.m31());
+            u.putFloat(null, destAddr + 32, (float)m.m02());
+            u.putFloat(null, destAddr + 36, (float)m.m12());
+            u.putFloat(null, destAddr + 40, (float)m.m22());
+            u.putFloat(null, destAddr + 44, (float)m.m32());
+            u.putFloat(null, destAddr + 48, (float)m.m03());
+            u.putFloat(null, destAddr + 52, (float)m.m13());
+            u.putFloat(null, destAddr + 56, (float)m.m23());
+            u.putFloat(null, destAddr + 60, (float)m.m33());
+        }
+
+        public static void put4x3Transposed(Matrix4d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,      m.m00());
+            u.putDouble(null, destAddr + 8,  m.m10());
+            u.putDouble(null, destAddr + 16, m.m20());
+            u.putDouble(null, destAddr + 24, m.m30());
+            u.putDouble(null, destAddr + 32, m.m01());
+            u.putDouble(null, destAddr + 40, m.m11());
+            u.putDouble(null, destAddr + 48, m.m21());
+            u.putDouble(null, destAddr + 56, m.m31());
+            u.putDouble(null, destAddr + 64, m.m02());
+            u.putDouble(null, destAddr + 72, m.m12());
+            u.putDouble(null, destAddr + 80, m.m22());
+            u.putDouble(null, destAddr + 88, m.m32());
+        }
+
+        public static void putTransposed(Matrix4x3d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,      m.m00());
+            u.putDouble(null, destAddr + 8,  m.m10());
+            u.putDouble(null, destAddr + 16, m.m20());
+            u.putDouble(null, destAddr + 24, m.m30());
+            u.putDouble(null, destAddr + 32, m.m01());
+            u.putDouble(null, destAddr + 40, m.m11());
+            u.putDouble(null, destAddr + 48, m.m21());
+            u.putDouble(null, destAddr + 56, m.m31());
+            u.putDouble(null, destAddr + 64, m.m02());
+            u.putDouble(null, destAddr + 72, m.m12());
+            u.putDouble(null, destAddr + 80, m.m22());
+            u.putDouble(null, destAddr + 88, m.m32());
+        }
+
+        public static void putTransposed(Matrix3d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,      m.m00());
+            u.putDouble(null, destAddr + 8,  m.m10());
+            u.putDouble(null, destAddr + 16, m.m20());
+            u.putDouble(null, destAddr + 24, m.m01());
+            u.putDouble(null, destAddr + 32, m.m11());
+            u.putDouble(null, destAddr + 40, m.m21());
+            u.putDouble(null, destAddr + 48, m.m02());
+            u.putDouble(null, destAddr + 56, m.m12());
+            u.putDouble(null, destAddr + 64, m.m22());
+        }
+
+        public static void putTransposed(Matrix3x2d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,      m.m00());
+            u.putDouble(null, destAddr + 8,  m.m10());
+            u.putDouble(null, destAddr + 16, m.m20());
+            u.putDouble(null, destAddr + 24, m.m01());
+            u.putDouble(null, destAddr + 32, m.m11());
+            u.putDouble(null, destAddr + 40, m.m21());
+        }
+
+        public static void putTransposed(Matrix2d m, long destAddr) {
+            UNSAFE.putDouble(null, destAddr,      m.m00());
+            UNSAFE.putDouble(null, destAddr + 8,  m.m10());
+            UNSAFE.putDouble(null, destAddr + 16, m.m10());
+            UNSAFE.putDouble(null, destAddr + 24, m.m10());
+        }
+
+        public static void putfTransposed(Matrix4x3d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      (float)m.m00());
+            u.putFloat(null, destAddr + 4,  (float)m.m10());
+            u.putFloat(null, destAddr + 8,  (float)m.m20());
+            u.putFloat(null, destAddr + 12, (float)m.m30());
+            u.putFloat(null, destAddr + 16, (float)m.m01());
+            u.putFloat(null, destAddr + 20, (float)m.m11());
+            u.putFloat(null, destAddr + 24, (float)m.m21());
+            u.putFloat(null, destAddr + 28, (float)m.m31());
+            u.putFloat(null, destAddr + 32, (float)m.m02());
+            u.putFloat(null, destAddr + 36, (float)m.m12());
+            u.putFloat(null, destAddr + 40, (float)m.m22());
+            u.putFloat(null, destAddr + 44, (float)m.m32());
+        }
+
+        public static void putfTransposed(Matrix3d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      (float)m.m00());
+            u.putFloat(null, destAddr + 4,  (float)m.m10());
+            u.putFloat(null, destAddr + 8,  (float)m.m20());
+            u.putFloat(null, destAddr + 12, (float)m.m01());
+            u.putFloat(null, destAddr + 16, (float)m.m11());
+            u.putFloat(null, destAddr + 20, (float)m.m21());
+            u.putFloat(null, destAddr + 24, (float)m.m02());
+            u.putFloat(null, destAddr + 28, (float)m.m12());
+            u.putFloat(null, destAddr + 32, (float)m.m22());
+        }
+
+        public static void putfTransposed(Matrix3x2d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      (float)m.m00());
+            u.putFloat(null, destAddr + 4,  (float)m.m10());
+            u.putFloat(null, destAddr + 8,  (float)m.m20());
+            u.putFloat(null, destAddr + 12, (float)m.m01());
+            u.putFloat(null, destAddr + 16, (float)m.m11());
+            u.putFloat(null, destAddr + 20, (float)m.m21());
+        }
+
+        public static void putfTransposed(Matrix2d m, long destAddr) {
+            UNSAFE.putFloat(null, destAddr,      (float)m.m00());
+            UNSAFE.putFloat(null, destAddr + 4,  (float)m.m00());
+            UNSAFE.putFloat(null, destAddr + 8,  (float)m.m00());
+            UNSAFE.putFloat(null, destAddr + 12, (float)m.m00());
+        }
+
+        public static void putf(Matrix4d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      (float)m.m00());
+            u.putFloat(null, destAddr + 4,  (float)m.m01());
+            u.putFloat(null, destAddr + 8,  (float)m.m02());
+            u.putFloat(null, destAddr + 12, (float)m.m03());
+            u.putFloat(null, destAddr + 16, (float)m.m10());
+            u.putFloat(null, destAddr + 20, (float)m.m11());
+            u.putFloat(null, destAddr + 24, (float)m.m12());
+            u.putFloat(null, destAddr + 28, (float)m.m13());
+            u.putFloat(null, destAddr + 32, (float)m.m20());
+            u.putFloat(null, destAddr + 36, (float)m.m21());
+            u.putFloat(null, destAddr + 40, (float)m.m22());
+            u.putFloat(null, destAddr + 44, (float)m.m23());
+            u.putFloat(null, destAddr + 48, (float)m.m30());
+            u.putFloat(null, destAddr + 52, (float)m.m31());
+            u.putFloat(null, destAddr + 56, (float)m.m32());
+            u.putFloat(null, destAddr + 60, (float)m.m33());
+        }
+
+        public static void putf(Matrix4x3d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      (float)m.m00());
+            u.putFloat(null, destAddr + 4,  (float)m.m01());
+            u.putFloat(null, destAddr + 8,  (float)m.m02());
+            u.putFloat(null, destAddr + 12, (float)m.m10());
+            u.putFloat(null, destAddr + 16, (float)m.m11());
+            u.putFloat(null, destAddr + 20, (float)m.m12());
+            u.putFloat(null, destAddr + 24, (float)m.m20());
+            u.putFloat(null, destAddr + 28, (float)m.m21());
+            u.putFloat(null, destAddr + 32, (float)m.m22());
+            u.putFloat(null, destAddr + 36, (float)m.m30());
+            u.putFloat(null, destAddr + 40, (float)m.m31());
+            u.putFloat(null, destAddr + 44, (float)m.m32());
+        }
+
+        public static void put(Matrix3f m, long destAddr) {
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3f_m00 + (i << 3)));
+            }
+            UNSAFE.putFloat(null, destAddr + 32, m.m22());
+        }
+
+        public static void put3x4(Matrix3f m, long destAddr) {
+            for (int i = 0; i < 3; i++) {
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 4), UNSAFE.getLongUnaligned(m, Matrix3f_m00 + 12 * i));
+                UNSAFE.putFloat(null, destAddr + (i << 4) + 8, UNSAFE.getFloat(m, Matrix3f_m00 + 8 + 12 * i));
+                UNSAFE.putFloat(null, destAddr + (i << 4) + 12, 0.0f);
+            }
+        }
+
+        public static void put(Matrix3d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,      m.m00());
+            u.putDouble(null, destAddr + 8,  m.m01());
+            u.putDouble(null, destAddr + 16, m.m02());
+            u.putDouble(null, destAddr + 24, m.m10());
+            u.putDouble(null, destAddr + 32, m.m11());
+            u.putDouble(null, destAddr + 40, m.m12());
+            u.putDouble(null, destAddr + 48, m.m20());
+            u.putDouble(null, destAddr + 56, m.m21());
+            u.putDouble(null, destAddr + 64, m.m22());
+        }
+
+        public static void put(Matrix3x2f m, long destAddr) {
+            for (int i = 0; i < 3; i++) {
+                UNSAFE.putLongUnaligned(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3x2f_m00 + (i << 3)));
+            }
+        }
+
+        public static void put(Matrix3x2d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putDouble(null, destAddr,      m.m00());
+            u.putDouble(null, destAddr + 8,  m.m01());
+            u.putDouble(null, destAddr + 16, m.m10());
+            u.putDouble(null, destAddr + 24, m.m11());
+            u.putDouble(null, destAddr + 32, m.m20());
+            u.putDouble(null, destAddr + 40, m.m21());
+        }
+
+        public static void putf(Matrix3d m, long destAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, destAddr,      (float)m.m00());
+            u.putFloat(null, destAddr + 4,  (float)m.m01());
+            u.putFloat(null, destAddr + 8,  (float)m.m02());
+            u.putFloat(null, destAddr + 12, (float)m.m10());
+            u.putFloat(null, destAddr + 16, (float)m.m11());
+            u.putFloat(null, destAddr + 20, (float)m.m12());
+            u.putFloat(null, destAddr + 24, (float)m.m20());
+            u.putFloat(null, destAddr + 28, (float)m.m21());
+            u.putFloat(null, destAddr + 32, (float)m.m22());
+        }
+
+        public static void put(Matrix2f m, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr,     UNSAFE.getLongUnaligned(m, Matrix2f_m00));
+            UNSAFE.putLongUnaligned(null, destAddr + 8, UNSAFE.getLongUnaligned(m, Matrix2f_m00 + 8));
+        }
+
+        public static void put(Matrix2d m, long destAddr) {
+            UNSAFE.putDouble(null, destAddr,      m.m00());
+            UNSAFE.putDouble(null, destAddr + 8,  m.m01());
+            UNSAFE.putDouble(null, destAddr + 16, m.m10());
+            UNSAFE.putDouble(null, destAddr + 24, m.m11());
+        }
+
+        public static void putf(Matrix2d m, long destAddr) {
+            UNSAFE.putFloat(null, destAddr,      (float)m.m00());
+            UNSAFE.putFloat(null, destAddr + 4,  (float)m.m01());
+            UNSAFE.putFloat(null, destAddr + 8,  (float)m.m10());
+            UNSAFE.putFloat(null, destAddr + 12, (float)m.m11());
+        }
+
+        public static void put(Vector4d src, long destAddr) {
+            UNSAFE.putDouble(null, destAddr,    src.x);
+            UNSAFE.putDouble(null, destAddr+8,  src.y);
+            UNSAFE.putDouble(null, destAddr+16, src.z);
+            UNSAFE.putDouble(null, destAddr+24, src.w);
+        }
+
+        public static void putf(Vector4d src, long destAddr) {
+            UNSAFE.putFloat(null, destAddr,    (float) src.x);
+            UNSAFE.putFloat(null, destAddr+4,  (float) src.y);
+            UNSAFE.putFloat(null, destAddr+8,  (float) src.z);
+            UNSAFE.putFloat(null, destAddr+12, (float) src.w);
+        }
+
+        public static void put(Vector4f src, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector4f_x));
+            UNSAFE.putLongUnaligned(null, destAddr+8, UNSAFE.getLongUnaligned(src, Vector4f_x+8));
+        }
+
+        public static void put(Vector4i src, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector4i_x));
+            UNSAFE.putLongUnaligned(null, destAddr+8, UNSAFE.getLongUnaligned(src, Vector4i_x+8));
+        }
+
+        public static void put(Vector4L src, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr, src.x);
+            UNSAFE.putLongUnaligned(null, destAddr+8, src.y);
+            UNSAFE.putLongUnaligned(null, destAddr+16, src.z);
+            UNSAFE.putLongUnaligned(null, destAddr+24, src.w);
+        }
+
+        public static void put(Vector3f src, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector3f_x));
+            UNSAFE.putFloat(null, destAddr+8, src.z);
+        }
+
+        public static void put(Vector3d src, long destAddr) {
+            UNSAFE.putDouble(null, destAddr,    src.x);
+            UNSAFE.putDouble(null, destAddr+8,  src.y);
+            UNSAFE.putDouble(null, destAddr+16, src.z);
+        }
+
+        public static void putf(Vector3d src, long destAddr) {
+            UNSAFE.putFloat(null, destAddr,   (float) src.x);
+            UNSAFE.putFloat(null, destAddr+4, (float) src.y);
+            UNSAFE.putFloat(null, destAddr+8, (float) src.z);
+        }
+
+        public static void put(Vector3i src, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector3i_x));
+            UNSAFE.putIntUnaligned(null, destAddr+8, src.z);
+        }
+
+        public static void put(Vector3L src, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr, src.x);
+            UNSAFE.putLongUnaligned(null, destAddr+8, src.y);
+            UNSAFE.putLongUnaligned(null, destAddr+16, src.z);
+        }
+
+        public static void put(Vector2f src, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector2f_x));
+        }
+
+        public static void put(Vector2d src, long destAddr) {
+            UNSAFE.putDouble(null, destAddr,   src.x);
+            UNSAFE.putDouble(null, destAddr+8, src.y);
+        }
+
+        public static void put(Vector2i src, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr, UNSAFE.getLongUnaligned(src, Vector2i_x));
+        }
+
+        public static void put(Vector2L src, long destAddr) {
+            UNSAFE.putLongUnaligned(null, destAddr,   src.x);
+            UNSAFE.putLongUnaligned(null, destAddr+8, src.y);
+        }
+
+        public static void get(Matrix4f m, long srcAddr) {
+            for (int i = 0; i < 8; i++) {
+                UNSAFE.putLongUnaligned(m, Matrix4f_m00 + (i << 3), UNSAFE.getLongUnaligned(null, srcAddr + (i << 3)));
+            }
+        }
+
+        public static void getTransposed(Matrix4f m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+                    ._m10(u.getFloat(srcAddr + 4))
+                    ._m20(u.getFloat(srcAddr + 8))
+                    ._m30(u.getFloat(srcAddr + 12))
+                    ._m01(u.getFloat(srcAddr + 16))
+                    ._m11(u.getFloat(srcAddr + 20))
+                    ._m21(u.getFloat(srcAddr + 24))
+                    ._m31(u.getFloat(srcAddr + 28))
+                    ._m02(u.getFloat(srcAddr + 32))
+                    ._m12(u.getFloat(srcAddr + 36))
+                    ._m22(u.getFloat(srcAddr + 40))
+                    ._m32(u.getFloat(srcAddr + 44))
+                    ._m03(u.getFloat(srcAddr + 48))
+                    ._m13(u.getFloat(srcAddr + 52))
+                    ._m23(u.getFloat(srcAddr + 56))
+                    ._m33(u.getFloat(srcAddr + 60));
+        }
+
+        public static void getTransposed(Matrix3f m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+                    ._m10(u.getFloat(srcAddr + 4))
+                    ._m20(u.getFloat(srcAddr + 8))
+                    ._m01(u.getFloat(srcAddr + 12))
+                    ._m11(u.getFloat(srcAddr + 16))
+                    ._m21(u.getFloat(srcAddr + 20))
+                    ._m02(u.getFloat(srcAddr + 24))
+                    ._m12(u.getFloat(srcAddr + 28))
+                    ._m22(u.getFloat(srcAddr + 32));
+        }
+
+        public static void getTransposed(Matrix4x3f m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+                    ._m10(u.getFloat(srcAddr + 4))
+                    ._m20(u.getFloat(srcAddr + 8))
+                    ._m30(u.getFloat(srcAddr + 12))
+                    ._m01(u.getFloat(srcAddr + 16))
+                    ._m11(u.getFloat(srcAddr + 20))
+                    ._m21(u.getFloat(srcAddr + 24))
+                    ._m31(u.getFloat(srcAddr + 28))
+                    ._m02(u.getFloat(srcAddr + 32))
+                    ._m12(u.getFloat(srcAddr + 36))
+                    ._m22(u.getFloat(srcAddr + 40))
+                    ._m32(u.getFloat(srcAddr + 44));
+        }
+
+        public static void getTransposed(Matrix3x2f m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+                    ._m10(u.getFloat(srcAddr + 4))
+                    ._m20(u.getFloat(srcAddr + 8))
+                    ._m01(u.getFloat(srcAddr + 12))
+                    ._m11(u.getFloat(srcAddr + 16))
+                    ._m21(u.getFloat(srcAddr + 20));
+        }
+
+        public static void getTransposed(Matrix2f m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(srcAddr))
+                    ._m10(u.getFloat(srcAddr + 4))
+                    ._m01(u.getFloat(srcAddr + 8))
+                    ._m11(u.getFloat(srcAddr + 12));
+        }
+
+        public static void getTransposed(Matrix2d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+                    ._m10(u.getDouble(srcAddr + 8))
+                    ._m01(u.getDouble(srcAddr + 16))
+                    ._m11(u.getDouble(srcAddr + 24));
+        }
+
+        public static void getTransposed(Matrix4x3d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+                    ._m10(u.getDouble(srcAddr + 8))
+                    ._m20(u.getDouble(srcAddr + 16))
+                    ._m30(u.getDouble(srcAddr + 24))
+                    ._m01(u.getDouble(srcAddr + 32))
+                    ._m11(u.getDouble(srcAddr + 40))
+                    ._m21(u.getDouble(srcAddr + 48))
+                    ._m31(u.getDouble(srcAddr + 56))
+                    ._m02(u.getDouble(srcAddr + 64))
+                    ._m12(u.getDouble(srcAddr + 72))
+                    ._m22(u.getDouble(srcAddr + 80))
+                    ._m32(u.getDouble(srcAddr + 88));
+        }
+
+        public static void getTransposed(Matrix3x2d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+                    ._m10(u.getDouble(srcAddr + 8))
+                    ._m20(u.getDouble(srcAddr + 16))
+                    ._m01(u.getDouble(srcAddr + 24))
+                    ._m11(u.getDouble(srcAddr + 32))
+                    ._m21(u.getDouble(srcAddr + 40));
+        }
+
+        public static void getTransposed(Matrix3d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+                    ._m10(u.getDouble(srcAddr + 8))
+                    ._m20(u.getDouble(srcAddr + 16))
+                    ._m01(u.getDouble(srcAddr + 24))
+                    ._m11(u.getDouble(srcAddr + 32))
+                    ._m21(u.getDouble(srcAddr + 40))
+                    ._m02(u.getDouble(srcAddr + 48))
+                    ._m12(u.getDouble(srcAddr + 56))
+                    ._m22(u.getDouble(srcAddr + 64));
+        }
+
+        public static void getTransposed(Matrix4d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(srcAddr))
+                    ._m10(u.getDouble(srcAddr + 8))
+                    ._m20(u.getDouble(srcAddr + 16))
+                    ._m30(u.getDouble(srcAddr + 24))
+                    ._m01(u.getDouble(srcAddr + 32))
+                    ._m11(u.getDouble(srcAddr + 40))
+                    ._m21(u.getDouble(srcAddr + 48))
+                    ._m31(u.getDouble(srcAddr + 56))
+                    ._m02(u.getDouble(srcAddr + 64))
+                    ._m12(u.getDouble(srcAddr + 72))
+                    ._m22(u.getDouble(srcAddr + 80))
+                    ._m32(u.getDouble(srcAddr + 88))
+                    ._m03(u.getDouble(srcAddr + 96))
+                    ._m13(u.getDouble(srcAddr + 104))
+                    ._m23(u.getDouble(srcAddr + 112))
+                    ._m33(u.getDouble(srcAddr + 120));
+        }
+
+        public static void get(Matrix4x3f m, long srcAddr) {
+            for (int i = 0; i < 6; i++) {
+                UNSAFE.putLongUnaligned(m, Matrix4x3f_m00 + (i << 3), UNSAFE.getLongUnaligned(null, srcAddr + (i << 3)));
+            }
+        }
+
+        public static void get(Matrix4d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(null, srcAddr))
+                    ._m01(u.getDouble(null, srcAddr+8))
+                    ._m02(u.getDouble(null, srcAddr+16))
+                    ._m03(u.getDouble(null, srcAddr+24))
+                    ._m10(u.getDouble(null, srcAddr+32))
+                    ._m11(u.getDouble(null, srcAddr+40))
+                    ._m12(u.getDouble(null, srcAddr+48))
+                    ._m13(u.getDouble(null, srcAddr+56))
+                    ._m20(u.getDouble(null, srcAddr+64))
+                    ._m21(u.getDouble(null, srcAddr+72))
+                    ._m22(u.getDouble(null, srcAddr+80))
+                    ._m23(u.getDouble(null, srcAddr+88))
+                    ._m30(u.getDouble(null, srcAddr+96))
+                    ._m31(u.getDouble(null, srcAddr+104))
+                    ._m32(u.getDouble(null, srcAddr+112))
+                    ._m33(u.getDouble(null, srcAddr+120));
+        }
+
+        public static void get(Matrix4x3d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(null, srcAddr))
+                    ._m01(u.getDouble(null, srcAddr+8))
+                    ._m02(u.getDouble(null, srcAddr+16))
+                    ._m10(u.getDouble(null, srcAddr+24))
+                    ._m11(u.getDouble(null, srcAddr+32))
+                    ._m12(u.getDouble(null, srcAddr+40))
+                    ._m20(u.getDouble(null, srcAddr+48))
+                    ._m21(u.getDouble(null, srcAddr+56))
+                    ._m22(u.getDouble(null, srcAddr+64))
+                    ._m30(u.getDouble(null, srcAddr+72))
+                    ._m31(u.getDouble(null, srcAddr+80))
+                    ._m32(u.getDouble(null, srcAddr+88));
+        }
+
+        public static void getf(Matrix4d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(null, srcAddr))
+                    ._m01(u.getFloat(null, srcAddr+4))
+                    ._m02(u.getFloat(null, srcAddr+8))
+                    ._m03(u.getFloat(null, srcAddr+12))
+                    ._m10(u.getFloat(null, srcAddr+16))
+                    ._m11(u.getFloat(null, srcAddr+20))
+                    ._m12(u.getFloat(null, srcAddr+24))
+                    ._m13(u.getFloat(null, srcAddr+28))
+                    ._m20(u.getFloat(null, srcAddr+32))
+                    ._m21(u.getFloat(null, srcAddr+36))
+                    ._m22(u.getFloat(null, srcAddr+40))
+                    ._m23(u.getFloat(null, srcAddr+44))
+                    ._m30(u.getFloat(null, srcAddr+48))
+                    ._m31(u.getFloat(null, srcAddr+52))
+                    ._m32(u.getFloat(null, srcAddr+56))
+                    ._m33(u.getFloat(null, srcAddr+60));
+        }
+
+        public static void getf(Matrix4x3d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(null, srcAddr))
+                    ._m01(u.getFloat(null, srcAddr+4))
+                    ._m02(u.getFloat(null, srcAddr+8))
+                    ._m10(u.getFloat(null, srcAddr+12))
+                    ._m11(u.getFloat(null, srcAddr+16))
+                    ._m12(u.getFloat(null, srcAddr+20))
+                    ._m20(u.getFloat(null, srcAddr+24))
+                    ._m21(u.getFloat(null, srcAddr+28))
+                    ._m22(u.getFloat(null, srcAddr+32))
+                    ._m30(u.getFloat(null, srcAddr+36))
+                    ._m31(u.getFloat(null, srcAddr+40))
+                    ._m32(u.getFloat(null, srcAddr+44));
+        }
+
+        public static void get(Matrix3f m, long srcAddr) {
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putLong(m, Matrix3f_m00 + (i << 3), UNSAFE.getLongUnaligned(null, srcAddr + (i << 3)));
+            }
+            m._m22(UNSAFE.getFloat(null, srcAddr+32));
+        }
+
+        public static void get(Matrix3d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(null, srcAddr))
+                    ._m01(u.getDouble(null, srcAddr+8))
+                    ._m02(u.getDouble(null, srcAddr+16))
+                    ._m10(u.getDouble(null, srcAddr+24))
+                    ._m11(u.getDouble(null, srcAddr+32))
+                    ._m12(u.getDouble(null, srcAddr+40))
+                    ._m20(u.getDouble(null, srcAddr+48))
+                    ._m21(u.getDouble(null, srcAddr+56))
+                    ._m22(u.getDouble(null, srcAddr+64));
+        }
+
+        public static void get(Matrix3x2f m, long srcAddr) {
+            for (int i = 0; i < 3; i++) {
+                UNSAFE.putLongUnaligned(m, Matrix3x2f_m00 + (i << 3), UNSAFE.getLongUnaligned(null, srcAddr + (i << 3)));
+            }
+        }
+
+        public static void get(Matrix3x2d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getDouble(null, srcAddr))
+                    ._m01(u.getDouble(null, srcAddr+8))
+                    ._m10(u.getDouble(null, srcAddr+16))
+                    ._m11(u.getDouble(null, srcAddr+24))
+                    ._m20(u.getDouble(null, srcAddr+32))
+                    ._m21(u.getDouble(null, srcAddr+40));
+        }
+
+        public static void getf(Matrix3d m, long srcAddr) {
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            m._m00(u.getFloat(null, srcAddr))
+                    ._m01(u.getFloat(null, srcAddr+4))
+                    ._m02(u.getFloat(null, srcAddr+8))
+                    ._m10(u.getFloat(null, srcAddr+12))
+                    ._m11(u.getFloat(null, srcAddr+16))
+                    ._m12(u.getFloat(null, srcAddr+20))
+                    ._m20(u.getFloat(null, srcAddr+24))
+                    ._m21(u.getFloat(null, srcAddr+28))
+                    ._m22(u.getFloat(null, srcAddr+32));
+        }
+
+        public static void get(Matrix2f m, long srcAddr) {
+            UNSAFE.putLongUnaligned(m, Matrix2f_m00,     UNSAFE.getLongUnaligned(null, srcAddr));
+            UNSAFE.putLongUnaligned(m, Matrix2f_m00 + 8, UNSAFE.getLongUnaligned(null, srcAddr + 8));
+        }
+
+        public static void get(Matrix2d m, long srcAddr) {
+            m._m00(UNSAFE.getDouble(null, srcAddr))
+                    ._m01(UNSAFE.getDouble(null, srcAddr+8))
+                    ._m10(UNSAFE.getDouble(null, srcAddr+16))
+                    ._m11(UNSAFE.getDouble(null, srcAddr+24));
+        }
+
+        public static void getf(Matrix2d m, long srcAddr) {
+            m._m00(UNSAFE.getFloat(null, srcAddr))
+                    ._m01(UNSAFE.getFloat(null, srcAddr+4))
+                    ._m10(UNSAFE.getFloat(null, srcAddr+8))
+                    ._m11(UNSAFE.getFloat(null, srcAddr+12));
+        }
+
+        public static void get(Vector4d dst, long srcAddr) {
+            dst.x = UNSAFE.getDouble(null, srcAddr);
+            dst.y = UNSAFE.getDouble(null, srcAddr+8);
+            dst.z = UNSAFE.getDouble(null, srcAddr+16);
+            dst.w = UNSAFE.getDouble(null, srcAddr+24);
+        }
+
+        public static void get(Vector4f dst, long srcAddr) {
+            dst.x = UNSAFE.getFloat(null, srcAddr);
+            dst.y = UNSAFE.getFloat(null, srcAddr+4);
+            dst.z = UNSAFE.getFloat(null, srcAddr+8);
+            dst.w = UNSAFE.getFloat(null, srcAddr+12);
+        }
+
+        public static void get(Vector4i dst, long srcAddr) {
+            dst.x = UNSAFE.getIntUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getIntUnaligned(null, srcAddr+4);
+            dst.z = UNSAFE.getIntUnaligned(null, srcAddr+8);
+            dst.w = UNSAFE.getIntUnaligned(null, srcAddr+12);
+        }
+
+        public static void get(Vector4L dst, long srcAddr) {
+            dst.x = UNSAFE.getLongUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getLongUnaligned(null, srcAddr+8);
+            dst.z = UNSAFE.getLongUnaligned(null, srcAddr+16);
+            dst.w = UNSAFE.getLongUnaligned(null, srcAddr+24);
+        }
+
+        public static void get(Vector3f dst, long srcAddr) {
+            dst.x = UNSAFE.getFloat(null, srcAddr);
+            dst.y = UNSAFE.getFloat(null, srcAddr+4);
+            dst.z = UNSAFE.getFloat(null, srcAddr+8);
+        }
+
+        public static void get(Vector3d dst, long srcAddr) {
+            dst.x = UNSAFE.getDouble(null, srcAddr);
+            dst.y = UNSAFE.getDouble(null, srcAddr+8);
+            dst.z = UNSAFE.getDouble(null, srcAddr+16);
+        }
+
+        public static void get(Vector3i dst, long srcAddr) {
+            dst.x = UNSAFE.getIntUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getIntUnaligned(null, srcAddr+4);
+            dst.z = UNSAFE.getIntUnaligned(null, srcAddr+8);
+        }
+
+        public static void get(Vector3L dst, long srcAddr) {
+            dst.x = UNSAFE.getLongUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getLongUnaligned(null, srcAddr+8);
+            dst.z = UNSAFE.getLongUnaligned(null, srcAddr+16);
+        }
+
+        public static void get(Vector2f dst, long srcAddr) {
+            dst.x = UNSAFE.getFloat(null, srcAddr);
+            dst.y = UNSAFE.getFloat(null, srcAddr+4);
+        }
+
+        public static void get(Vector2d dst, long srcAddr) {
+            dst.x = UNSAFE.getDouble(null, srcAddr);
+            dst.y = UNSAFE.getDouble(null, srcAddr+8);
+        }
+
+        public static void get(Vector2i dst, long srcAddr) {
+            dst.x = UNSAFE.getIntUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getIntUnaligned(null, srcAddr+4);
+        }
+
+        public static void get(Vector2L dst, long srcAddr) {
+            dst.x = UNSAFE.getLongUnaligned(null, srcAddr);
+            dst.y = UNSAFE.getLongUnaligned(null, srcAddr+8);
+        }
+
+        public static void putMatrix3f(Quaternionf q, long addr) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, addr, 1.0f - q11 - q22);
+            u.putFloat(null, addr + 4, q01 + q23);
+            u.putFloat(null, addr + 8, q02 - q13);
+            u.putFloat(null, addr + 12, q01 - q23);
+            u.putFloat(null, addr + 16, 1.0f - q22 - q00);
+            u.putFloat(null, addr + 20, q12 + q03);
+            u.putFloat(null, addr + 24, q02 + q13);
+            u.putFloat(null, addr + 28, q12 - q03);
+            u.putFloat(null, addr + 32, 1.0f - q11 - q00);
+        }
+
+        public static void putMatrix4f(Quaternionf q, long addr) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, addr, 1.0f - q11 - q22);
+            u.putFloat(null, addr + 4, q01 + q23);
+            u.putLongUnaligned(null, addr + 8, Float.floatToRawIntBits(q02 - q13) & 0xFFFFFFFFL);
+            u.putFloat(null, addr + 16, q01 - q23);
+            u.putFloat(null, addr + 20, 1.0f - q22 - q00);
+            u.putLongUnaligned(null, addr + 24, Float.floatToRawIntBits(q12 + q03) & 0xFFFFFFFFL);
+            u.putFloat(null, addr + 32, q02 + q13);
+            u.putFloat(null, addr + 36, q12 - q03);
+            u.putLongUnaligned(null, addr + 40, Float.floatToRawIntBits(1.0f - q11 - q00) & 0xFFFFFFFFL);
+            u.putLongUnaligned(null, addr + 48, 0L);
+            u.putLongUnaligned(null, addr + 56, 0x3F80000000000000L);
+        }
+
+        public static void putMatrix4x3f(Quaternionf q, long addr) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            jdk.internal.misc.Unsafe u = UNSAFE;
+            u.putFloat(null, addr, 1.0f - q11 - q22);
+            u.putFloat(null, addr + 4, q01 + q23);
+            u.putFloat(null, addr + 8, q02 - q13);
+            u.putFloat(null, addr + 12, q01 - q23);
+            u.putFloat(null, addr + 16, 1.0f - q22 - q00);
+            u.putFloat(null, addr + 20, q12 + q03);
+            u.putFloat(null, addr + 24, q02 + q13);
+            u.putFloat(null, addr + 28, q12 - q03);
+            u.putFloat(null, addr + 32, 1.0f - q11 - q00);
+            u.putLongUnaligned(null, addr + 36, 0L);
+            u.putFloat(null, addr + 44, 0.0f);
+        }
+
+        private static void throwNoDirectBufferException() {
+            throw new IllegalArgumentException("Must use a direct buffer");
+        }
+
+        //#ifdef __HAS_NIO__
         public void putMatrix3f(Quaternionf q, int offset, ByteBuffer dest) {
             if (Options.DEBUG) checkPut(offset, dest.isDirect(), dest.capacity(), 9 << 2);
             if (dest.order() == ByteOrder.nativeOrder())
