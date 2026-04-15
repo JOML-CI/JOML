@@ -259,3 +259,30 @@ macroPreprocessorSettings {
 }
 
 tasks.named("sourcesJar").configure { dependsOn("macroPreprocessorJava") }
+
+// Workaround: PreprocessorTask extends ProcessResources whose inherited copy()
+// @TaskAction overwrites the preprocessed output. Capture original source dirs
+// before task actions redirect them, then re-run preprocessing in doLast.
+afterEvaluate {
+    def ext = project.extensions.findByType(com.github.hexomod.macro.PreprocessorExtension)
+    def rerunPreprocessor = { srcDirs, destDir ->
+        def pp = new com.github.hexomod.macro.Preprocessor(ext.vars, ext.remove || ext.java.remove)
+        srcDirs.each { srcDir ->
+            if (srcDir.exists()) {
+                project.fileTree(srcDir).each { srcFile ->
+                    def rel = srcDir.toPath().relativize(srcFile.toPath())
+                    def destFile = new File(destDir, rel.toString())
+                    pp.process(srcFile, destFile)
+                }
+            }
+        }
+    }
+    def originalMainSrcDirs = sourceSets.main.java.srcDirs.collect()
+    tasks.named("macroPreprocessorJava").configure {
+        doLast { rerunPreprocessor(originalMainSrcDirs, destinationDir) }
+    }
+    def originalTestSrcDirs = sourceSets.test.java.srcDirs.collect()
+    tasks.named("macroPreprocessorTestJava").configure {
+        doLast { rerunPreprocessor(originalTestSrcDirs, destinationDir) }
+    }
+}
