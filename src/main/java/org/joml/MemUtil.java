@@ -51,7 +51,8 @@ abstract class MemUtil {
                 if (Options.INTERNAL_UNSAFE) {
                     try {
                         accessor = new MemUtilInternalUnsafe();
-                    } catch (Exception ignored) {
+                    } catch (Throwable ignored) {
+                        // Effectively, this is going to be an IllegalAccessError
                         accessor = new MemUtilUnsafe();
                     }
                 } else {
