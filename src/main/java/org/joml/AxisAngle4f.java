@@ -296,14 +296,14 @@ public class AxisAngle4f implements Externalizable, Cloneable {
                 z = xz * invX;
             } else if (yy > zz) {
                 y = Math.sqrt(yy);
-                float invZ = 1.0f / z;
-                x = xy * invZ;
-                z = yz * invZ;
+                float invY = 1.0f / y;
+                x = xy * invY;
+                z = yz * invY;
             } else {
                 z = Math.sqrt(zz);
-                float invY = 1.0f / y;
-                x = xz * invY;
-                y = yz * invY;
+                float invZ = 1.0f / z;
+                x = xz * invZ;
+                y = yz * invZ;
             }
             return this;
         }
@@ -422,14 +422,14 @@ public class AxisAngle4f implements Externalizable, Cloneable {
                 z = xz * invX;
             } else if (yy > zz) {
                 y = Math.sqrt(yy);
-                float invZ = 1.0f / z;
-                x = xy * invZ;
-                z = yz * invZ;
+                float invY = 1.0f / y;
+                x = xy * invY;
+                z = yz * invY;
             } else {
                 z = Math.sqrt(zz);
-                float invY = 1.0f / y;
-                x = xz * invY;
-                y = yz * invY;
+                float invZ = 1.0f / z;
+                x = xz * invZ;
+                y = yz * invZ;
             }
             return this;
         }
@@ -485,14 +485,14 @@ public class AxisAngle4f implements Externalizable, Cloneable {
                 z = xz * invX;
             } else if (yy > zz) {
                 y = Math.sqrt(yy);
-                float invZ = 1.0f / z;
-                x = xy * invZ;
-                z = yz * invZ;
+                float invY = 1.0f / y;
+                x = xy * invY;
+                z = yz * invY;
             } else {
                 z = Math.sqrt(zz);
-                float invY = 1.0f / y;
-                x = xz * invY;
-                y = yz * invY;
+                float invZ = 1.0f / z;
+                x = xz * invZ;
+                y = yz * invZ;
             }
             return this;
         }
