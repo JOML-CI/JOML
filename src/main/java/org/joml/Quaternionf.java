@@ -2110,7 +2110,7 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
         dest.y = y / f;
         dest.z = z / f;
         dest.w = w / f;
-        return this;
+        return dest;
     }
 
     /**

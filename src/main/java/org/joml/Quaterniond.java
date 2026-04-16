@@ -2014,7 +2014,7 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
         dest.y = y / d;
         dest.z = z / d;
         dest.w = w / d;
-        return this;
+        return dest;
     }
 
     /**
