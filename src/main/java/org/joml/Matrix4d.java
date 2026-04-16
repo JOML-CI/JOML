@@ -9549,9 +9549,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
     public Matrix4d reflect(double a, double b, double c, double d, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.reflection(a, b, c, d);
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.reflection(a, b, c, d);
-        else if ((properties & PROPERTY_AFFINE) != 0)
+        if ((properties & PROPERTY_AFFINE) != 0)
             return reflectAffine(a, b, c, d, dest);
         return reflectGeneric(a, b, c, d, dest);
     }
