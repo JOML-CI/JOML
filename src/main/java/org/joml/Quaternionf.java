@@ -2937,9 +2937,10 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
                 z = -fy;
                 w = 0.0f;
             }
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            float invLen = Math.invsqrt(x * x + y * y + z * z);
+            this.x = x * invLen;
+            this.y = y * invLen;
+            this.z = z * invLen;
             this.w = 0;
         } else {
             float sd2 = Math.sqrt((1.0f + dot) * 2.0f);
@@ -2995,6 +2996,10 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
                 z = -fy;
                 w = 0.0f;
             }
+            float invLen = Math.invsqrt(x * x + y * y + z * z);
+            x *= invLen;
+            y *= invLen;
+            z *= invLen;
         } else {
             float sd2 = Math.sqrt((1.0f + dot) * 2.0f);
             float isd2 = 1.0f / sd2;
