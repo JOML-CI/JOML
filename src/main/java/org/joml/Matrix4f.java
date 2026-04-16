@@ -13891,6 +13891,10 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m11(m11() * sy)
             ._m12(m12() * sy)
             ._m13(m13() * sy)
+            ._m20(m20())
+            ._m21(m21())
+            ._m22(m22())
+            ._m23(m23())
             ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
