@@ -10538,7 +10538,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            rm22 = (zZeroToOne ? 0.0f : 1.0f) - e;
+            rm22 = (zZeroToOne ? 0.0f : -1.0f) + e;
             rm32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
             rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
@@ -10710,7 +10710,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
                 ._m32((e - (zZeroToOne ? 1.0f : 2.0f)) * zNear);
         } else if (nearInf) {
             float e = 1E-6f;
-            this._m22((zZeroToOne ? 0.0f : 1.0f) - e)
+            this._m22((zZeroToOne ? 0.0f : -1.0f) + e)
                 ._m32(((zZeroToOne ? 1.0f : 2.0f) - e) * zFar);
         } else {
             this._m22((zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear))
@@ -11113,7 +11113,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            rm22 = (zZeroToOne ? 0.0f : 1.0f) - e;
+            rm22 = (zZeroToOne ? 0.0f : -1.0f) + e;
             rm32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
             rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
@@ -11311,7 +11311,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
                 ._m32((e - (zZeroToOne ? 1.0f : 2.0f)) * zNear);
         } else if (nearInf) {
             float e = 1E-6f;
-            this._m22((zZeroToOne ? 0.0f : 1.0f) - e)
+            this._m22((zZeroToOne ? 0.0f : -1.0f) + e)
                 ._m32(((zZeroToOne ? 1.0f : 2.0f) - e) * zFar);
         } else {
             this._m22((zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear))

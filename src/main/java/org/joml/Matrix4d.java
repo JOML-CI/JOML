@@ -13546,7 +13546,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             rm32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
         } else if (nearInf) {
             double e = 1E-6;
-            rm22 = (zZeroToOne ? 0.0 : 1.0) - e;
+            rm22 = (zZeroToOne ? 0.0 : -1.0) + e;
             rm32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
         } else {
             rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
@@ -13725,7 +13725,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             _m32((e - (zZeroToOne ? 1.0 : 2.0)) * zNear);
         } else if (nearInf) {
             double e = 1E-6;
-            _m22((zZeroToOne ? 0.0 : 1.0) - e).
+            _m22((zZeroToOne ? 0.0 : -1.0) + e).
             _m32(((zZeroToOne ? 1.0 : 2.0) - e) * zFar);
         } else {
             _m22((zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear)).
@@ -14131,7 +14131,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             rm32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
         } else if (nearInf) {
             double e = 1E-6;
-            rm22 = (zZeroToOne ? 0.0 : 1.0) - e;
+            rm22 = (zZeroToOne ? 0.0 : -1.0) + e;
             rm32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
         } else {
             rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
@@ -14329,7 +14329,7 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
             _m32((e - (zZeroToOne ? 1.0 : 2.0)) * zNear);
         } else if (nearInf) {
             double e = 1E-6;
-            _m22((zZeroToOne ? 0.0 : 1.0) - e).
+            _m22((zZeroToOne ? 0.0 : -1.0) + e).
             _m32(((zZeroToOne ? 1.0 : 2.0) - e) * zFar);
         } else {
             _m22((zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear)).
