@@ -11729,9 +11729,12 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         float nm10 = m00() * rm10 + m10() * rm11 + m20() * rm12;
         float nm11 = m01() * rm10 + m11() * rm11 + m21() * rm12;
         float nm12 = m02() * rm10 + m12() * rm11 + m22() * rm12;
-        dest._m20(m00() * rm20 + m10() * rm21 + m20() * rm22)
-            ._m21(m01() * rm20 + m11() * rm21 + m21() * rm22)
-            ._m22(m02() * rm20 + m12() * rm21 + m22() * rm22)
+        float nm20 = m00() * rm20 + m10() * rm21 + m20() * rm22;
+        float nm21 = m01() * rm20 + m11() * rm21 + m21() * rm22;
+        float nm22 = m02() * rm20 + m12() * rm21 + m22() * rm22;
+        dest._m20(nm20)
+            ._m21(nm21)
+            ._m22(nm22)
             ._m23(0.0f)
             ._m00(nm00)
             ._m01(nm01)
@@ -11741,9 +11744,9 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m11(nm11)
             ._m12(nm12)
             ._m13(0.0f)
-            ._m30(-nm00 * ox - nm10 * oy - m20() * oz + tm30)
-            ._m31(-nm01 * ox - nm11 * oy - m21() * oz + tm31)
-            ._m32(-nm02 * ox - nm12 * oy - m22() * oz + tm32)
+            ._m30(-nm00 * ox - nm10 * oy - nm20 * oz + tm30)
+            ._m31(-nm01 * ox - nm11 * oy - nm21 * oz + tm31)
+            ._m32(-nm02 * ox - nm12 * oy - nm22 * oz + tm32)
             ._m33(1.0f)
             ._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
@@ -11782,10 +11785,14 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         float nm11 = m01() * rm10 + m11() * rm11 + m21() * rm12;
         float nm12 = m02() * rm10 + m12() * rm11 + m22() * rm12;
         float nm13 = m03() * rm10 + m13() * rm11 + m23() * rm12;
-        dest._m20(m00() * rm20 + m10() * rm21 + m20() * rm22)
-            ._m21(m01() * rm20 + m11() * rm21 + m21() * rm22)
-            ._m22(m02() * rm20 + m12() * rm21 + m22() * rm22)
-            ._m23(m03() * rm20 + m13() * rm21 + m23() * rm22)
+        float nm20 = m00() * rm20 + m10() * rm21 + m20() * rm22;
+        float nm21 = m01() * rm20 + m11() * rm21 + m21() * rm22;
+        float nm22 = m02() * rm20 + m12() * rm21 + m22() * rm22;
+        float nm23 = m03() * rm20 + m13() * rm21 + m23() * rm22;
+        dest._m20(nm20)
+            ._m21(nm21)
+            ._m22(nm22)
+            ._m23(nm23)
             ._m00(nm00)
             ._m01(nm01)
             ._m02(nm02)
@@ -11794,9 +11801,9 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m11(nm11)
             ._m12(nm12)
             ._m13(nm13)
-            ._m30(-nm00 * ox - nm10 * oy - m20() * oz + tm30)
-            ._m31(-nm01 * ox - nm11 * oy - m21() * oz + tm31)
-            ._m32(-nm02 * ox - nm12 * oy - m22() * oz + tm32)
+            ._m30(-nm00 * ox - nm10 * oy - nm20 * oz + tm30)
+            ._m31(-nm01 * ox - nm11 * oy - nm21 * oz + tm31)
+            ._m32(-nm02 * ox - nm12 * oy - nm22 * oz + tm32)
             ._m33(m33())
             ._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
