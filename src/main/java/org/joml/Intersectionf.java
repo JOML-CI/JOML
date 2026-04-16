@@ -3222,8 +3222,8 @@ public class Intersectionf {
         float invDenom = Math.invsqrt(a * a + b * b);
         float dist = (a * centerX + b * centerY + c) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndHL.x = centerX + dist * a * invDenom;
-            intersectionCenterAndHL.y = centerY + dist * b * invDenom;
+            intersectionCenterAndHL.x = centerX - dist * a * invDenom;
+            intersectionCenterAndHL.y = centerY - dist * b * invDenom;
             intersectionCenterAndHL.z = (float) Math.sqrt(radius * radius - dist * dist);
             return true;
         }
