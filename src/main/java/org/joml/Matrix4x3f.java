@@ -7826,6 +7826,9 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     }
     private Matrix4x3f normalOrthonormal(Matrix4x3f dest) {
         dest.set(this);
+        dest.m30 = 0;
+        dest.m31 = 0;
+        dest.m32 = 0;
         return dest._properties(PROPERTY_ORTHONORMAL);
     }
     private Matrix4x3f normalGeneric(Matrix4x3f dest) {
