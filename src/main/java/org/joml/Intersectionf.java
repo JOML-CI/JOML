@@ -1172,7 +1172,7 @@ public class Intersectionf {
      */
     public static Vector3f findClosestPointOnPlane(float aX, float aY, float aZ, float nX, float nY, float nZ, float pX, float pY, float pZ, Vector3f result) {
         float d = -(nX * aX + nY * aY + nZ * aZ);
-        float t = nX * pX + nY * pY + nZ * pZ - d;
+        float t = nX * pX + nY * pY + nZ * pZ + d;
         result.x = pX - t * nX;
         result.y = pY - t * nY;
         result.z = pZ - t * nZ;

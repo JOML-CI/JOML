@@ -1172,7 +1172,7 @@ public class Intersectiond {
      */
     public static Vector3d findClosestPointOnPlane(double aX, double aY, double aZ, double nX, double nY, double nZ, double pX, double pY, double pZ, Vector3d result) {
         double d = -(nX * aX + nY * aY + nZ * aZ);
-        double t = nX * pX + nY * pY + nZ * pZ - d;
+        double t = nX * pX + nY * pY + nZ * pZ + d;
         result.x = pX - t * nX;
         result.y = pY - t * nY;
         result.z = pZ - t * nZ;
