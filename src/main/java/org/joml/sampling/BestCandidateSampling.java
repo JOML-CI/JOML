@@ -623,8 +623,8 @@ public class BestCandidateSampling {
             final int pos = xys.position();
             return generate(new Callback2d() {
                 public void onNewSample(float x, float y) {
-                    xys.put(pos + 3 * i.value + 0, x);
-                    xys.put(pos + 3 * i.value + 1, y);
+                    xys.put(pos + 2 * i.value + 0, x);
+                    xys.put(pos + 2 * i.value + 1, y);
                     i.value++;
                 }
             });
@@ -755,8 +755,8 @@ public class BestCandidateSampling {
             final int pos = xys.position();
             return generate(new Callback2d() {
                 public void onNewSample(float x, float y) {
-                    xys.put(pos + 3 * i.value + 0, x);
-                    xys.put(pos + 3 * i.value + 1, y);
+                    xys.put(pos + 2 * i.value + 0, x);
+                    xys.put(pos + 2 * i.value + 1, y);
                     i.value++;
                 }
             });
