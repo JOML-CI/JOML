@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import org.jspecify.annotations.Nullable;
+
 //#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
@@ -5332,7 +5334,7 @@ public interface Matrix4dc {
      *          will hold the resulting range matrix
      * @return the computed range matrix; or <code>null</code> if the projected grid will not be visible
      */
-    Matrix4d projectedGridRange(Matrix4dc projector, double sLower, double sUpper, Matrix4d dest);
+    @Nullable Matrix4d projectedGridRange(Matrix4dc projector, double sLower, double sUpper, Matrix4d dest);
 
     /**
      * Change the near and far clip plane distances of <code>this</code> perspective frustum transformation matrix
