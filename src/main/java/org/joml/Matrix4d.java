@@ -9128,7 +9128,9 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
         return normalGeneric(dest);
     }
     private Matrix4d normalOrthonormal(Matrix4d dest) {
-        dest.set(this);
+        if (dest != this)
+            dest.set(this);
+        dest._m30(0.0)._m31(0.0)._m32(0.0);
         return dest._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
     }
     private Matrix4d normalGeneric(Matrix4d dest) {
