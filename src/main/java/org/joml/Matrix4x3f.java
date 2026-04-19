@@ -8546,6 +8546,9 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         dest.m10 = m10 * sy;
         dest.m11 = m11 * sy;
         dest.m12 = m12 * sy;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
         dest.properties = PROPERTY_UNKNOWN;
         return dest;
     }
