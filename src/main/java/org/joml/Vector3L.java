@@ -259,7 +259,7 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
      *          values will be read in <code>x, y, z</code> order
      */
     public Vector3L(ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        MemUtil.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -275,7 +275,7 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
      *          values will be read in <code>x, y, z</code> order
      */
     public Vector3L(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
+        MemUtil.get(this, index, buffer);
     }
 
     /**
@@ -295,7 +295,7 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
      *          values will be read in <code>x, y, z</code> order
      */
     public Vector3L(LongBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        MemUtil.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -311,7 +311,7 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
      *          values will be read in <code>x, y, z</code> order
      */
     public Vector3L(int index, LongBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
+        MemUtil.get(this, index, buffer);
     }
 //#endif
 
@@ -513,7 +513,7 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
      * @return this
      */
     public Vector3L set(ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        MemUtil.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -530,7 +530,7 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
      * @return this
      */
     public Vector3L set(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
+        MemUtil.get(this, index, buffer);
         return this;
     }
 
@@ -551,7 +551,7 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
      * @return this
      */
     public Vector3L set(LongBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        MemUtil.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -568,7 +568,7 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
      * @return this
      */
     public Vector3L set(int index, LongBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
+        MemUtil.get(this, index, buffer);
         return this;
     }
 //#endif
@@ -636,22 +636,22 @@ public class Vector3L implements Externalizable, Cloneable, Vector3Lc {
 
 //#ifdef __HAS_NIO__
     public LongBuffer get(LongBuffer buffer) {
-        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
+        MemUtil.put(this, buffer.position(), buffer);
         return buffer;
     }
 
     public LongBuffer get(int index, LongBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
+        MemUtil.put(this, index, buffer);
         return buffer;
     }
 
     public ByteBuffer get(ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
+        MemUtil.put(this, buffer.position(), buffer);
         return buffer;
     }
 
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
+        MemUtil.put(this, index, buffer);
         return buffer;
     }
 //#endif

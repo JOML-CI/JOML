@@ -161,14 +161,14 @@ abstract class MemUtil {
     public abstract void put(Vector4i src, int offset, IntBuffer dest);
     public abstract void put(Vector4i src, int offset, ByteBuffer dest);
 
-    public void put(Vector4L src, int offset, LongBuffer dest) {
+    public static void put(Vector4L src, int offset, LongBuffer dest) {
         dest.put(offset,   src.x)
         .put(offset+1, src.y)
         .put(offset+2, src.z)
         .put(offset+3, src.w);
     }
 
-    public void put(Vector4L src, int offset, ByteBuffer dest) {
+    public static void put(Vector4L src, int offset, ByteBuffer dest) {
         dest.putLong(offset,    src.x)
         .putLong(offset+8,  src.y)
         .putLong(offset+16, src.z)
@@ -182,12 +182,12 @@ abstract class MemUtil {
     public abstract void putf(Vector3d src, int offset, ByteBuffer dest);
     public abstract void put(Vector3i src, int offset, IntBuffer dest);
     public abstract void put(Vector3i src, int offset, ByteBuffer dest);
-    public void put(Vector3L src, int offset, LongBuffer dest) {
+    public static void put(Vector3L src, int offset, LongBuffer dest) {
         dest.put(offset,   src.x)
             .put(offset+1, src.y)
             .put(offset+2, src.z);
     }
-    public void put(Vector3L src, int offset, ByteBuffer dest) {
+    public static void put(Vector3L src, int offset, ByteBuffer dest) {
         dest.putLong(offset,   src.x)
             .putLong(offset+8, src.y)
             .putLong(offset+16, src.z);
@@ -202,8 +202,8 @@ abstract class MemUtil {
     public abstract void put(Vector2L src, int offset, ByteBuffer dest);
     public abstract void get(Matrix4f m, int offset, FloatBuffer src);
     public abstract void get(Matrix4f m, int offset, ByteBuffer src);
-    public void getTransposed(Matrix4f m, int offset, FloatBuffer src) {MemUtil0.getTransposed(m, offset, src);}
-    public void getTransposed(Matrix4f m, int offset, ByteBuffer src) {MemUtil0.getTransposed(m, offset, src);}
+    public static void getTransposed(Matrix4f m, int offset, FloatBuffer src) {MemUtil0.getTransposed(m, offset, src);}
+    public static void getTransposed(Matrix4f m, int offset, ByteBuffer src) {MemUtil0.getTransposed(m, offset, src);}
     public abstract void get(Matrix4x3f m, int offset, FloatBuffer src);
     public abstract void get(Matrix4x3f m, int offset, ByteBuffer src);
     public abstract void get(Matrix4d m, int offset, DoubleBuffer src);
@@ -236,13 +236,13 @@ abstract class MemUtil {
     public abstract void get(Vector4f dst, int offset, ByteBuffer src);
     public abstract void get(Vector4i dst, int offset, IntBuffer src);
     public abstract void get(Vector4i dst, int offset, ByteBuffer src);
-    public void get(Vector4L dst, int offset, LongBuffer src) {
+    public static void get(Vector4L dst, int offset, LongBuffer src) {
         dst.x = src.get(offset);
         dst.y = src.get(offset+1);
         dst.z = src.get(offset+2);
         dst.w = src.get(offset+3);
     }
-    public void get(Vector4L dst, int offset, ByteBuffer src) {
+    public static void get(Vector4L dst, int offset, ByteBuffer src) {
         dst.x = src.getLong(offset);
         dst.y = src.getLong(offset+8);
         dst.z = src.getLong(offset+16);
@@ -254,12 +254,12 @@ abstract class MemUtil {
     public abstract void get(Vector3d dst, int offset, ByteBuffer src);
     public abstract void get(Vector3i dst, int offset, IntBuffer src);
     public abstract void get(Vector3i dst, int offset, ByteBuffer src);
-    public void get(Vector3L dst, int offset, LongBuffer src) {
+    public static void get(Vector3L dst, int offset, LongBuffer src) {
         dst.x = src.get(offset);
         dst.y = src.get(offset+1);
         dst.z = src.get(offset+2);
     }
-    public void get(Vector3L dst, int offset, ByteBuffer src) {
+    public static void get(Vector3L dst, int offset, ByteBuffer src) {
         dst.x = src.getLong(offset);
         dst.y = src.getLong(offset+8);
         dst.z = src.getLong(offset+16);
@@ -270,11 +270,11 @@ abstract class MemUtil {
     public abstract void get(Vector2d dst, int offset, ByteBuffer src);
     public abstract void get(Vector2i dst, int offset, IntBuffer src);
     public abstract void get(Vector2i dst, int offset, ByteBuffer src);
-    public void get(Vector2L dst, int offset, LongBuffer src) {
+    public static void get(Vector2L dst, int offset, LongBuffer src) {
         dst.x = src.get(offset);
         dst.y = src.get(offset+1);
     }
-    public void get(Vector2L dst, int offset, ByteBuffer src) {
+    public static void get(Vector2L dst, int offset, ByteBuffer src) {
         dst.x = src.getLong(offset);
         dst.y = src.getLong(offset+8);
     }
@@ -295,7 +295,7 @@ abstract class MemUtil {
     public abstract double get(Matrix3d m, int column, int row);
     public abstract Matrix3d set(Matrix3d m, int column, int row, double v);
 
-    public Vector4f getColumn(Matrix4f m, int column, Vector4f dest) {
+    public static Vector4f getColumn(Matrix4f m, int column, Vector4f dest) {
         switch (column) {
         case 0:
             return dest.set(m.m00(), m.m01(), m.m02(), m.m03());
@@ -309,7 +309,7 @@ abstract class MemUtil {
             throw new IndexOutOfBoundsException();
         }
     }
-    public Matrix4f setColumn(Vector4f v, int column, Matrix4f dest) {
+    public static Matrix4f setColumn(Vector4f v, int column, Matrix4f dest) {
         switch (column) {
         case 0:
             return dest._m00(v.x)._m01(v.y)._m02(v.z)._m03(v.w);
@@ -323,7 +323,7 @@ abstract class MemUtil {
             throw new IndexOutOfBoundsException();
         }
     }
-    public Matrix4f setColumn(Vector4fc v, int column, Matrix4f dest) {
+    public static Matrix4f setColumn(Vector4fc v, int column, Matrix4f dest) {
         switch (column) {
         case 0:
             return dest._m00(v.x())._m01(v.y())._m02(v.z())._m03(v.w());
@@ -337,7 +337,7 @@ abstract class MemUtil {
             throw new IndexOutOfBoundsException();
         }
     }
-    public void copy(Matrix4fc src, Matrix4f dest) {
+    public static void copy(Matrix4fc src, Matrix4f dest) {
         dest._m00(src.m00()).
         _m01(src.m01()).
         _m02(src.m02()).
@@ -355,7 +355,7 @@ abstract class MemUtil {
         _m32(src.m32()).
         _m33(src.m33());
     }
-    public void copy(Matrix4x3fc src, Matrix4x3f dest) {
+    public static void copy(Matrix4x3fc src, Matrix4x3f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -369,7 +369,7 @@ abstract class MemUtil {
         ._m31(src.m31())
         ._m32(src.m32());
     }
-    public void copy(Matrix4fc src, Matrix4x3f dest) {
+    public static void copy(Matrix4fc src, Matrix4x3f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -383,7 +383,7 @@ abstract class MemUtil {
         ._m31(src.m31())
         ._m32(src.m32());
     }
-    public void copy(Matrix4x3fc src, Matrix4f dest) {
+    public static void copy(Matrix4x3fc src, Matrix4f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -401,7 +401,7 @@ abstract class MemUtil {
         ._m32(src.m32())
         ._m33(1.0f);
     }
-    public void copy(Matrix3fc src, Matrix3f dest) {
+    public static void copy(Matrix3fc src, Matrix3f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -412,7 +412,7 @@ abstract class MemUtil {
         ._m21(src.m21())
         ._m22(src.m22());
     }
-    public void copy(Matrix3fc src, Matrix4f dest) {
+    public static void copy(Matrix3fc src, Matrix4f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -430,7 +430,7 @@ abstract class MemUtil {
         ._m32(0.0f)
         ._m33(1.0f);
     }
-    public void copy(Matrix4fc src, Matrix3f dest) {
+    public static void copy(Matrix4fc src, Matrix3f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -441,7 +441,7 @@ abstract class MemUtil {
         ._m21(src.m21())
         ._m22(src.m22());
     }
-    public void copy(Matrix3fc src, Matrix4x3f dest) {
+    public static void copy(Matrix3fc src, Matrix4x3f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -455,7 +455,7 @@ abstract class MemUtil {
         ._m31(0.0f)
         ._m32(0.0f);
     }
-    public void copy(Matrix3x2fc src, Matrix3x2f dest) {
+    public static void copy(Matrix3x2fc src, Matrix3x2f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
@@ -463,7 +463,7 @@ abstract class MemUtil {
         ._m20(src.m20())
         ._m21(src.m21());
     }
-    public void copy(Matrix3x2dc src, Matrix3x2d dest) {
+    public static void copy(Matrix3x2dc src, Matrix3x2d dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
@@ -471,19 +471,19 @@ abstract class MemUtil {
         ._m20(src.m20())
         ._m21(src.m21());
     }
-    public void copy(Matrix2fc src, Matrix2f dest) {
+    public static void copy(Matrix2fc src, Matrix2f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
         ._m11(src.m11());
     }
-    public void copy(Matrix2dc src, Matrix2d dest) {
+    public static void copy(Matrix2dc src, Matrix2d dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
         ._m11(src.m11());
     }
-    public void copy(Matrix2fc src, Matrix3f dest) {
+    public static void copy(Matrix2fc src, Matrix3f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(0.0f)
@@ -494,13 +494,13 @@ abstract class MemUtil {
         ._m21(0.0f)
         ._m22(1.0f);
     }
-    public void copy(Matrix3fc src, Matrix2f dest) {
+    public static void copy(Matrix3fc src, Matrix2f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
         ._m11(src.m11());
     }
-    public void copy(Matrix2fc src, Matrix3x2f dest) {
+    public static void copy(Matrix2fc src, Matrix3x2f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
@@ -508,13 +508,13 @@ abstract class MemUtil {
         ._m20(0.0f)
         ._m21(0.0f);
     }
-    public void copy(Matrix3x2fc src, Matrix2f dest) {
+    public static void copy(Matrix3x2fc src, Matrix2f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
         ._m11(src.m11());
     }
-    public void copy(Matrix2dc src, Matrix3d dest) {
+    public static void copy(Matrix2dc src, Matrix3d dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(0.0)
@@ -525,13 +525,13 @@ abstract class MemUtil {
         ._m21(0.0)
         ._m22(1.0);
     }
-    public void copy(Matrix3dc src, Matrix2d dest) {
+    public static void copy(Matrix3dc src, Matrix2d dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
         ._m11(src.m11());
     }
-    public void copy(Matrix2dc src, Matrix3x2d dest) {
+    public static void copy(Matrix2dc src, Matrix3x2d dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
@@ -539,13 +539,13 @@ abstract class MemUtil {
         ._m20(0.0)
         ._m21(0.0);
     }
-    public void copy(Matrix3x2dc src, Matrix2d dest) {
+    public static void copy(Matrix3x2dc src, Matrix2d dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m10(src.m10())
         ._m11(src.m11());
     }
-    public void copy3x3(Matrix4fc src, Matrix4f dest) {
+    public static void copy3x3(Matrix4fc src, Matrix4f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -556,7 +556,7 @@ abstract class MemUtil {
         ._m21(src.m21())
         ._m22(src.m22());
     }
-    public void copy3x3(Matrix4x3fc src, Matrix4x3f dest) {
+    public static void copy3x3(Matrix4x3fc src, Matrix4x3f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -567,7 +567,7 @@ abstract class MemUtil {
         ._m21(src.m21())
         ._m22(src.m22());
     }
-    public void copy3x3(Matrix3fc src, Matrix4x3f dest) {
+    public static void copy3x3(Matrix3fc src, Matrix4x3f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -578,7 +578,7 @@ abstract class MemUtil {
         ._m21(src.m21())
         ._m22(src.m22());
     }
-    public void copy3x3(Matrix3fc src, Matrix4f dest) {
+    public static void copy3x3(Matrix3fc src, Matrix4f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -589,7 +589,7 @@ abstract class MemUtil {
         ._m21(src.m21())
         ._m22(src.m22());
     }
-    public void copy4x3(Matrix4fc src, Matrix4f dest) {
+    public static void copy4x3(Matrix4fc src, Matrix4f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -603,7 +603,7 @@ abstract class MemUtil {
         ._m31(src.m31())
         ._m32(src.m32());
     }
-    public void copy4x3(Matrix4x3fc src, Matrix4f dest) {
+    public static void copy4x3(Matrix4x3fc src, Matrix4f dest) {
         dest._m00(src.m00())
         ._m01(src.m01())
         ._m02(src.m02())
@@ -617,7 +617,7 @@ abstract class MemUtil {
         ._m31(src.m31())
         ._m32(src.m32());
     }
-    public void copy(float[] arr, int off, Matrix4f dest) {
+    public static void copy(float[] arr, int off, Matrix4f dest) {
         dest._m00(arr[off+0])
         ._m01(arr[off+1])
         ._m02(arr[off+2])
@@ -635,7 +635,7 @@ abstract class MemUtil {
         ._m32(arr[off+14])
         ._m33(arr[off+15]);
     }
-    public void copyTransposed(float[] arr, int off, Matrix4f dest) {
+    public static void copyTransposed(float[] arr, int off, Matrix4f dest) {
         dest._m00(arr[off+0])
         ._m10(arr[off+1])
         ._m20(arr[off+2])
@@ -653,7 +653,7 @@ abstract class MemUtil {
         ._m23(arr[off+14])
         ._m33(arr[off+15]);
     }
-    public void copy(float[] arr, int off, Matrix3f dest) {
+    public static void copy(float[] arr, int off, Matrix3f dest) {
         dest._m00(arr[off+0])
         ._m01(arr[off+1])
         ._m02(arr[off+2])
@@ -664,7 +664,7 @@ abstract class MemUtil {
         ._m21(arr[off+7])
         ._m22(arr[off+8]);
     }
-    public void copy(float[] arr, int off, Matrix4x3f dest) {
+    public static void copy(float[] arr, int off, Matrix4x3f dest) {
         dest._m00(arr[off+0])
         ._m01(arr[off+1])
         ._m02(arr[off+2])
@@ -678,7 +678,7 @@ abstract class MemUtil {
         ._m31(arr[off+10])
         ._m32(arr[off+11]);
     }
-    public void copy(float[] arr, int off, Matrix3x2f dest) {
+    public static void copy(float[] arr, int off, Matrix3x2f dest) {
         dest._m00(arr[off+0])
         ._m01(arr[off+1])
         ._m10(arr[off+2])
@@ -686,7 +686,7 @@ abstract class MemUtil {
         ._m20(arr[off+4])
         ._m21(arr[off+5]);
     }
-    public void copy(double[] arr, int off, Matrix3x2d dest) {
+    public static void copy(double[] arr, int off, Matrix3x2d dest) {
         dest._m00(arr[off+0])
         ._m01(arr[off+1])
         ._m10(arr[off+2])
@@ -694,7 +694,7 @@ abstract class MemUtil {
         ._m20(arr[off+4])
         ._m21(arr[off+5]);
     }
-    public void copy(float[] arr, int off, Matrix3x2d dest) {
+    public static void copy(float[] arr, int off, Matrix3x2d dest) {
         dest._m00(arr[off+0])
         ._m01(arr[off+1])
         ._m10(arr[off+2])
@@ -702,19 +702,19 @@ abstract class MemUtil {
         ._m20(arr[off+4])
         ._m21(arr[off+5]);
     }
-    public void copy(float[] arr, int off, Matrix2f dest) {
+    public static void copy(float[] arr, int off, Matrix2f dest) {
         dest._m00(arr[off+0])
         ._m01(arr[off+1])
         ._m10(arr[off+2])
         ._m11(arr[off+3]);
     }
-    public void copy(double[] arr, int off, Matrix2d dest) {
+    public static void copy(double[] arr, int off, Matrix2d dest) {
         dest._m00(arr[off+0])
         ._m01(arr[off+1])
         ._m10(arr[off+2])
         ._m11(arr[off+3]);
     }
-    public void copy(Matrix4fc src, float[] dest, int off) {
+    public static void copy(Matrix4fc src, float[] dest, int off) {
         dest[off+0]  = src.m00();
         dest[off+1]  = src.m01();
         dest[off+2]  = src.m02();
@@ -732,7 +732,7 @@ abstract class MemUtil {
         dest[off+14] = src.m32();
         dest[off+15] = src.m33();
     }
-    public void copy(Matrix3fc src, float[] dest, int off) {
+    public static void copy(Matrix3fc src, float[] dest, int off) {
         dest[off+0] = src.m00();
         dest[off+1] = src.m01();
         dest[off+2] = src.m02();
@@ -743,7 +743,7 @@ abstract class MemUtil {
         dest[off+7] = src.m21();
         dest[off+8] = src.m22();
     }
-    public void copy(Matrix4x3fc src, float[] dest, int off) {
+    public static void copy(Matrix4x3fc src, float[] dest, int off) {
         dest[off+0]  = src.m00();
         dest[off+1]  = src.m01();
         dest[off+2]  = src.m02();
@@ -757,7 +757,7 @@ abstract class MemUtil {
         dest[off+10] = src.m31();
         dest[off+11] = src.m32();
     }
-    public void copy(Matrix3x2fc src, float[] dest, int off) {
+    public static void copy(Matrix3x2fc src, float[] dest, int off) {
         dest[off+0] = src.m00();
         dest[off+1] = src.m01();
         dest[off+2] = src.m10();
@@ -765,7 +765,7 @@ abstract class MemUtil {
         dest[off+4] = src.m20();
         dest[off+5] = src.m21();
     }
-    public void copy(Matrix3x2dc src, double[] dest, int off) {
+    public static void copy(Matrix3x2dc src, double[] dest, int off) {
         dest[off+0] = src.m00();
         dest[off+1] = src.m01();
         dest[off+2] = src.m10();
@@ -773,19 +773,19 @@ abstract class MemUtil {
         dest[off+4] = src.m20();
         dest[off+5] = src.m21();
     }
-    public void copy(Matrix2fc src, float[] dest, int off) {
+    public static void copy(Matrix2fc src, float[] dest, int off) {
         dest[off+0] = src.m00();
         dest[off+1] = src.m01();
         dest[off+2] = src.m10();
         dest[off+3] = src.m11();
     }
-    public void copy(Matrix2dc src, double[] dest, int off) {
+    public static void copy(Matrix2dc src, double[] dest, int off) {
         dest[off+0] = src.m00();
         dest[off+1] = src.m01();
         dest[off+2] = src.m10();
         dest[off+3] = src.m11();
     }
-    public void copy4x4(Matrix4x3fc src, float[] dest, int off) {
+    public static void copy4x4(Matrix4x3fc src, float[] dest, int off) {
         dest[off+0]  = src.m00();
         dest[off+1]  = src.m01();
         dest[off+2]  = src.m02();
@@ -803,7 +803,7 @@ abstract class MemUtil {
         dest[off+14] = src.m32();
         dest[off+15] = 1.0f;
     }
-    public void copy4x4(Matrix4x3dc src, float[] dest, int off) {
+    public static void copy4x4(Matrix4x3dc src, float[] dest, int off) {
         dest[off+0]  = (float) src.m00();
         dest[off+1]  = (float) src.m01();
         dest[off+2]  = (float) src.m02();
@@ -821,7 +821,7 @@ abstract class MemUtil {
         dest[off+14] = (float) src.m32();
         dest[off+15] = 1.0f;
     }
-    public void copy4x4(Matrix4x3dc src, double[] dest, int off) {
+    public static void copy4x4(Matrix4x3dc src, double[] dest, int off) {
         dest[off+0]  = src.m00();
         dest[off+1]  = src.m01();
         dest[off+2]  = src.m02();
@@ -839,7 +839,7 @@ abstract class MemUtil {
         dest[off+14] = src.m32();
         dest[off+15] = 1.0;
     }
-    public void copy4x4(Matrix3x2fc src, float[] dest, int off) {
+    public static void copy4x4(Matrix3x2fc src, float[] dest, int off) {
         dest[off+0]  = src.m00();
         dest[off+1]  = src.m01();
         dest[off+2]  = 0.0f;
@@ -857,7 +857,7 @@ abstract class MemUtil {
         dest[off+14] = 0.0f;
         dest[off+15] = 1.0f;
     }
-    public void copy4x4(Matrix3x2dc src, double[] dest, int off) {
+    public static void copy4x4(Matrix3x2dc src, double[] dest, int off) {
         dest[off+0]  = src.m00();
         dest[off+1]  = src.m01();
         dest[off+2]  = 0.0;
@@ -875,7 +875,7 @@ abstract class MemUtil {
         dest[off+14] = 0.0;
         dest[off+15] = 1.0;
     }
-    public void copy3x3(Matrix3x2fc src, float[] dest, int off) {
+    public static void copy3x3(Matrix3x2fc src, float[] dest, int off) {
         dest[off+0] = src.m00();
         dest[off+1] = src.m01();
         dest[off+2] = 0.0f;
@@ -886,7 +886,7 @@ abstract class MemUtil {
         dest[off+7] = src.m21();
         dest[off+8] = 1.0f;
     }
-    public void copy3x3(Matrix3x2dc src, double[] dest, int off) {
+    public static void copy3x3(Matrix3x2dc src, double[] dest, int off) {
         dest[off+0] = src.m00();
         dest[off+1] = src.m01();
         dest[off+2] = 0.0;
@@ -897,7 +897,7 @@ abstract class MemUtil {
         dest[off+7] = src.m21();
         dest[off+8] = 1.0;
     }
-    public void identity(Matrix4f dest) {
+    public static void identity(Matrix4f dest) {
         dest._m00(1.0f)
         ._m01(0.0f)
         ._m02(0.0f)
@@ -915,7 +915,7 @@ abstract class MemUtil {
         ._m32(0.0f)
         ._m33(1.0f);
     }
-    public void identity(Matrix4x3f dest) {
+    public static void identity(Matrix4x3f dest) {
         dest._m00(1.0f)
         ._m01(0.0f)
         ._m02(0.0f)
@@ -929,7 +929,7 @@ abstract class MemUtil {
         ._m31(0.0f)
         ._m32(0.0f);
     }
-    public void identity(Matrix3f dest) {
+    public static void identity(Matrix3f dest) {
         dest._m00(1.0f)
         ._m01(0.0f)
         ._m02(0.0f)
@@ -940,7 +940,7 @@ abstract class MemUtil {
         ._m21(0.0f)
         ._m22(1.0f);
     }
-    public void identity(Matrix3x2f dest) {
+    public static void identity(Matrix3x2f dest) {
         dest._m00(1.0f)
         ._m01(0.0f)
         ._m10(0.0f)
@@ -948,7 +948,7 @@ abstract class MemUtil {
         ._m20(0.0f)
         ._m21(0.0f);
     }
-    public void identity(Matrix3x2d dest) {
+    public static void identity(Matrix3x2d dest) {
         dest._m00(1.0)
         ._m01(0.0)
         ._m10(0.0)
@@ -956,13 +956,13 @@ abstract class MemUtil {
         ._m20(0.0)
         ._m21(0.0);
     }
-    public void identity(Matrix2f dest) {
+    public static void identity(Matrix2f dest) {
         dest._m00(1.0f)
         ._m01(0.0f)
         ._m10(0.0f)
         ._m11(1.0f);
     }
-    public void swap(Matrix4f m1, Matrix4f m2) {
+    public static void swap(Matrix4f m1, Matrix4f m2) {
         float tmp;
         tmp = m1.m00(); m1._m00(m2.m00()); m2._m00(tmp);
         tmp = m1.m01(); m1._m01(m2.m01()); m2._m01(tmp);
@@ -981,7 +981,7 @@ abstract class MemUtil {
         tmp = m1.m32(); m1._m32(m2.m32()); m2._m32(tmp);
         tmp = m1.m33(); m1._m33(m2.m33()); m2._m33(tmp);
     }
-    public void swap(Matrix4x3f m1, Matrix4x3f m2) {
+    public static void swap(Matrix4x3f m1, Matrix4x3f m2) {
         float tmp;
         tmp = m1.m00(); m1._m00(m2.m00()); m2._m00(tmp);
         tmp = m1.m01(); m1._m01(m2.m01()); m2._m01(tmp);
@@ -996,7 +996,7 @@ abstract class MemUtil {
         tmp = m1.m31(); m1._m31(m2.m31()); m2._m31(tmp);
         tmp = m1.m32(); m1._m32(m2.m32()); m2._m32(tmp);
     }
-    public void swap(Matrix3f m1, Matrix3f m2) {
+    public static void swap(Matrix3f m1, Matrix3f m2) {
         float tmp;
         tmp = m1.m00(); m1._m00(m2.m00()); m2._m00(tmp);
         tmp = m1.m01(); m1._m01(m2.m01()); m2._m01(tmp);
@@ -1008,21 +1008,21 @@ abstract class MemUtil {
         tmp = m1.m21(); m1._m21(m2.m21()); m2._m21(tmp);
         tmp = m1.m22(); m1._m22(m2.m22()); m2._m22(tmp);
     }
-    public void swap(Matrix2f m1, Matrix2f m2) {
+    public static void swap(Matrix2f m1, Matrix2f m2) {
         float tmp;
         tmp = m1.m00(); m1._m00(m2.m00()); m2._m00(tmp);
         tmp = m1.m01(); m1._m00(m2.m01()); m2._m01(tmp);
         tmp = m1.m10(); m1._m00(m2.m10()); m2._m10(tmp);
         tmp = m1.m11(); m1._m00(m2.m11()); m2._m11(tmp);
     }
-    public void swap(Matrix2d m1, Matrix2d m2) {
+    public static void swap(Matrix2d m1, Matrix2d m2) {
         double tmp;
         tmp = m1.m00(); m1._m00(m2.m00()); m2._m00(tmp);
         tmp = m1.m01(); m1._m00(m2.m01()); m2._m01(tmp);
         tmp = m1.m10(); m1._m00(m2.m10()); m2._m10(tmp);
         tmp = m1.m11(); m1._m00(m2.m11()); m2._m11(tmp);
     }
-    public void zero(Matrix4f dest) {
+    public static void zero(Matrix4f dest) {
         dest._m00(0.0f)
         ._m01(0.0f)
         ._m02(0.0f)
@@ -1040,7 +1040,7 @@ abstract class MemUtil {
         ._m32(0.0f)
         ._m33(0.0f);
     }
-    public void zero(Matrix4x3f dest) {
+    public static void zero(Matrix4x3f dest) {
         dest._m00(0.0f)
         ._m01(0.0f)
         ._m02(0.0f)
@@ -1054,7 +1054,7 @@ abstract class MemUtil {
         ._m31(0.0f)
         ._m32(0.0f);
     }
-    public void zero(Matrix3f dest) {
+    public static void zero(Matrix3f dest) {
         dest._m00(0.0f)
         ._m01(0.0f)
         ._m02(0.0f)
@@ -1065,7 +1065,7 @@ abstract class MemUtil {
         ._m21(0.0f)
         ._m22(0.0f);
     }
-    public void zero(Matrix3x2f dest) {
+    public static void zero(Matrix3x2f dest) {
         dest._m00(0.0f)
         ._m01(0.0f)
         ._m10(0.0f)
@@ -1073,7 +1073,7 @@ abstract class MemUtil {
         ._m20(0.0f)
         ._m21(0.0f);
     }
-    public void zero(Matrix3x2d dest) {
+    public static void zero(Matrix3x2d dest) {
         dest._m00(0.0)
         ._m01(0.0)
         ._m10(0.0)
@@ -1081,13 +1081,13 @@ abstract class MemUtil {
         ._m20(0.0)
         ._m21(0.0);
     }
-    public void zero(Matrix2f dest) {
+    public static void zero(Matrix2f dest) {
         dest._m00(0.0f)
         ._m01(0.0f)
         ._m10(0.0f)
         ._m11(0.0f);
     }
-    public void zero(Matrix2d dest) {
+    public static void zero(Matrix2d dest) {
         dest._m00(0.0)
         ._m01(0.0)
         ._m10(0.0)

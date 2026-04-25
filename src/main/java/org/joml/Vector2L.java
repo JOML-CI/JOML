@@ -203,7 +203,7 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
      *          values will be read in <code>x, y</code> order
      */
     public Vector2L(ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        MemUtil.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -219,7 +219,7 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
      *          values will be read in <code>x, y</code> order
      */
     public Vector2L(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
+        MemUtil.get(this, index, buffer);
     }
 
     /**
@@ -239,7 +239,7 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
      *          values will be read in <code>x, y</code> order
      */
     public Vector2L(LongBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        MemUtil.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -255,7 +255,7 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
      *          values will be read in <code>x, y</code> order
      */
     public Vector2L(int index, LongBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
+        MemUtil.get(this, index, buffer);
     }
 //#endif
 
@@ -404,7 +404,7 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
      * @return this
      */
     public Vector2L set(ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        MemUtil.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -421,7 +421,7 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
      * @return this
      */
     public Vector2L set(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
+        MemUtil.get(this, index, buffer);
         return this;
     }
 
@@ -442,7 +442,7 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
      * @return this
      */
     public Vector2L set(LongBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+        MemUtil.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -459,7 +459,7 @@ public class Vector2L implements Externalizable, Cloneable, Vector2Lc {
      * @return this
      */
     public Vector2L set(int index, LongBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
+        MemUtil.get(this, index, buffer);
         return this;
     }
 //#endif
