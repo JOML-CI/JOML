@@ -106,7 +106,6 @@ class MemUtil$$Field {
     }
 
     private static long checkMatrix4d() throws NoSuchFieldException, SecurityException {
-        Field f = Matrix4d.class.getDeclaredField("m00");
         long Matrix4d_m00 = offset(Matrix4d.class, "m00");
         // Validate expected field offsets
         for (int i = 1; i < 16; i++) {
@@ -184,70 +183,49 @@ class MemUtil$$Field {
         return Matrix2f_m00;
     }
 
-    private static long checkVector4f() throws NoSuchFieldException, SecurityException {
-        long Vector4f_x = offset(Vector4f.class, "x");
+    private static long checkXYZW_b4(Class<?> clazz, int dism) throws NoSuchFieldException {
+        long base = offset(clazz, "x");
         // Validate expected field offsets
-        String[] names = {"y", "z", "w"};
-        for (int i = 1; i < 4; i++) {
-            long offset = offset(Vector4f.class, names[i-1]);
-            if (offset != Vector4f_x + (i << 2))
-                throw new UnsupportedOperationException("Unexpected Vector4f element offset");
+        switch (dism) {
+            case 4:
+                if (offset(clazz, "w") != base + (3 << 2))
+                    break;
+            case 3:
+                if (offset(clazz, "z") != base + (2 << 2))
+                    break;
+            case 2:
+                if (offset(clazz, "y") == base + (1 << 2))
+                    return base;
+                else
+                    break;
+            default:
+                throw new IllegalArgumentException("Invalid dism: " + dism);
         }
-        return Vector4f_x;
+        throw new UnsupportedOperationException("Unexcepted " + clazz.getSimpleName() + " element offset");
+    }
+
+    private static long checkVector4f() throws NoSuchFieldException, SecurityException {
+        return checkXYZW_b4(Vector4f.class, 4);
     }
 
     private static long checkVector4i() throws NoSuchFieldException, SecurityException {
-        long Vector4i_x = offset(Vector4i.class, "x");
-        // Validate expected field offsets
-        String[] names = {"y", "z", "w"};
-        for (int i = 1; i < 4; i++) {
-            long offset = offset(Vector4i.class, names[i-1]);
-            if (offset != Vector4i_x + (i << 2))
-                throw new UnsupportedOperationException("Unexpected Vector4i element offset");
-        }
-        return Vector4i_x;
+        return checkXYZW_b4(Vector4i.class, 4);
     }
 
     private static long checkVector3f() throws NoSuchFieldException, SecurityException {
-        long Vector3f_x = offset(Vector3f.class, "x");
-        // Validate expected field offsets
-        String[] names = {"y", "z"};
-        for (int i = 1; i < 3; i++) {
-            long offset = offset(Vector3f.class, names[i-1]);
-            if (offset != Vector3f_x + (i << 2))
-                throw new UnsupportedOperationException("Unexpected Vector3f element offset");
-        }
-        return Vector3f_x;
+        return checkXYZW_b4(Vector3f.class, 3);
     }
 
     private static long checkVector3i() throws NoSuchFieldException, SecurityException {
-        long Vector3i_x = offset(Vector3i.class, "x");
-        // Validate expected field offsets
-        String[] names = {"y", "z"};
-        for (int i = 1; i < 3; i++) {
-            long offset = offset(Vector3i.class, names[i-1]);
-            if (offset != Vector3i_x + (i << 2))
-                throw new UnsupportedOperationException("Unexpected Vector3i element offset");
-        }
-        return Vector3i_x;
+        return checkXYZW_b4(Vector3i.class, 3);
     }
 
     private static long checkVector2f() throws NoSuchFieldException, SecurityException {
-        long Vector2f_x = offset(Vector2f.class, "x");
-        // Validate expected field offsets
-        long offset = offset(Vector2f.class, "y");
-        if (offset != Vector2f_x + (1 << 2))
-            throw new UnsupportedOperationException("Unexpected Vector2f element offset");
-        return Vector2f_x;
+        return checkXYZW_b4(Vector2f.class, 2);
     }
 
     private static long checkVector2i() throws NoSuchFieldException, SecurityException {
-        long Vector2i_x = offset(Vector2i.class, "x");
-        // Validate expected field offsets
-        long offset = offset(Vector2i.class, "y");
-        if (offset != Vector2i_x + (1 << 2))
-            throw new UnsupportedOperationException("Unexpected Vector2i element offset");
-        return Vector2i_x;
+        return checkXYZW_b4(Vector2i.class, 2);
     }
 }
 //#endif
