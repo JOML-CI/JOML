@@ -225,9 +225,9 @@ public class Intersectiond {
         double invDenom = Math.invsqrt(a * a + b * b + c * c);
         double dist = (a * centerX + b * centerY + c * centerZ + d) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndRadius.x = centerX + dist * a * invDenom;
-            intersectionCenterAndRadius.y = centerY + dist * b * invDenom;
-            intersectionCenterAndRadius.z = centerZ + dist * c * invDenom;
+            intersectionCenterAndRadius.x = centerX - dist * a * invDenom;
+            intersectionCenterAndRadius.y = centerY - dist * b * invDenom;
+            intersectionCenterAndRadius.z = centerZ - dist * c * invDenom;
             intersectionCenterAndRadius.w = Math.sqrt(radius * radius - dist * dist);
             return true;
         }
@@ -275,7 +275,7 @@ public class Intersectiond {
             double vX, double vY, double vZ,
             Vector4d pointAndTime) {
         // Compute distance of sphere center to plane
-        double dist = a * cX + b * cY + c * cZ - d;
+        double dist = a * cX + b * cY + c * cZ + d;
         if (Math.abs(dist) <= radius) {
             // The sphere is already overlapping the plane. Set time of
             // intersection to zero and q to sphere center
@@ -336,8 +336,8 @@ public class Intersectiond {
             double t0X, double t0Y, double t0Z, double r,
             double t1X, double t1Y, double t1Z) {
         // Get the distance for both a and b from plane p
-        double adist = t0X * a + t0Y * b + t0Z * c - d;
-        double bdist = t1X * a + t1Y * b + t1Z * c - d;
+        double adist = t0X * a + t0Y * b + t0Z * c + d;
+        double bdist = t1X * a + t1Y * b + t1Z * c + d;
         // Intersects if on different sides of plane (distances have different signs)
         if (adist * bdist < 0.0) return true;
         // Intersects if start or end position within radius from plane
@@ -1172,7 +1172,7 @@ public class Intersectiond {
      */
     public static Vector3d findClosestPointOnPlane(double aX, double aY, double aZ, double nX, double nY, double nZ, double pX, double pY, double pZ, Vector3d result) {
         double d = -(nX * aX + nY * aY + nZ * aZ);
-        double t = nX * pX + nY * pY + nZ * pZ - d;
+        double t = nX * pX + nY * pY + nZ * pZ + d;
         result.x = pX - t * nX;
         result.y = pY - t * nY;
         result.z = pZ - t * nZ;
@@ -1268,7 +1268,8 @@ public class Intersectiond {
             // Both segments degenerate into points
             resultA.set(a0X, a0Y, a0Z);
             resultB.set(b0X, b0Y, b0Z);
-            return resultA.dot(resultB);
+            double dX = a0X - b0X, dY = a0Y - b0Y, dZ = a0Z - b0Z;
+            return dX * dX + dY * dY + dZ * dZ;
         }
         if (a <= EPSILON) {
             // First segment degenerates into a point
@@ -1815,7 +1816,7 @@ public class Intersectiond {
         double C20 = len20 * (radius2 - baseTo0Len) + v20BaseTo0 * v20BaseTo0;
         double root20 = computeLowestRoot(A20, B20, C20, t0);
         double f20 = (v20Vel * root20 - v20BaseTo0) / len20;
-        if (f20 >= 0.0 && f20 <= 1.0 && root20 < pt1) {
+        if (f20 >= 0.0 && f20 <= 1.0 && root20 < t0) {
             pointAndTime.x = v0X + f20 * v20X;
             pointAndTime.y = v0Y + f20 * v20Y;
             pointAndTime.z = v0Z + f20 * v20Z;
@@ -3221,8 +3222,8 @@ public class Intersectiond {
         double invDenom = Math.invsqrt(a * a + b * b);
         double dist = (a * centerX + b * centerY + c) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndHL.x = centerX + dist * a * invDenom;
-            intersectionCenterAndHL.y = centerY + dist * b * invDenom;
+            intersectionCenterAndHL.x = centerX - dist * a * invDenom;
+            intersectionCenterAndHL.y = centerY - dist * b * invDenom;
             intersectionCenterAndHL.z = Math.sqrt(radius * radius - dist * dist);
             return true;
         }
@@ -3508,7 +3509,7 @@ public class Intersectiond {
     public static boolean intersectCircleCircle(double aX, double aY, double radiusSquaredA, double bX, double bY, double radiusSquaredB, Vector3d intersectionCenterAndHL) {
         double dX = bX - aX, dY = bY - aY;
         double distSquared = dX * dX + dY * dY;
-        double h = 0.5 + (radiusSquaredA - radiusSquaredB) / distSquared;
+        double h = 0.5 + (radiusSquaredA - radiusSquaredB) / (2.0 * distSquared);
         double r_i = Math.sqrt(radiusSquaredA - h * h * distSquared);
         if (r_i >= 0.0) {
             intersectionCenterAndHL.x = aX + h * dX;
@@ -3566,8 +3567,10 @@ public class Intersectiond {
      * @return <code>true</code> iff both circles intersect; <code>false</code> otherwise
      */
     public static boolean testCircleCircle(double aX, double aY, double rA, double bX, double bY, double rB) {
-        double d = (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY);
-        return d <= (rA + rB) * (rA + rB);
+        double dX = aX - bX, dY = aY - bY;
+        double distSquared = dX * dX + dY * dY;
+        double diff = distSquared - rA - rB;
+        return diff <= 0.0 || diff * diff <= 4.0 * rA * rB;
     }
 
     /**

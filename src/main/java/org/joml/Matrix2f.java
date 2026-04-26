@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import org.jspecify.annotations.Nullable;
+
 //#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -641,7 +643,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
     }
 
     public FloatBuffer getTransposed(FloatBuffer buffer) {
-        return get(buffer.position(), buffer);
+        return getTransposed(buffer.position(), buffer);
     }
 
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
@@ -650,7 +652,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
     }
 
     public ByteBuffer getTransposed(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
+        return getTransposed(buffer.position(), buffer);
     }
 
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
@@ -1410,7 +1412,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
         return result;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

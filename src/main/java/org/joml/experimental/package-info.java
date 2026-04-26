@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2022-2026 JOML
+ * Copyright (c) 2026 JOML
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-//#ifdef __HAS_FOREIGN_MEMORY_ACCESS_API__
-package org.joml.jmh;
+@NullMarked
+package org.joml.experimental;
 
-import java.lang.foreign.*;
-import java.lang.invoke.MethodHandle;
-
-import static java.lang.foreign.ValueLayout.JAVA_LONG;
-
-/**
- * 4x4 matrix backed by 32-byte-aligned off-heap memory.
- */
-public class Matrix4fn {
-    public static final MethodHandle noop2ForPanama = getNoopForPanama();
-    private static MethodHandle getNoopForPanama() {
-        return Linker.nativeLinker().downcallHandle(
-                SymbolLookup.loaderLookup().lookup("noop2ForPanama").get(),
-                FunctionDescriptor.ofVoid(JAVA_LONG, JAVA_LONG)
-        );
-    }
-}
-//#endif
+import org.jspecify.annotations.NullMarked;

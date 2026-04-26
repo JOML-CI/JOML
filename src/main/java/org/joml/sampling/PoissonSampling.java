@@ -23,6 +23,8 @@
  */
 package org.joml.sampling;
 
+import org.jspecify.annotations.Nullable;
+
 import java.util.ArrayList;
 
 import org.joml.Random;
@@ -48,7 +50,7 @@ public class PoissonSampling {
      */
     public static class Disk {
 
-        private final Vector2f[] grid;
+        private final @Nullable Vector2f[] grid;
         private final float diskRadius;
         private final float diskRadiusSquared;
         private final float minDist;

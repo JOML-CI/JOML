@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import org.jspecify.annotations.Nullable;
+
 import org.intellij.lang.annotations.MagicConstant;
 
 import java.io.Externalizable;
@@ -10538,7 +10540,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            rm22 = (zZeroToOne ? 0.0f : 1.0f) - e;
+            rm22 = (zZeroToOne ? 0.0f : -1.0f) + e;
             rm32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
             rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
@@ -10710,7 +10712,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
                 ._m32((e - (zZeroToOne ? 1.0f : 2.0f)) * zNear);
         } else if (nearInf) {
             float e = 1E-6f;
-            this._m22((zZeroToOne ? 0.0f : 1.0f) - e)
+            this._m22((zZeroToOne ? 0.0f : -1.0f) + e)
                 ._m32(((zZeroToOne ? 1.0f : 2.0f) - e) * zFar);
         } else {
             this._m22((zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear))
@@ -11113,7 +11115,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            rm22 = (zZeroToOne ? 0.0f : 1.0f) - e;
+            rm22 = (zZeroToOne ? 0.0f : -1.0f) + e;
             rm32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
             rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
@@ -11311,7 +11313,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
                 ._m32((e - (zZeroToOne ? 1.0f : 2.0f)) * zNear);
         } else if (nearInf) {
             float e = 1E-6f;
-            this._m22((zZeroToOne ? 0.0f : 1.0f) - e)
+            this._m22((zZeroToOne ? 0.0f : -1.0f) + e)
                 ._m32(((zZeroToOne ? 1.0f : 2.0f) - e) * zFar);
         } else {
             this._m22((zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear))
@@ -11729,9 +11731,12 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         float nm10 = m00() * rm10 + m10() * rm11 + m20() * rm12;
         float nm11 = m01() * rm10 + m11() * rm11 + m21() * rm12;
         float nm12 = m02() * rm10 + m12() * rm11 + m22() * rm12;
-        dest._m20(m00() * rm20 + m10() * rm21 + m20() * rm22)
-            ._m21(m01() * rm20 + m11() * rm21 + m21() * rm22)
-            ._m22(m02() * rm20 + m12() * rm21 + m22() * rm22)
+        float nm20 = m00() * rm20 + m10() * rm21 + m20() * rm22;
+        float nm21 = m01() * rm20 + m11() * rm21 + m21() * rm22;
+        float nm22 = m02() * rm20 + m12() * rm21 + m22() * rm22;
+        dest._m20(nm20)
+            ._m21(nm21)
+            ._m22(nm22)
             ._m23(0.0f)
             ._m00(nm00)
             ._m01(nm01)
@@ -11741,9 +11746,9 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m11(nm11)
             ._m12(nm12)
             ._m13(0.0f)
-            ._m30(-nm00 * ox - nm10 * oy - m20() * oz + tm30)
-            ._m31(-nm01 * ox - nm11 * oy - m21() * oz + tm31)
-            ._m32(-nm02 * ox - nm12 * oy - m22() * oz + tm32)
+            ._m30(-nm00 * ox - nm10 * oy - nm20 * oz + tm30)
+            ._m31(-nm01 * ox - nm11 * oy - nm21 * oz + tm31)
+            ._m32(-nm02 * ox - nm12 * oy - nm22 * oz + tm32)
             ._m33(1.0f)
             ._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
@@ -11782,10 +11787,14 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         float nm11 = m01() * rm10 + m11() * rm11 + m21() * rm12;
         float nm12 = m02() * rm10 + m12() * rm11 + m22() * rm12;
         float nm13 = m03() * rm10 + m13() * rm11 + m23() * rm12;
-        dest._m20(m00() * rm20 + m10() * rm21 + m20() * rm22)
-            ._m21(m01() * rm20 + m11() * rm21 + m21() * rm22)
-            ._m22(m02() * rm20 + m12() * rm21 + m22() * rm22)
-            ._m23(m03() * rm20 + m13() * rm21 + m23() * rm22)
+        float nm20 = m00() * rm20 + m10() * rm21 + m20() * rm22;
+        float nm21 = m01() * rm20 + m11() * rm21 + m21() * rm22;
+        float nm22 = m02() * rm20 + m12() * rm21 + m22() * rm22;
+        float nm23 = m03() * rm20 + m13() * rm21 + m23() * rm22;
+        dest._m20(nm20)
+            ._m21(nm21)
+            ._m22(nm22)
+            ._m23(nm23)
             ._m00(nm00)
             ._m01(nm01)
             ._m02(nm02)
@@ -11794,9 +11803,9 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m11(nm11)
             ._m12(nm12)
             ._m13(nm13)
-            ._m30(-nm00 * ox - nm10 * oy - m20() * oz + tm30)
-            ._m31(-nm01 * ox - nm11 * oy - m21() * oz + tm31)
-            ._m32(-nm02 * ox - nm12 * oy - m22() * oz + tm32)
+            ._m30(-nm00 * ox - nm10 * oy - nm20 * oz + tm30)
+            ._m31(-nm01 * ox - nm11 * oy - nm21 * oz + tm31)
+            ._m32(-nm02 * ox - nm12 * oy - nm22 * oz + tm32)
             ._m33(m33())
             ._properties(properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
@@ -12868,7 +12877,9 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         return normalGeneric(dest);
     }
     private Matrix4f normalOrthonormal(Matrix4f dest) {
-        dest.set(this);
+        if (dest != this)
+            dest.set(this);
+        dest._m30(0.0f)._m31(0.0f)._m32(0.0f);
         return dest._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
     }
     private Matrix4f normalGeneric(Matrix4f dest) {
@@ -13784,7 +13795,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         return result;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -13884,6 +13895,10 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
             ._m11(m11() * sy)
             ._m12(m12() * sy)
             ._m13(m13() * sy)
+            ._m20(m20())
+            ._m21(m21())
+            ._m22(m22())
+            ._m23(m23())
             ._properties(PROPERTY_UNKNOWN);
         return dest;
     }
@@ -14066,7 +14081,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         return this;
     }
 
-    public Matrix4f projectedGridRange(Matrix4fc projector, float sLower, float sUpper, Matrix4f dest) {
+    public @Nullable Matrix4f projectedGridRange(Matrix4fc projector, float sLower, float sUpper, Matrix4f dest) {
         // Compute intersection with frustum edges and plane
         float minX = Float.POSITIVE_INFINITY, minY = Float.POSITIVE_INFINITY;
         float maxX = Float.NEGATIVE_INFINITY, maxY = Float.NEGATIVE_INFINITY;

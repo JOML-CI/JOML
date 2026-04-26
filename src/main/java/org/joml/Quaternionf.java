@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -2110,7 +2112,7 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
         dest.y = y / f;
         dest.z = z / f;
         dest.w = w / f;
-        return this;
+        return dest;
     }
 
     /**
@@ -2937,9 +2939,10 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
                 z = -fy;
                 w = 0.0f;
             }
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            float invLen = Math.invsqrt(x * x + y * y + z * z);
+            this.x = x * invLen;
+            this.y = y * invLen;
+            this.z = z * invLen;
             this.w = 0;
         } else {
             float sd2 = Math.sqrt((1.0f + dot) * 2.0f);
@@ -2995,6 +2998,10 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
                 z = -fy;
                 w = 0.0f;
             }
+            float invLen = Math.invsqrt(x * x + y * y + z * z);
+            x *= invLen;
+            y *= invLen;
+            z *= invLen;
         } else {
             float sd2 = Math.sqrt((1.0f + dot) * 2.0f);
             float isd2 = 1.0f / sd2;
@@ -3340,7 +3347,7 @@ public class Quaternionf implements Externalizable, Cloneable, Quaternionfc {
         return result;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

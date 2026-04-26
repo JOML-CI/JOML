@@ -1,4 +1,3 @@
-import me.champeau.jmh.JmhBytecodeGeneratorTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -9,7 +8,6 @@ plugins {
     id 'signing'
     id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
     id 'com.github.hexomod.macro.preprocessor' version '0.9'
-    id 'me.champeau.jmh' version '0.7.3' apply false
     id 'checkstyle'
     id 'org.ajoberstar.grgit' version '5.3.2'
 }
@@ -19,9 +17,6 @@ repositories {
 
 if (!hasProperty('buildProfile')) {
     ext.buildProfile = 'default'
-}
-if (buildProfile == 'experimental') {
-    apply plugin: 'me.champeau.jmh'
 }
 
 group 'org.joml'
@@ -34,7 +29,7 @@ dependencies {
     buildhelper 'org.ow2.asm:asm:9.7'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
     compileOnly 'org.jetbrains.kotlin:kotlin-stdlib'
-    compileOnly 'org.jetbrains:annotations:24.1.0'
+    compileOnly 'org.jspecify:jspecify:1.0.0'
     if (buildProfile == 'default') {
         compileOnly files('libs/jre-stubs.jar')
     }
@@ -214,6 +209,7 @@ if (buildProfile == 'experimental') {
                         '--add-modules', 'jdk.internal.vm.ci',
                         '--add-modules', 'jdk.unsupported',
 
+                        '--add-exports', 'java.base/jdk.internal.misc=ALL-UNNAMED',
                         '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
                         '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
                         '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
@@ -231,21 +227,6 @@ if (buildProfile == 'experimental') {
                 '--add-modules', 'jdk.internal.vm.ci,jdk.incubator.vector',
                 '--add-modules', 'jdk.unsupported',
 
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.hotspot=ALL-UNNAMED',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.meta=ALL-UNNAMED',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.runtime=ALL-UNNAMED',
-                '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.amd64=ALL-UNNAMED',
-        ]
-    }
-
-    tasks.withType(JmhBytecodeGeneratorTask).configureEach {
-        jvmArgs.set([
-                '--enable-preview',
-                '--add-modules', 'jdk.internal.vm.ci,jdk.incubator.vector',
-                '--add-modules', 'jdk.unsupported',
-
                 '--add-exports', 'java.base/jdk.internal.misc=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.code.site=ALL-UNNAMED',
@@ -253,7 +234,7 @@ if (buildProfile == 'experimental') {
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.meta=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.runtime=ALL-UNNAMED',
                 '--add-exports', 'jdk.internal.vm.ci/jdk.vm.ci.amd64=ALL-UNNAMED',
-        ])
+        ]
     }
 
     javadoc {
@@ -278,3 +259,30 @@ macroPreprocessorSettings {
 }
 
 tasks.named("sourcesJar").configure { dependsOn("macroPreprocessorJava") }
+
+// Workaround: PreprocessorTask extends ProcessResources whose inherited copy()
+// @TaskAction overwrites the preprocessed output. Capture original source dirs
+// before task actions redirect them, then re-run preprocessing in doLast.
+afterEvaluate {
+    def ext = project.extensions.findByType(com.github.hexomod.macro.PreprocessorExtension)
+    def rerunPreprocessor = { srcDirs, destDir ->
+        def pp = new com.github.hexomod.macro.Preprocessor(ext.vars, ext.remove || ext.java.remove)
+        srcDirs.each { srcDir ->
+            if (srcDir.exists()) {
+                project.fileTree(srcDir).each { srcFile ->
+                    def rel = srcDir.toPath().relativize(srcFile.toPath())
+                    def destFile = new File(destDir, rel.toString())
+                    pp.process(srcFile, destFile)
+                }
+            }
+        }
+    }
+    def originalMainSrcDirs = sourceSets.main.java.srcDirs.collect()
+    tasks.named("macroPreprocessorJava").configure {
+        doLast { rerunPreprocessor(originalMainSrcDirs, destinationDir) }
+    }
+    def originalTestSrcDirs = sourceSets.test.java.srcDirs.collect()
+    tasks.named("macroPreprocessorTestJava").configure {
+        doLast { rerunPreprocessor(originalTestSrcDirs, destinationDir) }
+    }
+}

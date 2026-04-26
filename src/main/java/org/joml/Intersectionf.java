@@ -225,9 +225,9 @@ public class Intersectionf {
         float invDenom = Math.invsqrt(a * a + b * b + c * c);
         float dist = (a * centerX + b * centerY + c * centerZ + d) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndRadius.x = centerX + dist * a * invDenom;
-            intersectionCenterAndRadius.y = centerY + dist * b * invDenom;
-            intersectionCenterAndRadius.z = centerZ + dist * c * invDenom;
+            intersectionCenterAndRadius.x = centerX - dist * a * invDenom;
+            intersectionCenterAndRadius.y = centerY - dist * b * invDenom;
+            intersectionCenterAndRadius.z = centerZ - dist * c * invDenom;
             intersectionCenterAndRadius.w = (float) Math.sqrt(radius * radius - dist * dist);
             return true;
         }
@@ -275,7 +275,7 @@ public class Intersectionf {
             float vX, float vY, float vZ,
             Vector4f pointAndTime) {
         // Compute distance of sphere center to plane
-        float dist = a * cX + b * cY + c * cZ - d;
+        float dist = a * cX + b * cY + c * cZ + d;
         if (Math.abs(dist) <= radius) {
             // The sphere is already overlapping the plane. Set time of
             // intersection to zero and q to sphere center
@@ -336,8 +336,8 @@ public class Intersectionf {
             float t0X, float t0Y, float t0Z, float r,
             float t1X, float t1Y, float t1Z) {
         // Get the distance for both a and b from plane p
-        float adist = t0X * a + t0Y * b + t0Z * c - d;
-        float bdist = t1X * a + t1Y * b + t1Z * c - d;
+        float adist = t0X * a + t0Y * b + t0Z * c + d;
+        float bdist = t1X * a + t1Y * b + t1Z * c + d;
         // Intersects if on different sides of plane (distances have different signs)
         if (adist * bdist < 0.0f) return true;
         // Intersects if start or end position within radius from plane
@@ -1172,7 +1172,7 @@ public class Intersectionf {
      */
     public static Vector3f findClosestPointOnPlane(float aX, float aY, float aZ, float nX, float nY, float nZ, float pX, float pY, float pZ, Vector3f result) {
         float d = -(nX * aX + nY * aY + nZ * aZ);
-        float t = nX * pX + nY * pY + nZ * pZ - d;
+        float t = nX * pX + nY * pY + nZ * pZ + d;
         result.x = pX - t * nX;
         result.y = pY - t * nY;
         result.z = pZ - t * nZ;
@@ -1268,7 +1268,8 @@ public class Intersectionf {
             // Both segments degenerate into points
             resultA.set(a0X, a0Y, a0Z);
             resultB.set(b0X, b0Y, b0Z);
-            return resultA.dot(resultB);
+            float dX = a0X - b0X, dY = a0Y - b0Y, dZ = a0Z - b0Z;
+            return dX * dX + dY * dY + dZ * dZ;
         }
         if (a <= EPSILON) {
             // First segment degenerates into a point
@@ -1815,7 +1816,7 @@ public class Intersectionf {
         float C20 = len20 * (radius2 - baseTo0Len) + v20BaseTo0 * v20BaseTo0;
         float root20 = computeLowestRoot(A20, B20, C20, t0);
         float f20 = (v20Vel * root20 - v20BaseTo0) / len20;
-        if (f20 >= 0.0f && f20 <= 1.0f && root20 < pt1) {
+        if (f20 >= 0.0f && f20 <= 1.0f && root20 < t0) {
             pointAndTime.x = v0X + f20 * v20X;
             pointAndTime.y = v0Y + f20 * v20Y;
             pointAndTime.z = v0Z + f20 * v20Z;
@@ -3221,8 +3222,8 @@ public class Intersectionf {
         float invDenom = Math.invsqrt(a * a + b * b);
         float dist = (a * centerX + b * centerY + c) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndHL.x = centerX + dist * a * invDenom;
-            intersectionCenterAndHL.y = centerY + dist * b * invDenom;
+            intersectionCenterAndHL.x = centerX - dist * a * invDenom;
+            intersectionCenterAndHL.y = centerY - dist * b * invDenom;
             intersectionCenterAndHL.z = (float) Math.sqrt(radius * radius - dist * dist);
             return true;
         }
@@ -3508,7 +3509,7 @@ public class Intersectionf {
     public static boolean intersectCircleCircle(float aX, float aY, float radiusSquaredA, float bX, float bY, float radiusSquaredB, Vector3f intersectionCenterAndHL) {
         float dX = bX - aX, dY = bY - aY;
         float distSquared = dX * dX + dY * dY;
-        float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
+        float h = 0.5f + (radiusSquaredA - radiusSquaredB) / (2.0f * distSquared);
         float r_i = (float) Math.sqrt(radiusSquaredA - h * h * distSquared);
         if (r_i >= 0.0f) {
             intersectionCenterAndHL.x = aX + h * dX;
@@ -3566,8 +3567,10 @@ public class Intersectionf {
      * @return <code>true</code> iff both circles intersect; <code>false</code> otherwise
      */
     public static boolean testCircleCircle(float aX, float aY, float rA, float bX, float bY, float rB) {
-        float d = (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY);
-        return d <= (rA + rB) * (rA + rB);
+        float dX = aX - bX, dY = aY - bY;
+        float distSquared = dX * dX + dY * dY;
+        float diff = distSquared - rA - rB;
+        return diff <= 0.0f || diff * diff <= 4.0f * rA * rB;
     }
 
     /**

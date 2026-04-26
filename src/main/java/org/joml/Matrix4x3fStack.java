@@ -23,6 +23,8 @@
  */
 package org.joml;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -138,7 +140,7 @@ public class Matrix4x3fStack extends Matrix4x3f {
      * - Matrix4x3fStack.equals(Matrix4x3fStack) is true iff all 12 matrix elements are equal AND the matrix arrays as well as the stack pointer are equal
      * - everything else is inequal
      */
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (!super.equals(obj))
