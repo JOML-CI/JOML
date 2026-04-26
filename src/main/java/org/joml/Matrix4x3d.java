@@ -2237,7 +2237,7 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
     }
 
     public float[] get4x4(float[] arr, int offset) {
-        MemUtil.INSTANCE.copy4x4(this, arr, offset);
+        MemUtil.copy4x4(this, arr, offset);
         return arr;
     }
 
@@ -2246,7 +2246,7 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
     }
 
     public double[] get4x4(double[] arr, int offset) {
-        MemUtil.INSTANCE.copy4x4(this, arr, offset);
+        MemUtil.copy4x4(this, arr, offset);
         return arr;
     }
 

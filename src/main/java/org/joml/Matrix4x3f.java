@@ -678,7 +678,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     public Matrix4x3f identity() {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return this;
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         properties = PROPERTY_IDENTITY | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL;
         return this;
     }
@@ -1314,7 +1314,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f set(float m[], int off) {
-        MemUtil.INSTANCE.copy(m, off, this);
+        MemUtil.copy(m, off, this);
         return determineProperties();
     }
 
@@ -1691,7 +1691,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      */
     public Matrix4x3f translation(float x, float y, float z) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         m30 = x;
         m31 = y;
         m32 = z;
@@ -1909,7 +1909,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
 //#endif
 
     public float[] get(float[] arr, int offset) {
-        MemUtil.INSTANCE.copy(this, arr, offset);
+        MemUtil.copy(this, arr, offset);
         return arr;
     }
 
@@ -1918,7 +1918,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
     }
 
     public float[] get4x4(float[] arr, int offset) {
-        MemUtil.INSTANCE.copy4x4(this, arr, offset);
+        MemUtil.copy4x4(this, arr, offset);
         return arr;
     }
 
@@ -2008,7 +2008,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f zero() {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         properties = PROPERTY_UNKNOWN;
         return this;
     }
@@ -2053,7 +2053,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      */
     public Matrix4x3f scaling(float x, float y, float z) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         m00 = x;
         m11 = y;
         m22 = z;
@@ -3208,7 +3208,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f set3x3(Matrix3fc mat) {
-        MemUtil.INSTANCE.copy3x3(mat, this);
+        MemUtil.copy3x3(mat, this);
         properties = PROPERTY_UNKNOWN;
         return this;
     }
@@ -4740,7 +4740,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
         return translateGeneric(x, y, z, dest);
     }
     private Matrix4x3f translateGeneric(float x, float y, float z, Matrix4x3f dest) {
-        MemUtil.INSTANCE.copy(this, dest);
+        MemUtil.copy(this, dest);
         dest.m30 = m00 * x + m10 * y + m20 * z + m30;
         dest.m31 = m01 * x + m11 * y + m21 * z + m31;
         dest.m32 = m02 * x + m12 * y + m22 * z + m32;
@@ -5293,7 +5293,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f setOrtho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         m00 = 2.0f / (right - left);
         m11 = 2.0f / (top - bottom);
         m22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
@@ -5362,7 +5362,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f setOrthoLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         m00 = 2.0f / (right - left);
         m11 = 2.0f / (top - bottom);
         m22 = (zZeroToOne ? 1.0f : 2.0f) / (zFar - zNear);
@@ -5757,7 +5757,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f setOrthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         m00 = 2.0f / width;
         m11 = 2.0f / height;
         m22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
@@ -5821,7 +5821,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f setOrthoSymmetricLH(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         m00 = 2.0f / width;
         m11 = 2.0f / height;
         m22 = (zZeroToOne ? 1.0f : 2.0f) / (zFar - zNear);
@@ -6064,7 +6064,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f setOrtho2D(float left, float right, float bottom, float top) {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         m00 = 2.0f / (right - left);
         m11 = 2.0f / (top - bottom);
         m22 = -1.0f;
@@ -6099,7 +6099,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f setOrtho2DLH(float left, float right, float bottom, float top) {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         m00 = 2.0f / (right - left);
         m11 = 2.0f / (top - bottom);
         m22 = 1.0f;
@@ -8581,7 +8581,7 @@ public class Matrix4x3f implements Externalizable, Cloneable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f swap(Matrix4x3f other) {
-        MemUtil.INSTANCE.swap(this, other);
+        MemUtil.swap(this, other);
         int props = properties;
         this.properties = other.properties;
         other.properties = props;

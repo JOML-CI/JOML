@@ -73,7 +73,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      */
     public Matrix2f(Matrix2fc mat) {
         if (mat != this) {
-            MemUtil.INSTANCE.copy(mat, this);
+            MemUtil.copy(mat, this);
         }
     }
 
@@ -84,7 +84,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      *          the {@link Matrix3fc} to copy the values from
      */
     public Matrix2f(Matrix3fc mat) {
-        MemUtil.INSTANCE.copy(mat, this);
+        MemUtil.copy(mat, this);
     }
 
     /**
@@ -338,7 +338,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      */
     public Matrix2f set(Matrix2fc m) {
         if (m != this) {
-            MemUtil.INSTANCE.copy(m, this);
+            MemUtil.copy(m, this);
         }
         return this;
     }
@@ -357,7 +357,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f set(Matrix3x2fc m) {
-        MemUtil.INSTANCE.copy(m, this);
+        MemUtil.copy(m, this);
         return this;
     }
 
@@ -369,7 +369,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f set(Matrix3fc m) {
-        MemUtil.INSTANCE.copy(m, this);
+        MemUtil.copy(m, this);
         return this;
     }
 
@@ -676,7 +676,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
 //#endif
 
     public float[] get(float[] arr, int offset) {
-        MemUtil.INSTANCE.copy(this, arr, offset);
+        MemUtil.copy(this, arr, offset);
         return arr;
     }
 
@@ -803,7 +803,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f zero() {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         return this;
     }
 
@@ -813,7 +813,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f identity() {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         return this;
     }
 
@@ -933,7 +933,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f scaling(float factor) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         m00 = factor;
         m11 = factor;
         return this;
@@ -949,7 +949,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f scaling(float x, float y) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         m00 = x;
         m11 = y;
         return this;
@@ -1455,7 +1455,7 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
      * @return this
      */
     public Matrix2f swap(Matrix2f other) {
-        MemUtil.INSTANCE.swap(this, other);
+        MemUtil.swap(this, other);
         return this;
     }
 

@@ -75,7 +75,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      *          the {@link Matrix2dc}
      */
     public Matrix3x2d(Matrix2dc mat) {
-        MemUtil.INSTANCE.copy(mat, this);
+        MemUtil.copy(mat, this);
     }
 
     /**
@@ -100,7 +100,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      */
     public Matrix3x2d(Matrix3x2dc mat) {
         if (mat != this) {
-            MemUtil.INSTANCE.copy(mat, this);
+            MemUtil.copy(mat, this);
         }
     }
 
@@ -360,7 +360,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      */
     public Matrix3x2d set(Matrix3x2dc m) {
         if (m != this) {
-            MemUtil.INSTANCE.copy(m, this);
+            MemUtil.copy(m, this);
         }
         return this;
     }
@@ -373,7 +373,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return this
      */
     public Matrix3x2d set(Matrix2dc m) {
-        MemUtil.INSTANCE.copy(m, this);
+        MemUtil.copy(m, this);
         return this;
     }
 
@@ -535,7 +535,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return this
      */
     public Matrix3x2d set(float m[], int off) {
-        MemUtil.INSTANCE.copy(m, off, this);
+        MemUtil.copy(m, off, this);
         return this;
     }
 
@@ -570,7 +570,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return this
      */
     public Matrix3x2d set(double m[], int off) {
-        MemUtil.INSTANCE.copy(m, off, this);
+        MemUtil.copy(m, off, this);
         return this;
     }
 
@@ -1252,7 +1252,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return the passed in array
      */
     public double[] get(double[] arr, int offset) {
-        MemUtil.INSTANCE.copy(this, arr, offset);
+        MemUtil.copy(this, arr, offset);
         return arr;
     }
 
@@ -1281,7 +1281,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return the passed in array
      */
     public double[] get3x3(double[] arr, int offset) {
-        MemUtil.INSTANCE.copy3x3(this, arr, offset);
+        MemUtil.copy3x3(this, arr, offset);
         return arr;
     }
 
@@ -1310,7 +1310,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return the passed in array
      */
     public double[] get4x4(double[] arr, int offset) {
-        MemUtil.INSTANCE.copy4x4(this, arr, offset);
+        MemUtil.copy4x4(this, arr, offset);
         return arr;
     }
 
@@ -1449,7 +1449,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return this
      */
     public Matrix3x2d zero() {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         return this;
     }
 
@@ -1459,7 +1459,7 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
      * @return this
      */
     public Matrix3x2d identity() {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         return this;
     }
 

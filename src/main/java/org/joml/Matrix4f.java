@@ -1183,7 +1183,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f set3x3(Matrix4fc mat) {
-        MemUtil.INSTANCE.copy3x3(mat, this);
+        MemUtil.copy3x3(mat, this);
         return _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
     }
 
@@ -1224,7 +1224,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f set4x3(Matrix4fc mat) {
-        MemUtil.INSTANCE.copy4x3(mat, this);
+        MemUtil.copy4x3(mat, this);
         return _properties(properties & mat.properties() & ~(PROPERTY_PERSPECTIVE));
     }
 
@@ -2375,7 +2375,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f set(float m[], int off) {
-        MemUtil.INSTANCE.copy(m, off, this);
+        MemUtil.copy(m, off, this);
         return determineProperties();
     }
 
@@ -2418,7 +2418,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f setTransposed(float m[], int off) {
-        MemUtil.INSTANCE.copyTransposed(m, off, this);
+        MemUtil.copyTransposed(m, off, this);
         return determineProperties();
     }
 
@@ -2528,7 +2528,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f setTransposed(FloatBuffer buffer) {
-        MemUtil.INSTANCE.getTransposed(this, buffer.position(), buffer);
+        MemUtil.getTransposed(this, buffer.position(), buffer);
         return determineProperties();
     }
 
@@ -2545,7 +2545,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f setTransposed(ByteBuffer buffer) {
-        MemUtil.INSTANCE.getTransposed(this, buffer.position(), buffer);
+        MemUtil.getTransposed(this, buffer.position(), buffer);
         return determineProperties();
     }
 //#endif
@@ -3186,7 +3186,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f translation(float x, float y, float z) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         return this._m30(x)._m31(y)._m32(z)._properties(PROPERTY_AFFINE | PROPERTY_TRANSLATION | PROPERTY_ORTHONORMAL);
     }
 
@@ -3494,12 +3494,12 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
 //#endif
 
     public float[] get(float[] arr, int offset) {
-        MemUtil.INSTANCE.copy(this, arr, offset);
+        MemUtil.copy(this, arr, offset);
         return arr;
     }
 
     public float[] get(float[] arr) {
-        MemUtil.INSTANCE.copy(this, arr, 0);
+        MemUtil.copy(this, arr, 0);
         return arr;
     }
 
@@ -3509,7 +3509,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f zero() {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         return _properties(PROPERTY_UNKNOWN);
     }
 
@@ -3553,7 +3553,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f scaling(float x, float y, float z) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         boolean one = Math.absEqualsOne(x) && Math.absEqualsOne(y) && Math.absEqualsOne(z);
         return this
         ._m00(x)
@@ -3675,7 +3675,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         float sin = Math.sin(angle), cos = Math.cosFromSin(sin, angle);
         float C = 1.0f - cos, xy = x * y, xz = x * z, yz = y * z;
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         return this
         ._m00(cos + x * x * C)
         ._m10(xy * C - z * sin)
@@ -3705,7 +3705,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f rotationX(float ang) {
         float sin = Math.sin(ang), cos = Math.cosFromSin(sin, ang);
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m11(cos)._m12(sin)._m21(-sin)._m22(cos)._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
         return this;
     }
@@ -3726,7 +3726,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f rotationY(float ang) {
         float sin = Math.sin(ang), cos = Math.cosFromSin(sin, ang);
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00(cos)._m02(-sin)._m20(sin)._m22(cos)._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
         return this;
     }
@@ -3747,7 +3747,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     public Matrix4f rotationZ(float ang) {
         float sin = Math.sin(ang), cos = Math.cosFromSin(sin, ang);
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         return this._m00(cos)._m01(sin)._m10(-sin)._m11(cos)._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
     }
 
@@ -3764,7 +3764,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f rotationTowardsXY(float dirX, float dirY) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         return this._m00(dirY)._m01(dirX)._m10(-dirX)._m11(dirY)._properties(PROPERTY_AFFINE | PROPERTY_ORTHONORMAL);
     }
 
@@ -3794,7 +3794,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         float sinZ = Math.sin(angleZ);
         float cosZ = Math.cosFromSin(sinZ, angleZ);
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         float nm01 = -sinX * -sinY, nm02 = cosX * -sinY;
         return this
         ._m20(sinY)
@@ -4047,7 +4047,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         float yz = quat.y() * quat.z(), dyz = yz + yz;
         float xw = quat.x() * quat.w(), dxw = xw + xw;
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         return this
         ._m00(w2 + x2 - z2 - y2)
         ._m01(dxy + dzw)
@@ -6693,7 +6693,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         return translateGeneric(x, y, z, dest);
     }
     private Matrix4f translateGeneric(float x, float y, float z, Matrix4f dest) {
-        MemUtil.INSTANCE.copy(this, dest);
+        MemUtil.copy(this, dest);
         return dest
         ._m30(Math.fma(m00(), x, Math.fma(m10(), y, Math.fma(m20(), z, m30()))))
         ._m31(Math.fma(m01(), x, Math.fma(m11(), y, Math.fma(m21(), z, m31()))))
@@ -7295,7 +7295,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setOrtho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00(2.0f / (right - left))
             ._m11(2.0f / (top - bottom))
             ._m22((zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar))
@@ -7365,7 +7365,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setOrthoLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00(2.0f / (right - left))
             ._m11(2.0f / (top - bottom))
             ._m22((zZeroToOne ? 1.0f : 2.0f) / (zFar - zNear))
@@ -7775,7 +7775,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setOrthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00(2.0f / width)
             ._m11(2.0f / height)
             ._m22((zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar))
@@ -7840,7 +7840,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setOrthoSymmetricLH(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00(2.0f / width)
             ._m11(2.0f / height)
             ._m22((zZeroToOne ? 1.0f : 2.0f) / (zFar - zNear))
@@ -8099,7 +8099,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setOrtho2D(float left, float right, float bottom, float top) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00(2.0f / (right - left))
             ._m11(2.0f / (top - bottom))
             ._m22(-1.0f)
@@ -8135,7 +8135,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setOrtho2DLH(float left, float right, float bottom, float top) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00(2.0f / (right - left))
             ._m11(2.0f / (top - bottom))
             ._m30((right + left) / (left - right))
@@ -10101,7 +10101,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         float h = Math.tan(fovy * 0.5f);
         this._m00(1.0f / (h * aspect))
             ._m11(1.0f / h);
@@ -10179,7 +10179,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f setPerspectiveRect(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         this._m00((zNear + zNear) / width)
             ._m11((zNear + zNear) / height);
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
@@ -10302,7 +10302,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setPerspectiveOffCenter(float fovy, float offAngleX, float offAngleY,
                                             float aspect, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         float h = Math.tan(fovy * 0.5f);
         float xScale = 1.0f / (h * aspect), yScale = 1.0f / h;
         float offX = Math.tan(offAngleX), offY = Math.tan(offAngleY);
@@ -10699,7 +10699,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f setPerspectiveLH(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         float h = Math.tan(fovy * 0.5f);
         this._m00(1.0f / (h * aspect))
             ._m11(1.0f / h);
@@ -10995,7 +10995,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00((zNear + zNear) / (right - left))
             ._m11((zNear + zNear) / (top - bottom))
             ._m20((right + left) / (right - left))
@@ -11299,7 +11299,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setFrustumLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00((zNear + zNear) / (right - left))
             ._m11((zNear + zNear) / (top - bottom))
             ._m20((right + left) / (right - left))
@@ -12759,7 +12759,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
     }
 
     public Vector4f getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException {
-        return MemUtil.INSTANCE.getColumn(this, column, dest);
+        return MemUtil.getColumn(this, column, dest);
     }
 
     public Vector3f getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException {
@@ -12789,8 +12789,8 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      */
     public Matrix4f setColumn(int column, Vector4fc src) throws IndexOutOfBoundsException {
         if (src instanceof Vector4f)
-            return MemUtil.INSTANCE.setColumn((Vector4f) src, column, this)._properties(PROPERTY_UNKNOWN);
-        return MemUtil.INSTANCE.setColumn(src, column, this)._properties(PROPERTY_UNKNOWN);
+            return MemUtil.setColumn((Vector4f) src, column, this)._properties(PROPERTY_UNKNOWN);
+        return MemUtil.setColumn(src, column, this)._properties(PROPERTY_UNKNOWN);
     }
 
     public float get(int column, int row) {
@@ -13935,7 +13935,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
      * @return this
      */
     public Matrix4f swap(Matrix4f other) {
-        MemUtil.INSTANCE.swap(this, other);
+        MemUtil.swap(this, other);
         int props = properties;
         this.properties = other.properties();
         other.properties = props;
@@ -14670,7 +14670,7 @@ public class Matrix4f implements Externalizable, Cloneable, Matrix4fc {
         float upnY = ndirZ * leftX - ndirX * leftZ;
         float upnZ = ndirX * leftY - ndirY * leftX;
         if ((properties & PROPERTY_IDENTITY) == 0)
-            MemUtil.INSTANCE.identity(this);
+            MemUtil.identity(this);
         this._m00(leftX)
             ._m01(leftY)
             ._m02(leftZ)

@@ -74,7 +74,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      */
     public Matrix3x2f(Matrix3x2fc mat) {
         if (mat != this) {
-            MemUtil.INSTANCE.copy(mat, this);
+            MemUtil.copy(mat, this);
         }
     }
 
@@ -86,7 +86,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      *          the {@link Matrix2fc}
      */
     public Matrix3x2f(Matrix2fc mat) {
-        MemUtil.INSTANCE.copy(mat, this);
+        MemUtil.copy(mat, this);
     }
 
     /**
@@ -315,7 +315,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      */
     public Matrix3x2f set(Matrix3x2fc m) {
         if (m != this) {
-            MemUtil.INSTANCE.copy(m, this);
+            MemUtil.copy(m, this);
         }
         return this;
     }
@@ -336,7 +336,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return this
      */
     public Matrix3x2f set(Matrix2fc m) {
-        MemUtil.INSTANCE.copy(m, this);
+        MemUtil.copy(m, this);
         return this;
     }
 
@@ -465,7 +465,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return this
      */
     public Matrix3x2f set(float m[]) {
-        MemUtil.INSTANCE.copy(m, 0, this);
+        MemUtil.copy(m, 0, this);
         return this;
     }
 
@@ -484,7 +484,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return this
      */
     public Matrix3x2f set(float m[], int off) {
-        MemUtil.INSTANCE.copy(m, off, this);
+        MemUtil.copy(m, off, this);
         return this;
     }
 
@@ -1129,7 +1129,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return the passed in array
      */
     public float[] get(float[] arr, int offset) {
-        MemUtil.INSTANCE.copy(this, arr, offset);
+        MemUtil.copy(this, arr, offset);
         return arr;
     }
 
@@ -1158,7 +1158,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return the passed in array
      */
     public float[] get3x3(float[] arr, int offset) {
-        MemUtil.INSTANCE.copy3x3(this, arr, offset);
+        MemUtil.copy3x3(this, arr, offset);
         return arr;
     }
 
@@ -1187,7 +1187,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return the passed in array
      */
     public float[] get4x4(float[] arr, int offset) {
-        MemUtil.INSTANCE.copy4x4(this, arr, offset);
+        MemUtil.copy4x4(this, arr, offset);
         return arr;
     }
 
@@ -1325,7 +1325,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return this
      */
     public Matrix3x2f zero() {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         return this;
     }
 
@@ -1335,7 +1335,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable, Cloneable {
      * @return this
      */
     public Matrix3x2f identity() {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         return this;
     }
 

@@ -74,7 +74,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      */
     public Matrix2d(Matrix2dc mat) {
         if (mat != this) {
-            MemUtil.INSTANCE.copy(mat, this);
+            MemUtil.copy(mat, this);
         }
     }
 
@@ -98,7 +98,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      *          the {@link Matrix3dc} to copy the values from
      */
     public Matrix2d(Matrix3dc mat) {
-        MemUtil.INSTANCE.copy(mat, this);
+        MemUtil.copy(mat, this);
     }
 
     /**
@@ -396,7 +396,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
     public Matrix2d set(Matrix2dc m) {
         if (m != this)
         {
-            MemUtil.INSTANCE.copy(m, this);
+            MemUtil.copy(m, this);
         }
         return this;
     }
@@ -424,7 +424,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d set(Matrix3x2dc m) {
-        MemUtil.INSTANCE.copy(m, this);
+        MemUtil.copy(m, this);
         return this;
     }
 
@@ -451,7 +451,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d set(Matrix3dc m) {
-        MemUtil.INSTANCE.copy(m, this);
+        MemUtil.copy(m, this);
         return this;
     }
 
@@ -871,7 +871,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
 //#endif
 
     public double[] get(double[] arr, int offset) {
-        MemUtil.INSTANCE.copy(this, arr, offset);
+        MemUtil.copy(this, arr, offset);
         return arr;
     }
 
@@ -997,7 +997,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d zero() {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         return this;
     }
 
@@ -1130,7 +1130,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d scaling(double factor) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         m00 = factor;
         m11 = factor;
         return this;
@@ -1146,7 +1146,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d scaling(double x, double y) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         m00 = x;
         m11 = y;
         return this;
@@ -1657,7 +1657,7 @@ public class Matrix2d implements Externalizable, Cloneable, Matrix2dc {
      * @return this
      */
     public Matrix2d swap(Matrix2d other) {
-        MemUtil.INSTANCE.swap(this, other);
+        MemUtil.swap(this, other);
         return this;
     }
 

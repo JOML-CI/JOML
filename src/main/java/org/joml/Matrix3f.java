@@ -859,7 +859,7 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
      * @return this
      */
     public Matrix3f set(float m[], int off) {
-        MemUtil.INSTANCE.copy(m, off, this);
+        MemUtil.copy(m, off, this);
         return this;
     }
 
@@ -1098,7 +1098,7 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
 //#endif
 
     public float[] get(float[] arr, int offset) {
-        MemUtil.INSTANCE.copy(this, arr, offset);
+        MemUtil.copy(this, arr, offset);
         return arr;
     }
 
@@ -1224,7 +1224,7 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
      * @return this
      */
     public Matrix3f zero() {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         return this;
     }
 
@@ -1234,7 +1234,7 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
      * @return this
      */
     public Matrix3f identity() {
-        MemUtil.INSTANCE.identity(this);
+        MemUtil.identity(this);
         return this;
     }
 
@@ -1377,7 +1377,7 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
      * @return this
      */
     public Matrix3f scaling(float factor) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         m00 = factor;
         m11 = factor;
         m22 = factor;
@@ -1396,7 +1396,7 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
      * @return this
      */
     public Matrix3f scaling(float x, float y, float z) {
-        MemUtil.INSTANCE.zero(this);
+        MemUtil.zero(this);
         m00 = x;
         m11 = y;
         m22 = z;
@@ -3599,7 +3599,7 @@ public class Matrix3f implements Externalizable, Cloneable, Matrix3fc {
      * @return this
      */
     public Matrix3f swap(Matrix3f other) {
-        MemUtil.INSTANCE.swap(this, other);
+        MemUtil.swap(this, other);
         return this;
     }
 
