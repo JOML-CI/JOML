@@ -15472,14 +15472,13 @@ public class Matrix4d implements Externalizable, Cloneable, Matrix4dc {
     }
 
     public Matrix4d perspectiveFrustumSlice(double near, double far, Matrix4d dest) {
-        double invOldNear = (m23 + m22) / m32;
         double invNearFar = 1.0 / (near - far);
-        dest._m00(m00 * invOldNear * near)
+        dest._m00(m00)
         ._m01(m01)
         ._m02(m02)
         ._m03(m03)
         ._m10(m10)
-        ._m11(m11 * invOldNear * near)
+        ._m11(m11)
         ._m12(m12)
         ._m13(m13)
         ._m20(m20)
