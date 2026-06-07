@@ -20,7 +20,7 @@ if (!hasProperty('buildProfile')) {
 }
 
 group 'org.joml'
-version '1.10.9'
+version '1.10.10-SNAPSHOT'
 
 configurations {
     buildhelper
