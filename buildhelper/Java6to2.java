@@ -30,14 +30,17 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.TypePath;
 
 /**
  * Transforms the compiled Java 1.6 classes to be compatible with Java 1.2.
@@ -48,8 +51,12 @@ import org.objectweb.asm.Type;
  * <li>loading class literals (as done by the MemUtilUnsafe class) uses a LDC opcode variant in Java 1.6 which is unsupported in earlier Java versions. We change that to the same
  * replacement code emitted by JDK8 when using target 1.2
  * <li>since JEP 280 when targeting Java 9 the javac compiler uses invokedynamic for string concatenations. we will rewrite those to use java.lang.StringBuffer again
+ * <li>annotations are not supported by Java 1.2 class files (RuntimeVisible/InvisibleAnnotations were introduced in class file version 49.0 and the JSR 308
+ * RuntimeVisible/InvisibleTypeAnnotations - e.g. JSpecify nullness annotations like {@code @Nullable} - in version 52.0). Keeping them in a 1.2 (46.0) class file
+ * makes them silently ignored and causes "attribute ... is ignored in version 46.0 class files" warnings in the compilers of downstream consumers. Since they
+ * cannot be honored in a 1.2 class file anyway, we strip all annotation attributes. The nullness contract remains available in the published sources.
  * </ul>
- * 
+ *
  * @author Kai Burjack
  */
 public class Java6to2 implements Opcodes {
@@ -67,6 +74,31 @@ public class Java6to2 implements Opcodes {
                 /* Change class file version to 1.2 */
                 super.cv.visit(V1_2, access, name, signature, superName, interfaces);
                 this.internalName = name;
+            }
+
+            /* Drop class-level annotations. They are unsupported by Java 1.2 class files (see class javadoc). */
+            public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+                return null;
+            }
+
+            /* Drop class-level (e.g. extends/implements/type parameter) type annotations. */
+            public AnnotationVisitor visitTypeAnnotation(int typeRef, TypePath typePath, String descriptor, boolean visible) {
+                return null;
+            }
+
+            /* Drop annotations on fields. */
+            public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
+                FieldVisitor fv = super.visitField(access, name, desc, signature, value);
+                if (fv == null)
+                    return null;
+                return new FieldVisitor(ASM9, fv) {
+                    public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+                        return null;
+                    }
+                    public AnnotationVisitor visitTypeAnnotation(int typeRef, TypePath typePath, String descriptor, boolean visible) {
+                        return null;
+                    }
+                };
             }
 
             /**
@@ -101,6 +133,26 @@ public class Java6to2 implements Opcodes {
                 MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
                 final ClassVisitor cv = this.cv;
                 return new MethodVisitor(ASM9, mv) {
+                    /* Drop all annotations on the method, its return type/receiver/type parameters, its parameters and its code (unsupported by Java 1.2 class files). */
+                    public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+                        return null;
+                    }
+                    public AnnotationVisitor visitTypeAnnotation(int typeRef, TypePath typePath, String descriptor, boolean visible) {
+                        return null;
+                    }
+                    public AnnotationVisitor visitParameterAnnotation(int parameter, String descriptor, boolean visible) {
+                        return null;
+                    }
+                    public AnnotationVisitor visitInsnAnnotation(int typeRef, TypePath typePath, String descriptor, boolean visible) {
+                        return null;
+                    }
+                    public AnnotationVisitor visitTryCatchAnnotation(int typeRef, TypePath typePath, String descriptor, boolean visible) {
+                        return null;
+                    }
+                    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef, TypePath typePath, Label[] start, Label[] end, int[] index, String descriptor, boolean visible) {
+                        return null;
+                    }
+
                     /**
                      * Intercepts class instantiations to see whether they instantiate a StringBuilder. Those instructions were generated by javac for string concatenations. But
                      * StringBuilder is not available on JRE1.2, so we just replace it with StringBuffer.
