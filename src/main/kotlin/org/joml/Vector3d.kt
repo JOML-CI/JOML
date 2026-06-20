@@ -58,3 +58,10 @@ public inline fun DoubleBuffer.getVector3d(v: Vector3d): Vector3d = v.set(this)
 public inline fun DoubleBuffer.getVector3d(index: Int, v: Vector3d): Vector3d = v.set(index, this)
 public inline fun DoubleBuffer.putVector3d(v: Vector3d): DoubleBuffer = v.get(this)
 public inline fun DoubleBuffer.putVector3d(index: Int, v: Vector3d): DoubleBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Vector3dc.rotateAxis(angle: Angled, aX: Double, aY: Double, aZ: Double, dest: Vector3d): Vector3d =
+    rotateAxis(angle.radians, aX, aY, aZ, dest)
+public fun Vector3dc.rotateX(angle: Angled, dest: Vector3d): Vector3d = rotateX(angle.radians, dest)
+public fun Vector3dc.rotateY(angle: Angled, dest: Vector3d): Vector3d = rotateY(angle.radians, dest)
+public fun Vector3dc.rotateZ(angle: Angled, dest: Vector3d): Vector3d = rotateZ(angle.radians, dest)

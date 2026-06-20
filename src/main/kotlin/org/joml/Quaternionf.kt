@@ -18,3 +18,21 @@ public inline operator fun Quaternionfc.div(s: Float): Quaternionf = div(s, Quat
 public inline operator fun Quaternionf.divAssign(q: Quaternionfc) { div(q) }
 public inline operator fun Quaternionf.divAssign(s: Float) { div(s) }
 public inline infix fun Quaternionfc.difference(q: Quaternionfc): Quaternionf = difference(q, Quaternionf())
+
+/* Angle operations */
+public fun Quaternionfc.rotateXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef, dest: Quaternionf): Quaternionf =
+    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians, dest)
+public fun Quaternionfc.rotateZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef, dest: Quaternionf): Quaternionf =
+    rotateZYX(angleZ.radians, angleY.radians, angleX.radians, dest)
+public fun Quaternionfc.rotateYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef, dest: Quaternionf): Quaternionf =
+    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians, dest)
+public fun Quaternionfc.rotateX(angle: Anglef, dest: Quaternionf): Quaternionf = rotateX(angle.radians, dest)
+public fun Quaternionfc.rotateY(angle: Anglef, dest: Quaternionf): Quaternionf = rotateY(angle.radians, dest)
+public fun Quaternionfc.rotateZ(angle: Anglef, dest: Quaternionf): Quaternionf = rotateZ(angle.radians, dest)
+public fun Quaternionfc.rotateLocalX(angle: Anglef, dest: Quaternionf): Quaternionf = rotateLocalX(angle.radians, dest)
+public fun Quaternionfc.rotateLocalY(angle: Anglef, dest: Quaternionf): Quaternionf = rotateLocalY(angle.radians, dest)
+public fun Quaternionfc.rotateLocalZ(angle: Anglef, dest: Quaternionf): Quaternionf = rotateLocalZ(angle.radians, dest)
+public fun Quaternionfc.rotateAxis(angle: Anglef, axisX: Float, axisY: Float, axisZ: Float, dest: Quaternionf): Quaternionf =
+    rotateAxis(angle.radians, axisX, axisY, axisZ, dest)
+public fun Quaternionfc.rotateAxis(angle: Anglef, axis: Vector3fc, dest: Quaternionf): Quaternionf =
+    rotateAxis(angle.radians, axis, dest)

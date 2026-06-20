@@ -25,3 +25,7 @@ public inline fun DoubleBuffer.getMatrix2d(): Matrix2d = Matrix2d(this)
 public inline fun DoubleBuffer.getMatrix2d(v: Matrix2d): Matrix2d = v.set(this)
 public inline fun DoubleBuffer.putMatrix2d(v: Matrix2d): DoubleBuffer = v.get(this)
 public inline fun DoubleBuffer.putMatrix2d(index: Int, v: Matrix2d): DoubleBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Matrix2dc.rotateLocal(ang: Angled, dest: Matrix2d): Matrix2d = rotateLocal(ang.radians, dest)
+public fun Matrix2dc.rotate(angle: Angled, dest: Matrix2d): Matrix2d = rotate(angle.radians, dest)

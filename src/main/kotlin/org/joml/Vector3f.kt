@@ -50,3 +50,10 @@ public inline fun FloatBuffer.getVector3f(v: Vector3f): Vector3f = v.set(this)
 public inline fun FloatBuffer.getVector3f(index: Int, v: Vector3f): Vector3f = v.set(index, this)
 public inline fun FloatBuffer.putVector3f(v: Vector3f): FloatBuffer = v.get(this)
 public inline fun FloatBuffer.putVector3f(index: Int, v: Vector3f): FloatBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Vector3fc.rotateAxis(angle: Anglef, aX: Float, aY: Float, aZ: Float, dest: Vector3f): Vector3f =
+    rotateAxis(angle.radians, aX, aY, aZ, dest)
+public fun Vector3fc.rotateX(angle: Anglef, dest: Vector3f): Vector3f = rotateX(angle.radians, dest)
+public fun Vector3fc.rotateY(angle: Anglef, dest: Vector3f): Vector3f = rotateY(angle.radians, dest)
+public fun Vector3fc.rotateZ(angle: Anglef, dest: Vector3f): Vector3f = rotateZ(angle.radians, dest)

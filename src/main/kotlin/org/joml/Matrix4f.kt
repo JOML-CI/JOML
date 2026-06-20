@@ -27,3 +27,21 @@ public inline fun FloatBuffer.getMatrix4f(): Matrix4f = Matrix4f(this)
 public inline fun FloatBuffer.getMatrix4f(v: Matrix4f): Matrix4f = v.set(this)
 public inline fun FloatBuffer.putMatrix4f(v: Matrix4f): FloatBuffer = v.get(this)
 public inline fun FloatBuffer.putMatrix4f(index: Int, v: Matrix4f): FloatBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Matrix4fc.rotateX(ang: Anglef, dest: Matrix4f): Matrix4f = rotateX(ang.radians, dest)
+public fun Matrix4fc.rotateY(ang: Anglef, dest: Matrix4f): Matrix4f = rotateY(ang.radians, dest)
+public fun Matrix4fc.rotateZ(ang: Anglef, dest: Matrix4f): Matrix4f = rotateZ(ang.radians, dest)
+public fun Matrix4fc.rotate(ang: Anglef, x: Float, y: Float, z: Float, dest: Matrix4f): Matrix4f =
+    rotate(ang.radians, x, y, z, dest)
+public fun Matrix4fc.rotateTranslation(ang: Anglef, x: Float, y: Float, z: Float, dest: Matrix4f): Matrix4f =
+    rotateTranslation(ang.radians, x, y, z, dest)
+public fun Matrix4fc.rotateAffine(ang: Anglef, x: Float, y: Float, z: Float, dest: Matrix4f): Matrix4f =
+    rotateAffine(ang.radians, x, y, z, dest)
+public fun Matrix4fc.rotateLocal(ang: Anglef, x: Float, y: Float, z: Float, dest: Matrix4f): Matrix4f =
+    rotateLocal(ang.radians, x, y, z, dest)
+public fun Matrix4fc.rotateLocalX(ang: Anglef, dest: Matrix4f): Matrix4f = rotateLocalX(ang.radians, dest)
+public fun Matrix4fc.rotateLocalY(ang: Anglef, dest: Matrix4f): Matrix4f = rotateLocalY(ang.radians, dest)
+public fun Matrix4fc.rotateLocalZ(ang: Anglef, dest: Matrix4f): Matrix4f = rotateLocalZ(ang.radians, dest)
+public fun Matrix4fc.rotate(angle: Anglef, axis: Vector3fc, dest: Matrix4f): Matrix4f =
+    rotate(angle.radians, axis, dest)

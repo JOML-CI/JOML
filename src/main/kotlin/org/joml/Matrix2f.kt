@@ -23,3 +23,7 @@ public inline fun FloatBuffer.getMatrix2f(): Matrix2f = Matrix2f(this)
 public inline fun FloatBuffer.getMatrix2f(v: Matrix2f): Matrix2f = v.set(this)
 public inline fun FloatBuffer.putMatrix2f(v: Matrix2f): FloatBuffer = v.get(this)
 public inline fun FloatBuffer.putMatrix2f(index: Int, v: Matrix2f): FloatBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Matrix2fc.rotateLocal(ang: Anglef, dest: Matrix2f): Matrix2f = rotateLocal(ang.radians, dest)
+public fun Matrix2fc.rotate(angle: Anglef, dest: Matrix2f): Matrix2f = rotate(angle.radians, dest)

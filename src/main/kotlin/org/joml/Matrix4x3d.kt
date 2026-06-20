@@ -33,3 +33,15 @@ public inline fun DoubleBuffer.getMatrix4x3d(): Matrix4x3d = Matrix4x3d(this)
 public inline fun DoubleBuffer.getMatrix4x3d(v: Matrix4x3d): Matrix4x3d = v.set(this)
 public inline fun DoubleBuffer.putMatrix4x3d(v: Matrix4x3d): DoubleBuffer = v.get(this)
 public inline fun DoubleBuffer.putMatrix4x3d(index: Int, v: Matrix4x3d): DoubleBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Matrix4x3dc.rotateX(ang: Angled, dest: Matrix4x3d): Matrix4x3d = rotateX(ang.radians, dest)
+public fun Matrix4x3dc.rotateY(ang: Angled, dest: Matrix4x3d): Matrix4x3d = rotateY(ang.radians, dest)
+public fun Matrix4x3dc.rotateZ(ang: Angled, dest: Matrix4x3d): Matrix4x3d = rotateZ(ang.radians, dest)
+public fun Matrix4x3dc.rotate(ang: Angled, x: Double, y: Double, z: Double, dest: Matrix4x3d): Matrix4x3d =
+    rotate(ang.radians, x, y, z, dest)
+public fun Matrix4x3dc.rotateTranslation(ang: Angled, x: Double, y: Double, z: Double, dest: Matrix4x3d): Matrix4x3d =
+    rotateTranslation(ang.radians, x, y, z, dest)
+public fun Matrix4x3dc.rotateLocal(ang: Angled, x: Double, y: Double, z: Double, dest: Matrix4x3d): Matrix4x3d =
+    rotateLocal(ang.radians, x, y, z, dest)
+public fun Matrix4x3dc.rotate(angle: Angled, axis: Vector3dc, dest: Matrix4x3d): Matrix4x3d = rotate(angle.radians, axis, dest)

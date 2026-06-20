@@ -56,3 +56,10 @@ public inline fun DoubleBuffer.getVector4d(v: Vector4d): Vector4d = v.set(this)
 public inline fun DoubleBuffer.getVector4d(index: Int, v: Vector4d): Vector4d = v.set(index, this)
 public inline fun DoubleBuffer.putVector4d(v: Vector4d): DoubleBuffer = v.get(this)
 public inline fun DoubleBuffer.putVector4d(index: Int, v: Vector4d): DoubleBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Vector4dc.rotateAxis(angle: Angled, aX: Double, aY: Double, aZ: Double, dest: Vector4d): Vector4d =
+    rotateAxis(angle.radians, aX, aY, aZ, dest)
+public fun Vector4dc.rotateX(angle: Angled, dest: Vector4d): Vector4d = rotateX(angle.radians, dest)
+public fun Vector4dc.rotateY(angle: Angled, dest: Vector4d): Vector4d = rotateY(angle.radians, dest)
+public fun Vector4dc.rotateZ(angle: Angled, dest: Vector4d): Vector4d = rotateZ(angle.radians, dest)
