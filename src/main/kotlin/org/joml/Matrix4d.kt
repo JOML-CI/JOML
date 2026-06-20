@@ -51,6 +51,20 @@ public fun Matrix4dc.rotateLocalY(ang: Angled, dest: Matrix4d): Matrix4d = rotat
 public fun Matrix4dc.rotateLocalZ(ang: Angled, dest: Matrix4d): Matrix4d = rotateLocalZ(ang.radians, dest)
 public fun Matrix4dc.rotate(angle: Angled, axis: Vector3fc, dest: Matrix4d): Matrix4d =
     rotate(angle.radians, axis, dest)
+public fun Matrix4dc.rotateXYZ(angleX: Angled, angleY: Angled, angleZ: Angled, dest: Matrix4d): Matrix4d =
+    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians, dest)
+public fun Matrix4dc.rotateZYX(angleZ: Angled, angleY: Angled, angleX: Angled, dest: Matrix4d): Matrix4d =
+    rotateZYX(angleZ.radians, angleY.radians, angleX.radians, dest)
+public fun Matrix4dc.rotateYXZ(angleY: Angled, angleX: Angled, angleZ: Angled, dest: Matrix4d): Matrix4d =
+    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians, dest)
+public fun Matrix4dc.rotateAffineXYZ(angleX: Angled, angleY: Angled, angleZ: Angled, dest: Matrix4d): Matrix4d =
+    rotateAffineXYZ(angleX.radians, angleY.radians, angleZ.radians, dest)
+public fun Matrix4dc.rotateAffineZYX(angleZ: Angled, angleY: Angled, angleX: Angled, dest: Matrix4d): Matrix4d =
+    rotateAffineZYX(angleZ.radians, angleY.radians, angleX.radians, dest)
+public fun Matrix4dc.rotateAffineYXZ(angleY: Angled, angleX: Angled, angleZ: Angled, dest: Matrix4d): Matrix4d =
+    rotateAffineYXZ(angleY.radians, angleX.radians, angleZ.radians, dest)
+public fun Matrix4dc.rotate(angle: Angled, axis: Vector3dc, dest: Matrix4d): Matrix4d =
+    rotate(angle.radians, axis, dest)
 
 public fun Matrix4d.rotateX(ang: Angled): Matrix4d = rotateX(ang.radians)
 public fun Matrix4d.rotateY(ang: Angled): Matrix4d = rotateY(ang.radians)
@@ -64,3 +78,21 @@ public fun Matrix4d.rotateLocalX(ang: Angled): Matrix4d = rotateLocalX(ang.radia
 public fun Matrix4d.rotateLocalY(ang: Angled): Matrix4d = rotateLocalY(ang.radians)
 public fun Matrix4d.rotateLocalZ(ang: Angled): Matrix4d = rotateLocalZ(ang.radians)
 public fun Matrix4d.rotate(angle: Angled, axis: Vector3fc): Matrix4d = rotate(angle.radians, axis)
+public fun Matrix4d.rotateXYZ(angleX: Angled, angleY: Angled, angleZ: Angled): Matrix4d =
+    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians)
+public fun Matrix4d.rotateZYX(angleZ: Angled, angleY: Angled, angleX: Angled): Matrix4d =
+    rotateZYX(angleZ.radians, angleY.radians, angleX.radians)
+public fun Matrix4d.rotateYXZ(angleY: Angled, angleX: Angled, angleZ: Angled): Matrix4d =
+    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians)
+public fun Matrix4d.rotateAffineXYZ(angleX: Angled, angleY: Angled, angleZ: Angled): Matrix4d =
+    rotateAffineXYZ(angleX.radians, angleY.radians, angleZ.radians)
+public fun Matrix4d.rotateAffineZYX(angleZ: Angled, angleY: Angled, angleX: Angled): Matrix4d =
+    rotateAffineZYX(angleZ.radians, angleY.radians, angleX.radians)
+public fun Matrix4d.rotateAffineYXZ(angleY: Angled, angleX: Angled, angleZ: Angled): Matrix4d =
+    rotateAffineYXZ(angleY.radians, angleX.radians, angleZ.radians)
+public fun Matrix4d.rotate(angle: Angled, axis: Vector3dc): Matrix4d = rotate(angle.radians, axis)
+
+public fun Matrix4d.rotation(angle: Angled, axis: Vector3dc): Matrix4d = rotation(angle.radians, axis)
+public fun Matrix4d.rotation(angle: Angled, axis: Vector3fc): Matrix4d = rotation(angle.radians, axis)
+public fun Matrix4d.rotation(angle: Angled, x: Double, y: Double, z: Double): Matrix4d =
+    rotation(angle.radians, x, y, z)

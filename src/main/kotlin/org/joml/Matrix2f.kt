@@ -30,3 +30,5 @@ public fun Matrix2fc.rotate(angle: Anglef, dest: Matrix2f): Matrix2f = rotate(an
 
 public fun Matrix2f.rotateLocal(ang: Anglef): Matrix2f = rotateLocal(ang.radians)
 public fun Matrix2f.rotate(angle: Anglef): Matrix2f = rotate(angle.radians)
+
+public fun Matrix2f.rotation(angle: Anglef): Matrix2f = rotation(angle.radians)

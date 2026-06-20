@@ -41,6 +41,12 @@ public fun Matrix3fc.rotateLocalY(ang: Anglef, dest: Matrix3f): Matrix3f = rotat
 public fun Matrix3fc.rotateLocalZ(ang: Anglef, dest: Matrix3f): Matrix3f = rotateLocalZ(ang.radians, dest)
 public fun Matrix3fc.rotate(angle: Anglef, axis: Vector3fc, dest: Matrix3f): Matrix3f =
     rotate(angle.radians, axis, dest)
+public fun Matrix3fc.rotateXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef, dest: Matrix3f): Matrix3f =
+    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians, dest)
+public fun Matrix3fc.rotateZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef, dest: Matrix3f): Matrix3f =
+    rotateZYX(angleZ.radians, angleY.radians, angleX.radians, dest)
+public fun Matrix3fc.rotateYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef, dest: Matrix3f): Matrix3f =
+    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians, dest)
 
 public fun Matrix3f.rotateX(ang: Anglef): Matrix3f = rotateX(ang.radians)
 public fun Matrix3f.rotateY(ang: Anglef): Matrix3f = rotateY(ang.radians)
@@ -51,3 +57,13 @@ public fun Matrix3f.rotateLocalX(ang: Anglef): Matrix3f = rotateLocalX(ang.radia
 public fun Matrix3f.rotateLocalY(ang: Anglef): Matrix3f = rotateLocalY(ang.radians)
 public fun Matrix3f.rotateLocalZ(ang: Anglef): Matrix3f = rotateLocalZ(ang.radians)
 public fun Matrix3f.rotate(angle: Anglef, axis: Vector3fc): Matrix3f = rotate(angle.radians, axis)
+public fun Matrix3f.rotateXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef): Matrix3f =
+    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians)
+public fun Matrix3f.rotateZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef): Matrix3f =
+    rotateZYX(angleZ.radians, angleY.radians, angleX.radians)
+public fun Matrix3f.rotateYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef): Matrix3f =
+    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians)
+
+public fun Matrix3f.rotation(angle: Anglef, axis: Vector3fc): Matrix3f = rotation(angle.radians, axis)
+public fun Matrix3f.rotation(angle: Anglef, x: Float, y: Float, z: Float): Matrix3f =
+    rotation(angle.radians, x, y, z)

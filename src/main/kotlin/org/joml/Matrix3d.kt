@@ -48,6 +48,14 @@ public fun Matrix3dc.rotateLocalY(ang: Angled, dest: Matrix3d): Matrix3d = rotat
 public fun Matrix3dc.rotateLocalZ(ang: Angled, dest: Matrix3d): Matrix3d = rotateLocalZ(ang.radians, dest)
 public fun Matrix3dc.rotate(angle: Angled, axis: Vector3dc, dest: Matrix3d): Matrix3d =
     rotate(angle.radians, axis, dest)
+public fun Matrix3dc.rotateXYZ(angleX: Angled, angleY: Angled, angleZ: Angled, dest: Matrix3d): Matrix3d =
+    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians, dest)
+public fun Matrix3dc.rotateZYX(angleZ: Angled, angleY: Angled, angleX: Angled, dest: Matrix3d): Matrix3d =
+    rotateZYX(angleZ.radians, angleY.radians, angleX.radians, dest)
+public fun Matrix3dc.rotateYXZ(angleY: Angled, angleX: Angled, angleZ: Angled, dest: Matrix3d): Matrix3d =
+    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians, dest)
+public fun Matrix3dc.rotate(angle: Angled, axis: Vector3fc, dest: Matrix3d): Matrix3d =
+    rotate(angle.radians, axis, dest)
 
 public fun Matrix3d.rotateX(ang: Angled): Matrix3d = rotateX(ang.radians)
 public fun Matrix3d.rotateY(ang: Angled): Matrix3d = rotateY(ang.radians)
@@ -59,3 +67,15 @@ public fun Matrix3d.rotateLocalX(ang: Angled): Matrix3d = rotateLocalX(ang.radia
 public fun Matrix3d.rotateLocalY(ang: Angled): Matrix3d = rotateLocalY(ang.radians)
 public fun Matrix3d.rotateLocalZ(ang: Angled): Matrix3d = rotateLocalZ(ang.radians)
 public fun Matrix3d.rotate(angle: Angled, axis: Vector3dc): Matrix3d = rotate(angle.radians, axis)
+public fun Matrix3d.rotateXYZ(angleX: Angled, angleY: Angled, angleZ: Angled): Matrix3d =
+    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians)
+public fun Matrix3d.rotateZYX(angleZ: Angled, angleY: Angled, angleX: Angled): Matrix3d =
+    rotateZYX(angleZ.radians, angleY.radians, angleX.radians)
+public fun Matrix3d.rotateYXZ(angleY: Angled, angleX: Angled, angleZ: Angled): Matrix3d =
+    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians)
+public fun Matrix3d.rotate(angle: Angled, axis: Vector3fc): Matrix3d = rotate(angle.radians, axis)
+
+public fun Matrix3d.rotation(angle: Angled, axis: Vector3dc): Matrix3d = rotation(angle.radians, axis)
+public fun Matrix3d.rotation(angle: Angled, axis: Vector3fc): Matrix3d = rotation(angle.radians, axis)
+public fun Matrix3d.rotation(angle: Angled, x: Double, y: Double, z: Double): Matrix3d =
+    rotation(angle.radians, x, y, z)
