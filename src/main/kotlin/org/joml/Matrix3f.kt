@@ -54,6 +54,11 @@ public fun Matrix3f.rotate(angle: Anglef, axis: Vector3fc): Matrix3f = rotate(an
 public fun Matrix3f.rotateXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef): Matrix3f = rotateXYZ(angleX.radians, angleY.radians, angleZ.radians)
 public fun Matrix3f.rotateZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef): Matrix3f = rotateZYX(angleZ.radians, angleY.radians, angleX.radians)
 public fun Matrix3f.rotateYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef): Matrix3f = rotateYXZ(angleY.radians, angleX.radians, angleZ.radians)
-
 public fun Matrix3f.rotation(angle: Anglef, axis: Vector3fc): Matrix3f = rotation(angle.radians, axis)
 public fun Matrix3f.rotation(angle: Anglef, x: Float, y: Float, z: Float): Matrix3f = rotation(angle.radians, x, y, z)
+public fun Matrix3f.rotationX(angle: Anglef): Matrix3f = rotationX(angle.radians)
+public fun Matrix3f.rotationY(angle: Anglef): Matrix3f = rotationY(angle.radians)
+public fun Matrix3f.rotationZ(angle: Anglef): Matrix3f = rotationZ(angle.radians)
+public fun Matrix3f.rotationXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef): Matrix3f = rotationXYZ(angleX.radians, angleY.radians, angleZ.radians)
+public fun Matrix3f.rotationZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef): Matrix3f = rotationZYX(angleZ.radians, angleY.radians, angleX.radians)
+public fun Matrix3f.rotationYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef): Matrix3f = rotationYXZ(angleY.radians, angleX.radians, angleZ.radians)
