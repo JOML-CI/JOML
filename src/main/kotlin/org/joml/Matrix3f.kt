@@ -29,41 +29,31 @@ public inline fun FloatBuffer.putMatrix3f(v: Matrix3f): FloatBuffer = v.get(this
 public inline fun FloatBuffer.putMatrix3f(index: Int, v: Matrix3f): FloatBuffer = v.get(index, this)
 
 /* Angle operations */
-public fun Matrix3fc.rotateX(ang: Anglef, dest: Matrix3f): Matrix3f = rotateX(ang.radians, dest)
-public fun Matrix3fc.rotateY(ang: Anglef, dest: Matrix3f): Matrix3f = rotateY(ang.radians, dest)
-public fun Matrix3fc.rotateZ(ang: Anglef, dest: Matrix3f): Matrix3f = rotateZ(ang.radians, dest)
-public fun Matrix3fc.rotate(ang: Anglef, x: Float, y: Float, z: Float, dest: Matrix3f): Matrix3f =
-    rotate(ang.radians, x, y, z, dest)
-public fun Matrix3fc.rotateLocal(ang: Anglef, x: Float, y: Float, z: Float, dest: Matrix3f): Matrix3f =
-    rotateLocal(ang.radians, x, y, z, dest)
-public fun Matrix3fc.rotateLocalX(ang: Anglef, dest: Matrix3f): Matrix3f = rotateLocalX(ang.radians, dest)
-public fun Matrix3fc.rotateLocalY(ang: Anglef, dest: Matrix3f): Matrix3f = rotateLocalY(ang.radians, dest)
-public fun Matrix3fc.rotateLocalZ(ang: Anglef, dest: Matrix3f): Matrix3f = rotateLocalZ(ang.radians, dest)
-public fun Matrix3fc.rotate(angle: Anglef, axis: Vector3fc, dest: Matrix3f): Matrix3f =
-    rotate(angle.radians, axis, dest)
-public fun Matrix3fc.rotateXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef, dest: Matrix3f): Matrix3f =
-    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians, dest)
-public fun Matrix3fc.rotateZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef, dest: Matrix3f): Matrix3f =
-    rotateZYX(angleZ.radians, angleY.radians, angleX.radians, dest)
-public fun Matrix3fc.rotateYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef, dest: Matrix3f): Matrix3f =
-    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians, dest)
+public fun Matrix3fc.rotateX(angle: Anglef, dest: Matrix3f): Matrix3f = rotateX(angle.radians, dest)
+public fun Matrix3fc.rotateY(angle: Anglef, dest: Matrix3f): Matrix3f = rotateY(angle.radians, dest)
+public fun Matrix3fc.rotateZ(angle: Anglef, dest: Matrix3f): Matrix3f = rotateZ(angle.radians, dest)
+public fun Matrix3fc.rotate(angle: Anglef, x: Float, y: Float, z: Float, dest: Matrix3f): Matrix3f = rotate(angle.radians, x, y, z, dest)
+public fun Matrix3fc.rotateLocal(angle: Anglef, x: Float, y: Float, z: Float, dest: Matrix3f): Matrix3f = rotateLocal(angle.radians, x, y, z, dest)
+public fun Matrix3fc.rotateLocalX(angle: Anglef, dest: Matrix3f): Matrix3f = rotateLocalX(angle.radians, dest)
+public fun Matrix3fc.rotateLocalY(angle: Anglef, dest: Matrix3f): Matrix3f = rotateLocalY(angle.radians, dest)
+public fun Matrix3fc.rotateLocalZ(angle: Anglef, dest: Matrix3f): Matrix3f = rotateLocalZ(angle.radians, dest)
+public fun Matrix3fc.rotate(angle: Anglef, axis: Vector3fc, dest: Matrix3f): Matrix3f = rotate(angle.radians, axis, dest)
+public fun Matrix3fc.rotateXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef, dest: Matrix3f): Matrix3f = rotateXYZ(angleX.radians, angleY.radians, angleZ.radians, dest)
+public fun Matrix3fc.rotateZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef, dest: Matrix3f): Matrix3f = rotateZYX(angleZ.radians, angleY.radians, angleX.radians, dest)
+public fun Matrix3fc.rotateYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef, dest: Matrix3f): Matrix3f = rotateYXZ(angleY.radians, angleX.radians, angleZ.radians, dest)
 
-public fun Matrix3f.rotateX(ang: Anglef): Matrix3f = rotateX(ang.radians)
-public fun Matrix3f.rotateY(ang: Anglef): Matrix3f = rotateY(ang.radians)
-public fun Matrix3f.rotateZ(ang: Anglef): Matrix3f = rotateZ(ang.radians)
-public fun Matrix3f.rotate(ang: Anglef, x: Float, y: Float, z: Float): Matrix3f = rotate(ang.radians, x, y, z)
-public fun Matrix3f.rotateLocal(ang: Anglef, x: Float, y: Float, z: Float): Matrix3f = rotateLocal(ang.radians, x, y, z)
-public fun Matrix3f.rotateLocalX(ang: Anglef): Matrix3f = rotateLocalX(ang.radians)
-public fun Matrix3f.rotateLocalY(ang: Anglef): Matrix3f = rotateLocalY(ang.radians)
-public fun Matrix3f.rotateLocalZ(ang: Anglef): Matrix3f = rotateLocalZ(ang.radians)
+public fun Matrix3f.rotateX(angle: Anglef): Matrix3f = rotateX(angle.radians)
+public fun Matrix3f.rotateY(angle: Anglef): Matrix3f = rotateY(angle.radians)
+public fun Matrix3f.rotateZ(angle: Anglef): Matrix3f = rotateZ(angle.radians)
+public fun Matrix3f.rotate(angle: Anglef, x: Float, y: Float, z: Float): Matrix3f = rotate(angle.radians, x, y, z)
+public fun Matrix3f.rotateLocal(angle: Anglef, x: Float, y: Float, z: Float): Matrix3f = rotateLocal(angle.radians, x, y, z)
+public fun Matrix3f.rotateLocalX(angle: Anglef): Matrix3f = rotateLocalX(angle.radians)
+public fun Matrix3f.rotateLocalY(angle: Anglef): Matrix3f = rotateLocalY(angle.radians)
+public fun Matrix3f.rotateLocalZ(angle: Anglef): Matrix3f = rotateLocalZ(angle.radians)
 public fun Matrix3f.rotate(angle: Anglef, axis: Vector3fc): Matrix3f = rotate(angle.radians, axis)
-public fun Matrix3f.rotateXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef): Matrix3f =
-    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians)
-public fun Matrix3f.rotateZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef): Matrix3f =
-    rotateZYX(angleZ.radians, angleY.radians, angleX.radians)
-public fun Matrix3f.rotateYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef): Matrix3f =
-    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians)
+public fun Matrix3f.rotateXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef): Matrix3f = rotateXYZ(angleX.radians, angleY.radians, angleZ.radians)
+public fun Matrix3f.rotateZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef): Matrix3f = rotateZYX(angleZ.radians, angleY.radians, angleX.radians)
+public fun Matrix3f.rotateYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef): Matrix3f = rotateYXZ(angleY.radians, angleX.radians, angleZ.radians)
 
 public fun Matrix3f.rotation(angle: Anglef, axis: Vector3fc): Matrix3f = rotation(angle.radians, axis)
-public fun Matrix3f.rotation(angle: Anglef, x: Float, y: Float, z: Float): Matrix3f =
-    rotation(angle.radians, x, y, z)
+public fun Matrix3f.rotation(angle: Anglef, x: Float, y: Float, z: Float): Matrix3f = rotation(angle.radians, x, y, z)
