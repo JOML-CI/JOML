@@ -51,3 +51,16 @@ public fun Matrix4dc.rotateLocalY(ang: Angled, dest: Matrix4d): Matrix4d = rotat
 public fun Matrix4dc.rotateLocalZ(ang: Angled, dest: Matrix4d): Matrix4d = rotateLocalZ(ang.radians, dest)
 public fun Matrix4dc.rotate(angle: Angled, axis: Vector3fc, dest: Matrix4d): Matrix4d =
     rotate(angle.radians, axis, dest)
+
+public fun Matrix4d.rotateX(ang: Angled): Matrix4d = rotateX(ang.radians)
+public fun Matrix4d.rotateY(ang: Angled): Matrix4d = rotateY(ang.radians)
+public fun Matrix4d.rotateZ(ang: Angled): Matrix4d = rotateZ(ang.radians)
+public fun Matrix4d.rotate(ang: Angled, x: Double, y: Double, z: Double): Matrix4d = rotate(ang.radians, x, y, z)
+public fun Matrix4d.rotateAffine(ang: Angled, x: Double, y: Double, z: Double): Matrix4d =
+    rotateAffine(ang.radians, x, y, z)
+public fun Matrix4d.rotateLocal(ang: Angled, x: Double, y: Double, z: Double): Matrix4d =
+    rotateLocal(ang.radians, x, y, z)
+public fun Matrix4d.rotateLocalX(ang: Angled): Matrix4d = rotateLocalX(ang.radians)
+public fun Matrix4d.rotateLocalY(ang: Angled): Matrix4d = rotateLocalY(ang.radians)
+public fun Matrix4d.rotateLocalZ(ang: Angled): Matrix4d = rotateLocalZ(ang.radians)
+public fun Matrix4d.rotate(angle: Angled, axis: Vector3fc): Matrix4d = rotate(angle.radians, axis)

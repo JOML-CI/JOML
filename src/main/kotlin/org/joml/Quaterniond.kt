@@ -38,3 +38,19 @@ public fun Quaterniondc.rotateAxis(angle: Angled, axisX: Double, axisY: Double, 
     rotateAxis(angle.radians, axisX, axisY, axisZ, dest)
 public fun Quaterniondc.rotateAxis(angle: Angled, axis: Vector3dc, dest: Quaterniond): Quaterniond =
     rotateAxis(angle.radians, axis, dest)
+
+public fun Quaterniond.rotateXYZ(angleX: Angled, angleY: Angled, angleZ: Angled): Quaterniond =
+    rotateXYZ(angleX.radians, angleY.radians, angleZ.radians)
+public fun Quaterniond.rotateZYX(angleZ: Angled, angleY: Angled, angleX: Angled): Quaterniond =
+    rotateZYX(angleZ.radians, angleY.radians, angleX.radians)
+public fun Quaterniond.rotateYXZ(angleY: Angled, angleX: Angled, angleZ: Angled): Quaterniond =
+    rotateYXZ(angleY.radians, angleX.radians, angleZ.radians)
+public fun Quaterniond.rotateX(angle: Angled): Quaterniond = rotateX(angle.radians)
+public fun Quaterniond.rotateY(angle: Angled): Quaterniond = rotateY(angle.radians)
+public fun Quaterniond.rotateZ(angle: Angled): Quaterniond = rotateZ(angle.radians)
+public fun Quaterniond.rotateLocalX(angle: Angled): Quaterniond = rotateLocalX(angle.radians)
+public fun Quaterniond.rotateLocalY(angle: Angled): Quaterniond = rotateLocalY(angle.radians)
+public fun Quaterniond.rotateLocalZ(angle: Angled): Quaterniond = rotateLocalZ(angle.radians)
+public fun Quaterniond.rotateAxis(angle: Angled, axisX: Double, axisY: Double, axisZ: Double): Quaterniond =
+    rotateAxis(angle.radians, axisX, axisY, axisZ)
+public fun Quaterniond.rotateAxis(angle: Angled, axis: Vector3dc): Quaterniond = rotateAxis(angle.radians, axis)

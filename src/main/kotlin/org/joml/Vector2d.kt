@@ -56,3 +56,7 @@ public fun Vector2dc.rotateAround(angle: Angled, anchor: Vector2dc, dest: Vector
     rotateAround(angle.radians, anchor, dest)
 public fun Vector2dc.rotateAround(angle: Angled, aX: Double, aY: Double, dest: Vector2d): Vector2d =
     rotateAround(angle.radians, aX, aY, dest)
+
+public fun Vector2d.rotate(angle: Angled): Vector2d = rotate(angle.radians)
+public fun Vector2d.rotateAround(angle: Angled, anchor: Vector2dc): Vector2d = rotateAround(angle.radians, anchor)
+public fun Vector2d.rotateAround(angle: Angled, aX: Double, aY: Double): Vector2d = rotateAround(angle.radians, aX, aY)

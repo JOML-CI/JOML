@@ -27,3 +27,6 @@ public inline fun FloatBuffer.putMatrix2f(index: Int, v: Matrix2f): FloatBuffer 
 /* Angle operations */
 public fun Matrix2fc.rotateLocal(ang: Anglef, dest: Matrix2f): Matrix2f = rotateLocal(ang.radians, dest)
 public fun Matrix2fc.rotate(angle: Anglef, dest: Matrix2f): Matrix2f = rotate(angle.radians, dest)
+
+public fun Matrix2f.rotateLocal(ang: Anglef): Matrix2f = rotateLocal(ang.radians)
+public fun Matrix2f.rotate(angle: Anglef): Matrix2f = rotate(angle.radians)

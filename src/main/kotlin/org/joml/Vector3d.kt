@@ -65,3 +65,9 @@ public fun Vector3dc.rotateAxis(angle: Angled, aX: Double, aY: Double, aZ: Doubl
 public fun Vector3dc.rotateX(angle: Angled, dest: Vector3d): Vector3d = rotateX(angle.radians, dest)
 public fun Vector3dc.rotateY(angle: Angled, dest: Vector3d): Vector3d = rotateY(angle.radians, dest)
 public fun Vector3dc.rotateZ(angle: Angled, dest: Vector3d): Vector3d = rotateZ(angle.radians, dest)
+
+public fun Vector3d.rotateAxis(angle: Angled, aX: Double, aY: Double, aZ: Double): Vector3d =
+    rotateAxis(angle.radians, aX, aY, aZ)
+public fun Vector3d.rotateX(angle: Angled): Vector3d = rotateX(angle.radians)
+public fun Vector3d.rotateY(angle: Angled): Vector3d = rotateY(angle.radians)
+public fun Vector3d.rotateZ(angle: Angled): Vector3d = rotateZ(angle.radians)

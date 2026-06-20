@@ -41,3 +41,13 @@ public fun Matrix3fc.rotateLocalY(ang: Anglef, dest: Matrix3f): Matrix3f = rotat
 public fun Matrix3fc.rotateLocalZ(ang: Anglef, dest: Matrix3f): Matrix3f = rotateLocalZ(ang.radians, dest)
 public fun Matrix3fc.rotate(angle: Anglef, axis: Vector3fc, dest: Matrix3f): Matrix3f =
     rotate(angle.radians, axis, dest)
+
+public fun Matrix3f.rotateX(ang: Anglef): Matrix3f = rotateX(ang.radians)
+public fun Matrix3f.rotateY(ang: Anglef): Matrix3f = rotateY(ang.radians)
+public fun Matrix3f.rotateZ(ang: Anglef): Matrix3f = rotateZ(ang.radians)
+public fun Matrix3f.rotate(ang: Anglef, x: Float, y: Float, z: Float): Matrix3f = rotate(ang.radians, x, y, z)
+public fun Matrix3f.rotateLocal(ang: Anglef, x: Float, y: Float, z: Float): Matrix3f = rotateLocal(ang.radians, x, y, z)
+public fun Matrix3f.rotateLocalX(ang: Anglef): Matrix3f = rotateLocalX(ang.radians)
+public fun Matrix3f.rotateLocalY(ang: Anglef): Matrix3f = rotateLocalY(ang.radians)
+public fun Matrix3f.rotateLocalZ(ang: Anglef): Matrix3f = rotateLocalZ(ang.radians)
+public fun Matrix3f.rotate(angle: Anglef, axis: Vector3fc): Matrix3f = rotate(angle.radians, axis)
