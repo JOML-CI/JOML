@@ -2,6 +2,7 @@
 @file:JvmSynthetic
 package org.joml
 
+import org.joml.Angled.Companion.radians
 import java.nio.ByteBuffer
 import java.nio.DoubleBuffer
 
@@ -51,6 +52,7 @@ public inline fun DoubleBuffer.putVector2d(v: Vector2d): DoubleBuffer = v.get(th
 public inline fun DoubleBuffer.putVector2d(index: Int, v: Vector2d): DoubleBuffer = v.get(index, this)
 
 /* Angle operations */
+public fun Vector2dc.angled(v: Vector2dc): Angled = angle(v).radians
 public fun Vector2dc.rotate(angle: Angled, dest: Vector2d): Vector2d = rotate(angle.radians, dest)
 public fun Vector2dc.rotateAround(angle: Angled, anchor: Vector2dc, dest: Vector2d): Vector2d = rotateAround(angle.radians, anchor, dest)
 public fun Vector2dc.rotateAround(angle: Angled, aX: Double, aY: Double, dest: Vector2d): Vector2d = rotateAround(angle.radians, aX, aY, dest)

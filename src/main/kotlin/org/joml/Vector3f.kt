@@ -2,6 +2,7 @@
 @file:JvmSynthetic
 package org.joml
 
+import org.joml.Anglef.Companion.radians
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 
@@ -52,6 +53,10 @@ public inline fun FloatBuffer.putVector3f(v: Vector3f): FloatBuffer = v.get(this
 public inline fun FloatBuffer.putVector3f(index: Int, v: Vector3f): FloatBuffer = v.get(index, this)
 
 /* Angle operations */
+public fun Vector3fc.angleCosf(v: Vector3fc): Anglef = angleCos(v).radians
+public fun Vector3fc.anglef(v: Vector3fc): Anglef = angle(v).radians
+public fun Vector3fc.anglefSigned(v: Vector3fc, n: Vector3fc): Anglef = angleSigned(v, n).radians
+public fun Vector3fc.anglefSigned(x: Float, y: Float, z: Float, nx: Float, ny: Float, nz: Float): Anglef = angleSigned(x, y, z, nx, ny, nz).radians
 public fun Vector3fc.rotateAxis(angle: Anglef, aX: Float, aY: Float, aZ: Float, dest: Vector3f): Vector3f = rotateAxis(angle.radians, aX, aY, aZ, dest)
 public fun Vector3fc.rotateX(angle: Anglef, dest: Vector3f): Vector3f = rotateX(angle.radians, dest)
 public fun Vector3fc.rotateY(angle: Anglef, dest: Vector3f): Vector3f = rotateY(angle.radians, dest)

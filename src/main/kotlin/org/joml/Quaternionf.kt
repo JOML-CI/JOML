@@ -2,6 +2,8 @@
 @file:JvmSynthetic
 package org.joml
 
+import org.joml.Anglef.Companion.radians
+
 /* Operators */
 public inline operator fun Quaternionfc.plus(q: Quaternionfc): Quaternionf = add(q, Quaternionf())
 public inline operator fun Quaternionf.plusAssign(q: Quaternionfc) { add(q) }
@@ -20,6 +22,7 @@ public inline operator fun Quaternionf.divAssign(s: Float) { div(s) }
 public inline infix fun Quaternionfc.difference(q: Quaternionfc): Quaternionf = difference(q, Quaternionf())
 
 /* Angle operations */
+public fun Quaternionfc.anglef(): Anglef = angle().radians
 public fun Quaternionfc.rotateXYZ(angleX: Anglef, angleY: Anglef, angleZ: Anglef, dest: Quaternionf): Quaternionf = rotateXYZ(angleX.radians, angleY.radians, angleZ.radians, dest)
 public fun Quaternionfc.rotateZYX(angleZ: Anglef, angleY: Anglef, angleX: Anglef, dest: Quaternionf): Quaternionf = rotateZYX(angleZ.radians, angleY.radians, angleX.radians, dest)
 public fun Quaternionfc.rotateYXZ(angleY: Anglef, angleX: Anglef, angleZ: Anglef, dest: Quaternionf): Quaternionf = rotateYXZ(angleY.radians, angleX.radians, angleZ.radians, dest)

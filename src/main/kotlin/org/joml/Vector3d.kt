@@ -2,6 +2,7 @@
 @file:JvmSynthetic
 package org.joml
 
+import org.joml.Angled.Companion.radians
 import java.nio.ByteBuffer
 import java.nio.DoubleBuffer
 
@@ -60,6 +61,10 @@ public inline fun DoubleBuffer.putVector3d(v: Vector3d): DoubleBuffer = v.get(th
 public inline fun DoubleBuffer.putVector3d(index: Int, v: Vector3d): DoubleBuffer = v.get(index, this)
 
 /* Angle operations */
+public fun Vector3dc.angleCosd(v: Vector3dc): Angled = angleCos(v).radians
+public fun Vector3dc.angled(v: Vector3dc): Angled = angle(v).radians
+public fun Vector3dc.angledSigned(v: Vector3dc, n: Vector3dc): Angled = angleSigned(v, n).radians
+public fun Vector3dc.angledSigned(x: Double, y: Double, z: Double, nx: Double, ny: Double, nz: Double): Angled = angleSigned(x, y, z, nx, ny, nz).radians
 public fun Vector3dc.rotateAxis(angle: Angled, aX: Double, aY: Double, aZ: Double, dest: Vector3d): Vector3d = rotateAxis(angle.radians, aX, aY, aZ, dest)
 public fun Vector3dc.rotateX(angle: Angled, dest: Vector3d): Vector3d = rotateX(angle.radians, dest)
 public fun Vector3dc.rotateY(angle: Angled, dest: Vector3d): Vector3d = rotateY(angle.radians, dest)

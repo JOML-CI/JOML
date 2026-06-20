@@ -2,6 +2,8 @@
 @file:JvmSynthetic
 package org.joml
 
+import org.joml.Angled.Companion.radians
+
 /* Operators */
 public inline operator fun Quaterniondc.plus(q: Quaterniondc): Quaterniond = add(q, Quaterniond())
 public inline operator fun Quaterniond.plusAssign(q: Quaterniondc) { add(q) }
@@ -22,6 +24,7 @@ public inline operator fun Quaterniond.divAssign(s: Double) { div(s) }
 public inline infix fun Quaterniondc.difference(q: Quaterniondc): Quaterniond = difference(q, Quaterniond())
 
 /* Angle operations */
+public fun Quaterniondc.angled(): Angled = angle().radians
 public fun Quaterniondc.rotateXYZ(angleX: Angled, angleY: Angled, angleZ: Angled, dest: Quaterniond): Quaterniond = rotateXYZ(angleX.radians, angleY.radians, angleZ.radians, dest)
 public fun Quaterniondc.rotateZYX(angleZ: Angled, angleY: Angled, angleX: Angled, dest: Quaterniond): Quaterniond = rotateZYX(angleZ.radians, angleY.radians, angleX.radians, dest)
 public fun Quaterniondc.rotateYXZ(angleY: Angled, angleX: Angled, angleZ: Angled, dest: Quaterniond): Quaterniond = rotateYXZ(angleY.radians, angleX.radians, angleZ.radians, dest)
