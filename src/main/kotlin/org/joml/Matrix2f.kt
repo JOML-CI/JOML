@@ -2,6 +2,7 @@
 @file:JvmSynthetic
 package org.joml
 
+import org.joml.Anglef.Companion.radians
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 
@@ -23,3 +24,13 @@ public inline fun FloatBuffer.getMatrix2f(): Matrix2f = Matrix2f(this)
 public inline fun FloatBuffer.getMatrix2f(v: Matrix2f): Matrix2f = v.set(this)
 public inline fun FloatBuffer.putMatrix2f(v: Matrix2f): FloatBuffer = v.get(this)
 public inline fun FloatBuffer.putMatrix2f(index: Int, v: Matrix2f): FloatBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Matrix2fc.getRotationAnglef(): Anglef = getRotation().radians
+public fun Matrix2fc.rotateLocal(angle: Anglef, dest: Matrix2f): Matrix2f = rotateLocal(angle.radians, dest)
+public fun Matrix2fc.rotate(angle: Anglef, dest: Matrix2f): Matrix2f = rotate(angle.radians, dest)
+
+public fun Matrix2f.rotateLocal(angle: Anglef): Matrix2f = rotateLocal(angle.radians)
+public fun Matrix2f.rotate(angle: Anglef): Matrix2f = rotate(angle.radians)
+
+public fun Matrix2f.rotation(angle: Anglef): Matrix2f = rotation(angle.radians)

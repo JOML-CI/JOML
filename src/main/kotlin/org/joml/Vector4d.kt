@@ -2,6 +2,7 @@
 @file:JvmSynthetic
 package org.joml
 
+import org.joml.Angled.Companion.radians
 import java.nio.ByteBuffer
 import java.nio.DoubleBuffer
 
@@ -56,3 +57,16 @@ public inline fun DoubleBuffer.getVector4d(v: Vector4d): Vector4d = v.set(this)
 public inline fun DoubleBuffer.getVector4d(index: Int, v: Vector4d): Vector4d = v.set(index, this)
 public inline fun DoubleBuffer.putVector4d(v: Vector4d): DoubleBuffer = v.get(this)
 public inline fun DoubleBuffer.putVector4d(index: Int, v: Vector4d): DoubleBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Vector4dc.angleCosd(v: Vector4dc): Angled = angleCos(v).radians
+public fun Vector4dc.angled(v: Vector4dc): Angled = angle(v).radians
+public fun Vector4dc.rotateAxis(angle: Angled, aX: Double, aY: Double, aZ: Double, dest: Vector4d): Vector4d = rotateAxis(angle.radians, aX, aY, aZ, dest)
+public fun Vector4dc.rotateX(angle: Angled, dest: Vector4d): Vector4d = rotateX(angle.radians, dest)
+public fun Vector4dc.rotateY(angle: Angled, dest: Vector4d): Vector4d = rotateY(angle.radians, dest)
+public fun Vector4dc.rotateZ(angle: Angled, dest: Vector4d): Vector4d = rotateZ(angle.radians, dest)
+
+public fun Vector4d.rotateAxis(angle: Angled, aX: Double, aY: Double, aZ: Double): Vector4d = rotateAxis(angle.radians, aX, aY, aZ)
+public fun Vector4d.rotateX(angle: Angled): Vector4d = rotateX(angle.radians)
+public fun Vector4d.rotateY(angle: Angled): Vector4d = rotateY(angle.radians)
+public fun Vector4d.rotateZ(angle: Angled): Vector4d = rotateZ(angle.radians)

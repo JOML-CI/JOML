@@ -18,3 +18,14 @@ public inline fun DoubleBuffer.getMatrix3x2d(): Matrix3x2d = Matrix3x2d(this)
 public inline fun DoubleBuffer.getMatrix3x2d(v: Matrix3x2d): Matrix3x2d = v.set(this)
 public inline fun DoubleBuffer.putMatrix3x2d(v: Matrix3x2d): DoubleBuffer = v.get(this)
 public inline fun DoubleBuffer.putMatrix3x2d(index: Int, v: Matrix3x2d): DoubleBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Matrix3x2dc.rotate(angle: Angled, dest: Matrix3x2d): Matrix3x2d = rotate(angle.radians, dest)
+public fun Matrix3x2dc.rotateLocal(angle: Angled, dest: Matrix3x2d): Matrix3x2d = rotateLocal(angle.radians, dest)
+public fun Matrix3x2dc.rotateAbout(angle: Angled, x: Double, y: Double, dest: Matrix3x2d): Matrix3x2d = rotateAbout(angle.radians, x, y, dest)
+
+public fun Matrix3x2d.rotate(angle: Angled): Matrix3x2d = rotate(angle.radians)
+public fun Matrix3x2d.rotateLocal(angle: Angled): Matrix3x2d = rotateLocal(angle.radians)
+public fun Matrix3x2d.rotateAbout(angle: Angled, x: Double, y: Double): Matrix3x2d = rotateAbout(angle.radians, x, y)
+
+public fun Matrix3x2d.rotation(angle: Angled): Matrix3x2d = rotation(angle.radians)

@@ -2,6 +2,7 @@
 @file:JvmSynthetic
 package org.joml
 
+import org.joml.Anglef.Companion.radians
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 
@@ -41,3 +42,13 @@ public inline fun FloatBuffer.getVector2f(v: Vector2f): Vector2f = v.set(this)
 public inline fun FloatBuffer.getVector2f(index: Int, v: Vector2f): Vector2f = v.set(index, this)
 public inline fun FloatBuffer.putVector2f(v: Vector2f): FloatBuffer = v.get(this)
 public inline fun FloatBuffer.putVector2f(index: Int, v: Vector2f): FloatBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Vector2fc.anglef(v: Vector2fc): Anglef = angle(v).radians
+public fun Vector2fc.rotate(angle: Anglef, dest: Vector2f): Vector2f = rotate(angle.radians, dest)
+public fun Vector2fc.rotateAround(angle: Anglef, anchor: Vector2fc, dest: Vector2f): Vector2f = rotateAround(angle.radians, anchor, dest)
+public fun Vector2fc.rotateAround(angle: Anglef, aX: Float, aY: Float, dest: Vector2f): Vector2f = rotateAround(angle.radians, aX, aY, dest)
+
+public fun Vector2f.rotate(angle: Anglef): Vector2f = rotate(angle.radians)
+public fun Vector2f.rotateAround(angle: Anglef, anchor: Vector2fc): Vector2f = rotateAround(angle.radians, anchor)
+public fun Vector2f.rotateAround(angle: Anglef, aX: Float, aY: Float): Vector2f = rotateAround(angle.radians, aX, aY)

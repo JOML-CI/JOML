@@ -2,6 +2,7 @@
 @file:JvmSynthetic
 package org.joml
 
+import org.joml.Anglef.Companion.radians
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 
@@ -46,3 +47,16 @@ public inline fun FloatBuffer.getVector4f(v: Vector4f): Vector4f = v.set(this)
 public inline fun FloatBuffer.getVector4f(index: Int, v: Vector4f): Vector4f = v.set(index, this)
 public inline fun FloatBuffer.putVector4f(v: Vector4f): FloatBuffer = v.get(this)
 public inline fun FloatBuffer.putVector4f(index: Int, v: Vector4f): FloatBuffer = v.get(index, this)
+
+/* Angle operations */
+public fun Vector4fc.angleCosf(v: Vector4fc): Anglef = angleCos(v).radians
+public fun Vector4fc.anglef(v: Vector4fc): Anglef = angle(v).radians
+public fun Vector4fc.rotateAxis(angle: Anglef, aX: Float, aY: Float, aZ: Float, dest: Vector4f): Vector4f = rotateAxis(angle.radians, aX, aY, aZ, dest)
+public fun Vector4fc.rotateX(angle: Anglef, dest: Vector4f): Vector4f = rotateX(angle.radians, dest)
+public fun Vector4fc.rotateY(angle: Anglef, dest: Vector4f): Vector4f = rotateY(angle.radians, dest)
+public fun Vector4fc.rotateZ(angle: Anglef, dest: Vector4f): Vector4f = rotateZ(angle.radians, dest)
+
+public fun Vector4f.rotateAxis(angle: Anglef, aX: Float, aY: Float, aZ: Float): Vector4f = rotateAxis(angle.radians, aX, aY, aZ)
+public fun Vector4f.rotateX(angle: Anglef): Vector4f = rotateX(angle.radians)
+public fun Vector4f.rotateY(angle: Anglef): Vector4f = rotateY(angle.radians)
+public fun Vector4f.rotateZ(angle: Anglef): Vector4f = rotateZ(angle.radians)
