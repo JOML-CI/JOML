@@ -3,13 +3,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id 'java-library'
-    id 'org.jetbrains.kotlin.jvm' version '2.3.20'
+    id 'org.jetbrains.kotlin.jvm' version '2.4.10'
     id 'maven-publish'
     id 'signing'
     id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
     id 'com.github.hexomod.macro.preprocessor' version '0.9'
     id 'checkstyle'
-    id 'org.ajoberstar.grgit' version '5.3.2'
+    id 'org.ajoberstar.grgit' version '5.3.3'
 }
 repositories {
     mavenCentral()
@@ -26,8 +26,8 @@ configurations {
     buildhelper
 }
 dependencies {
-    buildhelper 'org.ow2.asm:asm:9.7'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
+    buildhelper 'org.ow2.asm:asm:9.10.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.1.2'
     compileOnly 'org.jetbrains.kotlin:kotlin-stdlib'
     compileOnly 'org.jspecify:jspecify:1.0.0'
     if (buildProfile == 'default') {
