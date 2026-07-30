@@ -19,6 +19,8 @@ updates:
     ignore:
       - dependency-name: "gradle-wrapper"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "org.junit.jupiter:junit-jupiter"
+        update-types: ["version-update:semver-major"]
     groups:
       gradle:
         patterns:
