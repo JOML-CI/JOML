@@ -30,7 +30,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.14.4'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     compileOnly 'org.jetbrains.kotlin:kotlin-stdlib'
-    compileOnly 'org.jspecify:jspecify:1.0.0'
+    compileOnly 'org.jspecify:jspecify:1.0.1'
     if (buildProfile == 'default') {
         compileOnly files('libs/jre-stubs.jar')
     }
