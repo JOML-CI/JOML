@@ -67,11 +67,19 @@ public class Math {
     private static final float sinTable[];
     static {
         if (Options.FASTMATH && Options.SIN_LOOKUP) {
-            sinTable = new float[lookupTableSizeWithMargin];
-            for (int i = 0; i < lookupTableSizeWithMargin; i++) {
-                double d = i * pi2OverLookupSize;
-                sinTable[i] = (float) java.lang.Math.sin(d);
-            }
+        	if(Options.USE_STRICT_MATH) {
+        		sinTable = new float[lookupTableSizeWithMargin];
+        		for (int i = 0; i < lookupTableSizeWithMargin; i++) {
+        			double d = i * pi2OverLookupSize;
+        			sinTable[i] = (float) java.lang.StrictMath.sin(d);
+        		}
+        	} else {        		
+        		sinTable = new float[lookupTableSizeWithMargin];
+        		for (int i = 0; i < lookupTableSizeWithMargin; i++) {
+        			double d = i * pi2OverLookupSize;
+        			sinTable[i] = (float) java.lang.Math.sin(d);
+        		}
+        	}            
         } else {
             sinTable = null;
         }
@@ -775,13 +783,6 @@ public class Math {
     }
 
     public static double random() {
-    	if(Options.USE_STRICT_MATH) {      		
-    		if(Options.DEBUG) 
-    			throw new UnsupportedOperationException("org.joml.Math::random() is not deterministic. Options.USE_STRICT_MATH is enabled.");    		    		
-    		System.err.println("WARNING: Random generated in STRICT MATH mode.");
-    		Thread.dumpStack();    		    		
-    	}
-    	
         return java.lang.Math.random();
     }
 
