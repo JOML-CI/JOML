@@ -23,9 +23,22 @@
  */
 package org.joml.test;
 
-import org.joml.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.joml.Matrix3dc;
+import org.joml.Matrix3fc;
+import org.joml.Matrix4d;
+import org.joml.Matrix4f;
+import org.joml.Matrix4x3dc;
+import org.joml.Matrix4x3fc;
+import org.joml.Quaterniond;
+import org.joml.Quaternionf;
+import org.joml.Vector2d;
+import org.joml.Vector2f;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+import org.joml.Vector4d;
+import org.joml.Vector4f;
 
 /**
  * Utilities for testing.

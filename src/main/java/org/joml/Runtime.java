@@ -35,7 +35,7 @@ public final class Runtime {
     public static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();
     public static final boolean HAS_doubleToRawLongBits = hasDoubleToRawLongBits();
     public static final boolean HAS_Long_rotateLeft = hasLongRotateLeft();
-    public static final boolean HAS_Math_fma = Options.USE_MATH_FMA && hasMathFma();
+    public static final boolean HAS_Math_fma = Options.USE_MATH_FMA && ((Options.USE_STRICT_MATH && hasStrictMathFma()) || hasMathFma());
 
     private static boolean hasMathFma() {
         try {
@@ -46,6 +46,15 @@ public final class Runtime {
         }
     }
 
+    private static boolean hasStrictMathFma() {
+        try {
+            java.lang.StrictMath.class.getDeclaredMethod("fma", new Class[] { float.class, float.class, float.class });
+            return true;
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+    }
+    
     private Runtime() {
     }
 
