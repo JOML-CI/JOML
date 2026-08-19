@@ -66,21 +66,13 @@ public class Math {
     private static final float lookupSizeOverPi2 = lookupTableSize / PI_TIMES_2_f;
     private static final float sinTable[];
     static {
-        if (Options.FASTMATH && Options.SIN_LOOKUP) {
-        	if(Options.USE_STRICT_MATH) {
-        		sinTable = new float[lookupTableSizeWithMargin];
-        		for (int i = 0; i < lookupTableSizeWithMargin; i++) {
-        			double d = i * pi2OverLookupSize;
-        			sinTable[i] = (float) java.lang.StrictMath.sin(d);
-        		}
-        	} else {        		
-        		sinTable = new float[lookupTableSizeWithMargin];
-        		for (int i = 0; i < lookupTableSizeWithMargin; i++) {
-        			double d = i * pi2OverLookupSize;
-        			sinTable[i] = (float) java.lang.Math.sin(d);
-        		}
-        	}            
-        } else {
+        if (Options.FASTMATH && Options.SIN_LOOKUP) {        		
+    		sinTable = new float[lookupTableSizeWithMargin];
+    		for (int i = 0; i < lookupTableSizeWithMargin; i++) {
+    			double d = i * pi2OverLookupSize;
+    			sinTable[i] = (float) (Options.USE_STRICT_MATH ? java.lang.StrictMath.sin(d) : java.lang.Math.sin(d));
+    		}
+    	} else {
             sinTable = null;
         }
     }
