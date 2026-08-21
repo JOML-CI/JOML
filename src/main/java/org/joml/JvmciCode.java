@@ -335,7 +335,7 @@ class JvmciCode {
 
   static {
     boolean _canUseJvmci = false;
-    try {
+    if(!Options.USE_STRICT_MATH) try {
       boolean _isWindows = System.getProperty("os.name").contains("Windows");
       JVMCIRuntime jvmciRuntime = JVMCI.getRuntime();
       JVMCIBackend jvmciBackend = jvmciRuntime.getHostJVMCIBackend();

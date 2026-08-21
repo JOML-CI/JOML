@@ -97,6 +97,12 @@ public final class Options {
      */
     public static final NumberFormat NUMBER_FORMAT = decimalFormat();
 
+    /**
+     * When {@link #USE_STRICT_MATH} is <code>true</code>, {@link org.joml.Math Math} delegates to {@link java.lang.StrictMath} 
+     * and disables internal operations that cannot be guaranteed to be deterministic across machines and OSes.
+     */
+    public static final boolean USE_STRICT_MATH = hasOption(System.getProperty("joml.strictmath" , "false"));
+    
     private Options() {
     }
 

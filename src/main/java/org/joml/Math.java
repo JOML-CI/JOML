@@ -66,11 +66,11 @@ public class Math {
     private static final float lookupSizeOverPi2 = lookupTableSize / PI_TIMES_2_f;
     private static final float sinTable[];
     static {
-        if (Options.FASTMATH && Options.SIN_LOOKUP) {
+        if (Options.FASTMATH && Options.SIN_LOOKUP) {                
             sinTable = new float[lookupTableSizeWithMargin];
             for (int i = 0; i < lookupTableSizeWithMargin; i++) {
                 double d = i * pi2OverLookupSize;
-                sinTable[i] = (float) java.lang.Math.sin(d);
+                sinTable[i] = (float) (Options.USE_STRICT_MATH ? java.lang.StrictMath.sin(d) : java.lang.Math.sin(d));
             }
         } else {
             sinTable = null;
@@ -109,7 +109,7 @@ public class Math {
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361718/view.html#msg361718">http://www.java-gaming.org/</a>
      */
     static double sin_roquen_arith(double x) {
-        double xi = Math.floor((x + PI_OVER_4) * ONE_OVER_PI);
+        double xi = floor((x + PI_OVER_4) * ONE_OVER_PI);
         double x_ = x - xi * PI;
         double sign = ((int)xi & 1) * -2 + 1;
         double x2 = x_ * x_;
@@ -148,7 +148,9 @@ public class Math {
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
      */
     static double sin_roquen_9(double v) {
-      double i  = java.lang.Math.rint(v* ONE_OVER_PI);
+      double i  = Options.USE_STRICT_MATH ? 
+          java.lang.StrictMath.rint(v* ONE_OVER_PI) :
+          java.lang.Math.rint(v* ONE_OVER_PI);
       double x  = v - i * Math.PI;
       double qs = 1-2*((int)i & 1);
       double x2 = x*x;
@@ -174,7 +176,9 @@ public class Math {
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
      */
     static double sin_roquen_newk(double v) {
-      double i  = java.lang.Math.rint(v* ONE_OVER_PI);
+      double i  = Options.USE_STRICT_MATH ? 
+        java.lang.StrictMath.rint(v* ONE_OVER_PI) : 
+        java.lang.Math.rint(v* ONE_OVER_PI);
       double x  = v - i * Math.PI;
       double qs = 1-2*((int)i & 1);
       double x2 = x*x;
@@ -209,33 +213,53 @@ public class Math {
                 return sin_theagentd_lookup(rad);
             return (float) sin_roquen_newk(rad);
         }
-        return (float) java.lang.Math.sin(rad);
+        
+        if(Options.USE_STRICT_MATH) 
+            return (float) java.lang.StrictMath.sin(rad);
+        
+        return (float) java.lang.Math.sin(rad);        
     }
+    
     public static double sin(double rad) {
         if (Options.FASTMATH) {
             if (Options.SIN_LOOKUP)
                 return sin_theagentd_lookup((float) rad);
             return sin_roquen_newk(rad);
         }
+        
+        if(Options.USE_STRICT_MATH) 
+            return java.lang.StrictMath.sin(rad);
+                
         return java.lang.Math.sin(rad);
     }
 
     public static float cos(float rad) {
         if (Options.FASTMATH)
             return sin(rad + PI_OVER_2_f);
+        
+        if(Options.USE_STRICT_MATH) 
+            return (float)java.lang.StrictMath.cos(rad);
+            
         return (float) java.lang.Math.cos(rad);
     }
+    
     public static double cos(double rad) {
         if (Options.FASTMATH)
             return sin(rad + PI_OVER_2);
+        
+        if(Options.USE_STRICT_MATH) 
+            return java.lang.StrictMath.cos(rad);
+        
         return java.lang.Math.cos(rad);
     }
 
     public static float cosFromSin(float sin, float angle) {
         if (Options.FASTMATH)
             return sin(angle + PI_OVER_2_f);
+                
         return cosFromSinInternal(sin, angle);
     }
+    
     private static float cosFromSinInternal(float sin, float angle) {
         // sin(x)^2 + cos(x)^2 = 1
         float cos = sqrt(1.0f - sin * sin);
@@ -247,6 +271,7 @@ public class Math {
             return -cos;
         return cos;
     }
+    
     public static double cosFromSin(double sin, double angle) {
         if (Options.FASTMATH)
             return sin(angle + PI_OVER_2);
@@ -264,30 +289,55 @@ public class Math {
     /* Other math functions not yet approximated */
 
     public static float sqrt(float r) {
+        if(Options.USE_STRICT_MATH)    
+            return (float)java.lang.StrictMath.sqrt(r);
+        
         return (float) java.lang.Math.sqrt(r);
     }
+    
     public static double sqrt(double r) {
+        if(Options.USE_STRICT_MATH)    
+            return java.lang.StrictMath.sqrt(r);
+        
         return java.lang.Math.sqrt(r);
     }
 
     public static float invsqrt(float r) {
+        if(Options.USE_STRICT_MATH)    
+            return 1.0f / (float)java.lang.StrictMath.sqrt(r);
+        
         return 1.0f / (float) java.lang.Math.sqrt(r);
     }
     public static double invsqrt(double r) {
+        if(Options.USE_STRICT_MATH)    
+            return 1.0d / java.lang.StrictMath.sqrt(r);
+        
         return 1.0 / java.lang.Math.sqrt(r);
     }
 
     public static float tan(float r) {
+        if(Options.USE_STRICT_MATH)    
+            return (float)java.lang.StrictMath.tan(r);
+        
         return (float) java.lang.Math.tan(r);
     }
     public static double tan(double r) {
+        if(Options.USE_STRICT_MATH)    
+            return java.lang.StrictMath.tan(r);
+        
         return java.lang.Math.tan(r);
     }
 
     public static float acos(float r) {
+        if(Options.USE_STRICT_MATH)    
+            return (float)java.lang.StrictMath.acos(r);
+        
         return (float) java.lang.Math.acos(r);
     }
     public static double acos(double r) {
+        if(Options.USE_STRICT_MATH)    
+            return java.lang.StrictMath.acos(r);
+        
         return java.lang.Math.acos(r);
     }
 
@@ -322,6 +372,7 @@ public class Math {
             r = PI - r;
         return y >= 0 ? r : -r;
     }
+    
     private static float fastAtan2(float y, float x) {
         float ax = x >= 0.0f ? x : -x, ay = y >= 0.0f ? y : -y;
         float a = ay > ax ? ax / ay : ay / ax;
@@ -337,31 +388,56 @@ public class Math {
     public static float atan2(float y, float x) {
         if (Options.FASTMATH)
             return fastAtan2(y, x);
+        
+        if(Options.USE_STRICT_MATH)
+            return (float)java.lang.StrictMath.atan2(y, x);
+        
         return (float) java.lang.Math.atan2(y, x);
     }
+    
     public static double atan2(double y, double x) {
         if (Options.FASTMATH)
             return fastAtan2(y, x);
+        
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.atan2(y, x);
+        
         return java.lang.Math.atan2(y, x);
     }
 
     public static float asin(float r) {
+        if(Options.USE_STRICT_MATH)
+            return (float)java.lang.StrictMath.asin(r);
+        
         return (float) java.lang.Math.asin(r);
     }
+    
     public static double asin(double r) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.asin(r);
+          
         return java.lang.Math.asin(r);
     }
+    
     public static float safeAsin(float r) {
         return r <= -1.0f ? -PI_OVER_2_f : r >= 1.0f ? PI_OVER_2_f : asin(r);
     }
+    
     public static double safeAsin(double r) {
         return r <= -1.0 ? -PI_OVER_2 : r >= 1.0 ? PI_OVER_2 : asin(r);
     }
 
     public static float abs(float r) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.abs(r);
+          
         return java.lang.Math.abs(r);
     }
+    
     public static double abs(double r) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.abs(r);
+          
         return java.lang.Math.abs(r);
     }
 
@@ -372,7 +448,7 @@ public class Math {
         return (Double.doubleToRawLongBits(r) & 0x7FFFFFFFFFFFFFFFL) == 0x3FF0000000000000L;
     }
 
-    public static int abs(int r) {
+    public static int abs(int r) {            
         return java.lang.Math.abs(r);
     }
     public static long abs(long r) {
@@ -421,48 +497,81 @@ public class Math {
     }
 
     public static float toRadians(float angles) {
+        if(Options.USE_STRICT_MATH)
+            return (float) java.lang.StrictMath.toRadians(angles);
+          
         return (float) java.lang.Math.toRadians(angles);
     }
     public static double toRadians(double angles) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.toRadians(angles);
+        
         return java.lang.Math.toRadians(angles);
     }
 
     public static float toDegrees(float angles) {
+        if(Options.USE_STRICT_MATH)
+            return (float) java.lang.StrictMath.toDegrees(angles);
+        
         return (float) java.lang.Math.toDegrees(angles);
     }
     public static double toDegrees(double angles) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.toDegrees(angles);
+            
         return java.lang.Math.toDegrees(angles);
     }
 
     public static double floor(double v) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.floor(v);
+        
         return java.lang.Math.floor(v);
     }
 
     public static float floor(float v) {
+        if(Options.USE_STRICT_MATH)
+            return (float) java.lang.StrictMath.floor(v);
+        
         return (float) java.lang.Math.floor(v);
     }
 
     public static double ceil(double v) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.ceil(v);
+        
         return java.lang.Math.ceil(v);
     }
 
     public static float ceil(float v) {
+        if(Options.USE_STRICT_MATH)
+            return (float) java.lang.StrictMath.ceil(v);
+        
         return (float) java.lang.Math.ceil(v);
     }
 
     public static long round(double v) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.round(v);
+        
         return java.lang.Math.round(v);
     }
 
     public static int round(float v) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.round(v);
+        
         return java.lang.Math.round(v);
     }
 
     public static double exp(double a) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.exp(a);
+        
         return java.lang.Math.exp(a);
     }
 
-    public static boolean isFinite(double d) {
+    public static boolean isFinite(double d) {        
         return abs(d) <= Double.MAX_VALUE;
     }
 
@@ -471,24 +580,36 @@ public class Math {
     }
 
     public static float fma(float a, float b, float c) {
-        if (Runtime.HAS_Math_fma)
+        if (Runtime.HAS_Math_fma) {
+            if(Options.USE_STRICT_MATH)
+                return java.lang.StrictMath.fma(a , b , c);            
             return java.lang.Math.fma(a, b, c);
+        }
+        
         return a * b + c;
     }
 
     public static double fma(double a, double b, double c) {
-        if (Runtime.HAS_Math_fma)
+        if (Runtime.HAS_Math_fma) {
+            if(Options.USE_STRICT_MATH)
+                return java.lang.StrictMath.fma(a , b , c);            
             return java.lang.Math.fma(a, b, c);
+        }        
+        
         return a * b + c;
     }
 
-    public static int roundUsing(float v, int mode) {
+    public static int roundUsing(float v, int mode) {        
         switch (mode) {
         case RoundingMode.TRUNCATE:
             return (int) v;
         case RoundingMode.CEILING:
+            if(Options.USE_STRICT_MATH)
+                return (int) java.lang.StrictMath.ceil(v);
             return (int) java.lang.Math.ceil(v);
         case RoundingMode.FLOOR:
+            if(Options.USE_STRICT_MATH)
+                return (int) java.lang.StrictMath.floor(v);
             return (int) java.lang.Math.floor(v);
         case RoundingMode.HALF_DOWN:
             return roundHalfDown(v);
@@ -505,8 +626,12 @@ public class Math {
         case RoundingMode.TRUNCATE:
             return (int) v;
         case RoundingMode.CEILING:
+            if(Options.USE_STRICT_MATH)
+                return (int) java.lang.StrictMath.ceil(v);
             return (int) java.lang.Math.ceil(v);
         case RoundingMode.FLOOR:
+            if(Options.USE_STRICT_MATH)
+                return (int) java.lang.StrictMath.floor(v);
             return (int) java.lang.Math.floor(v);
         case RoundingMode.HALF_DOWN:
             return roundHalfDown(v);
@@ -523,8 +648,12 @@ public class Math {
             case RoundingMode.TRUNCATE:
                 return (long) v;
             case RoundingMode.CEILING:
+                if(Options.USE_STRICT_MATH)
+                    return (long) java.lang.StrictMath.ceil(v);
                 return (long) java.lang.Math.ceil(v);
             case RoundingMode.FLOOR:
+                if(Options.USE_STRICT_MATH)
+                    return (long) java.lang.StrictMath.floor(v);
                 return (long) java.lang.Math.floor(v);
             case RoundingMode.HALF_DOWN:
                 return roundHalfDown(v);
@@ -538,9 +667,15 @@ public class Math {
     }
     
     public static float lerp(float a, float b, float t){
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.fma(b - a, t, a);
+        
         return Math.fma(b - a, t, a);
     }
     public static double lerp(double a, double b, double t) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.fma(b - a, t, a);
+        
         return Math.fma(b - a, t, a);
     }
 
@@ -577,32 +712,65 @@ public class Math {
     }
 
     public static int roundHalfEven(float v) {
+        if(Options.USE_STRICT_MATH)
+            return (int) java.lang.StrictMath.rint(v);
+        
         return (int) java.lang.Math.rint(v);
     }
+    
     public static int roundHalfDown(float v) {
+        if(Options.USE_STRICT_MATH)
+            return (v > 0) ? (int) java.lang.StrictMath.ceil(v - 0.5d) : (int) java.lang.StrictMath.floor(v + 0.5d);
+        
         return (v > 0) ? (int) java.lang.Math.ceil(v - 0.5d) : (int) java.lang.Math.floor(v + 0.5d);
     }
+    
     public static int roundHalfUp(float v) {
+        if(Options.USE_STRICT_MATH)
+            return (v > 0) ? (int) java.lang.StrictMath.floor(v + 0.5d) : (int) java.lang.StrictMath.ceil(v - 0.5d);
+        
         return (v > 0) ? (int) java.lang.Math.floor(v + 0.5d) : (int) java.lang.Math.ceil(v - 0.5d);
     }
 
     public static int roundHalfEven(double v) {
+        if(Options.USE_STRICT_MATH)    
+            return (int) java.lang.StrictMath.rint(v);
+        
         return (int) java.lang.Math.rint(v);
     }
+    
     public static int roundHalfDown(double v) {
+        if(Options.USE_STRICT_MATH)
+            return (v > 0) ? (int) java.lang.StrictMath.ceil(v - 0.5d) : (int) java.lang.StrictMath.floor(v + 0.5d);
+        
         return (v > 0) ? (int) java.lang.Math.ceil(v - 0.5d) : (int) java.lang.Math.floor(v + 0.5d);
     }
+    
     public static int roundHalfUp(double v) {
+        if(Options.USE_STRICT_MATH)
+              return (v > 0) ? (int) java.lang.StrictMath.floor(v + 0.5d) : (int) java.lang.StrictMath.ceil(v - 0.5d);
+        
         return (v > 0) ? (int) java.lang.Math.floor(v + 0.5d) : (int) java.lang.Math.ceil(v - 0.5d);
     }
 
     public static long roundLongHalfEven(double v) {
+        if(Options.USE_STRICT_MATH)
+            return (long) java.lang.StrictMath.rint(v);
+      
         return (long) java.lang.Math.rint(v);
     }
+    
     public static long roundLongHalfDown(double v) {
+        if(Options.USE_STRICT_MATH)
+            return (v > 0) ? (long) java.lang.StrictMath.ceil(v - 0.5d) : (long) java.lang.StrictMath.floor(v + 0.5d);
+        
         return (v > 0) ? (long) java.lang.Math.ceil(v - 0.5d) : (long) java.lang.Math.floor(v + 0.5d);
     }
+    
     public static long roundLongHalfUp(double v) {
+        if(Options.USE_STRICT_MATH)
+            return (v > 0) ? (long) java.lang.StrictMath.floor(v + 0.5d) : (long) java.lang.StrictMath.ceil(v - 0.5d);
+        
         return (v > 0) ? (long) java.lang.Math.floor(v + 0.5d) : (long) java.lang.Math.ceil(v - 0.5d);
     }
 
@@ -611,11 +779,19 @@ public class Math {
     }
 
     public static double signum(double v) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.signum(v);
+        
         return java.lang.Math.signum(v);
     }
+    
     public static float signum(float v) {
+        if(Options.USE_STRICT_MATH)
+            return java.lang.StrictMath.signum(v);
+        
         return java.lang.Math.signum(v);
     }
+    
     public static int signum(int v) {
         int r;
 //#ifdef __HAS_INTEGER_SIGNUM__

@@ -23,6 +23,8 @@
  */
 package org.joml.sampling;
 
+import org.joml.Options;
+
 /**
  * Internal Math class used by the sampling package.
  * 
@@ -46,8 +48,10 @@ class Math extends org.joml.Math {
      * 
      * @author roquendm
      */
-    static double sin_roquen_9(double v) {
-        double i = java.lang.Math.rint(v * ONE_OVER_PI);
+    static double sin_roquen_9(double v) {        
+        double i = Options.USE_STRICT_MATH ?
+            java.lang.StrictMath.rint(v * ONE_OVER_PI) :
+            java.lang.Math.rint(v * ONE_OVER_PI);
         double x = v - i * Math.PI;
         double qs = 1 - 2 * ((int) i & 1);
         double x2 = x * x;
