@@ -317,6 +317,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
 
     /**
      * Normalize this quaternion.
+     * <p>
+     * If this quaternion has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @return this
      */
@@ -896,6 +899,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * angle (in radians).
      * <p>
      * This method assumes that the given rotation axis <code>(x, y, z)</code> is already normalized
+     * <p>
+     * If the given axis has zero length, the <code>x</code>, <code>y</code> and <code>z</code> components of the result
+     * will be <code>NaN</code> while <code>w</code> will still be finite. Use {@link #isFinite()} on the result to check for this.
      * 
      * @param angle
      *          the angle in radians
@@ -919,6 +925,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in radians).
+     * <p>
+     * If the given axis has zero length, the <code>x</code>, <code>y</code> and <code>z</code> components of the result
+     * will be <code>NaN</code> while <code>w</code> will still be finite. Use {@link #isFinite()} on the result to check for this.
      * 
      * @param angle
      *          the angle in radians
@@ -1148,6 +1157,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in radians).
+     * <p>
+     * If the given axis has zero length, the <code>x</code>, <code>y</code> and <code>z</code> components of the result
+     * will be <code>NaN</code> while <code>w</code> will still be finite. Use {@link #isFinite()} on the result to check for this.
      * 
      * @param axis
      *          the rotation axis
@@ -1162,6 +1174,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in radians).
+     * <p>
+     * If the given axis has zero length, the <code>x</code>, <code>y</code> and <code>z</code> components of the result
+     * will be <code>NaN</code> while <code>w</code> will still be finite. Use {@link #isFinite()} on the result to check for this.
      * 
      * @param axisX
      *          the x component of the rotation axis
@@ -1188,6 +1203,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in degrees).
+     * <p>
+     * If the given axis has zero length, the <code>x</code>, <code>y</code> and <code>z</code> components of the result
+     * will be <code>NaN</code> while <code>w</code> will still be finite. Use {@link #isFinite()} on the result to check for this.
      * 
      * @param axis
      *          the rotation axis
@@ -1202,6 +1220,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in degrees).
+     * <p>
+     * If the given axis has zero length, the <code>x</code>, <code>y</code> and <code>z</code> components of the result
+     * will be <code>NaN</code> while <code>w</code> will still be finite. Use {@link #isFinite()} on the result to check for this.
      * 
      * @param axisX
      *          the x component of the rotation axis
@@ -1975,6 +1996,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * Invert this quaternion and {@link #normalize() normalize} it.
      * <p>
      * If this quaternion is already normalized, then {@link #conjugate()} should be used instead.
+     * <p>
+     * If this quaternion has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #conjugate()
      * 
@@ -2002,6 +2026,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * The division expressed using the inverse is performed in the following way:
      * <p>
      * <code>this = this * b^-1</code>, where <code>b^-1</code> is the inverse of <code>b</code>.
+     * <p>
+     * If <code>b</code> has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param b
      *          the {@link Quaterniondc} to divide this by
@@ -2514,6 +2541,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAlong(double, double, double, double, double, double, Quaterniond)
      * 
@@ -2544,6 +2574,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAlong(double, double, double, double, double, double, Quaterniond)
      * 
@@ -2752,6 +2785,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
      * Reference: <a href="http://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another#answer-1171995">stackoverflow.com</a>
+     * <p>
+     * If either of the two direction vectors has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction
@@ -2813,6 +2849,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * Set <code>this</code> quaternion to a rotation that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * If either of the two direction vectors has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotationTo(double, double, double, double, double, double)
      * 
@@ -2875,6 +2914,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
     /**
      * Set this {@link Quaterniond} to a rotation of the given angle in radians about the supplied
      * axis, all of which are specified via the {@link AxisAngle4f}.
+     * <p>
+     * If the given axis has zero length, the <code>x</code>, <code>y</code> and <code>z</code> components of the result
+     * will be <code>NaN</code> while <code>w</code> will still be finite. Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotationAxis(double, double, double, double)
      * 
@@ -2888,6 +2930,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
 
     /**
      * Set this quaternion to a rotation of the given angle in radians about the supplied axis.
+     * <p>
+     * If the given axis has zero length, the <code>x</code>, <code>y</code> and <code>z</code> components of the result
+     * will be <code>NaN</code> while <code>w</code> will still be finite. Use {@link #isFinite()} on the result to check for this.
      * 
      * @param angle
      *          the rotation angle in radians
@@ -2957,6 +3002,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * <p>
+     * If either of the two direction vectors has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTo(double, double, double, double, double, double, Quaterniond)
      * 
@@ -2991,6 +3039,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * <p>
+     * If either of the two direction vectors has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTo(double, double, double, double, double, double, Quaterniond)
      * 
@@ -3351,6 +3402,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * <p>
+     * If the given axis has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateAxis(double, double, double, double, Quaterniond)
      * 
@@ -3371,6 +3425,9 @@ public class Quaterniond implements Externalizable, Cloneable, Quaterniondc {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * <p>
+     * If the given axis has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateAxis(double, double, double, double, Quaterniond)
      * 

@@ -585,6 +585,9 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
 
     /**
      * Invert this matrix by assuming a third row in this matrix of <code>(0, 0, 1)</code>.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      *
      * @return this
      */
@@ -595,6 +598,9 @@ public class Matrix3x2d implements Matrix3x2dc, Cloneable, Externalizable {
     /**
      * Invert the <code>this</code> matrix by assuming a third row in this matrix of <code>(0, 0, 1)</code>
      * and store the result in <code>dest</code>.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param dest
      *             will hold the result

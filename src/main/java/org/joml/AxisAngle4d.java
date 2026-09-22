@@ -105,6 +105,10 @@ public class AxisAngle4d implements Externalizable, Cloneable {
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
      * >http://www.euclideanspace.com</a>
+     * <p>
+     * If the absolute value of the <code>w</code> component of the given quaternion is greater than <code>1</code>
+     * (which cannot be the case for a unit quaternion), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param q
      *            the quaternion from which to create the new AngleAxis4f
@@ -130,6 +134,10 @@ public class AxisAngle4d implements Externalizable, Cloneable {
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
      * >http://www.euclideanspace.com</a>
+     * <p>
+     * If the absolute value of the <code>w</code> component of the given quaternion is greater than <code>1</code>
+     * (which cannot be the case for a unit quaternion), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param q
      *            the quaternion from which to create the new AngleAxis4d
@@ -268,6 +276,10 @@ public class AxisAngle4d implements Externalizable, Cloneable {
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the given
      * {@link Quaternionfc}.
+     * <p>
+     * If the absolute value of the <code>w</code> component of the given quaternion is greater than <code>1</code>
+     * (which cannot be the case for a unit quaternion), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4d from
@@ -292,6 +304,10 @@ public class AxisAngle4d implements Externalizable, Cloneable {
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the given
      * {@link Quaterniondc}.
+     * <p>
+     * If the absolute value of the <code>w</code> component of the given quaternion is greater than <code>1</code>
+     * (which cannot be the case for a unit quaternion), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4d from
@@ -318,6 +334,9 @@ public class AxisAngle4d implements Externalizable, Cloneable {
      * of the given {@link Matrix3fc}.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
+     * <p>
+     * If any column of the given matrix has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param m
      *            the Matrix3fc to set this AngleAxis4d from
@@ -381,6 +400,9 @@ public class AxisAngle4d implements Externalizable, Cloneable {
      * of the given {@link Matrix3dc}.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
+     * <p>
+     * If any column of the given matrix has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param m
      *            the Matrix3dc to set this AngleAxis4d from
@@ -444,6 +466,9 @@ public class AxisAngle4d implements Externalizable, Cloneable {
      * of the given {@link Matrix4fc}.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
+     * <p>
+     * If any column of the given matrix has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param m
      *            the Matrix4fc to set this AngleAxis4d from
@@ -507,6 +532,9 @@ public class AxisAngle4d implements Externalizable, Cloneable {
      * of the given {@link Matrix4x3fc}.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
+     * <p>
+     * If any column of the given matrix has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param m
      *            the Matrix4x3fc to set this AngleAxis4d from
@@ -570,6 +598,9 @@ public class AxisAngle4d implements Externalizable, Cloneable {
      * of the given {@link Matrix4dc}.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
+     * <p>
+     * If any column of the given matrix has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param m
      *            the Matrix4dc to set this AngleAxis4d from
@@ -744,6 +775,9 @@ public class AxisAngle4d implements Externalizable, Cloneable {
 
     /**
      * Normalize the axis vector.
+     * <p>
+     * If the axis of this axis-angle has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @return this
      */
@@ -862,6 +896,18 @@ public class AxisAngle4d implements Externalizable, Cloneable {
                  v.z() * cos + sin * (x * v.y() - y * v.x()) + (1.0 - cos) * dot * z,
                  dest.w);
         return dest;
+    }
+
+    /**
+     * Determine whether all components (the axis and the angle) are finite floating-point values, that
+     * is, they are not {@link Double#isNaN() NaN} and not
+     * {@link Double#isInfinite() infinity}.
+     *
+     * @return {@code true} if all components are finite floating-point values;
+     *         {@code false} otherwise
+     */
+    public boolean isFinite() {
+        return Math.isFinite(x) && Math.isFinite(y) && Math.isFinite(z) && Math.isFinite(angle);
     }
 
     /**

@@ -58,4 +58,15 @@ class AxisAngle4fTest {
         a2 = new AxisAngle4f(Math.toRadians(-380.0f) * 10.0f, 1.0f, 0.0f, 0.0f);
         assertEquals(a1.angle, a2.angle, 1E-5f);
     }
+
+    @Test
+    void testIsFinite() {
+        assertTrue(new AxisAngle4f(1.0f, 0.0f, 1.0f, 0.0f).isFinite());
+        assertFalse(new AxisAngle4f(Float.NaN, 0.0f, 1.0f, 0.0f).isFinite());
+        assertFalse(new AxisAngle4f(1.0f, Float.POSITIVE_INFINITY, 0.0f, 0.0f).isFinite());
+        assertFalse(new AxisAngle4f(1.0f, 0.0f, Float.NEGATIVE_INFINITY, 0.0f).isFinite());
+        assertFalse(new AxisAngle4f(1.0f, 0.0f, 0.0f, Float.NaN).isFinite());
+        // normalizing a zero-length axis yields a non-finite axis
+        assertFalse(new AxisAngle4f(1.0f, 0.0f, 0.0f, 0.0f).normalize().isFinite());
+    }
 }

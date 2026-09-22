@@ -1880,6 +1880,9 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
 
     /**
      * Normalizes this vector.
+     * <p>
+     * If this vector has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @return this
      */
@@ -1898,6 +1901,9 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
 
     /**
      * Scale this vector to have the given length.
+     * <p>
+     * If this vector has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param length
      *          the desired length
@@ -1918,6 +1924,9 @@ public class Vector4d implements Externalizable, Cloneable, Vector4dc {
 
     /**
      * Normalize this vector by computing only the norm of <code>(x, y, z)</code>.
+     * <p>
+     * If this vector has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @return this
      */

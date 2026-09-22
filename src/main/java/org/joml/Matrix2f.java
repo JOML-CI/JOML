@@ -519,6 +519,9 @@ public class Matrix2f implements Externalizable, Cloneable, Matrix2fc {
 
     /**
      * Invert this matrix.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      *
      * @return this
      */

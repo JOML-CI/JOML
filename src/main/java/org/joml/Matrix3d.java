@@ -1109,6 +1109,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
 
     /**
      * Invert this matrix.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @return this
      */
@@ -3982,6 +3985,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(Vector3dc, Vector3dc) setLookAlong()}.
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAlong(double, double, double, double, double, double)
      * @see #setLookAlong(Vector3dc, Vector3dc)
@@ -4007,6 +4013,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(Vector3dc, Vector3dc) setLookAlong()}.
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAlong(double, double, double, double, double, double)
      * @see #setLookAlong(Vector3dc, Vector3dc)
@@ -4034,6 +4043,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAlong(double, double, double, double, double, double)
      * 
@@ -4117,6 +4129,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAlong(double, double, double, double, double, double)
      * 
@@ -4145,6 +4160,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * <p>
      * In order to apply the lookalong transformation to any previous existing transformation,
      * use {@link #lookAlong(Vector3dc, Vector3dc)}.
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAlong(Vector3dc, Vector3dc)
      * @see #lookAlong(Vector3dc, Vector3dc)
@@ -4165,6 +4183,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * <p>
      * In order to apply the lookalong transformation to any previous existing transformation,
      * use {@link #lookAlong(double, double, double, double, double, double) lookAlong()}
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAlong(double, double, double, double, double, double)
      * @see #lookAlong(double, double, double, double, double, double)
@@ -4513,6 +4534,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * use {@link #rotationTowards(Vector3dc, Vector3dc) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix3d().lookAlong(new Vector3d(dir).negate(), up).invert(), dest)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(double, double, double, double, double, double, Matrix3d)
      * @see #rotationTowards(Vector3dc, Vector3dc)
@@ -4542,6 +4566,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * use {@link #rotationTowards(Vector3dc, Vector3dc) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix3d().lookAlong(new Vector3d(dir).negate(), up).invert())</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(double, double, double, double, double, double)
      * @see #rotationTowards(Vector3dc, Vector3dc)
@@ -4569,6 +4596,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * use {@link #rotationTowards(double, double, double, double, double, double) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix3d().lookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert())</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -4605,6 +4635,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * use {@link #rotationTowards(double, double, double, double, double, double) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix3d().lookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -4680,6 +4713,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * use {@link #rotateTowards(double, double, double, double, double, double) rotateTowards}.
      * <p>
      * This method is equivalent to calling: <code>setLookAlong(new Vector3d(dir).negate(), up).invert()</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotationTowards(Vector3dc, Vector3dc)
      * @see #rotateTowards(double, double, double, double, double, double)
@@ -4702,6 +4738,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * use {@link #rotateTowards(double, double, double, double, double, double) rotateTowards}.
      * <p>
      * This method is equivalent to calling: <code>setLookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert()</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -4888,6 +4927,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * reflection will be applied first!
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param nx
      *          the x-coordinate of the plane normal
@@ -4909,6 +4951,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * reflection will be applied first!
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param normal
      *          the plane normal
@@ -4956,6 +5001,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
     /**
      * Set this matrix to a mirror/reflection transformation that reflects through the given plane
      * specified via the plane normal.
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param nx
      *          the x-coordinate of the plane normal
@@ -4982,6 +5030,9 @@ public class Matrix3d implements Externalizable, Cloneable, Matrix3dc {
     /**
      * Set this matrix to a mirror/reflection transformation that reflects through the given plane
      * specified via the plane normal.
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param normal
      *          the plane normal

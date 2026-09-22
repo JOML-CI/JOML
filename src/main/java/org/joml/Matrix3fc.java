@@ -141,6 +141,9 @@ public interface Matrix3fc {
 
     /**
      * Invert the <code>this</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param dest
      *             will hold the result
@@ -1037,6 +1040,9 @@ public interface Matrix3fc {
      * then the new matrix will be <code>M * L</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
      * lookalong rotation transformation will be applied first!
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAlong(float, float, float, float, float, float, Matrix3f)
      * 
@@ -1058,6 +1064,9 @@ public interface Matrix3fc {
      * then the new matrix will be <code>M * L</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
      * lookalong rotation transformation will be applied first!
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param dirX
      *              the x-coordinate of the direction to look along
@@ -1324,6 +1333,9 @@ public interface Matrix3fc {
      * the lookat transformation will be applied first!
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix3f().lookAlong(new Vector3f(dir).negate(), up).invert(), dest)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(float, float, float, float, float, float, Matrix3f)
      * 
@@ -1348,6 +1360,9 @@ public interface Matrix3fc {
      * the lookat transformation will be applied first!
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix3f().lookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(Vector3fc, Vector3fc, Matrix3f)
      * 
@@ -1503,6 +1518,9 @@ public interface Matrix3fc {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * reflection will be applied first!
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param nx
      *          the x-coordinate of the plane normal
@@ -1545,6 +1563,9 @@ public interface Matrix3fc {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * reflection will be applied first!
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param normal
      *          the plane normal

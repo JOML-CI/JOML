@@ -351,6 +351,9 @@ public interface Matrix4x3fc {
 
     /**
      * Invert this matrix and write the result into <code>dest</code>.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param dest
      *          will hold the result
@@ -361,6 +364,9 @@ public interface Matrix4x3fc {
     /**
      * Invert this matrix and write the result as the top 4x3 matrix into <code>dest</code>
      * and set all other values of <code>dest</code> to identity..
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param dest
      *          will hold the result
@@ -372,6 +378,9 @@ public interface Matrix4x3fc {
      * Invert <code>this</code> orthographic projection matrix and store the result into the given <code>dest</code>.
      * <p>
      * This method can be used to quickly obtain the inverse of an orthographic projection matrix.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param dest
      *          will hold the inverse of <code>this</code>
@@ -1807,6 +1816,9 @@ public interface Matrix4x3fc {
      * This is equivalent to calling
      * {@link #lookAt(Vector3fc, Vector3fc, Vector3fc, Matrix4x3f) lookAt}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAlong(float, float, float, float, float, float, Matrix4x3f)
      * @see #lookAt(Vector3fc, Vector3fc, Vector3fc, Matrix4x3f)
@@ -1833,6 +1845,9 @@ public interface Matrix4x3fc {
      * This is equivalent to calling
      * {@link #lookAt(float, float, float, float, float, float, float, float, float, Matrix4x3f) lookAt()}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAt(float, float, float, float, float, float, float, float, float, Matrix4x3f)
      * 
@@ -1862,6 +1877,9 @@ public interface Matrix4x3fc {
      * then the new matrix will be <code>M * L</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAt(float, float, float, float, float, float, float, float, float, Matrix4x3f)
      * 
@@ -1885,6 +1903,9 @@ public interface Matrix4x3fc {
      * then the new matrix will be <code>M * L</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAt(Vector3fc, Vector3fc, Vector3fc, Matrix4x3f)
      * 
@@ -1920,6 +1941,9 @@ public interface Matrix4x3fc {
      * then the new matrix will be <code>M * L</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAtLH(float, float, float, float, float, float, float, float, float, Matrix4x3f)
      * 
@@ -1943,6 +1967,9 @@ public interface Matrix4x3fc {
      * then the new matrix will be <code>M * L</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAtLH(Vector3fc, Vector3fc, Vector3fc, Matrix4x3f)
      * 
@@ -2128,6 +2155,9 @@ public interface Matrix4x3fc {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * reflection will be applied first!
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param nx
      *          the x-coordinate of the plane normal
@@ -2178,6 +2208,9 @@ public interface Matrix4x3fc {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * reflection will be applied first!
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param normal
      *          the plane normal
@@ -2270,6 +2303,9 @@ public interface Matrix4x3fc {
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
      * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
      * (i.e. had <i>skewing</i>).
+     * <p>
+     * If any column of the upper left 3x3 submatrix of this matrix has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param dest
      *             will hold the result
@@ -2283,6 +2319,9 @@ public interface Matrix4x3fc {
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
      * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
      * (i.e. had <i>skewing</i>).
+     * <p>
+     * If any column of the upper left 3x3 submatrix of this matrix has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param dest
      *             will hold the result
@@ -2473,6 +2512,9 @@ public interface Matrix4x3fc {
      * shadow projection will be applied first!
      * <p>
      * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param light
      *          the light's vector
@@ -2503,6 +2545,9 @@ public interface Matrix4x3fc {
      * shadow projection will be applied first!
      * <p>
      * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param lightX
      *          the x-component of the light's vector
@@ -2717,6 +2762,9 @@ public interface Matrix4x3fc {
      * the lookat transformation will be applied first!
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix4x3f().lookAt(new Vector3f(), new Vector3f(dir).negate(), up).invert(), dest)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(float, float, float, float, float, float, Matrix4x3f)
      * 
@@ -2741,6 +2789,9 @@ public interface Matrix4x3fc {
      * the lookat transformation will be applied first!
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix4x3f().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(Vector3fc, Vector3fc, Matrix4x3f)
      * 
@@ -2884,6 +2935,9 @@ public interface Matrix4x3fc {
      * {@link Matrix4f#setLookAt(Vector3fc, Vector3fc, Vector3fc)} with the current 
      * local origin of this matrix (as obtained by {@link #origin(Vector3f)}), the sum of this position and the 
      * negated local Z axis as well as the given vector <code>up</code>.
+     * <p>
+     * If the given up vector has zero length or is parallel to the viewing direction of this matrix, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param up
      *            the up vector
@@ -2902,6 +2956,9 @@ public interface Matrix4x3fc {
      * {@link Matrix4f#setLookAt(float, float, float, float, float, float, float, float, float)} called with the current 
      * local origin of this matrix (as obtained by {@link #origin(Vector3f)}), the sum of this position and the 
      * negated local Z axis as well as the given vector <code>(upX, upY, upZ)</code>.
+     * <p>
+     * If the given up vector has zero length or is parallel to the viewing direction of this matrix, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param upX
      *            the x coordinate of the up vector

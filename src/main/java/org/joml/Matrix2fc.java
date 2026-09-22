@@ -106,6 +106,9 @@ public interface Matrix2fc {
 
     /**
      * Invert the <code>this</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      *
      * @param dest
      *             will hold the result

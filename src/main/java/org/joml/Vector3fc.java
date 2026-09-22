@@ -999,6 +999,9 @@ public interface Vector3fc {
 
     /**
      * Normalize this vector and store the result in <code>dest</code>.
+     * <p>
+     * If this vector has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param dest
      *          will hold the result
@@ -1008,6 +1011,9 @@ public interface Vector3fc {
 
     /**
      * Scale this vector to have the given length and store the result in <code>dest</code>.
+     * <p>
+     * If this vector has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param length
      *          the desired length

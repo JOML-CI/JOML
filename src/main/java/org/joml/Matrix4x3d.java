@@ -1822,6 +1822,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
 
     /**
      * Invert this matrix.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @return this
      */
@@ -1910,6 +1913,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * Invert <code>this</code> orthographic projection matrix.
      * <p>
      * This method can be used to quickly obtain the inverse of an orthographic projection matrix.
+     * <p>
+     * If this matrix is singular (i.e. its determinant is zero), the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @return this
      */
@@ -6542,6 +6548,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
      * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
      * (i.e. had <i>skewing</i>).
+     * <p>
+     * If any column of the upper left 3x3 submatrix of this matrix has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @return this
      */
@@ -6646,6 +6655,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * reflection will be applied first!
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param nx
      *          the x-coordinate of the plane normal
@@ -6682,6 +6694,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * reflection will be applied first!
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param normal
      *          the plane normal
@@ -6769,6 +6784,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
     /**
      * Set this matrix to a mirror/reflection transformation that reflects about the given plane
      * specified via the plane normal and a point on the plane.
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param nx
      *          the x-coordinate of the plane normal
@@ -6796,6 +6814,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
     /**
      * Set this matrix to a mirror/reflection transformation that reflects about the given plane
      * specified via the plane normal and a point on the plane.
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param normal
      *          the plane normal
@@ -8067,6 +8088,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(Vector3dc, Vector3dc) setLookAlong()}.
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAlong(double, double, double, double, double, double)
      * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
@@ -8097,6 +8121,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(Vector3dc, Vector3dc) setLookAlong()}.
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAlong(double, double, double, double, double, double)
      * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
@@ -8129,6 +8156,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
      * @see #setLookAlong(double, double, double, double, double, double)
@@ -8225,6 +8255,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
      * @see #setLookAlong(double, double, double, double, double, double)
@@ -8258,6 +8291,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to apply the lookalong transformation to any previous existing transformation,
      * use {@link #lookAlong(Vector3dc, Vector3dc)}.
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAlong(Vector3dc, Vector3dc)
      * @see #lookAlong(Vector3dc, Vector3dc)
@@ -8282,6 +8318,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to apply the lookalong transformation to any previous existing transformation,
      * use {@link #lookAlong(double, double, double, double, double, double) lookAlong()}
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAlong(double, double, double, double, double, double)
      * @see #lookAlong(double, double, double, double, double, double)
@@ -8349,6 +8388,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
      * use {@link #lookAt(Vector3dc, Vector3dc, Vector3dc) lookAt()}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAt(double, double, double, double, double, double, double, double, double)
      * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
@@ -8371,6 +8413,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
      * use {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAt(Vector3dc, Vector3dc, Vector3dc)
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
@@ -8451,6 +8496,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAt(Vector3dc, Vector3dc, Vector3dc)}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
      * @see #setLookAlong(Vector3dc, Vector3dc)
@@ -8480,6 +8528,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAt(Vector3dc, Vector3dc, Vector3dc)}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
      * @see #setLookAlong(Vector3dc, Vector3dc)
@@ -8507,6 +8558,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt()}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
      * @see #setLookAt(double, double, double, double, double, double, double, double, double)
@@ -8620,6 +8674,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt()}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
      * @see #setLookAt(double, double, double, double, double, double, double, double, double)
@@ -8660,6 +8717,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
      * use {@link #lookAtLH(Vector3dc, Vector3dc, Vector3dc) lookAt()}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
      * @see #lookAtLH(Vector3dc, Vector3dc, Vector3dc)
@@ -8682,6 +8742,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
      * use {@link #lookAtLH(double, double, double, double, double, double, double, double, double) lookAtLH}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #setLookAtLH(Vector3dc, Vector3dc, Vector3dc)
      * @see #lookAtLH(double, double, double, double, double, double, double, double, double)
@@ -8762,6 +8825,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAtLH(Vector3dc, Vector3dc, Vector3dc)}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAtLH(double, double, double, double, double, double, double, double, double)
      * 
@@ -8790,6 +8856,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAtLH(Vector3dc, Vector3dc, Vector3dc)}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAtLH(double, double, double, double, double, double, double, double, double)
      * 
@@ -8816,6 +8885,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAtLH(double, double, double, double, double, double, double, double, double) setLookAtLH()}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAtLH(Vector3dc, Vector3dc, Vector3dc)
      * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
@@ -8929,6 +9001,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAtLH(double, double, double, double, double, double, double, double, double) setLookAtLH()}.
+     * <p>
+     * If the eye and center positions are equal, or the direction from eye to center is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #lookAtLH(Vector3dc, Vector3dc, Vector3dc)
      * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
@@ -9052,6 +9127,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * shadow projection will be applied first!
      * <p>
      * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param light
      *          the light's vector
@@ -9085,6 +9163,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * shadow projection will be applied first!
      * <p>
      * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * <p>
+     * If the given plane normal has zero length, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param lightX
      *          the x-component of the light's vector
@@ -9239,6 +9320,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * This method can be used to create the complete model transformation for a given object, including the translation of the object to
      * its position <code>objPos</code>.
+     * <p>
+     * If <code>objPos</code> and <code>targetPos</code> are equal, or the direction between them is parallel to <code>up</code>, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @param objPos
      *          the position of the object to rotate towards <code>targetPos</code>
@@ -9297,6 +9381,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * If preserving an <i>up</i> vector is not necessary when rotating the +Z axis, then a shortest arc rotation can be obtained 
      * using {@link #billboardSpherical(Vector3dc, Vector3dc)}.
+     * <p>
+     * If <code>objPos</code> and <code>targetPos</code> are equal, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #billboardSpherical(Vector3dc, Vector3dc)
      * 
@@ -9356,6 +9443,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * <p>
      * In order to specify an <i>up</i> vector which needs to be maintained when rotating the +Z axis of the object,
      * use {@link #billboardSpherical(Vector3dc, Vector3dc, Vector3dc)}.
+     * <p>
+     * If <code>objPos</code> and <code>targetPos</code> are equal, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #billboardSpherical(Vector3dc, Vector3dc, Vector3dc)
      * 
@@ -9780,6 +9870,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * use {@link #rotationTowards(Vector3dc, Vector3dc) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix4x3d().lookAt(new Vector3d(), new Vector3d(dir).negate(), up).invert(), dest)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(double, double, double, double, double, double, Matrix4x3d)
      * @see #rotationTowards(Vector3dc, Vector3dc)
@@ -9809,6 +9902,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * use {@link #rotationTowards(Vector3dc, Vector3dc) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix4x3d().lookAt(new Vector3d(), new Vector3d(dir).negate(), up).invert())</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(double, double, double, double, double, double)
      * @see #rotationTowards(Vector3dc, Vector3dc)
@@ -9836,6 +9932,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * use {@link #rotationTowards(double, double, double, double, double, double) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix4x3d().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert())</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -9872,6 +9971,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * use {@link #rotationTowards(double, double, double, double, double, double) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <code>mul(new Matrix4x3d().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -9951,6 +10053,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * use {@link #rotateTowards(double, double, double, double, double, double) rotateTowards}.
      * <p>
      * This method is equivalent to calling: <code>setLookAt(new Vector3d(), new Vector3d(dir).negate(), up).invert()</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotationTowards(Vector3dc, Vector3dc)
      * @see #rotateTowards(double, double, double, double, double, double)
@@ -9973,6 +10078,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * use {@link #rotateTowards(double, double, double, double, double, double) rotateTowards}.
      * <p>
      * This method is equivalent to calling: <code>setLookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert()</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #rotateTowards(Vector3dc, Vector3dc)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -10033,6 +10141,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * axis with <code>dir</code>.
      * <p>
      * This method is equivalent to calling: <code>translation(pos).rotateTowards(dir, up)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #translation(Vector3dc)
      * @see #rotateTowards(Vector3dc, Vector3dc)
@@ -10055,6 +10166,9 @@ public class Matrix4x3d implements Externalizable, Cloneable, Matrix4x3dc {
      * axis with <code>(dirX, dirY, dirZ)</code>.
      * <p>
      * This method is equivalent to calling: <code>translation(posX, posY, posZ).rotateTowards(dirX, dirY, dirZ, upX, upY, upZ)</code>
+     * <p>
+     * If the direction vector has zero length or is parallel to the up vector, the result will contain <code>NaN</code> or <code>Infinity</code> components.
+     * Use {@link #isFinite()} on the result to check for this.
      * 
      * @see #translation(double, double, double)
      * @see #rotateTowards(double, double, double, double, double, double)
