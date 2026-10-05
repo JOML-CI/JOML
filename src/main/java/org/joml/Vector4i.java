@@ -1070,11 +1070,11 @@ public class Vector4i implements Externalizable, Cloneable, Vector4ic {
     }
 
     public long gridDistance(Vector4ic v) {
-        return Math.abs(v.x() - x()) + Math.abs(v.y() - y())  + Math.abs(v.z() - z())  + Math.abs(v.w() - w());
+        return Math.abs((long) v.x() - x()) + Math.abs((long) v.y() - y())  + Math.abs((long) v.z() - z())  + Math.abs((long) v.w() - w());
     }
 
     public long gridDistance(int x, int y, int z, int w) {
-        return Math.abs(x - x()) + Math.abs(y - y()) + Math.abs(z - z()) + Math.abs(w - w());
+        return Math.abs((long) x - x()) + Math.abs((long) y - y()) + Math.abs((long) z - z()) + Math.abs((long) w - w());
     }
 
     public long distanceSquared(Vector4ic v) {
