@@ -963,11 +963,11 @@ public class Vector3i implements Externalizable, Cloneable, Vector3ic {
     }
 
     public long gridDistance(Vector3ic v) {
-        return Math.abs(v.x() - x()) + Math.abs(v.y() - y())  + Math.abs(v.z() - z());
+        return Math.abs((long) v.x() - x()) + Math.abs((long) v.y() - y())  + Math.abs((long) v.z() - z());
     }
 
     public long gridDistance(int x, int y, int z) {
-        return Math.abs(x - x()) + Math.abs(y - y()) + Math.abs(z - z());
+        return Math.abs((long) x - x()) + Math.abs((long) y - y()) + Math.abs((long) z - z());
     }
 
     public long distanceSquared(Vector3ic v) {

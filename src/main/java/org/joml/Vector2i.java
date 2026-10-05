@@ -676,11 +676,11 @@ public class Vector2i implements Externalizable, Cloneable, Vector2ic {
     }
 
     public long gridDistance(Vector2ic v) {
-        return Math.abs(v.x() - x()) + Math.abs(v.y() - y());
+        return Math.abs((long) v.x() - x()) + Math.abs((long) v.y() - y());
     }
 
     public long gridDistance(int x, int y) {
-        return Math.abs(x - x()) + Math.abs(y - y());
+        return Math.abs((long) x - x()) + Math.abs((long) y - y());
     }
 
     /**
