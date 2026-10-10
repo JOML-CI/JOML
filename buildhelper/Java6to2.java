@@ -55,6 +55,9 @@ import org.objectweb.asm.TypePath;
  * RuntimeVisible/InvisibleTypeAnnotations - e.g. JSpecify nullness annotations like {@code @Nullable} - in version 52.0). Keeping them in a 1.2 (46.0) class file
  * makes them silently ignored and causes "attribute ... is ignored in version 46.0 class files" warnings in the compilers of downstream consumers. Since they
  * cannot be honored in a 1.2 class file anyway, we strip all annotation attributes. The nullness contract remains available in the published sources.
+ * <li>package-info classes are deleted. Their only purpose is to carry package annotations, which we strip anyway, and their name contains a hyphen, which is
+ * illegal in class files before version 49.0. HotSpot rejects such a class with a {@link ClassFormatError} once it is loaded, e.g. via
+ * {@link Package#getAnnotations()} (see https://github.com/JOML-CI/JOML/issues/430).
  * </ul>
  *
  * @author Kai Burjack
@@ -294,6 +297,10 @@ public class Java6to2 implements Opcodes {
             File f = list[i];
             if (f.isDirectory()) {
                 walk(f);
+            } else if (f.getName().equals("package-info.class")) {
+                /* Delete package-info classes. They are illegal in Java 1.2 class files (see class javadoc). */
+                if (!f.delete())
+                    throw new IOException("Could not delete " + f);
             } else {
                 FileInputStream fis = new FileInputStream(f);
                 byte[] transformed = transform(fis);
